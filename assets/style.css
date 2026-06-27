@@ -1810,9 +1810,9 @@ body.overlay__active::before,
   position: fixed;
   width: 100%;
   top: 0;
-  background: var(--body-background-color);
+  background: var(--bg-offwhite-color) !important;
+  z-index: 1000;
   left: 0;
-  z-index: 99;
   padding: 1rem 0.5rem;
   -webkit-box-shadow: 0 0 7px rgba(0, 0, 0, 0.15);
           box-shadow: 0 0 7px rgba(0, 0, 0, 0.15);
@@ -15729,7 +15729,7 @@ body.body .footer__section {
   margin-top: 0 !important;
 }
 
-/* 'Load More' button area — no top margin, gap handles it */
+/* 'Load More' button area ï¿½ no top margin, gap handles it */
 .product__load--more {
   margin-top: 0 !important;
 }

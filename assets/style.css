@@ -95,8 +95,7 @@ body {
 }
 
 body {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+
   font-family: var(--karma-fonts);
   font-size: var(--body-font-size, 1.5rem);
   font-weight: var(--body-font-weight);
@@ -604,7 +603,7 @@ hr {
 
 @media only screen and (max-width: 479px) {
   .custom-col {
-    width: 100%;
+    width: 50%;
   }
 }
 
@@ -15616,19 +15615,9 @@ img {
    body > header / main / footer
    ======================================================== */
 
-body.body {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    'header'
-    'main'
-    'footer';
-  min-height: 100vh;
-}
+
 
 body.body .header__section {
-  grid-area: header;
   position: sticky;
   top: 0;
   z-index: 999;
@@ -15641,7 +15630,6 @@ body.body .site__main {
 }
 
 body.body .footer__section {
-  grid-area: footer;
   width: 100%;
 }
 

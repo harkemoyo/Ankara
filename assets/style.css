@@ -15472,12 +15472,6 @@ input[type=range]::-moz-range-track {
   }
 }
 
-@media only screen and (min-width: 992px) {
-  .product-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
 /* Footer layout */
 .footer-grid {
   grid-template-columns: 1fr;

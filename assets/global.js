@@ -645,12 +645,7 @@ offcanvsSidebar(
   ".predictive__search--box"
 );
 
-// Offcanvas filter sidebar
-offcanvsSidebar(
-  ".widget__filter--btn",
-  ".offcanvas__filter--close",
-  ".offcanvas__filter--sidebar"
-);
+
 
 // Qunatity Button Activation
 const quantityWrapper = document.querySelectorAll(".quantity__box");
@@ -718,11 +713,7 @@ customAccordion(
   ".accordion__items--body"
 );
 
-customAccordion(
-  ".widget__categories--menu",
-  ".widget__categories--menu__list",
-  ".widget__categories--sub__menu"
-);
+
 
 /*
   13. Footer widget Activation

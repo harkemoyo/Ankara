@@ -595,47 +595,110 @@
             border-radius: 50% !important;
             margin: 0 auto 15px !important;
         }
-        /* Overrides to center and frame product images in the hero slider */
-        @media only screen and(min-width: 768px) {
-            .hero__slider--layer {
-                position: absolute !important;
-                right: 8% !important;
-                top: 50% !important;
-                bottom: auto !important;
-                transform: translateY(-50%) !important;
-                height: 75% !important;
-                max-height: 450px !important;
+        /* Overrides for Split-Screen Flex Hero Slider */
+        @media only screen and (min-width: 768px) {
+            .hero__slider--section,
+            .hero__slider--activation,
+            .hero__slider--activation .swiper-wrapper,
+            .hero__slider--activation .swiper-slide,
+            .hero__slider--items {
+                height: 70vh !important;
+                min-height: 500px !important;
+                max-height: 600px !important;
+            }
+            .hero__slider--items {
+                display: flex !important;
+                align-items: stretch !important;
+                padding: 0 !important;
+            }
+            .hero__slider--items > .container {
+                flex: 1 !important;
+                max-width: 50% !important;
                 display: flex !important;
                 align-items: center !important;
-                justify-content: center !important;
-            }
-            .slider__layer--img {
-                width: auto !important;
-                height: auto !important;
-                max-height: 100% !important;
-                max-width: 100% !important;
-                object-fit: contain !important;
-                border-radius: 8px !important;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
+                padding: 6rem 1.5rem !important;
+                /* Keep text aligned with the website logo using max viewport calc */
+                padding-left: max(1.5rem, calc((100vw - 720px) / 2 + 1.5rem)) !important;
             }
         }
-        @media only screen and(max-width: 767px) {
-            .hero__slider--layer {
-                display: flex !important;
-                justify-content: center !important;
-                align-items: center !important;
-                margin-top: 3rem !important;
+        @media only screen and (min-width: 992px) {
+            .hero__slider--items > .container {
+                padding-left: max(1.5rem, calc((100vw - 960px) / 2 + 1.5rem)) !important;
+            }
+        }
+        @media only screen and (min-width: 1200px) {
+            .hero__slider--items > .container {
+                padding-left: max(1.5rem, calc((100vw - 1140px) / 2 + 1.5rem)) !important;
+            }
+        }
+        @media only screen and (min-width: 1366px) {
+            .hero__slider--items > .container {
+                padding-left: max(1.5rem, calc((100vw - 1290px) / 2 + 1.5rem)) !important;
+            }
+        }
+        @media only screen and (min-width: 768px) {
+            .hero__slider--items .row {
                 width: 100% !important;
-                height: auto !important;
+                margin: 0 !important;
+            }
+            .hero__slider--items .col-lg-6, .hero__slider--items .col-md-7 {
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+            .hero__slider--layer {
+                flex: 1 !important;
+                position: relative !important;
+                transform: none !important;
+                right: auto !important;
+                top: auto !important;
+                bottom: auto !important;
+                height: 100% !important;
+                max-height: none !important;
+                display: flex !important;
             }
             .slider__layer--img {
-                width: auto !important;
-                height: auto !important;
-                max-height: 320px !important;
-                max-width: 80% !important;
-                object-fit: contain !important;
-                border-radius: 8px !important;
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+                width: 100% !important;
+                height: 100% !important;
+                max-height: none !important;
+                max-width: none !important;
+                object-fit: cover !important;
+                border-radius: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+                animation: none !important;
+            }
+        }
+        @media only screen and (max-width: 767px) {
+            .hero__slider--items {
+                display: flex !important;
+                flex-direction: column-reverse !important;
+                padding: 0 !important;
+            }
+            .hero__slider--items > .container {
+                padding: 4rem 1.5rem !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+            }
+            .hero__slider--layer {
+                position: relative !important;
+                width: 100% !important;
+                height: 400px !important;
+                margin-top: 0 !important;
+                display: block !important;
+            }
+            .slider__layer--img {
+                width: 100% !important;
+                height: 100% !important;
+                max-height: none !important;
+                max-width: none !important;
+                object-fit: cover !important;
+                border-radius: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+                animation: none !important;
             }
         }
         .testimonial__items--thumbnail img {
@@ -1539,4 +1602,9 @@
     <script src="assets/becute.js"></script>
     <script src="assets/app.js"></script>
 
-</body></html>
+
+
+
+
+</body>
+</html>

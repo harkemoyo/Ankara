@@ -15618,11 +15618,6 @@ body.body .header__section {
   width: 100%;
 }
 
-body.body .site__main {
-  display: grid;
-  gap: 2rem;
-}
-
 body.body .footer__section {
   width: 100%;
 }

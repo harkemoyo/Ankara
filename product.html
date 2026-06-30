@@ -33,9 +33,20 @@
     
     /* Size button active states */
     .size-btn.active {
-      background-color: var(--primary-color) !important;
-      color: #fff !important;
-      border-color: var(--primary-color) !important;
+      background-color: #fff !important;
+      color: #1a1a1a !important;
+      border-color: #1a1a1a !important;
+      font-weight: 600 !important;
+    }
+    .size-btn {
+      background-color: transparent !important;
+      color: var(--foreground-sub-color) !important;
+      border-color: var(--border-color) !important;
+      transition: all 0.2s;
+    }
+    .size-btn:hover {
+      border-color: #1a1a1a !important;
+      color: #1a1a1a !important;
     }
   </style>
   <script src="assets/popper.js" defer></script>
@@ -310,10 +321,10 @@
   <!-- Product Details Section -->
   <section class="product__details--section section--padding" style="background:#fff;">
     <div class="container">
-      <div class="row">
+      <div style="display: flex; flex-wrap: wrap; gap: 4rem;">
         
         <!-- Left: Product Image Gallery -->
-        <div class="col-lg-6 col-md-6 col-12" style="margin-bottom:4rem;">
+        <div style="flex: 1 1 400px; min-width: 300px;">
           <div class="product__details--media">
             <div class="product__media--preview" style="aspect-ratio:3/4; overflow:hidden; background:var(--bg-gray-color); border-radius:0.4rem; margin-bottom:2rem; border:1px solid var(--border-color);">
               <img id="dyn-product-image" src="" alt="" style="width:100%; height:100%; object-fit:cover;">
@@ -325,44 +336,167 @@
         </div>
         
         <!-- Right: Product Info -->
-        <div class="col-lg-6 col-md-6 col-12">
-          <div class="product__details--info" style="padding-left: 2rem;">
-            <span class="product__card--badge" id="dyn-product-badge" style="position:static; display:inline-block; margin-bottom:1.5rem;">New</span>
-            <h2 class="product__details--info__title h1" id="dyn-product-title" style="font-family:'Frank Ruhl Libre',serif; font-size:clamp(2.8rem,3.5vw,4.2rem); color:var(--primary-color); margin-bottom:1.5rem; font-weight:700;">Product Name</h2>
-            <div class="product__details--info__price" style="margin-bottom:2.5rem;">
-              <span class="current__price" id="dyn-product-price" style="font-size:2.4rem; font-weight:700; color:var(--secondary-color);">£0.00</span>
+        <div style="flex: 1 1 400px; min-width: 300px;">
+          <div class="product__details--info" style="display: flex; flex-direction: column; gap: 2.5rem;">
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <span class="product__card--badge" id="dyn-product-badge" style="position:static; display:inline-block;">New</span>
+              <h2 class="product__details--info__title h1" id="dyn-product-title" style="font-family:'Frank Ruhl Libre',serif; font-size:clamp(2.8rem,3.5vw,4.2rem); color:var(--primary-color); font-weight:700; margin:0;">Product Name</h2>
+              
+              <div class="product__details--info__price">
+                <span class="current__price" id="dyn-product-price" style="font-size:2.4rem; font-weight:700; color:var(--secondary-color);">£0.00</span>
+              </div>
+              
+              <!-- Rating & Tax Info -->
+              <div class="product__details--rating-tax" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <div class="rating-stars" style="color:#D4A843; font-size:1.8rem;">
+                      ★ ★ ★ ★ ★ <span style="color:var(--foreground-sub-color); font-size:1.4rem;">(48)</span>
+                  </div>
+                  <p style="font-size:1.2rem; color:var(--foreground-sub-color); margin:0;">Tax included. Shipping calculated at checkout.</p>
+              </div>
             </div>
-            <p class="product__details--info__desc" id="dyn-product-desc" style="font-size:1.5rem; line-height:2.8rem; color:var(--foreground-sub-color); margin-bottom:3rem;">
-              Description goes here.
-            </p>
             
             <!-- Size Selection -->
-            <div class="product__variant" style="margin-bottom:3rem;">
-              <h4 class="variant__title" style="font-family:'Frank Ruhl Libre',serif; font-size:1.6rem; color:var(--primary-color); margin-bottom:1.2rem; font-weight:600;">Select Size:</h4>
-              <div class="d-flex gap-2" id="size-options">
-                <button class="btn btn-outline-secondary size-btn active" data-size="S" style="font-size:1.3rem; padding:0.6rem 1.6rem; font-weight:600; border-radius:0;">S</button>
-                <button class="btn btn-outline-secondary size-btn" data-size="M" style="font-size:1.3rem; padding:0.6rem 1.6rem; font-weight:600; border-radius:0;">M</button>
-                <button class="btn btn-outline-secondary size-btn" data-size="L" style="font-size:1.3rem; padding:0.6rem 1.6rem; font-weight:600; border-radius:0;">L</button>
-                <button class="btn btn-outline-secondary size-btn" data-size="XL" style="font-size:1.3rem; padding:0.6rem 1.6rem; font-weight:600; border-radius:0;">XL</button>
+            <div class="product__variant" style="display: flex; flex-direction: column; gap: 1rem;">
+              <h4 class="variant__title" style="font-family:'Karma',sans-serif; font-size:1.5rem; color:var(--primary-color); font-weight:500; margin:0;">Size</h4>
+              <div id="size-options" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                <button class="btn btn-outline-secondary size-btn active" data-size="S" style="font-size:1.3rem; padding:0.8rem 1.4rem; border-radius:0;">S</button>
+                <button class="btn btn-outline-secondary size-btn" data-size="M" style="font-size:1.3rem; padding:0.8rem 1.4rem; border-radius:0;">M</button>
+                <button class="btn btn-outline-secondary size-btn" data-size="L" style="font-size:1.3rem; padding:0.8rem 1.4rem; border-radius:0;">L</button>
+                <button class="btn btn-outline-secondary size-btn" data-size="1X" style="font-size:1.3rem; padding:0.8rem 1.4rem; border-radius:0;">1X</button>
+                <button class="btn btn-outline-secondary size-btn" data-size="2X" style="font-size:1.3rem; padding:0.8rem 1.4rem; border-radius:0;">2X</button>
               </div>
             </div>
             
-            <!-- Quantity Selector and Add Button -->
-            <div class="product__details--action d-flex align-items-center gap-3" style="border-top: 1px solid var(--border-color); padding-top: 3rem;">
-              <div class="quantity__box">
-                <button type="button" class="quantity__value decrease" aria-label="decrease quantity" onclick="changeProductQty(-1)">-</button>
-                <label>
-                  <input type="number" id="product-quantity" class="quantity__number" value="1" readonly>
-                </label>
-                <button type="button" class="quantity__value increase" aria-label="increase quantity" onclick="changeProductQty(1)">+</button>
-              </div>
-              <button class="primary__btn product__card--btn" type="button" onclick="addProductToCart()" style="padding:1.4rem 4.5rem; letter-spacing:0.12em; text-transform:uppercase; margin-top:0;">Add to Bag</button>
+            <!-- Quantity Box (Hidden but functional) -->
+            <input type="hidden" id="product-quantity" value="1">
+
+            <!-- Buttons -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <button class="primary__btn product__card--btn" 
+                type="button" onclick="addProductToCart()" 
+                class="primary__btn product__card--btn"
+   >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9H4.5a2.5 2.5 0 0 0 0 5H6"></path>
+                    <path d="M18 9h1.5a2.5 2.5 0 0 1 0 5H18"></path>
+                    <path d="M4 4h16v1h-16z"></path>
+                    <path d="M4 20h16v1h-16z"></path>
+                    <path d="M10 9a1 1 0 0 0 1-1V4h2v4a1 1 0 0 0 2 0V4h2a2 2 0 0 1 2 2v11H4v-1a2 2 0 0 1 2-2h2"></path>
+                </svg>
+                Add to cart
+            </button>
+                <button class="btn" type="button" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.8rem; padding:1.4rem 2rem; background:#fff; color:#1a1a1a; border:1px solid #1a1a1a; font-size:1.2rem; letter-spacing:0.15em; text-transform:uppercase; transition:all 0.3s; border-radius: 0;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='#fff'">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle><path d="M12 11v6"></path><path d="M9 14h6"></path></svg>
+                    FIND MY EXACT FIT
+                </button>
             </div>
-            
+
+            <!-- Colour Selection -->
+            <div class="product__variant" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <h4 class="variant__title" style="font-family:'Karma',sans-serif; font-size:1.5rem; color:var(--primary-color); font-weight:500; text-transform:uppercase; letter-spacing:0.1em; margin:0;">Colour</h4>
+                <div id="colour-options" style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
+                    <img src="assets/IMG-20260622-WA0005.webp" alt="Color 1" style="width:60px; height:60px; object-fit:cover; border:1px solid #1a1a1a; padding:2px; cursor:pointer;" onclick="swapMainImage(this, 'assets/IMG-20260622-WA0005.webp')">
+                    <img src="assets/IMG-20260622-WA0068.webp" alt="Color 2" style="width:60px; height:60px; object-fit:cover; border:1px solid var(--border-color); padding:2px; cursor:pointer;" onclick="swapMainImage(this, 'assets/IMG-20260622-WA0068.webp')">
+                    <img src="assets/IMG-20260622-WA0079.webp" alt="Color 3" style="width:60px; height:60px; object-fit:cover; border:1px solid var(--border-color); padding:2px; cursor:pointer;" onclick="swapMainImage(this, 'assets/IMG-20260622-WA0079.webp')">
+                </div>
+            </div>
+
+            <!-- Accordions for Description & Shipping -->
+            <div class="product__accordions" style="border-top:1px solid var(--border-color); display: flex; flex-direction: column;">
+                <div class="accordion-item" style="border-bottom:1px solid var(--border-color);">
+                    <button class="accordion-button" style="width: 100%; display: flex; justify-content: space-between; align-items: center; padding:2rem 0; background:none; border:none; text-align:left; font-family:'Karma',sans-serif; font-size:1.4rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--primary-color);" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.icon').textContent = this.querySelector('.icon').textContent === '+' ? '-' : '+'">
+                        DESCRIPTION <span class="icon" style="font-size:2rem; font-weight:300;">-</span>
+                    </button>
+                    <div class="accordion-collapse" id="desc-accordion" style="display: block; padding-bottom: 1.5rem;">
+                        <p class="product__details--info__desc" id="dyn-product-desc" style="font-size:1.4rem; line-height:2.6rem; color:var(--foreground-sub-color); margin:0;">
+                          Description goes here.
+                        </p>
+                    </div>
+                </div>
+                <div class="accordion-item" style="border-bottom:1px solid var(--border-color);">
+                    <button class="accordion-button" style="width: 100%; display: flex; justify-content: space-between; align-items: center; padding:2rem 0; background:none; border:none; text-align:left; font-family:'Karma',sans-serif; font-size:1.4rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--primary-color);" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.icon').textContent = this.querySelector('.icon').textContent === '+' ? '-' : '+'">
+                        SHIPPING INFORMATION <span class="icon" style="font-size:2rem; font-weight:300;">+</span>
+                    </button>
+                    <div class="accordion-collapse" id="shipping-accordion" style="display: none; padding-bottom: 1.5rem;">
+                        <p style="font-size:1.4rem; line-height:2.6rem; color:var(--foreground-sub-color); margin:0;">
+                            Free shipping on all UK orders. International shipping calculated at checkout. Delivery within 3-5 business days.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Share Options -->
+            <div class="product__share" style="display: flex; align-items: center; gap: 1rem;">
+                <span style="font-size:1.3rem; font-weight:600; color:var(--primary-color);">Share</span>
+                <a href="#" style="color:var(--foreground-sub-color); transition:color 0.2s;" onmouseover="this.style.color='#1a1a1a'" onmouseout="this.style.color='var(--foreground-sub-color)'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href="#" style="color:var(--foreground-sub-color); transition:color 0.2s;" onmouseover="this.style.color='#1a1a1a'" onmouseout="this.style.color='var(--foreground-sub-color)'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                </a>
+            </div>
+
           </div>
         </div>
         
       </div>
+      
+      <!-- You May Also Like Section -->
+      <div class="product__related" style="margin-top: 8rem; border-top:1px solid var(--border-color); padding-top:6rem;">
+        <h3 style="font-family:'Frank Ruhl Libre',serif; font-size:2.8rem; color:var(--primary-color); margin-bottom:4rem; font-weight:600;">You may also like</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+            <!-- Product 1 -->
+            <div style="flex: 1 1 200px; max-width: 100%;">
+                <div class="product__card">
+                    <a href="product.html?id=ankara-dungaree" class="product__card--thumbnail d-block">
+                        <img src="assets/IMG-20260622-WA0005.webp" alt="Product" style="width: 100%; aspect-ratio: 3/4; object-fit: cover;">
+                    </a>
+                    <div class="product__card--content text-center" style="margin-top: 1rem;">
+                        <a href="product.html?id=ankara-dungaree" class="product__card--title" style="font-size:1.6rem; display:block; margin-bottom:0.5rem;">Men's Ankara Dungaree</a>
+                        <span class="product__card--price" style="font-size:1.5rem;">£85.00</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Product 2 -->
+            <div style="flex: 1 1 200px; max-width: 100%;">
+                <div class="product__card">
+                    <a href="product.html?id=ankara-luxe-set" class="product__card--thumbnail d-block">
+                        <img src="assets/IMG-20260622-WA0068.webp" alt="Product" style="width: 100%; aspect-ratio: 3/4; object-fit: cover;">
+                    </a>
+                    <div class="product__card--content text-center" style="margin-top: 1rem;">
+                        <a href="product.html?id=ankara-luxe-set" class="product__card--title" style="font-size:1.6rem; display:block; margin-bottom:0.5rem;">Ankara Street Luxe Set</a>
+                        <span class="product__card--price" style="font-size:1.5rem;">£120.00</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Product 3 -->
+            <div style="flex: 1 1 200px; max-width: 100%;">
+                <div class="product__card">
+                    <a href="product.html?id=african-luxe-throw" class="product__card--thumbnail d-block">
+                        <img src="assets/IMG-20260622-WA0079.webp" alt="Product" style="width: 100%; aspect-ratio: 3/4; object-fit: cover;">
+                    </a>
+                    <div class="product__card--content text-center" style="margin-top: 1rem;">
+                        <a href="product.html?id=african-luxe-throw" class="product__card--title" style="font-size:1.6rem; display:block; margin-bottom:0.5rem;">African Luxe Throw</a>
+                        <span class="product__card--price" style="font-size:1.5rem;">£65.00</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Product 4 -->
+            <div style="flex: 1 1 200px; max-width: 100%;">
+                <div class="product__card">
+                    <a href="product.html?id=ankara-dungaree" class="product__card--thumbnail d-block">
+                        <img src="assets/IMG-20260622-WA0007.webp" alt="Product" style="width: 100%; aspect-ratio: 3/4; object-fit: cover;">
+                    </a>
+                    <div class="product__card--content text-center" style="margin-top: 1rem;">
+                        <a href="product.html?id=ankara-dungaree" class="product__card--title" style="font-size:1.6rem; display:block; margin-bottom:0.5rem;">Ankara Print Dress</a>
+                        <span class="product__card--price" style="font-size:1.5rem;">£95.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      
     </div>
   </section>
 

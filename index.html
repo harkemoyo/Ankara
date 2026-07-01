@@ -897,33 +897,35 @@
         </div>
 
         <!-- ── Mini Cart Drawer ───────────────────────── -->
-        <div class="offCanvas__minicart js-cart-form">
+        <div class="offCanvas__minicart js-cart-form" style="display: flex; flex-direction: column;">
             <div class="minicart__header">
-                <div class="minicart__header--top d-flex justify-content-between align-items-center">
-                    <h3 class="minicart__title">Shopping Bag</h3>
-                    <button type="button" class="minicart__close--btn" aria-label="close cart" data-offcanvas>
-                        <svg class="minicart__close--icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512">
-                            <path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/>
-                        </svg>
-                    </button>
+                <div class="minicart__header--top" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem;">
+                    <h3 class="minicart__title" style="font-family: var(--karma-fonts); font-size: 2.4rem; color: var(--primary-color); font-weight: 500;">Cart</h3>
+                    <button type="button" class="minicart__close--btn" aria-label="close cart" data-offcanvas style="background: none; border: none; font-size: 2.4rem; cursor: pointer; color: var(--primary-color); line-height: 1;">&times;</button>
                 </div>
-                <p class="minicart__header--desc">Review your selected items below</p>
             </div>
             <div class="minicart__empty--text">
                 <p>Your bag is empty.</p>
                 <a href="shop.html" class="primary__btn">Continue Shopping</a>
             </div>
-            <div class="minicart__amount">
-                <div class="minicart__amount_list d-flex justify-content-between">
-                    <span>Subtotal:</span>
-                    <span>
-                        <b>£0.00</b>
+            
+            <div id="minicart-items-list" class="minicart__product" style="flex: 1; overflow-y: auto; padding-right: 1rem;"></div>
+
+            <div class="minicart__amount" style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
+                <div class="cart__note" style="margin-bottom: 2rem;">
+                    <h4 style="font-family: var(--karma-fonts); font-size: 1.3rem; font-weight: 600; color: var(--primary-color); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.2em;">Order Note</h4>
+                    <textarea class="cart__note--input" placeholder="" style="width: 100%; height: 80px; padding: 1rem; border: 1px solid var(--border-color); font-family: var(--karma-fonts); font-size: 1.3rem; color: var(--primary-color); resize: vertical; outline: none;"></textarea>
+                </div>
+                <div class="minicart__amount_list" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <span style="font-family: var(--karma-fonts); font-size: 1.3rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;">Subtotal</span>
+                    <span id="minicart-subtotal" style="font-size: 1.6rem; font-weight: 700; color: var(--primary-color);">
+                        <b>KSh0.00</b>
                     </span>
                 </div>
+                <p style="font-size: 1.2rem; color: var(--foreground-sub-color); text-align: center; margin-bottom: 2rem; line-height: 1.6;">Shipping, taxes, and discount codes calculated at checkout.</p>
             </div>
-            <div class="minicart__button d-flex justify-content-center">
-                <a class="primary__btn minicart__button--link" href="javascript:void(0)" class="minicart__open--btn" data-offcanvas>View Bag</a>
-                <a class="primary__btn minicart__button--link" href="javascript:void(0)" onclick="triggerCheckout()">Checkout</a>
+            <div class="minicart__button" style="padding-bottom: 2rem;">
+                <a class="minicart__button--link" href="javascript:void(0)" onclick="triggerCheckout()" style="display: block; width: 100%; padding: 1.6rem; background: var(--bg-black-color); color: #fff; font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--bg-black-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">Check Out</a>
             </div>
         </div>
 
@@ -1023,7 +1025,7 @@
                                                 Bold African-inspired designs crafted for the modern individual.
                                                                       Celebrate your identity, stand out beautifully.
                                             </p>
-                                            <a class="primary__btn slider__btn" href="shop.html">
+                                            <a class="slider__btn" href="shop.html">
                                                 Shop Now
                                                 <svg width="16" height="11" viewbox="0 0 17 12" fill="none"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"/></svg>
                                             </a>
@@ -1053,7 +1055,7 @@
                                                 Where Ankara artistry meets modern street luxury.
                                                                       For those who embrace culture, confidence, and individuality.
                                             </p>
-                                            <a class="primary__btn slider__btn" href="shop.html">
+                                            <a class="slider__btn" href="shop.html">
                                                 Explore Collection
                                                 <svg width="16" height="11" viewbox="0 0 17 12" fill="none"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"/></svg>
                                             </a>
@@ -1083,7 +1085,7 @@
                                                 Transform your space with bold Ankara patterns, timeless design,
                                                                       and the beauty of African craftsmanship.
                                             </p>
-                                            <a class="primary__btn slider__btn" href="shop.html">
+                                            <a class="slider__btn" href="shop.html">
                                                 Shop Now
                                                 <svg width="16" height="11" viewbox="0 0 17 12" fill="none"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"/></svg>
                                             </a>
@@ -1208,7 +1210,7 @@
                 </div>
 
                 <div class="text-center mt-5" style="margin-top: 4rem;">
-                    <a class="primary__btn" href="shop.html" style="display: inline-block; padding: 1.2rem 3.5rem; background: var(--primary-color); color: #fff; font-size: 1.4rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 2px solid var(--primary-color); transition: all 0.3s ease;">View All Products</a>
+                    <a class="primary__btn" href="shop.html">View All Products</a>
                 </div>
             </div>
         </section>
@@ -1304,7 +1306,7 @@
                     <div style="flex: 1 1 50%; max-width: 600px;" class="text-center text-lg-start">
                         <h2 style="color: #fff; font-family: 'Frank Ruhl Libre', serif; font-size: 4.5rem; font-weight: 700; margin-bottom: 2rem;">Redefining African Elegance</h2>
                         <p style="color: #fff; font-size: 1.6rem; line-height: 1.8; margin-bottom: 3rem; max-width: 500px; margin-left: auto; margin-right: auto;">Discover our latest collection where traditional prints meet contemporary street style. Crafted for the modern individual.</p>
-                        <a class="primary__btn" href="shop.html" style="display: inline-block; padding: 1.2rem 3.5rem; background: #fff; color: var(--primary-color); font-size: 1.4rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; font-weight: 600;">Explore the Collection</a>
+                        <a class="slider__btn" href="shop.html">Explore the Collection</a>
                     </div>
                 </div>
             </div>

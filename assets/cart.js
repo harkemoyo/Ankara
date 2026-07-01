@@ -18,7 +18,9 @@ function saveCart(cart) {
   } catch (e) {
     console.error('Failed to save cart to localStorage:', e);
   }
-  updateCartUI();
+  // Delay UI update slightly so click events (like +/- buttons) can finish bubbling
+  // before the DOM elements are destroyed, which prevents the drawer from hiding.
+  setTimeout(() => updateCartUI(), 10);
 }
 
 // Add item to cart
@@ -43,9 +45,12 @@ function addToCart(product) {
   saveCart(cart);
   
   // Open minicart drawer automatically to show success
+  const minicartBtn = document.querySelector('.minicart__open--btn');
   const minicart = document.querySelector('.offCanvas__minicart');
-  if (minicart) {
-    minicart.classList.add('open');
+  if (minicartBtn && minicart && !minicart.classList.contains('active')) {
+    // We simulate a click on the inner SVG or button to ensure the event listener captures dataset.offcanvas correctly
+    const clickTarget = minicartBtn.hasAttribute('data-offcanvas') ? minicartBtn : minicartBtn.querySelector('[data-offcanvas]');
+    if (clickTarget) clickTarget.click();
   }
 }
 
@@ -104,11 +109,12 @@ function updateCartUI() {
   // Create items list container if not exists
   let listEl = document.getElementById('minicart-items-list');
   if (!listEl) {
-    const minicartDesc = document.querySelector('.minicart__header--desc');
+    const minicartDesc = document.querySelector('.minicart__header');
     if (minicartDesc) {
       listEl = document.createElement('div');
       listEl.id = 'minicart-items-list';
       listEl.className = 'minicart__product';
+      listEl.style = 'flex: 1; overflow-y: auto; padding-right: 1rem;';
       minicartDesc.parentNode.insertBefore(listEl, minicartDesc.nextSibling);
     }
   }
@@ -126,25 +132,31 @@ function updateCartUI() {
       listEl.style.display = 'block';
       // Render items
       listEl.innerHTML = cart.map((item, index) => `
-        <div class="minicart__product--items d-flex">
-          <div class="minicart__thumb">
-            <a href="product.html?id=${item.id}"><img src="${item.image}" alt="${item.title}"></a>
+        <div class="minicart__product--items" style="display: flex; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color);">
+          <div class="minicart__thumb" style="width: 70px; height: 70px; flex-shrink: 0; margin-right: 1.5rem; background: var(--bg-gray-color);">
+            <a href="product.html?id=${item.id}"><img style="width: 100%; height: 100%; object-fit: cover;" src="${item.image}" alt="${item.title}"></a>
           </div>
-          <div class="minicart__text">
-            <h4 class="minicart__subtitle"><a href="product.html?id=${item.id}">${item.title}</a></h4>
-            <span class="color__variant"><b>Size:</b> ${item.size}</span>
-            <div class="minicart__price">
-              <span class="minicart__current--price">£${item.price.toFixed(2)}</span>
+          <div class="minicart__text" style="flex: 1; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+               <div>
+                  <h4 class="minicart__subtitle" style="font-family: var(--karma-fonts); font-size: 1.6rem; font-weight: 500; margin-bottom: 0.5rem;"><a href="product.html?id=${item.id}" style="color: var(--primary-color); text-decoration: none;">${item.title}</a></h4>
+                  <span class="color__variant" style="display: block; font-size: 1.3rem; color: var(--foreground-sub-color); margin-bottom: 0.2rem;"><b>Color:</b> ${item.color || 'As Shown'}</span>
+                  <span class="color__variant" style="display: block; font-size: 1.3rem; color: var(--foreground-sub-color); margin-bottom: 1.5rem;"><b>Size:</b> ${item.size}</span>
+               </div>
+               <button class="minicart__product--remove" type="button" aria-label="remove" onclick="removeFromMinicart(${index})" style="background: none; border: 1px solid var(--border-color); border-radius: 4px; padding: 0.2rem 0.6rem; font-size: 1.4rem; cursor: pointer; color: var(--foreground-sub-color);">&times;</button>
             </div>
-            <div class="minicart__quantity d-flex align-items-center">
-              <div class="quantity__box">
-                <button type="button" class="quantity__value decrease" aria-label="decrease quantity" onclick="changeMinicartQty(${index}, -1)">-</button>
-                <label>
-                  <input type="number" class="quantity__number" value="${item.qty}" readonly>
-                </label>
-                <button type="button" class="quantity__value increase" aria-label="increase quantity" onclick="changeMinicartQty(${index}, 1)">+</button>
-              </div>
-              <button class="minicart__product--remove" type="button" onclick="removeFromMinicart(${index})" style="margin-left: 15px;">Remove</button>
+            
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto;">
+                <div class="quantity__box" style="display: inline-flex; align-items: center; border: 1px solid var(--border-color); border-radius: 3px; overflow: hidden;">
+                  <button type="button" class="quantity__value decrease" aria-label="decrease quantity" onclick="changeMinicartQty(${index}, -1)" style="width: 2.5rem; height: 3rem; background: none; border: none; font-size: 1.4rem; color: var(--primary-color); cursor: pointer;">-</button>
+                  <label>
+                    <input type="number" class="quantity__number" value="${item.qty}" readonly style="width: 3rem; height: 3rem; text-align: center; border: none; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); font-size: 1.3rem; color: var(--primary-color); padding: 0;">
+                  </label>
+                  <button type="button" class="quantity__value increase" aria-label="increase quantity" onclick="changeMinicartQty(${index}, 1)" style="width: 2.5rem; height: 3rem; background: none; border: none; font-size: 1.4rem; color: var(--primary-color); cursor: pointer;">+</button>
+                </div>
+                <div class="minicart__price">
+                  <span class="minicart__current--price" style="font-size: 1.4rem; font-weight: 500; color: var(--primary-color);">£${(item.price * item.qty).toFixed(2)}</span>
+                </div>
             </div>
           </div>
         </div>
@@ -153,7 +165,7 @@ function updateCartUI() {
     
     // Show subtotal and checkout buttons
     if (amountContainer) amountContainer.style.display = 'block';
-    if (checkoutContainer) checkoutContainer.style.display = 'flex';
+    if (checkoutContainer) checkoutContainer.style.display = 'block';
     if (subtotalEl) {
       subtotalEl.innerHTML = `<b>£${subtotal.toFixed(2)}</b>`;
     }

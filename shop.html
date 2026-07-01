@@ -333,33 +333,35 @@
         </div>
 
         <!-- ── Mini Cart Drawer ───────────────────────── -->
-        <div class="offCanvas__minicart js-cart-form">
+        <div class="offCanvas__minicart js-cart-form" style="display: flex; flex-direction: column;">
             <div class="minicart__header">
-                <div class="minicart__header--top d-flex justify-content-between align-items-center">
-                    <h3 class="minicart__title">Shopping Bag</h3>
-                    <button type="button" class="minicart__close--btn" aria-label="close cart" data-offcanvas>
-                        <svg class="minicart__close--icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512">
-                            <path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/>
-                        </svg>
-                    </button>
+                <div class="minicart__header--top" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem;">
+                    <h3 class="minicart__title" style="font-family: var(--karma-fonts); font-size: 2.4rem; color: var(--primary-color); font-weight: 500;">Cart</h3>
+                    <button type="button" class="minicart__close--btn" aria-label="close cart" data-offcanvas style="background: none; border: none; font-size: 2.4rem; cursor: pointer; color: var(--primary-color); line-height: 1;">&times;</button>
                 </div>
-                <p class="minicart__header--desc">Review your selected items below</p>
             </div>
             <div class="minicart__empty--text">
                 <p>Your bag is empty.</p>
                 <a href="shop.html" class="primary__btn">Continue Shopping</a>
             </div>
-            <div class="minicart__amount">
-                <div class="minicart__amount_list d-flex justify-content-between">
-                    <span>Subtotal:</span>
-                    <span>
-                        <b>£0.00</b>
+            
+            <div id="minicart-items-list" class="minicart__product" style="flex: 1; overflow-y: auto; padding-right: 1rem;"></div>
+
+            <div class="minicart__amount" style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
+                <div class="cart__note" style="margin-bottom: 2rem;">
+                    <h4 style="font-family: var(--karma-fonts); font-size: 1.3rem; font-weight: 600; color: var(--primary-color); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.2em;">Order Note</h4>
+                    <textarea class="cart__note--input" placeholder="" style="width: 100%; height: 80px; padding: 1rem; border: 1px solid var(--border-color); font-family: var(--karma-fonts); font-size: 1.3rem; color: var(--primary-color); resize: vertical; outline: none;"></textarea>
+                </div>
+                <div class="minicart__amount_list" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <span style="font-family: var(--karma-fonts); font-size: 1.3rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;">Subtotal</span>
+                    <span id="minicart-subtotal" style="font-size: 1.6rem; font-weight: 700; color: var(--primary-color);">
+                        <b>KSh0.00</b>
                     </span>
                 </div>
+                <p style="font-size: 1.2rem; color: var(--foreground-sub-color); text-align: center; margin-bottom: 2rem; line-height: 1.6;">Shipping, taxes, and discount codes calculated at checkout.</p>
             </div>
-            <div class="minicart__button d-flex justify-content-center">
-                <a class="primary__btn minicart__button--link" href="javascript:void(0)" class="minicart__open--btn" data-offcanvas>View Bag</a>
-                <a class="primary__btn minicart__button--link" href="javascript:void(0)" onclick="triggerCheckout()">Checkout</a>
+            <div class="minicart__button" style="padding-bottom: 2rem;">
+                <a class="minicart__button--link" href="javascript:void(0)" onclick="triggerCheckout()" style="display: block; width: 100%; padding: 1.6rem; background: var(--bg-black-color); color: #fff; font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--bg-black-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">Check Out</a>
             </div>
         </div>
 
@@ -1860,7 +1862,7 @@
                                                             $268.00</span>
                                                     </div>
                                                     <p class="product__card--content__desc mb-15">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia voluptas dolore doloribus architecto sequi corporis deleniti officia culpa dolor esse there.</p>
-                                                    <a class="product__card--btn primary__btn" href="cart.html">+ Add to cart</a>
+                                                    <a class="product__card--btn" href="cart.html">+ Add to cart</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -1949,7 +1951,7 @@
                                                             $230.00</span>
                                                     </div>
                                                     <p class="product__card--content__desc mb-15">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia voluptas dolore doloribus architecto sequi corporis deleniti officia culpa dolor esse there.</p>
-                                                    <a class="product__card--btn primary__btn" href="cart.html">+ Add to cart</a>
+                                                    <a class="product__card--btn" href="cart.html">+ Add to cart</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -2039,7 +2041,7 @@
                                                             $222.00</span>
                                                     </div>
                                                     <p class="product__card--content__desc mb-15">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia voluptas dolore doloribus architecto sequi corporis deleniti officia culpa dolor esse there.</p>
-                                                    <a class="product__card--btn primary__btn" href="cart.html">+ Add to cart</a>
+                                                    <a class="product__card--btn" href="cart.html">+ Add to cart</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -2128,7 +2130,7 @@
                                                             $235.00</span>
                                                     </div>
                                                     <p class="product__card--content__desc mb-15">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia voluptas dolore doloribus architecto sequi corporis deleniti officia culpa dolor esse there.</p>
-                                                    <a class="product__card--btn primary__btn" href="cart.html">+ Add to cart</a>
+                                                    <a class="product__card--btn" href="cart.html">+ Add to cart</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -2218,7 +2220,7 @@
                                                             $245.00</span>
                                                     </div>
                                                     <p class="product__card--content__desc mb-15">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia voluptas dolore doloribus architecto sequi corporis deleniti officia culpa dolor esse there.</p>
-                                                    <a class="product__card--btn primary__btn" href="cart.html">+ Add to cart</a>
+                                                    <a class="product__card--btn" href="cart.html">+ Add to cart</a>
                                                 </div>
                                             </div>
                                         </div>

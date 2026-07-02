@@ -45,13 +45,23 @@ function addToCart(product) {
   saveCart(cart);
   
   // Open minicart drawer automatically to show success
-  const minicartBtn = document.querySelector('.minicart__open--btn');
-  const minicart = document.querySelector('.offCanvas__minicart');
-  if (minicartBtn && minicart && !minicart.classList.contains('active')) {
-    // We simulate a click on the inner SVG or button to ensure the event listener captures dataset.offcanvas correctly
-    const clickTarget = minicartBtn.hasAttribute('data-offcanvas') ? minicartBtn : minicartBtn.querySelector('[data-offcanvas]');
-    if (clickTarget) clickTarget.click();
-  }
+  setTimeout(() => {
+    const minicartBtn = document.querySelector('.minicart__open--btn');
+    const minicart = document.querySelector('.offCanvas__minicart');
+    if (minicartBtn && minicart && !minicart.classList.contains('active')) {
+      // We simulate a click on the inner SVG or button to ensure the event listener captures dataset.offcanvas correctly
+      const clickTarget = minicartBtn.hasAttribute('data-offcanvas') ? minicartBtn : minicartBtn.querySelector('[data-offcanvas]');
+      if (clickTarget) clickTarget.click();
+      
+      // Fallback: If global.js event listener didn't catch the click, manually open the drawer
+      setTimeout(() => {
+        if (!minicart.classList.contains('active')) {
+          minicart.classList.add('active');
+          document.body.classList.add('offCanvas__minicart_active');
+        }
+      }, 50);
+    }
+  }, 50);
 }
 
 // Remove item from minicart
@@ -191,7 +201,117 @@ function triggerCheckout() {
   // Here you'll initialize Paystack Pop
 }
 
+// Simulate network loading state for add to cart buttons
+function simulateAdding(btn, callback) {
+  if (!btn) {
+    callback();
+    return;
+  }
+  
+  const originalHTML = btn.innerHTML;
+  const originalWidth = btn.offsetWidth;
+  const originalPointerEvents = btn.style.pointerEvents;
+  
+  btn.style.width = originalWidth + 'px';
+  btn.style.pointerEvents = 'none';
+  // Use a miniature version of the site's main preloader spinner
+  btn.innerHTML = `<div style="display: inline-block; vertical-align: middle; width: 1.8rem; height: 1.8rem; margin-right: 0.8rem; border-radius: 50%; border: 3px solid var(--border-color); border-top-color: var(--bg-light-dark-color); animation: spinner 1s infinite linear;"></div><span style="vertical-align: middle;">Adding...</span>`;
+
+  // Fake network delay of 600ms
+  setTimeout(() => {
+    callback();
+    // Restore original state
+    btn.innerHTML = originalHTML;
+    btn.style.pointerEvents = originalPointerEvents;
+    btn.style.width = '';
+  }, 600);
+}
+
 // Initialize cart on page load
 document.addEventListener('DOMContentLoaded', function() {
   updateCartUI();
+  
+  // Wire up all 'Add to cart' buttons on the site to use the JS cart
+  document.body.addEventListener('click', function(e) {
+    // Handle close button and overlay clicks robustly to guarantee the drawer always closes
+    if (e.target.closest('.minicart__close--btn') || (e.target.classList.contains('offCanvas__minicart_active') && !e.target.closest('.offCanvas__minicart'))) {
+      const minicart = document.querySelector('.offCanvas__minicart');
+      if (minicart) {
+        minicart.classList.remove('active');
+        document.body.classList.remove('offCanvas__minicart_active');
+      }
+    }
+    
+    if (e.target.closest('.product__card--btn') && !e.target.closest('[onclick*="addProductToCart"]')) {
+      e.preventDefault(); // Prevent navigating to cart.html
+      
+      const btn = e.target.closest('a') || e.target.closest('button');
+      // Look for the closest product container
+      const card = btn.closest('.product__card');
+      
+      if (card) {
+        // Extract details from the DOM
+        const titleEl = card.querySelector('.product__card--title a');
+        const priceEl = card.querySelector('.current__price');
+        const imgEl = card.querySelector('.product__card--thumbnail__img');
+        
+        const title = titleEl ? titleEl.textContent.trim() : 'Unknown Product';
+        let priceStr = priceEl ? priceEl.textContent.trim() : '£0.00';
+        const price = parseFloat(priceStr.replace(/[^0-9.]/g, '')) || 0.00;
+        const image = imgEl ? imgEl.src : 'assets/img/product/product1.png';
+        const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        
+        simulateAdding(btn, () => {
+          addToCart({
+            id: id,
+            title: title,
+            price: price,
+            image: image,
+            qty: 1,
+            size: 'M' // Default size for demo
+          });
+        });
+      }
+    }
+  });
 });
+
+// Handle 'Add to Cart' explicitly for product.html page
+window.addProductToCart = function(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  
+  const btn = document.querySelector('[onclick*="addProductToCart"]');
+  const titleEl = document.getElementById('dyn-product-title');
+  const priceEl = document.getElementById('dyn-product-price');
+  const imgEl = document.getElementById('dyn-product-image');
+  
+  // Get currently selected size if available
+  let selectedSize = 'M';
+  const sizeInput = document.querySelector('input[name="variant_size"]:checked');
+  if (sizeInput) selectedSize = sizeInput.value;
+  
+  // Get quantity if available
+  let qty = 1;
+  const qtyInput = document.querySelector('.quantity__number');
+  if (qtyInput) qty = parseInt(qtyInput.value) || 1;
+  
+  const title = titleEl ? titleEl.textContent.trim() : 'Unknown Product';
+  let priceStr = priceEl ? priceEl.textContent.trim() : '£0.00';
+  const price = parseFloat(priceStr.replace(/[^0-9.]/g, '')) || 0.00;
+  const image = (imgEl && imgEl.src && imgEl.src !== window.location.href) ? imgEl.src : 'assets/img/product/product1.png';
+  const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  
+  simulateAdding(btn, () => {
+    addToCart({
+      id: id,
+      title: title,
+      price: price,
+      image: image,
+      qty: qty,
+      size: selectedSize
+    });
+  });
+};

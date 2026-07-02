@@ -431,35 +431,31 @@ var swiper2 = new Swiper(".single__product--preview", {
 });
 
 // product details media swiper activation
-var swiper = new Swiper(".product__media--nav", {
-  loop: true,
-  spaceBetween: 10,
-  slidesPerView: 4,
-  freeMode: true,
-  watchSlidesProgress: true,
-  breakpoints: {
-    480: {
-      slidesPerView: 4,
+if (document.querySelector(".product__media--nav")) {
+  var swiper = new Swiper(".product__media--nav", {
+    loop: true,
+    spaceBetween: 10,
+    slidesPerView: 4,
+    freeMode: true,
+    watchSlidesProgress: true,
+    breakpoints: {
+      480: { slidesPerView: 4 },
+      200: { slidesPerView: 3 },
+      0: { slidesPerView: 1 },
     },
-    200: {
-      slidesPerView: 3,
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
     },
-    0: {
-      slidesPerView: 1,
+  });
+  var swiper2 = new Swiper(".product__media--preview", {
+    loop: true,
+    spaceBetween: 10,
+    thumbs: {
+      swiper: swiper,
     },
-  },
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-});
-var swiper2 = new Swiper(".product__media--preview", {
-  loop: true,
-  spaceBetween: 10,
-  thumbs: {
-    swiper: swiper,
-  },
-});
+  });
+}
 
 // tab activation
 const tab = function (wrapper) {

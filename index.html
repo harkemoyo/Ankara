@@ -723,6 +723,176 @@
             object-fit: cover !important;
         }
         /* ====================================================== */
+        .site__main {
+            display: grid;
+            gap: 2rem;
+            overflow-x: hidden;
+        }
+
+        /* ══ Style Blocks (shop category grid) ══ */
+        .style-block {
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            background: #e5e5e5;
+            position: relative;
+        }
+        .style-block a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .style-block img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .style-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.2);
+        }
+        .style-overlay span {
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        .style-block:hover img {
+            transform: scale(1.05);
+        }
+        .style-block:hover .style-overlay {
+            background: rgba(0,0,0,0.4);
+        }
+
+        /* ══ Statement Banner ══ */
+        .home-statement {
+            padding: 12rem 0;
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin-bottom: 8rem;
+            position: relative;
+        }
+        .home-statement__overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+        }
+        .home-statement__inner {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .home-statement__content {
+            flex: 1 1 50%;
+            max-width: 600px;
+            text-align: center;
+        }
+        .home-statement__title {
+            color: #fff;
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+        .home-statement__text {
+            color: #fff;
+            font-size: 1.6rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ══ Testimonials ══ */
+        .home-testimonials {
+            padding: 10rem 0;
+            background: #f8f8f8;
+        }
+        .home-testimonials .section__heading {
+            margin-bottom: 5rem;
+        }
+        .home-testimonials .section__heading--maintitle {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 3rem;
+            color: var(--primary-color);
+        }
+        .testimonial__swiper {
+            padding-bottom: 4rem;
+        }
+        .testimonial-card {
+            background: #fff;
+            padding: 4rem 3rem;
+            text-align: center;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        .testimonial-card .stars {
+            color: #000;
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            letter-spacing: 3px;
+        }
+        .testimonial-card p {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: var(--foreground-sub-color);
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+        .testimonial-card h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--primary-color);
+        }
+
+        /* ══ Services Strip ══ */
+        .home-services {
+            background-color: var(--primary-color);
+            padding: 5rem 0;
+        }
+        .services-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            justify-content: space-between;
+            text-align: center;
+            color: #fff;
+        }
+        .service-item {
+            flex: 1 1 300px;
+        }
+        .service-item svg {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        .service-item h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .service-item p {
+            font-size: 1.4rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 250px;
+            margin: 0 auto;
+        }
+
     </style>
 
 </head>
@@ -1236,76 +1406,56 @@
                     </div>
 
                     <!-- Style 2 -->
-                    <div class="style-block position-relative" style="aspect-ratio: 4/3; overflow: hidden; background: #e5e5e5;">
-                        <a href="shop.html?cat=dresses" class="display-block" style="width: 100%; height: 100%;">
-                            <img src="assets/IMG-20260622-WA0033.webp" alt="Luxe Dresses" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
-                            <div class="style-overlay" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2);">
-                                <span style="color: #fff; font-family: 'Inter', sans-serif; font-size: 1.6rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;">Luxe Dresses</span>
-                            </div>
+                    <div class="style-block">
+                        <a href="shop.html?cat=dresses">
+                            <img src="assets/IMG-20260622-WA0033.webp" alt="Luxe Dresses">
+                            <div class="style-overlay"><span>Luxe Dresses</span></div>
                         </a>
                     </div>
 
                     <!-- Style 3 -->
-                    <div class="style-block position-relative" style="aspect-ratio: 4/3; overflow: hidden; background: #e5e5e5;">
-                        <a href="shop.html?cat=outerwear" class="display-block" style="width: 100%; height: 100%;">
-                            <img src="assets/IMG-20260622-WA0079.webp" alt="Outerwear" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
-                            <div class="style-overlay" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2);">
-                                <span style="color: #fff; font-family: 'Inter', sans-serif; font-size: 1.6rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;">Outerwear</span>
-                            </div>
+                    <div class="style-block">
+                        <a href="shop.html?cat=outerwear">
+                            <img src="assets/IMG-20260622-WA0079.webp" alt="Outerwear">
+                            <div class="style-overlay"><span>Outerwear</span></div>
                         </a>
                     </div>
 
                     <!-- Style 4 -->
-                    <div class="style-block position-relative" style="aspect-ratio: 4/3; overflow: hidden; background: #e5e5e5;">
-                        <a href="shop.html?cat=mens" class="display-block" style="width: 100%; height: 100%;">
-                            <img src="assets/IMG-20260622-WA0005.webp" alt="Men's Collection" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
-                            <div class="style-overlay" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2);">
-                                <span style="color: #fff; font-family: 'Inter', sans-serif; font-size: 1.6rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;">Men's Collection</span>
-                            </div>
+                    <div class="style-block">
+                        <a href="shop.html?cat=mens">
+                            <img src="assets/IMG-20260622-WA0005.webp" alt="Men's Collection">
+                            <div class="style-overlay"><span>Men's Collection</span></div>
                         </a>
                     </div>
 
                     <!-- Style 5 -->
-                    <div class="style-block position-relative" style="aspect-ratio: 4/3; overflow: hidden; background: #e5e5e5;">
-                        <a href="shop.html?cat=accessories" class="display-block" style="width: 100%; height: 100%;">
-                            <img src="assets/IMG-20260622-WA0044.webp" alt="Accessories" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
-                            <div class="style-overlay" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2);">
-                                <span style="color: #fff; font-family: 'Inter', sans-serif; font-size: 1.6rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;">Accessories</span>
-                            </div>
+                    <div class="style-block">
+                        <a href="shop.html?cat=accessories">
+                            <img src="assets/IMG-20260622-WA0044.webp" alt="Accessories">
+                            <div class="style-overlay"><span>Accessories</span></div>
                         </a>
                     </div>
 
                     <!-- Style 6 -->
-                    <div class="style-block position-relative" style="aspect-ratio: 4/3; overflow: hidden; background: #e5e5e5;">
-                        <a href="shop.html?cat=sale" class="display-block" style="width: 100%; height: 100%;">
-                            <img src="assets/IMG-20260622-WA0014.webp" alt="Clearance" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
-                            <div class="style-overlay" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2);">
-                                <span style="color: #fff; font-family: 'Inter', sans-serif; font-size: 1.6rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;">Clearance</span>
-                            </div>
+                    <div class="style-block">
+                        <a href="shop.html?cat=sale">
+                            <img src="assets/IMG-20260622-WA0014.webp" alt="Clearance">
+                            <div class="style-overlay"><span>Clearance</span></div>
                         </a>
                     </div>
                 </div>
-                <style>
-                    .style-block:hover img {
-                        transform: scale(1.05) !important;
-                    }
-                    .style-block:hover .style-overlay {
-                        background: rgba(0, 0, 0, 0.4) !important;
-                    }
-                </style>
             </div>
         </section>
 
         <!-- Full-width Statement Banner -->
-        <section
-            class="home-statement position-relative" style="padding: 12rem 0; background: url('assets/IMG-20260622-WA0081.webp') no-repeat center center/cover; margin-bottom: 8rem; position: relative;">
-            <!-- Add a subtle dark overlay for text readability -->
-            <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4);"></div>
-            <div class="container position-relative" style="z-index: 2;">
-                <div style="display: flex; justify-content: flex-end;">
-                    <div style="flex: 1 1 50%; max-width: 600px;" class="text-center text-lg-start">
-                        <h2 style="color: #fff; font-family: 'Frank Ruhl Libre', serif; font-size: 4.5rem; font-weight: 700; margin-bottom: 2rem;">Redefining African Elegance</h2>
-                        <p style="color: #fff; font-size: 1.6rem; line-height: 1.8; margin-bottom: 3rem; max-width: 500px; margin-left: auto; margin-right: auto;">Discover our latest collection where traditional prints meet contemporary street style. Crafted for the modern individual.</p>
+        <section class="home-statement" style="background-image: url('assets/IMG-20260622-WA0081.webp');">
+            <div class="home-statement__overlay"></div>
+            <div class="container">
+                <div class="home-statement__inner">
+                    <div class="home-statement__content">
+                        <h2 class="home-statement__title">Redefining African Elegance</h2>
+                        <p class="home-statement__text">Discover our latest collection where traditional prints meet contemporary street style. Crafted for the modern individual.</p>
                         <a class="slider__btn" href="shop.html">Explore the Collection</a>
                     </div>
                 </div>
@@ -1314,57 +1464,56 @@
 
 
         <!-- Minimalist Testimonials Grid -->
-        <section class="home-testimonials section--padding" style="padding: 10rem 0; background: #f8f8f8;">
+        <section class="home-testimonials section--padding">
             <div class="container">
-                <div class="section__heading text-center mb-50" style="margin-bottom: 5rem;">
-                    <h2 class="section__heading--maintitle" style="font-family: 'Frank Ruhl Libre', serif; font-size: 3rem; color: var(--primary-color);">Recent Testimonials</h2>
+                <div class="section__heading text-center">
+                    <h2 class="section__heading--maintitle">Recent Testimonials</h2>
                 </div>
 
-                <div class="testimonial__swiper swiper" style="padding-bottom: 4rem;">
-                    <div
-                        class="swiper-wrapper">
+                <div class="testimonial__swiper swiper">
+                    <div class="swiper-wrapper">
                         <!-- Testimonial 1 -->
                         <div class="swiper-slide">
-                            <div class="testimonial-card" style="background: #fff; padding: 4rem 3rem; text-align: center; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.03);">
-                                <div class="stars" style="color: #000; font-size: 1.4rem; margin-bottom: 2rem; letter-spacing: 3px;">★★★★★</div>
-                                <p style="font-size: 1.5rem; line-height: 1.8; color: var(--foreground-sub-color); margin-bottom: 3rem; font-style: italic;">"Fantastic product, so beautifully made. Love the swift delivery too! Highly recommended!"</p>
-                                <h4 style="font-family: 'Inter', sans-serif; font-size: 1.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary-color);">Florianna S. K.</h4>
+                            <div class="testimonial-card">
+                                <div class="stars">★★★★★</div>
+                                <p>"Fantastic product, so beautifully made. Love the swift delivery too! Highly recommended!"</p>
+                                <h4>Florianna S. K.</h4>
                             </div>
                         </div>
 
                         <!-- Testimonial 2 -->
                         <div class="swiper-slide">
-                            <div class="testimonial-card" style="background: #fff; padding: 4rem 3rem; text-align: center; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.03);">
-                                <div class="stars" style="color: #000; font-size: 1.4rem; margin-bottom: 2rem; letter-spacing: 3px;">★★★★★</div>
-                                <p style="font-size: 1.5rem; line-height: 1.8; color: var(--foreground-sub-color); margin-bottom: 3rem; font-style: italic;">"I have been buying Ankara wear for years, but this brand is different. The fit is perfect and the prints are stunning."</p>
-                                <h4 style="font-family: 'Inter', sans-serif; font-size: 1.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary-color);">Taimi N.</h4>
+                            <div class="testimonial-card">
+                                <div class="stars">★★★★★</div>
+                                <p>"I have been buying Ankara wear for years, but this brand is different. The fit is perfect and the prints are stunning."</p>
+                                <h4>Taimi N.</h4>
                             </div>
                         </div>
 
                         <!-- Testimonial 3 -->
                         <div class="swiper-slide">
-                            <div class="testimonial-card" style="background: #fff; padding: 4rem 3rem; text-align: center; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.03);">
-                                <div class="stars" style="color: #000; font-size: 1.4rem; margin-bottom: 2rem; letter-spacing: 3px;">★★★★★</div>
-                                <p style="font-size: 1.5rem; line-height: 1.8; color: var(--foreground-sub-color); margin-bottom: 3rem; font-style: italic;">"Incredibly elegant pieces. I wore the two-piece set to a wedding and got compliments all day long."</p>
-                                <h4 style="font-family: 'Inter', sans-serif; font-size: 1.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary-color);">Kate M.</h4>
+                            <div class="testimonial-card">
+                                <div class="stars">★★★★★</div>
+                                <p>"Incredibly elegant pieces. I wore the two-piece set to a wedding and got compliments all day long."</p>
+                                <h4>Kate M.</h4>
                             </div>
                         </div>
 
                         <!-- Testimonial 4 -->
                         <div class="swiper-slide">
-                            <div class="testimonial-card" style="background: #fff; padding: 4rem 3rem; text-align: center; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.03);">
-                                <div class="stars" style="color: #000; font-size: 1.4rem; margin-bottom: 2rem; letter-spacing: 3px;">★★★★★</div>
-                                <p style="font-size: 1.5rem; line-height: 1.8; color: var(--foreground-sub-color); margin-bottom: 3rem; font-style: italic;">"The quality is outstanding. I've washed my pieces multiple times and the colors are still as vibrant as day one."</p>
-                                <h4 style="font-family: 'Inter', sans-serif; font-size: 1.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary-color);">Sarah J.</h4>
+                            <div class="testimonial-card">
+                                <div class="stars">★★★★★</div>
+                                <p>"The quality is outstanding. I've washed my pieces multiple times and the colors are still as vibrant as day one."</p>
+                                <h4>Sarah J.</h4>
                             </div>
                         </div>
 
                         <!-- Testimonial 5 -->
                         <div class="swiper-slide">
-                            <div class="testimonial-card" style="background: #fff; padding: 4rem 3rem; text-align: center; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.03);">
-                                <div class="stars" style="color: #000; font-size: 1.4rem; margin-bottom: 2rem; letter-spacing: 3px;">★★★★★</div>
-                                <p style="font-size: 1.5rem; line-height: 1.8; color: var(--foreground-sub-color); margin-bottom: 3rem; font-style: italic;">"Amazing customer service. They helped me pick the right size, and the shipping was incredibly fast!"</p>
-                                <h4 style="font-family: 'Inter', sans-serif; font-size: 1.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary-color);">Michael D.</h4>
+                            <div class="testimonial-card">
+                                <div class="stars">★★★★★</div>
+                                <p>"Amazing customer service. They helped me pick the right size, and the shipping was incredibly fast!"</p>
+                                <h4>Michael D.</h4>
                             </div>
                         </div>
 
@@ -1395,29 +1544,29 @@
         </section>
 
         <!-- Minimalist Service/Features Strip -->
-        <section class="home-services" style="background-color: var(--primary-color); padding: 5rem 0;">
+        <section class="home-services">
             <div class="container">
-                <div style="display: flex; flex-wrap: wrap; gap: 3rem; justify-content: space-between; text-align: center; color: #fff;">
-                    <div style="flex: 1 1 300px;">
-                        <svg width="40" height="40" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 1.5rem; opacity: 0.9;">
+                <div class="services-grid">
+                    <div class="service-item">
+                        <svg width="40" height="40" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
                         </svg>
-                        <h3 style="font-family: 'Inter', sans-serif; font-size: 1.6rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; color: #fff;">Free UK Delivery</h3>
-                        <p style="font-size: 1.4rem; color: rgba(255,255,255,0.7); max-width: 250px; margin: 0 auto;">Complimentary shipping on all orders across the UK.</p>
+                        <h3>Free UK Delivery</h3>
+                        <p>Complimentary shipping on all orders across the UK.</p>
                     </div>
-                    <div style="flex: 1 1 300px;">
-                        <svg width="40" height="40" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 1.5rem; opacity: 0.9;">
+                    <div class="service-item">
+                        <svg width="40" height="40" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
                         </svg>
-                        <h3 style="font-family: 'Inter', sans-serif; font-size: 1.6rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; color: #fff;">Secure Payment</h3>
-                        <p style="font-size: 1.4rem; color: rgba(255,255,255,0.7); max-width: 250px; margin: 0 auto;">Shop with confidence using our 100% secure checkout.</p>
+                        <h3>Secure Payment</h3>
+                        <p>Shop with confidence using our 100% secure checkout.</p>
                     </div>
-                    <div style="flex: 1 1 300px;">
-                        <svg width="40" height="40" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 1.5rem; opacity: 0.9;">
+                    <div class="service-item">
+                        <svg width="40" height="40" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
                         </svg>
-                        <h3 style="font-family: 'Inter', sans-serif; font-size: 1.6rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; color: #fff;">Made With Love</h3>
-                        <p style="font-size: 1.4rem; color: rgba(255,255,255,0.7); max-width: 250px; margin: 0 auto;">Every piece tells a story of culture and bold identity.</p>
+                        <h3>Made With Love</h3>
+                        <p>Every piece tells a story of culture and bold identity.</p>
                     </div>
                 </div>
             </div>

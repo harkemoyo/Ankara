@@ -1431,12 +1431,11 @@
 
     <footer class="footer__section footer__bg">
 
-        <div class="container">
-            <div class="main__footer section--padding">
-                <div style="display: flex; flex-wrap: wrap; gap: 3rem; justify-content: space-between;">
+        <div class="main__footer section--padding">
+            <div class="footer__wrapper">
 
-                    <!-- Col 1: About -->
-                    <div style="flex: 2 1 300px;">
+                <!-- Col 1: About -->
+                <div class="footer__col--wide">
                         <div class="footer__widget">
                             <div class="footer__logo">
                                 <a href="index.html" class="footer__logo--link">
@@ -1463,7 +1462,7 @@
                                 </li>
                             </ul>
                             <!-- Social Media -->
-                            <ul class="footer__widget--social__list d-flex">
+                            <ul class="footer__widget--social__list">
                                 <li class="footer__widget--social__list--items">
                                     <a class="footer__widget--social__list--link" href="#" aria-label="Instagram" target="_blank">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="currentColor">
@@ -1487,10 +1486,10 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                </div>
 
-                    <!-- Col 2: Our Collection -->
-                    <div style="flex: 1 1 150px;">
+                <!-- Col 2: Our Collection -->
+                <div class="footer__col--narrow">
                         <div class="footer__widget">
                             <h2 class="footer__widget--title">
                                 Our Collection
@@ -1499,7 +1498,7 @@
                                     <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"/>
                                 </svg>
                             </h2>
-                            <ul class="footer__widget--menu footer__widget--inner d-flex flex-column gap-3">
+                            <ul class="footer__widget--menu footer__widget--inner">
                                 <li class="footer__widget--menu__list">
                                     <a class="footer__widget--menu__text" href="shop.html">All Products</a>
                                 </li>
@@ -1514,10 +1513,10 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                </div>
 
-                    <!-- Col 3: Quick Links -->
-                    <div style="flex: 1 1 150px;">
+                <!-- Col 3: Quick Links -->
+                <div class="footer__col--narrow">
                         <div class="footer__widget">
                             <h2 class="footer__widget--title">
                                 Quick Links
@@ -1526,7 +1525,7 @@
                                     <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"/>
                                 </svg>
                             </h2>
-                            <ul class="footer__widget--menu footer__widget--inner d-flex flex-column gap-3">
+                            <ul class="footer__widget--menu footer__widget--inner">
                                 <li class="footer__widget--menu__list">
                                     <a class="footer__widget--menu__text" href="index.html">Home</a>
                                 </li>
@@ -1544,10 +1543,10 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                </div>
 
-                    <!-- Col 4: Newsletter -->
-                    <div style="flex: 2 1 300px;">
+                <!-- Col 4: Newsletter -->
+                <div class="footer__col--wide">
                         <div class="footer__widget">
                             <h2 class="footer__widget--title">Join Our World</h2>
                             <p class="footer__widget--desc">
@@ -1560,29 +1559,25 @@
                                 <button class="footer__newsletter--btn primary__btn" type="submit">Subscribe</button>
                             </form>
                         </div>
-                    </div>
-
                 </div>
-                <!-- /.row -->
+
             </div>
-            <!-- /.main__footer -->
+            <!-- /.footer__wrapper -->
         </div>
-        <!-- /.container -->
+        <!-- /.main__footer -->
 
         <!-- Footer Bottom Bar -->
         <div class="footer__bottom">
-            <div class="container">
-                <div class="footer__bottom--inenr d-flex justify-content-between align-items-center">
-                    <p class="copyright__content ">
+            <div class="footer__bottom--inner-wrap">
+                <div class="footer__bottom--inner">
+                    <p class="copyright__content">
                         <span class="text__secondary">&copy; 2026</span>
                         &nbsp;
                         <a class="copyright__content--link" href="index.html">Mary Humphrey Wear</a>.
-                                      All Rights Reserved.
+                        All Rights Reserved.
                     </p>
-                    <div
-                        class="footer__payment">
-                        <!-- Payment icons placeholder -->
-                        <span style="font-size:1.2rem; opacity:0.6;">Visa &nbsp; Mastercard &nbsp; PayPal</span>
+                    <div class="footer__payment">
+                        <span class="footer__payment--label">Visa &nbsp; Mastercard &nbsp; PayPal</span>
                     </div>
                 </div>
             </div>
@@ -1595,8 +1590,8 @@
            SCRIPTS — EXACT ORDER MATTERS
            Swiper & Bootstrap must load BEFORE global.js
            ═══════════════════════════════════════════════ -->
-    <script src="assets/popper.js"></script>
-    <script src="assets/bootstrap.min.js"></script>
+    
+    
     <script src="assets/swiper-bundle.min.js"></script>
     <script src="assets/glightbox.min.js"></script>
     <script src="assets/cart.js"></script>

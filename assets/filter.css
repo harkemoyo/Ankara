@@ -3166,15 +3166,10 @@ input[type=number]::-webkit-outer-spin-button {
 @media only screen and (max-width: 767px) {
   .slider__content {
     text-align: center;
-    margin-top: 3rem;
+    
   }
 }
 
-@media only screen and (max-width: 479px) {
-  .slider__content {
-    margin-top: 2.5rem;
-  }
-}
 
 .slider__desc {
   font-size: 1.4rem;

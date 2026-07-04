@@ -3225,15 +3225,10 @@ input[type=number]::-webkit-outer-spin-button {
 @media only screen and (max-width: 767px) {
   .slider__content {
     text-align: center;
-    margin-top: 3rem;
   }
 }
 
-@media only screen and (max-width: 479px) {
-  .slider__content {
-    margin-top: 2.5rem;
-  }
-}
+
 
 .slider__desc {
   font-size: 1.4rem;
@@ -15926,6 +15921,17 @@ body.body .footer__section {
   letter-spacing: 0.1em;
   color: var(--primary-color);
 }
+
+/* ========================================================
+   HERO SLIDER – CONTENT WRAPPER (FLEX + GAP)
+   ======================================================== */
+.hero__content-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+
+
 
 
 

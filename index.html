@@ -893,10 +893,238 @@
             margin: 0 auto;
         }
 
+        /* ══ Section Headings ══ */
+        .section-header {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+        .section-header.left-align {
+            text-align: left;
+        }
+        .section-header .section__heading--maintitle {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 3.2rem;
+            color: var(--primary-color);
+        }
+
+        /* ══ Home Trending Section ══ */
+        .home-trending {
+            padding: 0 0 8rem 0;
+        }
+        .home-trending .container {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        /* ══ Product Grid ══ */
+        .home-product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        /* ══ Product Card ══ */
+        .product__card {
+            display: flex;
+            flex-direction: column;
+        }
+        .product__card--thumbnail {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            background: var(--bg-gray-color);
+            position: relative;
+        }
+        .product__card--thumbnail__link {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .product__card--thumbnail__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .product__card--thumbnail__img:hover {
+            transform: scale(1.05);
+        }
+        .product__card--badge {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: var(--secondary-color);
+            color: #fff;
+            padding: 0.4rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+        .product__card--content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1.8rem 0 1rem;
+            text-align: center;
+        }
+        .product__card--title {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        .product__card--title a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .product__card--price {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* ══ Shop by Style Section ══ */
+        .home-shop-by-style {
+            padding: 0 0 8rem 0;
+            background-color: var(--body-background-color);
+        }
+        .home-shop-by-style .container {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* ══ View All Button wrap ══ */
+        .view-all-center {
+            text-align: center;
+        }
+         /* ══ Section Headings ══ */
+        .section-header {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+        .section-header.left-align {
+            text-align: left;
+        }
+        .section-header .section__heading--maintitle {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 3.2rem;
+            color: var(--primary-color);
+        }
+
+        /* ══ Home Trending Section ══ */
+        .home-trending {
+            padding: 0 0 8rem 0;
+        }
+        .home-trending .container {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        /* ══ Product Grid ══ */
+        .home-product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        /* ══ Product Card ══ */
+        .product__card {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .product__card--thumbnail {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            background: var(--bg-gray-color);
+            position: relative;
+        }
+        .product__card--thumbnail__link {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .product__card--thumbnail__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .product__card--thumbnail__img:hover {
+            transform: scale(1.05);
+        }
+        .product__card--badge {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: var(--secondary-color);
+            color: #fff;
+            padding: 0.4rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+        .product__card--content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1.8rem 0 1rem;
+            text-align: center;
+        }
+        .product__card--title {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        .product__card--title a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .product__card--price {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* ══ Shop by Style Section ══ */
+        .home-shop-by-style {
+            padding: 0 0 8rem 0;
+            background-color: var(--body-background-color);
+        }
+        .home-shop-by-style .container {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* ══ View All Button wrap ══ */
+        .view-all-center {
+            text-align: center;
+        }
     </style>
 
 </head>
-
 <body
     class="body">
 
@@ -1309,77 +1537,68 @@
         </section>
 
         <!-- Minimalist Trending Grid -->
-        <section class="home-trending section--padding" style="padding: 0 0 8rem 0;">
+        <section class="home-trending section--padding">
             <div class="container">
-                <div class="section__heading text-center mb-50" style="margin-bottom: 4rem;">
-                    <h2 class="section__heading--maintitle" style="font-family: 'Frank Ruhl Libre', serif; font-size: 3.5rem; color: var(--primary-color);">Trending Now</h2>
+                <div class="section-header">
+                    <h2 class="section__heading--maintitle">Trending Now</h2>
                 </div>
 
-                <div
-                    class="home-product-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem;">
+                <div class="home-product-grid">
                     <!-- Product 1 -->
                     <div class="product__card">
-                        <div class="product__card--thumbnail" style="aspect-ratio: 3/4; overflow: hidden; background: var(--bg-gray-color); position: relative;">
-                            <a class="product__card--thumbnail__link display-block" href="product.html">
-                                <img class="product__card--thumbnail__img" src="assets/IMG-20260622-WA0009.webp" alt="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+                        <div class="product__card--thumbnail">
+                            <a class="product__card--thumbnail__link" href="product.html">
+                                <img class="product__card--thumbnail__img" src="assets/IMG-20260622-WA0009.webp" alt="product-img">
                             </a>
-                            <span class="product__card--badge" style="position: absolute; top: 1.5rem; left: 1.5rem; background: var(--secondary-color); color: #fff; padding: 0.4rem 1.2rem; border-radius: 2rem; font-size: 1.1rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.1em;">Hot</span>
+                            <span class="product__card--badge">Hot</span>
                         </div>
-                        <div class="product__card--content" style="padding: 1.8rem 0 1rem; text-align: center;">
-                            <h3 class="product__card--title" style="font-family: 'Frank Ruhl Libre', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem;">
-                                <a href="product.html" style="color: var(--primary-color); text-decoration: none;">Ankara Street Luxe</a>
-                            </h3>
-                            <div class="product__card--price" style="font-size: 1.7rem; font-weight: 700; color: var(--primary-color);">£120.00</div>
+                        <div class="product__card--content">
+                            <h3 class="product__card--title"><a href="product.html">Ankara Street Luxe</a></h3>
+                            <div class="product__card--price">£120.00</div>
                         </div>
                     </div>
 
                     <!-- Product 2 -->
                     <div class="product__card">
-                        <div class="product__card--thumbnail" style="aspect-ratio: 3/4; overflow: hidden; background: var(--bg-gray-color); position: relative;">
-                            <a class="product__card--thumbnail__link display-block" href="product.html">
-                                <img class="product__card--thumbnail__img" src="assets/IMG-20260622-WA0031.webp" alt="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+                        <div class="product__card--thumbnail">
+                            <a class="product__card--thumbnail__link" href="product.html">
+                                <img class="product__card--thumbnail__img" src="assets/IMG-20260622-WA0031.webp" alt="product-img">
                             </a>
                         </div>
-                        <div class="product__card--content" style="padding: 1.8rem 0 1rem; text-align: center;">
-                            <h3 class="product__card--title" style="font-family: 'Frank Ruhl Libre', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem;">
-                                <a href="product.html" style="color: var(--primary-color); text-decoration: none;">Midnight Pearl Two-Piece</a>
-                            </h3>
-                            <div class="product__card--price" style="font-size: 1.7rem; font-weight: 700; color: var(--primary-color);">£95.00</div>
+                        <div class="product__card--content">
+                            <h3 class="product__card--title"><a href="product.html">Midnight Pearl Two-Piece</a></h3>
+                            <div class="product__card--price">£95.00</div>
                         </div>
                     </div>
 
                     <!-- Product 3 -->
                     <div class="product__card">
-                        <div class="product__card--thumbnail" style="aspect-ratio: 3/4; overflow: hidden; background: var(--bg-gray-color); position: relative;">
-                            <a class="product__card--thumbnail__link display-block" href="product.html">
-                                <img class="product__card--thumbnail__img" src="assets/IMG-20260622-WA0068.webp" alt="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+                        <div class="product__card--thumbnail">
+                            <a class="product__card--thumbnail__link" href="product.html">
+                                <img class="product__card--thumbnail__img" src="assets/IMG-20260622-WA0068.webp" alt="product-img">
                             </a>
                         </div>
-                        <div class="product__card--content" style="padding: 1.8rem 0 1rem; text-align: center;">
-                            <h3 class="product__card--title" style="font-family: 'Frank Ruhl Libre', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem;">
-                                <a href="product.html" style="color: var(--primary-color); text-decoration: none;">Golden Hour Coat</a>
-                            </h3>
-                            <div class="product__card--price" style="font-size: 1.7rem; font-weight: 700; color: var(--primary-color);">£150.00</div>
+                        <div class="product__card--content">
+                            <h3 class="product__card--title"><a href="product.html">Golden Hour Coat</a></h3>
+                            <div class="product__card--price">£150.00</div>
                         </div>
                     </div>
 
                     <!-- Product 4 -->
                     <div class="product__card">
-                        <div class="product__card--thumbnail" style="aspect-ratio: 3/4; overflow: hidden; background: var(--bg-gray-color); position: relative;">
-                            <a class="product__card--thumbnail__link display-block" href="product.html">
-                                <img class="product__card--thumbnail__img" src="assets/IMG-20260622-WA0079.webp" alt="product-img" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+                        <div class="product__card--thumbnail">
+                            <a class="product__card--thumbnail__link" href="product.html">
+                                <img class="product__card--thumbnail__img" src="assets/IMG-20260622-WA0079.webp" alt="product-img">
                             </a>
                         </div>
-                        <div class="product__card--content" style="padding: 1.8rem 0 1rem; text-align: center;">
-                            <h3 class="product__card--title" style="font-family: 'Frank Ruhl Libre', serif; font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem;">
-                                <a href="product.html" style="color: var(--primary-color); text-decoration: none;">Heritage Woven Throw</a>
-                            </h3>
-                            <div class="product__card--price" style="font-size: 1.7rem; font-weight: 700; color: var(--primary-color);">£65.00</div>
+                        <div class="product__card--content">
+                            <h3 class="product__card--title"><a href="product.html">Heritage Woven Throw</a></h3>
+                            <div class="product__card--price">£65.00</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="text-center mt-5" style="margin-top: 4rem;">
+                <div class="view-all-center">
                     <a class="primary__btn" href="shop.html">View All Products</a>
                 </div>
             </div>
@@ -1387,21 +1606,18 @@
 
 
         <!-- Shop by Style Grid -->
-        <section class="home-shop-by-style section--padding" style="padding: 0 0 8rem 0; background-color: var(--body-background-color);">
+        <section class="home-shop-by-style section--padding">
             <div class="container">
-                <div class="section__heading mb-50" style="margin-bottom: 3rem;">
-                    <h2 class="section__heading--maintitle" style="font-family: 'Frank Ruhl Libre', serif; font-size: 3rem; color: var(--primary-color);">Shop by Style</h2>
+                <div class="section-header left-align">
+                    <h2 class="section__heading--maintitle">Shop by Style</h2>
                 </div>
 
-                <div
-                    class="style-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div class="style-grid">
                     <!-- Style 1 -->
-                    <div class="style-block position-relative" style="aspect-ratio: 4/3; overflow: hidden; background: #e5e5e5;">
-                        <a href="shop.html?cat=two-piece" class="display-block" style="width: 100%; height: 100%;">
-                            <img src="assets/IMG-20260622-WA0037.webp" alt="Two-Piece Sets" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
-                            <div class="style-overlay" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2);">
-                                <span style="color: #fff; font-family: 'Inter', sans-serif; font-size: 1.6rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;">Two-Piece Sets</span>
-                            </div>
+                    <div class="style-block">
+                        <a href="shop.html?cat=two-piece">
+                            <img src="assets/IMG-20260622-WA0037.webp" alt="Two-Piece Sets">
+                            <div class="style-overlay"><span>Two-Piece Sets</span></div>
                         </a>
                     </div>
 

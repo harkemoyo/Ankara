@@ -235,7 +235,6 @@
         /* product card */
         .product__card {
             position: relative;
-            margin-bottom: 3rem;
         }
         .product__card--thumbnail {
             position: relative;
@@ -725,7 +724,7 @@
         /* ====================================================== */
         .site__main {
             display: grid;
-            gap: 2rem;
+            gap: 4rem;
             overflow-x: hidden;
         }
 
@@ -776,7 +775,6 @@
             background-position: center center;
             background-size: cover;
             background-repeat: no-repeat;
-            margin-bottom: 8rem;
             position: relative;
         }
         .home-statement__overlay {
@@ -815,19 +813,20 @@
 
         /* ══ Testimonials ══ */
         .home-testimonials {
-            padding: 10rem 0;
             background: #f8f8f8;
+            padding: 2rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .home-testimonials .section__heading {
-            margin-bottom: 5rem;
-        }
+       
         .home-testimonials .section__heading--maintitle {
             font-family: 'Frank Ruhl Libre', serif;
             font-size: 3rem;
             color: var(--primary-color);
         }
         .testimonial__swiper {
-            padding-bottom: 4rem;
+            padding-block-start: 2rem;
+            padding-block-end: 4rem;
         }
         .testimonial-card {
             background: #fff;
@@ -910,9 +909,7 @@
         }
 
         /* ══ Home Trending Section ══ */
-        .home-trending {
-            padding: 0 0 8rem 0;
-        }
+      
         .home-trending .container {
             display: flex;
             flex-direction: column;
@@ -988,15 +985,7 @@
         }
 
         /* ══ Shop by Style Section ══ */
-        .home-shop-by-style {
-            padding: 0 0 8rem 0;
-            background-color: var(--body-background-color);
-        }
-        .home-shop-by-style .container {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-        }
+       
         .style-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1024,9 +1013,6 @@
         }
 
         /* ══ Home Trending Section ══ */
-        .home-trending {
-            padding: 0 0 8rem 0;
-        }
         .home-trending .container {
             display: flex;
             flex-direction: column;
@@ -1104,7 +1090,6 @@
 
         /* ══ Shop by Style Section ══ */
         .home-shop-by-style {
-            padding: 0 0 8rem 0;
             background-color: var(--body-background-color);
         }
         .home-shop-by-style .container {
@@ -1509,27 +1494,28 @@
                ═══════════════════════════════════════════════ -->
 
         <!-- Minimalist Categories Section -->
-            <section class="home-categories section--padding" style="padding: 8rem 0;"> <div class="container">
-                <div class="home-category-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
-                    <div class="category-block position-relative" style="aspect-ratio: 4/5; overflow: hidden; background: var(--bg-gray-color);">
-                        <img src="assets/IMG-20260622-WA0005.webp" alt="Menswear" style="width: 100%; height: 100%; object-fit: cover;">
-                        <div class="category-overlay position-absolute" style="bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(transparent, rgba(0,0,0,0.7));">
-                            <h3 style="color: #fff; font-family: 'Frank Ruhl Libre', serif; font-size: 2.4rem; margin-bottom: 0.5rem;">Menswear</h3>
-                            <a href="shop.html" style="color: #fff; font-size: 1.4rem; text-decoration: underline; text-underline-offset: 4px;">Shop Now</a>
+        <section class="home-categories section--padding">
+            <div class="container">
+                <div class="home-category-grid">
+                    <div class="category-block position-relative">
+                        <img src="assets/IMG-20260622-WA0005.webp" alt="Menswear">
+                        <div class="category-overlay position-absolute">
+                            <h3>Menswear</h3>
+                            <a href="shop.html">Shop Now</a>
                         </div>
                     </div>
-                    <div class="category-block position-relative" style="aspect-ratio: 4/5; overflow: hidden; background: var(--bg-gray-color);">
-                        <img src="assets/IMG-20260627-WA0000.webp" alt="Womenswear" style="width: 100%; height: 100%; object-fit: cover;">
-                        <div class="category-overlay position-absolute" style="bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(transparent, rgba(0,0,0,0.7));">
-                            <h3 style="color: #fff; font-family: 'Frank Ruhl Libre', serif; font-size: 2.4rem; margin-bottom: 0.5rem;">Womenswear</h3>
-                            <a href="shop.html" style="color: #fff; font-size: 1.4rem; text-decoration: underline; text-underline-offset: 4px;">Shop Now</a>
+                    <div class="category-block position-relative">
+                        <img src="assets/IMG-20260627-WA0000.webp" alt="Womenswear">
+                        <div class="category-overlay position-absolute">
+                            <h3>Womenswear</h3>
+                            <a href="shop.html">Shop Now</a>
                         </div>
                     </div>
-                    <div class="category-block position-relative" style="aspect-ratio: 4/5; overflow: hidden; background: var(--bg-gray-color);">
-                        <img src="assets/IMG-20260622-WA0044.webp" alt="Accessories" style="width: 100%; height: 100%; object-fit: cover;">
-                        <div class="category-overlay position-absolute" style="bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(transparent, rgba(0,0,0,0.7));">
-                            <h3 style="color: #fff; font-family: 'Frank Ruhl Libre', serif; font-size: 2.4rem; margin-bottom: 0.5rem;">Accessories</h3>
-                            <a href="shop.html" style="color: #fff; font-size: 1.4rem; text-decoration: underline; text-underline-offset: 4px;">Shop Now</a>
+                    <div class="category-block position-relative">
+                        <img src="assets/IMG-20260622-WA0044.webp" alt="Accessories">
+                        <div class="category-overlay position-absolute">
+                            <h3>Accessories</h3>
+                            <a href="shop.html">Shop Now</a>
                         </div>
                     </div>
                 </div>
@@ -1608,7 +1594,7 @@
         <!-- Shop by Style Grid -->
         <section class="home-shop-by-style section--padding">
             <div class="container">
-                <div class="section-header left-align">
+                <div class="section-header">
                     <h2 class="section__heading--maintitle">Shop by Style</h2>
                 </div>
 
@@ -1688,50 +1674,50 @@
 
                 <div class="testimonial__swiper swiper">
                     <div class="swiper-wrapper">
-                        <!-- Testimonial 1 -->
+                    <!-- Testimonial 1 -->
                         <div class="swiper-slide">
-                            <div class="testimonial-card">
-                                <div class="stars">★★★★★</div>
-                                <p>"Fantastic product, so beautifully made. Love the swift delivery too! Highly recommended!"</p>
-                                <h4>Florianna S. K.</h4>
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Fantastic product, so beautifully made. Love the swift delivery too! Highly recommended!"</p>
+                        <h4>Florianna S. K.</h4>
                             </div>
-                        </div>
+                    </div>
 
-                        <!-- Testimonial 2 -->
+                    <!-- Testimonial 2 -->
                         <div class="swiper-slide">
-                            <div class="testimonial-card">
-                                <div class="stars">★★★★★</div>
-                                <p>"I have been buying Ankara wear for years, but this brand is different. The fit is perfect and the prints are stunning."</p>
-                                <h4>Taimi N.</h4>
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"I have been buying Ankara wear for years, but this brand is different. The fit is perfect and the prints are stunning."</p>
+                        <h4>Taimi N.</h4>
                             </div>
-                        </div>
+                    </div>
 
-                        <!-- Testimonial 3 -->
+                    <!-- Testimonial 3 -->
                         <div class="swiper-slide">
-                            <div class="testimonial-card">
-                                <div class="stars">★★★★★</div>
-                                <p>"Incredibly elegant pieces. I wore the two-piece set to a wedding and got compliments all day long."</p>
-                                <h4>Kate M.</h4>
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Incredibly elegant pieces. I wore the two-piece set to a wedding and got compliments all day long."</p>
+                        <h4>Kate M.</h4>
                             </div>
-                        </div>
+                    </div>
 
-                        <!-- Testimonial 4 -->
+                    <!-- Testimonial 4 -->
                         <div class="swiper-slide">
-                            <div class="testimonial-card">
-                                <div class="stars">★★★★★</div>
-                                <p>"The quality is outstanding. I've washed my pieces multiple times and the colors are still as vibrant as day one."</p>
-                                <h4>Sarah J.</h4>
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"The quality is outstanding. I've washed my pieces multiple times and the colors are still as vibrant as day one."</p>
+                        <h4>Sarah J.</h4>
                             </div>
-                        </div>
+                    </div>
 
-                        <!-- Testimonial 5 -->
+                    <!-- Testimonial 5 -->
                         <div class="swiper-slide">
-                            <div class="testimonial-card">
-                                <div class="stars">★★★★★</div>
-                                <p>"Amazing customer service. They helped me pick the right size, and the shipping was incredibly fast!"</p>
-                                <h4>Michael D.</h4>
-                            </div>
-                        </div>
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Amazing customer service. They helped me pick the right size, and the shipping was incredibly fast!"</p>
+                        <h4>Michael D.</h4>
+                    </div>
+                </div>
 
                     </div>
                     <div class="swiper-pagination"></div>

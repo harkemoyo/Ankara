@@ -50,22 +50,22 @@
     1. Base CSS
 */
 :root {
-  --primary-color: #3C3836;
-  --secondary-color: #C97F5F;
-  --hover-color: #ED1D24;
-  --yellow-color: #FF9800;
-  --foreground-color: #000000;
-  --foreground-sub-color: #98928E;
-  --body-text-color: #000000;
+  --primary-color: #422326;
+  --secondary-color: #bcadae;
+  --hover-color: #5c3539;
+  --yellow-color: #D4A843;
+  --foreground-color: #2a2624;
+  --foreground-sub-color: #7a726e;
+  --body-text-color: #2a2624;
   --text-white-color: #fff;
-  --body-background-color: #fff;
-  --bg-offwhite-color: #F5F7FF;
-  --bg-gray-color: #F5F8FF;
-  --bg-black-color: #000000;
-  --bg-light-dark-color: #1a1818;
-  --border-color: #EDEDED;
-  --frank-ruhl-fonts: 'Frank Ruhl Libre', serif;
-  --karma-fonts: 'Karma', serif;
+  --body-background-color: #f5f1ec;
+  --bg-offwhite-color: #faf8f5;
+  --bg-gray-color: #f5f1ec;
+  --bg-black-color: #2a1719;
+  --bg-light-dark-color: #422326;
+  --border-color: #dad2ce;
+  --frank-ruhl-fonts: 'Fraunces', serif;
+  --karma-fonts: 'Figtree', sans-serif;
   --body-font-size: 1.5rem;
   --body-font-weight: 400;
   --body-line-height: 2.6rem;
@@ -3195,11 +3195,11 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
-.slider__maintitle {
+/* .slider__maintitle {
   margin-bottom: 1.2rem;
-}
+} */
 
-@media only screen and (min-width: 768px) {
+/* @media only screen and (min-width: 768px) {
   .slider__maintitle {
     margin-bottom: 1.5rem;
   }
@@ -3214,8 +3214,8 @@ input[type=number]::-webkit-outer-spin-button {
 @media only screen and (min-width: 1200px) {
   .slider__maintitle {
     margin-bottom: 2.5rem;
-  }
-}
+  } */
+/* } */
 
 .slider__content {
   position: relative;
@@ -3233,7 +3233,6 @@ input[type=number]::-webkit-outer-spin-button {
 .slider__desc {
   font-size: 1.4rem;
   line-height: 2.4rem;
-  margin-bottom: 1.8rem;
 }
 
 @media only screen and (min-width: 768px) {
@@ -3246,7 +3245,6 @@ input[type=number]::-webkit-outer-spin-button {
   .slider__desc {
     font-size: 1.6rem;
     line-height: 2.4rem;
-    margin-bottom: 2.2rem;
   }
 }
 
@@ -3254,7 +3252,6 @@ input[type=number]::-webkit-outer-spin-button {
   .slider__desc {
     font-size: 1.7rem;
     line-height: 2.8rem;
-    margin-bottom: 3rem;
   }
 }
 
@@ -15812,6 +15809,11 @@ body.body .footer__section {
 /* ========================================================
    MINIMALIST CATEGORIES SECTION
    ======================================================== */
+.home-categories-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
 
 .home-category-grid {
   display: grid;
@@ -15820,37 +15822,60 @@ body.body .footer__section {
 }
 
 .category-block {
-  aspect-ratio: 4/5;
   overflow: hidden;
-  background: var(--bg-gray-color);
+  background: var(--bg-offwhite-color);
+  border-radius: 4px;
 }
 
-.category-block img {
+.category-link {
+  display: block;
+  text-decoration: none;
+}
+
+.category-image-wrap {
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  position: relative;
+}
+
+.category-image-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.category-overlay {
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 2rem;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+.category-link:hover .category-image-wrap img {
+  transform: scale(1.05);
 }
 
-.category-overlay h3 {
-  color: #fff;
-  font-family: var(--frank-ruhl-fonts, 'Frank Ruhl Libre', serif);
-  font-size: 2.4rem;
-  margin-bottom: 0.5rem;
+.category-text-wrap {
+  padding: 1.5rem 0;
+  text-align: center;
 }
 
-.category-overlay a {
-  color: #fff;
-  font-size: 1.4rem;
+.category-title {
+  font-family: var(--frank-ruhl-fonts);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0 0 0.5rem 0;
+}
+
+.category-action {
+  font-family: var(--karma-fonts);
+  font-size: 1.3rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--primary-color);
   text-decoration: underline;
   text-underline-offset: 4px;
+  transition: color 0.3s;
+}
+
+.category-link:hover .category-action {
+  color: var(--hover-color);
 }
 
 /* ========================================================

@@ -12,8 +12,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link
-        href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Karma:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
 
         <!-- CSS — exact same order as original Becute theme -->
         <link rel="stylesheet" href="assets/swiper-bundle.min.css">
@@ -23,21 +22,25 @@
   <link rel="stylesheet" href="assets/style.css">
 
         <style>
-        /* ── Brand colour overrides matching logo palette ── */:root
-        {
-            --primary-color: #3C3836;
-            --secondary-color: #C97F5F;
-            --hover-color: #8B4513;
+        /* ── Brand colour overrides matching logo palette ── */
+        :root {
+            --primary-color: #422326;
+            --secondary-color: #bcadae;
+            --hover-color: #5c3539;
             --yellow-color: #D4A843;
-            --foreground-color: #1a1a1a;
-            --foreground-sub-color: #98928E;
+            --foreground-color: #2a2624;
+            --foreground-sub-color: #7a726e;
             --text-white-color: #fff;
-            --body-background-color: #fff;
-            --bg-offwhite-color: #FAF7F2;
-            --bg-gray-color: #F5F3EF;
-            --bg-black-color: #1a1818;
-            --bg-light-dark-color: #2a2624;
-            --border-color: #E8E0D8;
+            --body-background-color: #f5f1ec;
+            --bg-offwhite-color: #faf8f5;
+            --bg-gray-color: #f5f1ec;
+            --bg-black-color: #2a1719;
+            --bg-light-dark-color: #422326;
+            --border-color: #dad2ce;
+
+            /* Font mapping to map Becute variables to Sandstorm fonts */
+            --frank-ruhl-fonts: 'Fraunces', serif;
+            --karma-fonts: 'Figtree', sans-serif;
         }
 
         /* ── Logo ── */
@@ -106,14 +109,12 @@
             letter-spacing: 0.3em;
             text-transform: uppercase;
             color: var(--secondary-color);
-            margin-bottom: 1.5rem;
         }
         .slider__maintitle {
             font-family: var(--frank-ruhl-fonts);
             font-size: clamp(3.6rem, 5.5vw, 6.5rem);
             line-height: 1.1;
             color: var(--primary-color);
-            margin-bottom: 2rem;
         }
         .slider__maintitle .accent {
             display: block;
@@ -132,7 +133,6 @@
             line-height: 2.8rem;
             color: var(--foreground-sub-color);
             max-width: 46rem;
-            margin-bottom: 3.5rem;
         }
         .dark-slide .slider__desc {
             color: rgba(255, 255, 255, 0.72);
@@ -151,6 +151,7 @@
             text-transform: uppercase;
             text-decoration: none;
             border: 2px solid var(--primary-color);
+            border-radius: 4px;
             transition: all 0.3s ease;
         }
         .slider__btn:hover {
@@ -601,9 +602,9 @@
             .hero__slider--activation .swiper-wrapper,
             .hero__slider--activation .swiper-slide,
             .hero__slider--items {
-                height: 70vh !important;
+                height: 90vh !important;
                 min-height: 500px !important;
-                max-height: 600px !important;
+                max-height: 800px !important;
             }
             .hero__slider--items {
                 display: flex !important;
@@ -612,41 +613,32 @@
                 padding: 0 !important;
             }
           
-            .hero__slider--items > .container {
+            .hero__slider--items > .hero__content-container {
                 flex: 1 !important;
                 max-width: 50% !important;
                 display: flex !important;
                 align-items: center !important;
-                padding: 6rem 1.5rem !important;
+                padding-block-start: 7rem !important;
                 /* Keep text aligned with the website logo using max viewport calc */
                 padding-left: max(1.5rem, calc((100vw - 720px) / 2 + 1.5rem)) !important;
             }
         }
         @media only screen and (min-width: 992px) {
-            .hero__slider--items > .container {
+            .hero__slider--items > .hero__content-container {
                 padding-left: max(1.5rem, calc((100vw - 960px) / 2 + 1.5rem)) !important;
             }
         }
         @media only screen and (min-width: 1200px) {
-            .hero__slider--items > .container {
+            .hero__slider--items > .hero__content-container {
                 padding-left: max(1.5rem, calc((100vw - 1140px) / 2 + 1.5rem)) !important;
             }
         }
         @media only screen and (min-width: 1366px) {
-            .hero__slider--items > .container {
+            .hero__slider--items > .hero__content-container {
                 padding-left: max(1.5rem, calc((100vw - 1290px) / 2 + 1.5rem)) !important;
             }
         }
         @media only screen and (min-width: 768px) {
-            .hero__slider--items .row {
-                width: 100% !important;
-                margin: 0 !important;
-            }
-            .hero__slider--items .col-lg-6, .hero__slider--items .col-md-7 {
-                flex: 0 0 100% !important;
-                max-width: 100% !important;
-                padding: 0 !important;
-            }
             .hero__slider--layer {
                 flex: 1 !important;
                 position: relative !important;
@@ -676,7 +668,7 @@
                 flex-direction: column-reverse !important;
                 padding: 0 !important;
             }
-            .hero__slider--items > .container {
+            .hero__slider--items > .hero__content-container {
                 padding: 4rem 1.5rem !important;
                 display: flex !important;
                 align-items: center !important;
@@ -1016,7 +1008,10 @@
         }
 
         /* ══ Home Trending Section ══ */
-        .home-trending .container {
+        .home-trending-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
             display: flex;
             flex-direction: column;
             gap: 4rem;
@@ -1034,12 +1029,14 @@
             display: flex;
             flex-direction: column;
             gap: 0;
+            background: transparent;
         }
         .product__card--thumbnail {
-            aspect-ratio: 3/4;
+            aspect-ratio: 1/1;
             overflow: hidden;
             background: var(--bg-gray-color);
             position: relative;
+            border-radius: 4px;
         }
         .product__card--thumbnail__link {
             display: block;
@@ -1067,6 +1064,31 @@
             text-transform: uppercase;
             font-weight: 600;
             letter-spacing: 0.1em;
+            z-index: 2;
+        }
+        .quick-view-btn {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            padding: 1.2rem;
+            background: rgba(66, 35, 38, 0.95);
+            color: #fff;
+            border: none;
+            font-family: var(--karma-fonts);
+            font-size: 1.25rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: center;
+            cursor: pointer;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 3;
+        }
+        .product__card:hover .quick-view-btn {
+            transform: translateY(0);
         }
         .product__card--content {
             display: flex;
@@ -1076,7 +1098,7 @@
             text-align: center;
         }
         .product__card--title {
-            font-family: 'Frank Ruhl Libre', serif;
+            font-family: var(--frank-ruhl-fonts, 'Frank Ruhl Libre', serif);
             font-size: 1.8rem;
             font-weight: 600;
             margin: 0;
@@ -1084,6 +1106,10 @@
         .product__card--title a {
             color: var(--primary-color);
             text-decoration: none;
+            transition: color 0.3s;
+        }
+        .product__card--title a:hover {
+            color: var(--secondary-color);
         }
         .product__card--price {
             font-size: 1.7rem;
@@ -1111,7 +1137,110 @@
             text-align: center;
         }
 
+        /* ══ Transparent Header ══ */
+        .header__transparent {
+            z-index: 999;
+        }
+        .header__transparent .main__header {
+            position: absolute !important;
+            top: 100%; left: 0; right: 0;
+            width: 100%;
+            background-color: transparent !important;
+            border-bottom: none !important;
+        }
+        
+    
+
+        /* ══ Quickview Sidebar ══ */
+        .offCanvas__quickview {
+            position: fixed;
+            top: 0;
+            right: -42rem;
+            width: 40rem;
+            max-width: 92vw;
+            height: 100%;
+            background: var(--bg-offwhite-color);
+            z-index: 9999;
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+            transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+            overflow-y: auto;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .offCanvas__quickview.open {
+            right: 0;
+        }
+        .quickview__close--btn {
+            background: none;
+            border: none;
+            font-size: 2.4rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+
+
+        /* ══ Refactored Extracted CSS ══ */
+        .product__card--swatches { display:flex; justify-content:center; gap:0.5rem; margin-top:0.8rem; }
+        .swatch-item { width:1.5rem; height:1.5rem; border-radius:50%; border: 2px solid transparent; cursor: pointer; }
+        .swatch-item.active { border-color: #fff; box-shadow: 0 0 0 1px var(--primary-color); }
+        .swatch-item.large { width: 3rem; height: 3rem; }
+
+        .quickview__header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); margin-bottom: 3rem; }
+        .quickview__title { font-family: var(--frank-ruhl-fonts); font-size: 2.2rem; color: var(--primary-color); font-weight: 600; }
+        .quickview__product-info { display: flex; gap: 2rem; margin-bottom: 3rem; }
+        .quickview__img-wrap { flex: 0 0 80px; height: 80px; background: #fff; padding: 0.5rem; border: 1px solid var(--border-color); }
+        .quickview__img { width: 100%; height: 100%; object-fit: contain; }
+        .quickview__brand-label { font-size: 1.1rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--foreground-sub-color); margin-bottom: 0.5rem; }
+        .quickview__product-title { font-family: var(--frank-ruhl-fonts); font-size: 1.8rem; color: var(--primary-color); margin-bottom: 0.5rem; }
+        .quickview__price-wrap { font-size: 1.4rem; color: var(--primary-color); }
+        .quickview__price { margin-right: 1rem; }
+        .quickview__details-link { text-decoration: underline; font-size: 1.2rem; color: var(--foreground-sub-color); }
+        .quickview__color-wrap { margin-bottom: 2.5rem; }
+        .quickview__color-label { font-size: 1.4rem; color: var(--primary-color); margin-bottom: 1.5rem; }
+        .quickview__color-value { color: var(--foreground-sub-color); }
+        .quickview__swatches { display: flex; gap: 1.2rem; }
+        .quickview__qty-wrap { margin-bottom: 3rem; }
+        .quickview__qty-label { font-size: 1.4rem; color: var(--primary-color); margin-bottom: 1.5rem; }
+        .quickview__qty-selector { display: inline-flex; align-items: center; border: 1px solid var(--border-color); border-radius: 4px; background: #fff; padding: 0.5rem; }
+        .qty-btn { border: none; background: transparent; padding: 0.8rem 1.5rem; font-size: 1.6rem; color: var(--primary-color); cursor: pointer; }
+        .qty-input { width: 4rem; text-align: center; border: none; font-size: 1.4rem; color: var(--primary-color); outline: none; background: transparent; }
+        .quickview__actions { display: flex; flex-direction: column; gap: 1.5rem; }
+        
+        .bag-of-the-month { padding: 8rem 0; background-color: var(--body-background-color); }
+        .botm-header-subtitle { display: block; font-size: 1.25rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--foreground-sub-color); margin-bottom: 1rem; }
+        .botm-image-wrap { background: #fff; padding: 4rem; text-align: center; }
+        .botm-image { width: 100%; max-width: 400px; display: inline-block; }
+        .botm-content { padding-left: 5rem; }
+        .botm-title { font-family: var(--frank-ruhl-fonts); font-size: 3.2rem; margin-bottom: 1.5rem; color: var(--primary-color); line-height: 1.2; }
+        .botm-price { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 1.5rem; }
+        .botm-reviews { font-size: 1.3rem; color: var(--foreground-sub-color); margin-bottom: 3rem; display: flex; align-items: center; gap: 0.5rem; }
+        .botm-stars { color: #e5e5e5; }
+        .botm-color-label { font-size: 1.4rem; color: var(--primary-color); margin-bottom: 1.5rem; }
+        .botm-color-val { font-weight: 500; }
+        .botm-actions { display: flex; flex-direction: column; gap: 1.5rem; max-width: 450px; }
+        .botm-btn { padding: 1.6rem; font-size: 1.3rem; letter-spacing: 0.15em; text-transform: uppercase; border: none; font-weight: 600; cursor: pointer; transition: background 0.3s; }
+        .botm-btn.large { padding: 1.8rem; font-size: 1.4rem; }
+        .botm-btn-primary { background: var(--primary-color); color: #fff; }
+        .botm-btn-secondary { background: var(--secondary-color); color: #fff; }
+
+        .heritage-culture-section { padding: 8rem 0; background-color: var(--bg-offwhite-color); }
+        .hc-image { width: 100%; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .hc-content { padding: 4rem 5rem; text-align: center; }
+        .hc-subtitle { display: block; font-size: 1.25rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--primary-color); margin-bottom: 1.5rem; }
+        .hc-title { font-family: var(--frank-ruhl-fonts); font-size: 4rem; color: var(--primary-color); margin-bottom: 2.5rem; line-height: 1.2; }
+        .hc-desc { font-size: 1.6rem; color: var(--foreground-sub-color); line-height: 1.9; margin-bottom: 5rem; }
+        .hc-segments { display: flex; justify-content: center; gap: 5rem; }
+        .hc-segment { text-align: center; cursor: pointer; opacity: 0.6; transition: opacity 0.3s; }
+        .hc-segment.active { opacity: 1; }
+        .hc-segment-bar { height: 2px; width: 8rem; background: var(--border-color); margin: 0 auto 1.5rem; transition: background 0.3s; }
+        .hc-segment.active .hc-segment-bar { background: var(--primary-color); }
+        .hc-segment-label { font-size: 1.3rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; color: var(--foreground-sub-color); }
+        .hc-segment.active .hc-segment-label { color: var(--primary-color); }
+
         /* .container__wrapper {
+
             display: flex;
             gap: 3rem;
         } */
@@ -1141,7 +1270,7 @@
     <!-- views/partials/header.ejs -->
 
     <header
-        class="header__section">
+        class="header__section header__transparent">
 
         <!-- ── Topbar Announcement ─────────────────────── -->
         <div class="header__topbar bg__primary">
@@ -1403,7 +1532,7 @@
                     <!-- ── Slide 1 ─────────────────────── -->
                     <div class="swiper-slide">
                         <div class="hero__slider--items">
-                            <div class="container">
+                            <div class="hero__content-container">
                                 <div class="hero__content-wrapper">
                                     <div class="hero__content-inner">
                                         <div class="slider__content">
@@ -1433,7 +1562,7 @@
                     <!-- ── Slide 2 ─────────────────────── -->
                     <div class="swiper-slide">
                         <div class="hero__slider--items">
-                            <div class="container">
+                            <div class="hero__content-container">
                                 <div class="hero__content-wrapper">
                                     <div class="hero__content-inner">
                                         <div class="slider__content">
@@ -1463,7 +1592,7 @@
                     <!-- ── Slide 3 ─────────────────────── -->
                     <div class="swiper-slide">
                         <div class="hero__slider--items">
-                            <div class="container">
+                            <div class="hero__content-container">
                                 <div class="hero__content-wrapper">
                                     <div class="hero__content-inner">
                                         <div class="slider__content">
@@ -1503,28 +1632,40 @@
 
         <!-- Minimalist Categories Section -->
         <section class="home-categories section--padding">
-            <div class="container">
+            <div class="home-categories-wrapper">
                 <div class="home-category-grid">
-                    <div class="category-block position-relative">
-                        <img src="assets/IMG-20260622-WA0005.webp" alt="Menswear">
-                        <div class="category-overlay position-absolute">
-                            <h3>Menswear</h3>
-                            <a href="shop.html">Shop Now</a>
-                        </div>
+                    <div class="category-block">
+                        <a href="shop.html" class="category-link">
+                            <div class="category-image-wrap">
+                                <img src="assets/IMG-20260622-WA0005.webp" alt="Menswear">
+                            </div>
+                            <div class="category-text-wrap">
+                                <h3 class="category-title">Menswear</h3>
+                                <span class="category-action">Shop Now</span>
+                            </div>
+                        </a>
                     </div>
-                    <div class="category-block position-relative">
-                        <img src="assets/IMG-20260627-WA0000.webp" alt="Womenswear">
-                        <div class="category-overlay position-absolute">
-                            <h3>Womenswear</h3>
-                            <a href="shop.html">Shop Now</a>
-                        </div>
+                    <div class="category-block">
+                        <a href="shop.html" class="category-link">
+                            <div class="category-image-wrap">
+                                <img src="assets/IMG-20260627-WA0000.webp" alt="Womenswear">
+                            </div>
+                            <div class="category-text-wrap">
+                                <h3 class="category-title">Womenswear</h3>
+                                <span class="category-action">Shop Now</span>
+                            </div>
+                        </a>
                     </div>
-                    <div class="category-block position-relative">
-                        <img src="assets/IMG-20260622-WA0044.webp" alt="Accessories">
-                        <div class="category-overlay position-absolute">
-                            <h3>Accessories</h3>
-                            <a href="shop.html">Shop Now</a>
-                        </div>
+                    <div class="category-block">
+                        <a href="shop.html" class="category-link">
+                            <div class="category-image-wrap">
+                                <img src="assets/IMG-20260622-WA0044.webp" alt="Accessories">
+                            </div>
+                            <div class="category-text-wrap">
+                                <h3 class="category-title">Accessories</h3>
+                                <span class="category-action">Shop Now</span>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1532,7 +1673,7 @@
 
         <!-- Minimalist Trending Grid -->
         <section class="home-trending section--padding">
-            <div class="container">
+            <div class="home-trending-wrapper">
                 <div class="section-header">
                     <h2 class="section__heading--maintitle">Trending Now</h2>
                 </div>
@@ -1545,10 +1686,16 @@
                                 <img class="product__card--thumbnail__img" src="assets/IMG-20260622-WA0009.webp" alt="product-img">
                             </a>
                             <span class="product__card--badge">Hot</span>
+                            <button class="quick-view-btn js-quickview-open">Quick View</button>
                         </div>
                         <div class="product__card--content">
                             <h3 class="product__card--title"><a href="product.html">Ankara Street Luxe</a></h3>
                             <div class="product__card--price">£120.00</div>
+                            <div class="product__card--swatches">
+                                <span class="swatch-item active" style="background-color:#7f8c85;"></span>
+                                <span class="swatch-item" style="background-color:#9e6840;"></span>
+                                <span class="swatch-item" style="background-color:#32353a;"></span>
+                            </div>
                         </div>
                     </div>
 
@@ -1558,10 +1705,15 @@
                             <a class="product__card--thumbnail__link" href="product.html">
                                 <img class="product__card--thumbnail__img" src="assets/IMG-20260622-WA0031.webp" alt="product-img">
                             </a>
+                            <button class="quick-view-btn js-quickview-open">Quick View</button>
                         </div>
                         <div class="product__card--content">
                             <h3 class="product__card--title"><a href="product.html">Midnight Pearl Two-Piece</a></h3>
                             <div class="product__card--price">£95.00</div>
+                            <div class="product__card--swatches">
+                                <span class="swatch-item active" style="background-color:#1c1e21;"></span>
+                                <span class="swatch-item" style="background-color:#826c51;"></span>
+                            </div>
                         </div>
                     </div>
 
@@ -1571,10 +1723,16 @@
                             <a class="product__card--thumbnail__link" href="product.html">
                                 <img class="product__card--thumbnail__img" src="assets/IMG-20260622-WA0068.webp" alt="product-img">
                             </a>
+                            <button class="quick-view-btn js-quickview-open">Quick View</button>
                         </div>
                         <div class="product__card--content">
                             <h3 class="product__card--title"><a href="product.html">Golden Hour Coat</a></h3>
                             <div class="product__card--price">£150.00</div>
+                            <div class="product__card--swatches">
+                                <span class="swatch-item active" style="background-color:#b59a4c;"></span>
+                                <span class="swatch-item" style="background-color:#4a3f35;"></span>
+                                <span class="swatch-item" style="background-color:#a85a42;"></span>
+                            </div>
                         </div>
                     </div>
 
@@ -1584,10 +1742,15 @@
                             <a class="product__card--thumbnail__link" href="product.html">
                                 <img class="product__card--thumbnail__img" src="assets/IMG-20260622-WA0079.webp" alt="product-img">
                             </a>
+                            <button class="quick-view-btn js-quickview-open">Quick View</button>
                         </div>
                         <div class="product__card--content">
                             <h3 class="product__card--title"><a href="product.html">Heritage Woven Throw</a></h3>
                             <div class="product__card--price">£65.00</div>
+                            <div class="product__card--swatches">
+                                <span class="swatch-item active" style="background-color:#a33636;"></span>
+                                <span class="swatch-item" style="background-color:#354d73;"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1598,6 +1761,80 @@
             </div>
         </section>
 
+
+        <!-- Bag of the Month -->
+        <section class="bag-of-the-month">
+            <div class="container">
+                <div class="section-header">
+                    <span class="botm-header-subtitle">Signature Sandstorm</span>
+                    <h2 class="section__heading--maintitle">BAG OF THE MONTH</h2>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="botm-image-wrap">
+                            <img src="assets/IMG-20260622-WA0009.webp" alt="Bag of the month" class="botm-image">
+                        </div>
+                    </div>
+                    <div class="col-md-6 botm-content">
+                        <h3 class="botm-title">Suede Cecilia Backpack (Mocha Leather)</h3>
+                        <div class="botm-price">KSh35,900</div>
+                        <div class="botm-reviews">
+                            <span class="botm-stars">★★★★★</span> No reviews
+                        </div>
+                        
+                        <div class="quickview__color-wrap">
+                            <div class="botm-color-label">Color: <span class="botm-color-val">Maroon</span></div>
+                            <div class="quickview__swatches">
+                                <span class="swatch-item large active" style="background-color:#6e1d23;"></span>
+                                <span class="swatch-item large" style="background-color:#82871f;"></span>
+                                <span class="swatch-item large" style="background-color:#0b8783;"></span>
+                            </div>
+                        </div>
+
+                        <div class="quickview__qty-wrap">
+                            <div class="botm-color-label">Quantity:</div>
+                            <div class="quickview__qty-selector">
+                                <button class="qty-btn">&minus;</button>
+                                <input type="text" value="1" class="qty-input">
+                                <button class="qty-btn">+</button>
+                            </div>
+                        </div>
+
+                        <div class="botm-actions">
+                            <button class="botm-btn botm-btn-secondary large">Add to Cart</button>
+                            <button class="botm-btn botm-btn-primary large">Buy It Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Heritage & Culture Segment Section -->
+        <section class="heritage-culture-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <img src="assets/IMG-20260622-WA0081.webp" alt="Leather and Canvas" class="hc-image">
+                    </div>
+                    <div class="col-md-6 hc-content">
+                        <span class="hc-subtitle">THE LOVE STORY OF</span>
+                        <h2 class="hc-title">LEATHER & CANVAS</h2>
+                        <p class="hc-desc">We started out making luxury safari tents and for the past 20 years we've been making beautiful canvas and leather bags that last. The romance of safari is woven into our fabric.</p>
+                        
+                        <div class="hc-segments">
+                            <div class="hc-segment active js-hc-segment">
+                                <div class="hc-segment-bar"></div>
+                                <span class="hc-segment-label">HERITAGE</span>
+                            </div>
+                            <div class="hc-segment js-hc-segment">
+                                <div class="hc-segment-bar"></div>
+                                <span class="hc-segment-label">CULTURE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Shop by Style Grid -->
         <section class="home-shop-by-style section--padding">
@@ -1961,5 +2198,36 @@
 
 
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const quickViewBtns = document.querySelectorAll('.js-quickview-open');
+            const quickViewPanel = document.querySelector('.js-quickview-panel');
+            const quickViewCloseBtn = document.querySelector('.js-quickview-close');
+
+            if (quickViewPanel) {
+                quickViewBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        quickViewPanel.classList.add('open');
+                    });
+                });
+                
+                if (quickViewCloseBtn) {
+                    quickViewCloseBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        quickViewPanel.classList.remove('open');
+                    });
+                }
+            }
+
+            const hcSegments = document.querySelectorAll('.js-hc-segment');
+            hcSegments.forEach(seg => {
+                seg.addEventListener('click', () => {
+                    hcSegments.forEach(s => s.classList.remove('active'));
+                    seg.classList.add('active');
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -12,18 +12,19 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
+        <link
+        href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
 
         <!-- CSS — exact same order as original Becute theme -->
         <link rel="stylesheet" href="assets/swiper-bundle.min.css">
         <link rel="stylesheet" href="assets/glightbox.min.css">
         <link rel="stylesheet" href="assets/bootstrap.min.css">
         <link rel="stylesheet" href="assets/normalize.css">
-  <link rel="stylesheet" href="assets/style.css">
+        <link rel="stylesheet" href="assets/style.css">
 
         <style>
-        /* ── Brand colour overrides matching logo palette ── */
-        :root {
+        /* ── Brand colour overrides matching logo palette ── */:root
+        {
             --primary-color: #422326;
             --secondary-color: #bcadae;
             --hover-color: #5c3539;
@@ -596,7 +597,7 @@
             margin: 0 auto 15px !important;
         }
         /* Overrides for Split-Screen Flex Hero Slider */
-        @media only screen and (min-width: 768px) {
+        @media only screen and(min-width: 768px) {
             .hero__slider--section,
             .hero__slider--activation,
             .hero__slider--activation .swiper-wrapper,
@@ -612,7 +613,7 @@
                 align-items: stretch !important;
                 padding: 0 !important;
             }
-          
+
             .hero__slider--items > .hero__content-container {
                 flex: 1 !important;
                 max-width: 50% !important;
@@ -623,22 +624,22 @@
                 padding-left: max(1.5rem, calc((100vw - 720px) / 2 + 1.5rem)) !important;
             }
         }
-        @media only screen and (min-width: 992px) {
+        @media only screen and(min-width: 992px) {
             .hero__slider--items > .hero__content-container {
                 padding-left: max(1.5rem, calc((100vw - 960px) / 2 + 1.5rem)) !important;
             }
         }
-        @media only screen and (min-width: 1200px) {
+        @media only screen and(min-width: 1200px) {
             .hero__slider--items > .hero__content-container {
                 padding-left: max(1.5rem, calc((100vw - 1140px) / 2 + 1.5rem)) !important;
             }
         }
-        @media only screen and (min-width: 1366px) {
+        @media only screen and(min-width: 1366px) {
             .hero__slider--items > .hero__content-container {
                 padding-left: max(1.5rem, calc((100vw - 1290px) / 2 + 1.5rem)) !important;
             }
         }
-        @media only screen and (min-width: 768px) {
+        @media only screen and(min-width: 768px) {
             .hero__slider--layer {
                 flex: 1 !important;
                 position: relative !important;
@@ -662,7 +663,7 @@
                 animation: none !important;
             }
         }
-        @media only screen and (max-width: 767px) {
+        @media only screen and(max-width: 767px) {
             .hero__slider--items {
                 display: flex !important;
                 flex-direction: column-reverse !important;
@@ -725,7 +726,7 @@
 
         /* ══ Style Blocks (shop category grid) ══ */
         .style-block {
-            aspect-ratio: 4/3;
+            aspect-ratio: 4 / 3;
             overflow: hidden;
             background: #e5e5e5;
             position: relative;
@@ -747,7 +748,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
         }
         .style-overlay span {
             color: #fff;
@@ -761,7 +762,7 @@
             transform: scale(1.05);
         }
         .style-block:hover .style-overlay {
-            background: rgba(0,0,0,0.4);
+            background: rgba(0, 0, 0, 0.4);
         }
 
         /* ══ Statement Banner ══ */
@@ -774,9 +775,11 @@
         }
         .home-statement__overlay {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
         }
         .home-statement__inner {
             position: relative;
@@ -813,7 +816,7 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-       
+
         .home-testimonials .section__heading--maintitle {
             font-family: 'Frank Ruhl Libre', serif;
             font-size: 3rem;
@@ -828,7 +831,7 @@
             padding: 4rem 3rem;
             text-align: center;
             border-radius: 4px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
         }
         .testimonial-card .stars {
             color: #000;
@@ -882,7 +885,7 @@
         }
         .service-item p {
             font-size: 1.4rem;
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             max-width: 250px;
             margin: 0 auto;
         }
@@ -904,7 +907,7 @@
         }
 
         /* ══ Home Trending Section ══ */
-      
+
         .home-trending .container {
             display: flex;
             flex-direction: column;
@@ -924,7 +927,7 @@
             flex-direction: column;
         }
         .product__card--thumbnail {
-            aspect-ratio: 3/4;
+            aspect-ratio: 3 / 4;
             overflow: hidden;
             background: var(--bg-gray-color);
             position: relative;
@@ -980,7 +983,7 @@
         }
 
         /* ══ Shop by Style Section ══ */
-       
+
         .style-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -991,7 +994,7 @@
         .view-all-center {
             text-align: center;
         }
-         /* ══ Section Headings ══ */
+        /* ══ Section Headings ══ */
         .section-header {
             display: flex;
             flex-direction: column;
@@ -1032,7 +1035,7 @@
             background: transparent;
         }
         .product__card--thumbnail {
-            aspect-ratio: 1/1;
+            aspect-ratio: 1 / 1;
             overflow: hidden;
             background: var(--bg-gray-color);
             position: relative;
@@ -1143,13 +1146,14 @@
         }
         .header__transparent .main__header {
             position: absolute !important;
-            top: 100%; left: 0; right: 0;
+            top: 100%;
+            left: 0;
+            right: 0;
             width: 100%;
             background-color: transparent !important;
             border-bottom: none !important;
         }
-        
-    
+
 
         /* ══ Quickview Sidebar ══ */
         .offCanvas__quickview {
@@ -1182,68 +1186,369 @@
 
 
         /* ══ Refactored Extracted CSS ══ */
-        .product__card--swatches { display:flex; justify-content:center; gap:0.5rem; margin-top:0.8rem; }
-        .swatch-item { width:1.5rem; height:1.5rem; border-radius:50%; border: 2px solid transparent; cursor: pointer; }
-        .swatch-item.active { border-color: #fff; box-shadow: 0 0 0 1px var(--primary-color); }
-        .swatch-item.large { width: 3rem; height: 3rem; }
-
-        .quickview__header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); margin-bottom: 3rem; }
-        .quickview__title { font-family: var(--frank-ruhl-fonts); font-size: 2.2rem; color: var(--primary-color); font-weight: 600; }
-        .quickview__product-info { display: flex; gap: 2rem; margin-bottom: 3rem; }
-        .quickview__img-wrap { flex: 0 0 80px; height: 80px; background: #fff; padding: 0.5rem; border: 1px solid var(--border-color); }
-        .quickview__img { width: 100%; height: 100%; object-fit: contain; }
-        .quickview__brand-label { font-size: 1.1rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--foreground-sub-color); margin-bottom: 0.5rem; }
-        .quickview__product-title { font-family: var(--frank-ruhl-fonts); font-size: 1.8rem; color: var(--primary-color); margin-bottom: 0.5rem; }
-        .quickview__price-wrap { font-size: 1.4rem; color: var(--primary-color); }
-        .quickview__price { margin-right: 1rem; }
-        .quickview__details-link { text-decoration: underline; font-size: 1.2rem; color: var(--foreground-sub-color); }
-        .quickview__color-wrap { margin-bottom: 2.5rem; }
-        .quickview__color-label { font-size: 1.4rem; color: var(--primary-color); margin-bottom: 1.5rem; }
-        .quickview__color-value { color: var(--foreground-sub-color); }
-        .quickview__swatches { display: flex; gap: 1.2rem; }
-        .quickview__qty-wrap { margin-bottom: 3rem; }
-        .quickview__qty-label { font-size: 1.4rem; color: var(--primary-color); margin-bottom: 1.5rem; }
-        .quickview__qty-selector { display: inline-flex; align-items: center; border: 1px solid var(--border-color); border-radius: 4px; background: #fff; padding: 0.5rem; }
-        .qty-btn { border: none; background: transparent; padding: 0.8rem 1.5rem; font-size: 1.6rem; color: var(--primary-color); cursor: pointer; }
-        .qty-input { width: 4rem; text-align: center; border: none; font-size: 1.4rem; color: var(--primary-color); outline: none; background: transparent; }
-        .quickview__actions { display: flex; flex-direction: column; gap: 1.5rem; }
-        
-        .bag-of-the-month { padding: 8rem 0; background-color: var(--body-background-color); }
-        .botm-header-subtitle { display: block; font-size: 1.25rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--foreground-sub-color); margin-bottom: 1rem; }
-        .botm-image-wrap { background: #fff; padding: 4rem; text-align: center; }
-        .botm-image { width: 100%; max-width: 400px; display: inline-block; }
-        .botm-content { padding-left: 5rem; }
-        .botm-title { font-family: var(--frank-ruhl-fonts); font-size: 3.2rem; margin-bottom: 1.5rem; color: var(--primary-color); line-height: 1.2; }
-        .botm-price { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 1.5rem; }
-        .botm-reviews { font-size: 1.3rem; color: var(--foreground-sub-color); margin-bottom: 3rem; display: flex; align-items: center; gap: 0.5rem; }
-        .botm-stars { color: #e5e5e5; }
-        .botm-color-label { font-size: 1.4rem; color: var(--primary-color); margin-bottom: 1.5rem; }
-        .botm-color-val { font-weight: 500; }
-        .botm-actions { display: flex; flex-direction: column; gap: 1.5rem; max-width: 450px; }
-        .botm-btn { padding: 1.6rem; font-size: 1.3rem; letter-spacing: 0.15em; text-transform: uppercase; border: none; font-weight: 600; cursor: pointer; transition: background 0.3s; }
-        .botm-btn.large { padding: 1.8rem; font-size: 1.4rem; }
-        .botm-btn-primary { background: var(--primary-color); color: #fff; }
-        .botm-btn-secondary { background: var(--secondary-color); color: #fff; }
-
-        .heritage-culture-section { padding: 8rem 0; background-color: var(--bg-offwhite-color); }
-        .hc-image { width: 100%; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .hc-content { padding: 4rem 5rem; text-align: center; }
-        .hc-subtitle { display: block; font-size: 1.25rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--primary-color); margin-bottom: 1.5rem; }
-        .hc-title { font-family: var(--frank-ruhl-fonts); font-size: 4rem; color: var(--primary-color); margin-bottom: 2.5rem; line-height: 1.2; }
-        .hc-desc { font-size: 1.6rem; color: var(--foreground-sub-color); line-height: 1.9; margin-bottom: 5rem; }
-        .hc-segments { display: flex; justify-content: center; gap: 5rem; }
-        .hc-segment { text-align: center; cursor: pointer; opacity: 0.6; transition: opacity 0.3s; }
-        .hc-segment.active { opacity: 1; }
-        .hc-segment-bar { height: 2px; width: 8rem; background: var(--border-color); margin: 0 auto 1.5rem; transition: background 0.3s; }
-        .hc-segment.active .hc-segment-bar { background: var(--primary-color); }
-        .hc-segment-label { font-size: 1.3rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; color: var(--foreground-sub-color); }
-        .hc-segment.active .hc-segment-label { color: var(--primary-color); }
-
-        /* .container__wrapper {
-
+        .product__card--swatches {
             display: flex;
-            gap: 3rem;
-        } */
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+        .swatch-item {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .swatch-item.active {
+            border-color: #fff;
+            box-shadow: 0 0 0 1px var(--primary-color);
+        }
+        .swatch-item.large {
+            width: 3rem;
+            height: 3rem;
+        }
+
+        .quickview__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+        .quickview__title {
+            font-family: var(--frank-ruhl-fonts);
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        .quickview__product-info {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .quickview__img-wrap {
+            flex: 0 0 80px;
+            height: 80px;
+            background: #fff;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+        .quickview__img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .quickview__brand-label {
+            font-size: 1.1rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--foreground-sub-color);
+            margin-bottom: 0.5rem;
+        }
+        .quickview__product-title {
+            font-family: var(--frank-ruhl-fonts);
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .quickview__price-wrap {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+        }
+        .quickview__price {
+            margin-right: 1rem;
+        }
+        .quickview__details-link {
+            text-decoration: underline;
+            font-size: 1.2rem;
+            color: var(--foreground-sub-color);
+        }
+        .quickview__color-wrap {
+            margin-bottom: 2.5rem;
+        }
+        .quickview__color-label {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        .quickview__color-value {
+            color: var(--foreground-sub-color);
+        }
+        .quickview__swatches {
+            display: flex;
+            gap: 1.2rem;
+        }
+        .quickview__qty-wrap {
+            margin-bottom: 3rem;
+        }
+        .quickview__qty-label {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        .quickview__qty-selector {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: #fff;
+            padding: 0.5rem;
+        }
+        .qty-btn {
+            border: none;
+            background: transparent;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+        .qty-input {
+            width: 4rem;
+            text-align: center;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            outline: none;
+            background: transparent;
+        }
+        .quickview__actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .bag-of-the-month {
+            padding: 8rem 0;
+            background-color: var(--body-background-color);
+        }
+        .botm-header-subtitle {
+            display: block;
+            font-size: 1.25rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--foreground-sub-color);
+            margin-bottom: 1rem;
+        }
+        .botm-image-wrap {
+            background: #fff;
+            padding: 4rem;
+            text-align: center;
+        }
+        .botm-image {
+            width: 100%;
+            max-width: 400px;
+            display: inline-block;
+        }
+        .botm-content {
+            padding-left: 5rem;
+        }
+        .botm-title {
+            font-family: var(--frank-ruhl-fonts);
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            line-height: 1.2;
+        }
+        .botm-price {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        .botm-reviews {
+            font-size: 1.3rem;
+            color: var(--foreground-sub-color);
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .botm-stars {
+            color: #e5e5e5;
+        }
+        .botm-color-label {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        .botm-color-val {
+            font-weight: 500;
+        }
+        .botm-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 450px;
+        }
+        .botm-btn {
+            padding: 1.6rem;
+            font-size: 1.3rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .botm-btn.large {
+            padding: 1.8rem;
+            font-size: 1.4rem;
+        }
+        .botm-btn-primary {
+            background: var(--primary-color);
+            color: #fff;
+        }
+        .botm-btn-secondary {
+            background: var(--secondary-color);
+            color: #fff;
+        }
+
+        .heritage-culture-section {
+            padding: 8rem 0;
+            background-color: var(--bg-offwhite-color);
+        }
+        .hc-image {
+            width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        .hc-content {
+            padding: 4rem 5rem;
+            text-align: center;
+        }
+        .hc-subtitle {
+            display: block;
+            font-size: 1.25rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        .hc-title {
+            font-family: var(--frank-ruhl-fonts);
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 2.5rem;
+            line-height: 1.2;
+        }
+        .hc-desc {
+            font-size: 1.6rem;
+            color: var(--foreground-sub-color);
+            line-height: 1.9;
+            margin-bottom: 5rem;
+        }
+        .hc-segments {
+            display: flex;
+            justify-content: center;
+            gap: 5rem;
+        }
+        .hc-segment {
+            text-align: center;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+        .hc-segment.active {
+            opacity: 1;
+        }
+        .hc-segment-bar {
+            height: 2px;
+            width: 8rem;
+            background: var(--border-color);
+            margin: 0 auto 1.5rem;
+            transition: background 0.3s;
+        }
+        .hc-segment.active .hc-segment-bar {
+            background: var(--primary-color);
+        }
+        .hc-segment-label {
+            font-size: 1.3rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--foreground-sub-color);
+        }
+        .hc-segment.active .hc-segment-label {
+            color: var(--primary-color);
+        }
+
+        /* ══ Bag of the Month Layout ══ */
+        .botm-layout {
+            display: flex;
+            align-items: center;
+            gap: 6rem;
+        }
+        .botm-layout__image {
+            flex: 1;
+            min-width: 0;
+        }
+        .botm-layout__content {
+            flex: 1;
+            min-width: 0;
+        }
+        @media only screen and (max-width: 767px) {
+            .botm-layout {
+                flex-direction: column;
+                gap: 3rem;
+            }
+        }
+
+        /* ══ Heritage & Culture Layout ══ */
+        .hc-layout {
+            display: flex;
+            align-items: center;
+            gap: 6rem;
+        }
+        .hc-layout__image {
+            flex: 1;
+            min-width: 0;
+        }
+        .hc-layout__content {
+            flex: 1;
+            min-width: 0;
+        }
+        @media only screen and (max-width: 767px) {
+            .hc-layout {
+                flex-direction: column;
+                gap: 3rem;
+            }
+        }
+
+        /* ══ Scroll-aware Header ══ */
+        .header--scrolled .header__topbar {
+            display: none !important;
+        }
+        .header--scrolled .main__header {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.18) !important;
+            transition: background 0.3s, box-shadow 0.3s;
+            z-index: 9998;
+        }
+        .header--scrolled .header__menu--link,
+        .header--scrolled .header__account--btn,
+        .header--scrolled .offcanvas__header--menu__open--btn {
+            color: #fff !important;
+        }
+        .header--scrolled .header__menu--link.active,
+        .header--scrolled .header__menu--link:hover,
+        .header--scrolled .header__account--btn:hover,
+        .header--scrolled .offcanvas__header--menu__open--btn:hover {
+            color: var(--yellow-color) !important;
+        }
+        .header--scrolled .main__logo--img {
+            filter: brightness(0) invert(1);
+        }
+        .hero__nav .main__header--inner{
+            display: grid;
+            grid-template-columns: auto auto auto;
+            justify-items: center;
+            padding: 1.5rem;
+        }
     </style>
 
 </head>
@@ -1274,7 +1579,7 @@
 
         <!-- ── Topbar Announcement ─────────────────────── -->
         <div class="header__topbar bg__primary">
-            <div class="container">
+            <div class="container__wrapper">
                 <div class="header__topbar--inner text-center">
                     <p class="header__info--text text-white">
                         ✨ FREE SHIPPING ON ALL UK ORDERS &nbsp;|&nbsp; Celebrating African Heritage Through Fashion
@@ -1285,9 +1590,9 @@
 
         <!-- ── Main Header ────────────────────────────── -->
         <div class="main__header position__relative header__sticky">
-            <div class="container">
+            <div class="hero__nav">
                 <div
-                    class="main__header--inner d-flex justify-content-between align-items-center">
+                    class="main__header--inner">
 
                     <!-- Hamburger / Offcanvas Toggle -->
                     <div class="offcanvas__header--menu__open">
@@ -1428,7 +1733,7 @@
                 <p>Your bag is empty.</p>
                 <a href="shop.html" class="primary__btn">Continue Shopping</a>
             </div>
-            
+
             <div id="minicart-items-list" class="minicart__product" style="flex: 1; overflow-y: auto; padding-right: 1rem;"></div>
 
             <div class="minicart__amount" style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
@@ -1543,7 +1848,7 @@
                                             </h2>
                                             <p class="slider__desc">
                                                 Bold African-inspired designs crafted for the modern individual.
-                                                                      Celebrate your identity, stand out beautifully.
+                                                                                                                      Celebrate your identity, stand out beautifully.
                                             </p>
                                             <a class="slider__btn" href="shop.html">
                                                 Shop Now
@@ -1573,7 +1878,7 @@
                                             </h2>
                                             <p class="slider__desc">
                                                 Where Ankara artistry meets modern street luxury.
-                                                                      For those who embrace culture, confidence, and individuality.
+                                                                                                                      For those who embrace culture, confidence, and individuality.
                                             </p>
                                             <a class="slider__btn" href="shop.html">
                                                 Explore Collection
@@ -1603,7 +1908,7 @@
                                             </h2>
                                             <p class="slider__desc">
                                                 Transform your space with bold Ankara patterns, timeless design,
-                                                                      and the beauty of African craftsmanship.
+                                                                                                                      and the beauty of African craftsmanship.
                                             </p>
                                             <a class="slider__btn" href="shop.html">
                                                 Shop Now
@@ -1627,12 +1932,11 @@
         <!-- /HERO SLIDER -->
 
         <!-- ═══════════════════════════════════════════════
-               FEATURES / SHIPPING BAR
-               ═══════════════════════════════════════════════ -->
+                       FEATURES / SHIPPING BAR
+                       ═══════════════════════════════════════════════ -->
 
         <!-- Minimalist Categories Section -->
-        <section class="home-categories section--padding">
-            <div class="home-categories-wrapper">
+            <section class="home-categories section--padding"> <div class="home-categories-wrapper">
                 <div class="home-category-grid">
                     <div class="category-block">
                         <a href="shop.html" class="category-link">
@@ -1678,7 +1982,8 @@
                     <h2 class="section__heading--maintitle">Trending Now</h2>
                 </div>
 
-                <div class="home-product-grid">
+                <div
+                    class="home-product-grid">
                     <!-- Product 1 -->
                     <div class="product__card">
                         <div class="product__card--thumbnail">
@@ -1689,7 +1994,9 @@
                             <button class="quick-view-btn js-quickview-open">Quick View</button>
                         </div>
                         <div class="product__card--content">
-                            <h3 class="product__card--title"><a href="product.html">Ankara Street Luxe</a></h3>
+                            <h3 class="product__card--title">
+                                <a href="product.html">Ankara Street Luxe</a>
+                            </h3>
                             <div class="product__card--price">£120.00</div>
                             <div class="product__card--swatches">
                                 <span class="swatch-item active" style="background-color:#7f8c85;"></span>
@@ -1708,7 +2015,9 @@
                             <button class="quick-view-btn js-quickview-open">Quick View</button>
                         </div>
                         <div class="product__card--content">
-                            <h3 class="product__card--title"><a href="product.html">Midnight Pearl Two-Piece</a></h3>
+                            <h3 class="product__card--title">
+                                <a href="product.html">Midnight Pearl Two-Piece</a>
+                            </h3>
                             <div class="product__card--price">£95.00</div>
                             <div class="product__card--swatches">
                                 <span class="swatch-item active" style="background-color:#1c1e21;"></span>
@@ -1726,7 +2035,9 @@
                             <button class="quick-view-btn js-quickview-open">Quick View</button>
                         </div>
                         <div class="product__card--content">
-                            <h3 class="product__card--title"><a href="product.html">Golden Hour Coat</a></h3>
+                            <h3 class="product__card--title">
+                                <a href="product.html">Golden Hour Coat</a>
+                            </h3>
                             <div class="product__card--price">£150.00</div>
                             <div class="product__card--swatches">
                                 <span class="swatch-item active" style="background-color:#b59a4c;"></span>
@@ -1745,7 +2056,9 @@
                             <button class="quick-view-btn js-quickview-open">Quick View</button>
                         </div>
                         <div class="product__card--content">
-                            <h3 class="product__card--title"><a href="product.html">Heritage Woven Throw</a></h3>
+                            <h3 class="product__card--title">
+                                <a href="product.html">Heritage Woven Throw</a>
+                            </h3>
                             <div class="product__card--price">£65.00</div>
                             <div class="product__card--swatches">
                                 <span class="swatch-item active" style="background-color:#a33636;"></span>
@@ -1769,21 +2082,24 @@
                     <span class="botm-header-subtitle">Signature Sandstorm</span>
                     <h2 class="section__heading--maintitle">BAG OF THE MONTH</h2>
                 </div>
-                <div class="row align-items-center">
-                    <div class="col-md-6">
+                <div class="botm-layout">
+                    <div class="botm-layout__image">
                         <div class="botm-image-wrap">
                             <img src="assets/IMG-20260622-WA0009.webp" alt="Bag of the month" class="botm-image">
                         </div>
                     </div>
-                    <div class="col-md-6 botm-content">
+                    <div class="botm-layout__content botm-content">
                         <h3 class="botm-title">Suede Cecilia Backpack (Mocha Leather)</h3>
                         <div class="botm-price">KSh35,900</div>
                         <div class="botm-reviews">
-                            <span class="botm-stars">★★★★★</span> No reviews
+                            <span class="botm-stars">★★★★★</span>
+                            No reviews
                         </div>
-                        
+
                         <div class="quickview__color-wrap">
-                            <div class="botm-color-label">Color: <span class="botm-color-val">Maroon</span></div>
+                            <div class="botm-color-label">Color:
+                                <span class="botm-color-val">Maroon</span>
+                            </div>
                             <div class="quickview__swatches">
                                 <span class="swatch-item large active" style="background-color:#6e1d23;"></span>
                                 <span class="swatch-item large" style="background-color:#82871f;"></span>
@@ -1820,7 +2136,7 @@
                         <span class="hc-subtitle">THE LOVE STORY OF</span>
                         <h2 class="hc-title">LEATHER & CANVAS</h2>
                         <p class="hc-desc">We started out making luxury safari tents and for the past 20 years we've been making beautiful canvas and leather bags that last. The romance of safari is woven into our fabric.</p>
-                        
+
                         <div class="hc-segments">
                             <div class="hc-segment active js-hc-segment">
                                 <div class="hc-segment-bar"></div>
@@ -1843,12 +2159,15 @@
                     <h2 class="section__heading--maintitle">Shop by Style</h2>
                 </div>
 
-                <div class="style-grid">
+                <div
+                    class="style-grid">
                     <!-- Style 1 -->
                     <div class="style-block">
                         <a href="shop.html?cat=two-piece">
                             <img src="assets/IMG-20260622-WA0037.webp" alt="Two-Piece Sets">
-                            <div class="style-overlay"><span>Two-Piece Sets</span></div>
+                            <div class="style-overlay">
+                                <span>Two-Piece Sets</span>
+                            </div>
                         </a>
                     </div>
 
@@ -1856,7 +2175,9 @@
                     <div class="style-block">
                         <a href="shop.html?cat=dresses">
                             <img src="assets/IMG-20260622-WA0033.webp" alt="Luxe Dresses">
-                            <div class="style-overlay"><span>Luxe Dresses</span></div>
+                            <div class="style-overlay">
+                                <span>Luxe Dresses</span>
+                            </div>
                         </a>
                     </div>
 
@@ -1864,7 +2185,9 @@
                     <div class="style-block">
                         <a href="shop.html?cat=outerwear">
                             <img src="assets/IMG-20260622-WA0079.webp" alt="Outerwear">
-                            <div class="style-overlay"><span>Outerwear</span></div>
+                            <div class="style-overlay">
+                                <span>Outerwear</span>
+                            </div>
                         </a>
                     </div>
 
@@ -1872,7 +2195,9 @@
                     <div class="style-block">
                         <a href="shop.html?cat=mens">
                             <img src="assets/IMG-20260622-WA0005.webp" alt="Men's Collection">
-                            <div class="style-overlay"><span>Men's Collection</span></div>
+                            <div class="style-overlay">
+                                <span>Men's Collection</span>
+                            </div>
                         </a>
                     </div>
 
@@ -1880,7 +2205,9 @@
                     <div class="style-block">
                         <a href="shop.html?cat=accessories">
                             <img src="assets/IMG-20260622-WA0044.webp" alt="Accessories">
-                            <div class="style-overlay"><span>Accessories</span></div>
+                            <div class="style-overlay">
+                                <span>Accessories</span>
+                            </div>
                         </a>
                     </div>
 
@@ -1888,7 +2215,9 @@
                     <div class="style-block">
                         <a href="shop.html?cat=sale">
                             <img src="assets/IMG-20260622-WA0014.webp" alt="Clearance">
-                            <div class="style-overlay"><span>Clearance</span></div>
+                            <div class="style-overlay">
+                                <span>Clearance</span>
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -1918,51 +2247,52 @@
                 </div>
 
                 <div class="testimonial__swiper swiper">
-                    <div class="swiper-wrapper">
-                    <!-- Testimonial 1 -->
+                    <div
+                        class="swiper-wrapper">
+                        <!-- Testimonial 1 -->
                         <div class="swiper-slide">
-                    <div class="testimonial-card">
-                        <div class="stars">★★★★★</div>
-                        <p>"Fantastic product, so beautifully made. Love the swift delivery too! Highly recommended!"</p>
-                        <h4>Florianna S. K.</h4>
+                            <div class="testimonial-card">
+                                <div class="stars">★★★★★</div>
+                                <p>"Fantastic product, so beautifully made. Love the swift delivery too! Highly recommended!"</p>
+                                <h4>Florianna S. K.</h4>
                             </div>
-                    </div>
+                        </div>
 
-                    <!-- Testimonial 2 -->
+                        <!-- Testimonial 2 -->
                         <div class="swiper-slide">
-                    <div class="testimonial-card">
-                        <div class="stars">★★★★★</div>
-                        <p>"I have been buying Ankara wear for years, but this brand is different. The fit is perfect and the prints are stunning."</p>
-                        <h4>Taimi N.</h4>
+                            <div class="testimonial-card">
+                                <div class="stars">★★★★★</div>
+                                <p>"I have been buying Ankara wear for years, but this brand is different. The fit is perfect and the prints are stunning."</p>
+                                <h4>Taimi N.</h4>
                             </div>
-                    </div>
+                        </div>
 
-                    <!-- Testimonial 3 -->
+                        <!-- Testimonial 3 -->
                         <div class="swiper-slide">
-                    <div class="testimonial-card">
-                        <div class="stars">★★★★★</div>
-                        <p>"Incredibly elegant pieces. I wore the two-piece set to a wedding and got compliments all day long."</p>
-                        <h4>Kate M.</h4>
+                            <div class="testimonial-card">
+                                <div class="stars">★★★★★</div>
+                                <p>"Incredibly elegant pieces. I wore the two-piece set to a wedding and got compliments all day long."</p>
+                                <h4>Kate M.</h4>
                             </div>
-                    </div>
+                        </div>
 
-                    <!-- Testimonial 4 -->
+                        <!-- Testimonial 4 -->
                         <div class="swiper-slide">
-                    <div class="testimonial-card">
-                        <div class="stars">★★★★★</div>
-                        <p>"The quality is outstanding. I've washed my pieces multiple times and the colors are still as vibrant as day one."</p>
-                        <h4>Sarah J.</h4>
+                            <div class="testimonial-card">
+                                <div class="stars">★★★★★</div>
+                                <p>"The quality is outstanding. I've washed my pieces multiple times and the colors are still as vibrant as day one."</p>
+                                <h4>Sarah J.</h4>
                             </div>
-                    </div>
+                        </div>
 
-                    <!-- Testimonial 5 -->
+                        <!-- Testimonial 5 -->
                         <div class="swiper-slide">
-                    <div class="testimonial-card">
-                        <div class="stars">★★★★★</div>
-                        <p>"Amazing customer service. They helped me pick the right size, and the shipping was incredibly fast!"</p>
-                        <h4>Michael D.</h4>
-                    </div>
-                </div>
+                            <div class="testimonial-card">
+                                <div class="stars">★★★★★</div>
+                                <p>"Amazing customer service. They helped me pick the right size, and the shipping was incredibly fast!"</p>
+                                <h4>Michael D.</h4>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="swiper-pagination"></div>
@@ -2028,133 +2358,134 @@
     <footer class="footer__section footer__bg">
 
         <div class="main__footer section--padding">
-            <div class="footer__wrapper">
+            <div
+                class="footer__wrapper">
 
                 <!-- Col 1: About -->
                 <div class="footer__col--wide">
-                        <div class="footer__widget">
-                            <div class="footer__logo">
-                                <a href="index.html" class="footer__logo--link">
-                                    <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" style="height:70px; width:auto; object-fit:contain; filter:brightness(1.1);">
-                                </a>
-                            </div>
-                            <p class="footer__widget--desc">
-                                Contemporary fashion rooted in African heritage and crafted for the modern world. 
-                                              Every piece tells a story of culture, elegance, and bold identity.
-                            </p>
-                            <ul class="footer__widget--contact__list">
-                                <li class="footer__widget--contact__list--items">
-                                    <svg width="16" height="16" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                    </svg>
-                                    United Kingdom
-                                </li>
-                                <li class="footer__widget--contact__list--items">
-                                    <svg width="16" height="16" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                    </svg>
-                                    <a href="mailto:hello@maryhumphreywear.com">hello@maryhumphreywear.com</a>
-                                </li>
-                            </ul>
-                            <!-- Social Media -->
-                            <ul class="footer__widget--social__list">
-                                <li class="footer__widget--social__list--items">
-                                    <a class="footer__widget--social__list--link" href="#" aria-label="Instagram" target="_blank">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li class="footer__widget--social__list--items">
-                                    <a class="footer__widget--social__list--link" href="#" aria-label="Facebook" target="_blank">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="currentColor">
-                                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li class="footer__widget--social__list--items">
-                                    <a class="footer__widget--social__list--link" href="#" aria-label="TikTok" target="_blank">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="currentColor">
-                                            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.26 8.26 0 004.84 1.56V6.79a4.85 4.85 0 01-1.07-.1z"/>
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
+                    <div class="footer__widget">
+                        <div class="footer__logo">
+                            <a href="index.html" class="footer__logo--link">
+                                <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" style="height:70px; width:auto; object-fit:contain; filter:brightness(1.1);">
+                            </a>
                         </div>
+                        <p class="footer__widget--desc">
+                            Contemporary fashion rooted in African heritage and crafted for the modern world. 
+                                                                          Every piece tells a story of culture, elegance, and bold identity.
+                        </p>
+                        <ul class="footer__widget--contact__list">
+                            <li class="footer__widget--contact__list--items">
+                                <svg width="16" height="16" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                United Kingdom
+                            </li>
+                            <li class="footer__widget--contact__list--items">
+                                <svg width="16" height="16" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                <a href="mailto:hello@maryhumphreywear.com">hello@maryhumphreywear.com</a>
+                            </li>
+                        </ul>
+                        <!-- Social Media -->
+                        <ul class="footer__widget--social__list">
+                            <li class="footer__widget--social__list--items">
+                                <a class="footer__widget--social__list--link" href="#" aria-label="Instagram" target="_blank">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="footer__widget--social__list--items">
+                                <a class="footer__widget--social__list--link" href="#" aria-label="Facebook" target="_blank">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="currentColor">
+                                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="footer__widget--social__list--items">
+                                <a class="footer__widget--social__list--link" href="#" aria-label="TikTok" target="_blank">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="currentColor">
+                                        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.26 8.26 0 004.84 1.56V6.79a4.85 4.85 0 01-1.07-.1z"/>
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Col 2: Our Collection -->
                 <div class="footer__col--narrow">
-                        <div class="footer__widget">
-                            <h2 class="footer__widget--title">
-                                Our Collection
-                                <button class="footer__widget--button" aria-label="toggle"></button>
-                                <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewbox="0 0 10.355 6.394">
-                                    <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"/>
-                                </svg>
-                            </h2>
-                            <ul class="footer__widget--menu footer__widget--inner">
-                                <li class="footer__widget--menu__list">
-                                    <a class="footer__widget--menu__text" href="shop.html">All Products</a>
-                                </li>
-                                <li class="footer__widget--menu__list">
-                                    <a class="footer__widget--menu__text" href="/shop?cat=menswear">Men's Ankara Dungaree</a>
-                                </li>
-                                <li class="footer__widget--menu__list">
-                                    <a class="footer__widget--menu__text" href="/shop?cat=sets">Ankara Street Luxe Set</a>
-                                </li>
-                                <li class="footer__widget--menu__list">
-                                    <a class="footer__widget--menu__text" href="/shop?cat=home">African Luxe Throw</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="footer__widget">
+                        <h2 class="footer__widget--title">
+                            Our Collection
+                            <button class="footer__widget--button" aria-label="toggle"></button>
+                            <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewbox="0 0 10.355 6.394">
+                                <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"/>
+                            </svg>
+                        </h2>
+                        <ul class="footer__widget--menu footer__widget--inner">
+                            <li class="footer__widget--menu__list">
+                                <a class="footer__widget--menu__text" href="shop.html">All Products</a>
+                            </li>
+                            <li class="footer__widget--menu__list">
+                                <a class="footer__widget--menu__text" href="/shop?cat=menswear">Men's Ankara Dungaree</a>
+                            </li>
+                            <li class="footer__widget--menu__list">
+                                <a class="footer__widget--menu__text" href="/shop?cat=sets">Ankara Street Luxe Set</a>
+                            </li>
+                            <li class="footer__widget--menu__list">
+                                <a class="footer__widget--menu__text" href="/shop?cat=home">African Luxe Throw</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Col 3: Quick Links -->
                 <div class="footer__col--narrow">
-                        <div class="footer__widget">
-                            <h2 class="footer__widget--title">
-                                Quick Links
-                                <button class="footer__widget--button" aria-label="toggle"></button>
-                                <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewbox="0 0 10.355 6.394">
-                                    <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"/>
-                                </svg>
-                            </h2>
-                            <ul class="footer__widget--menu footer__widget--inner">
-                                <li class="footer__widget--menu__list">
-                                    <a class="footer__widget--menu__text" href="index.html">Home</a>
-                                </li>
-                                <li class="footer__widget--menu__list">
-                                    <a class="footer__widget--menu__text" href="about.html">Our Story</a>
-                                </li>
-                                <li class="footer__widget--menu__list">
-                                    <a class="footer__widget--menu__text" href="contact.html">Contact Us</a>
-                                </li>
-                                <li class="footer__widget--menu__list">
-                                    <a class="footer__widget--menu__text" href="/faq">FAQ</a>
-                                </li>
-                                <li class="footer__widget--menu__list">
-                                    <a class="footer__widget--menu__text" href="/privacy">Privacy Policy</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="footer__widget">
+                        <h2 class="footer__widget--title">
+                            Quick Links
+                            <button class="footer__widget--button" aria-label="toggle"></button>
+                            <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewbox="0 0 10.355 6.394">
+                                <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"/>
+                            </svg>
+                        </h2>
+                        <ul class="footer__widget--menu footer__widget--inner">
+                            <li class="footer__widget--menu__list">
+                                <a class="footer__widget--menu__text" href="index.html">Home</a>
+                            </li>
+                            <li class="footer__widget--menu__list">
+                                <a class="footer__widget--menu__text" href="about.html">Our Story</a>
+                            </li>
+                            <li class="footer__widget--menu__list">
+                                <a class="footer__widget--menu__text" href="contact.html">Contact Us</a>
+                            </li>
+                            <li class="footer__widget--menu__list">
+                                <a class="footer__widget--menu__text" href="/faq">FAQ</a>
+                            </li>
+                            <li class="footer__widget--menu__list">
+                                <a class="footer__widget--menu__text" href="/privacy">Privacy Policy</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Col 4: Newsletter -->
                 <div class="footer__col--wide">
-                        <div class="footer__widget">
-                            <h2 class="footer__widget--title">Join Our World</h2>
-                            <p class="footer__widget--desc">
-                                Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.
-                            </p>
-                            <form class="footer__newsletter--form" action="#" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');" method="POST" id="newsletter-form">
-                                <label for="newsletter-email">
-                                    <input class="footer__newsletter--input" id="newsletter-email" type="email" name="email" placeholder="Enter your email address" required>
-                                </label>
-                                <button class="footer__newsletter--btn primary__btn" type="submit">Subscribe</button>
-                            </form>
-                        </div>
+                    <div class="footer__widget">
+                        <h2 class="footer__widget--title">Join Our World</h2>
+                        <p class="footer__widget--desc">
+                            Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.
+                        </p>
+                        <form class="footer__newsletter--form" action="#" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');" method="POST" id="newsletter-form">
+                            <label for="newsletter-email">
+                                <input class="footer__newsletter--input" id="newsletter-email" type="email" name="email" placeholder="Enter your email address" required>
+                            </label>
+                            <button class="footer__newsletter--btn primary__btn" type="submit">Subscribe</button>
+                        </form>
+                    </div>
                 </div>
 
             </div>
@@ -2170,7 +2501,7 @@
                         <span class="text__secondary">&copy; 2026</span>
                         &nbsp;
                         <a class="copyright__content--link" href="index.html">Mary Humphrey Wear</a>.
-                        All Rights Reserved.
+                                                    All Rights Reserved.
                     </p>
                     <div class="footer__payment">
                         <span class="footer__payment--label">Visa &nbsp; Mastercard &nbsp; PayPal</span>
@@ -2183,19 +2514,16 @@
 
 
     <!-- ═══════════════════════════════════════════════
-           SCRIPTS — EXACT ORDER MATTERS
-           Swiper & Bootstrap must load BEFORE global.js
-           ═══════════════════════════════════════════════ -->
-    
-    
+               SCRIPTS — EXACT ORDER MATTERS
+               Swiper & Bootstrap must load BEFORE global.js
+               ═══════════════════════════════════════════════ -->
+
+
     <script src="assets/swiper-bundle.min.js"></script>
     <script src="assets/glightbox.min.js"></script>
     <script src="assets/cart.js"></script>
     <script src="assets/becute.js"></script>
     <script src="assets/app.js"></script>
-
-
-
 
 
     <script>
@@ -2211,7 +2539,7 @@
                         quickViewPanel.classList.add('open');
                     });
                 });
-                
+
                 if (quickViewCloseBtn) {
                     quickViewCloseBtn.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -2227,6 +2555,27 @@
                     seg.classList.add('active');
                 });
             });
+
+            // ── Scroll-aware Header ──
+            class HeaderScrollManager {
+                constructor() {
+                    this.header = document.querySelector('.header__section');
+                    this.topbar = document.querySelector('.header__topbar');
+                    this.threshold = 80;
+                    this.bound = this.onScroll.bind(this);
+                    window.addEventListener('scroll', this.bound, { passive: true });
+                    this.onScroll();
+                }
+                onScroll() {
+                    const scrolled = window.scrollY > this.threshold;
+                    if (scrolled) {
+                        this.header.classList.add('header--scrolled');
+                    } else {
+                        this.header.classList.remove('header--scrolled');
+                    }
+                }
+            }
+            new HeaderScrollManager();
         });
     </script>
 </body>

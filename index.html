@@ -614,11 +614,24 @@
             margin-left: -1.5rem;
             margin-right: -1.5rem;
             background-color: #000;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25)), url('assets/IMG-20260622-WA0005.webp');
-            background-size: cover;
-            background-position: center center;
             overflow: hidden;
             position: relative;
+        }
+        .hero-swiper {
+            width: 100%;
+            height: 100%;
+        }
+        .hero-swiper .swiper-slide {
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+        .hero-swiper .swiper-pagination-bullet {
+            background: #fff;
+            opacity: 0.5;
+        }
+        .hero-swiper .swiper-pagination-bullet-active {
+            opacity: 1;
         }
         .hero-container {
             text-align: left;
@@ -866,6 +879,7 @@
         .home-services {
             background-color: var(--primary-color);
             padding: 5rem 0;
+            margin-bottom: 4cap;
         }
         .services-grid {
             display: flex;
@@ -1019,7 +1033,9 @@
 
         /* ══ Home Trending Section ══ */
         .home-trending-wrapper {
-
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
         /* ══ Product Grid ══ */
@@ -1389,27 +1405,31 @@
             display: inline-block;
         }
         .botm-content {
-            padding-left: 5rem;
+            padding-left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: flex-start;
         }
         .botm-title {
             font-family: var(--frank-ruhl-fonts);
             font-size: 3.2rem;
-            margin-bottom: 1.5rem;
             color: var(--primary-color);
             line-height: 1.2;
+            margin: 0;
         }
         .botm-price {
             font-size: 2.2rem;
             color: var(--primary-color);
-            margin-bottom: 1.5rem;
+            margin: 0;
         }
         .botm-reviews {
             font-size: 1.3rem;
             color: var(--foreground-sub-color);
-            margin-bottom: 3rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            margin: 0;
         }
         .botm-stars {
             color: #e5e5e5;
@@ -1417,7 +1437,7 @@
         .botm-color-label {
             font-size: 1.4rem;
             color: var(--primary-color);
-            margin-bottom: 1.5rem;
+            margin: 0;
         }
         .botm-color-val {
             font-weight: 500;
@@ -1869,21 +1889,67 @@
 
         <!-- ── HERO SECTION ──────────────────────────────── -->
         <section class="hero-section">
-            <div class="hero-container">
-                <div class="hero-content">
-                    <span class="hero-subtitle">New Collection</span>
-                    <h2 class="hero-title">
-                        Mary Humphrey
-                        <span class="hero-accent">Wear</span>
-                    </h2>
-                    <p class="hero-desc">
-                        Bold African-inspired designs crafted for the modern individual. Celebrate your identity, stand out beautifully.
-                    </p>
-                    <a class="hero-btn" href="shop.html">
-                        Shop Now
-                        <svg width="16" height="11" viewbox="0 0 17 12" fill="none"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"/></svg>
-                    </a>
+            <div class="swiper hero-swiper">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide" style="background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25)), url('assets/IMG-20260622-WA0005.webp');">
+                        <div class="hero-container">
+                            <div class="hero-content">
+                                <span class="hero-subtitle">New Collection</span>
+                                <h2 class="hero-title">
+                                    Mary Humphrey
+                                    <span class="hero-accent">Wear</span>
+                                </h2>
+                                <p class="hero-desc">
+                                    Bold African-inspired designs crafted for the modern individual. Celebrate your identity, stand out beautifully.
+                                </p>
+                                <a class="hero-btn" href="shop.html">
+                                    Shop Now
+                                    <svg width="16" height="11" viewbox="0 0 17 12" fill="none"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide" style="background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25)), url('assets/IMG-20260622-WA0007.webp');">
+                        <div class="hero-container">
+                            <div class="hero-content">
+                                <span class="hero-subtitle">Premium Quality</span>
+                                <h2 class="hero-title">
+                                    African
+                                    <span class="hero-accent">Elegance</span>
+                                </h2>
+                                <p class="hero-desc">
+                                    Experience the finest materials and craftsmanship. Designed for those who appreciate true artistry.
+                                </p>
+                                <a class="hero-btn" href="shop.html">
+                                    Discover More
+                                    <svg width="16" height="11" viewbox="0 0 17 12" fill="none"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="swiper-slide" style="background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25)), url('assets/IMG-20260622-WA0008.webp');">
+                        <div class="hero-container">
+                            <div class="hero-content">
+                                <span class="hero-subtitle">Timeless Style</span>
+                                <h2 class="hero-title">
+                                    Modern
+                                    <span class="hero-accent">Heritage</span>
+                                </h2>
+                                <p class="hero-desc">
+                                    Carry a piece of home with you everywhere. Perfect for any occasion.
+                                </p>
+                                <a class="hero-btn" href="shop.html">
+                                    View Collection
+                                    <svg width="16" height="11" viewbox="0 0 17 12" fill="none"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="swiper-pagination hero-pagination"></div>
             </div>
         </section>
         <!-- /HERO SECTION -->
@@ -2032,22 +2098,22 @@
         </section>
 
 
-        <!-- Bag of the Month -->
+        <!-- Style of the Month -->
         <section class="bag-of-the-month">
             <div class="container">
                 <div class="section-header">
-                    <span class="botm-header-subtitle">Signature Sandstorm</span>
-                    <h2 class="section__heading--maintitle">BAG OF THE MONTH</h2>
+                    <span class="botm-header-subtitle">Mary Humphrey Collection</span>
+                    <h2 class="section__heading--maintitle">STYLE OF THE MONTH</h2>
                 </div>
                 <div class="botm-layout">
                     <div class="botm-layout__image">
                         <div class="botm-image-wrap">
-                            <img src="assets/IMG-20260622-WA0009.webp" alt="Bag of the month" class="botm-image">
+                            <img src="assets/IMG-20260622-WA0009.webp" alt="Style of the month" class="botm-image">
                         </div>
                     </div>
                     <div class="botm-layout__content botm-content">
-                        <h3 class="botm-title">Suede Cecilia Backpack (Mocha Leather)</h3>
-                        <div class="botm-price">KSh35,900</div>
+                        <h3 class="botm-title">Classic Ankara Print Bag</h3>
+                        <div class="botm-price">KSh 4,500</div>
                         <div class="botm-reviews">
                             <span class="botm-stars">★★★★★</span>
                             No reviews
@@ -2055,7 +2121,7 @@
 
                         <div class="quickview__color-wrap">
                             <div class="botm-color-label">Color:
-                                <span class="botm-color-val">Maroon</span>
+                                <span class="botm-color-val">Classic Pattern</span>
                             </div>
                             <div class="quickview__swatches">
                                 <span class="swatch-item large active" style="background-color:#6e1d23;"></span>
@@ -2531,6 +2597,21 @@
                 }
             }
             new HeaderScrollManager();
+            // ── Hero Swiper ──
+            new Swiper(".hero-swiper", {
+                slidesPerView: 1,
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                effect: "fade",
+                pagination: {
+                    el: ".hero-pagination",
+                    clickable: true,
+                },
+            });
+
         });
     </script>
 </body>

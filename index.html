@@ -588,113 +588,124 @@
             margin-bottom: 2rem;
         }
 
-        /* ==== FIXES FOR BECUTE SECTIONS WITH CUSTOM IMAGES ==== */
+        /* ==== NEW HERO SECTION ==== */
+        body.body .header__section {
+            position: absolute !important;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            background: transparent !important;
+        }
+        .main__header {
+            background-color: transparent !important;
+            border-bottom: none !important;
+        }
+        /* Mobile menu fixes for transparent header */
+        .offcanvas__header--menu__open--svg {
+            color: #fff;
+        }
+        /* Scrolled state needs to be solid */
+        .header--scrolled .offcanvas__header--menu__open--svg {
+            color: #000;
+        }
+        
+        .hero-section {
+            width: calc(100% + 3rem);
+            margin-left: -1.5rem;
+            margin-right: -1.5rem;
+            background-color: #000;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25)), url('assets/IMG-20260622-WA0005.webp');
+            background-size: cover;
+            background-position: center center;
+            overflow: hidden;
+            position: relative;
+        }
+        .hero-container {
+            text-align: left;
+            height: 60vh;
+            min-height: 600px;
+            padding-top: 200px; /* Offset for absolute header */
+        }
+        .hero-content {
+            display: flex;
+            flex-direction: column; 
+            align-items: flex-start;
+            gap: 1.5rem;
+            max-width: 700px;
+            box-sizing: border-box;
+            text-align: left;
+            padding: 0 2rem;
+        }
+        .hero-subtitle {
+            display: block;
+            font-size: 1.3rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #f1f1f1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .hero-title {
+            font-family: var(--frank-ruhl-fonts);
+            font-size: clamp(3.6rem, 5.5vw, 6.5rem);
+            line-height: 1.1;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+        .hero-accent {
+            display: block;
+            font-style: italic;
+            color: #f1f1f1;
+        }
+        .hero-desc {
+            font-size: 1.55rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+            text-align: left;
+            max-width: 500px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.4rem 3.5rem;
+            background: var(--primary-color);
+            color: #fff;
+            font-family: var(--karma-fonts);
+            font-size: 1.35rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 2px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        .hero-btn:hover {
+            background: transparent;
+            color: var(--primary-color);
+        }
+        @media (max-width: 991px) {
+            /* .hero-container {
+                flex-direction: column-reverse;
+                height: auto;
+                min-height: 0;
+                padding-top: 2rem;
+            }
+            .hero-content {
+                padding: 4rem 2rem !important;
+                text-align: center;
+                margin: 0 auto;
+                max-width: 100%;
+            } */
+
+        }
+        
         .shop__collection--img {
             width: 150px !important;
             height: 150px !important;
             object-fit: cover !important;
             border-radius: 50% !important;
             margin: 0 auto 15px !important;
-        }
-        /* Overrides for Split-Screen Flex Hero Slider */
-        @media only screen and(min-width: 768px) {
-            .hero__slider--section,
-            .hero__slider--activation,
-            .hero__slider--activation .swiper-wrapper,
-            .hero__slider--activation .swiper-slide,
-            .hero__slider--items {
-                height: 90vh !important;
-                min-height: 500px !important;
-                max-height: 800px !important;
-            }
-            .hero__slider--items {
-                display: flex !important;
-                gap: 2rem;
-                align-items: stretch !important;
-                padding: 0 !important;
-            }
-
-            .hero__slider--items > .hero__content-container {
-                flex: 1 !important;
-                max-width: 50% !important;
-                display: flex !important;
-                align-items: center !important;
-                padding-block-start: 7rem !important;
-                /* Keep text aligned with the website logo using max viewport calc */
-                padding-left: max(1.5rem, calc((100vw - 720px) / 2 + 1.5rem)) !important;
-            }
-        }
-        @media only screen and(min-width: 992px) {
-            .hero__slider--items > .hero__content-container {
-                padding-left: max(1.5rem, calc((100vw - 960px) / 2 + 1.5rem)) !important;
-            }
-        }
-        @media only screen and(min-width: 1200px) {
-            .hero__slider--items > .hero__content-container {
-                padding-left: max(1.5rem, calc((100vw - 1140px) / 2 + 1.5rem)) !important;
-            }
-        }
-        @media only screen and(min-width: 1366px) {
-            .hero__slider--items > .hero__content-container {
-                padding-left: max(1.5rem, calc((100vw - 1290px) / 2 + 1.5rem)) !important;
-            }
-        }
-        @media only screen and(min-width: 768px) {
-            .hero__slider--layer {
-                flex: 1 !important;
-                position: relative !important;
-                transform: none !important;
-                right: auto !important;
-                top: auto !important;
-                bottom: auto !important;
-                height: 100% !important;
-                max-height: none !important;
-                display: flex !important;
-            }
-            .slider__layer--img {
-                width: 100% !important;
-                height: 100% !important;
-                max-height: none !important;
-                max-width: none !important;
-                object-fit: cover !important;
-                border-radius: 0 !important;
-                border: none !important;
-                box-shadow: none !important;
-                animation: none !important;
-            }
-        }
-        @media only screen and(max-width: 767px) {
-            .hero__slider--items {
-                display: flex !important;
-                flex-direction: column-reverse !important;
-                padding: 0 !important;
-            }
-            .hero__slider--items > .hero__content-container {
-                padding: 4rem 1.5rem !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                text-align: center !important;
-            }
-            .hero__slider--layer {
-                position: relative !important;
-                width: 100% !important;
-                height: 400px !important;
-                margin-top: 0 !important;
-                display: block !important;
-                padding: 0 !important;
-            }
-            .slider__layer--img {
-                width: 100% !important;
-                height: 100% !important;
-                max-height: none !important;
-                max-width: none !important;
-                object-fit: cover !important;
-                border-radius: 0 !important;
-                border: none !important;
-                box-shadow: none !important;
-                animation: none !important;
-            }
         }
         .testimonial__items--thumbnail img {
             width: 80px !important;
@@ -718,9 +729,7 @@
             object-fit: cover !important;
         }
         /* ====================================================== */
-        .site__main {
-            display: grid;
-            gap: 4rem;
+        body{
             overflow-x: hidden;
         }
 
@@ -1012,12 +1021,7 @@
 
         /* ══ Home Trending Section ══ */
         .home-trending-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 4rem;
+
         }
 
         /* ══ Product Grid ══ */
@@ -1140,18 +1144,65 @@
             text-align: center;
         }
 
-        /* ══ Transparent Header ══ */
-        .header__transparent {
-            z-index: 999;
+        /* ══ Header Layout & Colors ══ */
+        .main__header {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
         }
-        .header__transparent .main__header {
-            position: absolute !important;
-            top: 100%;
+        .hero__nav .main__header--inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+        }
+        .hero__nav .main__logo {
+            grid-column: 2;
+            text-align: center;
+        }
+        .hero__nav .header__menu {
+            grid-column: 1;
+            justify-self: start;
+        }
+        .hero__nav .header__account {
+            grid-column: 3;
+            justify-self: end;
+        }
+        @media (max-width: 991px) {
+            .hero__nav .main__header--inner {
+                grid-template-columns: auto 1fr auto;
+            }
+            .hero__nav .offcanvas__header--menu__open {
+                grid-column: 1;
+            }
+            .hero__nav .main__logo {
+                grid-column: 2;
+            }
+            .hero__nav .header__account {
+                grid-column: 3;
+            }
+        }
+        /* Navigation Links */
+        .header__menu--link {
+            color: var(--text-white-color);
+            position: relative;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .header__menu--link:hover {
+            color: var(--yellow-color) !important;
+        }
+        .header__menu--link.active {
+            color: var(--yellow-color) !important;
+            font-weight: 700;
+        }
+        .header__menu--link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
             left: 0;
-            right: 0;
             width: 100%;
-            background-color: transparent !important;
-            border-bottom: none !important;
+            height: 2px;
+            background-color: var(--yellow-color);
         }
 
 
@@ -1331,7 +1382,6 @@
             margin-bottom: 1rem;
         }
         .botm-image-wrap {
-            background: #fff;
             padding: 4rem;
             text-align: center;
         }
@@ -1524,30 +1574,20 @@
             left: 0 !important;
             right: 0 !important;
             width: 100% !important;
-            background-color: var(--primary-color) !important;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.18) !important;
-            transition: background 0.3s, box-shadow 0.3s;
+            background-color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+            transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
             z-index: 9998;
         }
-        .header--scrolled .header__menu--link,
-        .header--scrolled .header__account--btn,
-        .header--scrolled .offcanvas__header--menu__open--btn {
-            color: #fff !important;
+        .site__main{
+            display : flex;
+            flex-direction : column;
+            padding-inline: 1.5rem;
+            gap : 4rem;
         }
-        .header--scrolled .header__menu--link.active,
-        .header--scrolled .header__menu--link:hover,
-        .header--scrolled .header__account--btn:hover,
-        .header--scrolled .offcanvas__header--menu__open--btn:hover {
-            color: var(--yellow-color) !important;
-        }
-        .header--scrolled .main__logo--img {
-            filter: brightness(0) invert(1);
-        }
-        .hero__nav .main__header--inner{
-            display: grid;
-            grid-template-columns: auto auto auto;
-            justify-items: center;
-            padding: 1.5rem;
+        .site__main > * {
+            min-width: 0;
+            box-sizing: border-box;
         }
     </style>
 
@@ -1575,7 +1615,7 @@
     <!-- views/partials/header.ejs -->
 
     <header
-        class="header__section header__transparent">
+        class="header__section">
 
         <!-- ── Topbar Announcement ─────────────────────── -->
         <div class="header__topbar bg__primary">
@@ -1828,108 +1868,26 @@
     <main
         class="site__main">
 
-        <!-- ── HERO SLIDER ──────────────────────────────── -->
-        <section class="hero__slider--section">
-            <div class="hero__slider--activation swiper">
-                <div
-                    class="swiper-wrapper">
-
-                    <!-- ── Slide 1 ─────────────────────── -->
-                    <div class="swiper-slide">
-                        <div class="hero__slider--items">
-                            <div class="hero__content-container">
-                                <div class="hero__content-wrapper">
-                                    <div class="hero__content-inner">
-                                        <div class="slider__content">
-                                            <span class="slider__subtitle">New Collection</span>
-                                            <h2 class="slider__maintitle">
-                                                Mary Humphrey
-                                                <span class="accent">Wear</span>
-                                            </h2>
-                                            <p class="slider__desc">
-                                                Bold African-inspired designs crafted for the modern individual.
-                                                                                                                      Celebrate your identity, stand out beautifully.
-                                            </p>
-                                            <a class="slider__btn" href="shop.html">
-                                                Shop Now
-                                                <svg width="16" height="11" viewbox="0 0 17 12" fill="none"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"/></svg>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="hero__slider--layer">
-                                <img class="slider__layer--img" src="assets/IMG-20260622-WA0005.webp" alt="Mary Humphrey Wear – Ankara Dungaree">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ── Slide 2 ─────────────────────── -->
-                    <div class="swiper-slide">
-                        <div class="hero__slider--items">
-                            <div class="hero__content-container">
-                                <div class="hero__content-wrapper">
-                                    <div class="hero__content-inner">
-                                        <div class="slider__content">
-                                            <span class="slider__subtitle">Street Luxe</span>
-                                            <h2 class="slider__maintitle">
-                                                Ankara Street
-                                                <span class="accent">Luxe Set</span>
-                                            </h2>
-                                            <p class="slider__desc">
-                                                Where Ankara artistry meets modern street luxury.
-                                                                                                                      For those who embrace culture, confidence, and individuality.
-                                            </p>
-                                            <a class="slider__btn" href="shop.html">
-                                                Explore Collection
-                                                <svg width="16" height="11" viewbox="0 0 17 12" fill="none"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"/></svg>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="hero__slider--layer">
-                                <img class="slider__layer--img" src="assets/IMG-20260622-WA0068.webp" alt="Ankara Street Luxe Set">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ── Slide 3 ─────────────────────── -->
-                    <div class="swiper-slide">
-                        <div class="hero__slider--items">
-                            <div class="hero__content-container">
-                                <div class="hero__content-wrapper">
-                                    <div class="hero__content-inner">
-                                        <div class="slider__content">
-                                            <span class="slider__subtitle">Home & Living</span>
-                                            <h2 class="slider__maintitle">
-                                                African Luxe
-                                                <span class="accent">Throw</span>
-                                            </h2>
-                                            <p class="slider__desc">
-                                                Transform your space with bold Ankara patterns, timeless design,
-                                                                                                                      and the beauty of African craftsmanship.
-                                            </p>
-                                            <a class="slider__btn" href="shop.html">
-                                                Shop Now
-                                                <svg width="16" height="11" viewbox="0 0 17 12" fill="none"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"/></svg>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="hero__slider--layer">
-                                <img class="slider__layer--img" src="assets/IMG-20260622-WA0079.webp" alt="African Luxe Throw">
-                            </div>
-                        </div>
-                    </div>
-
+        <!-- ── HERO SECTION ──────────────────────────────── -->
+        <section class="hero-section">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <span class="hero-subtitle">New Collection</span>
+                    <h2 class="hero-title">
+                        Mary Humphrey
+                        <span class="hero-accent">Wear</span>
+                    </h2>
+                    <p class="hero-desc">
+                        Bold African-inspired designs crafted for the modern individual. Celebrate your identity, stand out beautifully.
+                    </p>
+                    <a class="hero-btn" href="shop.html">
+                        Shop Now
+                        <svg width="16" height="11" viewbox="0 0 17 12" fill="none"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"/></svg>
+                    </a>
                 </div>
-                <!-- /.swiper-wrapper -->
-                <div class="swiper-pagination"></div>
             </div>
         </section>
-        <!-- /HERO SLIDER -->
+        <!-- /HERO SECTION -->
 
         <!-- ═══════════════════════════════════════════════
                        FEATURES / SHIPPING BAR
@@ -2128,11 +2086,11 @@
         <!-- Heritage & Culture Segment Section -->
         <section class="heritage-culture-section">
             <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
+                <div class="hc-layout">
+                    <div class="hc-layout__image">
                         <img src="assets/IMG-20260622-WA0081.webp" alt="Leather and Canvas" class="hc-image">
                     </div>
-                    <div class="col-md-6 hc-content">
+                    <div class="hc-layout__content hc-content">
                         <span class="hc-subtitle">THE LOVE STORY OF</span>
                         <h2 class="hc-title">LEATHER & CANVAS</h2>
                         <p class="hc-desc">We started out making luxury safari tents and for the past 20 years we've been making beautiful canvas and leather bags that last. The romance of safari is woven into our fabric.</p>
@@ -2247,8 +2205,7 @@
                 </div>
 
                 <div class="testimonial__swiper swiper">
-                    <div
-                        class="swiper-wrapper">
+                    <div class="swiper-wrapper">
                         <!-- Testimonial 1 -->
                         <div class="swiper-slide">
                             <div class="testimonial-card">
@@ -2293,7 +2250,6 @@
                                 <h4>Michael D.</h4>
                             </div>
                         </div>
-
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>

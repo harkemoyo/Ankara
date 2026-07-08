@@ -1321,21 +1321,16 @@
             font-size: 1.4rem;
             color: var(--primary-color);
         }
-        .quickview__price {
-            margin-right: 1rem;
-        }
+       
         .quickview__details-link {
             text-decoration: underline;
             font-size: 1.2rem;
             color: var(--foreground-sub-color);
         }
-        .quickview__color-wrap {
-            margin-bottom: 2.5rem;
-        }
+        
         .quickview__color-label {
             font-size: 1.4rem;
             color: var(--primary-color);
-            margin-bottom: 1.5rem;
         }
         .quickview__color-value {
             color: var(--foreground-sub-color);
@@ -1344,9 +1339,7 @@
             display: flex;
             gap: 1.2rem;
         }
-        .quickview__qty-wrap {
-            margin-bottom: 3rem;
-        }
+        
         .quickview__qty-label {
             font-size: 1.4rem;
             color: var(--primary-color);
@@ -1384,7 +1377,9 @@
         }
 
         .bag-of-the-month {
-            padding: 8rem 0;
+            display: grid;
+            gap: 1.5rem;
+            padding-block: 1.5rem;
             background-color: var(--body-background-color);
         }
         .botm-header-subtitle {
@@ -1393,35 +1388,28 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--foreground-sub-color);
-            margin-bottom: 1rem;
         }
-        .botm-image-wrap {
-            padding: 4rem;
-            text-align: center;
-        }
+       
         .botm-image {
             width: 100%;
             max-width: 400px;
-            display: inline-block;
+            display: block;
+            aspect-ratio: 1/1;
+            height: 100%;
+            object-fit: cover;
         }
         .botm-content {
             padding-left: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            align-items: flex-start;
         }
         .botm-title {
             font-family: var(--frank-ruhl-fonts);
             font-size: 3.2rem;
             color: var(--primary-color);
             line-height: 1.2;
-            margin: 0;
         }
         .botm-price {
             font-size: 2.2rem;
             color: var(--primary-color);
-            margin: 0;
         }
         .botm-reviews {
             font-size: 1.3rem;
@@ -1429,7 +1417,6 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin: 0;
         }
         .botm-stars {
             color: #e5e5e5;
@@ -1437,7 +1424,6 @@
         .botm-color-label {
             font-size: 1.4rem;
             color: var(--primary-color);
-            margin: 0;
         }
         .botm-color-val {
             font-weight: 500;
@@ -1543,21 +1529,26 @@
         /* ══ Bag of the Month Layout ══ */
         .botm-layout {
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 6rem;
+            gap: 3rem;
+            padding-inline: 1rem;
         }
-        .botm-layout__image {
-            flex: 1;
-            min-width: 0;
-        }
-        .botm-layout__content {
-            flex: 1;
-            min-width: 0;
-        }
-        @media only screen and (max-width: 767px) {
+        @media only screen and (min-width: 1200px) {
             .botm-layout {
-                flex-direction: column;
-                gap: 3rem;
+                gap: 6rem;
+            }
+        }
+        .botm-content{
+            display: flex;
+            gap: 1.5rem;
+            flex-direction: column;
+        }
+    
+        @media only screen and (min-width: 767px) {
+            .botm-layout {
+                flex-direction: row;
             }
         }
 
@@ -1607,6 +1598,7 @@
             min-width: 0;
             box-sizing: border-box;
         }
+      
  
     </style>
 
@@ -2100,49 +2092,48 @@
 
         <!-- Style of the Month -->
         <section class="bag-of-the-month">
-            <div class="container">
-                <div class="section-header">
-                    <span class="botm-header-subtitle">Mary Humphrey Collection</span>
-                    <h2 class="section__heading--maintitle">STYLE OF THE MONTH</h2>
+            
+            <div class="section-header">
+                <span class="botm-header-subtitle">Mary Humphrey Collection</span>
+                <h2 class="section__heading--maintitle">STYLE OF THE MONTH</h2>
+            </div>
+            <div class="botm-layout">
+                <div class="botm-layout__image">
+                    <div class="botm-image-wrap">
+                        <img src="assets/IMG-20260622-WA0009.webp" alt="Style of the month" class="botm-image">
+                    </div>
                 </div>
-                <div class="botm-layout">
-                    <div class="botm-layout__image">
-                        <div class="botm-image-wrap">
-                            <img src="assets/IMG-20260622-WA0009.webp" alt="Style of the month" class="botm-image">
+                <div class="botm-layout__content botm-content">
+                    <h3 class="botm-title">Classic Ankara Print Bag</h3>
+                    <div class="botm-price">KSh 4,500</div>
+                    <div class="botm-reviews">
+                        <span class="botm-stars">★★★★★</span>
+                        No reviews
+                    </div>
+
+                    <div class="quickview__color-wrap">
+                        <div class="botm-color-label">Color:
+                            <span class="botm-color-val">Classic Pattern</span>
+                        </div>
+                        <div class="quickview__swatches">
+                            <span class="swatch-item large active" style="background-color:#6e1d23;"></span>
+                            <span class="swatch-item large" style="background-color:#82871f;"></span>
+                            <span class="swatch-item large" style="background-color:#0b8783;"></span>
                         </div>
                     </div>
-                    <div class="botm-layout__content botm-content">
-                        <h3 class="botm-title">Classic Ankara Print Bag</h3>
-                        <div class="botm-price">KSh 4,500</div>
-                        <div class="botm-reviews">
-                            <span class="botm-stars">★★★★★</span>
-                            No reviews
-                        </div>
 
-                        <div class="quickview__color-wrap">
-                            <div class="botm-color-label">Color:
-                                <span class="botm-color-val">Classic Pattern</span>
-                            </div>
-                            <div class="quickview__swatches">
-                                <span class="swatch-item large active" style="background-color:#6e1d23;"></span>
-                                <span class="swatch-item large" style="background-color:#82871f;"></span>
-                                <span class="swatch-item large" style="background-color:#0b8783;"></span>
-                            </div>
+                    <div class="quickview__qty-wrap">
+                        <div class="botm-color-label">Quantity:</div>
+                        <div class="quickview__qty-selector">
+                            <button class="qty-btn">&minus;</button>
+                            <input type="text" value="1" class="qty-input">
+                            <button class="qty-btn">+</button>
                         </div>
+                    </div>
 
-                        <div class="quickview__qty-wrap">
-                            <div class="botm-color-label">Quantity:</div>
-                            <div class="quickview__qty-selector">
-                                <button class="qty-btn">&minus;</button>
-                                <input type="text" value="1" class="qty-input">
-                                <button class="qty-btn">+</button>
-                            </div>
-                        </div>
-
-                        <div class="botm-actions">
-                            <button class="botm-btn botm-btn-secondary large">Add to Cart</button>
-                            <button class="botm-btn botm-btn-primary large">Buy It Now</button>
-                        </div>
+                    <div class="botm-actions">
+                        <button class="botm-btn botm-btn-secondary large">Add to Cart</button>
+                        <button class="botm-btn botm-btn-primary large">Buy It Now</button>
                     </div>
                 </div>
             </div>
@@ -2150,7 +2141,7 @@
 
         <!-- Heritage & Culture Segment Section -->
         <section class="heritage-culture-section">
-            <div class="container">
+            <div>
                 <div class="hc-layout">
                     <div class="hc-layout__image">
                         <img src="assets/IMG-20260622-WA0081.webp" alt="Leather and Canvas" class="hc-image">
@@ -2177,7 +2168,7 @@
 
         <!-- Shop by Style Grid -->
         <section class="home-shop-by-style section--padding">
-            <div class="container">
+            <div>
                 <div class="section-header">
                     <h2 class="section__heading--maintitle">Shop by Style</h2>
                 </div>
@@ -2250,7 +2241,7 @@
         <!-- Full-width Statement Banner -->
         <section class="home-statement" style="background-image: url('assets/IMG-20260622-WA0081.webp');">
             <div class="home-statement__overlay"></div>
-            <div class="container">
+            <div >
                 <div class="home-statement__inner">
                     <div class="home-statement__content">
                         <h2 class="home-statement__title">Redefining African Elegance</h2>
@@ -2264,7 +2255,7 @@
 
         <!-- Minimalist Testimonials Grid -->
         <section class="home-testimonials section--padding">
-            <div class="container">
+            <div>
                 <div class="section__heading text-center">
                     <h2 class="section__heading--maintitle">Recent Testimonials</h2>
                 </div>

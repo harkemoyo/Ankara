@@ -772,7 +772,8 @@ hr {
   justify-content: space-between;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding-block: 1.5rem;
+  padding-inline: 1.5rem;
 }
 
 /* Footer column widths */
@@ -2509,7 +2510,7 @@ quantity icon button
 
 .header__menu--items {
   position: relative;
-  padding: 1.2rem 0;
+
 }
 
 .header__menu--items:hover .header__menu--link {
@@ -6863,10 +6864,6 @@ input[type=number]::-webkit-outer-spin-button {
     width: 4.2rem;
     height: 4.2rem;
   }
-}
-
-.footer__logo {
-  margin-bottom: 0.5rem;
 }
 
 

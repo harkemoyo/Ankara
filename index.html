@@ -143,7 +143,7 @@
             display: inline-flex;
             align-items: center;
             gap: 1rem;
-            padding: 1.4rem 3.5rem;
+            padding: 1.4rem 1.5rem;
             background: var(--primary-color);
             color: #fff;
             font-family: var(--karma-fonts);
@@ -634,20 +634,27 @@
             opacity: 1;
         }
         .hero-container {
-            text-align: left;
-            height: 60vh;
-            min-height: 600px;
-            padding-top: 200px; /* Offset for absolute header */
+            display: flex;
+            align-items: center;
+            height: 90vh;
+            min-height: 500px;
+            padding-top: 100px; /* Offset for absolute header */
         }
         .hero-content {
             display: flex;
-            flex-direction: column; 
-            align-items: flex-start;
-            gap: 1.5rem;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+            gap: 1rem;
             max-width: 700px;
             box-sizing: border-box;
-            text-align: left;
             padding: 0 2rem;
+        }
+        @media only screen and (min-width: 992px) {
+            .hero-content {
+                gap: 1.5rem;
+                box-sizing: border-box;
+            }
         }
         .hero-subtitle {
             display: block;
@@ -663,6 +670,7 @@
             line-height: 1.1;
             color: #ffffff;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            text-align: center;
         }
         .hero-accent {
             display: block;
@@ -673,10 +681,11 @@
             font-size: 1.55rem;
             line-height: 1.8;
             color: #e0e0e0;
-            text-align: left;
+            text-align: center;
             max-width: 500px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
+
         .hero-btn {
             display: inline-flex;
             align-items: center;
@@ -696,20 +705,18 @@
             background: transparent;
             color: var(--primary-color);
         }
-        @media (max-width: 991px) {
-            /* .hero-container {
-                flex-direction: column-reverse;
-                height: auto;
-                min-height: 0;
-                padding-top: 2rem;
+        @media (max-width: 767px) {
+            .hero-container {
+                min-height: 450px;
+                padding-top: 80px;
             }
-            .hero-content {
-                padding: 4rem 2rem !important;
-                text-align: center;
-                margin: 0 auto;
-                max-width: 100%;
-            } */
-
+            .hero-desc {
+                font-size: 1.35rem;
+            }
+            .hero-btn {
+                padding: 1.2rem 2.5rem;
+                font-size: 1.2rem;
+            }
         }
         
         .shop__collection--img {
@@ -747,7 +754,7 @@
 
         /* ══ Style Blocks (shop category grid) ══ */
         .style-block {
-            aspect-ratio: 4 / 3;
+            aspect-ratio: 4 / 5;
             overflow: hidden;
             background: #e5e5e5;
             position: relative;
@@ -809,8 +816,13 @@
             justify-content: flex-end;
         }
         .home-statement__content {
-            flex: 1 1 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
             max-width: 600px;
+            padding-inline: 1.5rem;
             text-align: center;
         }
         .home-statement__title {
@@ -818,13 +830,12 @@
             font-family: 'Frank Ruhl Libre', serif;
             font-size: 4.5rem;
             font-weight: 700;
-            margin-bottom: 2rem;
+            line-height: 1;
         }
         .home-statement__text {
             color: #fff;
             font-size: 1.6rem;
             line-height: 1.8;
-            margin-bottom: 3rem;
             max-width: 500px;
             margin-left: auto;
             margin-right: auto;
@@ -1007,7 +1018,7 @@
 
         .style-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
         }
 
@@ -1140,6 +1151,10 @@
 
         /* ══ Shop by Style Section ══ */
         .home-shop-by-style {
+            display: grid;
+            gap: 2rem;
+            padding-block: 1.5rem;
+            padding-inline: 1.5rem;
             background-color: var(--body-background-color);
         }
         .home-shop-by-style .container {
@@ -1149,7 +1164,7 @@
         }
         .style-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
         }
 
@@ -1458,7 +1473,7 @@
         }
 
         .heritage-culture-section {
-            padding: 8rem 0;
+            padding-block: 1.5rem;
             background-color: var(--bg-offwhite-color);
         }
         .hc-image {
@@ -1598,7 +1613,12 @@
             min-width: 0;
             box-sizing: border-box;
         }
-      
+        .home__shop--container{
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
  
     </style>
 
@@ -2168,7 +2188,7 @@
 
         <!-- Shop by Style Grid -->
         <section class="home-shop-by-style section--padding">
-            <div>
+            <div class="home__shop--container">
                 <div class="section-header">
                     <h2 class="section__heading--maintitle">Shop by Style</h2>
                 </div>

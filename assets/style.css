@@ -8115,11 +8115,11 @@ input.quickview__value--number {
   }
 }
 
-.product__view--mode {
+/* .product__view--mode {
   gap: 2.5rem;
-}
+} */
 
-@media only screen and (max-width: 767px) {
+/* @media only screen and (max-width: 767px) {
   .product__view--mode {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
@@ -8134,7 +8134,7 @@ input.quickview__value--number {
   .product__view--mode {
     gap: 1.5rem;
   }
-}
+} */
 
 .product__view--label {
   font-weight: 500;

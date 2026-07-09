@@ -753,7 +753,10 @@ window.addEventListener("resize", function () {
   document.querySelectorAll(".footer__widget").forEach(function (item) {
     if (window.outerWidth >= 768) {
       item.classList.remove("active");
-      item.querySelector(".footer__widget--inner").style.display = "";
+      let inner = item.querySelector(".footer__widget--inner");
+      if (inner) {
+        inner.style.display = "";
+      }
     }
   });
   if (accordion) {

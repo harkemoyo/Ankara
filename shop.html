@@ -166,29 +166,31 @@
         
         .shop__header--controls {
             display: flex;
-            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding-block-end : 1rem;
             border-bottom: 1px solid var(--border-color);
+        }
+        @media screen and (min-width:767px) {
+          .shop__header--controls{
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+          }
         }
         
         .product__view--mode {
             display: flex;
             align-items: center;
-            justify-content: center;
-            flex: 1;
-            padding: 1.5rem 0;
-            border-right: 1px solid var(--border-color);
         }
         
         .product__view--mode__list {
             display: flex;
             align-items: center;
-            justify-content: center;
-            flex: 1;
-            padding: 1.5rem 0;
         }
 
         .product__count {
-            padding: 1.5rem 0;
             text-align: center;
         }
         

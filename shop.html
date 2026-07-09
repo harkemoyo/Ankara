@@ -159,25 +159,45 @@
         /* Shop Header Custom CSS */
         .shop__header {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 0;
+            flex-direction: column;
             border-bottom: 1px solid var(--border-color);
             border-top: 1px solid var(--border-color);
+        }
+        
+        .shop__header--controls {
+            display: flex;
+            width: 100%;
+            border-bottom: 1px solid var(--border-color);
         }
         
         .product__view--mode {
             display: flex;
             align-items: center;
+            justify-content: center;
             flex: 1;
+            padding: 1.5rem 0;
+            border-right: 1px solid var(--border-color);
+        }
+        
+        .product__view--mode__list {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 1.5rem 0;
+        }
+
+        .product__count {
+            padding: 1.5rem 0;
+            text-align: center;
         }
         
         .widget__filter--btn {
             display: flex;
             align-items: center;
             background: none;
-            border: 1px solid var(--border-color);
-            padding: 0.8rem 1.5rem;
+            border: none;
+            padding: 0;
             cursor: pointer;
             color: var(--primary-color);
         }
@@ -188,7 +208,7 @@
         
         .widget__filter--btn__text {
             font-weight: 500;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
         }
         
         .shop__header--right {
@@ -204,12 +224,13 @@
         }
         
         .product__view--select {
-            border: 1px solid var(--border-color);
-            padding: 0.8rem 1.5rem;
+            border: none;
+            padding: 0;
             background: transparent;
             color: var(--primary-color);
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             cursor: pointer;
+            font-weight: 500;
         }
 
         /* Shop Product Grid */
@@ -236,11 +257,7 @@
   flex-direction: column;
   gap: 2rem;
 }
-.shop__header{
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
+
 
 \n</style>
     <script src="assets/popper.js" defer></script>
@@ -963,36 +980,37 @@
                 </div>
                 <div class="collection_wrapper">
                     <div class="shop__product--wrapper position__sticky">
-                        <div
-                            class="shop__header">
-                            <!-- Left: Filter Button -->
-                            <div class="product__view--mode">
-                                <button class="widget__filter--btn" onclick="toggleFilter()">
-                                    <svg class="widget__filter--btn__icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512" width="20" height="20" class="widget__filter--btn__icon-svg">
-                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 128h80M64 128h240M368 384h80M64 384h240M208 256h240M64 256h80"/>
-                                        <circle cx="336" cy="128" r="32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
-                                        <circle cx="176" cy="256" r="32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
-                                        <circle cx="336" cy="384" r="32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
-                                    </svg>
-                                    <span class="widget__filter--btn__text">Filter</span>
-                                </button>
+                        <div class="shop__header">
+                            <div class="shop__header--controls">
+                                <!-- Left: Filter Button -->
+                                <div class="product__view--mode">
+                                    <button class="widget__filter--btn" onclick="toggleFilter()">
+                                        <svg class="widget__filter--btn__icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512" width="20" height="20" class="widget__filter--btn__icon-svg">
+                                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 128h80M64 128h240M368 384h80M64 384h240M208 256h240M64 256h80"/>
+                                            <circle cx="336" cy="128" r="32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
+                                            <circle cx="176" cy="256" r="32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
+                                            <circle cx="336" cy="384" r="32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
+                                        </svg>
+                                        <span class="widget__filter--btn__text">Filters</span>
+                                    </button>
+                                </div>
+
+                                <!-- Right: Sort By Dropdown -->
+                                <div class="product__view--mode__list product__short--by">
+                                    <div class="select shop__header--select">
+                                        <select class="product__view--select">
+                                            <option selected value="1">Sort by</option>
+                                            <option value="2">Sort by latest</option>
+                                            <option value="3">Sort by popularity</option>
+                                            <option value="4">Sort by price</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Center: Product Count -->
-                            <div class="product__count text-center" style="flex: 1;">
+                            <div class="product__count text-center">
                                 <span style="font-size: 1.5rem; color: var(--foreground-sub-color);">89 products</span>
-                            </div>
-
-                            <!-- Right: Sort By Dropdown -->
-                            <div class="product__view--mode__list product__short--by align-items-center d-flex justify-content-end" style="flex: 1;">
-                                <div class="select shop__header--select">
-                                    <select class="product__view--select">
-                                        <option selected value="1">Featured</option>
-                                        <option value="2">Sort by latest</option>
-                                        <option value="3">Sort by popularity</option>
-                                        <option value="4">Sort by price</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                         <div class="tab_content">

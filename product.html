@@ -442,9 +442,15 @@
                             </div>
                         </div>
 
-                        <!-- Quantity Box (Hidden but functional) -->
-                        <input
-                        type="hidden" id="product-quantity" value="1">
+                        <!-- Quantity Stepper -->
+                        <div style="display:flex;flex-direction:column;gap:0.8rem;">
+                            <h4 style="font-family:'Karma',sans-serif;font-size:1.5rem;color:var(--primary-color);font-weight:500;margin:0;">Quantity</h4>
+                            <div style="display:inline-flex;align-items:center;border:1px solid #1a1a1a;width:fit-content;">
+                                <button type="button" onclick="changeQty(-1)" style="width:4rem;height:4.5rem;background:none;border:none;font-size:2rem;cursor:pointer;color:#1a1a1a;line-height:1;">−</button>
+                                <input type="number" id="product-quantity-display" value="1" min="1" readonly style="width:5rem;height:4.5rem;text-align:center;border:none;border-left:1px solid #1a1a1a;border-right:1px solid #1a1a1a;font-size:1.5rem;background:#fff;">
+                                <button type="button" onclick="changeQty(1)" style="width:4rem;height:4.5rem;background:none;border:none;font-size:2rem;cursor:pointer;color:#1a1a1a;line-height:1;">+</button>
+                            </div>
+                        </div>
 
                         <!-- Buttons -->
                         <div style="display: flex; flex-direction: column; gap: 1.5rem;">
@@ -849,4 +855,5 @@
             });
         }
     </script>
+    <script type="module" src='assets/storefront-api.js'></script>
 </body></html>

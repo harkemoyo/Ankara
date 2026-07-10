@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Admin — Ankara Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --sidebar-w: 240px;
+      --bg: #f5f6fa;
+      --card: #ffffff;
+      --border: #e0e0e0;
+      --primary: #1a1a1a;
+      --accent: #6C47FF;
+      --accent-hover: #5639d9;
+      --danger: #e74c3c;
+      --success: #27ae60;
+      --text: #1a1a1a;
+      --muted: #888;
+      --radius: 8px;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
+
+    /* ── LOGIN ── */
+    #login-screen {
+      position: fixed; inset: 0; background: #0f0f1a;
+      display: flex; align-items: center; justify-content: center; z-index: 999;
+    }
+    .login-box {
+      background: #1a1a2e; border: 1px solid #2d2d4e; border-radius: 12px;
+      padding: 48px 40px; width: 380px; text-align: center;
+    }
+    .login-box h1 { color: #fff; font-size: 2.2rem; margin-bottom: 6px; }
+    .login-box p { color: #888; font-size: 1.3rem; margin-bottom: 32px; }
+    .login-box input {
+      width: 100%; padding: 12px 16px; background: #0f0f1a; border: 1px solid #2d2d4e;
+      border-radius: 8px; color: #fff; font-size: 1.4rem; margin-bottom: 14px;
+    }
+    .login-box input::placeholder { color: #555; }
+    .login-box button {
+      width: 100%; padding: 14px; background: var(--accent); color: #fff;
+      border: none; border-radius: 8px; font-size: 1.5rem; font-weight: 600; cursor: pointer;
+    }
+    .login-box button:hover { background: var(--accent-hover); }
+    .login-error { color: #e74c3c; font-size: 1.3rem; margin-top: 12px; min-height: 20px; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w); background: var(--primary); color: #fff;
+      display: flex; flex-direction: column; padding: 24px 0; position: fixed;
+      top: 0; left: 0; height: 100vh; overflow-y: auto;
+    }
+    .sidebar-brand { padding: 0 24px 24px; border-bottom: 1px solid #333; }
+    .sidebar-brand h2 { font-size: 1.6rem; font-weight: 700; }
+    .sidebar-brand span { font-size: 1.1rem; color: #888; }
+    .sidebar-nav { flex: 1; padding: 16px 0; }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 24px; color: #aaa; text-decoration: none; font-size: 1.4rem;
+      border-left: 3px solid transparent; transition: all 0.2s;
+    }
+    .sidebar-nav a:hover { color: #fff; background: #2a2a2a; }
+    .sidebar-nav a.active { color: #fff; border-left-color: var(--accent); background: #2a2a2a; }
+    .sidebar-nav .icon { font-size: 1.6rem; width: 22px; text-align: center; }
+    .sidebar-footer { padding: 16px 24px; border-top: 1px solid #333; }
+    .sidebar-footer button {
+      width: 100%; padding: 10px; background: #2a2a2a; color: #aaa;
+      border: 1px solid #333; border-radius: 6px; cursor: pointer; font-size: 1.3rem;
+    }
+    .sidebar-footer button:hover { background: var(--danger); color: #fff; }
+
+    /* ── MAIN ── */
+    .main { margin-left: var(--sidebar-w); flex: 1; padding: 32px; min-height: 100vh; }
+
+    /* ── PAGE SECTIONS ── */
+    .admin-section { display: none; }
+    .admin-section.active { display: block; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .page-header h1 { font-size: 2.4rem; font-weight: 700; }
+
+    /* ── CARDS ── */
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+    .stat-card .label { font-size: 1.2rem; color: var(--muted); margin-bottom: 8px; }
+    .stat-card .value { font-size: 2.8rem; font-weight: 700; }
+
+    /* ── BUTTONS ── */
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: none; border-radius: 6px; font-size: 1.3rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-danger:hover { opacity: 0.85; }
+    .btn-ghost { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+    .btn-ghost:hover { background: var(--bg); }
+    .btn-sm { padding: 6px 12px; font-size: 1.2rem; }
+
+    /* ── TABLE ── */
+    .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: #f9f9fb; }
+    th { padding: 14px 16px; text-align: left; font-size: 1.2rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    td { padding: 14px 16px; border-top: 1px solid var(--border); font-size: 1.3rem; vertical-align: middle; }
+    tr:hover td { background: #fafafa; }
+    .thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; background: #eee; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 1.1rem; font-weight: 500; }
+    .badge-green { background: #e8f8f0; color: var(--success); }
+    .badge-gray { background: #f0f0f0; color: var(--muted); }
+
+    /* ── SWATCH PREVIEW ── */
+    .swatch-dot { display: inline-block; width: 16px; height: 16px; border-radius: 50%; border: 1px solid #ddd; margin-right: 3px; vertical-align: middle; }
+
+    /* ── MODAL ── */
+    .modal-backdrop {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+      z-index: 100; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 40px 16px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--card); border-radius: 12px; width: 640px; max-width: 100%;
+      padding: 32px; position: relative; margin: auto;
+    }
+    .modal h2 { font-size: 1.8rem; margin-bottom: 24px; }
+    .modal-close { position: absolute; top: 16px; right: 20px; font-size: 2.2rem; cursor: pointer; background: none; border: none; color: var(--muted); line-height: 1; }
+    .modal-close:hover { color: var(--text); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    label { font-size: 1.2rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    input[type=text], input[type=number], input[type=email], input[type=password], textarea, select {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px;
+      font-size: 1.4rem; font-family: 'Inter', sans-serif; background: var(--card); color: var(--text);
+    }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); }
+    textarea { resize: vertical; }
+    .helper-text { font-size: 1.2rem; color: var(--muted); }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 28px; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; background: #1a1a1a; color: #fff;
+      padding: 14px 22px; border-radius: 8px; font-size: 1.4rem; z-index: 9999;
+      opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.error { background: var(--danger); }
+    .toast.success { background: var(--success); }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN SCREEN ── -->
+<div id="login-screen">
+  <div class="login-box">
+    <h1>Ankara Admin</h1>
+    <p>Sign in to your dashboard</p>
+    <input type="email" id="login-email" placeholder="Email address">
+    <input type="password" id="login-password" placeholder="Password">
+    <button onclick="doLogin()">Sign In</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <h2>Ankara</h2>
+    <span>Store Admin</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="#" class="active" data-section="dashboard" onclick="showSection('dashboard',this)">
+      <span class="icon">📊</span> Dashboard
+    </a>
+    <a href="#" data-section="products" onclick="showSection('products',this)">
+      <span class="icon">📦</span> Products
+    </a>
+    <a href="#" data-section="collections" onclick="showSection('collections',this)">
+      <span class="icon">🗂️</span> Collections
+    </a>
+    <a href="#" data-section="settings" onclick="showSection('settings',this)">
+      <span class="icon">⚙️</span> Settings
+    </a>
+    <a href="index.html" target="_blank" style="margin-top:auto;">
+      <span class="icon">🌐</span> View Store
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <button onclick="doLogout()">Sign Out</button>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- Dashboard -->
+  <section id="section-dashboard" class="admin-section active">
+    <div class="page-header">
+      <h1>Dashboard</h1>
+      <span id="admin-user-email" style="color:var(--muted);font-size:1.3rem;"></span>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="label">Products</div><div class="value" id="stat-products">—</div></div>
+      <div class="stat-card"><div class="label">Collections</div><div class="value" id="stat-collections">—</div></div>
+      <div class="stat-card"><div class="label">In Stock</div><div class="value" id="stat-instock">—</div></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
+      <h3 style="margin-bottom:16px;font-size:1.5rem;">Quick Actions</h3>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="showSection('products',document.querySelector('[data-section=products]'));openProductModal()">+ Add Product</button>
+        <button class="btn btn-ghost" onclick="showSection('collections',document.querySelector('[data-section=collections]'));openCollectionModal()">+ Add Collection</button>
+        <a href="shop.html" target="_blank" class="btn btn-ghost">View Shop ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section id="section-products" class="admin-section">
+    <div class="page-header">
+      <h1>Products</h1>
+      <button class="btn btn-primary" onclick="openProductModal()">+ Add Product</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th><th>Title</th><th>Collection</th><th>Price</th><th>Colors</th><th>Stock</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="products-tbody">
+          <tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Collections -->
+  <section id="section-collections" class="admin-section">
+    <div class="page-header">
+      <h1>Collections</h1>
+      <button class="btn btn-primary" onclick="openCollectionModal()">+ Add Collection</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Title</th><th>Handle</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="collections-tbody">
+          <tr><td colspan="3" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Settings -->
+  <section id="section-settings" class="admin-section">
+    <div class="page-header"><h1>Store Settings</h1></div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:560px;">
+      <div class="form-group" style="margin-bottom:20px;">
+        <label>Store Name</label>
+        <input type="text" id="setting-store-name">
+      </div>
+      <div class="form-group" style="margin-bottom:20px;">
+        <label>Currency Symbol</label>
+        <input type="text" id="setting-currency" style="width:80px;">
+      </div>
+      <div class="form-group" style="margin-bottom:20px;">
+        <label>Announcement Bar Text</label>
+        <input type="text" id="setting-announcement" placeholder="e.g. Free shipping on orders over £80">
+      </div>
+      <div class="form-group" style="margin-bottom:20px;">
+        <label>Logo URL</label>
+        <input type="text" id="setting-logo" placeholder="assets/logo.webp">
+      </div>
+      <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── PRODUCT MODAL ── -->
+<div class="modal-backdrop" id="product-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeProductModal()">×</button>
+    <h2 id="product-modal-title">Add Product</h2>
+    <div class="form-grid">
+      <input type="hidden" id="p-id">
+      <div class="form-group full">
+        <label>Title *</label>
+        <input type="text" id="p-title" placeholder="Ankara Print Dress">
+      </div>
+      <div class="form-group">
+        <label>Handle (URL slug) *</label>
+        <input type="text" id="p-handle" placeholder="ankara-print-dress">
+      </div>
+      <div class="form-group">
+        <label>Collection</label>
+        <select id="p-collection">
+          <option value="">— Select —</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Price (£) *</label>
+        <input type="number" id="p-price" placeholder="85.00" step="0.01" min="0">
+      </div>
+      <div class="form-group">
+        <label>Compare At Price</label>
+        <input type="number" id="p-compare-price" placeholder="100.00" step="0.01" min="0">
+      </div>
+      <div class="form-group full">
+        <label>Description</label>
+        <textarea id="p-description" rows="3" placeholder="Product description..."></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Images (comma-separated URLs)</label>
+        <textarea id="p-images" rows="2" placeholder="assets/img1.webp, assets/img2.webp"></textarea>
+        <span class="helper-text">First image is the primary image shown on shop and product pages.</span>
+      </div>
+      <div class="form-group full">
+        <label>Sizes (comma-separated)</label>
+        <input type="text" id="p-sizes" placeholder="S, M, L, XL, 2X">
+      </div>
+      <div class="form-group full">
+        <label>Colors (JSON array)</label>
+        <textarea id="p-colors" rows="4" placeholder='[{"label":"Red Print","image":"assets/red.webp","hex":"#C0392B"}]'></textarea>
+        <span class="helper-text">Each color needs a label, image URL, and hex color code.</span>
+      </div>
+      <div class="form-group full">
+        <label>Tags (comma-separated)</label>
+        <input type="text" id="p-tags" placeholder="dresses, ankara, new">
+      </div>
+      <div class="form-group">
+        <label>In Stock</label>
+        <select id="p-in-stock">
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeProductModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProduct()">Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── COLLECTION MODAL ── -->
+<div class="modal-backdrop" id="collection-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeCollectionModal()">×</button>
+    <h2 id="collection-modal-title">Add Collection</h2>
+    <div class="form-grid">
+      <input type="hidden" id="c-id">
+      <div class="form-group full">
+        <label>Title *</label>
+        <input type="text" id="c-title" placeholder="Dresses">
+      </div>
+      <div class="form-group full">
+        <label>Handle *</label>
+        <input type="text" id="c-handle" placeholder="dresses">
+      </div>
+      <div class="form-group full">
+        <label>Description</label>
+        <textarea id="c-description" rows="2"></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Cover Image URL</label>
+        <input type="text" id="c-image" placeholder="assets/cover.webp">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeCollectionModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCollection()">Save Collection</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+// ─── CONFIG — Replace these with your real values ───────────────────────────
+const SUPABASE_URL      = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+// ────────────────────────────────────────────────────────────────────────────
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ── TOAST ──
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast ${type} show`;
+  setTimeout(() => el.className = 'toast', 3000);
+}
+
+// ── AUTH ──
+window.doLogin = async function() {
+  const email    = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  const errEl    = document.getElementById('login-error');
+  errEl.textContent = '';
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) { errEl.textContent = error.message; return; }
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('admin-user-email').textContent = data.user.email;
+  loadDashboard();
+};
+
+window.doLogout = async function() {
+  await supabase.auth.signOut();
+  document.getElementById('login-screen').style.display = 'flex';
+};
+
+// Check if already logged in
+supabase.auth.getUser().then(({ data }) => {
+  if (data.user) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-user-email').textContent = data.user.email;
+    loadDashboard();
+  }
+});
+
+// ── SECTION NAV ──
+window.showSection = function(name, linkEl) {
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById(`section-${name}`).classList.add('active');
+  if (linkEl) linkEl.classList.add('active');
+  if (name === 'products')    loadProducts();
+  if (name === 'collections') loadCollections();
+  if (name === 'settings')    loadSettings();
+};
+
+// ── DASHBOARD ──
+async function loadDashboard() {
+  const [{ count: pCount }, { count: cCount }, { count: sCount }] = await Promise.all([
+    supabase.from('products').select('*', { count: 'exact', head: true }),
+    supabase.from('collections').select('*', { count: 'exact', head: true }),
+    supabase.from('products').select('*', { count: 'exact', head: true }).eq('in_stock', true),
+  ]);
+  document.getElementById('stat-products').textContent    = pCount ?? '—';
+  document.getElementById('stat-collections').textContent = cCount ?? '—';
+  document.getElementById('stat-instock').textContent     = sCount ?? '—';
+}
+
+// ── PRODUCTS ──
+let products = [];
+async function loadProducts() {
+  const tbody = document.getElementById('products-tbody');
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+  const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
+  if (error) { toast('Failed to load products', 'error'); return; }
+  products = data || [];
+  if (products.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">No products yet. Add one!</td></tr>';
+    return;
+  }
+  tbody.innerHTML = products.map(p => {
+    const img = (p.images && p.images[0]) ? `<img src="${p.images[0]}" class="thumb" alt="${p.title}">` : '<div class="thumb"></div>';
+    const colors = (p.colors || []).map(c => `<span class="swatch-dot" style="background:${c.hex};" title="${c.label}"></span>`).join('');
+    return `<tr>
+      <td>${img}</td>
+      <td><strong>${p.title}</strong><br><span style="color:var(--muted);font-size:1.2rem;">${p.handle}</span></td>
+      <td>${p.collection || '—'}</td>
+      <td>£${parseFloat(p.price).toFixed(2)}</td>
+      <td>${colors || '—'}</td>
+      <td><span class="badge ${p.in_stock ? 'badge-green' : 'badge-gray'}">${p.in_stock ? 'In Stock' : 'Out'}</span></td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="window.editProduct(${p.id})">Edit</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:6px;" onclick="window.deleteProduct(${p.id})">Delete</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// Populate collection dropdown
+async function populateCollectionSelect() {
+  const sel = document.getElementById('p-collection');
+  const { data } = await supabase.from('collections').select('handle,title').order('sort_order');
+  sel.innerHTML = '<option value="">— None —</option>' +
+    (data || []).map(c => `<option value="${c.handle}">${c.title}</option>`).join('');
+}
+
+// Open add modal
+window.openProductModal = function() {
+  document.getElementById('product-modal-title').textContent = 'Add Product';
+  document.getElementById('p-id').value = '';
+  ['p-title','p-handle','p-price','p-compare-price','p-description','p-images','p-sizes','p-colors','p-tags']
+    .forEach(id => document.getElementById(id).value = '');
+  document.getElementById('p-sizes').value = 'S, M, L, XL, 2X';
+  document.getElementById('p-in-stock').value = 'true';
+  populateCollectionSelect();
+  document.getElementById('product-modal').classList.add('open');
+};
+window.closeProductModal = () => document.getElementById('product-modal').classList.remove('open');
+
+// Open edit modal
+window.editProduct = function(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('product-modal-title').textContent = 'Edit Product';
+  document.getElementById('p-id').value = p.id;
+  document.getElementById('p-title').value = p.title;
+  document.getElementById('p-handle').value = p.handle;
+  document.getElementById('p-price').value = p.price;
+  document.getElementById('p-compare-price').value = p.compare_at_price || '';
+  document.getElementById('p-description').value = p.description || '';
+  document.getElementById('p-images').value = (p.images || []).join(', ');
+  document.getElementById('p-sizes').value = (p.sizes || []).join(', ');
+  document.getElementById('p-colors').value = JSON.stringify(p.colors || [], null, 2);
+  document.getElementById('p-tags').value = (p.tags || []).join(', ');
+  document.getElementById('p-in-stock').value = p.in_stock ? 'true' : 'false';
+  populateCollectionSelect().then(() => {
+    document.getElementById('p-collection').value = p.collection || '';
+  });
+  document.getElementById('product-modal').classList.add('open');
+};
+
+// Save product
+window.saveProduct = async function() {
+  const id = document.getElementById('p-id').value;
+  let colorsVal = [];
+  try { colorsVal = JSON.parse(document.getElementById('p-colors').value || '[]'); } catch(e) { toast('Colors JSON is invalid', 'error'); return; }
+
+  const payload = {
+    title:            document.getElementById('p-title').value.trim(),
+    handle:           document.getElementById('p-handle').value.trim(),
+    price:            parseFloat(document.getElementById('p-price').value) || 0,
+    compare_at_price: parseFloat(document.getElementById('p-compare-price').value) || null,
+    description:      document.getElementById('p-description').value.trim(),
+    collection:       document.getElementById('p-collection').value,
+    images:           document.getElementById('p-images').value.split(',').map(s => s.trim()).filter(Boolean),
+    sizes:            document.getElementById('p-sizes').value.split(',').map(s => s.trim()).filter(Boolean),
+    colors:           colorsVal,
+    tags:             document.getElementById('p-tags').value.split(',').map(s => s.trim()).filter(Boolean),
+    in_stock:         document.getElementById('p-in-stock').value === 'true',
+  };
+
+  const { error } = id
+    ? await supabase.from('products').update(payload).eq('id', id)
+    : await supabase.from('products').insert([payload]);
+
+  if (error) { toast(error.message, 'error'); return; }
+  toast(id ? 'Product updated!' : 'Product added!');
+  closeProductModal();
+  loadProducts();
+};
+
+// Delete product
+window.deleteProduct = async function(id) {
+  if (!confirm('Delete this product? This cannot be undone.')) return;
+  const { error } = await supabase.from('products').delete().eq('id', id);
+  if (error) { toast(error.message, 'error'); return; }
+  toast('Product deleted');
+  loadProducts();
+};
+
+// ── COLLECTIONS ──
+let collections = [];
+async function loadCollections() {
+  const tbody = document.getElementById('collections-tbody');
+  tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+  const { data, error } = await supabase.from('collections').select('*').order('sort_order');
+  if (error) { toast('Failed to load collections', 'error'); return; }
+  collections = data || [];
+  tbody.innerHTML = collections.map(c => `<tr>
+    <td><strong>${c.title}</strong>${c.description ? `<br><span style="color:var(--muted);font-size:1.2rem;">${c.description}</span>` : ''}</td>
+    <td><code style="background:#f5f5f5;padding:2px 8px;border-radius:4px;font-size:1.2rem;">${c.handle}</code></td>
+    <td style="white-space:nowrap;">
+      <button class="btn btn-ghost btn-sm" onclick="window.editCollection(${c.id})">Edit</button>
+      <button class="btn btn-danger btn-sm" style="margin-left:6px;" onclick="window.deleteCollection(${c.id})">Delete</button>
+    </td>
+  </tr>`).join('');
+}
+
+window.openCollectionModal = function() {
+  document.getElementById('collection-modal-title').textContent = 'Add Collection';
+  document.getElementById('c-id').value = '';
+  ['c-title','c-handle','c-description','c-image'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('collection-modal').classList.add('open');
+};
+window.closeCollectionModal = () => document.getElementById('collection-modal').classList.remove('open');
+
+window.editCollection = function(id) {
+  const c = collections.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('collection-modal-title').textContent = 'Edit Collection';
+  document.getElementById('c-id').value = c.id;
+  document.getElementById('c-title').value = c.title;
+  document.getElementById('c-handle').value = c.handle;
+  document.getElementById('c-description').value = c.description || '';
+  document.getElementById('c-image').value = c.image || '';
+  document.getElementById('collection-modal').classList.add('open');
+};
+
+window.saveCollection = async function() {
+  const id = document.getElementById('c-id').value;
+  const payload = {
+    title: document.getElementById('c-title').value.trim(),
+    handle: document.getElementById('c-handle').value.trim(),
+    description: document.getElementById('c-description').value.trim(),
+    image: document.getElementById('c-image').value.trim(),
+  };
+  const { error } = id
+    ? await supabase.from('collections').update(payload).eq('id', id)
+    : await supabase.from('collections').insert([payload]);
+  if (error) { toast(error.message, 'error'); return; }
+  toast(id ? 'Collection updated!' : 'Collection added!');
+  closeCollectionModal();
+  loadCollections();
+};
+
+window.deleteCollection = async function(id) {
+  if (!confirm('Delete this collection?')) return;
+  const { error } = await supabase.from('collections').delete().eq('id', id);
+  if (error) { toast(error.message, 'error'); return; }
+  toast('Collection deleted');
+  loadCollections();
+};
+
+// ── SETTINGS ──
+async function loadSettings() {
+  const { data } = await supabase.from('settings').select('*').eq('id', 1).single();
+  if (!data) return;
+  document.getElementById('setting-store-name').value   = data.store_name || '';
+  document.getElementById('setting-currency').value     = data.currency || '£';
+  document.getElementById('setting-announcement').value = data.announcement || '';
+  document.getElementById('setting-logo').value         = data.logo || '';
+}
+
+window.saveSettings = async function() {
+  const payload = {
+    store_name:   document.getElementById('setting-store-name').value,
+    currency:     document.getElementById('setting-currency').value,
+    announcement: document.getElementById('setting-announcement').value,
+    logo:         document.getElementById('setting-logo').value,
+    updated_at:   new Date().toISOString(),
+  };
+  const { error } = await supabase.from('settings').upsert({ id: 1, ...payload });
+  if (error) { toast(error.message, 'error'); return; }
+  toast('Settings saved!');
+};
+
+// Auto-generate handle from title
+document.getElementById('p-title').addEventListener('input', function() {
+  if (!document.getElementById('p-id').value) {
+    document.getElementById('p-handle').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  }
+});
+document.getElementById('c-title').addEventListener('input', function() {
+  if (!document.getElementById('c-id').value) {
+    document.getElementById('c-handle').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  }
+});
+</script>
+</body>
+</html>

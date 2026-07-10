@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "handle": "ankara-print-dress",
+        "title": "Ankara Print Dress",
+        "price": 85.00,
+        "compare_at_price": null,
+        "image": "assets/IMG-20260622-WA0081.webp",
+        "image_hover": "assets/IMG-20260622-WA0009.webp",
+        "description": "A beautiful authentic Ankara dress.",
+        "tags": ["dresses", "ankara", "new"],
+        "vendor": "Mary Humphrey African Wear"
+    },
+    {
+        "id": 2,
+        "handle": "vibrant-african-tunic",
+        "title": "Vibrant African Tunic",
+        "price": 60.00,
+        "compare_at_price": 75.00,
+        "image": "assets/IMG-20260622-WA0030.webp",
+        "image_hover": "assets/IMG-20260622-WA0031.webp",
+        "description": "Colorful tunic perfect for any occasion.",
+        "tags": ["tops", "ankara", "sale"],
+        "vendor": "Mary Humphrey African Wear"
+    },
+    {
+        "id": 3,
+        "handle": "traditional-kente-skirt",
+        "title": "Traditional Kente Skirt",
+        "price": 120.00,
+        "compare_at_price": null,
+        "image": "assets/IMG-20260622-WA0011.webp",
+        "image_hover": "assets/IMG-20260622-WA0012.webp",
+        "description": "Hand-woven Kente skirt.",
+        "tags": ["skirts", "kente"],
+        "vendor": "Mary Humphrey African Wear"
+    },
+    {
+        "id": 4,
+        "handle": "african-print-blouse",
+        "title": "African Print Blouse",
+        "price": 45.00,
+        "compare_at_price": 50.00,
+        "image": "assets/IMG-20260622-WA0032.webp",
+        "image_hover": "assets/IMG-20260622-WA0033.webp",
+        "description": "Elegant African print blouse.",
+        "tags": ["tops", "ankara"],
+        "vendor": "Mary Humphrey African Wear"
+    }
+]

@@ -1483,10 +1483,16 @@
             width: 100%;
             border-radius: 4px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: opacity 0.3s ease;
         }
         .hc-content {
             padding: 4rem 5rem;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
         }
         .hc-subtitle {
             display: block;
@@ -1494,20 +1500,23 @@
             letter-spacing: 0.25em;
             text-transform: uppercase;
             color: var(--primary-color);
-            margin-bottom: 1.5rem;
+            margin-bottom: 0;
         }
         .hc-title {
             font-family: var(--frank-ruhl-fonts);
             font-size: 4rem;
             color: var(--primary-color);
-            margin-bottom: 2.5rem;
+            margin-bottom: 0;
             line-height: 1.2;
+            transition: opacity 0.3s ease;
         }
         .hc-desc {
             font-size: 1.6rem;
             color: var(--foreground-sub-color);
             line-height: 1.9;
-            margin-bottom: 5rem;
+            margin-bottom: 0;
+            max-width: 500px;
+            transition: opacity 0.3s ease;
         }
         .hc-segments {
             display: flex;
@@ -1528,10 +1537,26 @@
             width: 8rem;
             background: var(--border-color);
             margin: 0 auto 1.5rem;
-            transition: background 0.3s;
+            position: relative;
+            overflow: hidden;
         }
-        .hc-segment.active .hc-segment-bar {
+        .hc-segment-bar::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
             background: var(--primary-color);
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+        .hc-segment.active .hc-segment-bar::after {
+            animation: hcProgress 8s linear forwards;
+        }
+        @keyframes hcProgress {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
         }
         .hc-segment-label {
             font-size: 1.3rem;
@@ -2171,15 +2196,15 @@
                     </div>
                     <div class="hc-layout__content hc-content">
                         <span class="hc-subtitle">THE LOVE STORY OF</span>
-                        <h2 class="hc-title">LEATHER & CANVAS</h2>
-                        <p class="hc-desc">We started out making luxury safari tents and for the past 20 years we've been making beautiful canvas and leather bags that last. The romance of safari is woven into our fabric.</p>
+                        <h2 class="hc-title">ANKARA PRINTS</h2>
+                        <p class="hc-desc">We started out with a passion for vibrant African prints and for the past 20 years we've been creating beautiful, authentic Ankara fashion that celebrates our rich heritage. The vibrancy of Africa is woven into every fabric we use.</p>
 
                         <div class="hc-segments">
-                            <div class="hc-segment active js-hc-segment">
+                            <div class="hc-segment active js-hc-segment" data-image="assets/IMG-20260622-WA0081.webp" data-title="ANKARA PRINTS" data-desc="We started out with a passion for vibrant African prints and for the past 20 years we've been creating beautiful, authentic Ankara fashion that celebrates our rich heritage. The vibrancy of Africa is woven into every fabric we use.">
                                 <div class="hc-segment-bar"></div>
                                 <span class="hc-segment-label">HERITAGE</span>
                             </div>
-                            <div class="hc-segment js-hc-segment">
+                            <div class="hc-segment js-hc-segment" data-image="assets/IMG-20260622-WA0009.webp" data-title="RICH CULTURE" data-desc="Our designs are inspired by the diverse cultures of Africa. Every pattern tells a story of tradition, elegance, and a deep connection to our roots. We bring this culture to the modern wardrobe.">
                                 <div class="hc-segment-bar"></div>
                                 <span class="hc-segment-label">CULTURE</span>
                             </div>
@@ -2585,12 +2610,64 @@
             }
 
             const hcSegments = document.querySelectorAll('.js-hc-segment');
-            hcSegments.forEach(seg => {
-                seg.addEventListener('click', () => {
-                    hcSegments.forEach(s => s.classList.remove('active'));
-                    seg.classList.add('active');
+            const hcImage = document.querySelector('.hc-image');
+            const hcTitle = document.querySelector('.hc-title');
+            const hcDesc = document.querySelector('.hc-desc');
+
+            if (hcSegments.length > 0 && hcImage) {
+                let activeIndex = 0;
+                let autoPlayInterval;
+
+                function switchSegment(index) {
+                    if (index === activeIndex) return;
+                    
+                    hcSegments[activeIndex].classList.remove('active');
+                    activeIndex = index;
+                    const seg = hcSegments[activeIndex];
+                    
+                    // Slight delay to restart CSS animation if necessary
+                    setTimeout(() => {
+                        seg.classList.add('active');
+                    }, 50);
+
+                    const newImage = seg.getAttribute('data-image');
+                    const newTitle = seg.getAttribute('data-title');
+                    const newDesc = seg.getAttribute('data-desc');
+
+                    hcImage.style.opacity = '0';
+                    if (hcTitle) hcTitle.style.opacity = '0';
+                    if (hcDesc) hcDesc.style.opacity = '0';
+
+                    setTimeout(() => {
+                        if (newImage) hcImage.src = newImage;
+                        if (newTitle && hcTitle) hcTitle.textContent = newTitle;
+                        if (newDesc && hcDesc) hcDesc.textContent = newDesc;
+
+                        hcImage.style.opacity = '1';
+                        if (hcTitle) hcTitle.style.opacity = '1';
+                        if (hcDesc) hcDesc.style.opacity = '1';
+                    }, 300);
+                }
+
+                function nextSegment() {
+                    const nextIndex = (activeIndex + 1) % hcSegments.length;
+                    switchSegment(nextIndex);
+                }
+
+                function startAutoPlay() {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = setInterval(nextSegment, 8000);
+                }
+
+                hcSegments.forEach((seg, index) => {
+                    seg.addEventListener('click', () => {
+                        switchSegment(index);
+                        startAutoPlay(); // Restart timer on click
+                    });
                 });
-            });
+
+                startAutoPlay();
+            }
 
             // ── Scroll-aware Header ──
             class HeaderScrollManager {

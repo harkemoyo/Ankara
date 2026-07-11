@@ -466,8 +466,9 @@
                 </div>
                 <p style="font-size: 1.2rem; color: var(--foreground-sub-color); text-align: center; margin-bottom: 2rem; line-height: 1.6;">Shipping, taxes, and discount codes calculated at checkout.</p>
             </div>
-            <div class="minicart__button" style="padding-bottom: 2rem;">
-                <a class="minicart__button--link" href="javascript:void(0)" onclick="triggerCheckout()" style="display: block; width: 100%; padding: 1.6rem; background: var(--bg-black-color); color: #fff; font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--bg-black-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">Check Out</a>
+            <div class="minicart__button" style="padding-bottom: 2rem; display: flex; gap: 1rem;">
+                <a class="minicart__button--link" href="cart.html" style="display: block; flex: 1; padding: 1.6rem; background: #fff; color: var(--primary-color); font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--border-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">View Cart</a>
+                <a class="minicart__button--link" href="javascript:void(0)" onclick="triggerCheckout()" style="display: block; flex: 1; padding: 1.6rem; background: var(--bg-black-color); color: #fff; font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--bg-black-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">Check Out</a>
             </div>
         </div>
 
@@ -475,7 +476,7 @@
         <div class="predictive__search--box">
             <div class="predictive__search--box__inner">
                 <h2 class="predictive__search--title">Search Products</h2>
-                <form class="predictive__search--form" action="search.html" method="get" role="search">
+                <form class="predictive__search--form" action="shop.html" method="get" role="search">
                     <label for="Search">
                         <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search">
                     </label>
@@ -574,234 +575,51 @@
                     </div>
                     <div class="filter-offcanvas__body shop__sidebar--widget widget__area">
 
+                        
                         <div class="single__widget widget__bg">
                             <h2 class="widget__title h3">Categories</h2>
-                            <ul class="widget__categories--menu">
-                                <li class="widget__categories--menu__list">
-                                    <label class="widget__categories--menu__label d-flex align-items-center">
-                                        <img class="widget__categories--menu__img" src="assets/IMG-20260622-WA0005.webp" alt="categories-img">
-                                        <span class="widget__categories--menu__text">Fairness cream</span>
-                                        <svg class="widget__categories--menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12.355" height="8.394">
-                                            <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"></path>
-                                        </svg>
-                                    </label>
-                                    <ul class="widget__categories--sub__menu">
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0009.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Massage Cream</span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0031.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Matte Walnut
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260627-WA0000.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Bamboo Scrub
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0044.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Castor Oil</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="widget__categories--menu__list">
-                                    <label class="widget__categories--menu__label d-flex align-items-center">
-                                        <img class="widget__categories--menu__img" src="assets/IMG-20260622-WA0068.webp" alt="categories-img">
-                                        <span class="widget__categories--menu__text">Skin Silver</span>
-                                        <svg class="widget__categories--menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12.355" height="8.394">
-                                            <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"></path>
-                                        </svg>
-                                    </label>
-                                    <ul class="widget__categories--sub__menu">
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0079.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Massage Cream</span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0005.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Matte Walnut
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0009.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Bamboo Scrub
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0031.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Castor Oil</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="widget__categories--menu__list">
-                                    <label class="widget__categories--menu__label d-flex align-items-center">
-                                        <img class="widget__categories--menu__img" src="assets/IMG-20260627-WA0000.webp" alt="categories-img">
-                                        <span class="widget__categories--menu__text">Night Serum</span>
-                                        <svg class="widget__categories--menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12.355" height="8.394">
-                                            <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"></path>
-                                        </svg>
-                                    </label>
-                                    <ul class="widget__categories--sub__menu">
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0044.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Massage Cream</span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0068.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Matte Walnut
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0079.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Bamboo Scrub
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0005.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Castor Oil</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="widget__categories--menu__list">
-                                    <label class="widget__categories--menu__label d-flex align-items-center">
-                                        <img class="widget__categories--menu__img" src="assets/IMG-20260622-WA0009.webp" alt="categories-img">
-                                        <span class="widget__categories--menu__text">Cream Oil</span>
-                                        <svg class="widget__categories--menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12.355" height="8.394">
-                                            <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"></path>
-                                        </svg>
-                                    </label>
-                                    <ul class="widget__categories--sub__menu">
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0031.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Massage Cream</span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260627-WA0000.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Matte Walnut
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0044.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Bamboo Scrub
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0068.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Castor Oil</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="widget__categories--menu__list">
-                                    <label class="widget__categories--menu__label d-flex align-items-center">
-                                        <img class="widget__categories--menu__img" src="assets/IMG-20260622-WA0079.webp" alt="categories-img">
-                                        <span class="widget__categories--menu__text">Skin Cleaner</span>
-                                        <svg class="widget__categories--menu__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12.355" height="8.394">
-                                            <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"></path>
-                                        </svg>
-                                    </label>
-                                    <ul class="widget__categories--sub__menu">
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0005.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Massage Cream</span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0009.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Matte Walnut
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260622-WA0031.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Bamboo Scrub
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="widget__categories--sub__menu--list">
-                                            <a class="widget__categories--sub__menu--link d-flex align-items-center" href="shop.html">
-                                                <img class="widget__categories--sub__menu--img" src="assets/IMG-20260627-WA0000.webp" alt="categories-img">
-                                                <span class="widget__categories--sub__menu--text">Castor Oil</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                            <ul class="widget__categories--menu" id="sidebar-categories">
+                                <!-- Dynamic collections will load here -->
                             </ul>
                         </div>
                         <div class="single__widget widget__bg">
-                            <h2 class="widget__title h3">Dietary Needs</h2>
+                            <h2 class="widget__title h3">Filter By Size</h2>
                             <ul class="widget__form--check">
                                 <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="check1">Bath & Body</label>
-                                    <input class="widget__form--check__input" id="check1" type="checkbox">
+                                    <label class="widget__form--check__label" for="size-S">S</label>
+                                    <input class="widget__form--check__input size-filter" id="size-S" type="checkbox" value="S">
                                     <span class="widget__form--checkmark"></span>
                                 </li>
                                 <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="check2">Hair Care</label>
-                                    <input class="widget__form--check__input" id="check2" type="checkbox">
+                                    <label class="widget__form--check__label" for="size-M">M</label>
+                                    <input class="widget__form--check__input size-filter" id="size-M" type="checkbox" value="M">
                                     <span class="widget__form--checkmark"></span>
                                 </li>
                                 <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="check3">Make Up</label>
-                                    <input class="widget__form--check__input" id="check3" type="checkbox">
+                                    <label class="widget__form--check__label" for="size-L">L</label>
+                                    <input class="widget__form--check__input size-filter" id="size-L" type="checkbox" value="L">
                                     <span class="widget__form--checkmark"></span>
                                 </li>
                                 <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="check4">Health Care</label>
-                                    <input class="widget__form--check__input" id="check4" type="checkbox">
+                                    <label class="widget__form--check__label" for="size-XL">XL</label>
+                                    <input class="widget__form--check__input size-filter" id="size-XL" type="checkbox" value="XL">
                                     <span class="widget__form--checkmark"></span>
                                 </li>
                                 <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="check5">Styling Products</label>
-                                    <input class="widget__form--check__input" id="check5" type="checkbox">
+                                    <label class="widget__form--check__label" for="size-2X">2X</label>
+                                    <input class="widget__form--check__input size-filter" id="size-2X" type="checkbox" value="2X">
                                     <span class="widget__form--checkmark"></span>
                                 </li>
                             </ul>
                         </div>
-                        <div class="single__widget price__filter widget__bg">
+<div class="single__widget price__filter widget__bg">
                             <h2 class="widget__title h3">Filter By Price</h2>
                             <form class="price__filter--form" action="#">
                                 <div class="price__filter--form__inner mb-15 d-flex align-items-center">
                                     <div class="price__filter--group">
                                         <label class="price__filter--label" for="Filter-Price-GTE2">From</label>
                                         <div class="price__filter--input border-radius-5 d-flex align-items-center">
-                                            <span class="price__filter--currency">$</span>
+                                            <span class="price__filter--currency">£</span>
                                             <input class="price__filter--input__field border-0" name="filter.v.price.gte" id="Filter-Price-GTE2" type="number" placeholder="0" min="0" max="250.00">
                                         </div>
                                     </div>
@@ -811,7 +629,7 @@
                                     <div class="price__filter--group">
                                         <label class="price__filter--label" for="Filter-Price-LTE2">To</label>
                                         <div class="price__filter--input border-radius-5 d-flex align-items-center">
-                                            <span class="price__filter--currency">$</span>
+                                            <span class="price__filter--currency">£</span>
                                             <input class="price__filter--input__field border-0" name="filter.v.price.lte" id="Filter-Price-LTE2" type="number" min="0" placeholder="250.00" max="250.00">
                                         </div>
                                     </div>
@@ -820,160 +638,34 @@
                             </form>
                         </div>
 
+                        
                         <div class="single__widget widget__bg">
-                            <h2 class="widget__title h3">Top Rated Product</h2>
+                            <h2 class="widget__title h3">Featured Products</h2>
                             <div class="shop__sidebar--product">
                                 <div class="small__product--card d-flex">
                                     <div class="small__product--thumbnail">
-                                        <a class="display-block" href="product.html"><img src="assets/IMG-20260622-WA0044.webp" alt="product-img"></a>
+                                        <a class="display-block" href="product.html?handle=ankara-print-dress"><img src="assets/IMG-20260622-WA0081.webp" alt="Ankara Print Dress"></a>
                                     </div>
                                     <div class="small__product--content">
                                         <h3 class="small__product--card__title">
-                                            <a href="product.html">White Cream
-                                            </a>
+                                            <a href="product.html?handle=ankara-print-dress">Ankara Print Dress</a>
                                         </h3>
                                         <div class="small__product--card__price mb_5">
-                                            <span class="current__price">$239.52</span>
+                                            <span class="current__price">£85.00</span>
                                         </div>
-                                        <ul class="rating small__product--rating d-flex">
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M6.08398 0.921875L4.56055 4.03906L1.11523 4.53125C0.505859 4.625 0.271484 5.375 0.716797 5.82031L3.17773 8.23438L2.5918 11.6328C2.49805 12.2422 3.1543 12.7109 3.69336 12.4297L6.76367 10.8125L9.81055 12.4297C10.3496 12.7109 11.0059 12.2422 10.9121 11.6328L10.3262 8.23438L12.7871 5.82031C13.2324 5.375 12.998 4.625 12.3887 4.53125L8.9668 4.03906L7.41992 0.921875C7.16211 0.382812 6.36523 0.359375 6.08398 0.921875Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M6.08398 0.921875L4.56055 4.03906L1.11523 4.53125C0.505859 4.625 0.271484 5.375 0.716797 5.82031L3.17773 8.23438L2.5918 11.6328C2.49805 12.2422 3.1543 12.7109 3.69336 12.4297L6.76367 10.8125L9.81055 12.4297C10.3496 12.7109 11.0059 12.2422 10.9121 11.6328L10.3262 8.23438L12.7871 5.82031C13.2324 5.375 12.998 4.625 12.3887 4.53125L8.9668 4.03906L7.41992 0.921875C7.16211 0.382812 6.36523 0.359375 6.08398 0.921875Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M6.08398 0.921875L4.56055 4.03906L1.11523 4.53125C0.505859 4.625 0.271484 5.375 0.716797 5.82031L3.17773 8.23438L2.5918 11.6328C2.49805 12.2422 3.1543 12.7109 3.69336 12.4297L6.76367 10.8125L9.81055 12.4297C10.3496 12.7109 11.0059 12.2422 10.9121 11.6328L10.3262 8.23438L12.7871 5.82031C13.2324 5.375 12.998 4.625 12.3887 4.53125L8.9668 4.03906L7.41992 0.921875C7.16211 0.382812 6.36523 0.359375 6.08398 0.921875Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M6.08398 0.921875L4.56055 4.03906L1.11523 4.53125C0.505859 4.625 0.271484 5.375 0.716797 5.82031L3.17773 8.23438L2.5918 11.6328C2.49805 12.2422 3.1543 12.7109 3.69336 12.4297L6.76367 10.8125L9.81055 12.4297C10.3496 12.7109 11.0059 12.2422 10.9121 11.6328L10.3262 8.23438L12.7871 5.82031C13.2324 5.375 12.998 4.625 12.3887 4.53125L8.9668 4.03906L7.41992 0.921875C7.16211 0.382812 6.36523 0.359375 6.08398 0.921875Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M12.4141 4.53125L8.99219 4.03906L7.44531 0.921875C7.1875 0.382812 6.39062 0.359375 6.10938 0.921875L4.58594 4.03906L1.14062 4.53125C0.53125 4.625 0.296875 5.375 0.742188 5.82031L3.20312 8.23438L2.61719 11.6328C2.52344 12.2422 3.17969 12.7109 3.71875 12.4297L6.78906 10.8125L9.83594 12.4297C10.375 12.7109 11.0312 12.2422 10.9375 11.6328L10.3516 8.23438L12.8125 5.82031C13.2578 5.375 13.0234 4.625 12.4141 4.53125ZM9.53125 7.95312L10.1875 11.75L6.78906 9.96875L3.36719 11.75L4.02344 7.95312L1.25781 5.28125L5.07812 4.71875L6.78906 1.25L8.47656 4.71875L12.2969 5.28125L9.53125 7.95312Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                        </ul>
                                     </div>
                                 </div>
                                 <div class="small__product--card d-flex">
                                     <div class="small__product--thumbnail">
-                                        <a class="display-block" href="product.html"><img src="assets/IMG-20260622-WA0068.webp" alt="product-img"></a>
+                                        <a class="display-block" href="product.html?handle=traditional-kente-skirt"><img src="assets/IMG-20260622-WA0011.webp" alt="Traditional Kente Skirt"></a>
                                     </div>
                                     <div class="small__product--content">
                                         <h3 class="small__product--card__title">
-                                            <a href="product.html">Sneaky lips
-                                            </a>
+                                            <a href="product.html?handle=traditional-kente-skirt">Traditional Kente Skirt</a>
                                         </h3>
                                         <div class="small__product--card__price mb_5">
-                                            <span class="current__price">$180.52</span>
+                                            <span class="current__price">£120.00</span>
                                         </div>
-                                        <ul class="rating small__product--rating d-flex">
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M6.08398 0.921875L4.56055 4.03906L1.11523 4.53125C0.505859 4.625 0.271484 5.375 0.716797 5.82031L3.17773 8.23438L2.5918 11.6328C2.49805 12.2422 3.1543 12.7109 3.69336 12.4297L6.76367 10.8125L9.81055 12.4297C10.3496 12.7109 11.0059 12.2422 10.9121 11.6328L10.3262 8.23438L12.7871 5.82031C13.2324 5.375 12.998 4.625 12.3887 4.53125L8.9668 4.03906L7.41992 0.921875C7.16211 0.382812 6.36523 0.359375 6.08398 0.921875Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M6.08398 0.921875L4.56055 4.03906L1.11523 4.53125C0.505859 4.625 0.271484 5.375 0.716797 5.82031L3.17773 8.23438L2.5918 11.6328C2.49805 12.2422 3.1543 12.7109 3.69336 12.4297L6.76367 10.8125L9.81055 12.4297C10.3496 12.7109 11.0059 12.2422 10.9121 11.6328L10.3262 8.23438L12.7871 5.82031C13.2324 5.375 12.998 4.625 12.3887 4.53125L8.9668 4.03906L7.41992 0.921875C7.16211 0.382812 6.36523 0.359375 6.08398 0.921875Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M6.08398 0.921875L4.56055 4.03906L1.11523 4.53125C0.505859 4.625 0.271484 5.375 0.716797 5.82031L3.17773 8.23438L2.5918 11.6328C2.49805 12.2422 3.1543 12.7109 3.69336 12.4297L6.76367 10.8125L9.81055 12.4297C10.3496 12.7109 11.0059 12.2422 10.9121 11.6328L10.3262 8.23438L12.7871 5.82031C13.2324 5.375 12.998 4.625 12.3887 4.53125L8.9668 4.03906L7.41992 0.921875C7.16211 0.382812 6.36523 0.359375 6.08398 0.921875Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M6.08398 0.921875L4.56055 4.03906L1.11523 4.53125C0.505859 4.625 0.271484 5.375 0.716797 5.82031L3.17773 8.23438L2.5918 11.6328C2.49805 12.2422 3.1543 12.7109 3.69336 12.4297L6.76367 10.8125L9.81055 12.4297C10.3496 12.7109 11.0059 12.2422 10.9121 11.6328L10.3262 8.23438L12.7871 5.82031C13.2324 5.375 12.998 4.625 12.3887 4.53125L8.9668 4.03906L7.41992 0.921875C7.16211 0.382812 6.36523 0.359375 6.08398 0.921875Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M12.4141 4.53125L8.99219 4.03906L7.44531 0.921875C7.1875 0.382812 6.39062 0.359375 6.10938 0.921875L4.58594 4.03906L1.14062 4.53125C0.53125 4.625 0.296875 5.375 0.742188 5.82031L3.20312 8.23438L2.61719 11.6328C2.52344 12.2422 3.17969 12.7109 3.71875 12.4297L6.78906 10.8125L9.83594 12.4297C10.375 12.7109 11.0312 12.2422 10.9375 11.6328L10.3516 8.23438L12.8125 5.82031C13.2578 5.375 13.0234 4.625 12.4141 4.53125ZM9.53125 7.95312L10.1875 11.75L6.78906 9.96875L3.36719 11.75L4.02344 7.95312L1.25781 5.28125L5.07812 4.71875L6.78906 1.25L8.47656 4.71875L12.2969 5.28125L9.53125 7.95312Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="small__product--card d-flex">
-                                    <div class="small__product--thumbnail">
-                                        <a class="display-block" href="product.html"><img src="assets/IMG-20260622-WA0079.webp" alt="product-img"></a>
-                                    </div>
-                                    <div class="small__product--content">
-                                        <h3 class="small__product--card__title">
-                                            <a href="product.html">Matte Walnut
-                                            </a>
-                                        </h3>
-                                        <div class="small__product--card__price mb_5">
-                                            <span class="current__price">$220.52</span>
-                                        </div>
-                                        <ul class="rating small__product--rating d-flex">
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M6.08398 0.921875L4.56055 4.03906L1.11523 4.53125C0.505859 4.625 0.271484 5.375 0.716797 5.82031L3.17773 8.23438L2.5918 11.6328C2.49805 12.2422 3.1543 12.7109 3.69336 12.4297L6.76367 10.8125L9.81055 12.4297C10.3496 12.7109 11.0059 12.2422 10.9121 11.6328L10.3262 8.23438L12.7871 5.82031C13.2324 5.375 12.998 4.625 12.3887 4.53125L8.9668 4.03906L7.41992 0.921875C7.16211 0.382812 6.36523 0.359375 6.08398 0.921875Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M6.08398 0.921875L4.56055 4.03906L1.11523 4.53125C0.505859 4.625 0.271484 5.375 0.716797 5.82031L3.17773 8.23438L2.5918 11.6328C2.49805 12.2422 3.1543 12.7109 3.69336 12.4297L6.76367 10.8125L9.81055 12.4297C10.3496 12.7109 11.0059 12.2422 10.9121 11.6328L10.3262 8.23438L12.7871 5.82031C13.2324 5.375 12.998 4.625 12.3887 4.53125L8.9668 4.03906L7.41992 0.921875C7.16211 0.382812 6.36523 0.359375 6.08398 0.921875Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M6.08398 0.921875L4.56055 4.03906L1.11523 4.53125C0.505859 4.625 0.271484 5.375 0.716797 5.82031L3.17773 8.23438L2.5918 11.6328C2.49805 12.2422 3.1543 12.7109 3.69336 12.4297L6.76367 10.8125L9.81055 12.4297C10.3496 12.7109 11.0059 12.2422 10.9121 11.6328L10.3262 8.23438L12.7871 5.82031C13.2324 5.375 12.998 4.625 12.3887 4.53125L8.9668 4.03906L7.41992 0.921875C7.16211 0.382812 6.36523 0.359375 6.08398 0.921875Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M6.08398 0.921875L4.56055 4.03906L1.11523 4.53125C0.505859 4.625 0.271484 5.375 0.716797 5.82031L3.17773 8.23438L2.5918 11.6328C2.49805 12.2422 3.1543 12.7109 3.69336 12.4297L6.76367 10.8125L9.81055 12.4297C10.3496 12.7109 11.0059 12.2422 10.9121 11.6328L10.3262 8.23438L12.7871 5.82031C13.2324 5.375 12.998 4.625 12.3887 4.53125L8.9668 4.03906L7.41992 0.921875C7.16211 0.382812 6.36523 0.359375 6.08398 0.921875Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                            <li class="rating__list">
-                                                <span class="rating__icon">
-                                                    <svg width="12" height="11" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M12.4141 4.53125L8.99219 4.03906L7.44531 0.921875C7.1875 0.382812 6.39062 0.359375 6.10938 0.921875L4.58594 4.03906L1.14062 4.53125C0.53125 4.625 0.296875 5.375 0.742188 5.82031L3.20312 8.23438L2.61719 11.6328C2.52344 12.2422 3.17969 12.7109 3.71875 12.4297L6.78906 10.8125L9.83594 12.4297C10.375 12.7109 11.0312 12.2422 10.9375 11.6328L10.3516 8.23438L12.8125 5.82031C13.2578 5.375 13.0234 4.625 12.4141 4.53125ZM9.53125 7.95312L10.1875 11.75L6.78906 9.96875L3.36719 11.75L4.02344 7.95312L1.25781 5.28125L5.07812 4.71875L6.78906 1.25L8.47656 4.71875L12.2969 5.28125L9.53125 7.95312Z" fill="currentColor"/>
-                                                    </svg>
-                                                </span>
-                                            </li>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -1020,12 +712,12 @@
                             <div id="product_grid" class="tab_pane active show">
                                 <div class="product__section--inner">
                                     <div class="shop-product-grid">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-class="pagination__area">
+                        <div class="pagination__area">
+
                             <nav class="pagination justify-content-center">
                                 <ul class="pagination__wrapper d-flex align-items-center justify-content-center">
                                     <li class="pagination__list">

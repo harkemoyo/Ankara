@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Order Confirmed — Ankara Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karma:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #f9f9f9; margin: 0; color: #1a1a1a; min-height: 100vh; display: flex; flex-direction: column; }
+
+    .thankyou-wrap {
+      max-width: 720px; margin: 60px auto 80px; padding: 0 20px; flex: 1;
+    }
+
+    /* ── SUCCESS HEADER ── */
+    .success-banner {
+      background: #1a1a1a; color: #fff; border-radius: 8px;
+      padding: 36px 40px; margin-bottom: 32px; text-align: center;
+    }
+    .check-circle {
+      width: 64px; height: 64px; background: #27ae60; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+    }
+    .check-circle svg { width: 32px; height: 32px; stroke: #fff; }
+    .success-banner h1 { font-family: 'Karma', serif; font-size: 2.8rem; margin: 0 0 8px; }
+    .success-banner p  { font-size: 1.4rem; color: #ccc; margin: 0; }
+    .order-num { font-size: 1.6rem; font-weight: 700; color: #fff; margin-top: 12px; }
+
+    /* ── CARDS ── */
+    .info-card {
+      background: #fff; border: 1px solid #e0e0e0; border-radius: 6px;
+      padding: 28px 32px; margin-bottom: 20px;
+    }
+    .info-card h2 { font-family: 'Karma', serif; font-size: 1.8rem; margin: 0 0 20px; padding-bottom: 14px; border-bottom: 1px solid #eee; }
+
+    /* ── ORDER ITEMS ── */
+    .order-item { display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #f0f0f0; }
+    .order-item:last-child { border-bottom: none; }
+    .order-item img { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; background: #eee; }
+    .order-item .oi-info { flex: 1; }
+    .order-item .oi-title   { font-size: 1.4rem; font-weight: 500; margin-bottom: 4px; }
+    .order-item .oi-variant { font-size: 1.2rem; color: #777; }
+    .order-item .oi-price   { font-size: 1.4rem; font-weight: 600; }
+
+    /* ── TOTALS ── */
+    .totals-row { display: flex; justify-content: space-between; font-size: 1.3rem; padding: 6px 0; color: #555; }
+    .totals-row.grand { font-size: 1.6rem; font-weight: 700; color: #1a1a1a; border-top: 1px solid #eee; padding-top: 14px; margin-top: 8px; }
+
+    /* ── ADDRESS ── */
+    .address-block { font-size: 1.4rem; line-height: 2.2; color: #444; }
+
+    /* ── ACTIONS ── */
+    .action-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 32px; }
+    .btn-shop { background: #1a1a1a; color: #fff; padding: 14px 32px; text-decoration: none; font-size: 1.4rem; font-weight: 500; border-radius: 4px; }
+    .btn-shop:hover { opacity: 0.85; }
+    .btn-home { background: #fff; color: #1a1a1a; padding: 14px 32px; text-decoration: none; font-size: 1.4rem; border: 1px solid #1a1a1a; border-radius: 4px; }
+
+    /* ── LOADING / ERROR ── */
+    .state-loading { text-align: center; padding: 80px 20px; }
+    .state-loading .spinner {
+      width: 40px; height: 40px; border: 3px solid #eee; border-top-color: #1a1a1a;
+      border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 20px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .state-error { text-align: center; padding: 60px 20px; }
+    .state-error h2 { font-size: 2rem; margin-bottom: 14px; }
+  </style>
+</head>
+<body>
+
+<div class="thankyou-wrap">
+
+  <!-- Loading state -->
+  <div class="state-loading" id="state-loading">
+    <div class="spinner"></div>
+    <p style="font-size:1.4rem;color:#777;">Loading your order...</p>
+  </div>
+
+  <!-- Error state -->
+  <div class="state-error" id="state-error" style="display:none;">
+    <h2>Order not found</h2>
+    <p style="color:#777;font-size:1.4rem;margin-bottom:24px;">We couldn't find that order. If you just paid, please check your email or contact us.</p>
+    <a href="shop.html" class="btn-shop">Continue Shopping</a>
+  </div>
+
+  <!-- Success state (hidden until data loads) -->
+  <div id="state-success" style="display:none;">
+
+    <div class="success-banner">
+      <div class="check-circle">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h1>Thank You!</h1>
+      <p>Your order has been placed and is being processed.</p>
+      <div class="order-num" id="display-order-num">—</div>
+    </div>
+
+    <!-- Order Items -->
+    <div class="info-card">
+      <h2>Order Summary</h2>
+      <div id="order-items-list"><!-- JS renders here --></div>
+      <div style="margin-top:16px;">
+        <div class="totals-row"><span>Subtotal</span><span id="disp-subtotal">—</span></div>
+        <div class="totals-row"><span>Shipping</span><span id="disp-shipping">—</span></div>
+        <div class="totals-row grand"><span>Total</span><span id="disp-total">—</span></div>
+      </div>
+    </div>
+
+    <!-- Delivery info -->
+    <div class="info-card">
+      <h2>Delivery Address</h2>
+      <div class="address-block" id="disp-address">—</div>
+    </div>
+
+    <!-- Contact info -->
+    <div class="info-card" style="background:#f0f9f4;border-color:#b7e1cc;">
+      <p style="font-size:1.4rem;margin:0;color:#1a6b3c;">
+        📧 A confirmation email has been sent to <strong id="disp-email">—</strong>
+      </p>
+    </div>
+
+    <div class="action-btns">
+      <a href="shop.html" class="btn-shop">Continue Shopping</a>
+      <a href="index.html" class="btn-home">Back to Home</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (async function() {
+    const params      = new URLSearchParams(window.location.search);
+    const orderNumber = params.get('order');
+
+    if (!orderNumber) {
+      document.getElementById('state-loading').style.display = 'none';
+      document.getElementById('state-error').style.display   = 'block';
+      return;
+    }
+
+    // Set page title
+    document.title = `Order ${orderNumber} — Ankara Store`;
+
+    try {
+      const res = await fetch(`/api/orders/${encodeURIComponent(orderNumber)}`);
+      if (!res.ok) throw new Error('Not found');
+      const order = await res.json();
+
+      // Populate
+      document.getElementById('display-order-num').textContent = order.order_number;
+      document.getElementById('disp-email').textContent        = order.customer_email;
+      document.getElementById('disp-subtotal').textContent     = `${order.currency}${parseFloat(order.subtotal).toFixed(2)}`;
+      document.getElementById('disp-shipping').textContent     = parseFloat(order.shipping_cost) === 0 ? 'FREE' : `${order.currency}${parseFloat(order.shipping_cost).toFixed(2)}`;
+      document.getElementById('disp-total').textContent        = `${order.currency}${parseFloat(order.total).toFixed(2)}`;
+
+      // Address
+      const addr = order.shipping_address || {};
+      document.getElementById('disp-address').innerHTML = `
+        ${order.customer_name}<br>
+        ${addr.address1 || ''}${addr.address2 ? '<br>' + addr.address2 : ''}<br>
+        ${addr.city || ''} ${addr.postcode || ''}<br>
+        ${addr.country || ''}
+      `;
+
+      // Items
+      const items = order.order_items || [];
+      document.getElementById('order-items-list').innerHTML = items.length === 0
+        ? '<p style="color:#777;">No items found.</p>'
+        : items.map(item => `
+          <div class="order-item">
+            ${item.image ? `<img src="${item.image}" alt="${item.product_title}">` : '<div style="width:64px;height:64px;background:#eee;border-radius:4px;"></div>'}
+            <div class="oi-info">
+              <div class="oi-title">${item.product_title}</div>
+              <div class="oi-variant">
+                ${item.variant_size  ? 'Size: '  + item.variant_size  : ''}
+                ${item.variant_color ? '· Color: ' + item.variant_color : ''}
+                · Qty: ${item.quantity}
+              </div>
+            </div>
+            <div class="oi-price">${order.currency}${parseFloat(item.line_total).toFixed(2)}</div>
+          </div>
+        `).join('');
+
+      document.getElementById('state-loading').style.display = 'none';
+      document.getElementById('state-success').style.display = 'block';
+
+    } catch(err) {
+      document.getElementById('state-loading').style.display = 'none';
+      document.getElementById('state-error').style.display   = 'block';
+    }
+  })();
+</script>
+</body>
+</html>

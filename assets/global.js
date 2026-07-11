@@ -24,7 +24,7 @@ window.onload = function () {
 };
 
 // Preloader
-const preLoader = function () {
+var preLoader = function () {
   let preloaderWrapper = document.getElementById("preloader");
   window.onload = () => {
     preloaderWrapper.classList.add("loaded");

@@ -1,37 +1,86 @@
 // assets/storefront-api.js
 // Fetches data from Supabase and renders storefront UI
+// =============================================
 
 import { supabase } from './supabase-client.js';
 
+// Global Filter & Sort State for the Shop Page
+let filterState = {
+    collection: 'all',
+    sizes: [],
+    minPrice: 0,
+    maxPrice: 250,
+    sortBy: 'latest',
+    search: ''
+};
+
 // =============================================
-// SHOP PAGE — Load and render product grid
+// SHOP PAGE — Load and render product grid (AJAX filtering)
 // =============================================
-async function loadShopProducts(collection = null) {
+async function loadShopProducts() {
     const grid = document.querySelector('.shop-product-grid');
     if (!grid) return;
 
-    grid.innerHTML = '<p style="padding:2rem;">Loading products...</p>';
+    grid.innerHTML = '<p style="padding:2rem;text-align:center;">Loading products...</p>';
 
+    // Build query
     let query = supabase.from('products').select('*').eq('in_stock', true);
-    if (collection && collection !== 'all') {
-        query = query.eq('collection', collection);
+
+    // Apply search filter
+    if (filterState.search) {
+        query = query.or(`title.ilike.%${filterState.search}%,description.ilike.%${filterState.search}%`);
     }
 
-    const { data: products, error } = await query.order('created_at', { ascending: false });
+    // Apply collection filter
+    if (filterState.collection && filterState.collection !== 'all') {
+        query = query.eq('collection', filterState.collection);
+    }
+
+    // Apply size filter
+    if (filterState.sizes && filterState.sizes.length > 0) {
+        query = query.overlap('sizes', filterState.sizes);
+    }
+
+    // Apply price filter
+    if (filterState.minPrice > 0) {
+        query = query.gte('price', filterState.minPrice);
+    }
+    if (filterState.maxPrice < 250) {
+        query = query.lte('price', filterState.maxPrice);
+    }
+
+    // Apply sorting
+    if (filterState.sortBy === 'latest') {
+        query = query.order('created_at', { ascending: false });
+    } else if (filterState.sortBy === 'price-asc') {
+        query = query.order('price', { ascending: true });
+    } else if (filterState.sortBy === 'price-desc') {
+        query = query.order('price', { ascending: false });
+    } else {
+        query = query.order('created_at', { ascending: false });
+    }
+
+    const { data: products, error } = await query;
+
+    // Update Product Count label if present
+    const countEl = document.querySelector('.product__count span');
+    if (countEl && products) {
+        countEl.textContent = `${products.length} products`;
+    }
 
     if (error) {
         console.error('Error loading products:', error);
-        grid.innerHTML = '<p>Error loading products.</p>';
+        grid.innerHTML = '<p style="padding:2rem;text-align:center;color:#e74c3c;">Error loading products.</p>';
         return;
     }
 
     if (!products || products.length === 0) {
-        grid.innerHTML = '<p style="padding:2rem;">No products found.</p>';
+        grid.innerHTML = '<p style="padding:2rem;text-align:center;">No products found matching your filters.</p>';
         return;
     }
 
     grid.innerHTML = products.map(product => {
-        const primaryImage = (product.images && product.images[0]) || '';
+        const primaryImage = (product.images && product.images[0]) || 'assets/img/product/product1.png';
         const hoverImage = (product.images && product.images[1]) || primaryImage;
         const price = parseFloat(product.price).toFixed(2);
         const comparePrice = product.compare_at_price ? parseFloat(product.compare_at_price).toFixed(2) : null;
@@ -46,27 +95,30 @@ async function loadShopProducts(collection = null) {
                     <img class="product__card--thumbnail__img product__secondary--img" src="${hoverImage}" alt="${product.title}">
                 </a>
                 ${isOnSale ? '<span class="product__badge">Sale</span>' : ''}
+                <a href="javascript:void(0)" class="clean-card-add" aria-label="Add to cart" onclick="quickAddToCart('${product.handle}', '${product.title.replace(/'/g, "\\'")}', ${product.price}, '${primaryImage}')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                </a>
             </div>
             <div class="product__card--content clean-card-content">
-                <h3 class="product__card--title clean-title">
+                <h3 class="product__card--title clean-title" style="margin-top: 10px;">
                     <a href="product.html?handle=${product.handle}">${product.title}</a>
                 </h3>
                 ${colors.length > 0 ? `
-                <div class="card-color-swatches" style="display:flex;gap:6px;margin:6px 0;">
+                <div class="card-color-swatches" style="display:flex;justify-content:center;gap:6px;margin:8px 0;">
                     ${colors.map((c, i) => `
                         <span 
                             class="card-swatch" 
                             title="${c.label}"
                             data-image="${c.image}"
                             data-handle="${product.handle}"
-                            style="width:18px;height:18px;border-radius:50%;background:${c.hex};border:2px solid ${i === 0 ? '#1a1a1a' : '#ddd'};cursor:pointer;display:inline-block;"
+                            style="width:16px;height:16px;border-radius:50%;background:${c.hex};border:2px solid ${i === 0 ? '#1a1a1a' : '#ddd'};cursor:pointer;display:inline-block;"
                             onclick="swapCardImage(this, '${c.image}', '${product.handle}')"
                         ></span>
                     `).join('')}
                 </div>` : ''}
-                <div class="product__card--price clean-price">
-                    <span class="current__price">${price}</span>
-                    ${comparePrice ? `<span class="old__price" style="text-decoration:line-through;color:#999;margin-left:8px;">${comparePrice}</span>` : ''}
+                <div class="product__card--price clean-price" style="margin-top: 5px;">
+                    <span class="current__price">£${price}</span>
+                    ${comparePrice ? `<span class="old__price" style="text-decoration:line-through;color:#999;margin-left:8px;">£${comparePrice}</span>` : ''}
                 </div>
             </div>
         </article>`;
@@ -83,13 +135,24 @@ window.swapCardImage = function(swatchEl, imageSrc, handle) {
     swatchEl.style.border = '2px solid #1a1a1a';
 };
 
-// =============================================
-// SHOP PAGE — Load collection filter tabs
-// =============================================
-async function loadCollectionTabs() {
-    const tabsContainer = document.getElementById('collection-tabs');
-    if (!tabsContainer) return;
+// Quick add to cart from shop grid
+window.quickAddToCart = function(handle, title, price, image) {
+    if (typeof addToCart === 'function') {
+        addToCart({
+            id: handle,
+            title: title,
+            price: price,
+            image: image,
+            qty: 1,
+            size: 'M'
+        });
+    }
+};
 
+// =============================================
+// SHOP PAGE — Load collection tabs & sidebar categories
+// =============================================
+async function loadCollectionsData() {
     const { data: collections } = await supabase
         .from('collections')
         .select('*')
@@ -97,25 +160,147 @@ async function loadCollectionTabs() {
 
     if (!collections) return;
 
-    tabsContainer.innerHTML = collections.map((c, i) => `
-        <button 
-            class="collection-tab ${i === 0 ? 'active' : ''}" 
-            data-collection="${c.handle}"
-            onclick="filterByCollection(this, '${c.handle}')"
-            style="padding:8px 18px;border:1px solid #ddd;background:${i === 0 ? '#1a1a1a' : '#fff'};color:${i === 0 ? '#fff' : '#333'};cursor:pointer;border-radius:2px;font-size:1.3rem;margin-right:8px;margin-bottom:8px;transition:all 0.2s;"
-        >${c.title}</button>
-    `).join('');
+    // 1. Populate top horizontal tabs
+    const tabsContainer = document.getElementById('collection-tabs');
+    if (tabsContainer) {
+        tabsContainer.innerHTML = collections.map((c, i) => `
+            <button 
+                class="collection-tab ${filterState.collection === c.handle ? 'active' : ''}" 
+                data-collection="${c.handle}"
+                onclick="filterByCollection(this, '${c.handle}')"
+                style="padding:8px 18px;border:1px solid #ddd;background:${filterState.collection === c.handle ? '#1a1a1a' : '#fff'};color:${filterState.collection === c.handle ? '#fff' : '#333'};cursor:pointer;border-radius:2px;font-size:1.3rem;margin-right:8px;margin-bottom:8px;transition:all 0.2s;"
+            >${c.title}</button>
+        `).join('');
+    }
+
+    // 2. Populate sidebar categories menu
+    const sidebarContainer = document.getElementById('sidebar-categories');
+    if (sidebarContainer) {
+        sidebarContainer.innerHTML = collections.map(c => `
+            <li class="widget__categories--menu__list" style="margin-bottom:1rem;">
+                <a href="javascript:void(0)" 
+                   onclick="filterByCollectionSidebar(this, '${c.handle}')"
+                   style="font-size:1.4rem; color:${filterState.collection === c.handle ? '#1a1a1a' : '#555'}; font-weight:${filterState.collection === c.handle ? '600' : '400'}; text-decoration:none;"
+                >
+                   ${c.title}
+                </a>
+            </li>
+        `).join('');
+    }
 }
 
 window.filterByCollection = function(btn, collection) {
+    filterState.collection = collection;
+    
+    // Sync top tabs UI
     document.querySelectorAll('.collection-tab').forEach(t => {
         t.style.background = '#fff';
         t.style.color = '#333';
     });
-    btn.style.background = '#1a1a1a';
-    btn.style.color = '#fff';
-    loadShopProducts(collection);
+    if (btn) {
+        btn.style.background = '#1a1a1a';
+        btn.style.color = '#fff';
+    }
+
+    // Sync sidebar active links
+    document.querySelectorAll('#sidebar-categories a').forEach(a => {
+        a.style.color = '#555';
+        a.style.fontWeight = '400';
+    });
+    const sidebarLink = Array.from(document.querySelectorAll('#sidebar-categories a')).find(a => a.textContent.trim() === (btn ? btn.textContent.trim() : ''));
+    if (sidebarLink) {
+        sidebarLink.style.color = '#1a1a1a';
+        sidebarLink.style.fontWeight = '600';
+    }
+
+    loadShopProducts();
 };
+
+window.filterByCollectionSidebar = function(linkEl, collection) {
+    filterState.collection = collection;
+
+    // Sync sidebar active links
+    document.querySelectorAll('#sidebar-categories a').forEach(a => {
+        a.style.color = '#555';
+        a.style.fontWeight = '400';
+    });
+    if (linkEl) {
+        linkEl.style.color = '#1a1a1a';
+        linkEl.style.fontWeight = '600';
+    }
+
+    // Sync top tabs UI
+    document.querySelectorAll('.collection-tab').forEach(t => {
+        t.style.background = '#fff';
+        t.style.color = '#333';
+    });
+    const topTab = Array.from(document.querySelectorAll('.collection-tab')).find(t => t.textContent.trim() === (linkEl ? linkEl.textContent.trim() : ''));
+    if (topTab) {
+        topTab.style.background = '#1a1a1a';
+        topTab.style.color = '#fff';
+    }
+
+    loadShopProducts();
+};
+
+// =============================================
+// SHOP PAGE — Setup Event Listeners for Filters
+// =============================================
+function setupShopFilters() {
+    // 1. Size Filters
+    document.querySelectorAll('.size-filter').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            const checkedSizes = [];
+            document.querySelectorAll('.size-filter:checked').forEach(cb => {
+                checkedSizes.push(cb.value);
+            });
+            filterState.sizes = checkedSizes;
+            loadShopProducts();
+        });
+    });
+
+    // 2. Price Filter Form
+    const priceForm = document.querySelector('.price__filter--form');
+    if (priceForm) {
+        priceForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const minInput = document.getElementById('Filter-Price-GTE2');
+            const maxInput = document.getElementById('Filter-Price-LTE2');
+            
+            filterState.minPrice = minInput && minInput.value ? parseFloat(minInput.value) : 0;
+            filterState.maxPrice = maxInput && maxInput.value ? parseFloat(maxInput.value) : 250;
+            
+            loadShopProducts();
+        });
+    }
+
+    // 3. Sorting Dropdown
+    const sortSelect = document.querySelector('.product__view--select');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            const val = e.target.value;
+            if (val === '1' || val === '2') {
+                filterState.sortBy = 'latest';
+            } else if (val === '3') {
+                filterState.sortBy = 'popularity';
+            } else if (val === '4') {
+                filterState.sortBy = 'price-asc'; // Default price ascending
+            } else if (val === '5') {
+                filterState.sortBy = 'price-desc';
+            }
+            loadShopProducts();
+        });
+
+        // Add sorting options if they aren't fully in EJS/HTML
+        if (sortSelect.options.length < 5) {
+            const optPriceDesc = document.createElement('option');
+            optPriceDesc.value = '5';
+            optPriceDesc.textContent = 'Price: High to Low';
+            sortSelect.appendChild(optPriceDesc);
+            sortSelect.options[3].textContent = 'Price: Low to High';
+        }
+    }
+}
 
 // =============================================
 // PRODUCT PAGE — Load single product details
@@ -291,13 +476,23 @@ window.addProductToCart = function(e) {
 // INIT — Run on page load
 // =============================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Shop page
+    // Shop page init
     if (document.querySelector('.shop-product-grid')) {
-        loadCollectionTabs();
+        const params = new URLSearchParams(window.location.search);
+        const q = params.get('q');
+        if (q) {
+            filterState.search = q.trim();
+            const breadcrumbTitle = document.querySelector('.breadcrumb__title');
+            if (breadcrumbTitle) {
+                breadcrumbTitle.textContent = `Search Results: "${q}"`;
+            }
+        }
+        loadCollectionsData();
+        setupShopFilters();
         loadShopProducts();
     }
 
-    // Product page
+    // Product page init
     if (document.getElementById('dyn-product-title')) {
         loadProductDetails();
     }

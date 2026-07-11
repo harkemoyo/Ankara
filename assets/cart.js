@@ -144,12 +144,12 @@ function updateCartUI() {
       listEl.innerHTML = cart.map((item, index) => `
         <div class="minicart__product--items" style="display: flex; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color);">
           <div class="minicart__thumb" style="width: 70px; height: 70px; flex-shrink: 0; margin-right: 1.5rem; background: var(--bg-gray-color);">
-            <a href="product.html?id=${item.id}"><img style="width: 100%; height: 100%; object-fit: cover;" src="${item.image}" alt="${item.title}"></a>
+            <a href="product.html?handle=${item.id}"><img style="width: 100%; height: 100%; object-fit: cover;" src="${item.image}" alt="${item.title}"></a>
           </div>
           <div class="minicart__text" style="flex: 1; display: flex; flex-direction: column;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                <div>
-                  <h4 class="minicart__subtitle" style="font-family: var(--karma-fonts); font-size: 1.6rem; font-weight: 500; margin-bottom: 0.5rem;"><a href="product.html?id=${item.id}" style="color: var(--primary-color); text-decoration: none;">${item.title}</a></h4>
+                  <h4 class="minicart__subtitle" style="font-family: var(--karma-fonts); font-size: 1.6rem; font-weight: 500; margin-bottom: 0.5rem;"><a href="product.html?handle=${item.id}" style="color: var(--primary-color); text-decoration: none;">${item.title}</a></h4>
                   <span class="color__variant" style="display: block; font-size: 1.3rem; color: var(--foreground-sub-color); margin-bottom: 0.2rem;"><b>Color:</b> ${item.color || 'As Shown'}</span>
                   <span class="color__variant" style="display: block; font-size: 1.3rem; color: var(--foreground-sub-color); margin-bottom: 1.5rem;"><b>Size:</b> ${item.size}</span>
                </div>
@@ -182,23 +182,14 @@ function updateCartUI() {
   }
 }
 
-// Trigger checkout with Paystack
+// Redirect checkout to checkout.html page
 function triggerCheckout() {
   const cart = getCart();
   if (cart.length === 0) {
     alert('Your shopping bag is empty!');
     return;
   }
-  
-  const subtotal = getCartSubtotal();
-  
-  // Paystack Integration Placeholder
-  // Prompt for email address to start payment
-  const email = prompt('Please enter your email to complete checkout:', '');
-  if (!email) return;
-  
-  alert(`Proceeding to Paystack checkout for £${subtotal.toFixed(2)} with email ${email}...`);
-  // Here you'll initialize Paystack Pop
+  window.location.href = 'checkout.html';
 }
 
 // Simulate network loading state for add to cart buttons

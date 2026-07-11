@@ -294,8 +294,9 @@
                 </div>
                 <p style="font-size: 1.2rem; color: var(--foreground-sub-color); text-align: center; margin-bottom: 2rem; line-height: 1.6;">Shipping, taxes, and discount codes calculated at checkout.</p>
             </div>
-            <div class="minicart__button" style="padding-bottom: 2rem;">
-                <a class="minicart__button--link" href="javascript:void(0)" onclick="triggerCheckout()" style="display: block; width: 100%; padding: 1.6rem; background: var(--bg-black-color); color: #fff; font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--bg-black-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">Check Out</a>
+            <div class="minicart__button" style="padding-bottom: 2rem; display: flex; gap: 1rem;">
+                <a class="minicart__button--link" href="cart.html" style="display: block; flex: 1; padding: 1.6rem; background: #fff; color: var(--primary-color); font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--border-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">View Cart</a>
+                <a class="minicart__button--link" href="javascript:void(0)" onclick="triggerCheckout()" style="display: block; flex: 1; padding: 1.6rem; background: var(--bg-black-color); color: #fff; font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--bg-black-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">Check Out</a>
             </div>
         </div>
 
@@ -303,7 +304,7 @@
         <div class="predictive__search--box">
             <div class="predictive__search--box__inner">
                 <h2 class="predictive__search--title">Search Products</h2>
-                <form class="predictive__search--form" action="search.html" method="get" role="search">
+                <form class="predictive__search--form" action="shop.html" method="get" role="search">
                     <label for="Search">
                         <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search">
                     </label>

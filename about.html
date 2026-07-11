@@ -26,154 +26,153 @@
 
   <!-- views/partials/header.ejs -->
 
-<header class="header__section">
+<header
+        class="header__section">
 
-  <!-- ── Topbar Announcement ─────────────────────── -->
-  <div class="header__topbar bg__primary">
-    <div class="container">
-      <div class="header__topbar--inner text-center">
-        <p class="header__info--text text-white">
-          ✨ FREE SHIPPING ON ALL UK ORDERS &nbsp;|&nbsp; Celebrating African Heritage Through Fashion
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Main Header ────────────────────────────── -->
-  <div class="main__header position__relative header__sticky">
-    <div class="container">
-      <div class="main__header--inner d-flex justify-content-between align-items-center">
-
-        <!-- Hamburger / Offcanvas Toggle -->
-        <div class="offcanvas__header--menu__open">
-          <a class="offcanvas__header--menu__open--btn" href="javascript:void(0)" data-offcanvas>
-            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon offcanvas__header--menu__open--svg" viewBox="0 0 512 512">
-              <path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 160h352M80 256h352M80 352h352"/>
-            </svg>
-            <span class="visually-hidden">Menu</span>
-          </a>
+        <!-- ── Topbar Announcement ─────────────────────── -->
+        <div class="header__topbar bg__primary">
+            <div class="header__topbar--inner">
+                    <p class="header__info--text text-white">
+                        ✨ FREE SHIPPING ON ALL UK ORDERS &nbsp;|&nbsp; Celebrating African Heritage Through Fashion
+                    </p>
+                </div>
         </div>
 
-        <!-- Logo -->
-        <div class="main__logo">
-          <h1 class="main__logo--title">
-            <a class="main__logo--link" href="index.html">
-              <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" class="main__logo--img" style="height:60px; width:auto; object-fit:contain;">
-            </a>
-          </h1>
+        <!-- ── Main Header ────────────────────────────── -->
+        <div class="main__header header__sticky">
+            <div class="main__header--inner">
+
+                    <!-- Hamburger / Offcanvas Toggle -->
+                    <div class="offcanvas__header--menu__open">
+                        <a class="offcanvas__header--menu__open--btn" href="javascript:void(0)" data-offcanvas>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon offcanvas__header--menu__open--svg" viewbox="0 0 512 512">
+                                <path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 160h352M80 256h352M80 352h352"/>
+                            </svg>
+                            <span class="visually-hidden">Menu</span>
+                        </a>
+                    </div>
+
+                    <!-- Logo -->
+                    <div class="main__logo">
+                        <h1 class="main__logo--title">
+                            <a class="main__logo--link" href="index.html">
+                                <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" class="main__logo--img">
+                            </a>
+                        </h1>
+                    </div>
+
+                    <!-- Desktop Navigation -->
+                    <div class="header__menu">
+                        <nav class="header__menu--navigation">
+                            <ul class="header__menu--wrapper">
+                                <li class="header__menu--items ">
+                                    <a class="header__menu--link " href="index.html">Home</a>
+                                </li>
+                                <li class="header__menu--items active-page">
+                                    <a class="header__menu--link active" href="shop.html">Shop</a>
+                                </li>
+                                <li class="header__menu--items ">
+                                    <a class="header__menu--link " href="about.html">Our Story</a>
+                                </li>
+                                <li class="header__menu--items ">
+                                    <a class="header__menu--link " href="contact.html">Contact</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <!-- Header Account / Icons -->
+                    <div class="header__account">
+                        <ul
+                            class="header__account--wrapper">
+                            <!-- Search -->
+                            <li class="header__account--items header__account--search__items">
+                                <a class="header__account--btn search__open--btn" href="javascript:void(0)" data-offcanvas>
+                                    <span class="header__account--btn__icon">
+                                        <svg width="17" height="17" viewbox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </span>
+                                    <span class="visually-hidden">Search</span>
+                                </a>
+                            </li>
+
+                            <!-- Account -->
+                            <li class="header__account--items">
+                                <a class="header__account--btn" href="#">
+                                    <span class="header__account--btn__icon">
+                                        <svg width="17" height="17" viewbox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </span>
+                                    <span class="visually-hidden">My Account</span>
+                                </a>
+                            </li>
+
+                            <!-- Cart -->
+                            <li class="header__account--items header__minicart--items">
+                                <a class="header__account--btn minicart__open--btn" href="javascript:void(0)" data-offcanvas>
+                                    <span class="header__account--btn__icon">
+                                        <svg width="17" height="17" viewbox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </span>
+                                    <span class="items__count js-item-count">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        <!-- ── Offcanvas Mobile Menu ──────────────────── -->
+        <div class="offcanvas__header">
+            <div
+                class="offcanvas__inner">
+                <!-- Offcanvas Logo -->
+                <div class="offcanvas__logo">
+                    <a class="offcanvas__logo--link" href="index.html">
+                        <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" class="offcanvas__logo--img">
+                    </a>
+                    <button class="offcanvas__close--btn" aria-label="close menu" data-offcanvas>✕</button>
+                </div>
+
+                <nav class="offcanvas__menu">
+                    <ul class="offcanvas__menu_ul">
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="index.html">Home</a>
+                        </li>
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="shop.html">Shop</a>
+                        </li>
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="about.html">Our Story</a>
+                        </li>
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="contact.html">Contact</a>
+                        </li>
+                    </ul>
+                    <div class="offcanvas__account--items">
+                        <a class="offcanvas__account--signup__btn" href="#">
+                            <svg width="16" height="16" viewbox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Sign In / Register
+                        </a>
+                    </div>
+                </nav>
+            </div>
         </div>
 
-        <!-- Desktop Navigation -->
-        <div class="header__menu d-none d-lg-block">
-          <nav class="header__menu--navigation">
-            <ul class="header__menu--wrapper d-flex">
-              <li class="header__menu--items ">
-                <a class="header__menu--link " href="index.html">Home</a>
-              </li>
-              <li class="header__menu--items ">
-                <a class="header__menu--link " href="shop.html">Shop</a>
-              </li>
-              <li class="header__menu--items active-page">
-                <a class="header__menu--link active" href="about.html">Our Story</a>
-              </li>
-              <li class="header__menu--items ">
-                <a class="header__menu--link " href="contact.html">Contact</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-        <!-- Header Account / Icons -->
-        <div class="header__account">
-          <ul class="header__account--wrapper d-flex align-items-center">
-            <!-- Search -->
-            <li class="header__account--items header__account--search__items d-none d-lg-block">
-              <a class="header__account--btn search__open--btn" href="javascript:void(0)" data-offcanvas>
-                <span class="header__account--btn__icon">
-                  <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="visually-hidden">Search</span>
-              </a>
-            </li>
-
-            <!-- Account -->
-            <li class="header__account--items">
-              <a class="header__account--btn" href="#">
-                <span class="header__account--btn__icon">
-                  <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="visually-hidden">My Account</span>
-              </a>
-            </li>
-
-            <!-- Cart -->
-            <li class="header__account--items header__minicart--items">
-              <a class="header__account--btn minicart__open--btn" href="javascript:void(0)" data-offcanvas>
-                <span class="header__account--btn__icon">
-                  <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="items__count js-item-count">0</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Offcanvas Mobile Menu ──────────────────── -->
-  <div class="offcanvas__header">
-    <div class="offcanvas__inner">
-      <!-- Offcanvas Logo -->
-      <div class="offcanvas__logo">
-        <a class="offcanvas__logo--link" href="index.html">
-          <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" style="height:50px; width:auto; object-fit:contain;">
-        </a>
-        <button class="offcanvas__close--btn" aria-label="close menu" data-offcanvas>✕</button>
-      </div>
-
-      <nav class="offcanvas__menu">
-        <ul class="offcanvas__menu_ul">
-          <li class="offcanvas__menu_li">
-            <a class="offcanvas__menu_item" href="index.html">Home</a>
-          </li>
-          <li class="offcanvas__menu_li">
-            <a class="offcanvas__menu_item" href="shop.html">Shop</a>
-          </li>
-          <li class="offcanvas__menu_li">
-            <a class="offcanvas__menu_item" href="about.html">Our Story</a>
-          </li>
-          <li class="offcanvas__menu_li">
-            <a class="offcanvas__menu_item" href="contact.html">Contact</a>
-          </li>
-        </ul>
-        <div class="offcanvas__account--items">
-          <a class="offcanvas__account--signup__btn" href="#">
-            <svg width="16" height="16" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Sign In / Register
-          </a>
-        </div>
-      </nav>
-    </div>
-  </div>
-
-  <!-- ── Mini Cart Drawer ───────────────────────── -->
-        <div class="offCanvas__minicart js-cart-form" style="display: flex; flex-direction: column;">
+        <!-- ── Mini Cart Drawer ───────────────────────── -->
+        <div class="offCanvas__minicart js-cart-form">
             <div class="minicart__header">
-                <div class="minicart__header--top" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem;">
-                    <h3 class="minicart__title" style="font-family: var(--karma-fonts); font-size: 2.4rem; color: var(--primary-color); font-weight: 500;">Cart</h3>
-                    <button type="button" class="minicart__close--btn" aria-label="close cart" data-offcanvas style="background: none; border: none; font-size: 2.4rem; cursor: pointer; color: var(--primary-color); line-height: 1;">&times;</button>
+                <div class="minicart__header--top">
+                    <h3 class="minicart__title">Cart</h3>
+                    <button type="button" class="minicart__close--btn" aria-label="close cart" data-offcanvas>&times;</button>
                 </div>
             </div>
             <div class="minicart__empty--text">
@@ -181,98 +180,98 @@
                 <a href="shop.html" class="primary__btn">Continue Shopping</a>
             </div>
             
-            <div id="minicart-items-list" class="minicart__product" style="flex: 1; overflow-y: auto; padding-right: 1rem;"></div>
+            <div id="minicart-items-list" class="minicart__product"></div>
 
-            <div class="minicart__amount" style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
-                <div class="cart__note" style="margin-bottom: 2rem;">
-                    <h4 style="font-family: var(--karma-fonts); font-size: 1.3rem; font-weight: 600; color: var(--primary-color); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.2em;">Order Note</h4>
-                    <textarea class="cart__note--input" placeholder="" style="width: 100%; height: 80px; padding: 1rem; border: 1px solid var(--border-color); font-family: var(--karma-fonts); font-size: 1.3rem; color: var(--primary-color); resize: vertical; outline: none;"></textarea>
+            <div class="minicart__amount">
+                <div class="cart__note">
+                    <h4>Order Note</h4>
+                    <textarea class="cart__note--input" placeholder=""></textarea>
                 </div>
-                <div class="minicart__amount_list" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <span style="font-family: var(--karma-fonts); font-size: 1.3rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;">Subtotal</span>
-                    <span id="minicart-subtotal" style="font-size: 1.6rem; font-weight: 700; color: var(--primary-color);">
+                <div class="minicart__amount_list">
+                    <span>Subtotal</span>
+                    <span id="minicart-subtotal">
                         <b>KSh0.00</b>
                     </span>
                 </div>
-                <p style="font-size: 1.2rem; color: var(--foreground-sub-color); text-align: center; margin-bottom: 2rem; line-height: 1.6;">Shipping, taxes, and discount codes calculated at checkout.</p>
+                <p>Shipping, taxes, and discount codes calculated at checkout.</p>
             </div>
-            <div class="minicart__button" style="padding-bottom: 2rem; display: flex; gap: 1rem;">
-                <a class="minicart__button--link" href="cart.html" style="display: block; flex: 1; padding: 1.6rem; background: #fff; color: var(--primary-color); font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--border-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">View Cart</a>
-                <a class="minicart__button--link" href="javascript:void(0)" onclick="triggerCheckout()" style="display: block; flex: 1; padding: 1.6rem; background: var(--bg-black-color); color: #fff; font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--bg-black-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">Check Out</a>
+            <div class="minicart__button">
+                <a class="minicart__button--link" href="cart.html">View Cart</a>
+                <a class="minicart__button--link checkout__btn" href="javascript:void(0)" onclick="triggerCheckout()">Check Out</a>
             </div>
         </div>
 
         <!-- ── Search Overlay ─────────────────────────── -->
-  <div class="predictive__search--box">
-    <div class="predictive__search--box__inner">
-      <h2 class="predictive__search--title">Search Products</h2>
-      <form class="predictive__search--form" action="shop.html" method="get" role="search">
-        <label for="Search">
-          <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search">
-        </label>
-        <button class="predictive__search--button text-white" aria-label="search button">
-          <svg width="20" height="20" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </form>
-    </div>
-    <button class="predictive__search--close__btn" aria-label="close search" data-offcanvas>
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512">
-        <path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/>
-      </svg>
-    </button>
-  </div>
+        <div class="predictive__search--box">
+            <div class="predictive__search--box__inner">
+                <h2 class="predictive__search--title">Search Products</h2>
+                <form class="predictive__search--form" action="shop.html" method="get" role="search">
+                    <label for="Search">
+                        <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search">
+                    </label>
+                    <button class="predictive__search--button text-white" aria-label="search button">
+                        <svg width="20" height="20" viewbox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            <button class="predictive__search--close__btn" aria-label="close search" data-offcanvas>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewbox="0 0 512 512">
+                    <path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/>
+                </svg>
+            </button>
+        </div>
 
-  <!-- ── Mobile Sticky Toolbar ─────────────────── -->
-  <div class="offcanvas__sticky--toolbar">
-    <ul class="d-flex justify-content-between">
-      <li class="offcanvas__sticky--toolbar__list">
-        <a class="offcanvas__sticky--toolbar__btn" href="index.html">
-          <span class="offcanvas__sticky--toolbar__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="21" height="21" viewBox="0 0 22 17">
-              <path fill="currentColor" d="M20.9141 7.93359c.1406.11719.2109.26953.2109.45703 0 .14063-.0469.25782-.1406.35157l-.3516.42187c-.1172.14063-.2578.21094-.4219.21094-.1406 0-.2578-.04688-.3515-.14062l-.9844-.77344V15c0 .3047-.1172.5625-.3516.7734-.2109.2344-.4687.3516-.7734.3516h-4.5c-.3047 0-.5742-.1172-.8086-.3516-.2109-.2109-.3164-.4687-.3164-.7734v-3.6562h-2.25V15c0 .3047-.11719.5625-.35156.7734-.21094.2344-.46875.3516-.77344.3516h-4.5c-.30469 0-.57422-.1172-.80859-.3516-.21094-.2109-.31641-.4687-.31641-.7734V8.46094l-.94922.77344c-.11719.09374-.24609.14062-.38672.14062-.16406 0-.30468-.07031-.42187-.21094l-.35157-.42187C.921875 8.625.875 8.50781.875 8.39062c0-.1875.070312-.33984.21094-.45703L9.73438.832031C10.1094.527344 10.5312.375 11 .375s.8906.152344 1.2656.457031l8.6485 7.101559zm-3.7266 6.50391V7.05469L11 1.99219l-6.1875 5.0625v7.38281h3.375v-3.6563c0-.3046.10547-.5624.31641-.7734.23437-.23436.5039-.35155.80859-.35155h3.375c.3047 0 .5625.11719.7734.35155.2344.211.3516.4688.3516.7734v3.6563h3.375z"/>
-            </svg>
-          </span>
-          <span class="offcanvas__sticky--toolbar__label">Home</span>
-        </a>
-      </li>
-      <li class="offcanvas__sticky--toolbar__list">
-        <a class="offcanvas__sticky--toolbar__btn" href="shop.html">
-          <span class="offcanvas__sticky--toolbar__icon">
-            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 448 512">
-              <path d="M416 32H32A32 32 0 0 0 0 64v384a32 32 0 0 0 32 32h384a32 32 0 0 0 32-32V64a32 32 0 0 0-32-32zm-16 48v152H248V80zm-200 0v152H48V80zM48 432V280h152v152zm200 0V280h152v152z"/>
-            </svg>
-          </span>
-          <span class="offcanvas__sticky--toolbar__label">Shop</span>
-        </a>
-      </li>
-      <li class="offcanvas__sticky--toolbar__list">
-        <a class="offcanvas__sticky--toolbar__btn search__open--btn" href="javascript:void(0)" data-offcanvas>
-          <span class="offcanvas__sticky--toolbar__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 512 512">
-              <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/>
-              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/>
-            </svg>
-          </span>
-          <span class="offcanvas__sticky--toolbar__label">Search</span>
-        </a>
-      </li>
-      <li class="offcanvas__sticky--toolbar__list">
-        <a class="offcanvas__sticky--toolbar__btn minicart__open--btn" href="javascript:void(0)" data-offcanvas>
-          <span class="offcanvas__sticky--toolbar__icon">
-            <svg width="17" height="15" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13.2371 4H11.5261L8.5027 0.460938C8.29176 0.226562 7.9402 0.203125 7.70582 0.390625C7.47145 0.601562 7.44801 0.953125 7.63551 1.1875L10.0496 4H3.46364L5.8777 1.1875C6.0652 0.953125 6.04176 0.601562 5.80739 0.390625C5.57301 0.203125 5.22145 0.226562 5.01051 0.460938L1.98707 4H0.299574C0.135511 4 0.0183239 4.14062 0.0183239 4.28125V4.84375C0.0183239 5.00781 0.135511 5.125 0.299574 5.125H0.721449L1.3777 9.78906C1.44801 10.3516 1.91676 10.75 2.47926 10.75H11.0339C11.5964 10.75 12.0652 10.3516 12.1355 9.78906L12.7918 5.125H13.2371C13.3777 5.125 13.5183 5.00781 13.5183 4.84375V4.28125C13.5183 4.14062 13.3777 4 13.2371 4ZM11.0339 9.625H2.47926L1.86989 5.125H11.6433L11.0339 9.625Z" fill="currentColor"/>
-            </svg>
-          </span>
-          <span class="offcanvas__sticky--toolbar__label">Cart</span>
-          <span class="items__count">0</span>
-        </a>
-      </li>
-    </ul>
-  </div>
+        <!-- ── Mobile Sticky Toolbar ─────────────────── -->
+        <div class="offcanvas__sticky--toolbar">
+            <ul class="d-flex justify-content-between">
+                <li class="offcanvas__sticky--toolbar__list">
+                    <a class="offcanvas__sticky--toolbar__btn" href="index.html">
+                        <span class="offcanvas__sticky--toolbar__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="21" height="21" viewbox="0 0 22 17">
+                                <path fill="currentColor" d="M20.9141 7.93359c.1406.11719.2109.26953.2109.45703 0 .14063-.0469.25782-.1406.35157l-.3516.42187c-.1172.14063-.2578.21094-.4219.21094-.1406 0-.2578-.04688-.3515-.14062l-.9844-.77344V15c0 .3047-.1172.5625-.3516.7734-.2109.2344-.4687.3516-.7734.3516h-4.5c-.3047 0-.5742-.1172-.8086-.3516-.2109-.2109-.3164-.4687-.3164-.7734v-3.6562h-2.25V15c0 .3047-.11719.5625-.35156.7734-.21094.2344-.46875.3516-.77344.3516h-4.5c-.30469 0-.57422-.1172-.80859-.3516-.21094-.2109-.31641-.4687-.31641-.7734V8.46094l-.94922.77344c-.11719.09374-.24609.14062-.38672.14062-.16406 0-.30468-.07031-.42187-.21094l-.35157-.42187C.921875 8.625.875 8.50781.875 8.39062c0-.1875.070312-.33984.21094-.45703L9.73438.832031C10.1094.527344 10.5312.375 11 .375s.8906.152344 1.2656.457031l8.6485 7.101559zm-3.7266 6.50391V7.05469L11 1.99219l-6.1875 5.0625v7.38281h3.375v-3.6563c0-.3046.10547-.5624.31641-.7734.23437-.23436.5039-.35155.80859-.35155h3.375c.3047 0 .5625.11719.7734.35155.2344.211.3516.4688.3516.7734v3.6563h3.375z"/>
+                            </svg>
+                        </span>
+                        <span class="offcanvas__sticky--toolbar__label">Home</span>
+                    </a>
+                </li>
+                <li class="offcanvas__sticky--toolbar__list">
+                    <a class="offcanvas__sticky--toolbar__btn" href="shop.html">
+                        <span class="offcanvas__sticky--toolbar__icon">
+                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewbox="0 0 448 512">
+                                <path d="M416 32H32A32 32 0 0 0 0 64v384a32 32 0 0 0 32 32h384a32 32 0 0 0 32-32V64a32 32 0 0 0-32-32zm-16 48v152H248V80zm-200 0v152H48V80zM48 432V280h152v152zm200 0V280h152v152z"/>
+                            </svg>
+                        </span>
+                        <span class="offcanvas__sticky--toolbar__label">Shop</span>
+                    </a>
+                </li>
+                <li class="offcanvas__sticky--toolbar__list">
+                    <a class="offcanvas__sticky--toolbar__btn search__open--btn" href="javascript:void(0)" data-offcanvas>
+                        <span class="offcanvas__sticky--toolbar__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewbox="0 0 512 512">
+                                <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/>
+                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/>
+                            </svg>
+                        </span>
+                        <span class="offcanvas__sticky--toolbar__label">Search</span>
+                    </a>
+                </li>
+                <li class="offcanvas__sticky--toolbar__list">
+                    <a class="offcanvas__sticky--toolbar__btn minicart__open--btn" href="javascript:void(0)" data-offcanvas>
+                        <span class="offcanvas__sticky--toolbar__icon">
+                            <svg width="17" height="15" viewbox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.2371 4H11.5261L8.5027 0.460938C8.29176 0.226562 7.9402 0.203125 7.70582 0.390625C7.47145 0.601562 7.44801 0.953125 7.63551 1.1875L10.0496 4H3.46364L5.8777 1.1875C6.0652 0.953125 6.04176 0.601562 5.80739 0.390625C5.57301 0.203125 5.22145 0.226562 5.01051 0.460938L1.98707 4H0.299574C0.135511 4 0.0183239 4.14062 0.0183239 4.28125V4.84375C0.0183239 5.00781 0.135511 5.125 0.299574 5.125H0.721449L1.3777 9.78906C1.44801 10.3516 1.91676 10.75 2.47926 10.75H11.0339C11.5964 10.75 12.0652 10.3516 12.1355 9.78906L12.7918 5.125H13.2371C13.3777 5.125 13.5183 5.00781 13.5183 4.84375V4.28125C13.5183 4.14062 13.3777 4 13.2371 4ZM11.0339 9.625H2.47926L1.86989 5.125H11.6433L11.0339 9.625Z" fill="currentColor"/>
+                            </svg>
+                        </span>
+                        <span class="offcanvas__sticky--toolbar__label">Cart</span>
+                        <span class="items__count">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-</header>
+    </header>
 
 
   <!-- Hero -->
@@ -404,147 +403,158 @@
   <!-- views/partials/footer.ejs -->
 <footer class="footer__section footer__bg">
 
-  <div class="container">
     <div class="main__footer section--padding">
-      <div class="row">
+        <div
+            class="footer__wrapper">
 
-        <!-- Col 1: About -->
-        <div class="col-lg-4 col-md-12 col-12">
-          <div class="footer__widget">
-            <div class="footer__logo">
-              <a href="index.html" class="footer__logo--link">
-                <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" style="height:70px; width:auto; object-fit:contain; filter:brightness(1.1);">
-              </a>
+            <!-- Col 1: About -->
+            <div class="footer__col--wide">
+                <div class="footer__widget">
+                    <div class="footer__logo">
+                        <a href="index.html" class="footer__logo--link">
+                            <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" class="offcanvas__logo--img">
+                        </a>
+                    </div>
+                    <p class="footer__widget--desc">
+                        Contemporary fashion rooted in African heritage and crafted for the modern world. 
+                                                                                                  Every piece tells a story of culture, elegance, and bold identity.
+                    </p>
+                    <ul class="footer__widget--contact__list">
+                        <li class="footer__widget--contact__list--items">
+                            <svg width="16" height="16" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            United Kingdom
+                        </li>
+                        <li class="footer__widget--contact__list--items">
+                            <svg width="16" height="16" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            <a href="mailto:hello@maryhumphreywear.com">hello@maryhumphreywear.com</a>
+                        </li>
+                    </ul>
+                    <!-- Social Media -->
+                    <ul class="footer__widget--social__list">
+                        <li class="footer__widget--social__list--items">
+                            <a class="footer__widget--social__list--link" href="#" aria-label="Instagram" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="footer__widget--social__list--items">
+                            <a class="footer__widget--social__list--link" href="#" aria-label="Facebook" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="currentColor">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="footer__widget--social__list--items">
+                            <a class="footer__widget--social__list--link" href="#" aria-label="TikTok" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="currentColor">
+                                    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.26 8.26 0 004.84 1.56V6.79a4.85 4.85 0 01-1.07-.1z"/>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <p class="footer__widget--desc">
-              Contemporary fashion rooted in African heritage and crafted for the modern world. 
-              Every piece tells a story of culture, elegance, and bold identity.
-            </p>
-            <ul class="footer__widget--contact__list">
-              <li class="footer__widget--contact__list--items">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-                United Kingdom
-              </li>
-              <li class="footer__widget--contact__list--items">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                </svg>
-                <a href="mailto:hello@maryhumphreywear.com">hello@maryhumphreywear.com</a>
-              </li>
-            </ul>
-            <!-- Social Media -->
-            <ul class="footer__widget--social__list d-flex">
-              <li class="footer__widget--social__list--items">
-                <a class="footer__widget--social__list--link" href="#" aria-label="Instagram" target="_blank">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                  </svg>
-                </a>
-              </li>
-              <li class="footer__widget--social__list--items">
-                <a class="footer__widget--social__list--link" href="#" aria-label="Facebook" target="_blank">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                  </svg>
-                </a>
-              </li>
-              <li class="footer__widget--social__list--items">
-                <a class="footer__widget--social__list--link" href="#" aria-label="TikTok" target="_blank">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.26 8.26 0 004.84 1.56V6.79a4.85 4.85 0 01-1.07-.1z"/>
-                  </svg>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
 
-        <!-- Col 2: Our Collection -->
-        <div class="col-lg-2 col-md-4 col-6">
-          <div class="footer__widget">
-            <h2 class="footer__widget--title">
-              Our Collection
-              <button class="footer__widget--button" aria-label="toggle"></button>
-              <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 10.355 6.394">
-                <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"/>
-              </svg>
-            </h2>
-            <ul class="footer__widget--menu footer__widget--inner">
-              <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="shop.html">All Products</a></li>
-              <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="/shop?cat=menswear">Men's Ankara Dungaree</a></li>
-              <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="/shop?cat=sets">Ankara Street Luxe Set</a></li>
-              <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="/shop?cat=home">African Luxe Throw</a></li>
-            </ul>
-          </div>
-        </div>
+            <!-- Col 2: Our Collection -->
+            <div class="footer__col--narrow">
+                <div class="footer__widget">
+                    <h2 class="footer__widget--title">
+                        Our Collection
+                        <button class="footer__widget--button" aria-label="toggle"></button>
+                        <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewbox="0 0 10.355 6.394">
+                            <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"/>
+                        </svg>
+                    </h2>
+                    <ul class="footer__widget--menu footer__widget--inner">
+                        <li class="footer__widget--menu__list">
+                            <a class="footer__widget--menu__text" href="shop.html">All Products</a>
+                        </li>
+                        <li class="footer__widget--menu__list">
+                            <a class="footer__widget--menu__text" href="/shop?cat=menswear">Men's Ankara Dungaree</a>
+                        </li>
+                        <li class="footer__widget--menu__list">
+                            <a class="footer__widget--menu__text" href="/shop?cat=sets">Ankara Street Luxe Set</a>
+                        </li>
+                        <li class="footer__widget--menu__list">
+                            <a class="footer__widget--menu__text" href="/shop?cat=home">African Luxe Throw</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-        <!-- Col 3: Quick Links -->
-        <div class="col-lg-2 col-md-4 col-6">
-          <div class="footer__widget">
-            <h2 class="footer__widget--title">
-              Quick Links
-              <button class="footer__widget--button" aria-label="toggle"></button>
-              <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 10.355 6.394">
-                <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"/>
-              </svg>
-            </h2>
-            <ul class="footer__widget--menu footer__widget--inner">
-              <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="index.html">Home</a></li>
-              <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="about.html">Our Story</a></li>
-              <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="contact.html">Contact Us</a></li>
-              <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="/faq">FAQ</a></li>
-              <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="/privacy">Privacy Policy</a></li>
-            </ul>
-          </div>
-        </div>
+            <!-- Col 3: Quick Links -->
+            <div class="footer__col--narrow">
+                <div class="footer__widget">
+                    <h2 class="footer__widget--title">
+                        Quick Links
+                        <button class="footer__widget--button" aria-label="toggle"></button>
+                        <svg class="footer__widget--title__arrowdown--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewbox="0 0 10.355 6.394">
+                            <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" transform="translate(-6 -8.59)" fill="currentColor"/>
+                        </svg>
+                    </h2>
+                    <ul class="footer__widget--menu footer__widget--inner">
+                        <li class="footer__widget--menu__list">
+                            <a class="footer__widget--menu__text" href="index.html">Home</a>
+                        </li>
+                        <li class="footer__widget--menu__list">
+                            <a class="footer__widget--menu__text" href="about.html">Our Story</a>
+                        </li>
+                        <li class="footer__widget--menu__list">
+                            <a class="footer__widget--menu__text" href="contact.html">Contact Us</a>
+                        </li>
+                        <li class="footer__widget--menu__list">
+                            <a class="footer__widget--menu__text" href="/faq">FAQ</a>
+                        </li>
+                        <li class="footer__widget--menu__list">
+                            <a class="footer__widget--menu__text" href="/privacy">Privacy Policy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-        <!-- Col 4: Newsletter -->
-        <div class="col-lg-4 col-md-12 col-12">
-          <div class="footer__widget">
-            <h2 class="footer__widget--title">Join Our World</h2>
-            <p class="footer__widget--desc">
-              Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.
-            </p>
-            <form class="footer__newsletter--form" action="#" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');" method="POST" id="newsletter-form">
-              <label for="newsletter-email">
-                <input
-                  class="footer__newsletter--input"
-                  id="newsletter-email"
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email address"
-                  required
-                >
-              </label>
-              <button class="footer__newsletter--btn primary__btn" type="submit">Subscribe</button>
-            </form>
-          </div>
-        </div>
+            <!-- Col 4: Newsletter -->
+            <div class="footer__col--wide">
+                <div class="footer__widget">
+                    <h2 class="footer__widget--title">Join Our World</h2>
+                    <p class="footer__widget--desc">
+                        Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.
+                    </p>
+                    <form class="footer__newsletter--form" action="#" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');" method="POST" id="newsletter-form">
+                        <label for="newsletter-email">
+                            <input class="footer__newsletter--input" id="newsletter-email" type="email" name="email" placeholder="Enter your email address" required>
+                        </label>
+                        <button class="footer__newsletter--btn primary__btn" type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
 
-      </div><!-- /.row -->
-    </div><!-- /.main__footer -->
-  </div><!-- /.container -->
-
-  <!-- Footer Bottom Bar -->
-  <div class="footer__bottom">
-    <div class="container">
-      <div class="footer__bottom--inenr d-flex justify-content-between align-items-center">
-        <p class="copyright__content ">
-          <span class="text__secondary">&copy; 2026</span>
-          &nbsp;
-          <a class="copyright__content--link" href="index.html">Mary Humphrey Wear</a>.
-          All Rights Reserved.
-        </p>
-        <div class="footer__payment">
-          <!-- Payment icons placeholder -->
-          <span style="font-size:1.2rem; opacity:0.6;">Visa &nbsp; Mastercard &nbsp; PayPal</span>
         </div>
-      </div>
+        <!-- /.footer__wrapper -->
     </div>
-  </div>
+    <!-- /.main__footer -->
+
+    <!-- Footer Bottom Bar -->
+    <div class="footer__bottom">
+        <div class="footer__bottom--inner-wrap">
+            <div class="footer__bottom--inner">
+                <p class="copyright__content">
+                    <span class="text__secondary">&copy; 2026</span>
+                    &nbsp;
+                    <a class="copyright__content--link" href="index.html">Mary Humphrey Wear</a>.
+                                                                            All Rights Reserved.
+                </p>
+                <div class="footer__payment">
+                    <span class="footer__payment--label">Visa &nbsp; Mastercard &nbsp; PayPal</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </footer>
 

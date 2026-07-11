@@ -1,59 +1,268 @@
-<!-- views/shop.ejs -->
+﻿<!-- views/shop.ejs -->
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>Shop – Mary Humphrey Wear</title>
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="theme-color" content="#3C3836">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/swiper-bundle.min.css">
-    <link rel="stylesheet" href="assets/glightbox.min.css">
-    <link rel="stylesheet" href="assets/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/normalize.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <style>
-        :root {
-            --primary-color:         #422326;
-            --secondary-color:       #bcadae;
-            --hover-color:           #5c3539;
-            --yellow-color:          #D4A843;
-            --foreground-color:      #2a2624;
-            --foreground-sub-color:  #7a726e;
-            --text-white-color:      #fff;
-            --body-background-color: #f5f1ec;
-            --bg-offwhite-color:     #faf8f5;
-            --bg-gray-color:         #f5f1ec;
-            --bg-black-color:        #2a1719;
-            --bg-light-dark-color:   #422326;
-            --border-color:          #dad2ce;
-            --frank-ruhl-fonts: 'Fraunces', serif;
-            --karma-fonts:      'Figtree', sans-serif;
+        <title>Shop ΓÇô Mary Humphrey Wear</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Karma:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="assets/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/glightbox.min.css">
+        <link rel="stylesheet" href="assets/swiper-bundle.min.css">
+        <link rel="stylesheet" href="assets/normalize.css">
+  <link rel="stylesheet" href="assets/style.css">
+        <style>:root
+        {
+            --primary-color: #3C3836;
+            --secondary-color: #C97F5F;
+            --hover-color: #8B4513;
+            --foreground-color: #1a1a1a;
+            --foreground-sub-color: #98928E;
+            --body-background-color: #fff;
+            --bg-offwhite-color: #FAF7F2;
+            --bg-gray-color: #F5F3EF;
+            --border-color: #E8E0D8;
         }
-        body {
-            font-family: var(--karma-fonts);
-            color: var(--foreground-color);
-            background-color: var(--body-background-color);
+        .brand-logo-text {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
         }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--frank-ruhl-fonts);
+        .brand-logo-text em {
+            font-style: italic;
+            color: var(--secondary-color);
+        }
+        .brand-logo-text--light {
+            color: #fff;
+        }
+        .brand-logo-text--dark {
             color: var(--primary-color);
         }
-    </style>
-    <link rel="stylesheet" href="assets/filter.css">
+        .offcanvas__logo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+        .offcanvas__close--btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+        .minicart__empty--text {
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .minicart__empty--text p {
+            color: var(--foreground-sub-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+        .breadcrumb__section {
+            padding: 4rem 0;
+            background: var(--bg-offwhite-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .breadcrumb__title {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 3.5rem;
+            color: var(--primary-color);
+        }
+        .shop__section {
+            padding: 6rem 0;
+        }
+        .product__card {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+        .product__card--thumbnail {
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+            background: var(--bg-gray-color);
+            position: relative;
+        }
+        .product__card--thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .product__card:hover .product__card--thumbnail img {
+            transform: scale(1.06);
+        }
+        .product__card--badge {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: var(--secondary-color);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.4rem 1.2rem;
+            border-radius: 2rem;
+        }
+        .product__card--content {
+            padding: 1.8rem 0 1rem;
+        }
+        .product__card--title {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+            display: block;
+        }
+        .product__card--title:hover {
+            color: var(--secondary-color);
+        }
+        .product__card--desc {
+            font-size: 1.3rem;
+            color: var(--foreground-sub-color);
+            margin-bottom: 1rem;
+            line-height: 2.2rem;
+        }
+        .product__card--price {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        .product__card--btn {
+            display: inline-block;
+            margin-top: 1.2rem;
+            padding: 0.9rem 2.4rem;
+            background: var(--primary-color);
+            color: #fff;
+            font-size: 1.3rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 2px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        .product__card--btn:hover {
+            background: transparent;
+            color: var(--primary-color);
+        }
+    
+        /* Shop Header Custom CSS */
+        .shop__header {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid var(--border-color);
+            border-top: 1px solid var(--border-color);
+        }
         
+        .shop__header--controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding-block-end : 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        @media screen and (min-width:767px) {
+          .shop__header--controls{
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
         
+        .product__view--mode {
+            display: flex;
+            align-items: center;
+        }
         
+        .product__view--mode__list {
+            display: flex;
+            align-items: center;
+        }
+
+        .product__count {
+            text-align: center;
+        }
         
+        .widget__filter--btn {
+            display: flex;
+            align-items: center;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
         
+        .widget__filter--btn__icon-svg {
+            margin-right: 8px;
+        }
         
+        .widget__filter--btn__text {
+            font-weight: 500;
+            font-size: 1.5rem;
+        }
         
-  
-        <script src="assets/popper.js" defer></script>
+        .shop__header--right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex: 1;
+        }
+        
+        .shop__header--results {
+            color: var(--foreground-sub-color);
+            font-size: 1.4rem;
+        }
+        
+        .product__view--select {
+            border: none;
+            padding: 0;
+            background: transparent;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        /* Shop Product Grid */
+        .shop-product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+        
+        @media (max-width: 575px) {
+            .shop-product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 1rem;
+            }
+        }
+.collection_wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.shop__product--wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+
+\n</style>
+    <script src="assets/popper.js" defer></script>
     <script src="assets/bootstrap.min.js" defer></script>
     <script src="assets/swiper-bundle.min.js" defer></script>
     <script src="assets/glightbox.min.js" defer></script>
@@ -86,18 +295,18 @@
     <header
         class="header__section">
 
-        <!-- ── Topbar Announcement ─────────────────────── -->
+        <!-- ΓöÇΓöÇ Topbar Announcement ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ -->
         <div class="header__topbar bg__primary">
             <div class="container">
                 <div class="header__topbar--inner text-center">
                     <p class="header__info--text text-white">
-                        ✨ FREE SHIPPING ON ALL UK ORDERS &nbsp;|&nbsp; Celebrating African Heritage Through Fashion
+                        Γ£¿ FREE SHIPPING ON ALL UK ORDERS &nbsp;|&nbsp; Celebrating African Heritage Through Fashion
                     </p>
                 </div>
             </div>
         </div>
 
-        <!-- ── Main Header ────────────────────────────── -->
+        <!-- ΓöÇΓöÇ Main Header ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ -->
         <div class="main__header position__relative header__sticky">
             <div class="container">
                 <div
@@ -189,7 +398,7 @@
             </div>
         </div>
 
-        <!-- ── Offcanvas Mobile Menu ──────────────────── -->
+        <!-- ΓöÇΓöÇ Offcanvas Mobile Menu ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ -->
         <div class="offcanvas__header">
             <div
                 class="offcanvas__inner">
@@ -198,7 +407,7 @@
                     <a class="offcanvas__logo--link" href="index.html">
                         <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" style="height:50px; width:auto; object-fit:contain;">
                     </a>
-                    <button class="offcanvas__close--btn" aria-label="close menu" data-offcanvas>✕</button>
+                    <button class="offcanvas__close--btn" aria-label="close menu" data-offcanvas>Γ£ò</button>
                 </div>
 
                 <nav class="offcanvas__menu">
@@ -229,7 +438,7 @@
             </div>
         </div>
 
-        <!-- ── Mini Cart Drawer ───────────────────────── -->
+        <!-- ΓöÇΓöÇ Mini Cart Drawer ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ -->
         <div class="offCanvas__minicart js-cart-form" style="display: flex; flex-direction: column;">
             <div class="minicart__header">
                 <div class="minicart__header--top" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem;">
@@ -263,7 +472,7 @@
             </div>
         </div>
 
-        <!-- ── Search Overlay ─────────────────────────── -->
+        <!-- ΓöÇΓöÇ Search Overlay ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ -->
         <div class="predictive__search--box">
             <div class="predictive__search--box__inner">
                 <h2 class="predictive__search--title">Search Products</h2>
@@ -285,7 +494,7 @@
             </button>
         </div>
 
-        <!-- ── Mobile Sticky Toolbar ─────────────────── -->
+        <!-- ΓöÇΓöÇ Mobile Sticky Toolbar ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ -->
         <div class="offcanvas__sticky--toolbar">
             <ul class="d-flex justify-content-between">
                 <li class="offcanvas__sticky--toolbar__list">
@@ -362,7 +571,7 @@
                 <div id="filter-offcanvas" class="filter-offcanvas">
                     <div class="filter-offcanvas__header d-flex justify-content-between align-items-center">
                         <h2 class="filter-offcanvas__title">Filter</h2>
-                        <button class="filter-offcanvas__close" aria-label="Close Filter" onclick="toggleFilter()">✕</button>
+                        <button class="filter-offcanvas__close" aria-label="Close Filter" onclick="toggleFilter()">Γ£ò</button>
                     </div>
                     <div class="filter-offcanvas__body shop__sidebar--widget widget__area">
 
@@ -410,7 +619,7 @@
                                     <div class="price__filter--group">
                                         <label class="price__filter--label" for="Filter-Price-GTE2">From</label>
                                         <div class="price__filter--input border-radius-5 d-flex align-items-center">
-                                            <span class="price__filter--currency">£</span>
+                                            <span class="price__filter--currency">┬ú</span>
                                             <input class="price__filter--input__field border-0" name="filter.v.price.gte" id="Filter-Price-GTE2" type="number" placeholder="0" min="0" max="250.00">
                                         </div>
                                     </div>
@@ -420,7 +629,7 @@
                                     <div class="price__filter--group">
                                         <label class="price__filter--label" for="Filter-Price-LTE2">To</label>
                                         <div class="price__filter--input border-radius-5 d-flex align-items-center">
-                                            <span class="price__filter--currency">£</span>
+                                            <span class="price__filter--currency">┬ú</span>
                                             <input class="price__filter--input__field border-0" name="filter.v.price.lte" id="Filter-Price-LTE2" type="number" min="0" placeholder="250.00" max="250.00">
                                         </div>
                                     </div>
@@ -442,7 +651,7 @@
                                             <a href="product.html?handle=ankara-print-dress">Ankara Print Dress</a>
                                         </h3>
                                         <div class="small__product--card__price mb_5">
-                                            <span class="current__price">£85.00</span>
+                                            <span class="current__price">┬ú85.00</span>
                                         </div>
                                     </div>
                                 </div>
@@ -455,7 +664,7 @@
                                             <a href="product.html?handle=traditional-kente-skirt">Traditional Kente Skirt</a>
                                         </h3>
                                         <div class="small__product--card__price mb_5">
-                                            <span class="current__price">£120.00</span>
+                                            <span class="current__price">┬ú120.00</span>
                                         </div>
                                     </div>
                                 </div>

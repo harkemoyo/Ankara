@@ -63,6 +63,7 @@
 
     <link rel="stylesheet" href="assets/filter.css">
     <script src="assets/filter.js" defer></script>
+    <script type="module" src="assets/js/components/core.js" defer></script>
 </head>
 
 <body>
@@ -364,7 +365,7 @@
                         <h2 class="filter-offcanvas__title">Filter</h2>
                         <button class="filter-offcanvas__close" aria-label="Close Filter" onclick="toggleFilter()">✕</button>
                     </div>
-                    <div class="filter-offcanvas__body shop__sidebar--widget widget__area">
+                    <div class="filter-offcanvas__body shop__sidebar--widget widget__area" data-section="collection-filters">
 
                         
                         <div class="single__widget widget__bg">
@@ -377,28 +378,28 @@
                             <h2 class="widget__title h3">Filter By Size</h2>
                             <ul class="widget__form--check">
                                 <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="size-S">S</label>
-                                    <input class="widget__form--check__input size-filter" id="size-S" type="checkbox" value="S">
+                                    <label class="widget__form--check__label" for="size-S">S <span class="facet-count" data-facet="sizes" data-value="S"></span></label>
+                                    <input class="widget__form--check__input size-filter" id="size-S" type="checkbox" value="S" data-filter-name="sizes">
                                     <span class="widget__form--checkmark"></span>
                                 </li>
                                 <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="size-M">M</label>
-                                    <input class="widget__form--check__input size-filter" id="size-M" type="checkbox" value="M">
+                                    <label class="widget__form--check__label" for="size-M">M <span class="facet-count" data-facet="sizes" data-value="M"></span></label>
+                                    <input class="widget__form--check__input size-filter" id="size-M" type="checkbox" value="M" data-filter-name="sizes">
                                     <span class="widget__form--checkmark"></span>
                                 </li>
                                 <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="size-L">L</label>
-                                    <input class="widget__form--check__input size-filter" id="size-L" type="checkbox" value="L">
+                                    <label class="widget__form--check__label" for="size-L">L <span class="facet-count" data-facet="sizes" data-value="L"></span></label>
+                                    <input class="widget__form--check__input size-filter" id="size-L" type="checkbox" value="L" data-filter-name="sizes">
                                     <span class="widget__form--checkmark"></span>
                                 </li>
                                 <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="size-XL">XL</label>
-                                    <input class="widget__form--check__input size-filter" id="size-XL" type="checkbox" value="XL">
+                                    <label class="widget__form--check__label" for="size-XL">XL <span class="facet-count" data-facet="sizes" data-value="XL"></span></label>
+                                    <input class="widget__form--check__input size-filter" id="size-XL" type="checkbox" value="XL" data-filter-name="sizes">
                                     <span class="widget__form--checkmark"></span>
                                 </li>
                                 <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="size-2X">2X</label>
-                                    <input class="widget__form--check__input size-filter" id="size-2X" type="checkbox" value="2X">
+                                    <label class="widget__form--check__label" for="size-2X">2X <span class="facet-count" data-facet="sizes" data-value="2X"></span></label>
+                                    <input class="widget__form--check__input size-filter" id="size-2X" type="checkbox" value="2X" data-filter-name="sizes">
                                     <span class="widget__form--checkmark"></span>
                                 </li>
                             </ul>
@@ -502,7 +503,7 @@
                             <div id="collection-tabs" style="padding:16px 0 12px;display:flex;flex-wrap:wrap;"></div>
                             <div id="product_grid" class="tab_pane active show">
                                 <div class="product__section--inner">
-                                    <div class="shop-product-grid">
+                                    <div class="product-grid" data-section="product-grid">
                                     </div>
                                 </div>
                             </div>

@@ -17,6 +17,7 @@
     "cheerio": "^1.2.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
     "liquidjs": "^10.27.1",
     "node-fetch": "^3.3.2"
   },

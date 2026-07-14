@@ -18,6 +18,11 @@ export default class CartDrawer {
                 size: item.size || 'M',
                 color: item.color || ''
             });
+            
+            // Open minicart UI
+            const minicart = document.querySelector(".offCanvas__minicart");
+            if (minicart) minicart.classList.add("active");
+            document.body.classList.add("offCanvas__minicart_active");
         } else {
             console.error('addToCart function not found globally. Make sure assets/cart.js is loaded.');
         }

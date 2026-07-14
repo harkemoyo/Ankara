@@ -2057,7 +2057,7 @@
 
 
         <!-- Style of the Month -->
-        <section class="bag-of-the-month">
+        <section class="bag-of-the-month" id="botm-section">
             
             <div class="section-header">
                 <span class="botm-header-subtitle">Mary Humphrey Collection</span>
@@ -2082,9 +2082,9 @@
                             <span class="botm-color-val">Classic Pattern</span>
                         </div>
                         <div class="quickview__swatches">
-                            <span class="swatch-item large active" style="background-color:#6e1d23;"></span>
-                            <span class="swatch-item large" style="background-color:#82871f;"></span>
-                            <span class="swatch-item large" style="background-color:#0b8783;"></span>
+                            <span class="swatch-item large active" style="background-color:#6e1d23; background-image: url('assets/IMG-20260622-WA0009.webp'); background-size: cover;"></span>
+                            <span class="swatch-item large" style="background-color:#82871f; background-image: url('assets/IMG-20260622-WA0011.webp'); background-size: cover;"></span>
+                            <span class="swatch-item large" style="background-color:#0b8783; background-image: url('assets/IMG-20260622-WA0030.webp'); background-size: cover;"></span>
                         </div>
                     </div>
 
@@ -2620,6 +2620,58 @@
                 },
             });
 
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const section = document.getElementById('botm-section');
+            if (!section) return;
+
+            let qty = 1;
+            let selectedColor = 'Classic Pattern';
+            const qtyInput = section.querySelector('.qty-input');
+            const minusBtn = section.querySelector('.qty-btn:first-child');
+            const plusBtn = section.querySelector('.qty-btn:last-child');
+            
+            if (minusBtn && plusBtn && qtyInput) {
+                minusBtn.addEventListener('click', () => {
+                    if (qty > 1) { qty--; qtyInput.value = qty; }
+                });
+                plusBtn.addEventListener('click', () => {
+                    qty++; qtyInput.value = qty;
+                });
+            }
+
+            const swatches = section.querySelectorAll('.swatch-item');
+            const colorVal = section.querySelector('.botm-color-val');
+            const colors = ['Classic Pattern', 'Gold Pattern', 'Teal Pattern'];
+            swatches.forEach((swatch, idx) => {
+                swatch.addEventListener('click', () => {
+                    swatches.forEach(s => s.classList.remove('active'));
+                    swatch.classList.add('active');
+                    selectedColor = colors[idx];
+                    if (colorVal) colorVal.textContent = selectedColor;
+                });
+            });
+
+            const addBtn = section.querySelector('.botm-btn-secondary');
+            const buyNowBtn = section.querySelector('.botm-btn-primary');
+            const addToCartHandler = () => {
+                window.dispatchEvent(new CustomEvent('cart:add', {
+                    detail: {
+                        id: 'classic-ankara-print-bag',
+                        title: 'Classic Ankara Print Bag',
+                        price: 4500,
+                        image: 'assets/IMG-20260622-WA0009.webp',
+                        qty: qty,
+                        size: 'One Size',
+                        color: selectedColor
+                    }
+                }));
+            };
+
+            if (addBtn) addBtn.addEventListener('click', addToCartHandler);
+            if (buyNowBtn) buyNowBtn.addEventListener('click', addToCartHandler);
         });
     </script>
 </body>

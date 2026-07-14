@@ -1,30 +1,42 @@
-const { processCheckout } = require('../services/checkoutService');
+const { initializeCheckout, processWebhook } = require('../services/checkoutService');
+const crypto = require('crypto');
 
-async function checkout(req, res) {
-    const { reference, cart, customer } = req.body;
+async function initCheckout(req, res) {
+    const { cart, customer } = req.body;
 
     try {
-        const result = await processCheckout(reference, cart, customer);
+        const result = await initializeCheckout(cart, customer);
         return res.json(result);
     } catch (error) {
         console.error('Checkout error:', error.message);
         
-        // Map error messages to status codes to preserve existing behavior
-        if (error.message === 'Missing reference or cart' || error.message === 'Customer email and name are required') {
+        if (error.message === 'Missing cart' || error.message === 'Customer email and name are required') {
             return res.status(400).json({ error: error.message });
         }
-        if (error.message === 'Payment verification failed') {
-            return res.status(502).json({ error: error.message });
-        }
-        if (error.message === 'Payment not confirmed by Paystack' || error.message === 'Payment amount mismatch') {
-            return res.status(402).json({ error: error.message });
-        }
         
-        // Default 500 for order creation failures
         return res.status(500).json({ error: error.message });
     }
 }
 
+async function paystackWebhook(req, res) {
+    // Validate Paystack Signature
+    const secret = process.env.PAYSTACK_SECRET_KEY;
+    const hash = crypto.createHmac('sha512', secret).update(JSON.stringify(req.body)).digest('hex');
+
+    if (hash !== req.headers['x-paystack-signature']) {
+        return res.status(401).send('Unauthorized webhook signature');
+    }
+
+    try {
+        await processWebhook(req.body);
+    } catch (err) {
+        console.error('Webhook processing error:', err);
+    }
+
+    res.sendStatus(200);
+}
+
 module.exports = {
-    checkout
+    initCheckout,
+    paystackWebhook
 };

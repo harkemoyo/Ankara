@@ -126,6 +126,11 @@
     .order-summary {
       padding: 48px 32px;
       background: #f5f5f5;
+      position: sticky;
+      top: 0;
+      align-self: start;
+      max-height: 100vh;
+      overflow-y: auto;
     }
     .order-summary h2 { font-family: 'Karma', serif; font-size: 1.8rem; margin: 0 0 24px; }
     .summary-item {
@@ -329,6 +334,19 @@
     });
     if (!valid) { alert('Please fill in all required fields.'); return; }
 
+    const phoneInput = document.getElementById('phone');
+    const phoneVal = phoneInput.value.trim();
+    if (phoneVal) {
+      const kePhoneRegex = /^(?:254|\+254|0)?(7\d{8}|1\d{8})$/;
+      if (!kePhoneRegex.test(phoneVal.replace(/\s+/g, ''))) {
+        phoneInput.classList.add('error');
+        alert('Please enter a valid Kenyan phone number (e.g. 0712345678).');
+        return;
+      } else {
+        phoneInput.classList.remove('error');
+      }
+    }
+
     // Disable button + show spinner
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span> Opening Paystack...';
@@ -344,54 +362,41 @@
       country:  document.getElementById('country').value,
     };
 
-    // Paystack popup
-    const handler = PaystackPop.setup({
-      key:       PAYSTACK_PUBLIC_KEY,
-      email:     customer.email,
-      amount:    Math.round(total * 100),   // in kobo/pence
-      currency:  'GBP',
-      ref:       'ANK-' + Date.now(),
-      metadata:  { customer_name: customer.name, cart_count: cart.length },
-
-      callback: async function(response) {
-        btn.innerHTML = '<span class="spinner"></span> Confirming order...';
-
-        try {
-          const res = await fetch('/api/checkout', {
-            method:  'POST',
+    // Init checkout
+    try {
+        const res = await fetch('/api/checkout/init', {
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              reference: response.reference,
-              cart,
-              customer
-            })
-          });
+            body: JSON.stringify({ cart, customer })
+        });
+        const data = await res.json();
 
-          const data = await res.json();
-
-          if (res.ok && data.success) {
-            // Clear cart and redirect to thank-you page
-            localStorage.removeItem('mhw-cart');
-            window.location.href = `/thank-you.html?order=${data.order_number}`;
-          } else {
-            alert('Payment received but order creation failed: ' + (data.error || 'Unknown error'));
+        if (res.ok && data.success && data.access_code) {
+            btn.innerHTML = '<span class="spinner"></span> Opening Paystack...';
+            
+            const handler = PaystackPop.setup({
+                key: PAYSTACK_PUBLIC_KEY,
+                access_code: data.access_code,
+                callback: function(response) {
+                    localStorage.removeItem('mhw-cart');
+                    window.location.href = `/thank-you.html?order=${data.reference}`;
+                },
+                onClose: function() {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Pay with Paystack';
+                }
+            });
+            handler.openIframe();
+        } else {
+            alert('Failed to initialize checkout: ' + (data.error || 'Unknown error'));
             btn.disabled = false;
             btn.innerHTML = 'Pay with Paystack';
-          }
-        } catch(err) {
-          alert('Network error. Please contact support with your payment reference: ' + response.reference);
-          btn.disabled = false;
-          btn.innerHTML = 'Pay with Paystack';
         }
-      },
-
-      onClose: function() {
+    } catch (err) {
+        alert('Network error initializing checkout.');
         btn.disabled = false;
         btn.innerHTML = 'Pay with Paystack';
-      }
-    });
-
-    handler.openIframe();
+    }
   });
 </script>
 </body>

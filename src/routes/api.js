@@ -1,5 +1,5 @@
 const express = require('express');
-const { checkout } = require('../controllers/checkoutController');
+const { initCheckout, paystackWebhook } = require('../controllers/checkoutController');
 const { getOrder } = require('../controllers/orderController');
 const { orderLookupLimiter } = require('../middleware/rateLimit');
 
@@ -12,7 +12,8 @@ router.get('/products/:handle', productController.getProductByHandle);
 router.get('/collections', productController.getCollections);
 
 // Checkout & Order routes
-router.post('/checkout', checkout);
+router.post('/checkout/init', initCheckout);
+router.post('/webhooks/paystack', paystackWebhook);
 router.get('/orders/:order_number', orderLookupLimiter, getOrder);
 
 module.exports = router;

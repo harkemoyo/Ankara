@@ -1,71 +1,28 @@
 const { supabaseAdmin } = require('../config/supabase');
 
-async function processCheckout(reference, cart, customer) {
-    // ── Validate inputs ──
-    if (!reference || !cart || !Array.isArray(cart) || cart.length === 0) {
-        throw new Error('Missing reference or cart');
+async function initializeCheckout(cart, customer) {
+    if (!cart || !Array.isArray(cart) || cart.length === 0) {
+        throw new Error('Missing cart');
     }
     if (!customer?.email || !customer?.name) {
         throw new Error('Customer email and name are required');
     }
 
-    // ── 1. Verify payment with Paystack ──
-    let paystackData;
-    try {
-        const paystackRes = await fetch(
-            `https://api.paystack.co/transaction/verify/${encodeURIComponent(reference)}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
-        paystackData = await paystackRes.json();
-    } catch (err) {
-        console.error('Paystack verify network error:', err);
-        throw new Error('Payment verification failed');
-    }
-
-    if (!paystackData.status || paystackData.data?.status !== 'success') {
-        console.warn('Paystack payment not successful:', paystackData);
-        throw new Error('Payment not confirmed by Paystack');
-    }
-
-    // ── 2. Calculate expected total (in kobo/pence) ──
     const subtotal     = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.qty), 0);
-    const shippingCost = subtotal >= 80 ? 0 : 5.99;  // Free shipping over £80
+    const shippingCost = subtotal >= 80 ? 0 : 5.99;
     const total        = subtotal + shippingCost;
-    const totalKobo    = Math.round(total * 100);     // Paystack sends amount in smallest unit
+    const totalKobo    = Math.round(total * 100);
 
-    // Verify the amount paid matches what we expect (fraud prevention)
-    if (paystackData.data.amount !== totalKobo) {
-        console.warn(`Amount mismatch! Expected ${totalKobo}, got ${paystackData.data.amount}`);
-        throw new Error('Payment amount mismatch');
-    }
-
-    // ── 3. Check for duplicate order (idempotency) ──
-    const { data: existing } = await supabaseAdmin
-        .from('orders')
-        .select('id, order_number')
-        .eq('payment_ref', reference)
-        .maybeSingle();
-
-    if (existing) {
-        // Already processed this reference — return the existing order
-        return { success: true, order_number: existing.order_number, duplicate: true };
-    }
-
-    // ── 4. Create order in Supabase using service role key ──
+    // 1. Create PENDING order in Supabase
     const { data: order, error: orderError } = await supabaseAdmin
         .from('orders')
         .insert({
-            order_number:     '',                    // Trigger will fill this as ANK-XXXX
-            status:           'paid',
+            order_number:     '', // Trigger populates this
+            status:           'pending',
             customer_email:   customer.email.toLowerCase().trim(),
             customer_name:    customer.name.trim(),
             customer_phone:   customer.phone || null,
-            customer_user_id: customer.user_id || null,  // null = guest
+            customer_user_id: customer.user_id || null,
             shipping_address: {
                 address1: customer.address1 || '',
                 address2: customer.address2 || '',
@@ -78,21 +35,20 @@ async function processCheckout(reference, cart, customer) {
             total,
             currency:         '£',
             payment_provider: 'paystack',
-            payment_ref:      reference,
-            paid_at:          new Date().toISOString(),
+            payment_ref:      null,
         })
         .select('id, order_number')
         .single();
 
     if (orderError) {
-        console.error('Failed to insert order:', orderError);
+        console.error('Failed to insert pending order:', orderError);
         throw new Error('Order could not be created');
     }
 
-    // ── 5. Insert order items (one row per cart item) ──
+    // 2. Insert order items
     const orderItems = cart.map(item => ({
         order_id:       order.id,
-        product_id:     item.product_id || null,    // optional FK
+        product_id:     item.product_id || null,
         product_handle: item.id || item.handle || '',
         product_title:  item.title,
         variant_size:   item.size   || null,
@@ -108,18 +64,88 @@ async function processCheckout(reference, cart, customer) {
 
     if (itemsError) {
         console.error('Failed to insert order items:', itemsError);
-        // Order exists but items failed — flag for manual recovery
-        await supabaseAdmin
-            .from('orders')
-            .update({ notes: 'WARNING: order_items insert failed — check manually' })
-            .eq('id', order.id);
-        throw new Error('Order created but items failed');
+        throw new Error('Order items could not be created');
     }
 
-    console.log(`✅ Order ${order.order_number} created for ${customer.email}`);
-    return { success: true, order_number: order.order_number };
+    // 3. Initialize Paystack Transaction
+    const paystackRes = await fetch('https://api.paystack.co/transaction/initialize', {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: customer.email,
+            amount: totalKobo,
+            reference: order.order_number,
+        })
+    });
+
+    const paystackData = await paystackRes.json();
+    if (!paystackData.status) {
+        console.error('Paystack initialization failed:', paystackData);
+        throw new Error('Payment initialization failed');
+    }
+
+    return {
+        success: true,
+        access_code: paystackData.data.access_code,
+        reference: order.order_number
+    };
+}
+
+async function processWebhook(eventData) {
+    const { event, data } = eventData;
+
+    if (event === 'charge.success') {
+        // Update order status to paid
+        const { data: order, error: orderError } = await supabaseAdmin
+            .from('orders')
+            .update({ status: 'paid', paid_at: new Date().toISOString() })
+            .eq('order_number', data.reference)
+            .select('id')
+            .single();
+
+        if (orderError || !order) {
+            console.error('Failed to update order status to paid:', orderError);
+            return;
+        }
+
+        // Decrement inventory (assuming inventory_quantity column exists)
+        const { data: items } = await supabaseAdmin
+            .from('order_items')
+            .select('product_handle, quantity')
+            .eq('order_id', order.id);
+
+        if (items) {
+            for (const item of items) {
+                if (!item.product_handle) continue;
+                // Since Supabase REST doesn't support decrement natively without RPC,
+                // we fetch then update. The query fails gracefully if column doesn't exist
+                const { data: product, error: getErr } = await supabaseAdmin
+                    .from('products')
+                    .select('inventory_quantity')
+                    .eq('handle', item.product_handle)
+                    .maybeSingle();
+                
+                if (!getErr && product && product.inventory_quantity !== undefined && product.inventory_quantity !== null) {
+                    const newQty = Math.max(0, product.inventory_quantity - item.quantity);
+                    await supabaseAdmin
+                        .from('products')
+                        .update({ inventory_quantity: newQty })
+                        .eq('handle', item.product_handle);
+                }
+            }
+        }
+    } else if (event === 'charge.failed') {
+        await supabaseAdmin
+            .from('orders')
+            .update({ status: 'failed' })
+            .eq('order_number', data.reference);
+    }
 }
 
 module.exports = {
-    processCheckout
+    initializeCheckout,
+    processWebhook
 };

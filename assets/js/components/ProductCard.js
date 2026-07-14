@@ -127,13 +127,15 @@ export default class ProductCard {
                     'aria-label': color.label,
                     'aria-pressed': index === 0 ? 'true' : 'false',
                     'title': color.label,
-                    'type': 'button'
+                    'type': 'button',
+                    'style': `width: 2.4rem; height: 2.4rem; border-radius: 50%; padding: 0; border: 2px solid ${index === 0 ? 'var(--primary-color)' : 'transparent'}; cursor: pointer; overflow: hidden; display: inline-block;`
                 });
                 
                 const swatchImgUrl = color.image || primaryImage;
                 const swatchImg = this.createEl('img', 'swatch-img', {
                     src: swatchImgUrl,
-                    alt: color.label
+                    alt: color.label,
+                    style: 'width: 100%; height: 100%; object-fit: cover; display: block;'
                 });
                 swatch.appendChild(swatchImg);
 
@@ -141,8 +143,12 @@ export default class ProductCard {
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    Array.from(swatchesContainer.children).forEach(btn => btn.setAttribute('aria-pressed', 'false'));
+                    Array.from(swatchesContainer.children).forEach(btn => {
+                        btn.setAttribute('aria-pressed', 'false');
+                        btn.style.borderColor = 'transparent';
+                    });
                     swatch.setAttribute('aria-pressed', 'true');
+                    swatch.style.borderColor = 'var(--primary-color)';
                     
                     mainImg.src = swatchImgUrl;
                 });

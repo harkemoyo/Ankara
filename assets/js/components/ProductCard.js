@@ -119,23 +119,31 @@ export default class ProductCard {
         // Color Swatches
         let swatchesContainer = null;
         if (product.colors && Array.isArray(product.colors) && product.colors.length > 0) {
-            swatchesContainer = this.createEl('div', 'card-color-swatches');
+            swatchesContainer = this.createEl('div', 'product-card__swatches', {
+                'style': 'display: flex; gap: 8px; margin-top: 8px; justify-content: center;'
+            });
             product.colors.forEach((color, index) => {
-                const swatch = this.createEl('span', 'card-swatch', {
+                const swatch = this.createEl('button', 'swatch-btn', {
+                    'aria-label': color.label,
+                    'aria-pressed': index === 0 ? 'true' : 'false',
                     'title': color.label,
-                    'style': `width:16px;height:16px;border-radius:50%;background:${color.hex};border:2px solid ${index === 0 ? '#1a1a1a' : '#ddd'};cursor:pointer;display:inline-block;`
+                    'type': 'button'
                 });
+                
+                const swatchImgUrl = color.image || primaryImage;
+                const swatchImg = this.createEl('img', 'swatch-img', {
+                    src: swatchImgUrl,
+                    alt: color.label
+                });
+                swatch.appendChild(swatchImg);
 
                 swatch.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    // Update active border state
-                    Array.from(swatchesContainer.children).forEach(s => s.style.border = '2px solid #ddd');
-                    swatch.style.border = '2px solid #1a1a1a';
+                    Array.from(swatchesContainer.children).forEach(btn => btn.setAttribute('aria-pressed', 'false'));
+                    swatch.setAttribute('aria-pressed', 'true');
                     
-                    // Swap main images
-                    const swatchImgUrl = color.image || primaryImage;
                     mainImg.src = swatchImgUrl;
                 });
 

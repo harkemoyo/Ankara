@@ -21,7 +21,8 @@ class ProductController {
                 availability: parseArrayParam(req.query.availability),
                 priceGte: req.query.priceGte,
                 priceLte: req.query.priceLte,
-                sort: req.query.sort
+                sort: req.query.sort,
+                q: req.query.q
             };
 
             const result = await productService.getProducts(filters);

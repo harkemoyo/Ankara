@@ -47,6 +47,13 @@ class ProductService {
         const passesPrice = (p) => {
             return p.price >= minPrice && p.price <= maxPrice;
         };
+        const passesSearch = (p) => {
+            if (!filters.q) return true;
+            const search = filters.q.toLowerCase().trim();
+            const title = (p.title || '').toLowerCase();
+            const desc = (p.description || '').toLowerCase();
+            return title.includes(search) || desc.includes(search);
+        };
 
         // Filter the final products list
         const filteredProducts = allProducts.filter(p => 
@@ -54,7 +61,8 @@ class ProductService {
             passesSize(p) && 
             passesVendor(p) && 
             passesAvailability(p) && 
-            passesPrice(p)
+            passesPrice(p) &&
+            passesSearch(p)
         );
 
         // Sort
@@ -80,10 +88,10 @@ class ProductService {
 
         allProducts.forEach(p => {
             // Check if product passes all filters EXCEPT the one we are aggregating
-            const baseMatchesForColor = passesSize(p) && passesVendor(p) && passesAvailability(p) && passesPrice(p);
-            const baseMatchesForSize = passesColor(p) && passesVendor(p) && passesAvailability(p) && passesPrice(p);
-            const baseMatchesForVendor = passesColor(p) && passesSize(p) && passesAvailability(p) && passesPrice(p);
-            const baseMatchesForAvailability = passesColor(p) && passesSize(p) && passesVendor(p) && passesPrice(p);
+            const baseMatchesForColor = passesSize(p) && passesVendor(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
+            const baseMatchesForSize = passesColor(p) && passesVendor(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
+            const baseMatchesForVendor = passesColor(p) && passesSize(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
+            const baseMatchesForAvailability = passesColor(p) && passesSize(p) && passesVendor(p) && passesPrice(p) && passesSearch(p);
 
             if (baseMatchesForColor && Array.isArray(p.colors)) {
                 p.colors.forEach(c => {

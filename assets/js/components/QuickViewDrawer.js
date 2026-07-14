@@ -179,9 +179,21 @@ export default class QuickViewDrawer {
             });
             product.colors.forEach(color => {
                 const isActive = color.label === this.selectedColor;
-                const swatch = this.createEl('span', 'swatch-item swatch-item-large', {
-                    style: `width:3rem; height:3rem; border-radius:50%; background-color:${color.hex}; border: 2px solid ${isActive ? '#fff' : 'transparent'}; box-shadow: ${isActive ? '0 0 0 1px var(--primary-color)' : 'none'}; cursor: pointer; display:inline-block;`
+                const swatch = this.createEl('button', 'swatch-btn', {
+                    'aria-label': color.label,
+                    'aria-pressed': isActive ? 'true' : 'false',
+                    'title': color.label,
+                    'type': 'button',
+                    'style': `width:3.6rem; height:3.6rem; border-radius:50%; overflow:hidden; border: 2px solid ${isActive ? 'var(--primary-color)' : 'var(--border-color)'}; cursor: pointer; padding:0; background:none;`
                 });
+                
+                const swatchImg = this.createEl('img', 'swatch-img', {
+                    src: color.image || mainImageUrl,
+                    alt: color.label,
+                    style: 'width:100%; height:100%; object-fit:cover;'
+                });
+                swatch.appendChild(swatchImg);
+
                 swatch.addEventListener('click', () => {
                     this.selectedColor = color.label;
                     this.renderProduct();

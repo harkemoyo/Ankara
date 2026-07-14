@@ -119,12 +119,9 @@ export default class ProductGrid {
             return;
         }
 
-        const grid = this.createEl('div', 'product-grid');
         this.state.products.forEach(product => {
             const cardComponent = new ProductCard(product);
-            grid.appendChild(cardComponent.render());
+            this.el.appendChild(cardComponent.render());
         });
-
-        this.el.appendChild(grid);
     }
 }

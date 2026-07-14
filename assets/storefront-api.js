@@ -213,7 +213,15 @@ window.filterByCollection = function(btn, collection) {
         sidebarLink.style.fontWeight = '600';
     }
 
-    loadShopProducts();
+    const params = new URLSearchParams(window.location.search);
+    if (collection && collection !== 'all') {
+        params.set('collection', collection);
+    } else {
+        params.delete('collection');
+    }
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState({}, '', newUrl);
+    window.dispatchEvent(new Event('filter:changed'));
 };
 
 window.filterByCollectionSidebar = function(linkEl, collection) {
@@ -240,7 +248,15 @@ window.filterByCollectionSidebar = function(linkEl, collection) {
         topTab.style.color = '#fff';
     }
 
-    loadShopProducts();
+    const params = new URLSearchParams(window.location.search);
+    if (collection && collection !== 'all') {
+        params.set('collection', collection);
+    } else {
+        params.delete('collection');
+    }
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState({}, '', newUrl);
+    window.dispatchEvent(new Event('filter:changed'));
 };
 
 // =============================================
@@ -279,16 +295,22 @@ function setupShopFilters() {
     if (sortSelect) {
         sortSelect.addEventListener('change', (e) => {
             const val = e.target.value;
+            let sortBy = 'newest';
             if (val === '1' || val === '2') {
-                filterState.sortBy = 'latest';
+                sortBy = 'newest';
             } else if (val === '3') {
-                filterState.sortBy = 'popularity';
+                sortBy = 'popularity';
             } else if (val === '4') {
-                filterState.sortBy = 'price-asc'; // Default price ascending
+                sortBy = 'price_asc';
             } else if (val === '5') {
-                filterState.sortBy = 'price-desc';
+                sortBy = 'price_desc';
             }
-            loadShopProducts();
+            
+            const params = new URLSearchParams(window.location.search);
+            params.set('sort', sortBy);
+            const newUrl = `${window.location.pathname}?${params.toString()}`;
+            window.history.pushState({}, '', newUrl);
+            window.dispatchEvent(new Event('filter:changed'));
         });
 
         // Add sorting options if they aren't fully in EJS/HTML
@@ -372,11 +394,15 @@ async function loadProductDetails() {
     if (colourContainer && product.colors && product.colors.length > 0) {
         colourContainer.innerHTML = product.colors.map((c, i) => `
             <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" onclick="selectColor(this,'${c.image}','${c.label}')">
-                <span 
-                    class="colour-swatch ${i===0?'selected':''}"
-                    style="width:36px;height:36px;border-radius:50%;background:${c.hex};border:3px solid ${i===0?'#1a1a1a':'#ddd'};display:inline-block;"
+                <button 
+                    class="swatch-btn ${i===0?'active':''}"
+                    aria-label="${c.label}"
+                    aria-pressed="${i===0?'true':'false'}"
+                    style="width:40px;height:40px;border-radius:50%;border:2px solid ${i===0?'#1a1a1a':'#ddd'};overflow:hidden;padding:0;background:none;display:inline-block;cursor:pointer;"
                     title="${c.label}"
-                ></span>
+                >
+                    <img src="${c.image || product.images[0]}" alt="${c.label}" class="swatch-img" style="width:100%;height:100%;object-fit:cover;">
+                </button>
                 <span style="font-size:1.1rem;color:#666;">${c.label}</span>
             </div>
         `).join('');
@@ -402,9 +428,15 @@ async function loadProductDetails() {
 window.selectColor = function(container, image, label) {
     window._selectedColor = label;
     swapMainImage(null, image);
-    document.querySelectorAll('.colour-swatch').forEach(s => s.style.border = '3px solid #ddd');
-    const swatch = container.querySelector('.colour-swatch');
-    if (swatch) swatch.style.border = '3px solid #1a1a1a';
+    document.querySelectorAll('#colour-options .swatch-btn').forEach(s => {
+        s.style.border = '2px solid #ddd';
+        s.setAttribute('aria-pressed', 'false');
+    });
+    const swatch = container.querySelector('.swatch-btn');
+    if (swatch) {
+        swatch.style.border = '2px solid #1a1a1a';
+        swatch.setAttribute('aria-pressed', 'true');
+    }
 };
 
 // Select a size on product page
@@ -472,12 +504,9 @@ window.addProductToCart = function(e) {
     }
 };
 
-// =============================================
-// INIT — Run on page load
-// =============================================
 document.addEventListener('DOMContentLoaded', () => {
     // Shop page init
-    if (document.querySelector('.shop-product-grid')) {
+    if (document.querySelector('.shop-product-grid') || document.querySelector('[data-section="product-grid"]')) {
         const params = new URLSearchParams(window.location.search);
         const q = params.get('q');
         if (q) {

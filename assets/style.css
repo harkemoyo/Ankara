@@ -312,7 +312,7 @@ button {
   -webkit-transition: var(--transition);
   transition: var(--transition);
   text-decoration: none;
-  color: var(--text-white-color);
+  color: var(--primary-color);
 }
 
 a,
@@ -16135,10 +16135,6 @@ body.body .footer__section {
    ======================================================== */
 
 /* Default state for all pages: solid white header */
-.main__header {
-    background: #fff;
-    transition: background 0.3s, box-shadow 0.3s;
-}
 
 /* Transparent header pages (homepage, our story) */
 .transparent__header {

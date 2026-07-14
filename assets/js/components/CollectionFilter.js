@@ -33,6 +33,14 @@ export default class CollectionFilter {
         }
 
         this.syncUIWithURL();
+
+        // Sort dropdown
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', () => {
+                this.updateFiltersFromUI();
+            });
+        }
     }
 
     syncUIWithURL() {
@@ -51,6 +59,12 @@ export default class CollectionFilter {
         const maxPrice = this.el.querySelector('input[name="priceLte"]');
         if (minPrice) minPrice.value = params.get('priceGte') || '';
         if (maxPrice) maxPrice.value = params.get('priceLte') || '';
+
+        // Sync sort
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            sortSelect.value = params.get('sort') || '';
+        }
     }
 
     updateFiltersFromUI() {
@@ -69,9 +83,14 @@ export default class CollectionFilter {
         if (minPrice && minPrice.value) params.set('priceGte', minPrice.value);
         if (maxPrice && maxPrice.value) params.set('priceLte', maxPrice.value);
 
-        // Retain sort and collection if they exist in URL
+        // Sort
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect && sortSelect.value) {
+            params.set('sort', sortSelect.value);
+        }
+
+        // Retain collection if it exists in URL
         const oldParams = new URLSearchParams(window.location.search);
-        if (oldParams.has('sort')) params.set('sort', oldParams.get('sort'));
         if (oldParams.has('collection')) params.set('collection', oldParams.get('collection'));
 
         // Update URL without reload

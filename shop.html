@@ -404,6 +404,64 @@
                                 </li>
                             </ul>
                         </div>
+                        
+                        <div class="single__widget widget__bg">
+                            <h2 class="widget__title h3">Filter By Color</h2>
+                            <ul class="widget__form--check">
+                                <li class="widget__form--check__list">
+                                    <label class="widget__form--check__label" for="color-Red">Red Print <span class="facet-count" data-facet="colors" data-value="Red Print"></span></label>
+                                    <input class="widget__form--check__input color-filter" id="color-Red" type="checkbox" value="Red Print" data-filter-name="colors">
+                                    <span class="widget__form--checkmark"></span>
+                                </li>
+                                <li class="widget__form--check__list">
+                                    <label class="widget__form--check__label" for="color-Blue">Blue Print <span class="facet-count" data-facet="colors" data-value="Blue Print"></span></label>
+                                    <input class="widget__form--check__input color-filter" id="color-Blue" type="checkbox" value="Blue Print" data-filter-name="colors">
+                                    <span class="widget__form--checkmark"></span>
+                                </li>
+                                <li class="widget__form--check__list">
+                                    <label class="widget__form--check__label" for="color-Green">Green Print <span class="facet-count" data-facet="colors" data-value="Green Print"></span></label>
+                                    <input class="widget__form--check__input color-filter" id="color-Green" type="checkbox" value="Green Print" data-filter-name="colors">
+                                    <span class="widget__form--checkmark"></span>
+                                </li>
+                                <li class="widget__form--check__list">
+                                    <label class="widget__form--check__label" for="color-Orange">Orange Print <span class="facet-count" data-facet="colors" data-value="Orange Print"></span></label>
+                                    <input class="widget__form--check__input color-filter" id="color-Orange" type="checkbox" value="Orange Print" data-filter-name="colors">
+                                    <span class="widget__form--checkmark"></span>
+                                </li>
+                                <li class="widget__form--check__list">
+                                    <label class="widget__form--check__label" for="color-Gold">Gold Kente <span class="facet-count" data-facet="colors" data-value="Gold Kente"></span></label>
+                                    <input class="widget__form--check__input color-filter" id="color-Gold" type="checkbox" value="Gold Kente" data-filter-name="colors">
+                                    <span class="widget__form--checkmark"></span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="single__widget widget__bg">
+                            <h2 class="widget__title h3">Availability</h2>
+                            <ul class="widget__form--check">
+                                <li class="widget__form--check__list">
+                                    <label class="widget__form--check__label" for="avail-in">In Stock <span class="facet-count" data-facet="availability" data-value="in_stock"></span></label>
+                                    <input class="widget__form--check__input avail-filter" id="avail-in" type="checkbox" value="in_stock" data-filter-name="availability">
+                                    <span class="widget__form--checkmark"></span>
+                                </li>
+                                <li class="widget__form--check__list">
+                                    <label class="widget__form--check__label" for="avail-out">Out of Stock <span class="facet-count" data-facet="availability" data-value="out_of_stock"></span></label>
+                                    <input class="widget__form--check__input avail-filter" id="avail-out" type="checkbox" value="out_of_stock" data-filter-name="availability">
+                                    <span class="widget__form--checkmark"></span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="single__widget widget__bg">
+                            <h2 class="widget__title h3">Vendor</h2>
+                            <ul class="widget__form--check">
+                                <li class="widget__form--check__list">
+                                    <label class="widget__form--check__label" for="vendor-mary">Mary Humphrey African Wear <span class="facet-count" data-facet="vendor" data-value="Mary Humphrey African Wear"></span></label>
+                                    <input class="widget__form--check__input vendor-filter" id="vendor-mary" type="checkbox" value="Mary Humphrey African Wear" data-filter-name="vendor">
+                                    <span class="widget__form--checkmark"></span>
+                                </li>
+                            </ul>
+                        </div>
 <div class="single__widget price__filter widget__bg">
                             <h2 class="widget__title h3">Filter By Price</h2>
                             <form class="price__filter--form" action="#">
@@ -412,7 +470,7 @@
                                         <label class="price__filter--label" for="Filter-Price-GTE2">From</label>
                                         <div class="price__filter--input border-radius-5 d-flex align-items-center">
                                             <span class="price__filter--currency">£</span>
-                                            <input class="price__filter--input__field border-0" name="filter.v.price.gte" id="Filter-Price-GTE2" type="number" placeholder="0" min="0" max="250.00">
+                                            <input class="price__filter--input__field border-0" name="priceGte" id="Filter-Price-GTE2" type="number" placeholder="0" min="0" max="250.00">
                                         </div>
                                     </div>
                                     <div class="price__divider">
@@ -422,7 +480,7 @@
                                         <label class="price__filter--label" for="Filter-Price-LTE2">To</label>
                                         <div class="price__filter--input border-radius-5 d-flex align-items-center">
                                             <span class="price__filter--currency">£</span>
-                                            <input class="price__filter--input__field border-0" name="filter.v.price.lte" id="Filter-Price-LTE2" type="number" min="0" placeholder="250.00" max="250.00">
+                                            <input class="price__filter--input__field border-0" name="priceLte" id="Filter-Price-LTE2" type="number" min="0" placeholder="250.00" max="250.00">
                                         </div>
                                     </div>
                                 </div>
@@ -484,11 +542,11 @@
                                 <!-- Right: Sort By Dropdown -->
                                 <div class="product__view--mode__list product__short--by">
                                     <div class="select shop__header--select">
-                                        <select class="product__view--select">
-                                            <option selected value="1">Sort by</option>
-                                            <option value="2">Sort by latest</option>
-                                            <option value="3">Sort by popularity</option>
-                                            <option value="4">Sort by price</option>
+                                        <select id="sort-select" class="product__view--select">
+                                            <option selected value="">Sort by</option>
+                                            <option value="newest">Sort by latest</option>
+                                            <option value="price_asc">Sort by price: low to high</option>
+                                            <option value="price_desc">Sort by price: high to low</option>
                                         </select>
                                     </div>
                                 </div>
@@ -508,38 +566,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="pagination__area">
-
-                            <nav class="pagination justify-content-center">
-                                <ul class="pagination__wrapper d-flex align-items-center justify-content-center">
-                                    <li class="pagination__list">
-                                        <a href="shop.html" class="pagination__item--arrow  link ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>
-                                            <span class="visually-hidden">page left arrow</span>
-                                        </a>
-                                    </li>
-                                    <li></li>
-                                    <li class="pagination__list">
-                                        <span class="pagination__item pagination__item--current">1</span>
-                                    </li>
-                                    <li class="pagination__list">
-                                        <a href="shop.html" class="pagination__item link">2</a>
-                                    </li>
-                                    <li class="pagination__list">
-                                        <a href="shop.html" class="pagination__item link">3</a>
-                                    </li>
-                                    <li class="pagination__list">
-                                        <a href="shop.html" class="pagination__item link">4</a>
-                                    </li>
-                                    <li class="pagination__list">
-                                        <a href="shop.html" class="pagination__item--arrow  link ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M268 112l144 144-144 144M392 256H100"/></svg>
-                                            <span class="visually-hidden">page right arrow</span>
-                                        </a>
-                                    </li>
-                                    <li></li>
-                                </ul>
-                            </nav>
+                        <div id="pagination-container" class="pagination__area">
+                            <!-- Pagination generated dynamically by ProductGrid.js -->
                         </div>
                     </div>
                 </div>

@@ -121,9 +121,17 @@ class ProductService {
             }
         });
 
+        const page = parseInt(filters.page) || 1;
+        const limit = 12;
+        const total = filteredProducts.length;
+        const totalPages = Math.ceil(total / limit) || 1;
+        const startIndex = (page - 1) * limit;
+        const endIndex = startIndex + limit;
+        const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+
         // Convert facets maps to arrays
         return {
-            products: filteredProducts,
+            products: paginatedProducts,
             facets: {
                 colors: Object.values(facets.colors),
                 sizes: Object.values(facets.sizes),
@@ -131,9 +139,9 @@ class ProductService {
                 availability: Object.values(facets.availability).filter(f => f.count > 0)
             },
             pagination: {
-                total: filteredProducts.length,
-                page: 1,
-                totalPages: 1
+                total,
+                page,
+                totalPages
             }
         };
     }

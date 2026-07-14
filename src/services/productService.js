@@ -135,6 +135,16 @@ class ProductService {
         if (error) throw new Error(error.message);
         return data;
     }
+
+    async getProductByHandle(handle) {
+        const { data, error } = await supabaseAdmin
+            .from('products')
+            .select('*')
+            .eq('handle', handle)
+            .single();
+        if (error) throw new Error(error.message);
+        return data;
+    }
 }
 
 module.exports = new ProductService();

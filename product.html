@@ -474,56 +474,7 @@
             <!-- You May Also Like Section -->
             <div class="product__related" style="margin-top: 8rem; border-top:1px solid var(--border-color); padding-top:6rem;">
                 <h3 style="font-family:'Frank Ruhl Libre',serif; font-size:2.8rem; color:var(--primary-color); margin-bottom:4rem; font-weight:600;">You may also like</h3>
-                <div
-                    style="display: flex; flex-wrap: wrap; gap: 2rem;">
-                    <!-- Product 1 -->
-                    <div style="flex: 1 1 200px; max-width: 100%;">
-                        <div class="product__card">
-                            <a href="product.html?id=ankara-dungaree" class="product__card--thumbnail d-block">
-                                <img src="assets/IMG-20260622-WA0005.webp" alt="Product" style="width: 100%; aspect-ratio: 3/4; object-fit: cover;">
-                            </a>
-                            <div class="product__card--content text-center" style="margin-top: 1rem;">
-                                <a href="product.html?id=ankara-dungaree" class="product__card--title" style="font-size:1.6rem; display:block; margin-bottom:0.5rem;">Men's Ankara Dungaree</a>
-                                <span class="product__card--price" style="font-size:1.5rem;">£85.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product 2 -->
-                    <div style="flex: 1 1 200px; max-width: 100%;">
-                        <div class="product__card">
-                            <a href="product.html?id=ankara-luxe-set" class="product__card--thumbnail d-block">
-                                <img src="assets/IMG-20260622-WA0068.webp" alt="Product" style="width: 100%; aspect-ratio: 3/4; object-fit: cover;">
-                            </a>
-                            <div class="product__card--content text-center" style="margin-top: 1rem;">
-                                <a href="product.html?id=ankara-luxe-set" class="product__card--title" style="font-size:1.6rem; display:block; margin-bottom:0.5rem;">Ankara Street Luxe Set</a>
-                                <span class="product__card--price" style="font-size:1.5rem;">£120.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product 3 -->
-                    <div style="flex: 1 1 200px; max-width: 100%;">
-                        <div class="product__card">
-                            <a href="product.html?id=african-luxe-throw" class="product__card--thumbnail d-block">
-                                <img src="assets/IMG-20260622-WA0079.webp" alt="Product" style="width: 100%; aspect-ratio: 3/4; object-fit: cover;">
-                            </a>
-                            <div class="product__card--content text-center" style="margin-top: 1rem;">
-                                <a href="product.html?id=african-luxe-throw" class="product__card--title" style="font-size:1.6rem; display:block; margin-bottom:0.5rem;">African Luxe Throw</a>
-                                <span class="product__card--price" style="font-size:1.5rem;">£65.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product 4 -->
-                    <div style="flex: 1 1 200px; max-width: 100%;">
-                        <div class="product__card">
-                            <a href="product.html?id=ankara-dungaree" class="product__card--thumbnail d-block">
-                                <img src="assets/IMG-20260622-WA0007.webp" alt="Product" style="width: 100%; aspect-ratio: 3/4; object-fit: cover;">
-                            </a>
-                            <div class="product__card--content text-center" style="margin-top: 1rem;">
-                                <a href="product.html?id=ankara-dungaree" class="product__card--title" style="font-size:1.6rem; display:block; margin-bottom:0.5rem;">Ankara Print Dress</a>
-                                <span class="product__card--price" style="font-size:1.5rem;">£95.00</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="product-grid" data-section="featured-collection" data-collection="all" data-limit="4">
                 </div>
             </div>
 
@@ -695,6 +646,7 @@
 
 
     <script src="assets/cart.js"></script>
+    <script type="module" src="assets/js/components/core.js" defer></script>
     <script>
         // Product data matching the brand brief
         const productsData = {

@@ -1,3 +1,5 @@
+import ProductCard from './ProductCard.js';
+
 export default class ProductGrid {
     constructor(el) {
         this.el = el;
@@ -99,87 +101,6 @@ export default class ProductGrid {
         return container;
     }
 
-    renderProductCard(product) {
-        const card = this.createEl('article', 'product-card');
-        if (!product.in_stock) {
-            card.classList.add('out-of-stock');
-        }
-
-        // Thumbnail / main image link
-        const thumbnailLink = this.createEl('a', 'product-card__thumbnail', { href: `product.html?handle=${product.handle}` });
-        
-        const mainImageUrl = (product.images && product.images.length > 0) ? product.images[0] : 'assets/placeholder.webp';
-        const img = this.createEl('img', 'product-card__img main-img', { src: mainImageUrl, alt: product.title, loading: 'lazy' });
-        thumbnailLink.appendChild(img);
-
-        // Badges
-        if (!product.in_stock) {
-            const badge = this.createEl('span', 'badge sold-out-badge', {}, 'Sold Out');
-            thumbnailLink.appendChild(badge);
-        } else if (product.compare_at_price > product.price) {
-            const badge = this.createEl('span', 'badge sale-badge', {}, 'Sale');
-            thumbnailLink.appendChild(badge);
-        }
-
-        // Swatches (Color)
-        let swatchesContainer = null;
-        if (product.colors && Array.isArray(product.colors) && product.colors.length > 0) {
-            swatchesContainer = this.createEl('div', 'product-card__swatches');
-            product.colors.forEach((color, index) => {
-                const swatch = this.createEl('button', 'swatch-btn', {
-                    'aria-label': color.label,
-                    'aria-pressed': index === 0 ? 'true' : 'false',
-                    'title': color.label, // text label on hover
-                    'type': 'button'
-                });
-                
-                // Crop thumbnail for swatch
-                const swatchImgUrl = color.image || mainImageUrl;
-                const swatchImg = this.createEl('img', 'swatch-img', {
-                    src: swatchImgUrl,
-                    alt: color.label
-                });
-                swatch.appendChild(swatchImg);
-
-                // Clicking swatch updates the main image without fetching
-                swatch.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    // update aria-pressed
-                    Array.from(swatchesContainer.children).forEach(btn => btn.setAttribute('aria-pressed', 'false'));
-                    swatch.setAttribute('aria-pressed', 'true');
-                    // swap main image
-                    img.src = swatchImgUrl;
-                });
-
-                swatchesContainer.appendChild(swatch);
-            });
-        }
-
-        // Content
-        const content = this.createEl('div', 'product-card__content');
-        
-        const titleLink = this.createEl('a', 'product-card__title-link', { href: `product.html?handle=${product.handle}` });
-        const title = this.createEl('h3', 'product-card__title', {}, product.title);
-        titleLink.appendChild(title);
-
-        const priceWrapper = this.createEl('div', 'product-card__price');
-        const currentPrice = this.createEl('span', 'current__price', {}, this.formatPrice(product.price));
-        priceWrapper.appendChild(currentPrice);
-
-        if (product.compare_at_price > product.price) {
-            const oldPrice = this.createEl('span', 'old__price', {}, this.formatPrice(product.compare_at_price));
-            priceWrapper.appendChild(oldPrice);
-        }
-
-        content.append(titleLink, priceWrapper);
-        if (swatchesContainer) {
-            content.appendChild(swatchesContainer);
-        }
-
-        card.append(thumbnailLink, content);
-        return card;
-    }
-
     render() {
         this.el.innerHTML = ''; // Clear container
 
@@ -200,7 +121,8 @@ export default class ProductGrid {
 
         const grid = this.createEl('div', 'product-grid');
         this.state.products.forEach(product => {
-            grid.appendChild(this.renderProductCard(product));
+            const cardComponent = new ProductCard(product);
+            grid.appendChild(cardComponent.render());
         });
 
         this.el.appendChild(grid);

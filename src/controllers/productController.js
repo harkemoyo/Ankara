@@ -41,6 +41,17 @@ class ProductController {
             res.status(500).json({ error: 'Failed to fetch collections' });
         }
     }
+
+    async getProductByHandle(req, res) {
+        try {
+            const product = await productService.getProductByHandle(req.params.handle);
+            if (!product) return res.status(404).json({ error: 'Product not found' });
+            res.json(product);
+        } catch (error) {
+            console.error('Error in getProductByHandle:', error);
+            res.status(500).json({ error: 'Failed to fetch product' });
+        }
+    }
 }
 
 module.exports = new ProductController();

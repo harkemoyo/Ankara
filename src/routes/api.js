@@ -8,6 +8,7 @@ const productController = require('../controllers/productController');
 
 // Product & Collection routes
 router.get('/products', productController.getProducts);
+router.get('/products/:handle', productController.getProductByHandle);
 router.get('/collections', productController.getCollections);
 
 // Checkout & Order routes

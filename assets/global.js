@@ -1,3 +1,4 @@
+if (typeof Swiper === 'undefined') { window.Swiper = function() { return {}; } }
 /*
   Template Name: Becute - Jewelry, Cosmetics and Beauty eCommerce HTML Template
   Author Name: Hook theme

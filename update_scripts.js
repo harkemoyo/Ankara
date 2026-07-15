@@ -1,0 +1,1 @@
+const fs = require('fs'); ['cart.html', 'checkout.html', 'contact.html'].forEach(f => { let c = fs.readFileSync(f, 'utf8'); c = c.replace(/<script src="assets\/global\.js"( defer)?><\/script>/, '<script src="assets/global.js"></script>\n  <script type="module" src="assets/js/components/core.js" defer></script>'); fs.writeFileSync(f, c); console.log('Updated ' + f); });

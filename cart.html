@@ -30,16 +30,16 @@
             --bg-black-color:        #2a1719;
             --bg-light-dark-color:   #422326;
             --border-color:          #dad2ce;
-            --frank-ruhl-fonts: 'Fraunces', serif;
-            --karma-fonts:      'Figtree', sans-serif;
+            
+            
         }
         body {
-            font-family: var(--karma-fonts);
+            font-family: var(--font-body);
             color: var(--foreground-color);
             background-color: var(--body-background-color);
         }
         h1, h2, h3, h4, h5, h6 {
-            font-family: var(--frank-ruhl-fonts);
+            font-family: var(--font-heading);
             color: var(--primary-color);
         }
     </style>
@@ -53,6 +53,7 @@
   <script src="assets/bootstrap.min.js" defer></script>
   <script src="assets/cart.js" defer></script>
   <script src="assets/global.js" defer></script>
+  <script type="module" src="assets/js/components/core.js" defer></script>
 </head>
 <body>
 
@@ -98,15 +99,25 @@
 
           <div class="header__account">
             <ul class="header__account--wrapper d-flex align-items-center">
+              <li class="header__account--items header__account--search__items">
+                <a class="header__account--btn search__open--btn" href="javascript:void(0)" data-offcanvas>
+                  <span class="header__account--btn__icon">
+                    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                  <span class="visually-hidden">Search</span>
+                </a>
+              </li>
               <li class="header__account--items">
-                <a class="header__account--btn" href="javascript:void(0)">
+                <a class="header__account--btn" href="account.html">
                   <span class="header__account--btn__icon">
                     <svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor"><path d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </span>
                 </a>
               </li>
               <li class="header__account--items header__minicart--items">
-                <a class="header__account--btn minicart__open--btn" href="javascript:void(0)" data-offcanvas>
+                <a class="header__account--btn" href="cart.html">
                   <span class="header__account--btn__icon">
                     <svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor"><path d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </span>
@@ -301,5 +312,26 @@
       };
     });
   </script>
+  <!-- Search Overlay -->
+  <div class="predictive__search--box">
+    <div class="predictive__search--box__inner">
+      <h2 class="predictive__search--title">Search Products</h2>
+      <form class="predictive__search--form" action="shop.html" method="get" role="search">
+        <label for="Search">
+          <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search">
+        </label>
+        <button class="predictive__search--button text-white" aria-label="search button">
+          <svg width="20" height="20" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+    <button class="predictive__search--close__btn" aria-label="close search" data-offcanvas>
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512">
+        <path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/>
+      </svg>
+    </button>
+  </div>
 </body>
 </html>

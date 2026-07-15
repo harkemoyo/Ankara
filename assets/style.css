@@ -50,6 +50,8 @@
     1. Base CSS
 */
 :root {
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Figtree', sans-serif;
   --primary-color: #422326;
   --secondary-color: #bcadae;
   --hover-color: #5c3539;
@@ -64,8 +66,8 @@
   --bg-black-color: #2a1719;
   --bg-light-dark-color: #422326;
   --border-color: #dad2ce;
-  --frank-ruhl-fonts: 'Fraunces', serif;
-  --karma-fonts: 'Figtree', sans-serif;
+  --frank-ruhl-fonts: var(--font-heading);
+  --karma-fonts: var(--font-body);
   --body-font-size: 1.5rem;
   --body-font-weight: 400;
   --body-line-height: 2.6rem;
@@ -96,7 +98,7 @@ body {
 
 body {
 
-  font-family: var(--karma-fonts);
+  font-family: var(--font-body);
   font-size: var(--body-font-size, 1.5rem);
   font-weight: var(--body-font-weight);
   font-style: normal;
@@ -146,7 +148,7 @@ h6,
 .h6 {
   font-weight: var(--headings-weight);
   margin: 0;
-  font-family: var(--frank-ruhl-fonts);
+  font-family: var(--font-heading);
 }
 
 h1,

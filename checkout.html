@@ -29,16 +29,16 @@
             --bg-black-color:        #2a1719;
             --bg-light-dark-color:   #422326;
             --border-color:          #dad2ce;
-            --frank-ruhl-fonts: 'Fraunces', serif;
-            --karma-fonts:      'Figtree', sans-serif;
+            
+            
         }
         body {
-            font-family: var(--karma-fonts);
+            font-family: var(--font-body);
             color: var(--foreground-color);
             background-color: var(--body-background-color);
         }
         h1, h2, h3, h4, h5, h6 {
-            font-family: var(--frank-ruhl-fonts);
+            font-family: var(--font-heading);
             color: var(--primary-color);
         }
     </style>
@@ -56,7 +56,7 @@
       --radius: 4px;
       --green: #27ae60;
     }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; color: #1a1a1a; }
+    body { font-family: var(--font-body); background: var(--bg); margin: 0; color: #1a1a1a; }
 
     /* ── LAYOUT ── */
     .checkout-wrap {
@@ -88,7 +88,7 @@
     .form-group label { font-size: 1.2rem; color: #666; font-weight: 500; }
     .form-group input, .form-group select {
       padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius);
-      font-size: 1.4rem; font-family: 'Inter', sans-serif; transition: border 0.2s; background: #fff;
+      font-size: 1.4rem; font-family: var(--font-body); transition: border 0.2s; background: #fff;
     }
     .form-group input:focus, .form-group select:focus {
       outline: none; border-color: #1a1a1a;
@@ -399,5 +399,26 @@
     }
   });
 </script>
+  <!-- Search Overlay -->
+  <div class="predictive__search--box">
+    <div class="predictive__search--box__inner">
+      <h2 class="predictive__search--title">Search Products</h2>
+      <form class="predictive__search--form" action="shop.html" method="get" role="search">
+        <label for="Search">
+          <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search">
+        </label>
+        <button class="predictive__search--button text-white" aria-label="search button">
+          <svg width="20" height="20" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+    <button class="predictive__search--close__btn" aria-label="close search" data-offcanvas>
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512">
+        <path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/>
+      </svg>
+    </button>
+  </div>
 </body>
 </html>

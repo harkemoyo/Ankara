@@ -56,7 +56,6 @@
   <script src="assets/bootstrap.min.js" defer></script>
   <script src="assets/cart.js" defer></script>
   <script src="assets/global.js" defer></script>
-  <script type="module" src="assets/js/components/core.js" defer></script>
 </head>
 <body>
   <div id="preloader"><div id="ctn-preloader" class="ctn-preloader"><div class="animation-preloader"><div class="spinner"></div><div class="txt-loading"><span data-text-preloader="M" class="letters-loading">M</span><span data-text-preloader="H" class="letters-loading">H</span><span data-text-preloader="W" class="letters-loading">W</span></div></div><div class="loader-section section-left"></div><div class="loader-section section-right"></div></div></div>
@@ -313,88 +312,27 @@
 
 
   <!-- Hero -->
-  <section class="contact__hero">
-    <h1>Get In Touch</h1>
-    <p>We'd love to hear from you. Whether you have a question about our products, an order, or just want to say hello — we're here.</p>
+  <section class="contact__hero" style="padding: 12rem 0 6rem; text-align: center; background: var(--bg-light-dark-color);">
+    <h1 style="color: #fff; font-family: var(--font-heading); font-size: clamp(3.6rem, 5.5vw, 6.5rem);">My Account</h1>
   </section>
 
-  <!-- Contact Section -->
-  <section class="contact__section">
+  <!-- Account Stub Section -->
+  <section class="account__section" style="padding: 10rem 0; min-height: 50vh; display: flex; align-items: center; justify-content: center;">
     <div class="container">
-      <div class="row">
-
-        <!-- Contact Form -->
-        <div class="col-lg-7 col-12" style="margin-bottom:4rem;">
-          <div class="contact__form--wrapper">
-            <h2 class="contact__form--title">Send Us a Message</h2>
-            <form action="#" onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent successfully.'); this.reset();" method="POST" id="contact-form">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="contact-name">Full Name</label>
-                    <input type="text" id="contact-name" name="name" placeholder="Your full name" required>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="contact-email">Email Address</label>
-                    <input type="email" id="contact-email" name="email" placeholder="your@email.com" required>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="contact-subject">Subject</label>
-                <input type="text" id="contact-subject" name="subject" placeholder="What is your message about?">
-              </div>
-              <div class="form-group">
-                <label for="contact-message">Message</label>
-                <textarea id="contact-message" name="message" placeholder="Write your message here..." required></textarea>
-              </div>
-              <button type="submit" class="contact__submit--btn">Send Message</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Contact Info -->
-        <div class="col-lg-5 col-12">
-          <div class="contact__info--card">
-            <div class="contact__info--icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-              </svg>
-            </div>
-            <h3 class="contact__info--title">Email Us</h3>
-            <p class="contact__info--text">
-              <a href="mailto:[EMAIL_ADDRESS]">[EMAIL_ADDRESS]</a>
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-12 text-center">
+            <h2 style="font-family: var(--font-heading); font-size: 3.2rem; color: var(--primary-color); margin-bottom: 2rem;">Account Features Coming Soon</h2>
+            <p style="font-family: var(--font-body); font-size: 1.6rem; color: var(--foreground-sub-color); line-height: 1.6; margin-bottom: 3rem;">
+              Order history and saved details require an account, which isn't available yet. 
+              We are working hard to bring you a fully featured customer dashboard soon.
             </p>
-          </div>
-
-          <div class="contact__info--card">
-            <div class="contact__info--icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </div>
-            <h3 class="contact__info--title">Response Time</h3>
-            <p class="contact__info--text">We aim to respond to all enquiries within 24–48 hours, Monday to Friday.</p>
-          </div>
-
-          <div class="contact__info--card">
-            <div class="contact__info--icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/>
-              </svg>
-            </div>
-            <h3 class="contact__info--title">Follow Us</h3>
-            <p class="contact__info--text">
-              Stay connected on Instagram and TikTok for the latest collections, behind-the-scenes and styling inspiration.
-            </p>
-          </div>
+            <a href="shop.html" class="primary__btn">Continue Shopping</a>
         </div>
-
       </div>
     </div>
   </section>
+
+  
 
   <!-- views/partials/footer.ejs -->
 <footer class="footer__section footer__bg">

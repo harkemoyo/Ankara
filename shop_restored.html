@@ -26,7 +26,7 @@
             --border-color: #E8E0D8;
         }
         .brand-logo-text {
-            font-family: 'Frank Ruhl Libre', serif;
+            font-family: var(--font-heading);
             font-size: 2.2rem;
             font-weight: 700;
             color: var(--primary-color);
@@ -72,7 +72,7 @@
             border-bottom: 1px solid var(--border-color);
         }
         .breadcrumb__title {
-            font-family: 'Frank Ruhl Libre', serif;
+            font-family: var(--font-heading);
             font-size: 3.5rem;
             color: var(--primary-color);
         }
@@ -116,7 +116,7 @@
             padding: 1.8rem 0 1rem;
         }
         .product__card--title {
-            font-family: 'Frank Ruhl Libre', serif;
+            font-family: var(--font-heading);
             font-size: 1.8rem;
             color: var(--primary-color);
             font-weight: 600;
@@ -369,7 +369,7 @@
 
                             <!-- Account -->
                             <li class="header__account--items">
-                                <a class="header__account--btn" href="#">
+                                <a class="header__account--btn" href="account.html">
                                     <span class="header__account--btn__icon">
                                         <svg width="17" height="17" viewbox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
@@ -442,7 +442,7 @@
         <div class="offCanvas__minicart js-cart-form" style="display: flex; flex-direction: column;">
             <div class="minicart__header">
                 <div class="minicart__header--top" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem;">
-                    <h3 class="minicart__title" style="font-family: var(--karma-fonts); font-size: 2.4rem; color: var(--primary-color); font-weight: 500;">Cart</h3>
+                    <h3 class="minicart__title" style="font-family: var(--font-body); font-size: 2.4rem; color: var(--primary-color); font-weight: 500;">Cart</h3>
                     <button type="button" class="minicart__close--btn" aria-label="close cart" data-offcanvas style="background: none; border: none; font-size: 2.4rem; cursor: pointer; color: var(--primary-color); line-height: 1;">&times;</button>
                 </div>
             </div>
@@ -455,11 +455,11 @@
 
             <div class="minicart__amount" style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
                 <div class="cart__note" style="margin-bottom: 2rem;">
-                    <h4 style="font-family: var(--karma-fonts); font-size: 1.3rem; font-weight: 600; color: var(--primary-color); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.2em;">Order Note</h4>
-                    <textarea class="cart__note--input" placeholder="" style="width: 100%; height: 80px; padding: 1rem; border: 1px solid var(--border-color); font-family: var(--karma-fonts); font-size: 1.3rem; color: var(--primary-color); resize: vertical; outline: none;"></textarea>
+                    <h4 style="font-family: var(--font-body); font-size: 1.3rem; font-weight: 600; color: var(--primary-color); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.2em;">Order Note</h4>
+                    <textarea class="cart__note--input" placeholder="" style="width: 100%; height: 80px; padding: 1rem; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 1.3rem; color: var(--primary-color); resize: vertical; outline: none;"></textarea>
                 </div>
                 <div class="minicart__amount_list" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <span style="font-family: var(--karma-fonts); font-size: 1.3rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;">Subtotal</span>
+                    <span style="font-family: var(--font-body); font-size: 1.3rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;">Subtotal</span>
                     <span id="minicart-subtotal" style="font-size: 1.6rem; font-weight: 700; color: var(--primary-color);">
                         <b>KSh0.00</b>
                     </span>

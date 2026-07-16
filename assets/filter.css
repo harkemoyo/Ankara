@@ -2418,10 +2418,10 @@ quantity icon button
 
 .items__count {
   position: absolute;
-  left: 7px;
-  top: -10px;
-  width: 1.7rem;
-  height: 1.7rem;
+  left: 2px;
+  top: -14px;
+  width: 2rem;
+  height: 2rem;
   font-size: 1.1rem;
   line-height: 2rem;
   background: var(--primary-color);
@@ -2429,6 +2429,7 @@ quantity icon button
   border-radius: 50%;
   color: var(--text-white-color);
 }
+
 
 @media only screen and (min-width: 576px) {
   .items__count {

@@ -1,1 +1,0 @@
-const fs = require('fs'); let c = fs.readFileSync('assets/global.js', 'utf8'); c = "if (typeof Swiper === 'undefined') { window.Swiper = function() { return {}; } }\n" + c; fs.writeFileSync('assets/global.js', c);

@@ -49,32 +49,6 @@
 /*
     1. Base CSS
 */
-:root {
-  --font-heading: 'Fraunces', serif;
-  --font-body: 'Figtree', sans-serif;
-  --primary-color: #422326;
-  --secondary-color: #bcadae;
-  --hover-color: #5c3539;
-  --yellow-color: #D4A843;
-  --foreground-color: #2a2624;
-  --foreground-sub-color: #7a726e;
-  --body-text-color: #2a2624;
-  --text-white-color: #fff;
-  --body-background-color: #f5f1ec;
-  --bg-offwhite-color: #faf8f5;
-  --bg-gray-color: #f5f1ec;
-  --bg-black-color: #2a1719;
-  --bg-light-dark-color: #422326;
-  --border-color: #dad2ce;
-  --frank-ruhl-fonts: var(--font-heading);
-  --karma-fonts: var(--font-body);
-  --body-font-size: 1.5rem;
-  --body-font-weight: 400;
-  --body-line-height: 2.6rem;
-  --headings-weight: 700;
-  --transition: all 0.3s ease 0s;
-  --container-fluid-offset: 12rem;
-}
 
 /* Common Style */
 *,
@@ -415,98 +389,6 @@ hr {
   border-top-width: 2px;
 }
 
-@media only screen and (min-width: 576px) {
-  .container {
-    max-width: 576px;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .container {
-    max-width: 768px;
-  }
-}
-
-@media only screen and (min-width: 992px) {
-  .container {
-    max-width: 992px;
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  .container {
-    max-width: 1200px;
-  }
-}
-
-@media only screen and (min-width: 1366px) {
-  .container {
-    max-width: 1290px;
-  }
-}
-
-.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
-  padding-right: var(--bs-gutter-x, 1.5rem);
-  padding-left: var(--bs-gutter-x, 1.5rem);
-}
-
-.container-fluid {
-  --offset-fluid: 1.5rem;
-  padding-right: var(--offset-fluid);
-  padding-left: var(--offset-fluid);
-}
-
-@media only screen and (min-width: 992px) {
-  .container-fluid {
-    --offset-fluid: 3rem;
-  }
-}
-
-@media only screen and (min-width: 1366px) {
-  .container-fluid {
-    --offset-fluid: calc(var(--container-fluid-offset) / 4.5);
-  }
-}
-
-@media only screen and (min-width: 1600px) {
-  .container-fluid {
-    --offset-fluid: calc(var(--container-fluid-offset) / 2.5);
-  }
-}
-
-@media only screen and (min-width: 1800px) {
-  .container-fluid {
-    --offset-fluid: var(--container-fluid-offset);
-  }
-}
-
-.container-fluid.width-100 {
-  --offset-fluid: 0;
-}
-
-.row {
-  margin-right: -1rem;
-  margin-left: -1rem;
-}
-
-@media only screen and (min-width: 992px) {
-  .row {
-    margin-right: -1.5rem;
-    margin-left: -1.5rem;
-  }
-}
-
-.row > * {
-  padding-right: 1rem;
-  padding-left: 1rem;
-}
-
-@media only screen and (min-width: 992px) {
-  .row > * {
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
-  }
-}
 
 @media only screen and (max-width: 1199px) {
   .col-lg-order {
@@ -766,17 +648,6 @@ hr {
   -webkit-text-fill-color: transparent;
 }
 
-/* ── Footer Layout ── */
-.footer__wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3rem;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-block: 1.5rem;
-  padding-inline: 1.5rem;
-}
 
 /* Footer column widths */
 .footer__col--wide {
@@ -15937,63 +15808,6 @@ body.body .footer__section {
 
 
 
-/* ========================================================
-   Custom Header Flexbox Layout (Replacing Bootstrap classes)
-   ======================================================== */
-.header__topbar, .main__header {
-    display: flex;
-    justify-content: center;
-    padding-inline: 1.5rem;
-}
-.header__topbar.bg__primary {
-    background-color: var(--primary-color);
-}
-.header__topbar--inner, .main__header--inner {
-    width: 100%;
-    max-width: 1200px;
-    display: flex;
-}
-.header__topbar--inner {
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-.main__header--inner {
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-}
-.header__menu--wrapper, .header__account--wrapper {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-/* Ensure menu lists are horizontal without bullet points */
-.header__menu--wrapper {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.header__account--wrapper {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-/* Visibility controls based on viewport */
-.header__menu, .header__account--search__items {
-    display: none;
-}
-
-@media (min-width: 992px) {
-    .header__menu, .header__account--search__items {
-        display: block;
-    }
-    .offcanvas__header--menu__open {
-        display: none;
-    }
-}
 
 /* ========================================================
    Custom Mini Cart Layout & Header Extras (Replacing Inline CSS)

@@ -1,0 +1,292 @@
+/* assets/base.css
+   ========================================================================== */
+
+:root {
+  /* ── Typography ── */
+  --font-heading: 'Fraunces', serif;
+  --font-body-family: 'Figtree', sans-serif;
+  --font-body-scale: 1.0; /* Unitless scale factor as in Shopify Dawn */
+  --font-body-size: 1.5rem; /* Base body font size */
+  --font-body-weight: 400;
+  --headings-weight: 700;
+
+  /* ── Colors ── */
+  --primary-color: #422326;
+  --secondary-color: #bcadae;
+  --hover-color: #5c3539;
+  --yellow-color: #D4A843;
+  --foreground-color: #2a2624;
+  --foreground-sub-color: #7a726e;
+  --body-text-color: #2a2624;
+  --text-white-color: #fff;
+  --body-background-color: #f5f1ec;
+  --bg-offwhite-color: #faf8f5;
+  --bg-gray-color: #f5f1ec;
+  --bg-black-color: #2a1719;
+  --bg-light-dark-color: #422326;
+  --border-color: #dad2ce;
+
+  /* ── Spacing Scale ── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: 4rem;
+  --space-8: 6rem;
+
+  /* ── Layout ── */
+  --page-width: 80rem;         /* 1280px — standard content width */
+  --page-width-narrow: 48rem;  /* 768px — text-heavy / form pages */
+  --transition: all 0.3s ease 0s;
+}
+
+/* ── Reset & Body Grid ── */
+html {
+  font-size: 62.5%;
+  height: 100%;
+}
+
+body {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto; /* announcement bar, header, main (fills space), footer */
+  grid-template-columns: 100%;
+  min-height: 100%;
+  margin: 0;
+  font-family: var(--font-body-family);
+  font-size: calc(var(--font-body-scale) * var(--font-body-size, 1.5rem));
+  letter-spacing: 0.06rem;
+  line-height: calc(1 + 0.8 / var(--font-body-scale, 1));
+  color: var(--foreground-color);
+  background-color: var(--body-background-color);
+}
+
+@media only screen and (min-width: 768px) {
+  body {
+    --font-body-scale: 1.066; /* 1.6rem body text size on desktop */
+  }
+}
+
+/* ── Page Width Containers ── */
+.page-width {
+  max-width: var(--page-width);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+.page-width--narrow {
+  max-width: var(--page-width-narrow);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+@media only screen and (min-width: 992px) {
+  .page-width,
+  .page-width--narrow {
+    padding-inline: var(--space-6);
+  }
+}
+
+/* ── Header ── */
+.header__topbar {
+  display: flex;
+  justify-content: center;
+  padding-inline: var(--space-4);
+}
+.header__topbar.bg__primary {
+  background-color: var(--primary-color);
+}
+.header__topbar--inner {
+  width: 100%;
+  max-width: var(--page-width);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.main__header {
+  display: flex;
+  justify-content: center;
+  padding-inline: var(--space-4);
+}
+.main__header--inner {
+  width: 100%;
+  max-width: var(--page-width);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.header__menu--wrapper,
+.header__account--wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Desktop/mobile nav visibility */
+.header__menu,
+.header__account--search__items {
+  display: none;
+}
+@media only screen and (min-width: 992px) {
+  .header__menu,
+  .header__account--search__items {
+    display: block;
+  }
+  .offcanvas__header--menu__open {
+    display: none;
+  }
+}
+
+/* ── Footer ── */
+.footer__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+@media only screen and (min-width: 768px) {
+  .footer__layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media only screen and (min-width: 992px) {
+  .footer__layout {
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+  }
+}
+
+/* ── Flex Utilities ── */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+/* ── Gap Scale ── */
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-5 { gap: var(--space-5); }
+.gap-6 { gap: var(--space-6); }
+.gap-7 { gap: var(--space-7); }
+.gap-8 { gap: var(--space-8); }
+
+/* ── Generic Responsive Grid ── */
+.grid {
+  display: grid;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+@media only screen and (min-width: 768px) {
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+@media only screen and (min-width: 768px) {
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media only screen and (min-width: 992px) {
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+@media only screen and (min-width: 768px) {
+  .grid-4 { grid-template-columns: repeat(3, 1fr); }
+}
+@media only screen and (min-width: 992px) {
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ── Text Alignment ── */
+.text-center { text-align: center; }
+.text-end { text-align: right; }
+
+/* ── Shop: Sidebar + Content ── */
+.shop__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+@media only screen and (min-width: 992px) {
+  .shop__layout { grid-template-columns: 280px 1fr; }
+}
+
+/* ── Cart: Items + Summary ── */
+.cart__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+@media only screen and (min-width: 992px) {
+  .cart__layout { grid-template-columns: 2fr 1fr; }
+}
+
+/* ── Checkout: Form + Order Summary ── */
+.checkout__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+@media only screen and (min-width: 992px) {
+  .checkout__layout { grid-template-columns: 3fr 2fr; }
+}
+
+/* ── About: Story Columns ── */
+.about__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-7);
+}
+@media only screen and (min-width: 768px) {
+  .about__layout { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Swatch Items (migrated from index.html inline <style>) ── */
+.swatch-item {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+}
+.swatch-item.active {
+  border-color: #fff;
+  box-shadow: 0 0 0 1px var(--primary-color);
+}
+.swatch-item.large {
+  width: 3rem;
+  height: 3rem;
+}

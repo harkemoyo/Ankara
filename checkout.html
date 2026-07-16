@@ -1,20 +1,20 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Checkout – Mary Humphrey Wear</title>
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="theme-color" content="#3C3836">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/swiper-bundle.min.css">
-    <link rel="stylesheet" href="assets/glightbox.min.css">
-    <link rel="stylesheet" href="assets/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/normalize.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <style>
+<meta charset="utf-8"/>
+<title>Checkout – Mary Humphrey Wear</title>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="#3C3836" name="theme-color"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&amp;family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="assets/swiper-bundle.min.css" rel="stylesheet"/>
+<link href="assets/glightbox.min.css" rel="stylesheet"/>
+<link href="assets/base.css" rel="stylesheet"/>
+<link href="assets/normalize.css" rel="stylesheet"/>
+<link href="assets/style.css" rel="stylesheet"/>
+<style>
         :root {
             --primary-color:         #422326;
             --secondary-color:       #bcadae;
@@ -42,12 +42,9 @@
             color: var(--primary-color);
         }
     </style>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Securely complete your Ankara Store order.">
-  
-  
-  
-  <style>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Securely complete your Ankara Store order." name="description"/>
+<style>
     *, *::before, *::after { box-sizing: border-box; }
     :root {
       --accent: #1a1a1a;
@@ -157,122 +154,106 @@
     /* ── EMPTY CART ALERT ── */
     #empty-cart-msg { display: none; text-align: center; padding: 60px 20px; }
   </style>
-</head>
+<style>body { display: block !important; }</style></head>
 <body>
-
 <!-- Empty cart fallback -->
 <div id="empty-cart-msg">
-  <h2 style="font-family:'Karma',serif;font-size:2.4rem;margin-bottom:16px;">Your bag is empty</h2>
-  <p style="font-size:1.4rem;color:#777;margin-bottom:24px;">Add some items before checking out.</p>
-  <a href="shop.html" style="background:#1a1a1a;color:#fff;padding:14px 32px;text-decoration:none;font-size:1.4rem;">Shop Now</a>
+<h2 style="font-family:'Karma',serif;font-size:2.4rem;margin-bottom:16px;">Your bag is empty</h2>
+<p style="font-size:1.4rem;color:#777;margin-bottom:24px;">Add some items before checking out.</p>
+<a href="shop.html" style="background:#1a1a1a;color:#fff;padding:14px 32px;text-decoration:none;font-size:1.4rem;">Shop Now</a>
 </div>
-
 <div class="checkout-wrap" id="checkout-wrap">
-
-  <!-- ── LEFT: FORM ── -->
-  <div class="checkout-form-col">
-    <a href="index.html" class="checkout-logo">Ankara</a>
-
-    <div class="step-label">Step 1</div>
-    <h1 class="section-title">Contact & Delivery</h1>
-
-    <form id="checkout-form" novalidate>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="first-name">First Name *</label>
-          <input type="text" id="first-name" name="first_name" required autocomplete="given-name">
-        </div>
-        <div class="form-group">
-          <label for="last-name">Last Name *</label>
-          <input type="text" id="last-name" name="last_name" required autocomplete="family-name">
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email Address *</label>
-        <input type="email" id="email" name="email" required autocomplete="email" placeholder="your@email.com">
-      </div>
-
-      <div class="form-group">
-        <label for="phone">Phone Number (optional)</label>
-        <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+44 7700 900000">
-      </div>
-
-      <hr class="section-divider">
-      <div class="step-label">Step 2</div>
-      <h2 class="section-title" style="font-size:1.8rem;">Shipping Address</h2>
-
-      <div class="form-group">
-        <label for="address1">Address Line 1 *</label>
-        <input type="text" id="address1" name="address1" required autocomplete="address-line1">
-      </div>
-      <div class="form-group">
-        <label for="address2">Address Line 2</label>
-        <input type="text" id="address2" name="address2" autocomplete="address-line2">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="city">City *</label>
-          <input type="text" id="city" name="city" required autocomplete="address-level2">
-        </div>
-        <div class="form-group">
-          <label for="postcode">Postcode *</label>
-          <input type="text" id="postcode" name="postcode" required autocomplete="postal-code">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="country">Country *</label>
-        <select id="country" name="country" required autocomplete="country">
-          <option value="GB" selected>United Kingdom</option>
-          <option value="US">United States</option>
-          <option value="GH">Ghana</option>
-          <option value="NG">Nigeria</option>
-          <option value="CA">Canada</option>
-          <option value="AU">Australia</option>
-          <option value="ZA">South Africa</option>
-        </select>
-      </div>
-
-      <hr class="section-divider">
-      <div class="step-label">Step 3</div>
-      <h2 class="section-title" style="font-size:1.8rem;">Shipping Method</h2>
-
-      <label class="shipping-option" id="ship-standard">
-        <input type="radio" name="shipping" value="standard" checked>
-        <span class="ship-label">Standard Delivery (3–5 days)</span>
-        <span class="ship-price" id="ship-standard-price">£5.99</span>
-      </label>
-      <label class="shipping-option">
-        <input type="radio" name="shipping" value="free" id="ship-free-radio" disabled>
-        <span class="ship-label">Free Delivery <small style="color:#27ae60;">(orders over £80)</small></span>
-        <span class="ship-price">FREE</span>
-      </label>
-
-      <hr class="section-divider">
-
-      <button type="submit" class="pay-btn" id="pay-btn">
+<!-- ── LEFT: FORM ── -->
+<div class="checkout-form-col">
+<a class="checkout-logo" href="index.html">Ankara</a>
+<div class="step-label">Step 1</div>
+<h1 class="section-title">Contact &amp; Delivery</h1>
+<form id="checkout-form" novalidate="">
+<div class="form-row">
+<div class="form-group">
+<label for="first-name">First Name *</label>
+<input autocomplete="given-name" id="first-name" name="first_name" required="" type="text"/>
+</div>
+<div class="form-group">
+<label for="last-name">Last Name *</label>
+<input autocomplete="family-name" id="last-name" name="last_name" required="" type="text"/>
+</div>
+</div>
+<div class="form-group">
+<label for="email">Email Address *</label>
+<input autocomplete="email" id="email" name="email" placeholder="your@email.com" required="" type="email"/>
+</div>
+<div class="form-group">
+<label for="phone">Phone Number (optional)</label>
+<input autocomplete="tel" id="phone" name="phone" placeholder="+44 7700 900000" type="tel"/>
+</div>
+<hr class="section-divider"/>
+<div class="step-label">Step 2</div>
+<h2 class="section-title" style="font-size:1.8rem;">Shipping Address</h2>
+<div class="form-group">
+<label for="address1">Address Line 1 *</label>
+<input autocomplete="address-line1" id="address1" name="address1" required="" type="text"/>
+</div>
+<div class="form-group">
+<label for="address2">Address Line 2</label>
+<input autocomplete="address-line2" id="address2" name="address2" type="text"/>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label for="city">City *</label>
+<input autocomplete="address-level2" id="city" name="city" required="" type="text"/>
+</div>
+<div class="form-group">
+<label for="postcode">Postcode *</label>
+<input autocomplete="postal-code" id="postcode" name="postcode" required="" type="text"/>
+</div>
+</div>
+<div class="form-group">
+<label for="country">Country *</label>
+<select autocomplete="country" id="country" name="country" required="">
+<option selected="" value="GB">United Kingdom</option>
+<option value="US">United States</option>
+<option value="GH">Ghana</option>
+<option value="NG">Nigeria</option>
+<option value="CA">Canada</option>
+<option value="AU">Australia</option>
+<option value="ZA">South Africa</option>
+</select>
+</div>
+<hr class="section-divider"/>
+<div class="step-label">Step 3</div>
+<h2 class="section-title" style="font-size:1.8rem;">Shipping Method</h2>
+<label class="shipping-option" id="ship-standard">
+<input checked="" name="shipping" type="radio" value="standard"/>
+<span class="ship-label">Standard Delivery (3–5 days)</span>
+<span class="ship-price" id="ship-standard-price">£5.99</span>
+</label>
+<label class="shipping-option">
+<input disabled="" id="ship-free-radio" name="shipping" type="radio" value="free"/>
+<span class="ship-label">Free Delivery <small style="color:#27ae60;">(orders over £80)</small></span>
+<span class="ship-price">FREE</span>
+</label>
+<hr class="section-divider"/>
+<button class="pay-btn" id="pay-btn" type="submit">
         Pay with Paystack
       </button>
-      <p class="secure-note">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+<p class="secure-note">
+<svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14"><rect height="11" rx="2" width="18" x="3" y="11"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>
         Secured by Paystack · SSL encrypted
       </p>
-    </form>
-  </div>
-
-  <!-- ── RIGHT: ORDER SUMMARY ── -->
-  <aside class="order-summary">
-    <h2>Your Order</h2>
-    <div id="summary-items"><!-- JS renders cart items here --></div>
-    <hr class="summary-divider">
-    <div class="summary-row"><span>Subtotal</span><span id="sum-subtotal">£0.00</span></div>
-    <div class="summary-row"><span>Shipping</span><span id="sum-shipping">£5.99</span></div>
-    <hr class="summary-divider">
-    <div class="summary-row total"><span>Total</span><span id="sum-total">£0.00</span></div>
-  </aside>
-
+</form>
 </div>
-
+<!-- ── RIGHT: ORDER SUMMARY ── -->
+<aside class="order-summary">
+<h2>Your Order</h2>
+<div id="summary-items"><!-- JS renders cart items here --></div>
+<hr class="summary-divider"/>
+<div class="summary-row"><span>Subtotal</span><span id="sum-subtotal">£0.00</span></div>
+<div class="summary-row"><span>Shipping</span><span id="sum-shipping">£5.99</span></div>
+<hr class="summary-divider"/>
+<div class="summary-row total"><span>Total</span><span id="sum-total">£0.00</span></div>
+</aside>
+</div>
 <!-- Paystack script -->
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <script src="assets/cart.js"></script>
@@ -399,26 +380,26 @@
     }
   });
 </script>
-  <!-- Search Overlay -->
-  <div class="predictive__search--box">
-    <div class="predictive__search--box__inner">
-      <h2 class="predictive__search--title">Search Products</h2>
-      <form class="predictive__search--form" action="shop.html" method="get" role="search">
-        <label for="Search">
-          <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search">
-        </label>
-        <button class="predictive__search--button text-white" aria-label="search button">
-          <svg width="20" height="20" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </form>
-    </div>
-    <button class="predictive__search--close__btn" aria-label="close search" data-offcanvas>
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512">
-        <path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/>
-      </svg>
-    </button>
-  </div>
+<!-- Search Overlay -->
+<div class="predictive__search--box">
+<div class="predictive__search--box__inner">
+<h2 class="predictive__search--title">Search Products</h2>
+<form action="shop.html" class="predictive__search--form" method="get" role="search">
+<label for="Search">
+<input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search"/>
+</label>
+<button aria-label="search button" class="predictive__search--button text-white">
+<svg fill="none" height="20" viewbox="0 0 17 17" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</form>
+</div>
+<button aria-label="close search" class="predictive__search--close__btn" data-offcanvas="">
+<svg height="28" viewbox="0 0 512 512" width="28" xmlns="http://www.w3.org/2000/svg">
+<path d="M368 368L144 144M368 144L144 368" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+</svg>
+</button>
+</div>
 </body>
 </html>

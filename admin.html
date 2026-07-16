@@ -1,12 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Admin — Ankara Store</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-  <style>
+<meta charset="utf-8"/>
+<title>Admin — Ankara Store</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="assets/base.css" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --sidebar-w: 240px;
@@ -148,237 +149,225 @@
     .toast.error { background: var(--danger); }
     .toast.success { background: var(--success); }
   </style>
-</head>
+<style>body { display: block !important; }</style></head>
 <body>
-
 <!-- ── LOGIN SCREEN ── -->
 <div id="login-screen">
-  <div class="login-box">
-    <h1>Ankara Admin</h1>
-    <p>Sign in to your dashboard</p>
-    <input type="email" id="login-email" placeholder="Email address">
-    <input type="password" id="login-password" placeholder="Password">
-    <button onclick="doLogin()">Sign In</button>
-    <div class="login-error" id="login-error"></div>
-  </div>
+<div class="login-box">
+<h1>Ankara Admin</h1>
+<p>Sign in to your dashboard</p>
+<input id="login-email" placeholder="Email address" type="email"/>
+<input id="login-password" placeholder="Password" type="password"/>
+<button onclick="doLogin()">Sign In</button>
+<div class="login-error" id="login-error"></div>
 </div>
-
+</div>
 <!-- ── SIDEBAR ── -->
 <aside class="sidebar">
-  <div class="sidebar-brand">
-    <h2>Ankara</h2>
-    <span>Store Admin</span>
-  </div>
-  <nav class="sidebar-nav">
-    <a href="#" class="active" data-section="dashboard" onclick="showSection('dashboard',this)">
-      <span class="icon">📊</span> Dashboard
+<div class="sidebar-brand">
+<h2>Ankara</h2>
+<span>Store Admin</span>
+</div>
+<nav class="sidebar-nav">
+<a class="active" data-section="dashboard" href="#" onclick="showSection('dashboard',this)">
+<span class="icon">📊</span> Dashboard
     </a>
-    <a href="#" data-section="products" onclick="showSection('products',this)">
-      <span class="icon">📦</span> Products
+<a data-section="products" href="#" onclick="showSection('products',this)">
+<span class="icon">📦</span> Products
     </a>
-    <a href="#" data-section="collections" onclick="showSection('collections',this)">
-      <span class="icon">🗂️</span> Collections
+<a data-section="collections" href="#" onclick="showSection('collections',this)">
+<span class="icon">🗂️</span> Collections
     </a>
-    <a href="#" data-section="settings" onclick="showSection('settings',this)">
-      <span class="icon">⚙️</span> Settings
+<a data-section="settings" href="#" onclick="showSection('settings',this)">
+<span class="icon">⚙️</span> Settings
     </a>
-    <a href="index.html" target="_blank" style="margin-top:auto;">
-      <span class="icon">🌐</span> View Store
+<a href="index.html" style="margin-top:auto;" target="_blank">
+<span class="icon">🌐</span> View Store
     </a>
-  </nav>
-  <div class="sidebar-footer">
-    <button onclick="doLogout()">Sign Out</button>
-  </div>
+</nav>
+<div class="sidebar-footer">
+<button onclick="doLogout()">Sign Out</button>
+</div>
 </aside>
-
 <!-- ── MAIN ── -->
 <main class="main">
-
-  <!-- Dashboard -->
-  <section id="section-dashboard" class="admin-section active">
-    <div class="page-header">
-      <h1>Dashboard</h1>
-      <span id="admin-user-email" style="color:var(--muted);font-size:1.3rem;"></span>
-    </div>
-    <div class="stat-grid">
-      <div class="stat-card"><div class="label">Products</div><div class="value" id="stat-products">—</div></div>
-      <div class="stat-card"><div class="label">Collections</div><div class="value" id="stat-collections">—</div></div>
-      <div class="stat-card"><div class="label">In Stock</div><div class="value" id="stat-instock">—</div></div>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
-      <h3 style="margin-bottom:16px;font-size:1.5rem;">Quick Actions</h3>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <button class="btn btn-primary" onclick="showSection('products',document.querySelector('[data-section=products]'));openProductModal()">+ Add Product</button>
-        <button class="btn btn-ghost" onclick="showSection('collections',document.querySelector('[data-section=collections]'));openCollectionModal()">+ Add Collection</button>
-        <a href="shop.html" target="_blank" class="btn btn-ghost">View Shop ↗</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Products -->
-  <section id="section-products" class="admin-section">
-    <div class="page-header">
-      <h1>Products</h1>
-      <button class="btn btn-primary" onclick="openProductModal()">+ Add Product</button>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Image</th><th>Title</th><th>Collection</th><th>Price</th><th>Colors</th><th>Stock</th><th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="products-tbody">
-          <tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Collections -->
-  <section id="section-collections" class="admin-section">
-    <div class="page-header">
-      <h1>Collections</h1>
-      <button class="btn btn-primary" onclick="openCollectionModal()">+ Add Collection</button>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Title</th><th>Handle</th><th>Actions</th></tr>
-        </thead>
-        <tbody id="collections-tbody">
-          <tr><td colspan="3" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Settings -->
-  <section id="section-settings" class="admin-section">
-    <div class="page-header"><h1>Store Settings</h1></div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:560px;">
-      <div class="form-group" style="margin-bottom:20px;">
-        <label>Store Name</label>
-        <input type="text" id="setting-store-name">
-      </div>
-      <div class="form-group" style="margin-bottom:20px;">
-        <label>Currency Symbol</label>
-        <input type="text" id="setting-currency" style="width:80px;">
-      </div>
-      <div class="form-group" style="margin-bottom:20px;">
-        <label>Announcement Bar Text</label>
-        <input type="text" id="setting-announcement" placeholder="e.g. Free shipping on orders over £80">
-      </div>
-      <div class="form-group" style="margin-bottom:20px;">
-        <label>Logo URL</label>
-        <input type="text" id="setting-logo" placeholder="assets/logo.webp">
-      </div>
-      <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
-    </div>
-  </section>
-
+<!-- Dashboard -->
+<section class="admin-section active" id="section-dashboard">
+<div class="page-header">
+<h1>Dashboard</h1>
+<span id="admin-user-email" style="color:var(--muted);font-size:1.3rem;"></span>
+</div>
+<div class="stat-grid">
+<div class="stat-card"><div class="label">Products</div><div class="value" id="stat-products">—</div></div>
+<div class="stat-card"><div class="label">Collections</div><div class="value" id="stat-collections">—</div></div>
+<div class="stat-card"><div class="label">In Stock</div><div class="value" id="stat-instock">—</div></div>
+</div>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
+<h3 style="margin-bottom:16px;font-size:1.5rem;">Quick Actions</h3>
+<div style="display:flex;gap:12px;flex-wrap:wrap;">
+<button class="btn btn-primary" onclick="showSection('products',document.querySelector('[data-section=products]'));openProductModal()">+ Add Product</button>
+<button class="btn btn-ghost" onclick="showSection('collections',document.querySelector('[data-section=collections]'));openCollectionModal()">+ Add Collection</button>
+<a class="btn btn-ghost" href="shop.html" target="_blank">View Shop ↗</a>
+</div>
+</div>
+</section>
+<!-- Products -->
+<section class="admin-section" id="section-products">
+<div class="page-header">
+<h1>Products</h1>
+<button class="btn btn-primary" onclick="openProductModal()">+ Add Product</button>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Image</th><th>Title</th><th>Collection</th><th>Price</th><th>Colors</th><th>Stock</th><th>Actions</th>
+</tr>
+</thead>
+<tbody id="products-tbody">
+<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Collections -->
+<section class="admin-section" id="section-collections">
+<div class="page-header">
+<h1>Collections</h1>
+<button class="btn btn-primary" onclick="openCollectionModal()">+ Add Collection</button>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Title</th><th>Handle</th><th>Actions</th></tr>
+</thead>
+<tbody id="collections-tbody">
+<tr><td colspan="3" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Settings -->
+<section class="admin-section" id="section-settings">
+<div class="page-header"><h1>Store Settings</h1></div>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:560px;">
+<div class="form-group" style="margin-bottom:20px;">
+<label>Store Name</label>
+<input id="setting-store-name" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Currency Symbol</label>
+<input id="setting-currency" style="width:80px;" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Announcement Bar Text</label>
+<input id="setting-announcement" placeholder="e.g. Free shipping on orders over £80" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Logo URL</label>
+<input id="setting-logo" placeholder="assets/logo.webp" type="text"/>
+</div>
+<button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+</div>
+</section>
 </main>
-
 <!-- ── PRODUCT MODAL ── -->
 <div class="modal-backdrop" id="product-modal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeProductModal()">×</button>
-    <h2 id="product-modal-title">Add Product</h2>
-    <div class="form-grid">
-      <input type="hidden" id="p-id">
-      <div class="form-group full">
-        <label>Title *</label>
-        <input type="text" id="p-title" placeholder="Ankara Print Dress">
-      </div>
-      <div class="form-group">
-        <label>Handle (URL slug) *</label>
-        <input type="text" id="p-handle" placeholder="ankara-print-dress">
-      </div>
-      <div class="form-group">
-        <label>Collection</label>
-        <select id="p-collection">
-          <option value="">— Select —</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Price (£) *</label>
-        <input type="number" id="p-price" placeholder="85.00" step="0.01" min="0">
-      </div>
-      <div class="form-group">
-        <label>Compare At Price</label>
-        <input type="number" id="p-compare-price" placeholder="100.00" step="0.01" min="0">
-      </div>
-      <div class="form-group full">
-        <label>Description</label>
-        <textarea id="p-description" rows="3" placeholder="Product description..."></textarea>
-      </div>
-      <div class="form-group full">
-        <label>Images (comma-separated URLs)</label>
-        <textarea id="p-images" rows="2" placeholder="assets/img1.webp, assets/img2.webp"></textarea>
-        <span class="helper-text">First image is the primary image shown on shop and product pages.</span>
-      </div>
-      <div class="form-group full">
-        <label>Sizes (comma-separated)</label>
-        <input type="text" id="p-sizes" placeholder="S, M, L, XL, 2X">
-      </div>
-      <div class="form-group full">
-        <label>Colors (JSON array)</label>
-        <textarea id="p-colors" rows="4" placeholder='[{"label":"Red Print","image":"assets/red.webp","hex":"#C0392B"}]'></textarea>
-        <span class="helper-text">Each color needs a label, image URL, and hex color code.</span>
-      </div>
-      <div class="form-group full">
-        <label>Tags (comma-separated)</label>
-        <input type="text" id="p-tags" placeholder="dresses, ankara, new">
-      </div>
-      <div class="form-group">
-        <label>In Stock</label>
-        <select id="p-in-stock">
-          <option value="true">Yes</option>
-          <option value="false">No</option>
-        </select>
-      </div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeProductModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveProduct()">Save Product</button>
-    </div>
-  </div>
+<div class="modal">
+<button class="modal-close" onclick="closeProductModal()">×</button>
+<h2 id="product-modal-title">Add Product</h2>
+<div class="form-grid">
+<input id="p-id" type="hidden"/>
+<div class="form-group full">
+<label>Title *</label>
+<input id="p-title" placeholder="Ankara Print Dress" type="text"/>
 </div>
-
+<div class="form-group">
+<label>Handle (URL slug) *</label>
+<input id="p-handle" placeholder="ankara-print-dress" type="text"/>
+</div>
+<div class="form-group">
+<label>Collection</label>
+<select id="p-collection">
+<option value="">— Select —</option>
+</select>
+</div>
+<div class="form-group">
+<label>Price (£) *</label>
+<input id="p-price" min="0" placeholder="85.00" step="0.01" type="number"/>
+</div>
+<div class="form-group">
+<label>Compare At Price</label>
+<input id="p-compare-price" min="0" placeholder="100.00" step="0.01" type="number"/>
+</div>
+<div class="form-group full">
+<label>Description</label>
+<textarea id="p-description" placeholder="Product description..." rows="3"></textarea>
+</div>
+<div class="form-group full">
+<label>Images (comma-separated URLs)</label>
+<textarea id="p-images" placeholder="assets/img1.webp, assets/img2.webp" rows="2"></textarea>
+<span class="helper-text">First image is the primary image shown on shop and product pages.</span>
+</div>
+<div class="form-group full">
+<label>Sizes (comma-separated)</label>
+<input id="p-sizes" placeholder="S, M, L, XL, 2X" type="text"/>
+</div>
+<div class="form-group full">
+<label>Colors (JSON array)</label>
+<textarea id="p-colors" placeholder='[{"label":"Red Print","image":"assets/red.webp","hex":"#C0392B"}]' rows="4"></textarea>
+<span class="helper-text">Each color needs a label, image URL, and hex color code.</span>
+</div>
+<div class="form-group full">
+<label>Tags (comma-separated)</label>
+<input id="p-tags" placeholder="dresses, ankara, new" type="text"/>
+</div>
+<div class="form-group">
+<label>In Stock</label>
+<select id="p-in-stock">
+<option value="true">Yes</option>
+<option value="false">No</option>
+</select>
+</div>
+</div>
+<div class="modal-actions">
+<button class="btn btn-ghost" onclick="closeProductModal()">Cancel</button>
+<button class="btn btn-primary" onclick="saveProduct()">Save Product</button>
+</div>
+</div>
+</div>
 <!-- ── COLLECTION MODAL ── -->
 <div class="modal-backdrop" id="collection-modal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeCollectionModal()">×</button>
-    <h2 id="collection-modal-title">Add Collection</h2>
-    <div class="form-grid">
-      <input type="hidden" id="c-id">
-      <div class="form-group full">
-        <label>Title *</label>
-        <input type="text" id="c-title" placeholder="Dresses">
-      </div>
-      <div class="form-group full">
-        <label>Handle *</label>
-        <input type="text" id="c-handle" placeholder="dresses">
-      </div>
-      <div class="form-group full">
-        <label>Description</label>
-        <textarea id="c-description" rows="2"></textarea>
-      </div>
-      <div class="form-group full">
-        <label>Cover Image URL</label>
-        <input type="text" id="c-image" placeholder="assets/cover.webp">
-      </div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeCollectionModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveCollection()">Save Collection</button>
-    </div>
-  </div>
+<div class="modal">
+<button class="modal-close" onclick="closeCollectionModal()">×</button>
+<h2 id="collection-modal-title">Add Collection</h2>
+<div class="form-grid">
+<input id="c-id" type="hidden"/>
+<div class="form-group full">
+<label>Title *</label>
+<input id="c-title" placeholder="Dresses" type="text"/>
 </div>
-
+<div class="form-group full">
+<label>Handle *</label>
+<input id="c-handle" placeholder="dresses" type="text"/>
+</div>
+<div class="form-group full">
+<label>Description</label>
+<textarea id="c-description" rows="2"></textarea>
+</div>
+<div class="form-group full">
+<label>Cover Image URL</label>
+<input id="c-image" placeholder="assets/cover.webp" type="text"/>
+</div>
+</div>
+<div class="modal-actions">
+<button class="btn btn-ghost" onclick="closeCollectionModal()">Cancel</button>
+<button class="btn btn-primary" onclick="saveCollection()">Save Collection</button>
+</div>
+</div>
+</div>
 <!-- ── TOAST ── -->
 <div class="toast" id="toast"></div>
-
 <script type="module">
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 

@@ -9685,9 +9685,7 @@ li[data-address] > h2 {
     font-size: 1.2rem;
     color: var(--foreground-sub-color);
 }
-.quickview__color-wrap {
-    margin-bottom: 2.5rem;
-}
+
 .quickview__color-label {
     font-size: 1.4rem;
     color: var(--primary-color);
@@ -9700,9 +9698,7 @@ li[data-address] > h2 {
     display: flex;
     gap: 1.2rem;
 }
-.quickview__qty-wrap {
-    margin-bottom: 3rem;
-}
+
 .quickview__qty-label {
     font-size: 1.4rem;
     color: var(--primary-color);

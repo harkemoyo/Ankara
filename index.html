@@ -499,95 +499,11 @@
         }
 
         /* ── Offcanvas open states ── */
-        .offcanvas__header {
-            position: fixed;
-            top: 0;
-            left: -100%;
-            width: 32rem;
-            max-width: 90vw;
-            height: 100%;
-            background: #fff;
-            z-index: 9999;
-            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
-            transition: left 0.35s cubic-bezier(0.4,0,0.2,1);
-            overflow-y: auto;
-        }
-        .offcanvas__header.open {
-            left: 0;
-        }
 
-        .offCanvas__minicart {
-            position: fixed;
-            top: 0;
-            right: -42rem;
-            width: 40rem;
-            max-width: 92vw;
-            height: 100%;
-            background: #fff;
-            z-index: 9999;
-            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
-            transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
-            overflow-y: auto;
-            padding: 2rem;
-        }
-        .offCanvas__minicart.open {
-            right: 0;
-        }
 
-        .predictive__search--box {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 9998;
-            background: #fff;
-            padding: 3rem 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-            transform: translateY(-100%);
-            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
-        }
-        .predictive__search--box.open {
-            transform: translateY(0);
-        }
-        .predictive__search--box__inner {
-            max-width: 70rem;
-            margin: 0 auto;
-            position: relative;
-        }
-        .predictive__search--form {
-            display: flex;
-            gap: 0;
-        }
-        .predictive__search--input {
-            flex: 1;
-            padding: 1.2rem 2rem;
-            border: 1px solid var(--border-color);
-            font-family: var(--font-body);
-            font-size: 1.5rem;
-            outline: none;
-        }
-        .predictive__search--button {
-            padding: 1.2rem 2rem;
-            background: var(--primary-color);
-            border: none;
-            cursor: pointer;
-        }
-        .predictive__search--close__btn {
-            position: absolute;
-            top: 50%;
-            right: -5rem;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--primary-color);
-        }
-        .predictive__search--title {
-            font-family: var(--font-heading);
-            font-size: 2.2rem;
-            color: var(--primary-color);
-            margin-bottom: 2rem;
-        }
+
+
+
 
         /* ==== NEW HERO SECTION ==== */
         body.body .header__section {

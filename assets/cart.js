@@ -44,6 +44,9 @@ function addToCart(product) {
   
   saveCart(cart);
   
+  // Dispatch custom event for global.js minicart listener
+  document.dispatchEvent(new CustomEvent('itemAddedToCart'));
+  
   // Open minicart drawer automatically to show success
   setTimeout(() => {
     const minicartBtn = document.querySelector('.minicart__open--btn');
@@ -306,3 +309,14 @@ window.addProductToCart = function(e) {
     });
   });
 };
+
+// Explicitly attach functions to window object
+window.getCart = getCart;
+window.saveCart = saveCart;
+window.addToCart = addToCart;
+window.removeFromMinicart = removeFromMinicart;
+window.changeMinicartQty = changeMinicartQty;
+window.getCartSubtotal = getCartSubtotal;
+window.getCartCount = getCartCount;
+window.updateCartUI = updateCartUI;
+window.triggerCheckout = triggerCheckout;

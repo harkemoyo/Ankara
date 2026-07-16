@@ -13,9 +13,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/swiper-bundle.min.css">
     <link rel="stylesheet" href="assets/glightbox.min.css">
-    <link rel="stylesheet" href="assets/bootstrap.min.css">
     <link rel="stylesheet" href="assets/normalize.css">
     <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/contact.css">
     <style>
         :root {
             --primary-color:         #422326;
@@ -95,7 +95,7 @@
         <div class="main__logo">
           <h1 class="main__logo--title">
             <a class="main__logo--link" href="index.html">
-              <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" class="main__logo--img" style="height:60px; width:auto; object-fit:contain;">
+              <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" class="main__logo--img contact-header-logo">
             </a>
           </h1>
         </div>
@@ -172,7 +172,7 @@
       <!-- Offcanvas Logo -->
       <div class="offcanvas__logo">
         <a class="offcanvas__logo--link" href="index.html">
-          <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" style="height:50px; width:auto; object-fit:contain;">
+          <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" class="contact-offcanvas-logo">
         </a>
         <button class="offcanvas__close--btn" aria-label="close menu" data-offcanvas>✕</button>
       </div>
@@ -206,11 +206,11 @@
   </div>
 
   <!-- ── Mini Cart Drawer ───────────────────────── -->
-        <div class="offCanvas__minicart js-cart-form" style="display: flex; flex-direction: column;">
+        <div class="offCanvas__minicart js-cart-form">
             <div class="minicart__header">
-                <div class="minicart__header--top" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem;">
-                    <h3 class="minicart__title" style="font-family: var(--font-body); font-size: 2.4rem; color: var(--primary-color); font-weight: 500;">Cart</h3>
-                    <button type="button" class="minicart__close--btn" aria-label="close cart" data-offcanvas style="background: none; border: none; font-size: 2.4rem; cursor: pointer; color: var(--primary-color); line-height: 1;">&times;</button>
+                <div class="minicart__header--top">
+                    <h3 class="minicart__title">Cart</h3>
+                    <button type="button" class="minicart__close--btn" aria-label="close cart" data-offcanvas>&times;</button>
                 </div>
             </div>
             <div class="minicart__empty--text">
@@ -218,24 +218,24 @@
                 <a href="shop.html" class="primary__btn">Continue Shopping</a>
             </div>
             
-            <div id="minicart-items-list" class="minicart__product" style="flex: 1; overflow-y: auto; padding-right: 1rem;"></div>
+            <div id="minicart-items-list" class="minicart__product"></div>
 
-            <div class="minicart__amount" style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
-                <div class="cart__note" style="margin-bottom: 2rem;">
-                    <h4 style="font-family: var(--font-body); font-size: 1.3rem; font-weight: 600; color: var(--primary-color); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.2em;">Order Note</h4>
-                    <textarea class="cart__note--input" placeholder="" style="width: 100%; height: 80px; padding: 1rem; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 1.3rem; color: var(--primary-color); resize: vertical; outline: none;"></textarea>
+            <div class="minicart__amount">
+                <div class="cart__note">
+                    <h4>Order Note</h4>
+                    <textarea class="cart__note--input" placeholder=""></textarea>
                 </div>
-                <div class="minicart__amount_list" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <span style="font-family: var(--font-body); font-size: 1.3rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;">Subtotal</span>
-                    <span id="minicart-subtotal" style="font-size: 1.6rem; font-weight: 700; color: var(--primary-color);">
+                <div class="minicart__amount_list">
+                    <span>Subtotal</span>
+                    <span id="minicart-subtotal">
                         <b>KSh0.00</b>
                     </span>
                 </div>
-                <p style="font-size: 1.2rem; color: var(--foreground-sub-color); text-align: center; margin-bottom: 2rem; line-height: 1.6;">Shipping, taxes, and discount codes calculated at checkout.</p>
+                <p>Shipping, taxes, and discount codes calculated at checkout.</p>
             </div>
-            <div class="minicart__button" style="padding-bottom: 2rem; display: flex; gap: 1rem;">
-                <a class="minicart__button--link" href="cart.html" style="display: block; flex: 1; padding: 1.6rem; background: #fff; color: var(--primary-color); font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--border-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">View Cart</a>
-                <a class="minicart__button--link" href="javascript:void(0)" onclick="triggerCheckout()" style="display: block; flex: 1; padding: 1.6rem; background: var(--bg-black-color); color: #fff; font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--bg-black-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">Check Out</a>
+            <div class="minicart__button">
+                <a class="minicart__button--link" href="cart.html">View Cart</a>
+                <a class="minicart__button--link checkout__btn" href="javascript:void(0)" onclick="triggerCheckout()">Check Out</a>
             </div>
         </div>
 
@@ -324,7 +324,7 @@
       <div class="row">
 
         <!-- Contact Form -->
-        <div class="col-lg-7 col-12" style="margin-bottom:4rem;">
+        <div class="col-lg-7 col-12 mb-4">
           <div class="contact__form--wrapper">
             <h2 class="contact__form--title">Send Us a Message</h2>
             <form action="#" onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent successfully.'); this.reset();" method="POST" id="contact-form">
@@ -408,7 +408,7 @@
           <div class="footer__widget">
             <div class="footer__logo">
               <a href="index.html" class="footer__logo--link">
-                <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" style="height:70px; width:auto; object-fit:contain; filter:brightness(1.1);">
+                <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" class="contact-footer-logo">
               </a>
             </div>
             <p class="footer__widget--desc">
@@ -535,7 +535,7 @@
         </p>
         <div class="footer__payment">
           <!-- Payment icons placeholder -->
-          <span style="font-size:1.2rem; opacity:0.6;">Visa &nbsp; Mastercard &nbsp; PayPal</span>
+          <span class="contact-payment-text">Visa &nbsp; Mastercard &nbsp; PayPal</span>
         </div>
       </div>
     </div>

@@ -117,6 +117,7 @@ body {
   display: flex;
   justify-content: center;
   padding-inline: var(--space-4);
+  width: 100%;
 }
 .main__header--inner {
   width: 100%;
@@ -125,6 +126,8 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: var(--space-5);
+  padding-block: var(--space-2);
+  padding-inline: var(--space-2);
 }
 
 .header__menu--wrapper,

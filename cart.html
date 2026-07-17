@@ -55,12 +55,18 @@
 </head>
 <body>
     <!-- Topbar & Header -->
-    <div class="header__topbar bg__primary">
-        <div class="page-width">
-            <div class="header__topbar--inner text-center">
-                <p class="header__info--text text-white">
-                    ✨ FREE SHIPPING ON ALL UK ORDERS  |  Celebrating African Heritage Through Fashion
+            <div class="header__topbar bg__primary">
+            <div class="header__topbar--inner d-flex justify-content-between align-items-center">
+                <div class="topbar-left-spacer"></div>
+                <p class="header__info--text text-white m-0 text-center" id="announcement-text">
+                    ✨ FREE SHIPPING ON ALL UK ORDERS &nbsp;|&nbsp; Celebrating African Heritage Through Fashion
                 </p>
+                <div class="header__topbar--currency">
+                    <select class="currency-switcher" onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
+                        <option value="KES" style="color: black;">KES</option>
+                        <option value="USD" style="color: black;">USD</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -283,7 +289,7 @@
                               </div>
                             </div>
                             <div class="col-md-3 text-end cart-item__price">
-                              £${itemTotal.toFixed(2)}
+                              ${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(itemTotal) : `£${itemTotal.toFixed(2)}`}
                             </div>
                           </div>
                         `;
@@ -294,9 +300,15 @@
                       const shipping = subtotal > 80 ? 0 : 5.99;
                       const total = subtotal + shipping;
                 
-                      document.getElementById('cart-subtotal-val').textContent = `£${subtotal.toFixed(2)}`;
-                      document.getElementById('cart-shipping-val').textContent = shipping === 0 ? 'FREE' : `£${shipping.toFixed(2)}`;
-                      document.getElementById('cart-grandtotal-val').textContent = `£${total.toFixed(2)}`;
+                      if (window.AnkaraCurrency) {
+                        document.getElementById('cart-subtotal-val').textContent = window.AnkaraCurrency.convertAndFormat(subtotal);
+                        document.getElementById('cart-shipping-val').textContent = shipping === 0 ? 'FREE' : window.AnkaraCurrency.convertAndFormat(shipping);
+                        document.getElementById('cart-grandtotal-val').textContent = window.AnkaraCurrency.convertAndFormat(total);
+                      } else {
+                        document.getElementById('cart-subtotal-val').textContent = `£${subtotal.toFixed(2)}`;
+                        document.getElementById('cart-shipping-val').textContent = shipping === 0 ? 'FREE' : `£${shipping.toFixed(2)}`;
+                        document.getElementById('cart-grandtotal-val').textContent = `£${total.toFixed(2)}`;
+                      }
                     }
                 
                     // Helper functions for page cart actions
@@ -313,6 +325,10 @@
                     // Render on load and on any storage changes
                     document.addEventListener('DOMContentLoaded', () => {
                       renderCartPage();
+                      
+                      // Currency and settings loaded listeners
+                      window.addEventListener('currency:changed', () => renderCartPage());
+                      window.addEventListener('settings:loaded', () => renderCartPage());
                       
                       // Hook into minicart updates if triggered from drawer
                       const origUpdateUI = window.updateCartUI;

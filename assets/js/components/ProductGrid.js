@@ -21,6 +21,16 @@ export default class ProductGrid {
             this.fetchProducts();
         });
 
+        // Listen for currency change to re-render prices
+        window.addEventListener('currency:changed', () => {
+            this.render();
+        });
+        
+        // Listen for settings loaded (exchange rate) to re-render
+        window.addEventListener('settings:loaded', () => {
+            this.render();
+        });
+
         this.init();
     }
 
@@ -42,6 +52,13 @@ export default class ProductGrid {
             this.state.products = data.products;
             this.state.facets = data.facets;
             this.state.pagination = data.pagination;
+            
+            // Update product count dynamically
+            const countEl = document.querySelector('.product__count span');
+            if (countEl && this.state.pagination) {
+                const total = this.state.pagination.total;
+                countEl.textContent = `${total} ${total === 1 ? 'product' : 'products'}`;
+            }
             
             // Dispatch event to update filters with the new facet counts
             window.dispatchEvent(new CustomEvent('facets:updated', { detail: this.state.facets }));
@@ -65,6 +82,9 @@ export default class ProductGrid {
     }
 
     formatPrice(num) {
+        if (window.AnkaraCurrency) {
+            return window.AnkaraCurrency.convertAndFormat(num);
+        }
         return `£${parseFloat(num).toFixed(2)}`;
     }
 

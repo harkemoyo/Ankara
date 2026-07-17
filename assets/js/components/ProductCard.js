@@ -14,6 +14,9 @@ export default class ProductCard {
     }
 
     formatPrice(num) {
+        if (window.AnkaraCurrency) {
+            return window.AnkaraCurrency.convertAndFormat(num);
+        }
         return `£${parseFloat(num).toFixed(2)}`;
     }
 

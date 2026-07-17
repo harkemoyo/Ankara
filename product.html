@@ -72,12 +72,18 @@
         </div>
     </div>
     <!-- views/partials/header.ejs -->
-    <div class="header__topbar bg__primary">
-        <div class="page-width">
-            <div class="header__topbar--inner text-center">
-                <p class="header__info--text text-white">
-                    ✨ FREE SHIPPING ON ALL UK ORDERS  |  Celebrating African Heritage Through Fashion
+            <div class="header__topbar bg__primary">
+            <div class="header__topbar--inner d-flex justify-content-between align-items-center">
+                <div class="topbar-left-spacer"></div>
+                <p class="header__info--text text-white m-0 text-center" id="announcement-text">
+                    ✨ FREE SHIPPING ON ALL UK ORDERS &nbsp;|&nbsp; Celebrating African Heritage Through Fashion
                 </p>
+                <div class="header__topbar--currency">
+                    <select class="currency-switcher" onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
+                        <option value="KES" style="color: black;">KES</option>
+                        <option value="USD" style="color: black;">USD</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -615,100 +621,18 @@
                     <a class="copyright__content--link" href="index.html">Mary Humphrey Wear</a>.
                                                               All Rights Reserved.
                 </p>
-                <div
-                    class="footer__payment">
+                <div class="footer__payment">
                     <!-- Payment icons placeholder -->
-                    <span style="font-size:1.2rem; opacity:0.6;">Visa   Mastercard   PayPal</span>
+                    <span style="font-size:1.2rem; opacity:0.6;">Visa &nbsp; Mastercard &nbsp; PayPal</span>
                 </div>
             </div>
         </div>
     </div>
-</body></html></footer><script src="assets/cart.js"></script><script defer="" src="assets/js/components/core.js" type="module"></script><script>// Product data matching the brand brief
-const productsData = {
-    'ankara-dungaree': {
-        title: "Men's Ankara Dungaree",
-        price: "£85.00",
-        priceNum: 85.00,
-        desc: "Designed for the modern man who embraces culture, comfort, and individuality. Crafted with premium Ankara cotton fabric, featuring side pockets, adjustable straps, and a relaxed fit that balances style and comfort.",
-        badge: "New",
-        image: "/assets/IMG-20260622-WA0005.webp",
-        gallery: ["/assets/IMG-20260622-WA0005.webp", "/assets/IMG-20260622-WA0007.webp", "/assets/IMG-20260622-WA0009.webp"]
-    },
-    'ankara-luxe-set': {
-        title: "Ankara Street Luxe Set",
-        price: "£120.00",
-        priceNum: 120.00,
-        desc: "Where Ankara artistry meets modern street luxury. This 2-piece set features a premium tailored Ankara jacket and matching trousers, crafted for those who embrace culture, confidence, and standout individuality.",
-        badge: "Popular",
-        image: "/assets/IMG-20260622-WA0068.webp",
-        gallery: ["/assets/IMG-20260622-WA0068.webp", "/assets/IMG-20260622-WA0066.webp", "/assets/IMG-20260622-WA0067.webp"]
-    },
-    'african-luxe-throw': {
-        title: "African Luxe Throw",
-        price: "£65.00",
-        priceNum: 65.00,
-        desc: "Transform your space with bold Ankara patterns, timeless design, and the beauty of African craftsmanship. This premium home decor throw blanket is perfect for adding color, culture, and luxury to your bedroom or living room.",
-        badge: "Limited",
-        image: "/assets/IMG-20260622-WA0079.webp",
-        gallery: ["/assets/IMG-20260622-WA0079.webp", "/assets/IMG-20260622-WA0080(1).webp", "/assets/IMG-20260622-WA0081.webp"]
-    }
-};
-
-let activeProductId = 'ankara-dungaree';
-let selectedSize = 'S';
-let selectedQty = 1;
-
-document.addEventListener('DOMContentLoaded', function () { // Parse product ID from URL query parameters
-    const params = new URLSearchParams(window.location.search);
-    let id = params.get('id');
-    if (! productsData[id]) {
-        id = 'ankara-dungaree'; // fallback default
-    }activeProductId = id;
-
-    const product = productsData[id];
-
-    // Update details on page
-    document.title = product.title + ' – Mary Humphrey Wear';
-    document.getElementById('dyn-product-title-bc').textContent = product.title;
-    document.getElementById('dyn-product-title-bc-active').textContent = product.title;
-    document.getElementById('dyn-product-title').textContent = product.title;
-    document.getElementById('dyn-product-price').textContent = product.price;
-    document.getElementById('dyn-product-desc').textContent = product.desc;
-    document.getElementById('dyn-product-badge').textContent = product.badge;
-
-    // Update tabs content dynamically
-    document.getElementById('tab-craftsmanship').textContent = product.craftsmanship || "Craftsmanship details coming soon.";
-    document.getElementById('tab-features').textContent = product.features || "Features details coming soon.";
-    document.getElementById('tab-weight').textContent = product.weight || "Weight details coming soon.";
-    document.getElementById('tab-dimensions').textContent = product.dimensions || "Dimensions details coming soon.";
-
-    // Main image
-    const mainImg = document.getElementById('dyn-product-image');
-    mainImg.src = product.image;
-    mainImg.alt = product.title;
-
-    // Thumbnails gallery
-    const galleryContainer = document.getElementById('dyn-product-gallery');
-    galleryContainer.innerHTML = product.gallery.map((imgSrc, idx) => `
-        <div class="thumb-item" style="width:80px; aspect-ratio:3/4; overflow:hidden; border-radius:0.2rem; cursor:pointer; border: 2px solid ${
-        idx === 0 ? 'var(--secondary-color)' : 'transparent'
-    };">
-          <img src="${imgSrc}" alt="${
-        product.title
-    } gallery ${idx}" style="width:100%; height:100%; object-fit:cover;" onclick="swapMainImage(this, '${imgSrc}')">
-        </div>
-      `).join('');
-
-    // Hook size buttons click event
-    const sizeButtons = document.querySelectorAll('.size-btn');
-    sizeButtons.forEach(btn => {
-        btn.addEventListener('click', function () {
-            sizeButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            selectedSize = btn.getAttribute('data-size');
-        });
-    });
-
+</footer>
+<script src="assets/cart.js"></script>
+<script defer="" src="assets/js/components/core.js" type="module"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
     // Hook tabs click events
     const tabHeaders = document.querySelectorAll('.tab-header-item');
     const tabPanels = document.querySelectorAll('.tab-content-panel');
@@ -722,14 +646,10 @@ document.addEventListener('DOMContentLoaded', function () { // Parse product ID 
                 const indicator = h.querySelector('.tab-active-indicator');
                 if (h === header) {
                     h.style.color = 'var(--primary-color)';
-                    if (indicator) 
-                        indicator.style.background = 'var(--primary-color)';
-                    
+                    if (indicator) indicator.style.background = 'var(--primary-color)';
                 } else {
                     h.style.color = 'var(--foreground-sub-color)';
-                    if (indicator) 
-                        indicator.style.background = 'transparent';
-                    
+                    if (indicator) indicator.style.background = 'transparent';
                 }
             });
 
@@ -744,37 +664,7 @@ document.addEventListener('DOMContentLoaded', function () { // Parse product ID 
         });
     });
 });
-
-// Thumbnail swap function
-function swapMainImage(thumbEl, imgSrc) {
-    document.getElementById('dyn-product-image').src = imgSrc;
-    // Highlight selected thumbnail border
-    const thumbs = document.querySelectorAll('#dyn-product-gallery .thumb-item');
-    thumbs.forEach(t => t.style.borderColor = 'transparent');
-    thumbEl.parentNode.style.borderColor = 'var(--secondary-color)';
-}
-
-// Increase / decrease local page quantity selection
-function changeProductQty(delta) {
-    const qtyEl = document.getElementById('product-quantity');
-    let val = parseInt(qtyEl.value) + delta;
-    if (val < 1) 
-        val = 1;
-    
-
-    qtyEl.value = val;
-    selectedQty = val;
-}
-
-// Add product to cart helper
-function addProductToCart() {
-    const product = productsData[activeProductId];
-    addToCart({
-        id: activeProductId,
-        title: product.title,
-        price: product.priceNum,
-        image: product.image,
-        qty: selectedQty,
-        size: selectedSize
-    });
-}</script><script src="assets/storefront-api.js" type="module"></script></body></html>
+</script>
+<script src="assets/storefront-api.js" type="module"></script>
+</body>
+</html>

@@ -168,7 +168,7 @@ function updateCartUI() {
                   <button type="button" class="quantity__value increase" aria-label="increase quantity" onclick="changeMinicartQty(${index}, 1)" style="width: 2.5rem; height: 3rem; background: none; border: none; font-size: 1.4rem; color: var(--primary-color); cursor: pointer;">+</button>
                 </div>
                 <div class="minicart__price">
-                  <span class="minicart__current--price" style="font-size: 1.4rem; font-weight: 500; color: var(--primary-color);">£${(item.price * item.qty).toFixed(2)}</span>
+                  <span class="minicart__current--price" style="font-size: 1.4rem; font-weight: 500; color: var(--primary-color);">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(item.price * item.qty) : `£${(item.price * item.qty).toFixed(2)}`}</span>
                 </div>
             </div>
           </div>
@@ -180,7 +180,7 @@ function updateCartUI() {
     if (amountContainer) amountContainer.style.display = 'block';
     if (checkoutContainer) checkoutContainer.style.display = 'block';
     if (subtotalEl) {
-      subtotalEl.innerHTML = `<b>£${subtotal.toFixed(2)}</b>`;
+      subtotalEl.innerHTML = `<b>${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(subtotal) : `£${subtotal.toFixed(2)}`}</b>`;
     }
   }
 }
@@ -224,6 +224,10 @@ function simulateAdding(btn, callback) {
 // Initialize cart on page load
 document.addEventListener('DOMContentLoaded', function() {
   updateCartUI();
+  
+  // Re-render minicart when currency changes
+  window.addEventListener('currency:changed', () => updateCartUI());
+  window.addEventListener('settings:loaded', () => updateCartUI());
   
   // Wire up all 'Add to cart' buttons on the site to use the JS cart
   document.body.addEventListener('click', function(e) {

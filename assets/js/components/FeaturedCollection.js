@@ -5,6 +5,10 @@ export default class FeaturedCollection {
         this.el = el;
         this.collection = el.getAttribute('data-collection') || 'all';
         this.limit = parseInt(el.getAttribute('data-limit') || '4');
+        
+        window.addEventListener('currency:changed', () => this.init());
+        window.addEventListener('settings:loaded', () => this.init());
+        
         this.init();
     }
 

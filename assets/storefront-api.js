@@ -353,7 +353,13 @@ async function loadProductDetails() {
     if (bcTitle) bcTitle.innerText = product.title;
     const bcActive = document.getElementById('dyn-product-title-bc-active');
     if (bcActive) bcActive.innerText = product.title;
-    document.getElementById('dyn-product-price').innerText = `£${parseFloat(product.price).toFixed(2)}`;
+    const renderPrice = () => {
+        const priceText = window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : `£${parseFloat(product.price).toFixed(2)}`;
+        document.getElementById('dyn-product-price').innerText = priceText;
+    };
+    renderPrice();
+    window.addEventListener('currency:changed', renderPrice);
+    window.addEventListener('settings:loaded', renderPrice);
 
     const descEl = document.getElementById('dyn-product-desc');
     if (descEl) descEl.innerText = product.description || '';

@@ -275,10 +275,17 @@
   const shippingCost = freeShipping ? 0 : 5.99;
   const total = subtotal + shippingCost;
 
-  document.getElementById('sum-subtotal').textContent = `£${subtotal.toFixed(2)}`;
-  document.getElementById('sum-shipping').textContent = freeShipping ? 'FREE' : '£5.99';
-  document.getElementById('sum-total').textContent    = `£${total.toFixed(2)}`;
-  document.getElementById('ship-standard-price').textContent = freeShipping ? 'FREE' : '£5.99';
+  if (window.AnkaraCurrency) {
+    document.getElementById('sum-subtotal').textContent = window.AnkaraCurrency.convertAndFormat(subtotal);
+    document.getElementById('sum-shipping').textContent = freeShipping ? 'FREE' : window.AnkaraCurrency.convertAndFormat(5.99);
+    document.getElementById('sum-total').textContent    = window.AnkaraCurrency.convertAndFormat(total);
+    document.getElementById('ship-standard-price').textContent = freeShipping ? 'FREE' : window.AnkaraCurrency.convertAndFormat(5.99);
+  } else {
+    document.getElementById('sum-subtotal').textContent = `£${subtotal.toFixed(2)}`;
+    document.getElementById('sum-shipping').textContent = freeShipping ? 'FREE' : '£5.99';
+    document.getElementById('sum-total').textContent    = `£${total.toFixed(2)}`;
+    document.getElementById('ship-standard-price').textContent = freeShipping ? 'FREE' : '£5.99';
+  }
   if (freeShipping) {
     document.getElementById('ship-free-radio').disabled = false;
     document.getElementById('ship-free-radio').checked = true;
@@ -294,7 +301,7 @@
         <div class="item-title">${item.title}</div>
         <div class="item-variant">${item.size || ''} ${item.color ? '· ' + item.color : ''}</div>
       </div>
-      <div class="item-price">£${(parseFloat(item.price) * item.qty).toFixed(2)}</div>
+      <div class="item-price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(parseFloat(item.price) * item.qty) : `£${(parseFloat(item.price) * item.qty).toFixed(2)}`}</div>
     </div>
   `).join('');
 

@@ -23,7 +23,7 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use(express.static(__dirname));
 
 // ─── Page Routes ─────────────────────────────────────────────────────────────
-const pages = ['/', '/shop', '/about', '/contact', '/product', '/admin', '/cart', '/checkout', '/thank-you'];
+const pages = ['/', '/shop', '/about', '/contact', '/product', '/admin', '/cart', '/checkout', '/thank-you', '/sale', '/account'];
 const pageMap = {
     '/':          'index.html',
     '/shop':      'shop.html',
@@ -34,6 +34,8 @@ const pageMap = {
     '/cart':      'cart.html',
     '/checkout':  'checkout.html',
     '/thank-you': 'thank-you.html',
+    '/sale':      'sale.html',
+    '/account':   'account.html'
 };
 pages.forEach(route => {
     app.get(route, (req, res) => {

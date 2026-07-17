@@ -56,27 +56,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. Announcement Bar Rotation
-    let announcements = [];
-    let currentAnnIdx = 0;
-    const annEl = document.getElementById('announcement-text');
-
+    // 2. CMS Data Sync (Announcement, Logo, Store Name)
     window.addEventListener('settings:loaded', (e) => {
         const data = e.detail;
-        if (data.announcements && Array.isArray(data.announcements) && data.announcements.length > 0) {
-            announcements = data.announcements;
-            if (annEl) {
-                annEl.textContent = announcements[0];
+        
+        // --- Announcement Bar ---
+        const annEl = document.getElementById('announcement-text');
+        if (annEl) {
+            // Prefer single string if edited from admin, else fallback to array
+            if (data.announcement) {
+                annEl.innerHTML = data.announcement;
+            } else if (data.announcements && Array.isArray(data.announcements) && data.announcements.length > 0) {
+                let announcements = data.announcements;
+                let currentAnnIdx = 0;
+                annEl.innerHTML = announcements[0];
                 if (announcements.length > 1) {
                     setInterval(() => {
                         annEl.style.opacity = 0;
                         setTimeout(() => {
                             currentAnnIdx = (currentAnnIdx + 1) % announcements.length;
-                            annEl.textContent = announcements[currentAnnIdx];
+                            annEl.innerHTML = announcements[currentAnnIdx];
                             annEl.style.opacity = 1;
-                        }, 500); // 500ms fade duration
-                    }, 5000); // Rotate every 5 seconds
+                        }, 500);
+                    }, 5000);
                 }
+            }
+        }
+
+        // --- Logo URL ---
+        if (data.logo) {
+            const mainLogos = document.querySelectorAll('.main__logo--img, .offcanvas__logo--link img');
+            mainLogos.forEach(img => {
+                img.src = data.logo;
+            });
+        }
+
+        // --- Store Name ---
+        if (data.store_name) {
+            const titleEl = document.querySelector('title');
+            if (titleEl && titleEl.textContent.includes('Mary Humphrey African Wear')) {
+                titleEl.textContent = titleEl.textContent.replace('Mary Humphrey African Wear', data.store_name);
             }
         }
     });

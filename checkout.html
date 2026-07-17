@@ -1,411 +1,928 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<title>Checkout – Mary Humphrey Wear</title>
-<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-<meta content="#3C3836" name="theme-color"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&amp;family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;display=swap" rel="stylesheet"/>
-<link href="assets/swiper-bundle.min.css" rel="stylesheet"/>
-<link href="assets/glightbox.min.css" rel="stylesheet"/>
-<link href="assets/base.css" rel="stylesheet"/>
-<link href="assets/normalize.css" rel="stylesheet"/>
-<style>
-        :root {
-            --primary-color:         #422326;
-            --secondary-color:       #bcadae;
-            --hover-color:           #5c3539;
-            --yellow-color:          #D4A843;
-            --foreground-color:      #2a2624;
-            --foreground-sub-color:  #7a726e;
-            --text-white-color:      #fff;
+    <head>
+        <meta charset="utf-8"/>
+        <title>Checkout – Mary Humphrey Wear</title>
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="#3C3836" name="theme-color"/>
+        <link href="https://fonts.googleapis.com" rel="preconnect"/>
+        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+        <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&amp;family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;display=swap" rel="stylesheet"/>
+        <link href="assets/swiper-bundle.min.css" rel="stylesheet"/>
+        <link href="assets/glightbox.min.css" rel="stylesheet"/>
+        <link href="assets/base.css" rel="stylesheet"/>
+        <link href="assets/normalize.css" rel="stylesheet"/>
+        <style>:root
+        {
+            --primary-color: #422326;
+            --secondary-color: #bcadae;
+            --hover-color: #5c3539;
+            --yellow-color: #D4A843;
+            --foreground-color: #2a2624;
+            --foreground-sub-color: #7a726e;
+            --text-white-color: #fff;
             --body-background-color: #f5f1ec;
-            --bg-offwhite-color:     #faf8f5;
-            --bg-gray-color:         #f5f1ec;
-            --bg-black-color:        #2a1719;
-            --bg-light-dark-color:   #422326;
-            --border-color:          #dad2ce;
-            
-            
+            --bg-offwhite-color: #faf8f5;
+            --bg-gray-color: #f5f1ec;
+            --bg-black-color: #2a1719;
+            --bg-light-dark-color: #422326;
+            --border-color: #dad2ce;
+
+
         }
         body {
             font-family: var(--font-body);
             color: var(--foreground-color);
             background-color: var(--body-background-color);
         }
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: var(--font-heading);
             color: var(--primary-color);
         }
     </style>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="Securely complete your Ankara Store order." name="description"/>
-<style>
-    *, *::before, *::after { box-sizing: border-box; }
-    :root {
-      --accent: #1a1a1a;
-      --border: #e0e0e0;
-      --bg: #f9f9f9;
-      --radius: 4px;
-      --green: #27ae60;
-    }
-    body { font-family: var(--font-body); background: var(--bg); margin: 0; color: #1a1a1a; }
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="Securely complete your Ankara Store order." name="description"/>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        :root {
+            --accent: #1a1a1a;
+            --border: #e0e0e0;
+            --bg: #f9f9f9;
+            --radius: 4px;
+            --green: #27ae60;
+        }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            margin: 0;
+            color: #1a1a1a;
+        }
 
-    /* ── LAYOUT ── */
-    .checkout-wrap {
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      gap: 0;
-      min-height: 100vh;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    @media (max-width: 800px) {
-      .checkout-wrap { grid-template-columns: 1fr; }
-      .order-summary { order: -1; border-bottom: 1px solid var(--border); }
-    }
+        /* ── LAYOUT ── */
+        .checkout-wrap {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 0;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        @media(max-width: 800px) {
+            .checkout-wrap {
+                grid-template-columns: 1fr;
+            }
+            .order-summary {
+                order: -1;
+                border-bottom: 1px solid var(--border);
+            }
+        }
 
-    /* ── LEFT: FORM ── */
-    .checkout-form-col {
-      padding: 48px 40px 80px;
-      border-right: 1px solid var(--border);
-      background: #fff;
-    }
-    .checkout-logo { font-family: 'Karma', serif; font-size: 2.2rem; margin-bottom: 32px; display: block; color: #1a1a1a; text-decoration: none; }
-    .step-label { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.12em; color: #999; margin-bottom: 6px; }
-    .section-title { font-family: 'Karma', serif; font-size: 2rem; margin: 0 0 24px; }
+        /* ── LEFT: FORM ── */
+        .checkout-form-col {
+            padding: 48px 40px 80px;
+            border-right: 1px solid var(--border);
+            background: #fff;
+        }
+        .checkout-logo {
+            font-family: 'Karma', serif;
+            font-size: 2.2rem;
+            margin-bottom: 32px;
+            display: block;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+        .step-label {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #999;
+            margin-bottom: 6px;
+        }
+        .section-title {
+            font-family: 'Karma', serif;
+            font-size: 2rem;
+            margin: 0 0 24px;
+        }
 
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-    .form-group.full { grid-column: 1 / -1; }
-    .form-group label { font-size: 1.2rem; color: #666; font-weight: 500; }
-    .form-group input, .form-group select {
-      padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius);
-      font-size: 1.4rem; font-family: var(--font-body); transition: border 0.2s; background: #fff;
-    }
-    .form-group input:focus, .form-group select:focus {
-      outline: none; border-color: #1a1a1a;
-    }
-    .form-group input.error { border-color: #e74c3c; }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+        .form-group label {
+            font-size: 1.2rem;
+            color: #666;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group select {
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1.4rem;
+            font-family: var(--font-body);
+            transition: border 0.2s;
+            background: #fff;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1a1a1a;
+        }
+        .form-group input.error {
+            border-color: #e74c3c;
+        }
 
-    .section-divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+        .section-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 28px 0;
+        }
 
-    .shipping-option {
-      display: flex; align-items: center; gap: 14px; padding: 14px 16px;
-      border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; cursor: pointer;
-    }
-    .shipping-option input[type=radio] { accent-color: #1a1a1a; width: 16px; height: 16px; }
-    .shipping-option .ship-label { flex: 1; font-size: 1.3rem; }
-    .shipping-option .ship-price { font-size: 1.3rem; font-weight: 600; }
+        .shipping-option {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .shipping-option input[type=radio] {
+            accent-color: #1a1a1a;
+            width: 16px;
+            height: 16px;
+        }
+        .shipping-option .ship-label {
+            flex: 1;
+            font-size: 1.3rem;
+        }
+        .shipping-option .ship-price {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
 
-    .pay-btn {
-      width: 100%; padding: 16px; background: #1a1a1a; color: #fff; border: none;
-      font-size: 1.5rem; font-weight: 600; cursor: pointer; border-radius: var(--radius);
-      margin-top: 24px; transition: opacity 0.2s; letter-spacing: 0.05em;
-    }
-    .pay-btn:hover { opacity: 0.85; }
-    .pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .pay-btn .spinner {
-      display: inline-block; width: 16px; height: 16px; border: 2px solid #ffffff55;
-      border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite;
-      vertical-align: middle; margin-right: 8px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+        .pay-btn {
+            width: 100%;
+            padding: 16px;
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: var(--radius);
+            margin-top: 24px;
+            transition: opacity 0.2s;
+            letter-spacing: 0.05em;
+        }
+        .pay-btn:hover {
+            opacity: 0.85;
+        }
+        .pay-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .pay-btn .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff55;
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
-    .secure-note { text-align: center; font-size: 1.2rem; color: #999; margin-top: 12px; }
-    .secure-note svg { vertical-align: middle; margin-right: 4px; }
+        .secure-note {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #999;
+            margin-top: 12px;
+        }
+        .secure-note svg {
+            vertical-align: middle;
+            margin-right: 4px;
+        }
 
-    /* ── RIGHT: ORDER SUMMARY ── */
-    .order-summary {
-      padding: 48px 32px;
-      background: #f5f5f5;
-      position: sticky;
-      top: 0;
-      align-self: start;
-      max-height: 100vh;
-      overflow-y: auto;
-    }
-    .order-summary h2 { font-family: 'Karma', serif; font-size: 1.8rem; margin: 0 0 24px; }
-    .summary-item {
-      display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
-    }
-    .summary-item img {
-      width: 64px; height: 64px; object-fit: cover; border-radius: 4px;
-      border: 1px solid var(--border); background: #fff;
-    }
-    .summary-item .item-info { flex: 1; }
-    .summary-item .item-title { font-size: 1.3rem; font-weight: 500; line-height: 1.4; }
-    .summary-item .item-variant { font-size: 1.2rem; color: #777; }
-    .summary-item .item-price { font-size: 1.3rem; font-weight: 600; }
-    .summary-qty {
-      display: inline-block; background: #1a1a1a; color: #fff;
-      font-size: 1.1rem; border-radius: 50%; width: 20px; height: 20px;
-      line-height: 20px; text-align: center; position: relative; top: -8px; right: -6px; float: right;
-    }
+        /* ── RIGHT: ORDER SUMMARY ── */
+        .order-summary {
+            padding: 48px 32px;
+            background: #f5f5f5;
+            position: sticky;
+            top: 0;
+            align-self: start;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+        .order-summary h2 {
+            font-family: 'Karma', serif;
+            font-size: 1.8rem;
+            margin: 0 0 24px;
+        }
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        .summary-item img {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            background: #fff;
+        }
+        .summary-item .item-info {
+            flex: 1;
+        }
+        .summary-item .item-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        .summary-item .item-variant {
+            font-size: 1.2rem;
+            color: #777;
+        }
+        .summary-item .item-price {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        .summary-qty {
+            display: inline-block;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 1.1rem;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            position: relative;
+            top: -8px;
+            right: -6px;
+            float: right;
+        }
 
-    .summary-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
-    .summary-row { display: flex; justify-content: space-between; font-size: 1.3rem; margin-bottom: 8px; color: #555; }
-    .summary-row.total { font-size: 1.6rem; font-weight: 700; color: #1a1a1a; margin-top: 12px; }
+        .summary-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 20px 0;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        .summary-row.total {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-top: 12px;
+        }
 
-    /* ── EMPTY CART ALERT ── */
-    #empty-cart-msg { display: none; text-align: center; padding: 60px 20px; }
-  </style>
-<style>body { display: block !important; }</style></head>
+        /* ── EMPTY CART ALERT ── */
+        #empty-cart-msg {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+    </style>
+    <style>
+        body {
+            display: block !important;
+        }
+    </style>
+    <script defer src="assets/global.js"></script>
+    <script defer src="assets/js/components/core.js" type="module"></script>
+    <script defer src="assets/supabase-client.js" type="module"></script>
+</head>
 <body>
+    <div class="header__topbar bg__primary">
+        <div class="header__topbar--inner d-flex justify-content-between align-items-center">
+            <div class="topbar-left-spacer"></div>
+            <p class="header__info--text text-white m-0 text-center" id="announcement-text">
+                ✨ FREE SHIPPING ON ALL UK ORDERS &nbsp;|&nbsp; Celebrating African Heritage Through Fashion
+            </p>
+            <div class="header__topbar--currency">
+                <select class="currency-switcher" onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
+                    <option value="KES" style="color: black;">KES</option>
+                    <option value="USD" style="color: black;">USD</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</body></html></div><header class="header__section"><!-- ── Topbar Announcement ─────────────────────── --><!-- ── Main Header ────────────────────────────── -->
+<div class="main__header position__relative header__sticky"> <div class="page-width">
+    <div
+        class="main__header--inner flex-between align-items-center">
+        <!-- Hamburger / Offcanvas Toggle -->
+        <div class="offcanvas__header--menu__open">
+            <a class="offcanvas__header--menu__open--btn" data-offcanvas="" href="javascript:void(0)">
+                <svg class="ionicon offcanvas__header--menu__open--svg" viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M80 160h352M80 256h352M80 352h352" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"></path>
+                </svg>
+                <span class="visually-hidden">Menu</span>
+            </a>
+        </div>
+        <!-- Logo -->
+        <div class="main__logo">
+            <h1 class="main__logo--title">
+                <a class="main__logo--link" href="index.html">
+                    <img alt="Mary Humphrey African Wear" class="main__logo--img" src="assets/IMG-20260622-WA0082.webp" style="height:60px; width:auto; object-fit:contain;"/>
+                </a>
+            </h1>
+        </div>
+        <!-- Desktop Navigation -->
+        <div class="header__menu d-none d-lg-block">
+            <nav class="header__menu--navigation">
+                <ul class="header__menu--wrapper d-flex">
+                    <li class="header__menu--items">
+                        <a class="header__menu--link" href="index.html">Home</a>
+                    </li>
+                    <li class="header__menu--items active-page">
+                        <a class="header__menu--link active" href="shop.html">Shop</a>
+                    </li>
+                    <li class="header__menu--items">
+                        <a class="header__menu--link" href="about.html">Our Story</a>
+                    </li>
+                    <li class="header__menu--items">
+                        <a class="header__menu--link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Header Account / Icons -->
+        <div class="header__account">
+            <ul
+                class="header__account--wrapper d-flex align-items-center">
+                <!-- Search -->
+                <li class="header__account--items header__account--search__items d-none d-lg-block">
+                    <a class="header__account--btn search__open--btn" data-offcanvas="" href="javascript:void(0)">
+                        <span class="header__account--btn__icon">
+                            <svg fill="none" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </span>
+                        <span class="visually-hidden">Search</span>
+                    </a>
+                </li>
+                <!-- Account -->
+                <li class="header__account--items">
+                    <a class="header__account--btn" href="account.html">
+                        <span class="header__account--btn__icon">
+                            <svg fill="none" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </span>
+                        <span class="visually-hidden">My Account</span>
+                    </a>
+                </li>
+                <!-- Cart -->
+                <li class="header__account--items header__minicart--items">
+                    <a class="header__account--btn minicart__open--btn" data-offcanvas="" href="javascript:void(0)">
+                        <span class="header__account--btn__icon">
+                            <svg fill="none" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </span>
+                        <span class="items__count js-item-count">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div></div><!-- ── Offcanvas Mobile Menu ──────────────────── --><div class="offcanvas__header">
+<div
+    class="offcanvas__inner">
+    <!-- Offcanvas Logo -->
+    <div class="offcanvas__logo">
+        <a class="offcanvas__logo--link" href="index.html">
+            <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp" style="height:50px; width:auto; object-fit:contain;"/>
+        </a>
+        <button aria-label="close menu" class="offcanvas__close--btn" data-offcanvas="">✕</button>
+    </div>
+    <nav class="offcanvas__menu">
+        <ul class="offcanvas__menu_ul">
+            <li class="offcanvas__menu_li">
+                <a class="offcanvas__menu_item" href="index.html">Home</a>
+            </li>
+            <li class="offcanvas__menu_li">
+                <a class="offcanvas__menu_item" href="shop.html">Shop</a>
+            </li>
+            <li class="offcanvas__menu_li">
+                <a class="offcanvas__menu_item" href="about.html">Our Story</a>
+            </li>
+            <li class="offcanvas__menu_li">
+                <a class="offcanvas__menu_item" href="contact.html">Contact</a>
+            </li>
+        </ul>
+        <div class="offcanvas__account--items">
+            <a class="offcanvas__account--signup__btn" href="#">
+                <svg fill="none" height="16" viewbox="0 0 17 17" width="16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                Sign In / Register
+            </a>
+        </div>
+    </nav>
+</div></div><!-- ── Mini Cart Drawer ───────────────────────── --><div class="offCanvas__minicart js-cart-form" style="display: flex; flex-direction: column;">
+<div class="minicart__header">
+    <div class="minicart__header--top" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem;">
+        <h3 class="minicart__title" style="font-family: var(--font-body); font-size: 2.4rem; color: var(--primary-color); font-weight: 500;">Cart</h3>
+        <button aria-label="close cart" class="minicart__close--btn" data-offcanvas="" style="background: none; border: none; font-size: 2.4rem; cursor: pointer; color: var(--primary-color); line-height: 1;" type="button">×</button>
+    </div>
+</div>
+<div class="minicart__empty--text">
+    <p>Your bag is empty.</p>
+    <a class="primary__btn" href="shop.html">Continue Shopping</a>
+</div>
+<div class="minicart__product" id="minicart-items-list" style="flex: 1; overflow-y: auto; padding-right: 1rem;"></div>
+<div class="minicart__amount" style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
+    <div class="cart__note" style="margin-bottom: 2rem;">
+        <h4 style="font-family: var(--font-body); font-size: 1.3rem; font-weight: 600; color: var(--primary-color); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.2em;">Order Note</h4>
+        <textarea class="cart__note--input" placeholder="" style="width: 100%; height: 80px; padding: 1rem; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 1.3rem; color: var(--primary-color); resize: vertical; outline: none;"></textarea>
+    </div>
+    <div class="minicart__amount_list" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <span style="font-family: var(--font-body); font-size: 1.3rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;">Subtotal</span>
+        <span id="minicart-subtotal" style="font-size: 1.6rem; font-weight: 700; color: var(--primary-color);">
+            <b>KSh0.00</b>
+        </span>
+    </div>
+    <p style="font-size: 1.2rem; color: var(--foreground-sub-color); text-align: center; margin-bottom: 2rem; line-height: 1.6;">Shipping, taxes, and discount codes calculated at checkout.</p>
+</div>
+<div class="minicart__button" style="padding-bottom: 2rem; display: flex; gap: 1rem;">
+    <a class="minicart__button--link" href="cart.html" style="display: block; flex: 1; padding: 1.6rem; background: #fff; color: var(--primary-color); font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--border-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">View Cart</a>
+    <a class="minicart__button--link" href="javascript:void(0)" onclick="triggerCheckout()" style="display: block; flex: 1; padding: 1.6rem; background: var(--bg-black-color); color: #fff; font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--bg-black-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">Check Out</a>
+</div></div><!-- ── Search Overlay ─────────────────────────── --><div class="predictive__search--box">
+<div class="predictive__search--box__inner">
+    <h2 class="predictive__search--title">Search Products</h2>
+    <form action="shop.html" class="predictive__search--form" method="get" role="search">
+        <label for="Search">
+            <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search"/>
+        </label>
+        <button aria-label="search button" class="predictive__search--button text-white">
+            <svg fill="none" height="20" viewbox="0 0 17 17" width="20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+        </button>
+    </form>
+</div>
+<button aria-label="close search" class="predictive__search--close__btn" data-offcanvas="">
+    <svg height="28" viewbox="0 0 512 512" width="28" xmlns="http://www.w3.org/2000/svg">
+        <path d="M368 368L144 144M368 144L144 368" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+    </svg>
+</button></div><main
+style="background: var(--bg); padding: 4rem 0;">
+
 <!-- Empty cart fallback -->
 <div id="empty-cart-msg">
-<h2 style="font-family:'Karma',serif;font-size:2.4rem;margin-bottom:16px;">Your bag is empty</h2>
-<p style="font-size:1.4rem;color:#777;margin-bottom:24px;">Add some items before checking out.</p>
-<a href="shop.html" style="background:#1a1a1a;color:#fff;padding:14px 32px;text-decoration:none;font-size:1.4rem;">Shop Now</a>
+    <h2 style="font-family:'Karma',serif;font-size:2.4rem;margin-bottom:16px;">Your bag is empty</h2>
+    <p style="font-size:1.4rem;color:#777;margin-bottom:24px;">Add some items before checking out.</p>
+    <a href="shop.html" style="background:#1a1a1a;color:#fff;padding:14px 32px;text-decoration:none;font-size:1.4rem;">Shop Now</a>
 </div>
-<div class="checkout-wrap" id="checkout-wrap">
-<!-- ── LEFT: FORM ── -->
-<div class="checkout-form-col">
-<a class="checkout-logo" href="index.html">Ankara</a>
-<div class="step-label">Step 1</div>
-<h1 class="section-title">Contact &amp; Delivery</h1>
-<form id="checkout-form" novalidate="">
-<div class="form-row">
-<div class="form-group">
-<label for="first-name">First Name *</label>
-<input autocomplete="given-name" id="first-name" name="first_name" required="" type="text"/>
-</div>
-<div class="form-group">
-<label for="last-name">Last Name *</label>
-<input autocomplete="family-name" id="last-name" name="last_name" required="" type="text"/>
-</div>
-</div>
-<div class="form-group">
-<label for="email">Email Address *</label>
-<input autocomplete="email" id="email" name="email" placeholder="your@email.com" required="" type="email"/>
-</div>
-<div class="form-group">
-<label for="phone">Phone Number (optional)</label>
-<input autocomplete="tel" id="phone" name="phone" placeholder="+44 7700 900000" type="tel"/>
-</div>
-<hr class="section-divider"/>
-<div class="step-label">Step 2</div>
-<h2 class="section-title" style="font-size:1.8rem;">Shipping Address</h2>
-<div class="form-group">
-<label for="address1">Address Line 1 *</label>
-<input autocomplete="address-line1" id="address1" name="address1" required="" type="text"/>
-</div>
-<div class="form-group">
-<label for="address2">Address Line 2</label>
-<input autocomplete="address-line2" id="address2" name="address2" type="text"/>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label for="city">City *</label>
-<input autocomplete="address-level2" id="city" name="city" required="" type="text"/>
-</div>
-<div class="form-group">
-<label for="postcode">Postcode *</label>
-<input autocomplete="postal-code" id="postcode" name="postcode" required="" type="text"/>
-</div>
-</div>
-<div class="form-group">
-<label for="country">Country *</label>
-<select autocomplete="country" id="country" name="country" required="">
-<option selected="" value="GB">United Kingdom</option>
-<option value="US">United States</option>
-<option value="GH">Ghana</option>
-<option value="NG">Nigeria</option>
-<option value="CA">Canada</option>
-<option value="AU">Australia</option>
-<option value="ZA">South Africa</option>
-</select>
-</div>
-<hr class="section-divider"/>
-<div class="step-label">Step 3</div>
-<h2 class="section-title" style="font-size:1.8rem;">Shipping Method</h2>
-<label class="shipping-option" id="ship-standard">
-<input checked="" name="shipping" type="radio" value="standard"/>
-<span class="ship-label">Standard Delivery (3–5 days)</span>
-<span class="ship-price" id="ship-standard-price">£5.99</span>
-</label>
-<label class="shipping-option">
-<input disabled="" id="ship-free-radio" name="shipping" type="radio" value="free"/>
-<span class="ship-label">Free Delivery <small style="color:#27ae60;">(orders over £80)</small></span>
-<span class="ship-price">FREE</span>
-</label>
-<hr class="section-divider"/>
-<button class="pay-btn" id="pay-btn" type="submit">
-        Pay with Paystack
-      </button>
-<p class="secure-note">
-<svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14"><rect height="11" rx="2" width="18" x="3" y="11"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>
-        Secured by Paystack · SSL encrypted
-      </p>
-</form>
-</div>
-<!-- ── RIGHT: ORDER SUMMARY ── -->
-<aside class="order-summary">
-<h2>Your Order</h2>
-<div id="summary-items"><!-- JS renders cart items here --></div>
-<hr class="summary-divider"/>
-<div class="summary-row"><span>Subtotal</span><span id="sum-subtotal">£0.00</span></div>
-<div class="summary-row"><span>Shipping</span><span id="sum-shipping">£5.99</span></div>
-<hr class="summary-divider"/>
-<div class="summary-row total"><span>Total</span><span id="sum-total">£0.00</span></div>
-</aside>
+<div
+    class="checkout-wrap" id="checkout-wrap">
+    <!-- ── LEFT: FORM ── -->
+    <div class="checkout-form-col">
+        <a class="checkout-logo" href="index.html">Ankara</a>
+        <div class="step-label">Step 1</div>
+        <h1 class="section-title">Contact &amp; Delivery</h1>
+        <form id="checkout-form" novalidate="">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="first-name">First Name *</label>
+                    <input autocomplete="given-name" id="first-name" name="first_name" required="" type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="last-name">Last Name *</label>
+                    <input autocomplete="family-name" id="last-name" name="last_name" required="" type="text"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input autocomplete="email" id="email" name="email" placeholder="your@email.com" required="" type="email"/>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number (optional)</label>
+                <input autocomplete="tel" id="phone" name="phone" placeholder="+44 7700 900000" type="tel"/>
+            </div>
+            <hr class="section-divider"/>
+            <div class="step-label">Step 2</div>
+            <h2 class="section-title" style="font-size:1.8rem;">Shipping Address</h2>
+            <div class="form-group">
+                <label for="address1">Address Line 1 *</label>
+                <input autocomplete="address-line1" id="address1" name="address1" required="" type="text"/>
+            </div>
+            <div class="form-group">
+                <label for="address2">Address Line 2</label>
+                <input autocomplete="address-line2" id="address2" name="address2" type="text"/>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="city">City *</label>
+                    <input autocomplete="address-level2" id="city" name="city" required="" type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="postcode">Postcode *</label>
+                    <input autocomplete="postal-code" id="postcode" name="postcode" required="" type="text"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="country">Country *</label>
+                <select autocomplete="country" id="country" name="country" required="">
+                    <option selected="" value="GB">United Kingdom</option>
+                    <option value="US">United States</option>
+                    <option value="GH">Ghana</option>
+                    <option value="NG">Nigeria</option>
+                    <option value="CA">Canada</option>
+                    <option value="AU">Australia</option>
+                    <option value="ZA">South Africa</option>
+                </select>
+            </div>
+            <hr class="section-divider"/>
+            <div class="step-label">Step 3</div>
+            <h2 class="section-title" style="font-size:1.8rem;">Shipping Method</h2>
+            <label class="shipping-option" id="ship-standard">
+                <input checked="" name="shipping" type="radio" value="standard"/>
+                <span class="ship-label">Standard Delivery (3–5 days)</span>
+                <span class="ship-price" id="ship-standard-price">£5.99</span>
+            </label>
+            <label class="shipping-option">
+                <input disabled="" id="ship-free-radio" name="shipping" type="radio" value="free"/>
+                <span class="ship-label">Free Delivery
+                    <small style="color:#27ae60;">(orders over £80)</small>
+                </span>
+                <span class="ship-price">FREE</span>
+            </label>
+            <hr class="section-divider"/>
+            <button class="pay-btn" id="pay-btn" type="submit">
+                Pay with Paystack
+            </button>
+            <p class="secure-note">
+                <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14">
+                    <rect height="11" rx="2" width="18" x="3" y="11"></rect>
+                    <path d="M7 11V7a5 5 0 0110 0v4"></path>
+                </svg>
+                Secured by Paystack · SSL encrypted
+            </p>
+        </form>
+    </div>
+    <!-- ── RIGHT: ORDER SUMMARY ── -->
+    <aside class="order-summary">
+        <h2>Your Order</h2>
+        <div id="summary-items"><!-- JS renders cart items here --></div>
+        <hr class="summary-divider"/>
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="sum-subtotal">£0.00</span>
+        </div>
+        <div class="summary-row">
+            <span>Shipping</span>
+            <span id="sum-shipping">£5.99</span>
+        </div>
+        <hr class="summary-divider"/>
+        <div class="summary-row total">
+            <span>Total</span>
+            <span id="sum-total">£0.00</span>
+        </div>
+    </aside>
 </div>
 <!-- Paystack script -->
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <script src="assets/cart.js"></script>
 <script>
-  // ─── CONFIG — paste your public values here ───────────────────
-  const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY';
-  // ─────────────────────────────────────────────────────────────
-
-  const cart = getCart();
-
-  // Redirect if empty
-  if (!cart || cart.length === 0) {
-    document.getElementById('checkout-wrap').style.display = 'none';
-    document.getElementById('empty-cart-msg').style.display = 'block';
-  }
-
-  // ── Render cart in summary ──
-  const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
-  const freeShipping = subtotal >= 80;
-  const shippingCost = freeShipping ? 0 : 5.99;
-  const total = subtotal + shippingCost;
-
-  if (window.AnkaraCurrency) {
-    document.getElementById('sum-subtotal').textContent = window.AnkaraCurrency.convertAndFormat(subtotal);
-    document.getElementById('sum-shipping').textContent = freeShipping ? 'FREE' : window.AnkaraCurrency.convertAndFormat(5.99);
-    document.getElementById('sum-total').textContent    = window.AnkaraCurrency.convertAndFormat(total);
-    document.getElementById('ship-standard-price').textContent = freeShipping ? 'FREE' : window.AnkaraCurrency.convertAndFormat(5.99);
-  } else {
-    document.getElementById('sum-subtotal').textContent = `£${subtotal.toFixed(2)}`;
-    document.getElementById('sum-shipping').textContent = freeShipping ? 'FREE' : '£5.99';
-    document.getElementById('sum-total').textContent    = `£${total.toFixed(2)}`;
-    document.getElementById('ship-standard-price').textContent = freeShipping ? 'FREE' : '£5.99';
-  }
-  if (freeShipping) {
-    document.getElementById('ship-free-radio').disabled = false;
-    document.getElementById('ship-free-radio').checked = true;
-  }
-
-  document.getElementById('summary-items').innerHTML = cart.map(item => `
-    <div class="summary-item">
-      <div style="position:relative;">
-        <img src="${item.image}" alt="${item.title}">
-        <span class="summary-qty">${item.qty}</span>
-      </div>
-      <div class="item-info">
-        <div class="item-title">${item.title}</div>
-        <div class="item-variant">${item.size || ''} ${item.color ? '· ' + item.color : ''}</div>
-      </div>
-      <div class="item-price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(parseFloat(item.price) * item.qty) : `£${(parseFloat(item.price) * item.qty).toFixed(2)}`}</div>
-    </div>
-  `).join('');
-
-  // ── Form submit → Paystack → verify → create order ──
-  document.getElementById('checkout-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    const btn = document.getElementById('pay-btn');
-
-    // Basic validation
-    const requiredFields = ['first-name','last-name','email','address1','city','postcode'];
-    let valid = true;
-    requiredFields.forEach(id => {
-      const el = document.getElementById(id);
-      if (!el.value.trim()) { el.classList.add('error'); valid = false; }
-      else el.classList.remove('error');
-    });
-    if (!valid) { alert('Please fill in all required fields.'); return; }
-
-    const phoneInput = document.getElementById('phone');
-    const phoneVal = phoneInput.value.trim();
-    if (phoneVal) {
-      const kePhoneRegex = /^(?:254|\+254|0)?(7\d{8}|1\d{8})$/;
-      if (!kePhoneRegex.test(phoneVal.replace(/\s+/g, ''))) {
-        phoneInput.classList.add('error');
-        alert('Please enter a valid Kenyan phone number (e.g. 0712345678).');
-        return;
-      } else {
-        phoneInput.classList.remove('error');
+    // ─── CONFIG — paste your public values here ───────────────────
+      const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY';
+      // ─────────────────────────────────────────────────────────────
+    
+      const cart = getCart();
+    
+      // Redirect if empty
+      if (!cart || cart.length === 0) {
+        document.getElementById('checkout-wrap').style.display = 'none';
+        document.getElementById('empty-cart-msg').style.display = 'block';
       }
-    }
-
-    // Disable button + show spinner
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> Opening Paystack...';
-
-    const customer = {
-      name:     document.getElementById('first-name').value.trim() + ' ' + document.getElementById('last-name').value.trim(),
-      email:    document.getElementById('email').value.trim().toLowerCase(),
-      phone:    document.getElementById('phone').value.trim(),
-      address1: document.getElementById('address1').value.trim(),
-      address2: document.getElementById('address2').value.trim(),
-      city:     document.getElementById('city').value.trim(),
-      postcode: document.getElementById('postcode').value.trim(),
-      country:  document.getElementById('country').value,
-    };
-
-    // Init checkout
-    try {
-        const res = await fetch('/api/checkout/init', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cart, customer })
+    
+      // ── Render cart in summary ──
+      const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
+      const freeShipping = subtotal >= 80;
+      const shippingCost = freeShipping ? 0 : 5.99;
+      const total = subtotal + shippingCost;
+    
+      if (window.AnkaraCurrency) {
+        document.getElementById('sum-subtotal').textContent = window.AnkaraCurrency.convertAndFormat(subtotal);
+        document.getElementById('sum-shipping').textContent = freeShipping ? 'FREE' : window.AnkaraCurrency.convertAndFormat(5.99);
+        document.getElementById('sum-total').textContent    = window.AnkaraCurrency.convertAndFormat(total);
+        document.getElementById('ship-standard-price').textContent = freeShipping ? 'FREE' : window.AnkaraCurrency.convertAndFormat(5.99);
+      } else {
+        document.getElementById('sum-subtotal').textContent = `£${subtotal.toFixed(2)}`;
+        document.getElementById('sum-shipping').textContent = freeShipping ? 'FREE' : '£5.99';
+        document.getElementById('sum-total').textContent    = `£${total.toFixed(2)}`;
+        document.getElementById('ship-standard-price').textContent = freeShipping ? 'FREE' : '£5.99';
+      }
+      if (freeShipping) {
+        document.getElementById('ship-free-radio').disabled = false;
+        document.getElementById('ship-free-radio').checked = true;
+      }
+    
+      document.getElementById('summary-items').innerHTML = cart.map(item => `
+        <div class="summary-item">
+          <div style="position:relative;">
+            <img src="${item.image}" alt="${item.title}">
+            <span class="summary-qty">${item.qty}</span>
+          </div>
+          <div class="item-info">
+            <div class="item-title">${item.title}</div>
+            <div class="item-variant">${item.size || ''} ${item.color ? '· ' + item.color : ''}</div>
+          </div>
+          <div class="item-price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(parseFloat(item.price) * item.qty) : `£${(parseFloat(item.price) * item.qty).toFixed(2)}`}</div>
+        </div>
+      `).join('');
+    
+      // ── Form submit → Paystack → verify → create order ──
+      document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+    
+        const btn = document.getElementById('pay-btn');
+    
+        // Basic validation
+        const requiredFields = ['first-name','last-name','email','address1','city','postcode'];
+        let valid = true;
+        requiredFields.forEach(id => {
+          const el = document.getElementById(id);
+          if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+          else el.classList.remove('error');
         });
-        const data = await res.json();
-
-        if (res.ok && data.success && data.access_code) {
-            btn.innerHTML = '<span class="spinner"></span> Opening Paystack...';
-            
-            const handler = PaystackPop.setup({
-                key: PAYSTACK_PUBLIC_KEY,
-                access_code: data.access_code,
-                callback: function(response) {
-                    localStorage.removeItem('mhw-cart');
-                    window.location.href = `/thank-you.html?order=${data.reference}`;
-                },
-                onClose: function() {
-                    btn.disabled = false;
-                    btn.innerHTML = 'Pay with Paystack';
-                }
+        if (!valid) { alert('Please fill in all required fields.'); return; }
+    
+        const phoneInput = document.getElementById('phone');
+        const phoneVal = phoneInput.value.trim();
+        if (phoneVal) {
+          const kePhoneRegex = /^(?:254|\+254|0)?(7\d{8}|1\d{8})$/;
+          if (!kePhoneRegex.test(phoneVal.replace(/\s+/g, ''))) {
+            phoneInput.classList.add('error');
+            alert('Please enter a valid Kenyan phone number (e.g. 0712345678).');
+            return;
+          } else {
+            phoneInput.classList.remove('error');
+          }
+        }
+    
+        // Disable button + show spinner
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Opening Paystack...';
+    
+        const customer = {
+          name:     document.getElementById('first-name').value.trim() + ' ' + document.getElementById('last-name').value.trim(),
+          email:    document.getElementById('email').value.trim().toLowerCase(),
+          phone:    document.getElementById('phone').value.trim(),
+          address1: document.getElementById('address1').value.trim(),
+          address2: document.getElementById('address2').value.trim(),
+          city:     document.getElementById('city').value.trim(),
+          postcode: document.getElementById('postcode').value.trim(),
+          country:  document.getElementById('country').value,
+        };
+    
+        // Init checkout
+        try {
+            const res = await fetch('/api/checkout/init', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cart, customer })
             });
-            handler.openIframe();
-        } else {
-            alert('Failed to initialize checkout: ' + (data.error || 'Unknown error'));
+            const data = await res.json();
+    
+            if (res.ok && data.success && data.access_code) {
+                btn.innerHTML = '<span class="spinner"></span> Opening Paystack...';
+                
+                const handler = PaystackPop.setup({
+                    key: PAYSTACK_PUBLIC_KEY,
+                    access_code: data.access_code,
+                    callback: function(response) {
+                        localStorage.removeItem('mhw-cart');
+                        window.location.href = `/thank-you.html?order=${data.reference}`;
+                    },
+                    onClose: function() {
+                        btn.disabled = false;
+                        btn.innerHTML = 'Pay with Paystack';
+                    }
+                });
+                handler.openIframe();
+            } else {
+                alert('Failed to initialize checkout: ' + (data.error || 'Unknown error'));
+                btn.disabled = false;
+                btn.innerHTML = 'Pay with Paystack';
+            }
+        } catch (err) {
+            alert('Network error initializing checkout.');
             btn.disabled = false;
             btn.innerHTML = 'Pay with Paystack';
         }
-    } catch (err) {
-        alert('Network error initializing checkout.');
-        btn.disabled = false;
-        btn.innerHTML = 'Pay with Paystack';
-    }
-  });
-</script>
-<!-- Search Overlay -->
-<div class="predictive__search--box">
-<div class="predictive__search--box__inner">
-<h2 class="predictive__search--title">Search Products</h2>
-<form action="shop.html" class="predictive__search--form" method="get" role="search">
-<label for="Search">
-<input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search"/>
-</label>
-<button aria-label="search button" class="predictive__search--button text-white">
-<svg fill="none" height="20" viewbox="0 0 17 17" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</button>
-</form>
-</div>
-<button aria-label="close search" class="predictive__search--close__btn" data-offcanvas="">
-<svg height="28" viewbox="0 0 512 512" width="28" xmlns="http://www.w3.org/2000/svg">
-<path d="M368 368L144 144M368 144L144 368" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
-</svg>
-</button>
-</div>
-</body>
-</html>
+      });
+    </script>
+    <!-- Search Overlay -->
+    <div class="predictive__search--box">
+    <div class="predictive__search--box__inner">
+    <h2 class="predictive__search--title">Search Products</h2>
+    <form action="shop.html" class="predictive__search--form" method="get" role="search">
+    <label for="Search">
+    <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search"/>
+    </label>
+    <button aria-label="search button" class="predictive__search--button text-white">
+    <svg fill="none" height="20" viewbox="0 0 17 17" width="20" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+    </button>
+    </form>
+    </div>
+    <button aria-label="close search" class="predictive__search--close__btn" data-offcanvas="">
+    <svg height="28" viewbox="0 0 512 512" width="28" xmlns="http://www.w3.org/2000/svg">
+    <path d="M368 368L144 144M368 144L144 368" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+    </svg>
+    </button>
+    </div>
+    
+    </main>
+    <footer class="footer__section footer__bg">
+            <div class="main__footer section--padding">
+                <div
+                    class="footer__layout">
+                    <!-- Col 1: About -->
+                    <div class="footer__col--wide">
+                        <div class="footer__widget">
+                            <div class="footer__logo">
+                                <a class="footer__logo--link" href="index.html">
+                                    <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp" style="height:70px; width:auto; object-fit:contain; filter:brightness(1.1);"/>
+                                </a>
+                            </div>
+                            <p class="footer__widget--desc">
+                                Contemporary fashion rooted in African heritage and crafted for the modern world. 
+                                                                                                                                  Every piece tells a story of culture, elegance, and bold identity.
+                            </p>
+                            <ul class="footer__widget--contact__list">
+                                <li class="footer__widget--contact__list--items">
+                                    <svg fill="none" height="16" stroke="currentColor" viewbox="0 0 24 24" width="16">
+                                        <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                    </svg>
+                                    United Kingdom
+                                </li>
+                                <li class="footer__widget--contact__list--items">
+                                    <svg fill="none" height="16" stroke="currentColor" viewbox="0 0 24 24" width="16">
+                                        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                    </svg>
+                                    <a href="mailto:hello@maryhumphreywear.com">hello@maryhumphreywear.com</a>
+                                </li>
+                            </ul>
+                            <!-- Social Media -->
+                            <ul class="footer__widget--social__list">
+                                <li class="footer__widget--social__list--items">
+                                    <a aria-label="Instagram" class="footer__widget--social__list--link" href="#" target="_blank">
+                                        <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="footer__widget--social__list--items">
+                                    <a aria-label="Facebook" class="footer__widget--social__list--link" href="#" target="_blank">
+                                        <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="footer__widget--social__list--items">
+                                    <a aria-label="TikTok" class="footer__widget--social__list--link" href="#" target="_blank">
+                                        <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.26 8.26 0 004.84 1.56V6.79a4.85 4.85 0 01-1.07-.1z"></path>
+                                        </svg>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Col 2: Our Collection -->
+                    <div class="footer__col--narrow">
+                        <div class="footer__widget">
+                            <h2 class="footer__widget--title">
+                                Our Collection
+                                <button aria-label="toggle" class="footer__widget--button"></button>
+                                <svg class="footer__widget--title__arrowdown--icon" height="8" viewbox="0 0 10.355 6.394" width="12" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" fill="currentColor" transform="translate(-6 -8.59)"></path>
+                                </svg>
+                            </h2>
+                            <ul class="footer__widget--menu footer__widget--inner">
+                                <li class="footer__widget--menu__list">
+                                    <a class="footer__widget--menu__text" href="shop.html">All Products</a>
+                                </li>
+                                <li class="footer__widget--menu__list">
+                                    <a class="footer__widget--menu__text" href="/shop?cat=menswear">Men's Ankara Dungaree</a>
+                                </li>
+                                <li class="footer__widget--menu__list">
+                                    <a class="footer__widget--menu__text" href="/shop?cat=sets">Ankara Street Luxe Set</a>
+                                </li>
+                                <li class="footer__widget--menu__list">
+                                    <a class="footer__widget--menu__text" href="/shop?cat=home">African Luxe Throw</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Col 3: Quick Links -->
+                    <div class="footer__col--narrow">
+                        <div class="footer__widget">
+                            <h2 class="footer__widget--title">
+                                Quick Links
+                                <button aria-label="toggle" class="footer__widget--button"></button>
+                                <svg class="footer__widget--title__arrowdown--icon" height="8" viewbox="0 0 10.355 6.394" width="12" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" fill="currentColor" transform="translate(-6 -8.59)"></path>
+                                </svg>
+                            </h2>
+                            <ul class="footer__widget--menu footer__widget--inner">
+                                <li class="footer__widget--menu__list">
+                                    <a class="footer__widget--menu__text" href="index.html">Home</a>
+                                </li>
+                                <li class="footer__widget--menu__list">
+                                    <a class="footer__widget--menu__text" href="about.html">Our Story</a>
+                                </li>
+                                <li class="footer__widget--menu__list">
+                                    <a class="footer__widget--menu__text" href="contact.html">Contact Us</a>
+                                </li>
+                                <li class="footer__widget--menu__list">
+                                    <a class="footer__widget--menu__text" href="/faq">FAQ</a>
+                                </li>
+                                <li class="footer__widget--menu__list">
+                                    <a class="footer__widget--menu__text" href="/privacy">Privacy Policy</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Col 4: Newsletter -->
+                    <div class="footer__col--wide">
+                        <div class="footer__widget">
+                            <h2 class="footer__widget--title">Join Our World</h2>
+                            <p class="footer__widget--desc">
+                                Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.
+                            </p>
+                            <form action="#" class="footer__newsletter--form" id="newsletter-form" method="POST" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                                <label for="newsletter-email">
+                                    <input class="footer__newsletter--input" id="newsletter-email" name="email" placeholder="Enter your email address" required="" type="email"/>
+                                </label>
+                                <button class="footer__newsletter--btn primary__btn" type="submit">Subscribe</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.footer__wrapper -->
+            </div>
+            <!-- /.main__footer -->
+            <!-- Footer Bottom Bar -->
+            <div class="footer__bottom">
+                <div class="footer__bottom--inner-wrap">
+                    <div class="footer__bottom--inner">
+                        <p class="copyright__content">
+                            <span class="text__secondary">© 2026</span>
+    
+                            <a class="copyright__content--link" href="index.html">Mary Humphrey Wear</a>.
+                                                                                                            All Rights Reserved.
+                        </p>
+                        <div class="footer__payment">
+                            <span class="footer__payment--label">Visa   Mastercard   PayPal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+    </html>

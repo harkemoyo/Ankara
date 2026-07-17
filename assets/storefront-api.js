@@ -26,6 +26,11 @@ async function loadShopProducts() {
     // Build query
     let query = supabase.from('products').select('*').eq('in_stock', true);
 
+    // Apply sale filter if on sale page
+    if (window.location.pathname.includes('/sale')) {
+        query = query.not('compare_at_price', 'is', null);
+    }
+
     // Apply search filter
     if (filterState.search) {
         query = query.or(`title.ilike.%${filterState.search}%,description.ilike.%${filterState.search}%`);

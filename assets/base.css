@@ -101,11 +101,18 @@ body {
   width: 100%;
   max-width: var(--page-width);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  padding-block: var(--space-2);
+  padding-inline: var(--space-2);
 }
-
+@media (min-width: 992px){
+  .header__topbar--inner {
+    flex-direction: row;
+  }
+}
 .main__header {
   display: flex;
   justify-content: center;
@@ -16297,9 +16304,7 @@ body.body .header__section {
 .header__topbar--inner {
     min-height: 40px;
 }
-.topbar-left-spacer {
-    width: 80px;
-}
+
 #announcement-text {
     flex: 1;
     transition: opacity 0.5s ease;

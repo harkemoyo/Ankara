@@ -1,20 +1,20 @@
-<!-- views/contact.ejs -->
+<!-- views/shop.ejs -->
 <!DOCTYPE html>
 
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
         <meta content="width=device-width,initial-scale=1" name="viewport"/>
-        <title>Contact – Mary Humphrey Wear</title>
+        <title>Sale – Mary Humphrey Wear</title>
         <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
         <meta content="#3C3836" name="theme-color"/>
         <link href="https://fonts.googleapis.com" rel="preconnect"/>
         <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-        <link href="assets/base.css" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&amp;family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&amp;family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;display=swap" rel="stylesheet"/>
         <link href="assets/swiper-bundle.min.css" rel="stylesheet"/>
         <link href="assets/glightbox.min.css" rel="stylesheet"/>
+        <link href="assets/base.css" rel="stylesheet"/>
         <link href="assets/normalize.css" rel="stylesheet"/>
-        <link href="assets/contact.css" rel="stylesheet"/>
         <style>:root
         {
             --primary-color: #422326;
@@ -33,25 +33,52 @@
 
 
         }
-        body {
-            font-family: var(--font-body);
-            color: var(--foreground-color);
-            background-color: var(--body-background-color);
+        /* Breadcrumb Custom CSS */
+        .breadcrumb__section {
+            padding: 6rem 0;
+            background: var(--bg-offwhite-color);
+            border-bottom: 1px solid var(--border-color);
         }
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
+        .breadcrumb__title {
             font-family: var(--font-heading);
+            font-size: 3.5rem;
             color: var(--primary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .breadcrumb__list {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .breadcrumb__link {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .breadcrumb__link:hover {
+            color: var(--secondary-color);
+        }
+        .breadcrumb__link--icon {
+            font-size: 1.3rem;
+            color: var(--foreground-sub-color);
+        }
+        .breadcrumb__item--current .breadcrumb__link {
+            color: var(--secondary-color);
+            pointer-events: none;
         }
     </style>
+    <link href="assets/filter.css" rel="stylesheet"/>
     <script defer="" src="assets/popper.js"></script>
-    <script defer="" src="assets/bootstrap.min.js"></script>
+    <script defer="" src="assets/swiper-bundle.min.js"></script>
+    <script defer="" src="assets/glightbox.min.js"></script>
     <script defer="" src="assets/cart.js"></script>
     <script defer="" src="assets/global.js"></script>
+    <link href="assets/filter.css" rel="stylesheet"/>
+    <script defer="" src="assets/filter.js"></script>
     <script defer="" src="assets/js/components/core.js" type="module"></script>
     <script defer src="assets/supabase-client.js" type="module"></script>
 </head>
@@ -105,7 +132,7 @@
                     <div class="main__logo">
                         <h1 class="main__logo--title">
                             <a class="main__logo--link" href="index.html">
-                                <img alt="Mary Humphrey African Wear" class="main__logo--img contact-header-logo" src="assets/IMG-20260622-WA0082.webp"/>
+                                <img alt="Mary Humphrey African Wear" class="main__logo--img" src="assets/IMG-20260622-WA0082.webp" style="height:60px; width:auto; object-fit:contain;"/>
                             </a>
                         </h1>
                     </div>
@@ -116,14 +143,14 @@
                                 <li class="header__menu--items">
                                     <a class="header__menu--link" href="index.html">Home</a>
                                 </li>
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link" href="shop.html">Shop</a>
+                                <li class="header__menu--items active-page">
+                                    <a class="header__menu--link active" href="shop.html">Shop</a>
                                 </li>
                                 <li class="header__menu--items">
                                     <a class="header__menu--link" href="about.html">Our Story</a>
                                 </li>
-                                <li class="header__menu--items active-page">
-                                    <a class="header__menu--link active" href="contact.html">Contact</a>
+                                <li class="header__menu--items">
+                                    <a class="header__menu--link" href="contact.html">Contact</a>
                                 </li>
                             </ul>
                         </nav>
@@ -178,7 +205,7 @@
                 <!-- Offcanvas Logo -->
                 <div class="offcanvas__logo">
                     <a class="offcanvas__logo--link" href="index.html">
-                        <img alt="Mary Humphrey African Wear" class="contact-offcanvas-logo" src="assets/IMG-20260622-WA0082.webp"/>
+                        <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp" style="height:50px; width:auto; object-fit:contain;"/>
                     </a>
                     <button aria-label="close menu" class="offcanvas__close--btn" data-offcanvas="">✕</button>
                 </div>
@@ -210,34 +237,34 @@
             </div>
         </div>
         <!-- ── Mini Cart Drawer ───────────────────────── -->
-        <div class="offCanvas__minicart js-cart-form">
+        <div class="offCanvas__minicart js-cart-form" style="display: flex; flex-direction: column;">
             <div class="minicart__header">
-                <div class="minicart__header--top">
-                    <h3 class="minicart__title">Cart</h3>
-                    <button aria-label="close cart" class="minicart__close--btn" data-offcanvas="" type="button">×</button>
+                <div class="minicart__header--top" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem;">
+                    <h3 class="minicart__title" style="font-family: var(--font-body); font-size: 2.4rem; color: var(--primary-color); font-weight: 500;">Cart</h3>
+                    <button aria-label="close cart" class="minicart__close--btn" data-offcanvas="" style="background: none; border: none; font-size: 2.4rem; cursor: pointer; color: var(--primary-color); line-height: 1;" type="button">×</button>
                 </div>
             </div>
             <div class="minicart__empty--text">
                 <p>Your bag is empty.</p>
                 <a class="primary__btn" href="shop.html">Continue Shopping</a>
             </div>
-            <div class="minicart__product" id="minicart-items-list"></div>
-            <div class="minicart__amount">
-                <div class="cart__note">
-                    <h4>Order Note</h4>
-                    <textarea class="cart__note--input" placeholder=""></textarea>
+            <div class="minicart__product" id="minicart-items-list" style="flex: 1; overflow-y: auto; padding-right: 1rem;"></div>
+            <div class="minicart__amount" style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
+                <div class="cart__note" style="margin-bottom: 2rem;">
+                    <h4 style="font-family: var(--font-body); font-size: 1.3rem; font-weight: 600; color: var(--primary-color); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.2em;">Order Note</h4>
+                    <textarea class="cart__note--input" placeholder="" style="width: 100%; height: 80px; padding: 1rem; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 1.3rem; color: var(--primary-color); resize: vertical; outline: none;"></textarea>
                 </div>
-                <div class="minicart__amount_list">
-                    <span>Subtotal</span>
-                    <span id="minicart-subtotal">
+                <div class="minicart__amount_list" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <span style="font-family: var(--font-body); font-size: 1.3rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;">Subtotal</span>
+                    <span id="minicart-subtotal" style="font-size: 1.6rem; font-weight: 700; color: var(--primary-color);">
                         <b>KSh0.00</b>
                     </span>
                 </div>
-                <p>Shipping, taxes, and discount codes calculated at checkout.</p>
+                <p style="font-size: 1.2rem; color: var(--foreground-sub-color); text-align: center; margin-bottom: 2rem; line-height: 1.6;">Shipping, taxes, and discount codes calculated at checkout.</p>
             </div>
-            <div class="minicart__button">
-                <a class="minicart__button--link" href="cart.html">View Cart</a>
-                <a class="minicart__button--link checkout__btn" href="javascript:void(0)" onclick="triggerCheckout()">Check Out</a>
+            <div class="minicart__button" style="padding-bottom: 2rem; display: flex; gap: 1rem;">
+                <a class="minicart__button--link" href="cart.html" style="display: block; flex: 1; padding: 1.6rem; background: #fff; color: var(--primary-color); font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--border-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">View Cart</a>
+                <a class="minicart__button--link" href="javascript:void(0)" onclick="triggerCheckout()" style="display: block; flex: 1; padding: 1.6rem; background: var(--bg-black-color); color: #fff; font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border: 2px solid var(--bg-black-color); cursor: pointer; transition: all 0.3s ease; font-weight: 600;">Check Out</a>
             </div>
         </div>
         <!-- ── Search Overlay ─────────────────────────── -->
@@ -311,101 +338,272 @@
     </header>
     <main
         class="site__main">
-        <!-- Hero -->
-        <section class="contact__hero">
-            <h1>Get In Touch</h1>
-            <p>We'd love to hear from you. Whether you have a question about our products, an order, or just want to say hello — we're here.</p>
+        <!-- Breadcrumb -->
+        <section class="breadcrumb__section">
+            <h1 class="breadcrumb__title">Shop All</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html" style="color:var(--secondary-color);">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">Shop</li>
+                </ol>
+            </nav>
         </section>
-        <!-- Contact Section -->
-        <section class="contact__section">
+        <!-- Products Grid -->
+        <div class="shop__section section--padding pt-0">
             <div class="page-width">
                 <div
                     class="row">
-                    <!-- Contact Form -->
-                    <div class="col-lg-7 col-12 mb-4">
-                        <div class="contact__form--wrapper">
-                            <h2 class="contact__form--title">Send Us a Message</h2>
-                            <form action="#" id="contact-form" method="POST" onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent successfully.'); this.reset();">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="contact-name">Full Name</label>
-                                            <input id="contact-name" name="name" placeholder="Your full name" required="" type="text"/>
+                    <!-- Offcanvas Filter Overlay -->
+                    <div class="filter-offcanvas" id="filter-offcanvas">
+                        <div class="filter-offcanvas__header flex-between align-items-center">
+                            <h2 class="filter-offcanvas__title">Filter</h2>
+                            <button aria-label="Close Filter" class="filter-offcanvas__close" onclick="toggleFilter()">✕</button>
+                        </div>
+                        <div class="filter-offcanvas__body shop__sidebar--widget widget__area" data-section="collection-filters">
+                            <div class="single__widget widget__bg">
+                                <h2 class="widget__title h3">Categories</h2>
+                                <ul
+                                    class="widget__categories--menu" id="sidebar-categories"><!-- Dynamic collections will load here -->
+                                </ul>
+                            </div>
+                            <div class="single__widget widget__bg">
+                                <h2 class="widget__title h3">Filter By Size</h2>
+                                <ul class="widget__form--check">
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="size-S">S
+                                            <span class="facet-count" data-facet="sizes" data-value="S"></span>
+                                        </label>
+                                        <input class="widget__form--check__input size-filter" data-filter-name="sizes" id="size-S" type="checkbox" value="S"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="size-M">M
+                                            <span class="facet-count" data-facet="sizes" data-value="M"></span>
+                                        </label>
+                                        <input class="widget__form--check__input size-filter" data-filter-name="sizes" id="size-M" type="checkbox" value="M"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="size-L">L
+                                            <span class="facet-count" data-facet="sizes" data-value="L"></span>
+                                        </label>
+                                        <input class="widget__form--check__input size-filter" data-filter-name="sizes" id="size-L" type="checkbox" value="L"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="size-XL">XL
+                                            <span class="facet-count" data-facet="sizes" data-value="XL"></span>
+                                        </label>
+                                        <input class="widget__form--check__input size-filter" data-filter-name="sizes" id="size-XL" type="checkbox" value="XL"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="size-2X">2X
+                                            <span class="facet-count" data-facet="sizes" data-value="2X"></span>
+                                        </label>
+                                        <input class="widget__form--check__input size-filter" data-filter-name="sizes" id="size-2X" type="checkbox" value="2X"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="single__widget widget__bg">
+                                <h2 class="widget__title h3">Filter By Color</h2>
+                                <ul class="widget__form--check">
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="color-Red">Red Print
+                                            <span class="facet-count" data-facet="colors" data-value="Red Print"></span>
+                                        </label>
+                                        <input class="widget__form--check__input color-filter" data-filter-name="colors" id="color-Red" type="checkbox" value="Red Print"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="color-Blue">Blue Print
+                                            <span class="facet-count" data-facet="colors" data-value="Blue Print"></span>
+                                        </label>
+                                        <input class="widget__form--check__input color-filter" data-filter-name="colors" id="color-Blue" type="checkbox" value="Blue Print"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="color-Green">Green Print
+                                            <span class="facet-count" data-facet="colors" data-value="Green Print"></span>
+                                        </label>
+                                        <input class="widget__form--check__input color-filter" data-filter-name="colors" id="color-Green" type="checkbox" value="Green Print"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="color-Orange">Orange Print
+                                            <span class="facet-count" data-facet="colors" data-value="Orange Print"></span>
+                                        </label>
+                                        <input class="widget__form--check__input color-filter" data-filter-name="colors" id="color-Orange" type="checkbox" value="Orange Print"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="color-Gold">Gold Kente
+                                            <span class="facet-count" data-facet="colors" data-value="Gold Kente"></span>
+                                        </label>
+                                        <input class="widget__form--check__input color-filter" data-filter-name="colors" id="color-Gold" type="checkbox" value="Gold Kente"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="single__widget widget__bg">
+                                <h2 class="widget__title h3">Availability</h2>
+                                <ul class="widget__form--check">
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="avail-in">In Stock
+                                            <span class="facet-count" data-facet="availability" data-value="in_stock"></span>
+                                        </label>
+                                        <input class="widget__form--check__input avail-filter" data-filter-name="availability" id="avail-in" type="checkbox" value="in_stock"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="avail-out">Out of Stock
+                                            <span class="facet-count" data-facet="availability" data-value="out_of_stock"></span>
+                                        </label>
+                                        <input class="widget__form--check__input avail-filter" data-filter-name="availability" id="avail-out" type="checkbox" value="out_of_stock"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="single__widget widget__bg">
+                                <h2 class="widget__title h3">Vendor</h2>
+                                <ul class="widget__form--check">
+                                    <li class="widget__form--check__list">
+                                        <label class="widget__form--check__label" for="vendor-mary">Mary Humphrey African Wear
+                                            <span class="facet-count" data-facet="vendor" data-value="Mary Humphrey African Wear"></span>
+                                        </label>
+                                        <input class="widget__form--check__input vendor-filter" data-filter-name="vendor" id="vendor-mary" type="checkbox" value="Mary Humphrey African Wear"/>
+                                        <span class="widget__form--checkmark"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="single__widget price__filter widget__bg">
+                                <h2 class="widget__title h3">Filter By Price</h2>
+                                <form action="#" class="price__filter--form">
+                                    <div class="price__filter--form__inner mb-15 d-flex align-items-center">
+                                        <div class="price__filter--group">
+                                            <label class="price__filter--label" for="Filter-Price-GTE2">From</label>
+                                            <div class="price__filter--input border-radius-5 d-flex align-items-center">
+                                                <span class="price__filter--currency">£</span>
+                                                <input class="price__filter--input__field border-0" id="Filter-Price-GTE2" max="250.00" min="0" name="priceGte" placeholder="0" type="number"/>
+                                            </div>
+                                        </div>
+                                        <div class="price__divider">
+                                            <span>-</span>
+                                        </div>
+                                        <div class="price__filter--group">
+                                            <label class="price__filter--label" for="Filter-Price-LTE2">To</label>
+                                            <div class="price__filter--input border-radius-5 d-flex align-items-center">
+                                                <span class="price__filter--currency">£</span>
+                                                <input class="price__filter--input__field border-0" id="Filter-Price-LTE2" max="250.00" min="0" name="priceLte" placeholder="250.00" type="number"/>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="contact-email">Email Address</label>
-                                            <input id="contact-email" name="email" placeholder="your@email.com" required="" type="email"/>
+                                    <button class="primary__btn price__filter--btn" type="submit">Filter</button>
+                                </form>
+                            </div>
+                            <div class="single__widget widget__bg">
+                                <h2 class="widget__title h3">Featured Products</h2>
+                                <div class="shop__sidebar--product">
+                                    <div class="small__product--card d-flex">
+                                        <div class="small__product--thumbnail">
+                                            <a class="display-block" href="product.html?handle=ankara-print-dress"><img alt="Ankara Print Dress" src="assets/IMG-20260622-WA0081.webp"/></a>
+                                        </div>
+                                        <div class="small__product--content">
+                                            <h3 class="small__product--card__title">
+                                                <a href="product.html?handle=ankara-print-dress">Ankara Print Dress</a>
+                                            </h3>
+                                            <div class="small__product--card__price mb_5">
+                                                <span class="current__price">£85.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="small__product--card d-flex">
+                                        <div class="small__product--thumbnail">
+                                            <a class="display-block" href="product.html?handle=traditional-kente-skirt"><img alt="Traditional Kente Skirt" src="assets/IMG-20260622-WA0011.webp"/></a>
+                                        </div>
+                                        <div class="small__product--content">
+                                            <h3 class="small__product--card__title">
+                                                <a href="product.html?handle=traditional-kente-skirt">Traditional Kente Skirt</a>
+                                            </h3>
+                                            <div class="small__product--card__price mb_5">
+                                                <span class="current__price">£120.00</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="contact-subject">Subject</label>
-                                    <input id="contact-subject" name="subject" placeholder="What is your message about?" type="text"/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="contact-message">Message</label>
-                                    <textarea id="contact-message" name="message" placeholder="Write your message here..." required=""></textarea>
-                                </div>
-                                <button class="contact__submit--btn" type="submit">Send Message</button>
-                            </form>
+                            </div>
                         </div>
                     </div>
-                    <!-- Contact Info -->
-                    <div class="col-lg-5 col-12">
-                        <div class="contact__info--card">
-                            <div class="contact__info--icon">
-                                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                                    <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
+                    <div class="collection_wrapper">
+                        <div class="shop__product--wrapper position__sticky">
+                            <div class="shop__header">
+                                <div
+                                    class="shop__header--controls">
+                                    <!-- Left: Filter Button -->
+                                    <div class="product__view--mode">
+                                        <button class="widget__filter--btn" onclick="toggleFilter()">
+                                            <svg class="widget__filter--btn__icon-svg" height="20" viewbox="0 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M368 128h80M64 128h240M368 384h80M64 384h240M208 256h240M64 256h80" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+                                                <circle cx="336" cy="128" fill="none" r="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></circle>
+                                                <circle cx="176" cy="256" fill="none" r="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></circle>
+                                                <circle cx="336" cy="384" fill="none" r="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></circle>
+                                            </svg>
+                                            <span class="widget__filter--btn__text">Filters</span>
+                                        </button>
+                                    </div>
+                                    <!-- Right: Sort By Dropdown -->
+                                    <div class="product__view--mode__list product__short--by">
+                                        <div class="select shop__header--select">
+                                            <select class="product__view--select" id="sort-select">
+                                                <option selected="" value="">Sort by</option>
+                                                <option value="newest">Sort by latest</option>
+                                                <option value="price_asc">Sort by price: low to high</option>
+                                                <option value="price_desc">Sort by price: high to low</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Center: Product Count -->
+                                <div class="product__count text-center">
+                                    <span style="font-size: 1.5rem; color: var(--foreground-sub-color);">89 products</span>
+                                </div>
                             </div>
-                            <h3 class="contact__info--title">Email Us</h3>
-                            <p class="contact__info--text">
-                                <a href="mailto:[EMAIL_ADDRESS]">[EMAIL_ADDRESS]</a>
-                            </p>
-                        </div>
-                        <div class="contact__info--card">
-                            <div class="contact__info--icon">
-                                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                                    <path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
+                            <div class="tab_content">
+                                <div id="collection-tabs" style="padding:16px 0 12px;display:flex;flex-wrap:wrap;"></div>
+                                <div class="tab_pane active show" id="product_grid">
+                                    <div class="product__section--inner">
+                                        <div class="product-grid" data-section="product-grid"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <h3 class="contact__info--title">Response Time</h3>
-                            <p class="contact__info--text">We aim to respond to all enquiries within 24–48 hours, Monday to Friday.</p>
-                        </div>
-                        <div class="contact__info--card">
-                            <div class="contact__info--icon">
-                                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                                    <path d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
+                            <div
+                                class="pagination__area" id="pagination-container"><!-- Pagination generated dynamically by ProductGrid.js -->
                             </div>
-                            <h3 class="contact__info--title">Follow Us</h3>
-                            <p class="contact__info--text">
-                                Stay connected on Instagram and TikTok for the latest collections, behind-the-scenes and styling inspiration.
-                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
         <!-- views/partials/footer.ejs -->
     </main>
     <footer class="footer__section footer__bg">
-        <div class="main__footer section--padding page-width">
+        <div class="main__footer section--padding">
             <div
-                class="row">
+                class="footer__layout">
                 <!-- Col 1: About -->
-                <div class="col-lg-4 col-md-12 col-12">
+                <div class="footer__col--wide">
                     <div class="footer__widget">
                         <div class="footer__logo">
                             <a class="footer__logo--link" href="index.html">
-                                <img alt="Mary Humphrey African Wear" class="contact-footer-logo" src="assets/IMG-20260622-WA0082.webp"/>
+                                <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp" style="height:70px; width:auto; object-fit:contain; filter:brightness(1.1);"/>
                             </a>
                         </div>
                         <p class="footer__widget--desc">
                             Contemporary fashion rooted in African heritage and crafted for the modern world. 
-                                          Every piece tells a story of culture, elegance, and bold identity.
+                                                                                                                              Every piece tells a story of culture, elegance, and bold identity.
                         </p>
                         <ul class="footer__widget--contact__list">
                             <li class="footer__widget--contact__list--items">
@@ -423,7 +621,7 @@
                             </li>
                         </ul>
                         <!-- Social Media -->
-                        <ul class="footer__widget--social__list d-flex">
+                        <ul class="footer__widget--social__list">
                             <li class="footer__widget--social__list--items">
                                 <a aria-label="Instagram" class="footer__widget--social__list--link" href="#" target="_blank">
                                     <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
@@ -449,7 +647,7 @@
                     </div>
                 </div>
                 <!-- Col 2: Our Collection -->
-                <div class="col-lg-2 col-md-4 col-6">
+                <div class="footer__col--narrow">
                     <div class="footer__widget">
                         <h2 class="footer__widget--title">
                             Our Collection
@@ -475,7 +673,7 @@
                     </div>
                 </div>
                 <!-- Col 3: Quick Links -->
-                <div class="col-lg-2 col-md-4 col-6">
+                <div class="footer__col--narrow">
                     <div class="footer__widget">
                         <h2 class="footer__widget--title">
                             Quick Links
@@ -504,7 +702,7 @@
                     </div>
                 </div>
                 <!-- Col 4: Newsletter -->
-                <div class="col-lg-4 col-md-12 col-12">
+                <div class="footer__col--wide">
                     <div class="footer__widget">
                         <h2 class="footer__widget--title">Join Our World</h2>
                         <p class="footer__widget--desc">
@@ -519,27 +717,118 @@
                     </div>
                 </div>
             </div>
-            <!-- /.row -->
+            <!-- /.footer__wrapper -->
         </div>
         <!-- /.main__footer -->
-    </div>
-    <!-- /.container -->
-    <!-- Footer Bottom Bar -->
-    <div class="footer__bottom">
-        <div class="page-width">
-            <div class="footer__bottom--inenr flex-between align-items-center">
-                <p class="copyright__content">
-                    <span class="text__secondary">© 2026</span>
+        <!-- Footer Bottom Bar -->
+        <div class="footer__bottom">
+            <div class="footer__bottom--inner-wrap">
+                <div class="footer__bottom--inner">
+                    <p class="copyright__content">
+                        <span class="text__secondary">© 2026</span>
 
-                    <a class="copyright__content--link" href="index.html">Mary Humphrey Wear</a>.
-                                  All Rights Reserved.
-                </p>
-                <div
-                    class="footer__payment">
-                    <!-- Payment icons placeholder -->
-                    <span class="contact-payment-text">Visa   Mastercard   PayPal</span>
+                        <a class="copyright__content--link" href="index.html">Mary Humphrey Wear</a>.
+                                                                                                        All Rights Reserved.
+                    </p>
+                    <div class="footer__payment">
+                        <span class="footer__payment--label">Visa   Mastercard   PayPal</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</body></html></footer></body></html>
+    </footer>
+    <div class="filter-backdrop" id="filter-backdrop" onclick="toggleFilter()"></div>
+</body></html><style>
+/* Clean Card Styles for Shop Grid */
+.clean-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: none;
+    box-shadow: none;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.clean-card-thumbnail {
+    position: relative;
+    background: #f4f4f4;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.clean-card-thumbnail img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.clean-card:hover .clean-card-thumbnail img {
+    transform: scale(1.03);
+}
+
+.clean-card-add {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #000;
+    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+    z-index: 2;
+}
+
+.clean-card-add:hover {
+    background: #000;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.clean-card-content {
+    padding: 12px 0 0;
+    text-align: center;
+}
+
+.clean-card-title {
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    line-height: 1.2;
+}
+
+.clean-card-title a {
+    color: #000;
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.clean-card-price {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #555;
+}
+
+@media(max-width: 575px) {
+    .custom-col {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    .clean-card-title {
+        font-size: 1.2rem;
+    }
+    .clean-card-price {
+        font-size: 1.1rem;
+    }
+}</style>

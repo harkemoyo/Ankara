@@ -158,8 +158,9 @@ body {
 /* ── Footer ── */
 .footer__layout {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-6);
+  gap: 2rem;
+  padding-block: 1.5rem;
+  padding-inline: 1.5rem;
 }
 @media only screen and (min-width: 768px) {
   .footer__layout {
@@ -3203,13 +3204,15 @@ input[type=number]::-webkit-outer-spin-button {
 
 
 .site__main {
-  max-width: 1400px;
-  margin: 0 auto;
+  display: grid;
+  gap: 2rem;
   padding-block: 1.5rem;
   padding-inline: 1.5rem;
 }
 
 .site__main>* {
+  min-width: 0;
+  box-sizing: border-box;
   margin-bottom: 1.5rem;
 }
 

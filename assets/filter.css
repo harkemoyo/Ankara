@@ -9497,9 +9497,11 @@ li[data-address] > h2 {
 }
 
 .product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  gap: var(--space-4);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    padding-block: 1.5rem;
+    padding-inline: 1.5rem;
 }
 
 .product-card {

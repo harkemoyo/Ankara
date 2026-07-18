@@ -332,7 +332,7 @@
         <div class="header__topbar--inner d-flex justify-content-between align-items-center">
             <div class="topbar-left-spacer"></div>
             <p class="header__info--text text-white m-0 text-center" id="announcement-text">
-                ✨ FREE SHIPPING ON ALL UK ORDERS &nbsp;|&nbsp; Celebrating African Heritage Through Fashion
+                
             </p>
             <div class="header__topbar--currency">
                 <select class="currency-switcher" onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
@@ -578,12 +578,12 @@ style="background: var(--bg); padding: 4rem 0;">
             <label class="shipping-option" id="ship-standard">
                 <input checked="" name="shipping" type="radio" value="standard"/>
                 <span class="ship-label">Standard Delivery (3–5 days)</span>
-                <span class="ship-price" id="ship-standard-price">£5.99</span>
+                <span class="ship-price" id="ship-standard-price">—</span>
             </label>
             <label class="shipping-option">
                 <input disabled="" id="ship-free-radio" name="shipping" type="radio" value="free"/>
                 <span class="ship-label">Free Delivery
-                    <small style="color:#27ae60;">(orders over £80)</small>
+                    <small style="color:#27ae60;">(qualifies for free delivery)</small>
                 </span>
                 <span class="ship-price">FREE</span>
             </label>
@@ -607,16 +607,16 @@ style="background: var(--bg); padding: 4rem 0;">
         <hr class="summary-divider"/>
         <div class="summary-row">
             <span>Subtotal</span>
-            <span id="sum-subtotal">£0.00</span>
+            <span id="sum-subtotal">—</span>
         </div>
         <div class="summary-row">
             <span>Shipping</span>
-            <span id="sum-shipping">£5.99</span>
+            <span id="sum-shipping">—</span>
         </div>
         <hr class="summary-divider"/>
         <div class="summary-row total">
             <span>Total</span>
-            <span id="sum-total">£0.00</span>
+            <span id="sum-total">—</span>
         </div>
     </aside>
 </div>

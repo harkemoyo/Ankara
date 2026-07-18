@@ -59,9 +59,7 @@
             <div class="header__topbar bg__primary">
             <div class="header__topbar--inner d-flex justify-content-between align-items-center">
                 <div class="topbar-left-spacer"></div>
-                <p class="header__info--text text-white m-0 text-center" id="announcement-text">
-                    ✨ FREE SHIPPING ON ALL UK ORDERS &nbsp;|&nbsp; Celebrating African Heritage Through Fashion
-                </p>
+                <p class="header__info--text text-white m-0 text-center" id="announcement-text"></p>
                 <div class="header__topbar--currency">
                     <select class="currency-switcher" onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
                         <option value="KES" style="color: black;">KES</option>
@@ -189,7 +187,7 @@
                             <h3 class="cart-summary__title">Order Summary</h3>
                             <div class="cart-summary__row">
                                 <span>Subtotal</span>
-                                <span id="cart-subtotal-val">£0.00</span>
+                                <span id="cart-subtotal-val">—</span>
                             </div>
                             <div class="cart-summary__row">
                                 <span>Shipping</span>
@@ -197,10 +195,10 @@
                             </div>
                             <div class="cart-summary__row cart-summary__total">
                                 <span>Grand Total</span>
-                                <span id="cart-grandtotal-val">£0.00</span>
+                                <span id="cart-grandtotal-val">—</span>
                             </div>
                             <p style="font-size: 1.2rem; color: var(--foreground-sub-color); margin-top: 1rem; line-height: 1.5;">
-                                Taxes and shipping fees calculated at checkout. Free shipping applies to orders over £80.
+                                Free shipping applies to qualifying orders. Taxes calculated at checkout.
                             </p>
                             <a class="checkout-btn" href="checkout.html">Proceed to Checkout</a>
                         </div>

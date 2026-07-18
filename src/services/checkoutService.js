@@ -8,6 +8,17 @@ async function initializeCheckout(cart, customer) {
         throw new Error('Customer email and name are required');
     }
 
+    // Fetch live currency from settings (fallback to 'KES')
+    let orderCurrency = 'KES';
+    try {
+        const { data: settings } = await supabaseAdmin
+            .from('settings')
+            .select('currency')
+            .eq('id', 1)
+            .single();
+        if (settings?.currency) orderCurrency = settings.currency;
+    } catch (_) { /* use default */ }
+
     const subtotal     = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.qty), 0);
     const shippingCost = subtotal >= 80 ? 0 : 5.99;
     const total        = subtotal + shippingCost;
@@ -28,12 +39,12 @@ async function initializeCheckout(cart, customer) {
                 address2: customer.address2 || '',
                 city:     customer.city     || '',
                 postcode: customer.postcode || '',
-                country:  customer.country  || 'GB',
+                country:  customer.country  || 'KE',
             },
             subtotal,
             shipping_cost:    shippingCost,
             total,
-            currency:         '£',
+            currency:         orderCurrency,
             payment_provider: 'paystack',
             payment_ref:      null,
         })

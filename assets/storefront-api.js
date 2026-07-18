@@ -122,8 +122,8 @@ async function loadShopProducts() {
                     `).join('')}
                 </div>` : ''}
                 <div class="product__card--price clean-price" style="margin-top: 5px;">
-                    <span class="current__price">£${price}</span>
-                    ${comparePrice ? `<span class="old__price" style="text-decoration:line-through;color:#999;margin-left:8px;">£${comparePrice}</span>` : ''}
+                    <span class="current__price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : price}</span>
+                    ${comparePrice && product.compare_at_price ? `<span class="old__price" style="text-decoration:line-through;color:#999;margin-left:8px;">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.compare_at_price) : comparePrice}</span>` : ''}
                 </div>
             </div>
         </article>`;

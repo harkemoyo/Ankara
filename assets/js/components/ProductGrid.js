@@ -85,7 +85,7 @@ export default class ProductGrid {
         if (window.AnkaraCurrency) {
             return window.AnkaraCurrency.convertAndFormat(num);
         }
-        return `£${parseFloat(num).toFixed(2)}`;
+        return parseFloat(num).toFixed(2);
     }
 
     renderSkeleton() {

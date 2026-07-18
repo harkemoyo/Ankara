@@ -1,11 +1,11 @@
-const { supabaseAdmin } = require('../config/supabase');
+const { supabaseAnon } = require('../config/supabase');
 
 class ProductService {
     /**
      * Fetch products and compute facets dynamically based on filters.
      */
     async getProducts(filters = {}) {
-        let query = supabaseAdmin.from('products').select('*');
+        let query = supabaseAnon.from('products').select('*');
 
         // Fetch all products (we'll filter in memory for complex facet logic)
         // If collection is specified and not 'all', filter by it
@@ -147,13 +147,13 @@ class ProductService {
     }
 
     async getCollections() {
-        const { data, error } = await supabaseAdmin.from('collections').select('*').order('sort_order', { ascending: true });
+        const { data, error } = await supabaseAnon.from('collections').select('*').order('sort_order', { ascending: true });
         if (error) throw new Error(error.message);
         return data;
     }
 
     async getProductByHandle(handle) {
-        const { data, error } = await supabaseAdmin
+        const { data, error } = await supabaseAnon
             .from('products')
             .select('*')
             .eq('handle', handle)

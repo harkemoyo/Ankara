@@ -86,7 +86,10 @@ export default class QuickViewDrawer {
     }
 
     formatPrice(num) {
-        return `£${parseFloat(num).toFixed(2)}`;
+        if (window.AnkaraCurrency) {
+            return window.AnkaraCurrency.convertAndFormat(num);
+        }
+        return parseFloat(num).toFixed(2);
     }
 
     createEl(tag, classNames, attributes = {}, textContent = null) {

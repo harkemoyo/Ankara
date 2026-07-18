@@ -50,9 +50,14 @@ app.use('/api', apiRoutes);
 
 // ─── Start Server ─────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`✅ Ankara Store running at http://localhost:${PORT}`);
-    console.log(`   Supabase URL: ${process.env.SUPABASE_URL ? '✅ set' : '❌ NOT SET — check .env'}`);
-    console.log(`   Service Key:  ${process.env.SUPABASE_SERVICE_ROLE_KEY ? '✅ set' : '❌ NOT SET — orders will fail'}`);
-    console.log(`   Paystack Key: ${process.env.PAYSTACK_SECRET_KEY ? '✅ set' : '❌ NOT SET — checkout will fail'}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`✅ Ankara Store running at http://localhost:${PORT}`);
+        console.log(`   Supabase URL: ${process.env.SUPABASE_URL ? '✅ set' : '❌ NOT SET — check .env'}`);
+        console.log(`   Service Key:  ${process.env.SUPABASE_SERVICE_ROLE_KEY ? '✅ set' : '❌ NOT SET — orders will fail'}`);
+        console.log(`   Paystack Key: ${process.env.PAYSTACK_SECRET_KEY ? '✅ set' : '❌ NOT SET — checkout will fail'}`);
+    });
+}
+
+// Export for Vercel
+module.exports = app;

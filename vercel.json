@@ -1,15 +1,17 @@
 {
   "version": 2,
-  "cleanUrls": true,
   "builds": [
     {
       "src": "server.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["*.html", "assets/**"]
+      }
     }
   ],
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/(.*)",
       "destination": "/server.js"
     }
   ]

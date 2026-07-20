@@ -487,35 +487,32 @@
                     <div class="collection_wrapper">
                         <div class="shop__product--wrapper position__sticky">
                             <div class="shop__header">
-                                <div
-                                    class="shop__header--controls">
-                                    <!-- Left: Filter Button -->
-                                    <div class="product__view--mode">
-                                        <button class="widget__filter--btn" onclick="toggleFilter()">
-                                            <svg class="widget__filter--btn__icon-svg" height="20" viewbox="0 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M368 128h80M64 128h240M368 384h80M64 384h240M208 256h240M64 256h80" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
-                                                <circle cx="336" cy="128" fill="none" r="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></circle>
-                                                <circle cx="176" cy="256" fill="none" r="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></circle>
-                                                <circle cx="336" cy="384" fill="none" r="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></circle>
-                                            </svg>
-                                            <span class="widget__filter--btn__text">Filters</span>
-                                        </button>
-                                    </div>
-                                    <!-- Right: Sort By Dropdown -->
-                                    <div class="product__view--mode__list product__short--by">
-                                        <div class="select shop__header--select">
-                                            <select class="product__view--select" id="sort-select">
-                                                <option selected="" value="">Sort by</option>
-                                                <option value="newest">Sort by latest</option>
-                                                <option value="price_asc">Sort by price: low to high</option>
-                                                <option value="price_desc">Sort by price: high to low</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                <!-- Left: Filter Button -->
+                                <div class="product__view--mode">
+                                    <button class="widget__filter--btn" onclick="toggleFilter()">
+                                        <svg class="widget__filter--btn__icon-svg" height="20" viewbox="0 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M368 128h80M64 128h240M368 384h80M64 384h240M208 256h240M64 256h80" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+                                            <circle cx="336" cy="128" fill="none" r="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></circle>
+                                            <circle cx="176" cy="256" fill="none" r="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></circle>
+                                            <circle cx="336" cy="384" fill="none" r="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></circle>
+                                        </svg>
+                                        <span class="widget__filter--btn__text">Filters</span>
+                                    </button>
                                 </div>
                                 <!-- Center: Product Count -->
                                 <div class="product__count text-center">
                                     <span style="font-size: 1.5rem; color: var(--foreground-sub-color);">89 products</span>
+                                </div>
+                                <!-- Right: Sort By Dropdown -->
+                                <div class="product__view--mode__list product__short--by">
+                                    <div class="select shop__header--select">
+                                        <select class="product__view--select" id="sort-select">
+                                            <option selected="" value="">Sort by</option>
+                                            <option value="newest">Sort by latest</option>
+                                            <option value="price_asc">Sort by price: low to high</option>
+                                            <option value="price_desc">Sort by price: high to low</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab_content">

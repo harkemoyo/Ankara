@@ -2477,14 +2477,6 @@ quantity icon button
   color: var(--text-white-color);
 }
 
-
-@media only screen and (min-width: 576px) {
-  .items__count {
-    left: 1.2rem;
-    top: -1.1rem;
-  }
-}
-
 /*
     main menu css here
 */
@@ -9837,52 +9829,52 @@ li[data-address]>h2 {
 
 /* ── Shop Header Alignment Fixes ── */
 .shop__header {
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: space-between !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
   align-items: center !important;
-  flex-wrap: wrap !important;
   gap: 2rem !important;
   padding: 1.5rem 2rem;
   border-radius: 0.5rem;
   background: var(--bg-offwhite-color);
 }
 
-.shop__header--controls {
+.product__view--mode {
   display: flex !important;
+  justify-content: flex-start !important;
   align-items: center !important;
-  gap: 2rem !important;
-  flex-wrap: wrap !important;
 }
 
-.product__view--mode,
 .product__view--mode__list {
   display: flex !important;
+  justify-content: flex-end !important;
   align-items: center !important;
 }
 
 .product__count {
   display: flex !important;
+  justify-content: center !important;
   align-items: center !important;
-  justify-content: center;
 }
 
 @media only screen and (max-width: 767px) {
   .shop__header {
-    flex-direction: column !important;
-    align-items: stretch !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
     gap: 1.5rem !important;
   }
-  .shop__header--controls {
-    justify-content: space-between !important;
-    width: 100% !important;
+  .product__view--mode {
+    justify-content: flex-start !important;
+  }
+  .product__view--mode__list {
+    justify-content: flex-end !important;
   }
   .product__count {
+    grid-column: 1 / span 2 !important;
     justify-content: center !important;
-    width: 100% !important;
-    margin-top: 0.5rem;
+    margin-top: 0.5rem !important;
   }
 }
+
 
 /* ── Premium Styling for Filter Button & Select Dropdown ── */
 .widget__filter--btn,
@@ -9933,4 +9925,3 @@ li[data-address]>h2 {
 .widget__filter--btn__text {
   margin-left: 0 !important;
 }
-

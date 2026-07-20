@@ -129,7 +129,6 @@ ul {
 
 .main__header--inner {
   width: 100%;
-  max-width: var(--page-width);
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -156,17 +156,20 @@ export default class ProductGrid {
         container.innerHTML = '';
         
         if (!this.state.pagination || this.state.pagination.totalPages <= 1) {
+            container.style.display = 'none';
             return;
         }
+        
+        container.style.display = 'block';
 
         const { page, totalPages } = this.state.pagination;
 
-        const nav = this.createEl('nav', 'pagination justify-content-center');
-        const ul = this.createEl('ul', 'pagination__wrapper d-flex align-items-center justify-content-center');
+        const nav = this.createEl('nav', 'pagination');
+        const ul = this.createEl('ul', 'pagination__wrapper');
 
         // Prev Arrow
         const liPrev = this.createEl('li', 'pagination__list');
-        const aPrev = this.createEl('button', `pagination__item--arrow link ${page <= 1 ? 'disabled' : ''}`);
+        const aPrev = this.createEl('button', `pagination__item pagination__item--arrow link ${page <= 1 ? 'disabled' : ''}`);
         aPrev.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg><span class="visually-hidden">page left arrow</span>`;
         if (page > 1) {
             aPrev.addEventListener('click', () => this.goToPage(page - 1));
@@ -194,7 +197,7 @@ export default class ProductGrid {
 
         // Next Arrow
         const liNext = this.createEl('li', 'pagination__list');
-        const aNext = this.createEl('button', `pagination__item--arrow link ${page >= totalPages ? 'disabled' : ''}`);
+        const aNext = this.createEl('button', `pagination__item pagination__item--arrow link ${page >= totalPages ? 'disabled' : ''}`);
         aNext.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M268 112l144 144-144 144M392 256H100"/></svg><span class="visually-hidden">page right arrow</span>`;
         if (page < totalPages) {
             aNext.addEventListener('click', () => this.goToPage(page + 1));

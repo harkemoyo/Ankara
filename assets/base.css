@@ -10130,6 +10130,20 @@ li[data-address]>h2 {
   border-radius: 5px;
 }
 
+.pagination {
+  display: block;
+  width: 100%;
+}
+
+.pagination__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 .pagination__list {
   margin-right: 0.8rem;
 }
@@ -10151,32 +10165,35 @@ li[data-address]>h2 {
 .pagination__item {
   width: 3.4rem;
   height: 3.4rem;
-  line-height: 3.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.5rem;
   font-weight: 600;
-  text-align: center;
   border-radius: 50%;
   border: 1px solid var(--border-color);
   background: var(--body-background-color);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  color: inherit;
 }
 
 @media only screen and (min-width: 768px) {
   .pagination__item {
     width: 4rem;
     height: 4rem;
-    line-height: 4.4rem;
     font-size: 1.6rem;
   }
-
 }
 
 .pagination__item--current {
-  background: var(--secondary-color);
-  border-color: var(--secondary-color);
-  color: var(--text-white-color);
+  background: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
+  color: var(--text-white-color) !important;
 }
 
-a.pagination__item:hover {
+.pagination__item:hover:not(:disabled) {
   background: var(--secondary-color);
   border-color: var(--secondary-color);
   color: var(--text-white-color);

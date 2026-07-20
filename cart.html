@@ -1,21 +1,25 @@
 ﻿<!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <meta content="width=device-width, initial-scale=1" name="viewport"/>
-        <title>Your Shopping Bag – Mary Humphrey Wear</title>
-        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-        <meta content="#3C3836" name="theme-color"/>
-        <link href="https://fonts.googleapis.com" rel="preconnect"/>
-        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-        <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&amp;family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;display=swap" rel="stylesheet"/>
-        <link href="assets/swiper-bundle.min.css" rel="stylesheet"/>
-        <link href="assets/glightbox.min.css" rel="stylesheet"/>
-        <link href="assets/base.css" rel="stylesheet"/>`n        <link href="assets/filter.css" rel="stylesheet"/>
-        <link href="assets/normalize.css" rel="stylesheet"/>
-        <style>:root
-        {
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Your Shopping Bag – Mary Humphrey Wear</title>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="#3C3836" name="theme-color" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&amp;family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="assets/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="assets/glightbox.min.css" rel="stylesheet" />
+    <link href="assets/base.css" rel="stylesheet" />`n
+    <link href="assets/filter.css" rel="stylesheet" />
+    <link href="assets/normalize.css" rel="stylesheet" />
+    <style>
+        :root {
             --primary-color: #422326;
             --secondary-color: #bcadae;
             --hover-color: #5c3539;
@@ -32,11 +36,13 @@
 
 
         }
+
         body {
             font-family: var(--font-body);
             color: var(--foreground-color);
             background-color: var(--body-background-color);
         }
+
         h1,
         h2,
         h3,
@@ -54,20 +60,22 @@
     <script defer="" src="assets/js/components/core.js" type="module"></script>
     <script defer src="assets/supabase-client.js" type="module"></script>
 </head>
+
 <body>
     <!-- Topbar & Header -->
-            <div class="header__topbar bg__primary">
-            <div class="header__topbar--inner d-flex justify-content-between align-items-center">
-                <div class="topbar-left-spacer"></div>
-                <p class="header__info--text text-white m-0 text-center" id="announcement-text"></p>
-                <div class="header__topbar--currency">
-                    <select class="currency-switcher" onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
-                        <option value="KES" style="color: black;">KES</option>
-                        <option value="USD" style="color: black;">USD</option>
-                    </select>
-                </div>
+    <div class="header__topbar bg__primary">
+        <div class="header__topbar--inner">
+            <div class="topbar-left-spacer"></div>
+            <p class="header__info--text text-white m-0 text-center" id="announcement-text"></p>
+            <div class="header__topbar--currency">
+                <select class="currency-switcher"
+                    onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
+                    <option value="KES" style="color: black;">KES</option>
+                    <option value="USD" style="color: black;">USD</option>
+                </select>
             </div>
         </div>
+    </div>
     </div>
     <header class="header__section">
         <div class="main__header position__relative header__sticky">
@@ -75,14 +83,18 @@
                 <div class="main__header--inner flex-between align-items-center">
                     <div class="offcanvas__header--menu__open">
                         <a class="offcanvas__header--menu__open--btn" data-offcanvas="" href="javascript:void(0)">
-                            <svg class="ionicon offcanvas__header--menu__open--svg" viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M80 160h352M80 256h352M80 352h352" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"></path>
+                            <svg class="ionicon offcanvas__header--menu__open--svg" viewbox="0 0 512 512"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M80 160h352M80 256h352M80 352h352" fill="currentColor" stroke="currentColor"
+                                    stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"></path>
                             </svg>
                         </a>
                     </div>
                     <div class="main__logo">
                         <a class="main__logo--link" href="index.html">
-                            <img alt="Mary Humphrey African Wear" class="main__logo--img" src="assets/IMG-20260622-WA0082.webp" style="height:60px; width:auto; object-fit:contain;"/>
+                            <img alt="Mary Humphrey African Wear" class="main__logo--img"
+                                src="assets/IMG-20260622-WA0082.webp"
+                                style="height:60px; width:auto; object-fit:contain;" />
                         </a>
                     </div>
                     <div class="header__menu d-none d-lg-block">
@@ -106,10 +118,15 @@
                     <div class="header__account">
                         <ul class="header__account--wrapper d-flex align-items-center">
                             <li class="header__account--items header__account--search__items">
-                                <a class="header__account--btn search__open--btn" data-offcanvas="" href="javascript:void(0)">
+                                <a class="header__account--btn search__open--btn" data-offcanvas=""
+                                    href="javascript:void(0)">
                                     <span class="header__account--btn__icon">
-                                        <svg fill="none" height="17" viewbox="0 0 17 17" width="17" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z"
+                                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                            </path>
                                         </svg>
                                     </span>
                                     <span class="visually-hidden">Search</span>
@@ -118,9 +135,14 @@
                             <li class="header__account--items">
                                 <a class="header__account--btn" href="account.html">
                                     <span class="header__account--btn__icon">
-                                        <svg fill="none" height="17" stroke="currentColor" viewbox="0 0 17 17" width="17">
-                                            <path d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16" stroke-linecap="round" stroke-linejoin="round"></path>
-                                            <path d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <svg fill="none" height="17" stroke="currentColor" viewbox="0 0 17 17"
+                                            width="17">
+                                            <path
+                                                d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path
+                                                d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
                                         </svg>
                                     </span>
                                 </a>
@@ -128,8 +150,11 @@
                             <li class="header__account--items header__minicart--items">
                                 <a class="header__account--btn" href="cart.html">
                                     <span class="header__account--btn__icon">
-                                        <svg fill="none" height="17" stroke="currentColor" viewbox="0 0 17 17" width="17">
-                                            <path d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <svg fill="none" height="17" stroke="currentColor" viewbox="0 0 17 17"
+                                            width="17">
+                                            <path
+                                                d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
                                         </svg>
                                     </span>
                                     <span class="items__count js-item-count">0</span>
@@ -141,8 +166,7 @@
             </div>
         </div>
     </header>
-    <main
-        class="site__main">
+    <main class="site__main">
         <!-- Breadcrumb -->
         <section class="breadcrumb__section">
             <div class="page-width">
@@ -159,17 +183,16 @@
         </section>
         <!-- Cart Section -->
         <section class="cart__section">
-            <div
-                class="page-width">
+            <div class="page-width">
                 <!-- Empty Cart State -->
                 <div class="empty-cart-state" id="empty-cart-view" style="display: none;">
                     <h2>Your Bag is Empty</h2>
-                    <p style="font-size: 1.5rem; color: var(--foreground-sub-color);">Looks like you haven't added any Ankara treasures to your bag yet.</p>
+                    <p style="font-size: 1.5rem; color: var(--foreground-sub-color);">Looks like you haven't added any
+                        Ankara treasures to your bag yet.</p>
                     <a class="btn-continue" href="shop.html">Continue Shopping</a>
                 </div>
                 <!-- Main Cart Content -->
-                <div
-                    class="row" id="cart-content-view">
+                <div class="row" id="cart-content-view">
                     <!-- Cart Items List -->
                     <div class="col-lg-8 col-md-12">
                         <div class="cart-table-header d-none d-md-flex row">
@@ -177,8 +200,7 @@
                             <div class="col-md-3 text-center">Quantity</div>
                             <div class="col-md-3 text-end">Total Price</div>
                         </div>
-                        <div
-                            id="cart-items-container"><!-- Dynamic Cart Items Renders here -->
+                        <div id="cart-items-container"><!-- Dynamic Cart Items Renders here -->
                         </div>
                     </div>
                     <!-- Summary Column -->
@@ -197,7 +219,8 @@
                                 <span>Grand Total</span>
                                 <span id="cart-grandtotal-val">—</span>
                             </div>
-                            <p style="font-size: 1.2rem; color: var(--foreground-sub-color); margin-top: 1rem; line-height: 1.5;">
+                            <p
+                                style="font-size: 1.2rem; color: var(--foreground-sub-color); margin-top: 1rem; line-height: 1.5;">
                                 Free shipping applies to qualifying orders. Taxes calculated at checkout.
                             </p>
                             <a class="checkout-btn" href="checkout.html">Proceed to Checkout</a>
@@ -209,62 +232,68 @@
         <!-- Footer -->
     </main>
     <footer class="footer__section footer__bg">
-            <div class="main__footer section--padding page-width">
-                <div class="row">
-                    <div class="col-lg-4 col-md-12">
-                        <div class="footer__logo">
-                            <a href="index.html"><img alt="Logo" src="assets/IMG-20260622-WA0082.webp" style="height:70px; width:auto; object-fit:contain; filter:brightness(1.1);"/></a>
-                        </div>
-                        <p class="footer__widget--desc" style="font-size: 1.4rem; line-height: 1.8; margin-top: 1.5rem;">
-                            Contemporary fashion rooted in African heritage and crafted for the modern world.
-                        </p>
+        <div class="main__footer section--padding page-width">
+            <div class="row">
+                <div class="col-lg-4 col-md-12">
+                    <div class="footer__logo">
+                        <a href="index.html"><img alt="Logo" src="assets/IMG-20260622-WA0082.webp"
+                                style="height:70px; width:auto; object-fit:contain; filter:brightness(1.1);" /></a>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-6">
-                        <h2 class="footer__widget--title" style="font-size: 1.8rem; margin-bottom: 2rem;">Quick Links</h2>
-                        <ul class="footer__widget--menu" style="list-style:none; padding:0; line-height: 2;">
-                            <li>
-                                <a href="index.html" style="color:var(--foreground-sub-color); text-decoration:none; font-size:1.4rem;">Home</a>
-                            </li>
-                            <li>
-                                <a href="shop.html" style="color:var(--foreground-sub-color); text-decoration:none; font-size:1.4rem;">Shop</a>
-                            </li>
-                            <li>
-                                <a href="about.html" style="color:var(--foreground-sub-color); text-decoration:none; font-size:1.4rem;">Our Story</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-6">
-                        <h2 class="footer__widget--title" style="font-size: 1.8rem; margin-bottom: 2rem;">Contact</h2>
-                        <p style="font-size:1.4rem; color:var(--foreground-sub-color);">United Kingdom</p>
-                        <p style="font-size:1.4rem; color:var(--foreground-sub-color);">
-                            <a href="mailto:hello@maryhumphreywear.com" style="color:inherit;">hello@maryhumphreywear.com</a>
-                        </p>
-                    </div>
+                    <p class="footer__widget--desc" style="font-size: 1.4rem; line-height: 1.8; margin-top: 1.5rem;">
+                        Contemporary fashion rooted in African heritage and crafted for the modern world.
+                    </p>
+                </div>
+                <div class="col-lg-4 col-md-6 col-6">
+                    <h2 class="footer__widget--title" style="font-size: 1.8rem; margin-bottom: 2rem;">Quick Links</h2>
+                    <ul class="footer__widget--menu" style="list-style:none; padding:0; line-height: 2;">
+                        <li>
+                            <a href="index.html"
+                                style="color:var(--foreground-sub-color); text-decoration:none; font-size:1.4rem;">Home</a>
+                        </li>
+                        <li>
+                            <a href="shop.html"
+                                style="color:var(--foreground-sub-color); text-decoration:none; font-size:1.4rem;">Shop</a>
+                        </li>
+                        <li>
+                            <a href="about.html"
+                                style="color:var(--foreground-sub-color); text-decoration:none; font-size:1.4rem;">Our
+                                Story</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6 col-6">
+                    <h2 class="footer__widget--title" style="font-size: 1.8rem; margin-bottom: 2rem;">Contact</h2>
+                    <p style="font-size:1.4rem; color:var(--foreground-sub-color);">United Kingdom</p>
+                    <p style="font-size:1.4rem; color:var(--foreground-sub-color);">
+                        <a href="mailto:hello@maryhumphreywear.com"
+                            style="color:inherit;">hello@maryhumphreywear.com</a>
+                    </p>
                 </div>
             </div>
+        </div>
     </footer>
     <script>
         // Local script to update the full cart page list
-                    function renderCartPage() {
-                      const cart = getCart();
-                      const emptyView = document.getElementById('empty-cart-view');
-                      const contentView = document.getElementById('cart-content-view');
-                      const container = document.getElementById('cart-items-container');
-                
-                      if (!container) return;
-                
-                      if (cart.length === 0) {
-                        emptyView.style.display = 'block';
-                        contentView.style.display = 'none';
-                        return;
-                      }
-                
-                      emptyView.style.display = 'none';
-                      contentView.style.display = 'flex';
-                
-                      container.innerHTML = cart.map((item, index) => {
-                        const itemTotal = item.price * item.qty;
-                        return `
+        function renderCartPage() {
+            const cart = getCart();
+            const emptyView = document.getElementById('empty-cart-view');
+            const contentView = document.getElementById('cart-content-view');
+            const container = document.getElementById('cart-items-container');
+
+            if (!container) return;
+
+            if (cart.length === 0) {
+                emptyView.style.display = 'block';
+                contentView.style.display = 'none';
+                return;
+            }
+
+            emptyView.style.display = 'none';
+            contentView.style.display = 'flex';
+
+            container.innerHTML = cart.map((item, index) => {
+                const itemTotal = item.price * item.qty;
+                return `
                           <div class="cart-item row align-items-center">
                             <div class="col-md-6 d-flex align-items-center gap-3">
                               <div class="cart-item__thumb">
@@ -292,71 +321,76 @@
                             </div>
                           </div>
                         `;
-                      }).join('');
-                
-                      // Update Subtotals
-                      const subtotal = getCartSubtotal();
-                      const shipping = subtotal > 80 ? 0 : 5.99;
-                      const total = subtotal + shipping;
-                
-                      if (window.AnkaraCurrency) {
-                        document.getElementById('cart-subtotal-val').textContent = window.AnkaraCurrency.convertAndFormat(subtotal);
-                        document.getElementById('cart-shipping-val').textContent = shipping === 0 ? 'FREE' : window.AnkaraCurrency.convertAndFormat(shipping);
-                        document.getElementById('cart-grandtotal-val').textContent = window.AnkaraCurrency.convertAndFormat(total);
-                      } else {
-                        document.getElementById('cart-subtotal-val').textContent = `£${subtotal.toFixed(2)}`;
-                        document.getElementById('cart-shipping-val').textContent = shipping === 0 ? 'FREE' : `£${shipping.toFixed(2)}`;
-                        document.getElementById('cart-grandtotal-val').textContent = `£${total.toFixed(2)}`;
-                      }
-                    }
-                
-                    // Helper functions for page cart actions
-                    window.removeFromPageCart = function(index) {
-                      removeFromMinicart(index);
-                      setTimeout(renderCartPage, 20);
-                    };
-                
-                    window.changePageCartQty = function(index, delta) {
-                      changeMinicartQty(index, delta);
-                      setTimeout(renderCartPage, 20);
-                    };
-                
-                    // Render on load and on any storage changes
-                    document.addEventListener('DOMContentLoaded', () => {
-                      renderCartPage();
-                      
-                      // Currency and settings loaded listeners
-                      window.addEventListener('currency:changed', () => renderCartPage());
-                      window.addEventListener('settings:loaded', () => renderCartPage());
-                      
-                      // Hook into minicart updates if triggered from drawer
-                      const origUpdateUI = window.updateCartUI;
-                      window.updateCartUI = function() {
-                        if (typeof origUpdateUI === 'function') origUpdateUI();
-                        renderCartPage();
-                      };
-                    });
-                  </script>
-                <!-- Search Overlay -->
-                <div class="predictive__search--box">
-                <div class="predictive__search--box__inner">
-                <h2 class="predictive__search--title">Search Products</h2>
-                <form action="shop.html" class="predictive__search--form" method="get" role="search">
+            }).join('');
+
+            // Update Subtotals
+            const subtotal = getCartSubtotal();
+            const shipping = subtotal > 80 ? 0 : 5.99;
+            const total = subtotal + shipping;
+
+            if (window.AnkaraCurrency) {
+                document.getElementById('cart-subtotal-val').textContent = window.AnkaraCurrency.convertAndFormat(subtotal);
+                document.getElementById('cart-shipping-val').textContent = shipping === 0 ? 'FREE' : window.AnkaraCurrency.convertAndFormat(shipping);
+                document.getElementById('cart-grandtotal-val').textContent = window.AnkaraCurrency.convertAndFormat(total);
+            } else {
+                document.getElementById('cart-subtotal-val').textContent = `£${subtotal.toFixed(2)}`;
+                document.getElementById('cart-shipping-val').textContent = shipping === 0 ? 'FREE' : `£${shipping.toFixed(2)}`;
+                document.getElementById('cart-grandtotal-val').textContent = `£${total.toFixed(2)}`;
+            }
+        }
+
+        // Helper functions for page cart actions
+        window.removeFromPageCart = function (index) {
+            removeFromMinicart(index);
+            setTimeout(renderCartPage, 20);
+        };
+
+        window.changePageCartQty = function (index, delta) {
+            changeMinicartQty(index, delta);
+            setTimeout(renderCartPage, 20);
+        };
+
+        // Render on load and on any storage changes
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCartPage();
+
+            // Currency and settings loaded listeners
+            window.addEventListener('currency:changed', () => renderCartPage());
+            window.addEventListener('settings:loaded', () => renderCartPage());
+
+            // Hook into minicart updates if triggered from drawer
+            const origUpdateUI = window.updateCartUI;
+            window.updateCartUI = function () {
+                if (typeof origUpdateUI === 'function') origUpdateUI();
+                renderCartPage();
+            };
+        });
+    </script>
+    <!-- Search Overlay -->
+    <div class="predictive__search--box">
+        <div class="predictive__search--box__inner">
+            <h2 class="predictive__search--title">Search Products</h2>
+            <form action="shop.html" class="predictive__search--form" method="get" role="search">
                 <label for="Search">
-                <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search"/>
+                    <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here"
+                        type="search" />
                 </label>
                 <button aria-label="search button" class="predictive__search--button text-white">
-                <svg fill="none" height="20" viewbox="0 0 17 17" width="20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
+                    <svg fill="none" height="20" viewbox="0 0 17 17" width="20" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z"
+                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
                 </button>
-                </form>
-                </div>
-                <button aria-label="close search" class="predictive__search--close__btn" data-offcanvas="">
-                <svg height="28" viewbox="0 0 512 512" width="28" xmlns="http://www.w3.org/2000/svg">
-                <path d="M368 368L144 144M368 144L144 368" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
-                </svg>
-                </button>
-                </div>
-                </body>
-                </html>
+            </form>
+        </div>
+        <button aria-label="close search" class="predictive__search--close__btn" data-offcanvas="">
+            <svg height="28" viewbox="0 0 512 512" width="28" xmlns="http://www.w3.org/2000/svg">
+                <path d="M368 368L144 144M368 144L144 368" fill="currentColor" stroke="currentColor"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+            </svg>
+        </button>
+    </div>
+</body>
+
+</html>

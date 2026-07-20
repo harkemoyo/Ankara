@@ -2657,7 +2657,7 @@ quantity icon button
 }
 
 
-@media only screen and(min-width: 576px) {
+@media only screen and (min-width: 576px) {
     .items__count {
         left: 1.2rem;
         top: -1.1rem;
@@ -15957,7 +15957,7 @@ body.body .footer__section {
   color : var(--text-white-color);
 }
 
-@media only screen and(min-width : 768px) 
+@media only screen and (min-width : 768px) 
 {
   .primary__btn {
   line-height : 4.4rem;
@@ -15967,7 +15967,7 @@ body.body .footer__section {
 }
 }
 
-@media only screen and(min-width : 992px) 
+@media only screen and (min-width : 992px) 
 {
   .primary__btn {
   font-size : 1.5rem;
@@ -15977,7 +15977,7 @@ body.body .footer__section {
 }
 }
 
-@media only screen and(min-width : 1200px) 
+@media only screen and (min-width : 1200px) 
 {.primary__btn {
   line-height : 5rem;
   height : 4.6rem;

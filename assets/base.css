@@ -169,12 +169,16 @@ ul {
 /* ── Footer ── */
 .footer__layout {
   display: grid;
-  gap: 2rem;
-  padding-block: 1.5rem;
+  gap: 3rem;
+  width: 100%;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding-block: 3rem;
   padding-inline: 1.5rem;
+  align-items: start;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 576px) {
   .footer__layout {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -182,7 +186,8 @@ ul {
 
 @media only screen and (min-width: 992px) {
   .footer__layout {
-    grid-template-columns: 2fr 1fr 1fr 2fr;
+    grid-template-columns: 2.5fr 1.5fr 1.5fr 2.5fr;
+    gap: 4rem;
   }
 }
 
@@ -7202,6 +7207,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin-bottom: 0;
   color: var(--primary-color);
   margin-bottom: 0;
+  max-width: 350px;
 }
 
 @media only screen and (min-width: 768px) {

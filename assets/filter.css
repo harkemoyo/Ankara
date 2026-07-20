@@ -6840,13 +6840,6 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
-
-@media only screen and (max-width: 991px) {
-  .footer__widget {
-    margin-bottom: 3rem;
-  }
-}
-
 @media only screen and (max-width: 767px) {
   .footer__widget {
     margin-bottom: 0;

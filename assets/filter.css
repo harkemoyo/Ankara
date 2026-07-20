@@ -9834,3 +9834,103 @@ li[data-address]>h2 {
   flex-direction: column;
   gap: 1.5rem;
 }
+
+/* ── Shop Header Alignment Fixes ── */
+.shop__header {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 2rem !important;
+  padding: 1.5rem 2rem;
+  border-radius: 0.5rem;
+  background: var(--bg-offwhite-color);
+}
+
+.shop__header--controls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 2rem !important;
+  flex-wrap: wrap !important;
+}
+
+.product__view--mode,
+.product__view--mode__list {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.product__count {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 767px) {
+  .shop__header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1.5rem !important;
+  }
+  .shop__header--controls {
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+  .product__count {
+    justify-content: center !important;
+    width: 100% !important;
+    margin-top: 0.5rem;
+  }
+}
+
+/* ── Premium Styling for Filter Button & Select Dropdown ── */
+.widget__filter--btn,
+.product__view--select {
+  height: 4.2rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  background-color: var(--body-background-color) !important;
+  font-size: 1.4rem !important;
+  color: var(--primary-color) !important;
+  padding: 0 2rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02) !important;
+}
+
+.widget__filter--btn {
+  gap: 0.8rem !important;
+}
+
+.widget__filter--btn:hover,
+.product__view--select:hover {
+  border-color: var(--secondary-color) !important;
+  color: var(--secondary-color) !important;
+  background-color: #fff !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Adjust select padding specifically for the dropdown arrow */
+.product__view--select {
+  padding-right: 3.5rem !important;
+}
+
+/* Ensure svg icon in filter button aligns nicely */
+.widget__filter--btn__icon-svg {
+  width: 1.8rem !important;
+  height: 1.8rem !important;
+  transition: transform 0.3s ease !important;
+}
+
+.widget__filter--btn:hover .widget__filter--btn__icon-svg {
+  transform: rotate(90deg);
+}
+
+.widget__filter--btn__text {
+  margin-left: 0 !important;
+}
+

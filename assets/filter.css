@@ -605,6 +605,10 @@ hr {
   gap: 1rem;
 }
 
+.shop__product--wrapper {
+  display: grid;
+  gap: 2rem;
+}
 
 @media only screen and (max-width: 1199px) {
   .col-lg-order {

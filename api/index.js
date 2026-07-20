@@ -1,12 +1,11 @@
-﻿// api/index.js
+// api/index.js
 require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 
-const productController = require('../src/controllers/productController');
-const orderController = require('../src/controllers/orderController');
+const apiRoutes = require('../src/routes/api');
 
 const app = express();
 
@@ -16,18 +15,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // API Routes
-app.get('/api/products', productController.getProducts.bind(productController));
-app.get('/api/collections', productController.getCollections.bind(productController));
-app.get('/api/products/:handle', productController.getProductByHandle.bind(productController));
-app.post('/api/orders', orderController.createOrder.bind(orderController));
-app.get('/api/orders/:order_number', orderController.getOrder.bind(orderController));
+app.use('/api', apiRoutes);
 
 // Static Files (only for local testing via 'npm run dev', Vercel ignores this)
 app.use('/assets', express.static(path.join(__dirname, '../assets')));
 app.use(express.static(path.join(__dirname, '../')));
 
 // Fallback
-app.get('*', (req, res) => {
+app.get('*all', (req, res) => {
     res.sendFile(path.join(__dirname, '../index.html'));
 });
 
@@ -35,7 +30,7 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 3000;
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
-        console.log(Server running at http://localhost:);
+        console.log(`Server running at http://localhost:${PORT}`);
     });
 }
 

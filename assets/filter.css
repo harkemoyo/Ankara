@@ -1,3 +1,5 @@
+/* shop style */
+
 .filter-offcanvas {
   position: fixed;
   top: 0;
@@ -12,6 +14,35 @@
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   padding: 0;
 }
+
+.breadcrumb--content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.5rem;
+}
+
+.breadcrumb-item a {
+  color: var(--foreground-sub-color, #555);
+  transition: color 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+  color: var(--primary-color, #000);
+}
+
+.breadcrumb-item.active {
+  color: var(--secondary-color, #d4a373);
+  font-weight: 600;
+}
+
+.divider {
+  color: var(--foreground-sub-color, #999);
+  display: flex;
+  align-items: center;
+}
+
 
 .filter-offcanvas.open {
   left: 0;
@@ -569,29 +600,11 @@ hr {
   --offset-fluid: 0;
 }
 
-.row {
-  margin-right: -1rem;
-  margin-left: -1rem;
+.breadcrumb__section {
+  display: grid;
+  gap: 1rem;
 }
 
-@media only screen and (min-width: 992px) {
-  .row {
-    margin-right: -1.5rem;
-    margin-left: -1.5rem;
-  }
-}
-
-.row>* {
-  padding-right: 1rem;
-  padding-left: 1rem;
-}
-
-@media only screen and (min-width: 992px) {
-  .row>* {
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
-  }
-}
 
 @media only screen and (max-width: 1199px) {
   .col-lg-order {
@@ -9830,6 +9843,7 @@ li[data-address]>h2 {
 /* ── Shop Header Alignment Fixes ── */
 .shop__header {
   display: grid !important;
+  grid-template-areas: "filter products sort" !important;
   grid-template-columns: 1fr auto 1fr !important;
   align-items: center !important;
   gap: 2rem !important;
@@ -9839,18 +9853,21 @@ li[data-address]>h2 {
 }
 
 .product__view--mode {
+  grid-area: filter !important;
   display: flex !important;
   justify-content: flex-start !important;
   align-items: center !important;
 }
 
 .product__view--mode__list {
+  grid-area: sort !important;
   display: flex !important;
   justify-content: flex-end !important;
   align-items: center !important;
 }
 
 .product__count {
+  grid-area: products !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
@@ -9858,18 +9875,22 @@ li[data-address]>h2 {
 
 @media only screen and (max-width: 767px) {
   .shop__header {
-    display: grid !important;
+    grid-template-areas:
+      "filter sort"
+      "products products" !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 1.5rem !important;
   }
+
   .product__view--mode {
     justify-content: flex-start !important;
   }
+
   .product__view--mode__list {
     justify-content: flex-end !important;
   }
+
   .product__count {
-    grid-column: 1 / span 2 !important;
     justify-content: center !important;
     margin-top: 0.5rem !important;
   }

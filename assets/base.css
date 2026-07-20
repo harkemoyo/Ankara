@@ -110,6 +110,13 @@ body {
   padding-inline: var(--space-2);
 }
 
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 @media (min-width: 992px) {
   .header__topbar--inner {
     flex-direction: row;
@@ -10119,7 +10126,6 @@ li[data-address]>h2 {
 */
 .pagination__area {
   padding: 1.5rem 2rem;
-  margin-top: 3rem;
   background: var(--bg-offwhite-color);
   border-radius: 5px;
 }

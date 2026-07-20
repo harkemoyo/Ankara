@@ -76,7 +76,7 @@ body {
 
 /* ── Page Width Containers ── */
 .page-width {
-  max-width: var(--page-width);
+  /* max-width: var(--page-width); */
   margin-inline: auto;
 }
 

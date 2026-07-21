@@ -360,7 +360,16 @@ async function loadProductDetails() {
     if (bcActive) bcActive.innerText = product.title;
     const renderPrice = () => {
         const priceText = window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : `£${parseFloat(product.price).toFixed(2)}`;
-        document.getElementById('dyn-product-price').innerText = priceText;
+        let html = `<span class="current-price-val">${priceText}</span>`;
+        if (product.compare_at_price && parseFloat(product.compare_at_price) > parseFloat(product.price)) {
+            const compareText = window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.compare_at_price) : `£${parseFloat(product.compare_at_price).toFixed(2)}`;
+            html += `<span class="compare-price-val">${compareText}</span>`;
+        }
+        document.getElementById('dyn-product-price').innerHTML = html;
+        
+        // Also update sticky price
+        const stickyPrice = document.getElementById('sticky-product-price');
+        if (stickyPrice) stickyPrice.innerText = priceText;
     };
     renderPrice();
     window.addEventListener('currency:changed', renderPrice);
@@ -394,7 +403,7 @@ async function loadProductDetails() {
             <img 
                 src="${img}" 
                 alt="${product.title} image ${i+1}"
-                style="width:70px;height:90px;object-fit:cover;cursor:pointer;border:2px solid ${i===0?'#1a1a1a':'#ddd'};"
+                class="${i===0?'active':''}"
                 onclick="swapMainImage(this,'${img}')"
             >
         `).join('');
@@ -404,20 +413,24 @@ async function loadProductDetails() {
     const colourContainer = document.getElementById('colour-options');
     if (colourContainer && product.colors && product.colors.length > 0) {
         colourContainer.innerHTML = product.colors.map((c, i) => `
-            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" onclick="selectColor(this,'${c.image}','${c.label}')">
-                <button 
-                    class="swatch-btn ${i===0?'active':''}"
-                    aria-label="${c.label}"
-                    aria-pressed="${i===0?'true':'false'}"
-                    style="width:40px;height:40px;border-radius:50%;border:2px solid ${i===0?'#1a1a1a':'#ddd'};overflow:hidden;padding:0;background:none;display:inline-block;cursor:pointer;"
-                    title="${c.label}"
-                >
-                    <img src="${c.image || product.images[0]}" alt="${c.label}" class="swatch-img" style="width:100%;height:100%;object-fit:cover;">
-                </button>
-                <span style="font-size:1.1rem;color:#666;">${c.label}</span>
-            </div>
+            <button 
+                class="swatch-btn ${i===0?'active':''}"
+                aria-label="${c.label}"
+                aria-pressed="${i===0?'true':'false'}"
+                onclick="selectColor(this,'${c.image}','${c.label}')"
+                title="${c.label}"
+            >
+                <img src="${c.image || product.images[0]}" alt="${c.label}" class="swatch-img">
+            </button>
         `).join('');
         window._selectedColor = product.colors[0].label;
+        
+        // Update label text
+        const activeLabel = document.getElementById('active-colour-label');
+        if (activeLabel) activeLabel.innerText = product.colors[0].label;
+        
+        const stickyColor = document.getElementById('sticky-selection-color');
+        if (stickyColor) stickyColor.innerText = `Colour: ${product.colors[0].label}`;
     }
 
     // Size buttons
@@ -428,47 +441,101 @@ async function loadProductDetails() {
                 class="size-btn ${i===0?'active':''}" 
                 data-size="${size}"
                 onclick="selectSize(this,'${size}')"
-                style="padding:0.8rem 1.4rem;border:1px solid ${i===0?'#1a1a1a':'#ccc'};background:${i===0?'#1a1a1a':'#fff'};color:${i===0?'#fff':'#333'};cursor:pointer;font-size:1.3rem;"
             >${size}</button>
         `).join('');
         window._selectedSize = product.sizes[0];
+        
+        // Update label text
+        const activeSizeLabel = document.getElementById('active-size-label');
+        if (activeSizeLabel) activeSizeLabel.innerText = product.sizes[0];
+        
+        const stickySize = document.getElementById('sticky-selection-size');
+        if (stickySize) stickySize.innerText = `Size: ${product.sizes[0]}`;
     }
+    
+    // Set sticky buy bar elements
+    const stickyTitle = document.getElementById('sticky-product-title');
+    if (stickyTitle) stickyTitle.innerText = product.title;
+    
+    const stickyImg = document.getElementById('sticky-product-img');
+    if (stickyImg && product.images && product.images.length > 0) {
+        stickyImg.src = product.images[0];
+        stickyImg.alt = product.title;
+    }
+
+    // Scroll listener for sticky buy bar
+    window.addEventListener('scroll', () => {
+        const buyBtn = document.querySelector('.product__card--btn');
+        const stickyBar = document.getElementById('sticky-buy-bar');
+        if (!buyBtn || !stickyBar) return;
+        
+        const buyBtnRect = buyBtn.getBoundingClientRect();
+        if (buyBtnRect.bottom < 0) {
+            stickyBar.classList.add('visible');
+        } else {
+            stickyBar.classList.remove('visible');
+        }
+    });
 }
 
 // Select a color swatch on product page
-window.selectColor = function(container, image, label) {
+window.selectColor = function(btn, image, label) {
     window._selectedColor = label;
     swapMainImage(null, image);
     document.querySelectorAll('#colour-options .swatch-btn').forEach(s => {
-        s.style.border = '2px solid #ddd';
+        s.classList.remove('active');
         s.setAttribute('aria-pressed', 'false');
     });
-    const swatch = container.querySelector('.swatch-btn');
-    if (swatch) {
-        swatch.style.border = '2px solid #1a1a1a';
-        swatch.setAttribute('aria-pressed', 'true');
+    if (btn) {
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
     }
+    
+    // Update labels
+    const activeLabel = document.getElementById('active-colour-label');
+    if (activeLabel) activeLabel.innerText = label;
+    
+    const stickyColor = document.getElementById('sticky-selection-color');
+    if (stickyColor) stickyColor.innerText = `Colour: ${label}`;
 };
 
 // Select a size on product page
 window.selectSize = function(btn, size) {
     window._selectedSize = size;
     document.querySelectorAll('.size-btn').forEach(b => {
-        b.style.background = '#fff';
-        b.style.color = '#333';
-        b.style.border = '1px solid #ccc';
+        b.classList.remove('active');
     });
-    btn.style.background = '#1a1a1a';
-    btn.style.color = '#fff';
-    btn.style.border = '1px solid #1a1a1a';
+    if (btn) {
+        btn.classList.add('active');
+    }
+    
+    // Update labels
+    const activeSizeLabel = document.getElementById('active-size-label');
+    if (activeSizeLabel) activeSizeLabel.innerText = size;
+    
+    const stickySize = document.getElementById('sticky-selection-size');
+    if (stickySize) stickySize.innerText = `Size: ${size}`;
 };
 
 // Swap main product image
 window.swapMainImage = function(thumbEl, src) {
     const mainImg = document.getElementById('dyn-product-image');
     if (mainImg) mainImg.src = src;
-    document.querySelectorAll('#dyn-product-gallery img').forEach(t => t.style.border = '2px solid #ddd');
-    if (thumbEl) thumbEl.style.border = '2px solid #1a1a1a';
+    document.querySelectorAll('#dyn-product-gallery img').forEach(t => t.classList.remove('active'));
+    if (thumbEl) {
+        thumbEl.classList.add('active');
+    } else {
+        // Try to find matching thumbnail by src
+        const thumbs = document.querySelectorAll('#dyn-product-gallery img');
+        thumbs.forEach(t => {
+            if (t.src && (t.src === src || t.getAttribute('src') === src)) {
+                t.classList.add('active');
+            }
+        });
+    }
+    
+    const stickyImg = document.getElementById('sticky-product-img');
+    if (stickyImg) stickyImg.src = src;
 };
 
 // =============================================

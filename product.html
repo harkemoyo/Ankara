@@ -25,6 +25,513 @@
     <script defer="" src="assets/glightbox.min.js"></script>
     <script defer="" src="assets/global.js"></script>
     <script defer src="assets/supabase-client.js" type="module"></script>
+    <style>
+        /* Premium Redesign for Product Details Page */
+        
+        /* Breadcrumbs */
+        .breadcrumb__section {
+            padding-block: 2.5rem 1.5rem !important;
+            background: #fff !important;
+            border-bottom: 1px solid var(--border-color);
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .breadcrumb-item a {
+            color: var(--foreground-sub-color) !important;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb-item a:hover {
+            color: var(--primary-color) !important;
+        }
+        .breadcrumb-item.active {
+            color: var(--primary-color) !important;
+            font-weight: 600;
+        }
+        .breadcrumb-separator {
+            color: var(--border-color);
+            font-size: 1rem;
+        }
+
+        /* Product Main Details Grid */
+        .product__details--section {
+            background: #fff;
+            padding-block: 6rem;
+        }
+        
+        .product-details-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 6rem;
+            align-items: start;
+        }
+        
+        @media (max-width: 991px) {
+            .product-details-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+        
+        /* Left Column: Image Gallery */
+        .product__media--preview {
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+            background: #fcfcfc;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .product__media--preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .product__media--preview:hover img {
+            transform: scale(1.03);
+        }
+        
+        .product__media--thumbnails {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+        .product__media--thumbnails img {
+            width: 70px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 2px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .product__media--thumbnails img:hover {
+            border-color: var(--border-color);
+        }
+        .product__media--thumbnails img.active {
+            border-color: var(--primary-color);
+        }
+        
+        /* Right Column: Meta Info */
+        .product__details--info {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+        
+        .product-meta-header {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .product-collection-label {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        .product-main-title {
+            font-family: var(--font-heading);
+            font-size: clamp(3.2rem, 4vw, 4.4rem);
+            line-height: 1.15;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .product-price-box {
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        .compare-price-val {
+            text-decoration: line-through;
+            color: var(--foreground-sub-color);
+            font-size: 1.8rem;
+            margin-left: 1.5rem;
+            font-weight: 400;
+        }
+        
+        .product-rating-box {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.3rem;
+            color: var(--foreground-sub-color);
+        }
+        .rating-stars-val {
+            color: #D4A843;
+            letter-spacing: 2px;
+        }
+
+        /* Variant Selectors */
+        .variant-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+        }
+        .variant-title-label {
+            font-family: var(--font-body-family);
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        .variant-title-value {
+            font-weight: 400;
+            text-transform: none;
+            color: var(--foreground-sub-color);
+            margin-left: 0.5rem;
+        }
+        
+        /* Swatch Circular Image Buttons */
+        .swatch-btn {
+            width: 4.8rem;
+            height: 4.8rem;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            box-shadow: 0 0 0 1px var(--border-color);
+            padding: 2px;
+            background: none;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            display: inline-block;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .swatch-btn:hover {
+            box-shadow: 0 0 0 1px var(--primary-color);
+        }
+        .swatch-btn.active {
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        .swatch-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        /* Size Swatch Buttons */
+        .size-btn {
+            min-width: 4.8rem;
+            height: 4.8rem;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            text-transform: uppercase;
+            margin-right: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .size-btn:hover {
+            border-color: var(--primary-color);
+        }
+        .size-btn.active {
+            background: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+        }
+        
+        /* Quantity Selector */
+        .qty-stepper {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            height: 4.8rem;
+            width: fit-content;
+        }
+        .qty-btn {
+            width: 4rem;
+            height: 100%;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .qty-btn:hover {
+            background: #f5f5f5;
+        }
+        .qty-input {
+            width: 5rem;
+            height: 100%;
+            text-align: center;
+            border: none;
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            font-size: 1.4rem;
+            background: #fff;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        /* Buttons */
+        .btn-primary-buy {
+            width: 100%;
+            height: 5.2rem;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            font-size: 1.3rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        .btn-primary-buy:hover {
+            background: var(--secondary-color);
+        }
+        
+        .btn-secondary-fit {
+            width: 100%;
+            height: 5.2rem;
+            background: #fff;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            font-weight: 600;
+            font-size: 1.3rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        .btn-secondary-fit:hover {
+            background: #f8f8f8;
+        }
+        
+        /* Description */
+        .product-desc-box {
+            font-size: 1.45rem;
+            line-height: 1.8;
+            color: var(--foreground-sub-color);
+            border-top: 1px solid var(--border-color);
+            padding-top: 2.5rem;
+        }
+
+        /* Share Area */
+        .product-share-box {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+        }
+        .product-share-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .share-icon-link {
+            color: var(--foreground-sub-color);
+            transition: color 0.2s;
+        }
+        .share-icon-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Tabs Section */
+        .product__details--tabs-section {
+            border-top: 1px solid var(--border-color);
+            padding-top: 5rem;
+            margin-top: 2rem;
+        }
+        .tabs-header-container {
+            display: flex;
+            gap: 3.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        .tab-header-item {
+            font-family: var(--font-body-family);
+            font-size: 1.35rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--foreground-sub-color);
+            cursor: pointer;
+            font-weight: 600;
+            padding-bottom: 1.5rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .tab-header-item.active {
+            color: var(--primary-color);
+        }
+        .tab-active-indicator {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: transparent;
+            transition: background 0.3s ease;
+        }
+        .tab-header-item.active .tab-active-indicator {
+            background: var(--primary-color);
+        }
+        .tab-content-panel {
+            display: none;
+            font-size: 1.45rem;
+            line-height: 1.85;
+            color: var(--foreground-sub-color);
+        }
+        .tab-content-panel.active {
+            display: block;
+        }
+
+        /* Sticky Add to Cart Bar */
+        .sticky-buy-bar {
+            position: fixed;
+            top: -80px;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            z-index: 999;
+            transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .sticky-buy-bar.visible {
+            top: 58px; /* Standard sticky header offset */
+        }
+        @media (max-width: 991px) {
+            .sticky-buy-bar.visible {
+                top: 0; /* Align to viewport top on mobile if logo header goes offscreen */
+            }
+        }
+        .sticky-buy-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding-inline: 1.5rem;
+            margin-inline: auto;
+        }
+        .sticky-buy-left {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+        .sticky-buy-left img {
+            width: 42px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 2px;
+            border: 1px solid var(--border-color);
+        }
+        .sticky-product-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+        .sticky-product-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .sticky-product-price {
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        .sticky-buy-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        .sticky-selections {
+            font-size: 1.2rem;
+            color: var(--foreground-sub-color);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.2rem;
+            line-height: 1.2;
+        }
+        .sticky-add-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 1.1rem 2.2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: background 0.2s;
+            height: 4.2rem;
+            display: inline-flex;
+            align-items: center;
+            border-radius: 2px;
+        }
+        .sticky-add-btn:hover {
+            background: var(--secondary-color);
+        }
+        @media (max-width: 767px) {
+            .sticky-selections {
+                display: none;
+            }
+            .sticky-buy-left img {
+                display: none;
+            }
+            .sticky-product-title {
+                font-size: 1.2rem;
+                max-width: 140px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -79,7 +586,7 @@
                     <!-- Logo -->
                     <div class="main__logo">
                         <h1 class="main__logo--title">
-                            <a class="main__logo--link" href="index.html">
+                            <a class="main__logo--link" href=".">
                                 <img alt="Mary Humphrey African Wear" class="main__logo--img"
                                     src="assets/IMG-20260622-WA0082.webp"
                                     style="height:60px; width:auto; object-fit:contain;" />
@@ -91,10 +598,20 @@
                         <nav class="header__menu--navigation">
                             <ul class="header__menu--wrapper d-flex">
                                 <li class="header__menu--items">
-                                    <a class="header__menu--link" href="index.html">Home</a>
+                                    <a class="header__menu--link" href=".">Home</a>
                                 </li>
                                 <li class="header__menu--items active-page">
-                                    <a class="header__menu--link active" href="shop.html">Shop</a>
+                                    <a class="header__menu--link active" href="shop.html">Collections 
+                                        <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </a>
+                                    <ul class="header__sub--menu">
+                                        <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html">All Products</a></li>
+                                        <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=dresses">Dresses</a></li>
+                                        <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=tops">Tops & Blouses</a></li>
+                                        <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=skirts">Skirts</a></li>
+                                    </ul>
                                 </li>
                                 <li class="header__menu--items">
                                     <a class="header__menu--link" href="about.html">Our Story</a>
@@ -169,7 +686,7 @@
             <div class="offcanvas__inner">
                 <!-- Offcanvas Logo -->
                 <div class="offcanvas__logo">
-                    <a class="offcanvas__logo--link" href="index.html">
+                    <a class="offcanvas__logo--link" href=".">
                         <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp"
                             style="height:50px; width:auto; object-fit:contain;" />
                     </a>
@@ -178,10 +695,16 @@
                 <nav class="offcanvas__menu">
                     <ul class="offcanvas__menu_ul">
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="index.html">Home</a>
+                            <a class="offcanvas__menu_item" href=".">Home</a>
                         </li>
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="shop.html">Shop</a>
+                            <a class="offcanvas__menu_item" href="shop.html">Collections</a>
+                            <ul class="offcanvas__sub_menu">
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html">All Products</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html?collection=dresses">Dresses</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html?collection=tops">Tops & Blouses</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html?collection=skirts">Skirts</a></li>
+                            </ul>
                         </li>
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item" href="about.html">Our Story</a>
@@ -285,7 +808,7 @@
         <div class="offcanvas__sticky--toolbar">
             <ul class="flex-between">
                 <li class="offcanvas__sticky--toolbar__list">
-                    <a class="offcanvas__sticky--toolbar__btn" href="index.html">
+                    <a class="offcanvas__sticky--toolbar__btn" href=".">
                         <span class="offcanvas__sticky--toolbar__icon">
                             <svg fill="none" height="21" viewbox="0 0 22 17" width="21"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -346,251 +869,176 @@
         <!-- Breadcrumb -->
         <section class="breadcrumb__section">
             <div class="page-width">
-                <h1 class="breadcrumb__title" id="dyn-product-title-bc">Product Details</h1>
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb" style="font-size:1.3rem; background:none; padding:0; margin:1rem 0 0;">
+                    <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="index.html" style="color:var(--secondary-color);">Home</a>
+                            <a href=".">Home</a>
                         </li>
+                        <li class="breadcrumb-separator">/</li>
                         <li class="breadcrumb-item">
-                            <a href="shop.html" style="color:var(--secondary-color);">Shop</a>
+                            <a href="shop.html">Shop</a>
                         </li>
+                        <li class="breadcrumb-separator">/</li>
                         <li class="breadcrumb-item active" id="dyn-product-title-bc-active">Product</li>
                     </ol>
                 </nav>
             </div>
         </section>
+
         <!-- Product Details Section -->
-        <section class="product__details--section section--padding" style="background:#fff;">
-            <div class="page-width" style="display: flex; flex-direction: column; gap: 7rem;">
-                <div style="display: flex; flex-wrap: wrap; gap: 4rem;">
+        <section class="product__details--section">
+            <div class="page-width" style="padding-inline: 1.5rem;">
+                <div class="product-details-grid">
                     <!-- Left: Product Image Gallery -->
-                    <div style="flex: 1 1 400px; min-width: 300px;">
-                        <div class="product__details--media">
-                            <div class="product__media--preview"
-                                style="aspect-ratio:3/4; overflow:hidden; background:var(--bg-gray-color); border-radius:0.4rem; margin-bottom:2rem; border:1px solid var(--border-color);">
-                                <img alt="" id="dyn-product-image" src=""
-                                    style="width:100%; height:100%; object-fit:cover;" />
-                            </div>
-                            <div class="product__media--thumbnails d-flex gap-3" id="dyn-product-gallery">
-                                <!-- Thumbnails generated dynamically -->
-                            </div>
+                    <div class="product__details--media">
+                        <div class="product__media--preview">
+                            <img alt="" id="dyn-product-image" src="" />
+                        </div>
+                        <div class="product__media--thumbnails" id="dyn-product-gallery">
+                            <!-- Thumbnails generated dynamically -->
                         </div>
                     </div>
                     <!-- Right: Product Info -->
-                    <div style="flex: 1 1 400px; min-width: 300px;">
-                        <div class="product__details--info" style="display: flex; flex-direction: column; gap: 2.5rem;">
-                            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                                <span class="product__card--badge" id="dyn-product-badge"
-                                    style="position:static; display:inline-block;">New</span>
-                                <h2 class="product__details--info__title h1" id="dyn-product-title"
-                                    style="font-family: var(--font-heading); font-size:clamp(2.8rem,3.5vw,4.2rem); color:var(--primary-color); font-weight:700; margin:0;">
-                                    Product Name</h2>
-                                <div class="product__details--info__price">
-                                    <span class="current__price" id="dyn-product-price"
-                                        style="font-size:2.4rem; font-weight:700; color:var(--secondary-color);">—</span>
-                                </div>
-                                <!-- Rating & Tax Info -->
-                                <div class="product__details--rating-tax"
-                                    style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                    <div class="rating-stars" style="color:#D4A843; font-size:1.8rem;">
-                                        ★ ★ ★ ★ ★
-                                        <span style="color:var(--foreground-sub-color); font-size:1.4rem;">(48)</span>
-                                    </div>
-                                    <p style="font-size:1.2rem; color:var(--foreground-sub-color); margin:0;">Tax
-                                        included. Shipping calculated at checkout.</p>
-                                </div>
+                    <div class="product__details--info">
+                        <div class="product-meta-header">
+                            <span class="product-collection-label" id="dyn-product-badge">New</span>
+                            <h1 class="product-main-title" id="dyn-product-title">Product Name</h1>
+                            <div class="product-price-box" id="dyn-product-price">—</div>
+                            <!-- Rating & Tax Info -->
+                            <div class="product-rating-box">
+                                <div class="rating-stars-val">★ ★ ★ ★ ★</div>
+                                <span class="rating-count-val">(48 reviews)</span>
                             </div>
-                            <!-- Size Selection -->
-                            <div class="product__variant" style="display: flex; flex-direction: column; gap: 1rem;">
-                                <h4 class="variant__title"
-                                    style="font-family:'Karma',sans-serif; font-size:1.5rem; color:var(--primary-color); font-weight:500; margin:0;">
-                                    Size</h4>
-                                <div id="size-options" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
-                                    <button class="btn btn-outline-secondary size-btn active" data-size="S"
-                                        style="font-size:1.3rem; padding:0.8rem 1.4rem; border-radius:0;">S</button>
-                                    <button class="btn btn-outline-secondary size-btn" data-size="M"
-                                        style="font-size:1.3rem; padding:0.8rem 1.4rem; border-radius:0;">M</button>
-                                    <button class="btn btn-outline-secondary size-btn" data-size="L"
-                                        style="font-size:1.3rem; padding:0.8rem 1.4rem; border-radius:0;">L</button>
-                                    <button class="btn btn-outline-secondary size-btn" data-size="1X"
-                                        style="font-size:1.3rem; padding:0.8rem 1.4rem; border-radius:0;">1X</button>
-                                    <button class="btn btn-outline-secondary size-btn" data-size="2X"
-                                        style="font-size:1.3rem; padding:0.8rem 1.4rem; border-radius:0;">2X</button>
-                                </div>
+                            <p style="font-size:1.2rem; color:var(--foreground-sub-color); margin: 0.5rem 0 0;">Tax included. Shipping calculated at checkout.</p>
+                        </div>
+                        
+                        <!-- Colour Selection -->
+                        <div class="variant-section">
+                            <h4 class="variant-title-label">Colour:<span id="active-colour-label" class="variant-title-value">—</span></h4>
+                            <div id="colour-options" style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.5rem;">
+                                <!-- Circular image swatches dynamically generated -->
                             </div>
-                            <!-- Colour Selection -->
-                            <div class="product__variant" style="display: flex; flex-direction: column; gap: 1.5rem;">
-                                <h4 class="variant__title"
-                                    style="font-family:'Karma',sans-serif; font-size:1.5rem; color:var(--primary-color); font-weight:500; text-transform:uppercase; letter-spacing:0.1em; margin:0;">
-                                    Colour</h4>
-                                <div id="colour-options" style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
-                                    <img alt="Color 1" onclick="swapMainImage(this, 'assets/IMG-20260622-WA0005.webp')"
-                                        src="assets/IMG-20260622-WA0005.webp"
-                                        style="width:60px; height:60px; object-fit:cover; border:1px solid #1a1a1a; padding:2px; cursor:pointer;" />
-                                    <img alt="Color 2" onclick="swapMainImage(this, 'assets/IMG-20260622-WA0068.webp')"
-                                        src="assets/IMG-20260622-WA0068.webp"
-                                        style="width:60px; height:60px; object-fit:cover; border:1px solid var(--border-color); padding:2px; cursor:pointer;" />
-                                    <img alt="Color 3" onclick="swapMainImage(this, 'assets/IMG-20260622-WA0079.webp')"
-                                        src="assets/IMG-20260622-WA0079.webp"
-                                        style="width:60px; height:60px; object-fit:cover; border:1px solid var(--border-color); padding:2px; cursor:pointer;" />
-                                </div>
+                        </div>
+
+                        <!-- Size Selection -->
+                        <div class="variant-section">
+                            <h4 class="variant-title-label">Size:<span id="active-size-label" class="variant-title-value">—</span></h4>
+                            <div id="size-options" style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                                <!-- Size swatches dynamically generated -->
                             </div>
-                            <!-- Quantity Stepper -->
-                            <div style="display:flex;flex-direction:column;gap:0.8rem;">
-                                <h4
-                                    style="font-family:'Karma',sans-serif;font-size:1.5rem;color:var(--primary-color);font-weight:500;margin:0;">
-                                    Quantity</h4>
-                                <div
-                                    style="display:inline-flex;align-items:center;border:1px solid #1a1a1a;width:fit-content;">
-                                    <button onclick="changeQty(-1)"
-                                        style="width:4rem;height:4.5rem;background:none;border:none;font-size:2rem;cursor:pointer;color:#1a1a1a;line-height:1;"
-                                        type="button">−</button>
-                                    <input id="product-quantity-display" min="1" readonly=""
-                                        style="width:5rem;height:4.5rem;text-align:center;border:none;border-left:1px solid #1a1a1a;border-right:1px solid #1a1a1a;font-size:1.5rem;background:#fff;"
-                                        type="number" value="1" />
-                                    <button onclick="changeQty(1)"
-                                        style="width:4rem;height:4.5rem;background:none;border:none;font-size:2rem;cursor:pointer;color:#1a1a1a;line-height:1;"
-                                        type="button">+</button>
-                                </div>
+                        </div>
+
+                        <!-- Quantity Stepper -->
+                        <div class="variant-section" style="gap: 0.8rem;">
+                            <h4 class="variant-title-label">Quantity</h4>
+                            <div class="qty-stepper">
+                                <button onclick="changeQty(-1)" class="qty-btn" type="button">−</button>
+                                <input id="product-quantity-display" min="1" readonly class="qty-input" type="number" value="1" />
+                                <button onclick="changeQty(1)" class="qty-btn" type="button">+</button>
                             </div>
-                            <!-- Buttons -->
-                            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                                <button class="product__card--btn" onclick="addProductToCart(event)" type="button">
-                                    Add to cart
-                                </button>
-                                <button class="btn" onmouseout="this.style.background='#fff'"
-                                    onmouseover="this.style.background='#f5f5f5'"
-                                    style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.8rem; padding:1.4rem 2rem; background:#fff; color:#1a1a1a; border:1px solid #1a1a1a; font-size:1.2rem; letter-spacing:0.15em; text-transform:uppercase; transition:all 0.3s; border-radius: 0;"
-                                    type="button">
-                                    FIND MY EXACT FIT
-                                </button>
-                            </div>
-                            <!-- Description & Details -->
-                            <div class="product__details--description-block"
-                                style="border-top:1px solid var(--border-color); padding-top:2.5rem; display: flex; flex-direction: column; gap: 1.5rem;">
-                                <p class="product__details--info__desc" id="dyn-product-desc"
-                                    style="font-size:1.4rem; line-height:2.6rem; color:var(--foreground-sub-color); margin:0;">
-                                    Description goes here.
-                                </p>
-                            </div>
-                            <!-- Share Options -->
-                            <div class="product__share"
-                                style="display: flex; align-items: center; gap: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 2rem;">
-                                <span
-                                    style="font-size:1.3rem; font-weight:600; color:var(--primary-color);">Share</span>
-                                <a class="share-icon" href="#"
-                                    onmouseout="this.style.color='var(--foreground-sub-color)'"
-                                    onmouseover="this.style.color='var(--primary-color)'"
-                                    style="color:var(--foreground-sub-color); transition:color 0.2s;">
-                                    <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z">
-                                        </path>
-                                    </svg>
-                                </a>
-                                <a class="share-icon" href="#"
-                                    onmouseout="this.style.color='var(--foreground-sub-color)'"
-                                    onmouseover="this.style.color='var(--primary-color)'"
-                                    style="color:var(--foreground-sub-color); transition:color 0.2s;">
-                                    <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.347 1.413c-.056.23-.186.277-.428.166-1.597-.743-2.593-3.078-2.593-4.953 0-4.032 2.931-7.734 8.444-7.734 4.432 0 7.876 3.158 7.876 7.379 0 4.404-2.776 7.947-6.629 7.947-1.294 0-2.511-.672-2.927-1.465l-.796 3.033c-.287 1.099-1.062 2.478-1.58 3.327C9.914 23.763 10.939 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z">
-                                        </path>
-                                    </svg>
-                                </a>
-                                <a class="share-icon" href="#"
-                                    onmouseout="this.style.color='var(--foreground-sub-color)'"
-                                    onmouseover="this.style.color='var(--primary-color)'"
-                                    style="color:var(--foreground-sub-color); transition:color 0.2s;">
-                                    <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
-                                        </path>
-                                    </svg>
-                                </a>
-                                <a class="share-icon" href="#"
-                                    onmouseout="this.style.color='var(--foreground-sub-color)'"
-                                    onmouseover="this.style.color='var(--primary-color)'"
-                                    style="color:var(--foreground-sub-color); transition:color 0.2s;">
-                                    <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18.717-.962 4.084-1.362 5.719-.168.687-.442.915-.688.938-.535.05-1.077-.168-1.595-.506-.811-.53-1.268-.863-2.056-1.381-.912-.6-1.503-.941-2.388-1.523-.923-.606-.325-.939.202-1.488.138-.143 2.535-2.327 2.581-2.522.006-.025.01-.119-.047-.169-.057-.05-.141-.033-.201-.019-.086.019-1.469.932-4.148 2.738-.392.269-.747.4-1.064.393-.351-.007-1.025-.198-1.527-.361-.616-.2-1.106-.306-1.063-.647.022-.178.269-.361.739-.55 2.884-1.256 4.808-2.084 5.772-2.484 2.744-1.139 3.314-1.338 3.685-1.344.081-.001.262.019.379.115.099.081.126.193.132.277.007.076.012.246.002.329z">
-                                        </path>
-                                    </svg>
-                                </a>
-                            </div>
+                        </div>
+
+                        <!-- Add to Cart / Find Fit Buttons -->
+                        <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem;">
+                            <button class="btn-primary-buy product__card--btn" onclick="addProductToCart(event)" type="button">
+                                Add to cart
+                            </button>
+                            <button class="btn-secondary-fit" type="button">
+                                FIND MY EXACT FIT
+                            </button>
+                        </div>
+
+                        <!-- Description & Details -->
+                        <div class="product-desc-box" id="dyn-product-desc">
+                            Description goes here.
+                        </div>
+
+                        <!-- Share Options -->
+                        <div class="product-share-box">
+                            <span class="product-share-title">Share:</span>
+                            <a class="share-icon-link" href="#">
+                                <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+                                </svg>
+                            </a>
+                            <a class="share-icon-link" href="#">
+                                <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.347 1.413c-.056.23-.186.277-.428.166-1.597-.743-2.593-3.078-2.593-4.953 0-4.032 2.931-7.734 8.444-7.734 4.432 0 7.876 3.158 7.876 7.379 0 4.404-2.776 7.947-6.629 7.947-1.294 0-2.511-.672-2.927-1.465l-.796 3.033c-.287 1.099-1.062 2.478-1.58 3.327C9.914 23.763 10.939 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"></path>
+                                </svg>
+                            </a>
+                            <a class="share-icon-link" href="#">
+                                <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                                </svg>
+                            </a>
                         </div>
                     </div>
                 </div>
+
                 <!-- Tabs Section (CRAFTSMANSHIP, FEATURES, WEIGHT, DIMENSIONS) -->
-                <div class="product__details--tabs-section"
-                    style="display: flex; flex-direction: column; gap: 3rem; border-top:1px solid var(--border-color); padding-top: 5rem;">
-                    <div class="tabs-header-container"
-                        style="display: flex; gap: 4rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; justify-content: flex-start; flex-wrap: wrap;">
-                        <div class="tab-header-item active" data-tab="craftsmanship"
-                            style="font-family:'Karma',sans-serif; font-size:1.4rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--primary-color); cursor:pointer; font-weight:600; padding-bottom:1.5rem; position:relative; transition:all 0.3s ease;">
+                <div class="product__details--tabs-section">
+                    <div class="tabs-header-container">
+                        <div class="tab-header-item active" data-tab="craftsmanship">
                             CRAFTSMANSHIP
-                            <div class="tab-active-indicator"
-                                style="position:absolute; bottom:-1.7rem; left:0; right:0; height:2px; background:var(--primary-color); transition: all 0.3s ease;">
-                            </div>
+                            <div class="tab-active-indicator"></div>
                         </div>
-                        <div class="tab-header-item" data-tab="features"
-                            style="font-family:'Karma',sans-serif; font-size:1.4rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--foreground-sub-color); cursor:pointer; font-weight:600; padding-bottom:1.5rem; position:relative; transition:all 0.3s ease;">
+                        <div class="tab-header-item" data-tab="features">
                             FEATURES
-                            <div class="tab-active-indicator"
-                                style="position:absolute; bottom:-1.7rem; left:0; right:0; height:2px; background:transparent; transition: all 0.3s ease;">
-                            </div>
+                            <div class="tab-active-indicator"></div>
                         </div>
-                        <div class="tab-header-item" data-tab="weight"
-                            style="font-family:'Karma',sans-serif; font-size:1.4rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--foreground-sub-color); cursor:pointer; font-weight:600; padding-bottom:1.5rem; position:relative; transition:all 0.3s ease;">
+                        <div class="tab-header-item" data-tab="weight">
                             WEIGHT
-                            <div class="tab-active-indicator"
-                                style="position:absolute; bottom:-1.7rem; left:0; right:0; height:2px; background:transparent; transition: all 0.3s ease;">
-                            </div>
+                            <div class="tab-active-indicator"></div>
                         </div>
-                        <div class="tab-header-item" data-tab="dimensions"
-                            style="font-family:'Karma',sans-serif; font-size:1.4rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--foreground-sub-color); cursor:pointer; font-weight:600; padding-bottom:1.5rem; position:relative; transition:all 0.3s ease;">
+                        <div class="tab-header-item" data-tab="dimensions">
                             DIMENSIONS
-                            <div class="tab-active-indicator"
-                                style="position:absolute; bottom:-1.7rem; left:0; right:0; height:2px; background:transparent; transition: all 0.3s ease;">
-                            </div>
+                            <div class="tab-active-indicator"></div>
                         </div>
                     </div>
                     <div class="tabs-content-container" style="min-height: 100px;">
-                        <div class="tab-content-panel active" id="tab-craftsmanship"
-                            style="display: block; font-size:1.45rem; line-height:2.8rem; color:var(--foreground-sub-color);">
+                        <div class="tab-content-panel active" id="tab-craftsmanship">
                             Loading craftsmanship...
                         </div>
-                        <div class="tab-content-panel" id="tab-features"
-                            style="display: none; font-size:1.45rem; line-height:2.8rem; color:var(--foreground-sub-color);">
+                        <div class="tab-content-panel" id="tab-features">
                             Loading features...
                         </div>
-                        <div class="tab-content-panel" id="tab-weight"
-                            style="display: none; font-size:1.45rem; line-height:2.8rem; color:var(--foreground-sub-color);">
+                        <div class="tab-content-panel" id="tab-weight">
                             Loading weight...
                         </div>
-                        <div class="tab-content-panel" id="tab-dimensions"
-                            style="display: none; font-size:1.45rem; line-height:2.8rem; color:var(--foreground-sub-color);">
+                        <div class="tab-content-panel" id="tab-dimensions">
                             Loading dimensions...
                         </div>
                     </div>
                 </div>
+
                 <!-- You May Also Like Section -->
-                <div class="product__related"
-                    style="display: flex; flex-direction: column; gap: 4rem; border-top:1px solid var(--border-color); padding-top:6rem;">
-                    <h3
-                        style="font-family: var(--font-heading); font-size:2.8rem; color:var(--primary-color); margin:0; font-weight:600;">
+                <div class="product__related" style="display: flex; flex-direction: column; gap: 4rem; border-top:1px solid var(--border-color); padding-top:6rem; margin-top: 6rem;">
+                    <h3 style="font-family: var(--font-heading); font-size:2.8rem; color:var(--primary-color); margin:0; font-weight:600;">
                         You may also like</h3>
-                    <div class="product-grid" data-collection="all" data-limit="4" data-section="featured-collection">
-                    </div>
+                    <div class="product-grid" data-collection="all" data-limit="4" data-section="featured-collection"></div>
                 </div>
             </div>
         </section>
+
+        <!-- Sticky Add to Cart Bar -->
+        <div class="sticky-buy-bar" id="sticky-buy-bar">
+            <div class="page-width sticky-buy-inner">
+                <div class="sticky-buy-left">
+                    <img id="sticky-product-img" src="" alt="">
+                    <div class="sticky-product-meta">
+                        <span class="sticky-product-title" id="sticky-product-title">Product Title</span>
+                        <span class="sticky-product-price" id="sticky-product-price">KSh0.00</span>
+                    </div>
+                </div>
+                <div class="sticky-buy-right">
+                    <div class="sticky-selections">
+                        <span id="sticky-selection-color"></span>
+                        <span id="sticky-selection-size"></span>
+                    </div>
+                    <button class="sticky-add-btn" onclick="addProductToCart(event)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
         <!-- views/partials/footer.ejs -->
     </main>
     <footer class="footer__section footer__bg">
@@ -806,7 +1254,7 @@
         });
     </script>
     <script src="assets/storefront-api.js" type="module"></script>
-    <script defer src="assets/js/components/core.js" type="module"></script>`n
+    <script defer src="assets/js/components/core.js" type="module"></script>
 </body>
 
 </html>

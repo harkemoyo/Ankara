@@ -171,9 +171,8 @@ ul {
   display: grid;
   gap: 3rem;
   width: 100%;
-  max-width: var(--page-width);
   margin: 0 auto;
-  padding-block: 3rem;
+  padding-block: 1.5rem;
   padding-inline: 1.5rem;
   align-items: start;
 }

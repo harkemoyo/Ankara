@@ -64,38 +64,63 @@
             font-size: 1rem;
         }
 
-        /* Product Main Details Grid */
-        .product__details--section {
-            background: #fff;
-            padding-block: 6rem;
+        /* Product Main Details Flexbox Layout */
+        /* .product__details--section {
+            padding-block: 1.5rem;
+            padding-inline: 1.5rem;
+            width: 100%;
+        } */
+        .page-width{
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .product-details-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
             gap: 6rem;
-            align-items: start;
+            align-items: flex-start;
+        }
+        
+        .product__details--media{
+            flex: 1;
+            
+        }
+
+        .product__details--info {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            gap: 2.5rem;
         }
         
         @media (max-width: 991px) {
             .product-details-grid {
-                grid-template-columns: 1fr;
+                flex-direction: column;
                 gap: 4rem;
+            }
+            .product__details--media, .product__details--info {
+                flex: none;
+                width: 100%;
             }
         }
         
         /* Left Column: Image Gallery */
         .product__media--preview {
-            aspect-ratio: 3 / 4;
+           
             overflow: hidden;
-            background: #fcfcfc;
             border-radius: 4px;
-            border: 1px solid var(--border-color);
+            max-width: 450px;
+            margin-inline-start: auto;
+            aspect-ratio: 1 / 1;
             margin-bottom: 1.5rem;
             position: relative;
         }
         .product__media--preview img {
             width: 100%;
+            display: block;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
@@ -300,12 +325,18 @@
         }
         
         /* Buttons */
-        .btn-primary-buy {
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+        .btn-add-to-cart {
             width: 100%;
             height: 5.2rem;
-            background: var(--primary-color);
-            color: #fff;
-            border: none;
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            border: 1px solid var(--secondary-color);
             font-weight: 600;
             font-size: 1.3rem;
             letter-spacing: 0.15em;
@@ -317,15 +348,16 @@
             justify-content: center;
             border-radius: 4px;
         }
-        .btn-primary-buy:hover {
-            background: var(--secondary-color);
+        .btn-add-to-cart:hover {
+            background: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
         }
-        
-        .btn-secondary-fit {
+        .btn-buy-now {
             width: 100%;
             height: 5.2rem;
-            background: #fff;
-            color: var(--primary-color);
+            background: var(--primary-color);
+            color: #fff;
             border: 1px solid var(--primary-color);
             font-weight: 600;
             font-size: 1.3rem;
@@ -338,8 +370,15 @@
             justify-content: center;
             border-radius: 4px;
         }
-        .btn-secondary-fit:hover {
-            background: #f8f8f8;
+        .btn-buy-now:hover {
+            background: var(--hover-color);
+            border-color: var(--hover-color);
+        }
+        .fit-finder-link {
+            transition: opacity 0.2s;
+        }
+        .fit-finder-link:hover {
+            opacity: 0.8;
         }
         
         /* Description */
@@ -887,7 +926,7 @@
 
         <!-- Product Details Section -->
         <section class="product__details--section">
-            <div class="page-width" style="padding-inline: 1.5rem;">
+            <div class="page-width">
                 <div class="product-details-grid">
                     <!-- Left: Product Image Gallery -->
                     <div class="product__details--media">
@@ -900,16 +939,19 @@
                     </div>
                     <!-- Right: Product Info -->
                     <div class="product__details--info">
-                        <div class="product-meta-header">
-                            <span class="product-collection-label" id="dyn-product-badge">New</span>
-                            <h1 class="product-main-title" id="dyn-product-title">Product Name</h1>
-                            <div class="product-price-box" id="dyn-product-price">—</div>
-                            <!-- Rating & Tax Info -->
-                            <div class="product-rating-box">
-                                <div class="rating-stars-val">★ ★ ★ ★ ★</div>
-                                <span class="rating-count-val">(48 reviews)</span>
+                        <div class="product-meta-header" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <span class="product-collection-label" id="dyn-product-badge" style="font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--secondary-color); font-weight: 600;">NEW ARRIVAL</span>
+                            <h1 class="product-main-title" id="dyn-product-title" style="font-family: var(--font-heading); font-size: clamp(2.8rem, 3.5vw, 3.8rem); font-weight: 700; color: var(--primary-color); line-height: 1.2; margin: 0;">Product Name</h1>
+                            
+                            <div class="product-price-rating-row" style="display: flex; align-items: baseline; flex-wrap: wrap; gap: 2rem; margin-top: 0.5rem;">
+                                <div class="product-price-box" id="dyn-product-price" style="font-size: 2.4rem; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; margin: 0;">—</div>
+                                <div class="product-rating-box" style="display: flex; align-items: center; gap: 0.6rem; font-size: 1.3rem; color: var(--foreground-sub-color);">
+                                    <div class="rating-stars-val" style="color: #D4A843; letter-spacing: 2px;">★ ★ ★ ★ ★</div>
+                                    <span class="rating-count-val" style="font-size: 1.2rem; color: var(--foreground-sub-color);">(48 reviews)</span>
+                                </div>
                             </div>
-                            <p style="font-size:1.2rem; color:var(--foreground-sub-color); margin: 0.5rem 0 0;">Tax included. Shipping calculated at checkout.</p>
+                            
+                            <p style="font-size: 1.2rem; color: var(--foreground-sub-color); margin: 0.2rem 0 0; line-height: 1.4;">Tax included. Shipping calculated at checkout.</p>
                         </div>
                         
                         <!-- Colour Selection -->
@@ -938,14 +980,20 @@
                             </div>
                         </div>
 
-                        <!-- Add to Cart / Find Fit Buttons -->
-                        <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem;">
-                            <button class="btn-primary-buy product__card--btn" onclick="addProductToCart(event)" type="button">
-                                Add to cart
+                        <!-- Sandstorm-style Purchase Actions -->
+                        <div class="buttons-container">
+                            <button class="btn-add-to-cart product__card--btn" onclick="addProductToCart(event)" type="button">
+                                Add to bag
                             </button>
-                            <button class="btn-secondary-fit" type="button">
-                                FIND MY EXACT FIT
+                            <button class="btn-buy-now" onclick="buyProductNow(event)" type="button">
+                                Buy it now
                             </button>
+                            <div class="fit-finder-box" style="margin-top: 0.5rem; text-align: center;">
+                                <a href="javascript:void(0)" class="fit-finder-link" style="font-size: 1.2rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary-color); text-decoration: underline; display: inline-flex; align-items: center; gap: 0.5rem;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                                    Find My Exact Fit
+                                </a>
+                            </div>
                         </div>
 
                         <!-- Description & Details -->
@@ -1021,7 +1069,7 @@
         </section>
 
         <!-- Sticky Add to Cart Bar -->
-        <div class="sticky-buy-bar" id="sticky-buy-bar">
+        <!-- <div class="sticky-buy-bar" id="sticky-buy-bar">
             <div class="page-width sticky-buy-inner">
                 <div class="sticky-buy-left">
                     <img id="sticky-product-img" src="" alt="">
@@ -1038,7 +1086,7 @@
                     <button class="sticky-add-btn" onclick="addProductToCart(event)">Add to Cart</button>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- views/partials/footer.ejs -->
     </main>
     <footer class="footer__section footer__bg">

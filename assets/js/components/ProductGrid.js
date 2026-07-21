@@ -10,6 +10,7 @@ export default class ProductGrid {
             facets: {},
             pagination: null
         };
+        this.collections = [];
         
         // Listen to global filter changes
         window.addEventListener('filter:changed', () => {
@@ -34,7 +35,16 @@ export default class ProductGrid {
         this.init();
     }
 
-    init() {
+    async init() {
+        try {
+            const res = await fetch('/api/collections');
+            if (res.ok) {
+                const data = await res.json();
+                this.collections = data.collections || [];
+            }
+        } catch (e) {
+            console.error('Failed to load collections metadata', e);
+        }
         this.fetchProducts();
     }
 
@@ -62,12 +72,60 @@ export default class ProductGrid {
             
             // Dispatch event to update filters with the new facet counts
             window.dispatchEvent(new CustomEvent('facets:updated', { detail: this.state.facets }));
+
+            // Sync heading, page title and breadcrumbs
+            this.updateTitleAndBreadcrumbs();
         } catch (error) {
             console.error('Error fetching products:', error);
             this.state.error = 'Failed to load products. Please try again.';
         } finally {
             this.state.loading = false;
             this.render();
+        }
+    }
+
+    updateTitleAndBreadcrumbs() {
+        const params = new URLSearchParams(window.location.search);
+        const collectionHandle = params.get('collection');
+
+        const titleEl = document.querySelector('.breadcrumb__title');
+        const breadcrumbContentEl = document.querySelector('.breadcrumb--content');
+
+        if (!titleEl || !breadcrumbContentEl) return;
+
+        if (collectionHandle && collectionHandle !== 'all') {
+            const collection = this.collections.find(c => c.handle === collectionHandle);
+            const collectionTitle = collection ? collection.title : (collectionHandle.charAt(0).toUpperCase() + collectionHandle.slice(1));
+
+            // Update Page Heading
+            titleEl.textContent = collectionTitle;
+
+            // Update Document Title
+            document.title = `${collectionTitle} – Mary Humphrey Wear`;
+
+            // Update Breadcrumbs
+            breadcrumbContentEl.innerHTML = `
+                <li class="breadcrumb-item">
+                    <a href="index.html">Home</a>
+                </li>
+                <div class="divider">/</div>
+                <li class="breadcrumb-item">
+                    <a href="shop.html">Shop</a>
+                </li>
+                <div class="divider">/</div>
+                <li class="breadcrumb-item active">${collectionTitle}</li>
+            `;
+        } else {
+            // Default "Shop All"
+            titleEl.textContent = 'Shop All';
+            document.title = 'Shop – Mary Humphrey Wear';
+            breadcrumbContentEl.innerHTML = `
+                <li class="breadcrumb-item">
+                    <a href="index.html">Home</a>
+                </li>
+                <div class="divider">/</div>
+                <li class="breadcrumb-item active">Shop</li>
+            `;
         }
     }
 

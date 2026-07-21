@@ -582,6 +582,30 @@ window.addProductToCart = function(e) {
     }
 };
 
+window.buyProductNow = function(e) {
+    if (e) { e.preventDefault(); e.stopPropagation(); }
+    const product = window._currentProduct;
+    if (!product) return;
+
+    const qtyInput = document.getElementById('product-quantity-display');
+    const qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
+    const size = window._selectedSize || (product.sizes && product.sizes[0]) || 'M';
+    const color = window._selectedColor || '';
+
+    if (typeof addToCart === 'function') {
+        addToCart({
+            id: product.handle,
+            title: product.title,
+            price: product.price,
+            image: (product.images && product.images[0]) || '',
+            qty,
+            size,
+            color
+        });
+        window.location.href = 'checkout.html';
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     // Shop page init
     if (document.querySelector('.shop-product-grid') || document.querySelector('[data-section="product-grid"]')) {

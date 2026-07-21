@@ -33,6 +33,7 @@ export default class CollectionFilter {
         }
 
         this.syncUIWithURL();
+        this.loadCategories();
 
         // Sort dropdown
         const sortSelect = document.getElementById('sort-select');
@@ -43,9 +44,82 @@ export default class CollectionFilter {
         }
     }
 
+    async loadCategories() {
+        const sidebarContainer = this.el.querySelector('#sidebar-categories');
+        if (!sidebarContainer) return;
+
+        try {
+            const res = await fetch('/api/collections');
+            if (res.ok) {
+                const data = await res.json();
+                const collections = data.collections || [];
+                
+                const params = new URLSearchParams(window.location.search);
+                const activeCollection = params.get('collection') || 'all';
+
+                sidebarContainer.innerHTML = collections.map(c => {
+                    const isActive = activeCollection === c.handle;
+                    return `
+                        <li class="widget__categories--menu__list" style="margin-bottom:1rem; border:none;">
+                            <a href="javascript:void(0)" 
+                               data-collection-handle="${c.handle}"
+                               style="font-size:1.4rem; color:${isActive ? '#422326' : '#7a726e'}; font-weight:${isActive ? '600' : '400'}; text-decoration:none; display:block; padding: 0.5rem 0;"
+                            >
+                               ${c.title}
+                            </a>
+                        </li>
+                    `;
+                }).join('');
+
+                // Bind click event to each category link
+                sidebarContainer.querySelectorAll('a').forEach(a => {
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const handle = a.getAttribute('data-collection-handle');
+                        this.selectCollection(handle);
+                    });
+                });
+            }
+        } catch (e) {
+            console.error('Failed to load sidebar categories', e);
+        }
+    }
+
+    selectCollection(handle) {
+        const params = new URLSearchParams(window.location.search);
+        if (handle && handle !== 'all') {
+            params.set('collection', handle);
+        } else {
+            params.delete('collection');
+        }
+        params.delete('page'); // Reset page on collection change
+
+        // Update URL
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
+        window.history.pushState({}, '', newUrl);
+
+        // Sync UI
+        this.syncUIWithURL();
+
+        // Tell ProductGrid to fetch
+        window.dispatchEvent(new Event('filter:changed'));
+    }
+
     syncUIWithURL() {
         const params = new URLSearchParams(window.location.search);
         
+        // Sync category links style
+        const activeCollection = params.get('collection') || 'all';
+        const sidebarContainer = this.el.querySelector('#sidebar-categories');
+        if (sidebarContainer) {
+            sidebarContainer.querySelectorAll('a').forEach(a => {
+                const handle = a.getAttribute('data-collection-handle');
+                const isActive = activeCollection === handle;
+                a.style.color = isActive ? '#422326' : '#7a726e';
+                a.style.fontWeight = isActive ? '600' : '400';
+            });
+        }
+
         // Sync checkboxes
         const checkboxes = this.el.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(cb => {

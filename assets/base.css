@@ -135,6 +135,12 @@ ul {
   padding-inline: 1.5rem;
 }
 
+@media only screen and (min-width: 992px) {
+  .main__header--inner {
+    padding-inline: 4.5rem;
+  }
+}
+
 .header__menu--wrapper,
 .header__account--wrapper {
   display: flex;
@@ -10589,6 +10595,11 @@ li[data-address]>h2 {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
+}
+@media (max-width: 768px) {
+  .product__details--media {
+    position: relative;
+  }
 }
 
 

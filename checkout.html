@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 
@@ -404,7 +404,7 @@
                 <!-- Logo -->
                 <div class="main__logo">
                     <h1 class="main__logo--title">
-                        <a class="main__logo--link" href="index.html">
+                        <a class="main__logo--link" href=".">
                             <img alt="Mary Humphrey African Wear" class="main__logo--img"
                                 src="assets/IMG-20260622-WA0082.webp"
                                 style="height:60px; width:auto; object-fit:contain;" />
@@ -416,10 +416,20 @@
                     <nav class="header__menu--navigation">
                         <ul class="header__menu--wrapper d-flex">
                             <li class="header__menu--items">
-                                <a class="header__menu--link" href="index.html">Home</a>
+                                <a class="header__menu--link" href=".">Home</a>
                             </li>
-                            <li class="header__menu--items active-page">
-                                <a class="header__menu--link active" href="shop.html">Shop</a>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="shop.html">Collections 
+                                    <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                                <ul class="header__sub--menu">
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html">All Products</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=dresses">Dresses</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=tops">Tops & Blouses</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=skirts">Skirts</a></li>
+                                </ul>
                             </li>
                             <li class="header__menu--items">
                                 <a class="header__menu--link" href="about.html">Our Story</a>
@@ -484,12 +494,13 @@
                 </div>
             </div>
         </div>
-    </div><!-- ── Offcanvas Mobile Menu ──────────────────── -->
+    </div>
+    <!-- ── Offcanvas Mobile Menu ──────────────────── -->
     <div class="offcanvas__header">
         <div class="offcanvas__inner">
             <!-- Offcanvas Logo -->
             <div class="offcanvas__logo">
-                <a class="offcanvas__logo--link" href="index.html">
+                <a class="offcanvas__logo--link" href=".">
                     <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp"
                         style="height:50px; width:auto; object-fit:contain;" />
                 </a>
@@ -498,10 +509,16 @@
             <nav class="offcanvas__menu">
                 <ul class="offcanvas__menu_ul">
                     <li class="offcanvas__menu_li">
-                        <a class="offcanvas__menu_item" href="index.html">Home</a>
+                        <a class="offcanvas__menu_item" href=".">Home</a>
                     </li>
                     <li class="offcanvas__menu_li">
-                        <a class="offcanvas__menu_item" href="shop.html">Shop</a>
+                        <a class="offcanvas__menu_item" href="shop.html">Collections</a>
+                        <ul class="offcanvas__sub_menu">
+                            <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html">All Products</a></li>
+                            <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html?collection=dresses">Dresses</a></li>
+                            <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html?collection=tops">Tops & Blouses</a></li>
+                            <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html?collection=skirts">Skirts</a></li>
+                        </ul>
                     </li>
                     <li class="offcanvas__menu_li">
                         <a class="offcanvas__menu_item" href="about.html">Our Story</a>
@@ -610,7 +627,7 @@
         <div class="checkout-wrap" id="checkout-wrap">
             <!-- ── LEFT: FORM ── -->
             <div class="checkout-form-col">
-                <a class="checkout-logo" href="index.html">Ankara</a>
+                <a class="checkout-logo" href=".">Ankara</a>
                 <div class="step-label">Step 1</div>
                 <h1 class="section-title">Contact &amp; Delivery</h1>
                 <form id="checkout-form" novalidate="">

@@ -20,7 +20,7 @@ export default class CartDrawer {
             });
             
             // Open minicart UI
-            const minicart = document.querySelector(".offCanvas__minicart");
+            const minicart = document.querySelector(".js-cart-drawer") || document.querySelector(".offCanvas__minicart");
             if (minicart) minicart.classList.add("active");
             document.body.classList.add("offCanvas__minicart_active");
         } else {

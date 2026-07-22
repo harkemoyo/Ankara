@@ -113,62 +113,61 @@ function updateCartUI() {
   });
 
   // Target minicart components
-  const emptyState = document.querySelector('.minicart__empty--text');
-  const itemsContainer = document.getElementById('minicart-items-list');
-  const subtotalEl = document.getElementById('minicart-subtotal');
-  const checkoutContainer = document.querySelector('.minicart__button');
-  const amountContainer = document.querySelector('.minicart__amount');
+  const emptyState = document.querySelector('.minicart__empty--text') || document.querySelector('.js-minicart-empty');
+  const itemsContainer = document.getElementById('minicart-items-list') || document.querySelector('.js-minicart-items');
+  const subtotalEl = document.getElementById('minicart-subtotal') || document.querySelector('.js-minicart-subtotal');
+  const checkoutContainer = document.querySelector('.minicart__button') || document.querySelector('.js-minicart-actions');
+  const amountContainer = document.querySelector('.minicart__amount') || document.querySelector('.js-minicart-amount');
 
   // Create items list container if not exists
-  let listEl = document.getElementById('minicart-items-list');
+  let listEl = itemsContainer;
   if (!listEl) {
     const minicartDesc = document.querySelector('.minicart__header');
     if (minicartDesc) {
       listEl = document.createElement('div');
       listEl.id = 'minicart-items-list';
-      listEl.className = 'minicart__product';
-      listEl.style = 'flex: 1; overflow-y: auto; padding-right: 1rem;';
+      listEl.className = 'minicart__product js-minicart-items';
       minicartDesc.parentNode.insertBefore(listEl, minicartDesc.nextSibling);
     }
   }
 
   if (cart.length === 0) {
     // Show empty state
-    if (emptyState) emptyState.style.display = 'block';
-    if (listEl) listEl.style.display = 'none';
-    if (amountContainer) amountContainer.style.display = 'none';
-    if (checkoutContainer) checkoutContainer.style.display = 'none';
+    if (emptyState) emptyState.classList.remove('is-hidden');
+    if (listEl) listEl.classList.add('is-hidden');
+    if (amountContainer) amountContainer.classList.add('is-hidden');
+    if (checkoutContainer) checkoutContainer.classList.add('is-hidden');
   } else {
     // Hide empty state
-    if (emptyState) emptyState.style.display = 'none';
+    if (emptyState) emptyState.classList.add('is-hidden');
     if (listEl) {
-      listEl.style.display = 'block';
-      // Render items
+      listEl.classList.remove('is-hidden');
+      // Render items cleanly without inline styles
       listEl.innerHTML = cart.map((item, index) => `
-        <div class="minicart__product--items" style="display: flex; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color);">
-          <div class="minicart__thumb" style="width: 70px; height: 70px; flex-shrink: 0; margin-right: 1.5rem; background: var(--bg-gray-color);">
-            <a href="product.html?handle=${item.id}"><img style="width: 100%; height: 100%; object-fit: cover;" src="${item.image}" alt="${item.title}"></a>
+        <div class="minicart__product--items js-minicart-item">
+          <div class="minicart__thumb">
+            <a href="product.html?handle=${item.id}"><img src="${item.image}" alt="${item.title}"></a>
           </div>
-          <div class="minicart__text" style="flex: 1; display: flex; flex-direction: column;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div class="minicart__text">
+            <div class="minicart__text--top">
                <div>
-                  <h4 class="minicart__subtitle" style="font-family: var(--karma-fonts); font-size: 1.6rem; font-weight: 500; margin-bottom: 0.5rem;"><a href="product.html?handle=${item.id}" style="color: var(--primary-color); text-decoration: none;">${item.title}</a></h4>
-                  <span class="color__variant" style="display: block; font-size: 1.3rem; color: var(--foreground-sub-color); margin-bottom: 0.2rem;"><b>Color:</b> ${item.color || 'As Shown'}</span>
-                  <span class="color__variant" style="display: block; font-size: 1.3rem; color: var(--foreground-sub-color); margin-bottom: 1.5rem;"><b>Size:</b> ${item.size}</span>
+                  <h4 class="minicart__subtitle"><a href="product.html?handle=${item.id}">${item.title}</a></h4>
+                  <span class="color__variant"><b>Color:</b> ${item.color || 'As Shown'}</span>
+                  <span class="color__variant"><b>Size:</b> ${item.size}</span>
                </div>
-               <button class="minicart__product--remove" type="button" aria-label="remove" onclick="removeFromMinicart(${index})" style="background: none; border: 1px solid var(--border-color); border-radius: 4px; padding: 0.2rem 0.6rem; font-size: 1.4rem; cursor: pointer; color: var(--foreground-sub-color);">&times;</button>
+               <button class="minicart__product--remove js-item-remove" type="button" aria-label="remove" onclick="removeFromMinicart(${index})">&times;</button>
             </div>
             
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto;">
-                <div class="quantity__box" style="display: inline-flex; align-items: center; border: 1px solid var(--border-color); border-radius: 3px; overflow: hidden;">
-                  <button type="button" class="quantity__value decrease" aria-label="decrease quantity" onclick="changeMinicartQty(${index}, -1)" style="width: 2.5rem; height: 3rem; background: none; border: none; font-size: 1.4rem; color: var(--primary-color); cursor: pointer;">-</button>
+            <div class="minicart__text--bottom">
+                <div class="quantity__box">
+                  <button type="button" class="quantity__value decrease js-qty-btn" aria-label="decrease quantity" onclick="changeMinicartQty(${index}, -1)">-</button>
                   <label>
-                    <input type="number" class="quantity__number" value="${item.qty}" readonly style="width: 3rem; height: 3rem; text-align: center; border: none; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); font-size: 1.3rem; color: var(--primary-color); padding: 0;">
+                    <input type="number" class="quantity__number js-qty-input" value="${item.qty}" readonly>
                   </label>
-                  <button type="button" class="quantity__value increase" aria-label="increase quantity" onclick="changeMinicartQty(${index}, 1)" style="width: 2.5rem; height: 3rem; background: none; border: none; font-size: 1.4rem; color: var(--primary-color); cursor: pointer;">+</button>
+                  <button type="button" class="quantity__value increase js-qty-btn" aria-label="increase quantity" onclick="changeMinicartQty(${index}, 1)">+</button>
                 </div>
                 <div class="minicart__price">
-                  <span class="minicart__current--price" style="font-size: 1.4rem; font-weight: 500; color: var(--primary-color);">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(item.price * item.qty) : `£${(item.price * item.qty).toFixed(2)}`}</span>
+                  <span class="minicart__current--price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(item.price * item.qty) : `KSh${(item.price * item.qty).toFixed(2)}`}</span>
                 </div>
             </div>
           </div>
@@ -177,10 +176,10 @@ function updateCartUI() {
     }
     
     // Show subtotal and checkout buttons
-    if (amountContainer) amountContainer.style.display = 'block';
-    if (checkoutContainer) checkoutContainer.style.display = 'block';
+    if (amountContainer) amountContainer.classList.remove('is-hidden');
+    if (checkoutContainer) checkoutContainer.classList.remove('is-hidden');
     if (subtotalEl) {
-      subtotalEl.innerHTML = `<b>${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(subtotal) : `£${subtotal.toFixed(2)}`}</b>`;
+      subtotalEl.innerHTML = `<b>${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(subtotal) : `KSh${subtotal.toFixed(2)}`}</b>`;
     }
   }
 }

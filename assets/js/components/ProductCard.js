@@ -22,7 +22,7 @@ export default class ProductCard {
 
     render() {
         const product = this.product;
-        const card = this.createEl('article', 'product__card clean-card product-card', {
+        const card = this.createEl('article', 'product__card js-product-card', {
             'data-handle': product.handle
         });
 
@@ -31,9 +31,9 @@ export default class ProductCard {
         }
 
         // 1. Thumbnail Wrap
-        const thumbnailWrap = this.createEl('div', 'product__card--thumbnail clean-card-thumbnail');
+        const thumbnailWrap = this.createEl('div', 'product__card--thumbnail');
         
-        const thumbnailLink = this.createEl('a', 'product__card--thumbnail__link display-block', {
+        const thumbnailLink = this.createEl('a', 'product__card--thumbnail__link', {
             href: `product.html?handle=${product.handle}`
         });
 
@@ -56,17 +56,17 @@ export default class ProductCard {
 
         // Badges
         if (!product.in_stock) {
-            const badge = this.createEl('span', 'badge sold-out-badge', {}, 'Sold Out');
+            const badge = this.createEl('span', 'product__card--badge sold-out-badge', {}, 'Sold Out');
             thumbnailWrap.appendChild(badge);
         } else if (product.compare_at_price > product.price) {
-            const badge = this.createEl('span', 'badge sale-badge', {}, 'Sale');
+            const badge = this.createEl('span', 'product__card--badge sale-badge', {}, 'Sale');
             thumbnailWrap.appendChild(badge);
         }
 
         // Action overlay buttons on hover
         if (product.in_stock) {
             // Quick Add to Cart button
-            const addBtn = this.createEl('button', 'clean-card-add', {
+            const addBtn = this.createEl('button', 'product__card--action-btn js-cart-add-btn', {
                 'type': 'button',
                 'aria-label': 'Add to cart',
                 'title': 'Add to Cart'
@@ -76,7 +76,6 @@ export default class ProductCard {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                // Fire custom global event
                 window.dispatchEvent(new CustomEvent('cart:add', {
                     detail: {
                         id: product.handle,
@@ -91,7 +90,7 @@ export default class ProductCard {
             });
 
             // Quick View button
-            const quickBtn = this.createEl('button', 'clean-card-quickview', {
+            const quickBtn = this.createEl('button', 'product__card--action-btn js-quickview-btn', {
                 'type': 'button',
                 'aria-label': 'Quick view',
                 'title': 'Quick View'
@@ -101,7 +100,6 @@ export default class ProductCard {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                // Fire custom global event to open Quick View
                 window.dispatchEvent(new CustomEvent('quickview:open', {
                     detail: { handle: product.handle }
                 }));
@@ -110,35 +108,31 @@ export default class ProductCard {
             thumbnailWrap.append(addBtn, quickBtn);
         }
 
-        // 2. Card Content
-        const content = this.createEl('div', 'product__card--content clean-card-content');
+        // 2. Card Content (Grouped tightly for Gestalt Law of Proximity)
+        const content = this.createEl('div', 'product__card--content');
 
         const titleLink = this.createEl('a', 'product__card--title-link', {
             href: `product.html?handle=${product.handle}`
         });
-        const title = this.createEl('h3', 'product__card--title clean-title', {}, product.title);
+        const title = this.createEl('h3', 'product__card--title', {}, product.title);
         titleLink.appendChild(title);
 
         // Color Swatches
         let swatchesContainer = null;
         if (product.colors && Array.isArray(product.colors) && product.colors.length > 0) {
-            swatchesContainer = this.createEl('div', 'product-card__swatches', {
-                'style': 'display: flex; gap: 8px; margin-top: 8px; justify-content: center;'
-            });
+            swatchesContainer = this.createEl('div', 'product-card__swatches');
             product.colors.forEach((color, index) => {
-                const swatch = this.createEl('button', 'swatch-btn', {
+                const swatch = this.createEl('button', 'swatch-btn js-swatch-btn', {
                     'aria-label': color.label,
                     'aria-pressed': index === 0 ? 'true' : 'false',
                     'title': color.label,
-                    'type': 'button',
-                    'style': `width: 2.4rem; height: 2.4rem; border-radius: 50%; padding: 0; border: 2px solid ${index === 0 ? 'var(--primary-color)' : 'transparent'}; cursor: pointer; overflow: hidden; display: inline-block;`
+                    'type': 'button'
                 });
                 
                 const swatchImgUrl = color.image || primaryImage;
                 const swatchImg = this.createEl('img', 'swatch-img', {
                     src: swatchImgUrl,
-                    alt: color.label,
-                    style: 'width: 100%; height: 100%; object-fit: cover; display: block;'
+                    alt: color.label
                 });
                 swatch.appendChild(swatchImg);
 
@@ -148,27 +142,26 @@ export default class ProductCard {
                     
                     Array.from(swatchesContainer.children).forEach(btn => {
                         btn.setAttribute('aria-pressed', 'false');
-                        btn.style.borderColor = 'transparent';
+                        btn.classList.remove('is-active');
                     });
                     swatch.setAttribute('aria-pressed', 'true');
-                    swatch.style.borderColor = 'var(--primary-color)';
+                    swatch.classList.add('is-active');
                     
                     mainImg.src = swatchImgUrl;
                 });
 
+                if (index === 0) swatch.classList.add('is-active');
                 swatchesContainer.appendChild(swatch);
             });
         }
 
         // Price Wrapper
-        const priceWrapper = this.createEl('div', 'product__card--price clean-price');
+        const priceWrapper = this.createEl('div', 'product__card--price');
         const currentPrice = this.createEl('span', 'current__price', {}, this.formatPrice(product.price));
         priceWrapper.appendChild(currentPrice);
 
         if (product.compare_at_price > product.price) {
-            const oldPrice = this.createEl('span', 'old__price', {
-                'style': 'text-decoration:line-through;color:#999;margin-left:8px;'
-            }, this.formatPrice(product.compare_at_price));
+            const oldPrice = this.createEl('span', 'old__price', {}, this.formatPrice(product.compare_at_price));
             priceWrapper.appendChild(oldPrice);
         }
 

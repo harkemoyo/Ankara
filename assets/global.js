@@ -568,12 +568,12 @@ function offcanvsSidebar(openTrigger, closeTrigger, wrapper) {
   let OpenTriggerprimary__btn = document.querySelectorAll(openTrigger);
   let closeTriggerprimary__btn = document.querySelector(closeTrigger);
   let WrapperSidebar = document.querySelector(wrapper);
-  let wrapperOverlay = wrapper.replace(".", "");
+  let wrapperOverlay = wrapper.split(',')[0].replace(".", "").trim();
 
   function handleBodyClass(evt) {
     let eventTarget = evt.target;
-    if (!eventTarget.closest(wrapper) && !eventTarget.closest(openTrigger)) {
-      WrapperSidebar.classList.remove("active");
+    if (!eventTarget.closest(wrapper.split(',')[0]) && !eventTarget.closest(openTrigger.split(',')[0])) {
+      if (WrapperSidebar) WrapperSidebar.classList.remove("active");
       document
         .querySelector("body")
         .classList.remove(`${wrapperOverlay}_active`);
@@ -607,42 +607,39 @@ function offcanvsSidebar(openTrigger, closeTrigger, wrapper) {
 }
 // Listen for the custom event
 document.addEventListener('itemAddedToCart', function(ev) {
-  // Trigger the activation of the Mini Cart sidebar
-  document.querySelector(".offCanvas__minicart").classList.add("active");
-  document.querySelector("body").classList.add(`offCanvas__minicart_active`);
+  const minicart = document.querySelector(".js-cart-drawer") || document.querySelector(".offCanvas__minicart");
+  if (minicart) minicart.classList.add("active");
+  document.body.classList.add("offCanvas__minicart_active");
 
-  // Check if the close button exists before adding the event listener
-  const closeButton = document.querySelector(".minicart__close--btn");
+  const closeButton = document.querySelector(".js-minicart-close") || document.querySelector(".minicart__close--btn");
   if (closeButton) {
-    // Add event listener to the close button
     closeButton.addEventListener('click', function() {
-      // Remove the "active" class from the Mini Cart sidebar and body
-      document.querySelector(".offCanvas__minicart").classList.remove("active");
-      document.querySelector("body").classList.remove(`offCanvas__minicart_active`);
+      if (minicart) minicart.classList.remove("active");
+      document.body.classList.remove("offCanvas__minicart_active");
     });
   }
 });
 
- 
-
-
-
-
 // Mini Cart
 offcanvsSidebar(
-  ".minicart__open--btn",
-  ".minicart__close--btn",
-  ".offCanvas__minicart"
+  ".minicart__open--btn, .js-minicart-open",
+  ".minicart__close--btn, .js-minicart-close",
+  ".offCanvas__minicart, .js-cart-drawer"
 );
 
 // Search Bar
 offcanvsSidebar(
-  ".search__open--btn",
-  ".predictive__search--close__btn",
-  ".predictive__search--box"
+  ".search__open--btn, .js-search-open",
+  ".predictive__search--close__btn, .js-search-close",
+  ".predictive__search--box, .js-search-box"
 );
 
-
+// Offcanvas Menu
+offcanvsSidebar(
+  ".offcanvas__header--menu__open--btn, .js-mobile-menu-open",
+  ".offcanvas__close--btn, .js-mobile-menu-close",
+  ".offcanvas__header, .js-mobile-menu-drawer"
+);
 
 // Qunatity Button Activation
 const quantityWrapper = document.querySelectorAll(".quantity__box");

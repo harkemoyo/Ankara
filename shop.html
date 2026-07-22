@@ -27,6 +27,11 @@
     <script defer="" src="assets/filter.js"></script>
     <script defer="" src="assets/js/components/core.js" type="module"></script>
     <script defer src="assets/supabase-client.js" type="module"></script>
+    <style>
+        .collection_wrapper {
+            padding-inline: 1.5rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -95,16 +100,22 @@
                                 <a class="header__menu--link" href=".">Home</a>
                             </li>
                             <li class="header__menu--items active-page">
-                                <a class="header__menu--link active" href="shop.html">Collections 
-                                    <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <a class="header__menu--link active" href="shop.html">Collections
+                                    <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6"
+                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </a>
                                 <ul class="header__sub--menu">
-                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html">All Products</a></li>
-                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=dresses">Dresses</a></li>
-                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=tops">Tops & Blouses</a></li>
-                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=skirts">Skirts</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                            href="shop.html">All Products</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                            href="shop.html?collection=dresses">Dresses</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                            href="shop.html?collection=tops">Tops & Blouses</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                            href="shop.html?collection=skirts">Skirts</a></li>
                                 </ul>
                             </li>
                             <li class="header__menu--items">
@@ -190,10 +201,14 @@
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item" href="shop.html">Collections</a>
                             <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html">All Products</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html?collection=dresses">Dresses</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html?collection=tops">Tops & Blouses</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html?collection=skirts">Skirts</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="shop.html">All Products</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="shop.html?collection=dresses">Dresses</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="shop.html?collection=tops">Tops & Blouses</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="shop.html?collection=skirts">Skirts</a></li>
                             </ul>
                         </li>
                         <li class="offcanvas__menu_li">
@@ -224,7 +239,8 @@
             <div class="minicart__header">
                 <div class="minicart__header--top">
                     <h3 class="minicart__title">Cart</h3>
-                    <button aria-label="close cart" class="minicart__close--btn js-minicart-close" data-offcanvas="" type="button">×</button>
+                    <button aria-label="close cart" class="minicart__close--btn js-minicart-close" data-offcanvas=""
+                        type="button">×</button>
                 </div>
             </div>
             <div class="minicart__empty--text js-minicart-empty">
@@ -247,7 +263,8 @@
             </div>
             <div class="minicart__button js-minicart-actions">
                 <a class="minicart__button--link" href="cart.html">View Cart</a>
-                <a class="minicart__button--link checkout__btn js-checkout-btn" href="javascript:void(0)" onclick="triggerCheckout()">Check Out</a>
+                <a class="minicart__button--link checkout__btn js-checkout-btn" href="javascript:void(0)"
+                    onclick="triggerCheckout()">Check Out</a>
             </div>
         </div>
         <!-- ── Search Overlay ─────────────────────────── -->

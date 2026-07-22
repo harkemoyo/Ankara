@@ -1131,20 +1131,24 @@ hr {
   gap: 0.8rem;
 }
 
-/* Footer bottom bar */
-.footer__bottom--inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
 
 /* Footer bottom container */
-.footer__bottom .footer__bottom--inner-wrap {
+.footer__bottom--inner-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border-top: 1px solid var(--border-color);
   padding-block: 1.5rem;
   padding-inline: 1.5rem;
   font-size: 1.8rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .footer__bottom--inner-wrap {
+    flex-direction: row;
+  }
 }
 
 /* Payment badge */
@@ -7398,11 +7402,14 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
-.footer__bottom {
-  border-top: 1px solid var(--border-color);
-}
+
 
 .footer__bottom--inenr {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   padding: 1.8rem 0;
 }
 
@@ -7414,12 +7421,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 @media only screen and (max-width: 991px) {
   .footer__bottom--inenr {
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    gap: 1.2rem;
-    -webkit-box-pack: center !important;
-    -ms-flex-pack: center !important;
-    justify-content: center !important;
+    flex-direction: row;
   }
 }
 

@@ -90,23 +90,27 @@
 /* ── Contact Hero Header ──────────────────────────────────────── */
 .contact__hero {
   text-align: center;
-  padding: 8rem 2rem 5rem;
-  background-color: var(--bg-gray-color);
-  margin-bottom: 6rem;
+  padding: 8rem 2rem 6rem;
+  background: linear-gradient(135deg, #1a1818 0%, #2e2828 100%);
+  margin-bottom: 5rem;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
 }
 
 .contact__hero h1 {
-  font-family: var(--font-heading);
+  font-family: 'Frank Ruhl Libre', serif;
   font-size: clamp(3.6rem, 5vw, 5.2rem);
-  color: var(--primary-color);
-  margin-bottom: 2rem;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
 }
 
 .contact__hero p {
-  font-family: var(--font-body);
+  font-family: var(--font-body-family);
   font-size: 1.6rem;
-  color: var(--foreground-sub-color);
-  max-width: 600px;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 640px;
   margin: 0 auto;
   line-height: 1.6;
 }
@@ -118,46 +122,46 @@
 
 /* ── Form Card wrapper ───────────────────────────────────────── */
 .contact__form--wrapper {
-  background-color: #fff;
-  padding: 4.5rem;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 4px 20px rgba(66, 35, 38, 0.03);
+  background-color: #ffffff;
+  padding: 4rem 4.5rem;
+  border-radius: 1.2rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
 }
 
 .contact__form--title {
-  font-family: var(--font-heading);
-  font-size: 2.6rem;
-  color: var(--primary-color);
-  margin-bottom: 3.5rem;
-  font-weight: 500;
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 2.8rem;
+  color: var(--primary-color, #1a1818);
+  margin-bottom: 3rem;
+  font-weight: 600;
 }
 
 /* Form Group Controls */
 .form-group {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.2rem;
 }
 
 .form-group label {
   display: block;
-  font-family: var(--font-body);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
+  color: var(--primary-color, #1a1818);
+  margin-bottom: 0.8rem;
 }
 
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group textarea {
   width: 100%;
-  padding: 1.5rem;
-  border: 1px solid var(--border-color);
-  background-color: var(--bg-offwhite-color);
-  color: var(--foreground-color);
-  font-family: var(--font-body);
-  font-size: 1.4rem;
+  padding: 1.4rem 1.6rem;
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 8px;
+  background-color: #fcfbf9;
+  color: var(--foreground-color, #222);
+  font-size: 1.5rem;
   outline: none;
   box-sizing: border-box;
   transition: all 0.3s ease;
@@ -166,13 +170,13 @@
 .form-group input[type="text"]:focus,
 .form-group input[type="email"]:focus,
 .form-group textarea:focus {
-  border-color: var(--primary-color);
-  background-color: #fff;
-  box-shadow: 0 0 0 3px rgba(66, 35, 38, 0.08);
+  border-color: var(--secondary-color, #C97F5F);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(201, 127, 95, 0.15);
 }
 
 .form-group textarea {
-  height: 150px;
+  height: 140px;
   resize: vertical;
 }
 
@@ -180,38 +184,41 @@
 .contact__submit--btn {
   display: inline-block;
   width: 100%;
-  padding: 1.8rem;
-  background-color: var(--primary-color);
-  color: #fff;
-  font-family: var(--font-body);
+  padding: 1.6rem;
+  background-color: var(--primary-color, #1a1818);
+  color: #ffffff;
   font-size: 1.3rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .contact__submit--btn:hover {
-  background-color: var(--hover-color);
-  box-shadow: 0 4px 15px rgba(66, 35, 38, 0.15);
+  background-color: var(--secondary-color, #C97F5F);
+  box-shadow: 0 6px 20px rgba(201, 127, 95, 0.3);
+  transform: translateY(-2px);
 }
 
 /* ── Contact Info Cards ───────────────────────────────────────── */
 .contact__info--card {
-  background-color: var(--bg-offwhite-color);
-  border: 1px solid var(--border-color);
-  padding: 3.5rem;
-  margin-bottom: 3rem;
+  background-color: #fcfbf9;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 1.2rem;
+  padding: 3.2rem 3rem;
+  margin-bottom: 2.5rem;
   text-align: center;
   box-sizing: border-box;
   transition: all 0.3s ease;
 }
 
 .contact__info--card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(66, 35, 38, 0.05);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  border-color: var(--secondary-color, #C97F5F);
 }
 
 .contact__info--icon {

@@ -1,0 +1,315 @@
+/* assets/account.css — Luxury Auth & Customer Dashboard Styles */
+
+.account__auth--wrapper {
+  max-width: 480px;
+  margin: 4rem auto;
+  background-color: #fdfbf7;
+  border: 1px solid var(--border-color, #e0d8d0);
+  border-radius: 16px;
+  padding: 4rem 3.5rem;
+  box-shadow: 0 10px 40px rgba(42, 23, 25, 0.05);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+.account__auth--logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.account__auth--logo-img {
+  height: 65px;
+  width: auto;
+  object-fit: contain;
+  border: 1.5px solid var(--primary-color, #422326);
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.account__auth--title {
+  font-family: var(--font-heading, 'Frank Ruhl Libre', serif);
+  font-size: 3rem;
+  color: var(--primary-color, #422326);
+  font-weight: 700;
+  margin: 0;
+}
+
+.account__auth--subtitle {
+  font-family: var(--font-body, sans-serif);
+  font-size: 1.45rem;
+  color: var(--foreground-sub-color, #7a726e);
+  margin: 0;
+}
+
+/* Google OAuth Button */
+.btn__oauth--google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  width: 100%;
+  padding: 1.5rem;
+  background-color: #5b46e0; /* Vibrant modern brand purple / primary accent */
+  color: #ffffff;
+  font-family: var(--font-body, sans-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(91, 70, 224, 0.25);
+}
+
+.btn__oauth--google:hover {
+  background-color: #4a36cd;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(91, 70, 224, 0.35);
+}
+
+.google__icon--bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: #ffffff;
+  border-radius: 50%;
+  padding: 4px;
+}
+
+/* Divider */
+.account__auth--divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  color: var(--foreground-sub-color, #a09890);
+  font-size: 1.3rem;
+}
+
+.account__auth--divider::before,
+.account__auth--divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color, #e0d8d0);
+}
+
+.account__auth--divider span {
+  padding: 0 1.5rem;
+}
+
+/* Email Input Box with Submit Arrow */
+.account__email--form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.account__email--input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.account__email--input {
+  width: 100%;
+  padding: 1.5rem 5.5rem 1.5rem 1.8rem;
+  border: 1px solid var(--border-color, #dcd4cc);
+  border-radius: 12px;
+  background-color: #ffffff;
+  font-family: var(--font-body, sans-serif);
+  font-size: 1.5rem;
+  color: var(--foreground-color, #2a2624);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.account__email--input:focus {
+  border-color: #5b46e0;
+  box-shadow: 0 0 0 4px rgba(91, 70, 224, 0.12);
+}
+
+.account__email--submit-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--primary-color, #422326);
+  transition: all 0.2s ease;
+}
+
+.account__email--submit-btn:hover {
+  background-color: rgba(66, 35, 38, 0.08);
+  color: #5b46e0;
+}
+
+/* Checkbox */
+.account__checkbox--wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 1.35rem;
+  color: var(--foreground-color, #2a2624);
+  text-align: left;
+}
+
+.account__checkbox--wrap input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-color, #422326);
+  cursor: pointer;
+}
+
+/* Legal Footer Links */
+.account__auth--footer-links {
+  font-size: 1.2rem;
+  color: var(--foreground-sub-color, #8c827a);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 1.8rem;
+  width: 100%;
+}
+
+.account__auth--footer-links a {
+  color: var(--foreground-sub-color, #666);
+  text-decoration: underline;
+  margin: 0 4px;
+}
+
+.account__auth--footer-links a:hover {
+  color: var(--primary-color, #422326);
+}
+
+/* Customer Dashboard Styles (Logged in) */
+.dashboard__wrapper {
+  max-width: 1100px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.dashboard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border-color, #e0d8d0);
+  margin-bottom: 4rem;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.dashboard__user--greeting {
+  font-family: var(--font-heading, serif);
+  font-size: 3.2rem;
+  color: var(--primary-color, #422326);
+  margin-bottom: 0.5rem;
+}
+
+.dashboard__user--email {
+  font-size: 1.5rem;
+  color: var(--foreground-sub-color, #7a726e);
+}
+
+.btn__logout {
+  padding: 1.2rem 2.4rem;
+  background-color: transparent;
+  border: 1px solid var(--primary-color, #422326);
+  color: var(--primary-color, #422326);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn__logout:hover {
+  background-color: var(--primary-color, #422326);
+  color: #ffffff;
+}
+
+.dashboard__cards--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 3rem;
+}
+
+.dashboard__card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color, #e5ded7);
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.dashboard__card--title {
+  font-family: var(--font-heading, serif);
+  font-size: 2.2rem;
+  color: var(--primary-color, #422326);
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--secondary-color, #bcadae);
+}
+
+/* Orders Table */
+.orders__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders__table th,
+.orders__table td {
+  padding: 1.2rem 1rem;
+  text-align: left;
+  font-size: 1.4rem;
+  border-bottom: 1px solid var(--border-color, #eee);
+}
+
+.orders__table th {
+  font-weight: 600;
+  color: var(--primary-color, #422326);
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+}
+
+.order__status--badge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status--pending {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status--shipped {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.status--delivered {
+  background-color: #d1fae5;
+  color: #065f46;
+}

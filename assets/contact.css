@@ -136,19 +136,30 @@
   border-radius: 1.2rem;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+#contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .contact__form--title {
   font-family: 'Frank Ruhl Libre', serif;
   font-size: 2.8rem;
   color: var(--primary-color, #1a1818);
-  margin-bottom: 3rem;
   font-weight: 600;
+  margin: 0;
 }
 
 /* Form Group Controls */
 .form-group {
-  margin-bottom: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
 .form-group label {
@@ -158,7 +169,7 @@
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--primary-color, #1a1818);
-  margin-bottom: 0.8rem;
+  margin: 0;
 }
 
 .form-group input[type="text"],

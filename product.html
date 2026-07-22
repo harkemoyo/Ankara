@@ -19,8 +19,6 @@
     <link href="assets/filter.css" rel="stylesheet" />
     <script defer="" src="assets/js/components/core.js" type="module"></script>
 
-    <script defer="" src="assets/popper.js"></script>
-    <script defer="" src="assets/bootstrap.min.js"></script>
     <script defer="" src="assets/swiper-bundle.min.js"></script>
     <script defer="" src="assets/glightbox.min.js"></script>
     <script defer="" src="assets/global.js"></script>
@@ -87,17 +85,22 @@
 
         .product__details--info {
             display: flex;
-            
             flex-direction: column;
-            gap: 2.5rem;
+            gap: 2rem;
         }
         
         @media (min-width: 768px) {
             .product-details-grid {
                 flex-direction: row;
-                gap: 4rem;
+                gap: 5rem;
+                align-items: flex-start;
             }
-        
+            .product__details--info {
+                position: sticky !important;
+                top: 100px !important;
+                align-self: flex-start !important;
+                flex: 1;
+            }
         }
         
         /* Left Column: Image Gallery */

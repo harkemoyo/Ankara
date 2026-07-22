@@ -54,8 +54,6 @@
             color: var(--primary-color);
         }
     </style>
-    <script defer="" src="assets/popper.js"></script>
-    <script defer="" src="assets/bootstrap.min.js"></script>
     <script defer="" src="assets/cart.js"></script>
     <script defer="" src="assets/global.js"></script>
     <script defer src="assets/supabase-client.js" type="module"></script>
@@ -393,11 +391,17 @@
         </div>
     </header>
     <main class="site__main">
-        <!-- Hero -->
-        <section class="contact__hero"
-            style="padding: 12rem 0 6rem; text-align: center; background: var(--bg-light-dark-color);">
-            <h1 style="color: #fff; font-family: var(--font-heading); font-size: clamp(3.6rem, 5.5vw, 6.5rem);">My
-                Account</h1>
+        <!-- Breadcrumb / Banner Section -->
+        <section class="breadcrumb__section text-center">
+            <div class="page-width">
+                <div class="breadcrumb__content">
+                    <h1 class="breadcrumb__content--title">My Account</h1>
+                    <ul class="breadcrumb__content--menu d-flex justify-content-center">
+                        <li class="breadcrumb__content--menu__items"><a href=".">Home</a></li>
+                        <li class="breadcrumb__content--menu__items"><span>My Account</span></li>
+                    </ul>
+                </div>
+            </div>
         </section>
         <!-- Account Stub Section -->
         <section class="account__section"

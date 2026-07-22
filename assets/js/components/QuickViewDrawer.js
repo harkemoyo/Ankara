@@ -29,12 +29,14 @@ export default class QuickViewDrawer {
 
     renderEmpty() {
         this.el.innerHTML = `
-            <div class="quickview__header" style="display:flex; justify-content:space-between; align-items:center; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); margin-bottom: 3rem;">
-                <h3 class="quickview__title" style="font-family: var(--frank-ruhl-fonts); font-size: 2.2rem; color: var(--primary-color); font-weight: 600; margin:0;">Choose options</h3>
-                <button type="button" class="quickview__close--btn js-quickview-close" aria-label="close quickview" style="background: none; border: none; font-size: 2.4rem; cursor: pointer; color: var(--primary-color); line-height: 1;">&times;</button>
+            <div class="quickview__header">
+                <h3 class="quickview__title">Choose options</h3>
+                <button type="button" class="quickview__close--btn js-quickview-close" aria-label="close quickview">&times;</button>
             </div>
-            <div class="quickview__loading" style="text-align:center; padding: 3rem 0; font-size: 1.6rem; color: var(--foreground-sub-color);">
-                Loading product options...
+            <div class="quickview__body">
+                <div class="quickview__loading">
+                    Loading product options...
+                </div>
             </div>
         `;
 
@@ -74,7 +76,8 @@ export default class QuickViewDrawer {
             this.renderProduct();
         } catch (error) {
             console.error('Error loading quickview:', error);
-            this.el.querySelector('.quickview__loading').textContent = 'Failed to load product details.';
+            const loadingEl = this.el.querySelector('.quickview__loading');
+            if (loadingEl) loadingEl.textContent = 'Failed to load product details.';
         }
     }
 
@@ -106,80 +109,56 @@ export default class QuickViewDrawer {
         const product = this.product;
         this.el.innerHTML = '';
 
-        // 1. Header
-        const header = this.createEl('div', 'quickview__header', {
-            style: 'display:flex; justify-content:space-between; align-items:center; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); margin-bottom: 3rem;'
-        });
-        const titleHeader = this.createEl('h3', 'quickview__title', {
-            style: 'font-family: var(--frank-ruhl-fonts); font-size: 2.2rem; color: var(--primary-color); font-weight: 600; margin:0;'
-        }, 'Choose options');
+        // 1. Header (Fixed top)
+        const header = this.createEl('div', 'quickview__header');
+        const titleHeader = this.createEl('h3', 'quickview__title', {}, 'Choose options');
         const closeBtn = this.createEl('button', 'quickview__close--btn js-quickview-close', {
-            style: 'background: none; border: none; font-size: 2.4rem; cursor: pointer; color: var(--primary-color); line-height: 1;',
+            'type': 'button',
             'aria-label': 'close quickview'
         });
         closeBtn.innerHTML = '&times;';
         closeBtn.addEventListener('click', () => this.close());
         header.append(titleHeader, closeBtn);
 
-        // 2. Info Wrap
-        const infoWrap = this.createEl('div', 'quickview__product-info', {
-            style: 'display: flex; gap: 2rem; margin-bottom: 3rem;'
-        });
-        const imgWrap = this.createEl('div', 'quickview__img-wrap', {
-            style: 'flex: 0 0 80px; height: 80px; background: #fff; padding: 0.5rem; border: 1px solid var(--border-color);'
-        });
+        // 2. Scrollable Body Container
+        const body = this.createEl('div', 'quickview__body');
+
+        // Product Summary (Image + Details)
+        const infoWrap = this.createEl('div', 'quickview__product-info');
+        const imgWrap = this.createEl('div', 'quickview__img-wrap');
         
-        // Find main image or swatch-specific image
         const activeColorObj = product.colors ? product.colors.find(c => c.label === this.selectedColor) : null;
         const mainImageUrl = (activeColorObj && activeColorObj.image) || (product.images && product.images.length > 0 ? product.images[0] : 'assets/placeholder.webp');
         
         const img = this.createEl('img', 'quickview__img', {
             src: mainImageUrl,
-            alt: product.title,
-            style: 'width: 100%; height: 100%; object-fit: contain;'
+            alt: product.title
         });
         imgWrap.appendChild(img);
 
         const details = this.createEl('div', 'quickview__details');
-        const brand = this.createEl('div', 'quickview__brand-label', {
-            style: 'font-size: 1.1rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--foreground-sub-color); margin-bottom: 0.5rem;'
-        }, product.vendor || 'MARY HUMPHREY');
-        const productTitle = this.createEl('div', 'quickview__product-title', {
-            style: 'font-family: var(--frank-ruhl-fonts); font-size: 1.8rem; color: var(--primary-color); margin-bottom: 0.5rem; font-weight:600;'
-        }, product.title);
+        const brand = this.createEl('div', 'quickview__brand-label', {}, product.vendor || 'MARY HUMPHREY');
+        const productTitle = this.createEl('div', 'quickview__product-title', {}, product.title);
         
-        const priceWrap = this.createEl('div', 'quickview__price-wrap', {
-            style: 'font-size: 1.4rem; color: var(--primary-color);'
-        });
-        const priceSpan = this.createEl('span', 'quickview__price', {
-            style: 'margin-right: 1rem; font-weight:600;'
-        }, this.formatPrice(product.price));
+        const priceWrap = this.createEl('div', 'quickview__price-wrap');
+        const priceSpan = this.createEl('span', 'quickview__price', {}, this.formatPrice(product.price));
         const viewDetailsLink = this.createEl('a', 'quickview__details-link', {
-            href: `product.html?handle=${product.handle}`,
-            style: 'text-decoration: underline; font-size: 1.2rem; color: var(--foreground-sub-color);'
+            href: `product.html?handle=${product.handle}`
         }, 'View details');
         priceWrap.append(priceSpan, viewDetailsLink);
 
         details.append(brand, productTitle, priceWrap);
         infoWrap.append(imgWrap, details);
 
-        // 3. Color Swatches
-        const colorWrap = this.createEl('div', 'quickview__color-wrap', {
-            style: 'margin-bottom: 2.5rem;'
-        });
-        const colorLabel = this.createEl('div', 'quickview__color-label', {
-            style: 'font-size: 1.4rem; color: var(--primary-color); margin-bottom: 1.5rem;'
-        }, 'Color: ');
-        const colorVal = this.createEl('span', 'quickview__color-value', {
-            style: 'color: var(--foreground-sub-color); font-weight:500;'
-        }, this.selectedColor || 'As Shown');
+        // Color Swatches
+        const colorWrap = this.createEl('div', 'quickview__color-wrap');
+        const colorLabel = this.createEl('div', 'quickview__color-label', {}, 'Color: ');
+        const colorVal = this.createEl('span', 'quickview__color-value', {}, this.selectedColor || 'As Shown');
         colorLabel.appendChild(colorVal);
         colorWrap.appendChild(colorLabel);
 
         if (product.colors && product.colors.length > 0) {
-            const swatches = this.createEl('div', 'quickview__swatches', {
-                style: 'display: flex; gap: 1.2rem;'
-            });
+            const swatches = this.createEl('div', 'quickview__swatches');
             product.colors.forEach(color => {
                 const isActive = color.label === this.selectedColor;
                 const swatch = this.createEl('button', 'swatch-btn', {
@@ -187,7 +166,7 @@ export default class QuickViewDrawer {
                     'aria-pressed': isActive ? 'true' : 'false',
                     'title': color.label,
                     'type': 'button',
-                    'style': `width:3.6rem; height:3.6rem; border-radius:50%; overflow:hidden; border: 2px solid ${isActive ? 'var(--primary-color)' : 'var(--border-color)'}; cursor: pointer; padding:0; background:none;`
+                    'style': `width:3.8rem; height:3.8rem; border-radius:50%; overflow:hidden; border: 2px solid ${isActive ? 'var(--primary-color)' : 'var(--border-color)'}; cursor: pointer; padding:0; background:none;`
                 });
                 
                 const swatchImg = this.createEl('img', 'swatch-img', {
@@ -206,16 +185,10 @@ export default class QuickViewDrawer {
             colorWrap.appendChild(swatches);
         }
 
-        // 4. Size Dropdown
-        const sizeWrap = this.createEl('div', 'quickview__size-wrap', {
-            style: 'margin-bottom: 2.5rem;'
-        });
-        const sizeLabel = this.createEl('div', 'quickview__size-label', {
-            style: 'font-size: 1.4rem; color: var(--primary-color); margin-bottom: 1.5rem;'
-        }, 'Size:');
-        const sizeSelect = this.createEl('select', 'quickview__size-select', {
-            style: 'width: 100%; padding: 1rem; border: 1px solid var(--border-color); font-size: 1.4rem; outline: none; background: #fff; border-radius: 4px;'
-        });
+        // Size Dropdown
+        const sizeWrap = this.createEl('div', 'quickview__size-wrap');
+        const sizeLabel = this.createEl('label', 'quickview__size-label', { for: 'quickview-size-select' }, 'Size:');
+        const sizeSelect = this.createEl('select', 'quickview__size-select', { id: 'quickview-size-select' });
         
         const sizesList = (product.sizes && product.sizes.length > 0) ? product.sizes : ['S', 'M', 'L', 'XL'];
         sizesList.forEach(size => {
@@ -229,21 +202,13 @@ export default class QuickViewDrawer {
 
         sizeWrap.append(sizeLabel, sizeSelect);
 
-        // 5. Quantity Wrap
-        const qtyWrap = this.createEl('div', 'quickview__qty-wrap', {
-            style: 'margin-bottom: 3rem;'
-        });
-        const qtyLabel = this.createEl('div', 'quickview__qty-label', {
-            style: 'font-size: 1.4rem; color: var(--primary-color); margin-bottom: 1.5rem;'
-        }, 'Quantity:');
+        // Quantity Selector
+        const qtyWrap = this.createEl('div', 'quickview__qty-wrap');
+        const qtyLabel = this.createEl('div', 'quickview__qty-label', {}, 'Quantity:');
         
-        const qtySelector = this.createEl('div', 'quickview__qty-selector', {
-            style: 'display: inline-flex; align-items: center; border: 1px solid var(--border-color); border-radius: 4px; background: #fff;'
-        });
+        const qtySelector = this.createEl('div', 'quickview__qty-selector');
         
-        const minusBtn = this.createEl('button', 'qty-btn', {
-            style: 'border: none; background: transparent; padding: 0.8rem 1.5rem; font-size: 1.6rem; color: var(--primary-color); cursor: pointer;'
-        });
+        const minusBtn = this.createEl('button', 'qty-btn qty-minus', { type: 'button' });
         minusBtn.innerHTML = '&minus;';
         minusBtn.addEventListener('click', () => {
             if (this.quantity > 1) {
@@ -255,13 +220,10 @@ export default class QuickViewDrawer {
         const qtyInput = this.createEl('input', 'qty-input', {
             type: 'text',
             value: this.quantity,
-            style: 'width: 4rem; text-align: center; border: none; font-size: 1.4rem; color: var(--primary-color); outline: none; background: transparent;',
             readonly: true
         });
 
-        const plusBtn = this.createEl('button', 'qty-btn', {
-            style: 'border: none; background: transparent; padding: 0.8rem 1.5rem; font-size: 1.6rem; color: var(--primary-color); cursor: pointer;'
-        });
+        const plusBtn = this.createEl('button', 'qty-btn qty-plus', { type: 'button' });
         plusBtn.innerHTML = '+';
         plusBtn.addEventListener('click', () => {
             this.quantity++;
@@ -271,14 +233,10 @@ export default class QuickViewDrawer {
         qtySelector.append(minusBtn, qtyInput, plusBtn);
         qtyWrap.append(qtyLabel, qtySelector);
 
-        // 6. Actions Wrap
-        const actionsWrap = this.createEl('div', 'quickview__actions', {
-            style: 'display: flex; flex-direction: column; gap: 1.5rem;'
-        });
+        // Action Buttons
+        const actionsWrap = this.createEl('div', 'quickview__actions');
         
-        const addToCartBtn = this.createEl('button', 'botm-btn botm-btn-secondary', {
-            style: 'padding: 1.6rem; background: var(--secondary-color); color: #fff; font-size: 1.3rem; letter-spacing: 0.15em; text-transform: uppercase; border: none; font-weight: 600; cursor: pointer;'
-        }, 'Add to Cart');
+        const addToCartBtn = this.createEl('button', 'quickview__btn quickview__btn--cart', { type: 'button' }, 'Add to Cart');
         addToCartBtn.addEventListener('click', () => {
             window.dispatchEvent(new CustomEvent('cart:add', {
                 detail: {
@@ -294,9 +252,7 @@ export default class QuickViewDrawer {
             this.close();
         });
 
-        const buyNowBtn = this.createEl('button', 'botm-btn botm-btn-primary', {
-            style: 'padding: 1.6rem; background: var(--primary-color); color: #fff; font-size: 1.3rem; letter-spacing: 0.15em; text-transform: uppercase; border: none; font-weight: 600; cursor: pointer;'
-        }, 'Buy It Now');
+        const buyNowBtn = this.createEl('button', 'quickview__btn quickview__btn--buy', { type: 'button' }, 'Buy It Now');
         buyNowBtn.addEventListener('click', () => {
             window.dispatchEvent(new CustomEvent('cart:add', {
                 detail: {
@@ -316,7 +272,11 @@ export default class QuickViewDrawer {
 
         actionsWrap.append(addToCartBtn, buyNowBtn);
 
-        // Append everything
-        this.el.append(header, infoWrap, colorWrap, sizeWrap, qtyWrap, actionsWrap);
+        // Append to Body
+        body.append(infoWrap, colorWrap, sizeWrap, qtyWrap, actionsWrap);
+
+        // Append Header and Body to drawer container
+        this.el.append(header, body);
     }
 }
+

@@ -111,6 +111,30 @@
   margin: 0;
   color: #ffffff;
   font-weight: 700;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .about__hero {
+    min-height: 320px;
+    padding: 5rem 1.5rem;
+  }
+
+  .about__hero--content {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .about_title {
+    text-align: center;
+    align-items: center;
+  }
+
+  .about__story--subtitle,
+  .about__different--subtitle {
+    text-align: center;
+  }
 }
 
 /* --- Brand Story Section --- */

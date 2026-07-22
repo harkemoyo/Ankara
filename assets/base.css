@@ -16019,10 +16019,21 @@ img {
 
 
 body.body .header__section {
-  position: sticky;
-  top: 0;
-  z-index: 999;
+  position: absolute !important;
+  top: 10rem;
+  left: 0;
+  right: 0;
+  z-index: 120;
   width: 100%;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+@media (min-width: 767px) {
+  body.body .header__section {
+     top: 6rem;
+
+  }
 }
 
 body.body .footer__section {

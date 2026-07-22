@@ -16246,16 +16246,14 @@ body.body .footer__section {
 
 
 .home-category-grid {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 3rem;
 }
 
 @media only screen and (min-width: 768px) {
   .home-category-grid {
-    flex-direction: row;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

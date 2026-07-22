@@ -6839,12 +6839,6 @@ input[type=number]::-webkit-outer-spin-button {
   margin-bottom: 0;
 }
 
-@media only screen and (min-width: 768px) {
-  .footer__widget--desc {
-    font-size: 1.6rem;
-  }
-}
-
 .footer__widget--title {
   font-weight: 600;
   position: relative;

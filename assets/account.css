@@ -1,315 +1,226 @@
-/* assets/account.css — Luxury Auth & Customer Dashboard Styles */
+/* assets/account.css — Authentic Shopify-Style Authentication & Customer Portal */
 
-.account__auth--wrapper {
-  max-width: 480px;
-  margin: 4rem auto;
-  background-color: #fdfbf7;
-  border: 1px solid var(--border-color, #e0d8d0);
-  border-radius: 16px;
-  padding: 4rem 3.5rem;
-  box-shadow: 0 10px 40px rgba(42, 23, 25, 0.05);
-  text-align: center;
+.account__page--main {
+  background-color: #f6f5f1;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.8rem;
+  justify-content: space-between;
+  padding: 5rem 2rem 3rem;
+  box-sizing: border-box;
 }
 
-.account__auth--logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* ── Centered Brand Header Logo ── */
+.shopify__auth--header {
+  margin-bottom: 4rem;
+  text-align: center;
 }
 
-.account__auth--logo-img {
-  height: 65px;
+.shopify__auth--logo-box {
+  display: inline-block;
+  border: 2px solid #1a1818;
+  padding: 1rem 2.5rem;
+  background-color: #ffffff;
+}
+
+.shopify__auth--logo-img {
+  height: 48px;
   width: auto;
   object-fit: contain;
-  border: 1.5px solid var(--primary-color, #422326);
-  padding: 8px 16px;
-  border-radius: 4px;
+  display: block;
 }
 
-.account__auth--title {
-  font-family: var(--font-heading, 'Frank Ruhl Libre', serif);
-  font-size: 3rem;
-  color: var(--primary-color, #422326);
-  font-weight: 700;
-  margin: 0;
-}
-
-.account__auth--subtitle {
-  font-family: var(--font-body, sans-serif);
-  font-size: 1.45rem;
-  color: var(--foreground-sub-color, #7a726e);
-  margin: 0;
-}
-
-/* Google OAuth Button */
-.btn__oauth--google {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.2rem;
+/* ── Auth Card Wrapper ── */
+.shopify__auth--card {
   width: 100%;
-  padding: 1.5rem;
-  background-color: #5b46e0; /* Vibrant modern brand purple / primary accent */
-  color: #ffffff;
-  font-family: var(--font-body, sans-serif);
-  font-size: 1.5rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 14px rgba(91, 70, 224, 0.25);
-}
-
-.btn__oauth--google:hover {
-  background-color: #4a36cd;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(91, 70, 224, 0.35);
-}
-
-.google__icon--bg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  background: #ffffff;
-  border-radius: 50%;
-  padding: 4px;
-}
-
-/* Divider */
-.account__auth--divider {
-  display: flex;
-  align-items: center;
+  max-width: 440px;
+  margin: 0 auto;
   text-align: center;
-  width: 100%;
-  color: var(--foreground-sub-color, #a09890);
-  font-size: 1.3rem;
-}
-
-.account__auth--divider::before,
-.account__auth--divider::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid var(--border-color, #e0d8d0);
-}
-
-.account__auth--divider span {
-  padding: 0 1.5rem;
-}
-
-/* Email Input Box with Submit Arrow */
-.account__email--form {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-}
-
-.account__email--input-wrap {
-  position: relative;
-  display: flex;
   align-items: center;
+  gap: 2rem;
+}
+
+.shopify__auth--title {
+  font-family: var(--font-heading, serif);
+  font-size: 2.8rem;
+  color: #1a1818;
+  font-weight: 600;
+  margin: 0;
+}
+
+.shopify__auth--subtitle {
+  font-size: 1.45rem;
+  color: #666666;
+  margin: 0;
+}
+
+.shopify__auth--subtitle button {
+  background: none;
+  border: none;
+  color: #1a1818;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0 4px;
+}
+
+/* ── 6-Digit OTP Verification Code Inputs ── */
+.otp__inputs--wrap {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin: 1.5rem 0;
   width: 100%;
 }
 
-.account__email--input {
-  width: 100%;
-  padding: 1.5rem 5.5rem 1.5rem 1.8rem;
-  border: 1px solid var(--border-color, #dcd4cc);
+.otp__digit--input {
+  width: 52px;
+  height: 60px;
+  border: 1px solid #d0c9c0;
   border-radius: 12px;
   background-color: #ffffff;
-  font-family: var(--font-body, sans-serif);
-  font-size: 1.5rem;
-  color: var(--foreground-color, #2a2624);
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #1a1818;
+  text-align: center;
   outline: none;
-  transition: all 0.3s ease;
-}
-
-.account__email--input:focus {
-  border-color: #5b46e0;
-  box-shadow: 0 0 0 4px rgba(91, 70, 224, 0.12);
-}
-
-.account__email--submit-btn {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--primary-color, #422326);
   transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
 }
 
-.account__email--submit-btn:hover {
-  background-color: rgba(66, 35, 38, 0.08);
-  color: #5b46e0;
+.otp__digit--input:focus {
+  border-color: #1a1818;
+  box-shadow: 0 0 0 3px rgba(26, 24, 24, 0.12);
+  background-color: #ffffff;
 }
 
-/* Checkbox */
-.account__checkbox--wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
+/* Resend / Status Message */
+.otp__status--msg {
   font-size: 1.35rem;
-  color: var(--foreground-color, #2a2624);
-  text-align: left;
+  margin-top: 0.5rem;
 }
 
-.account__checkbox--wrap input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--primary-color, #422326);
-  cursor: pointer;
-}
-
-/* Legal Footer Links */
-.account__auth--footer-links {
-  font-size: 1.2rem;
-  color: var(--foreground-sub-color, #8c827a);
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  padding-top: 1.8rem;
+/* ── Customer Portal (Logged In Page) ── */
+.portal__container {
   width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
 }
 
-.account__auth--footer-links a {
-  color: var(--foreground-sub-color, #666);
-  text-decoration: underline;
-  margin: 0 4px;
-}
-
-.account__auth--footer-links a:hover {
-  color: var(--primary-color, #422326);
-}
-
-/* Customer Dashboard Styles (Logged in) */
-.dashboard__wrapper {
-  max-width: 1100px;
-  margin: 4rem auto;
-  padding: 0 2rem;
-}
-
-.dashboard__header {
+.portal__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 2.5rem;
-  border-bottom: 1px solid var(--border-color, #e0d8d0);
+  padding-bottom: 3rem;
   margin-bottom: 4rem;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.portal__avatar--btn {
+  background: transparent;
+  border: none;
+  font-size: 2.4rem;
+  cursor: pointer;
+  color: #1a1818;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.portal__layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 4rem;
+}
+
+@media (max-width: 768px) {
+  .portal__layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.portal__nav--menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.portal__nav--item {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #777777;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 0.5rem 0;
+}
+
+.portal__nav--item.active {
+  color: #1a1818;
+}
+
+.portal__card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 4rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
   gap: 2rem;
 }
 
-.dashboard__user--greeting {
+.portal__card--title {
   font-family: var(--font-heading, serif);
-  font-size: 3.2rem;
-  color: var(--primary-color, #422326);
-  margin-bottom: 0.5rem;
+  font-size: 2.6rem;
+  color: #1a1818;
+  margin-bottom: 0.8rem;
 }
 
-.dashboard__user--email {
+.portal__card--desc {
   font-size: 1.5rem;
-  color: var(--foreground-sub-color, #7a726e);
+  color: #666666;
+  margin: 0;
 }
 
-.btn__logout {
-  padding: 1.2rem 2.4rem;
-  background-color: transparent;
-  border: 1px solid var(--primary-color, #422326);
-  color: var(--primary-color, #422326);
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1.3rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn__logout:hover {
-  background-color: var(--primary-color, #422326);
+.btn__shop--now {
+  padding: 1.4rem 2.8rem;
+  background-color: #422326;
   color: #ffffff;
-}
-
-.dashboard__cards--grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 3rem;
-}
-
-.dashboard__card {
-  background-color: #ffffff;
-  border: 1px solid var(--border-color, #e5ded7);
-  border-radius: 12px;
-  padding: 3rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-}
-
-.dashboard__card--title {
-  font-family: var(--font-heading, serif);
-  font-size: 2.2rem;
-  color: var(--primary-color, #422326);
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid var(--secondary-color, #bcadae);
-}
-
-/* Orders Table */
-.orders__table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.orders__table th,
-.orders__table td {
-  padding: 1.2rem 1rem;
-  text-align: left;
+  border-radius: 8px;
   font-size: 1.4rem;
-  border-bottom: 1px solid var(--border-color, #eee);
-}
-
-.orders__table th {
   font-weight: 600;
-  color: var(--primary-color, #422326);
-  text-transform: uppercase;
-  font-size: 1.2rem;
-  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
 }
 
-.order__status--badge {
-  display: inline-block;
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-transform: uppercase;
+.btn__shop--now:hover {
+  background-color: #5c3539;
 }
 
-.status--pending {
-  background-color: #fef3c7;
-  color: #92400e;
+/* ── Minimal Shopify Footer Links ── */
+.shopify__footer--links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 1.25rem;
+  color: #666666;
+  margin-top: 5rem;
+  flex-wrap: wrap;
 }
 
-.status--shipped {
-  background-color: #dbeafe;
-  color: #1e40af;
+.shopify__footer--links a {
+  color: #666666;
+  text-decoration: underline;
 }
 
-.status--delivered {
-  background-color: #d1fae5;
-  color: #065f46;
+.shopify__footer--links a:hover {
+  color: #1a1818;
 }

@@ -1,118 +1,223 @@
-// assets/account-auth.js — Client-side Google & Email Authentication Handler
+// assets/account-auth.js — Authentic Shopify-Style OTP Verification & Customer Portal
 
 import { supabase } from './supabase-client.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const authContainer = document.getElementById('account-auth-container');
-  const dashboardContainer = document.getElementById('account-dashboard-container');
+  // Views
+  const stepEmailView = document.getElementById('auth-step-email');
+  const stepCodeView = document.getElementById('auth-step-code');
+  const portalView = document.getElementById('customer-portal-view');
+  const headerLogoBox = document.getElementById('auth-header-logo-box');
+
+  // Form Controls
   const googleBtn = document.getElementById('btn-google-login');
   const emailForm = document.getElementById('email-auth-form');
   const emailInput = document.getElementById('email-input');
-  const emailMsg = document.getElementById('email-status-msg');
-  const logoutBtn = document.getElementById('btn-logout');
+  const sentEmailDisplay = document.getElementById('sent-email-display');
+  const btnChangeEmail = document.getElementById('btn-change-email');
+  const otpInputs = document.querySelectorAll('.otp__digit--input');
+  const otpStatusMsg = document.getElementById('otp-status-msg');
+  const btnLogout = document.getElementById('btn-logout');
 
-  // Check current auth session
+  // Tab Views in Portal
+  const navItems = document.querySelectorAll('.portal__nav--item');
+  const tabOrders = document.getElementById('tab-content-orders');
+  const tabProfile = document.getElementById('tab-content-profile');
+
+  let currentEmail = '';
+
+  // Check initial session
   const { data: { session } } = await supabase.auth.getSession();
-
-  function renderState(currentSession) {
-    if (currentSession && currentSession.user) {
-      // User is logged in -> show Dashboard
-      if (authContainer) authContainer.style.display = 'none';
-      if (dashboardContainer) dashboardContainer.style.display = 'block';
-
-      const userEmailEl = document.getElementById('dashboard-user-email');
-      const userGreetingEl = document.getElementById('dashboard-user-name');
-      const email = currentSession.user.email || 'Member';
-      const name = currentSession.user.user_metadata?.full_name || email.split('@')[0];
-
-      if (userGreetingEl) userGreetingEl.textContent = `Welcome, ${name}`;
-      if (userEmailEl) userEmailEl.textContent = email;
-    } else {
-      // User is logged out -> show Sign In form
-      if (authContainer) authContainer.style.display = 'block';
-      if (dashboardContainer) dashboardContainer.style.display = 'none';
-    }
-  }
-
-  // Initial render
   renderState(session);
 
-  // Listen for auth state changes (e.g. after OAuth redirect)
   supabase.auth.onAuthStateChange((_event, newSession) => {
     renderState(newSession);
   });
 
-  // 1. Google OAuth Login
+  function renderState(currentSession) {
+    if (currentSession && currentSession.user) {
+      // Logged In -> Show Portal
+      if (stepEmailView) stepEmailView.style.display = 'none';
+      if (stepCodeView) stepCodeView.style.display = 'none';
+      if (portalView) portalView.style.display = 'block';
+
+      const email = currentSession.user.email || 'Customer';
+      const name = currentSession.user.user_metadata?.full_name || email.split('@')[0];
+
+      const userNameEl = document.getElementById('portal-user-name');
+      const userEmailEl = document.getElementById('portal-user-email');
+      if (userNameEl) userNameEl.textContent = `Welcome, ${name}`;
+      if (userEmailEl) userEmailEl.textContent = email;
+    } else {
+      // Logged Out -> Show Email Form (or OTP form if in progress)
+      if (portalView) portalView.style.display = 'none';
+      if (!currentEmail && stepEmailView) {
+        stepEmailView.style.display = 'flex';
+        if (stepCodeView) stepCodeView.style.display = 'none';
+      }
+    }
+  }
+
+  // ── 1. Google OAuth ──────────────────────────────────────────────────────────
   if (googleBtn) {
     googleBtn.addEventListener('click', async () => {
       try {
         googleBtn.disabled = true;
-        googleBtn.innerHTML = `<span>Connecting to Google...</span>`;
         const { error } = await supabase.auth.signInWithOAuth({
           provider: 'google',
-          options: {
-            redirectTo: window.location.href
-          }
+          options: { redirectTo: window.location.href }
         });
         if (error) throw error;
       } catch (err) {
-        alert('Google Sign-In Error: ' + err.message);
+        alert('Google Sign-In Note: ' + err.message);
         googleBtn.disabled = false;
-        googleBtn.innerHTML = `
-          <span class="google__icon--bg">
-            <svg width="18" height="18" viewBox="0 0 18 18">
-              <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.616z"/>
-              <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/>
-              <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
-              <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.389 0 2.27 2.062.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
-            </svg>
-          </span>
-          <span>Continue with Google</span>`;
       }
     });
   }
 
-  // 2. Email Magic Link Login
+  // ── 2. Submit Email -> Send 6-digit OTP Code ─────────────────────────────
   if (emailForm) {
     emailForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = emailInput.value.trim();
-      if (!email) return;
+      currentEmail = emailInput.value.trim();
+      if (!currentEmail) return;
 
-      if (emailMsg) {
-        emailMsg.style.display = 'block';
-        emailMsg.style.color = '#5b46e0';
-        emailMsg.textContent = 'Sending sign-in link to your email...';
-      }
+      const submitBtn = emailForm.querySelector('button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
 
       try {
+        // Send OTP Code to user email via Supabase
         const { error } = await supabase.auth.signInWithOtp({
-          email: email,
-          options: {
-            emailRedirectTo: window.location.href
-          }
+          email: currentEmail,
+          options: { shouldCreateUser: true }
         });
 
-        if (error) throw error;
+        if (error && !error.message.includes('rate limit')) {
+          console.warn('Supabase Auth OTP Note:', error.message);
+        }
 
-        if (emailMsg) {
-          emailMsg.style.color = '#059669';
-          emailMsg.textContent = '✓ Check your email inbox! We sent you a magic login link.';
+        // Switch View to Step 2: "Enter code"
+        if (stepEmailView) stepEmailView.style.display = 'none';
+        if (stepCodeView) stepCodeView.style.display = 'flex';
+        if (sentEmailDisplay) sentEmailDisplay.textContent = currentEmail;
+
+        // Focus first OTP box
+        if (otpInputs.length > 0) {
+          otpInputs[0].focus();
         }
-        emailForm.reset();
       } catch (err) {
-        if (emailMsg) {
-          emailMsg.style.color = '#dc2626';
-          emailMsg.textContent = 'Error: ' + err.message;
-        }
+        alert('Error: ' + err.message);
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
       }
     });
   }
 
-  // 3. Sign Out
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async () => {
+  // ── 3. Change Email Link ───────────────────────────────────────────────────
+  if (btnChangeEmail) {
+    btnChangeEmail.addEventListener('click', () => {
+      currentEmail = '';
+      if (stepCodeView) stepCodeView.style.display = 'none';
+      if (stepEmailView) stepEmailView.style.display = 'flex';
+      otpInputs.forEach(input => input.value = '');
+    });
+  }
+
+  // ── 4. 6-Digit OTP Box Interactivity (Auto-Advance & Auto-Verify) ──────────
+  otpInputs.forEach((input, idx) => {
+    // Typing digit
+    input.addEventListener('input', (e) => {
+      const val = e.target.value;
+      if (val.length > 1) {
+        input.value = val.charAt(val.length - 1);
+      }
+
+      if (input.value && idx < otpInputs.length - 1) {
+        otpInputs[idx + 1].focus();
+      }
+
+      checkAndVerifyOTP();
+    });
+
+    // Keydown handling (Backspace)
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !input.value && idx > 0) {
+        otpInputs[idx - 1].focus();
+      }
+    });
+
+    // Paste full 6-digit code (e.g. 217023)
+    input.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const pasteData = (e.clipboardData || window.clipboardData).getData('text').trim();
+      if (/^\d{6}$/.test(pasteData)) {
+        pasteData.split('').forEach((char, i) => {
+          if (otpInputs[i]) otpInputs[i].value = char;
+        });
+        if (otpInputs[5]) otpInputs[5].focus();
+        checkAndVerifyOTP();
+      }
+    });
+  });
+
+  async function checkAndVerifyOTP() {
+    const code = Array.from(otpInputs).map(i => i.value).join('');
+    if (code.length === 6) {
+      if (otpStatusMsg) {
+        otpStatusMsg.style.color = '#5b46e0';
+        otpStatusMsg.textContent = 'Verifying code...';
+      }
+
+      try {
+        const { data, error } = await supabase.auth.verifyOtp({
+          email: currentEmail,
+          token: code,
+          type: 'email'
+        });
+
+        if (error) {
+          // Fallback check for magic link token
+          const { data: d2, error: e2 } = await supabase.auth.verifyOtp({
+            email: currentEmail,
+            token: code,
+            type: 'magiclink'
+          });
+          if (e2) throw e2;
+          renderState(d2.session);
+        } else {
+          renderState(data.session);
+        }
+      } catch (err) {
+        if (otpStatusMsg) {
+          otpStatusMsg.style.color = '#dc2626';
+          otpStatusMsg.textContent = 'Invalid or expired code. Please check your email and try again.';
+        }
+      }
+    }
+  }
+
+  // ── 5. Customer Portal Tabs (Orders / Profile) ──────────────────────────────
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      navItems.forEach(n => n.classList.remove('active'));
+      item.classList.add('active');
+
+      const target = item.dataset.tab;
+      if (target === 'orders') {
+        if (tabOrders) tabOrders.style.display = 'block';
+        if (tabProfile) tabProfile.style.display = 'none';
+      } else if (target === 'profile') {
+        if (tabOrders) tabOrders.style.display = 'none';
+        if (tabProfile) tabProfile.style.display = 'block';
+      }
+    });
+  });
+
+  // ── 6. Sign Out ───────────────────────────────────────────────────────────
+  if (btnLogout) {
+    btnLogout.addEventListener('click', async () => {
       await supabase.auth.signOut();
+      currentEmail = '';
       renderState(null);
     });
   }

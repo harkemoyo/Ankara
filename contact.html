@@ -59,113 +59,117 @@
         <!-- ── Topbar Announcement ─────────────────────── -->
         <!-- ── Main Header ────────────────────────────── -->
         <div class="main__header position__relative header__sticky">
-            <div class="page-width">
-                <div class="main__header--inner flex-between align-items-center">
-                    <!-- Hamburger / Offcanvas Toggle -->
-                    <div class="offcanvas__header--menu__open">
-                        <a class="offcanvas__header--menu__open--btn" data-offcanvas="" href="javascript:void(0)">
-                            <svg class="ionicon offcanvas__header--menu__open--svg" viewbox="0 0 512 512"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M80 160h352M80 256h352M80 352h352" fill="currentColor" stroke="currentColor"
-                                    stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"></path>
-                            </svg>
-                            <span class="visually-hidden">Menu</span>
+            <div class="main__header--inner flex-between align-items-center">
+                <!-- Hamburger / Offcanvas Toggle -->
+                <div class="offcanvas__header--menu__open">
+                    <a class="offcanvas__header--menu__open--btn" data-offcanvas="" href="javascript:void(0)">
+                        <svg class="ionicon offcanvas__header--menu__open--svg" viewbox="0 0 512 512"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M80 160h352M80 256h352M80 352h352" fill="currentColor" stroke="currentColor"
+                                stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"></path>
+                        </svg>
+                        <span class="visually-hidden">Menu</span>
+                    </a>
+                </div>
+                <!-- Logo -->
+                <div class="main__logo">
+                    <h1 class="main__logo--title">
+                        <a class="main__logo--link" href=".">
+                            <img alt="Mary Humphrey African Wear" class="main__logo--img contact-header-logo"
+                                src="assets/IMG-20260622-WA0082.webp" />
                         </a>
-                    </div>
-                    <!-- Logo -->
-                    <div class="main__logo">
-                        <h1 class="main__logo--title">
-                            <a class="main__logo--link" href=".">
-                                <img alt="Mary Humphrey African Wear" class="main__logo--img contact-header-logo"
-                                    src="assets/IMG-20260622-WA0082.webp" />
-                            </a>
-                        </h1>
-                    </div>
-                    <!-- Desktop Navigation -->
-                    <div class="header__menu d-none d-lg-block">
-                        <nav class="header__menu--navigation">
-                            <ul class="header__menu--wrapper d-flex">
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link" href=".">Home</a>
-                                </li>
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link" href="shop.html">Collections 
-                                        <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu">
-                                        <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html">All Products</a></li>
-                                        <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=dresses">Dresses</a></li>
-                                        <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=tops">Tops & Blouses</a></li>
-                                        <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=skirts">Skirts</a></li>
-                                    </ul>
-                                </li>
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link" href="about.html">Our Story</a>
-                                </li>
-                                <li class="header__menu--items active-page">
-                                    <a class="header__menu--link active" href="contact.html">Contact</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <!-- Header Account / Icons -->
-                    <div class="header__account">
-                        <ul class="header__account--wrapper d-flex align-items-center">
-                            <!-- Search -->
-                            <li class="header__account--items header__account--search__items d-none d-lg-block">
-                                <a class="header__account--btn search__open--btn" data-offcanvas=""
-                                    href="javascript:void(0)">
-                                    <span class="header__account--btn__icon">
-                                        <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z"
-                                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                            </path>
-                                        </svg>
-                                    </span>
-                                    <span class="visually-hidden">Search</span>
-                                </a>
+                    </h1>
+                </div>
+                <!-- Desktop Navigation -->
+                <div class="header__menu d-none d-lg-block">
+                    <nav class="header__menu--navigation">
+                        <ul class="header__menu--wrapper d-flex">
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href=".">Home</a>
                             </li>
-                            <!-- Account -->
-                            <li class="header__account--items">
-                                <a class="header__account--btn" href="account.html">
-                                    <span class="header__account--btn__icon">
-                                        <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16"
-                                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                            </path>
-                                            <path
-                                                d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z"
-                                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                            </path>
-                                        </svg>
-                                    </span>
-                                    <span class="visually-hidden">My Account</span>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="shop.html">Collections
+                                    <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6"
+                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
                                 </a>
+                                <ul class="header__sub--menu">
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                            href="shop.html">All Products</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                            href="shop.html?collection=dresses">Dresses</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                            href="shop.html?collection=tops">Tops & Blouses</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                            href="shop.html?collection=skirts">Skirts</a></li>
+                                </ul>
                             </li>
-                            <!-- Cart -->
-                            <li class="header__account--items header__minicart--items">
-                                <a class="header__account--btn minicart__open--btn" data-offcanvas=""
-                                    href="javascript:void(0)">
-                                    <span class="header__account--btn__icon">
-                                        <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z"
-                                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                            </path>
-                                        </svg>
-                                    </span>
-                                    <span class="items__count js-item-count">0</span>
-                                </a>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="about.html">Our Story</a>
+                            </li>
+                            <li class="header__menu--items active-page">
+                                <a class="header__menu--link active" href="contact.html">Contact</a>
                             </li>
                         </ul>
-                    </div>
+                    </nav>
+                </div>
+                <!-- Header Account / Icons -->
+                <div class="header__account">
+                    <ul class="header__account--wrapper d-flex align-items-center">
+                        <!-- Search -->
+                        <li class="header__account--items header__account--search__items d-none d-lg-block">
+                            <a class="header__account--btn search__open--btn" data-offcanvas=""
+                                href="javascript:void(0)">
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        </path>
+                                    </svg>
+                                </span>
+                                <span class="visually-hidden">Search</span>
+                            </a>
+                        </li>
+                        <!-- Account -->
+                        <li class="header__account--items">
+                            <a class="header__account--btn" href="account.html">
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        </path>
+                                        <path
+                                            d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        </path>
+                                    </svg>
+                                </span>
+                                <span class="visually-hidden">My Account</span>
+                            </a>
+                        </li>
+                        <!-- Cart -->
+                        <li class="header__account--items header__minicart--items">
+                            <a class="header__account--btn minicart__open--btn" data-offcanvas=""
+                                href="javascript:void(0)">
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        </path>
+                                    </svg>
+                                </span>
+                                <span class="items__count js-item-count">0</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -188,10 +192,14 @@
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item" href="shop.html">Collections</a>
                             <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html">All Products</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html?collection=dresses">Dresses</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html?collection=tops">Tops & Blouses</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="shop.html?collection=skirts">Skirts</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="shop.html">All Products</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="shop.html?collection=dresses">Dresses</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="shop.html?collection=tops">Tops & Blouses</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="shop.html?collection=skirts">Skirts</a></li>
                             </ul>
                         </li>
                         <li class="offcanvas__menu_li">
@@ -345,84 +353,82 @@
         </section>
         <!-- Contact Section -->
         <section class="contact__section">
-            <div class="page-width">
-                <div class="row">
-                    <!-- Contact Form -->
-                    <div class="col-lg-7 col-12 mb-4">
-                        <div class="contact__form--wrapper">
-                            <h2 class="contact__form--title">Send Us a Message</h2>
-                            <form action="#" id="contact-form" method="POST"
-                                onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent successfully.'); this.reset();">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="contact-name">Full Name</label>
-                                            <input id="contact-name" name="name" placeholder="Your full name"
-                                                required="" type="text" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="contact-email">Email Address</label>
-                                            <input id="contact-email" name="email" placeholder="your@email.com"
-                                                required="" type="email" />
-                                        </div>
+            <div class="row">
+                <!-- Contact Form -->
+                <div class="col-lg-7 col-12 mb-4">
+                    <div class="contact__form--wrapper">
+                        <h2 class="contact__form--title">Send Us a Message</h2>
+                        <form action="#" id="contact-form" method="POST"
+                            onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent successfully.'); this.reset();">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="contact-name">Full Name</label>
+                                        <input id="contact-name" name="name" placeholder="Your full name" required=""
+                                            type="text" />
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="contact-subject">Subject</label>
-                                    <input id="contact-subject" name="subject" placeholder="What is your message about?"
-                                        type="text" />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="contact-email">Email Address</label>
+                                        <input id="contact-email" name="email" placeholder="your@email.com" required=""
+                                            type="email" />
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="contact-message">Message</label>
-                                    <textarea id="contact-message" name="message"
-                                        placeholder="Write your message here..." required=""></textarea>
-                                </div>
-                                <button class="contact__submit--btn" type="submit">Send Message</button>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-subject">Subject</label>
+                                <input id="contact-subject" name="subject" placeholder="What is your message about?"
+                                    type="text" />
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-message">Message</label>
+                                <textarea id="contact-message" name="message" placeholder="Write your message here..."
+                                    required=""></textarea>
+                            </div>
+                            <button class="contact__submit--btn" type="submit">Send Message</button>
+                        </form>
                     </div>
-                    <!-- Contact Info -->
-                    <div class="col-lg-5 col-12">
-                        <div class="contact__info--card">
-                            <div class="contact__info--icon">
-                                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                                    <path
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                        stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </div>
-                            <h3 class="contact__info--title">Email Us</h3>
-                            <p class="contact__info--text">
-                                <a href="mailto:support@maryhumphrey.com">support@maryhumphrey.com</a>
-                            </p>
+                </div>
+                <!-- Contact Info -->
+                <div class="col-lg-5 col-12">
+                    <div class="contact__info--card">
+                        <div class="contact__info--icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+                                <path
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
                         </div>
-                        <div class="contact__info--card">
-                            <div class="contact__info--icon">
-                                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                                    <path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
-                                        stroke-linejoin="round"></path>
-                                </svg>
-                            </div>
-                            <h3 class="contact__info--title">Response Time</h3>
-                            <p class="contact__info--text">We aim to respond to all enquiries within 24–48 hours, Monday
-                                to Friday.</p>
+                        <h3 class="contact__info--title">Email Us</h3>
+                        <p class="contact__info--text">
+                            <a href="mailto:support@maryhumphrey.com">support@maryhumphrey.com</a>
+                        </p>
+                    </div>
+                    <div class="contact__info--card">
+                        <div class="contact__info--icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+                                <path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                    stroke-linejoin="round"></path>
+                            </svg>
                         </div>
-                        <div class="contact__info--card">
-                            <div class="contact__info--icon">
-                                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
-                                    <path
-                                        d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"
-                                        stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </div>
-                            <h3 class="contact__info--title">Follow Us</h3>
-                            <p class="contact__info--text">
-                                Stay connected on Instagram and TikTok for the latest collections, behind-the-scenes and
-                                styling inspiration.
-                            </p>
+                        <h3 class="contact__info--title">Response Time</h3>
+                        <p class="contact__info--text">We aim to respond to all enquiries within 24–48 hours, Monday
+                            to Friday.</p>
+                    </div>
+                    <div class="contact__info--card">
+                        <div class="contact__info--icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+                                <path
+                                    d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"
+                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
                         </div>
+                        <h3 class="contact__info--title">Follow Us</h3>
+                        <p class="contact__info--text">
+                            Stay connected on Instagram and TikTok for the latest collections, behind-the-scenes and
+                            styling inspiration.
+                        </p>
                     </div>
                 </div>
             </div>

@@ -21,6 +21,7 @@
     <script defer="" src="assets/global.js"></script>
     <script defer="" src="assets/js/components/core.js" type="module"></script>
     <script defer src="assets/supabase-client.js" type="module"></script>
+    <script defer src="assets/forms-handler.js" type="module"></script>
 </head>
 
 <body>
@@ -358,8 +359,7 @@
                 <div class="col-lg-7 col-12 mb-4">
                     <div class="contact__form--wrapper">
                         <h2 class="contact__form--title">Send Us a Message</h2>
-                        <form action="#" id="contact-form" method="POST"
-                            onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent successfully.'); this.reset();">
+                        <form id="contact-form" method="POST">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">

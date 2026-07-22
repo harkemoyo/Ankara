@@ -7202,11 +7202,9 @@ input[type=number]::-webkit-outer-spin-button {
 
 
 .footer__widget--desc {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   margin-bottom: 0;
   color: var(--primary-color);
-  margin-bottom: 0;
-
 }
 
 .footer__widget--title {

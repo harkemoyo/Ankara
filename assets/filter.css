@@ -6832,12 +6832,12 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
-.footer__widget--desc {
+/* .footer__widget--desc {
   font-size: 1.5rem;
   margin-bottom: 0;
   color: var(--primary-color);
   margin-bottom: 0;
-}
+} */
 
 .footer__widget--title {
   font-weight: 600;

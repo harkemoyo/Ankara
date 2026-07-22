@@ -41,60 +41,160 @@
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  background-color: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 16px !important;
+  padding: 4rem 3rem !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04) !important;
+  box-sizing: border-box !important;
 }
 
 .shopify__auth--title {
-  font-family: var(--font-heading, serif);
-  font-size: 2.8rem;
-  color: #1a1818;
-  font-weight: 600;
-  margin: 0;
+  font-family: var(--font-heading, serif) !important;
+  font-size: 2.8rem !important;
+  color: #1a1818 !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
 }
 
 .shopify__auth--subtitle {
-  font-size: 1.45rem;
-  color: #666666;
-  margin: 0;
+  font-size: 1.45rem !important;
+  color: #666666 !important;
+  margin: 0 !important;
 }
 
 .shopify__auth--subtitle button {
-  background: none;
-  border: none;
-  color: #1a1818;
-  text-decoration: underline;
-  cursor: pointer;
-  font-weight: 500;
-  padding: 0 4px;
+  background: none !important;
+  border: none !important;
+  color: #1a1818 !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+  padding: 0 4px !important;
+}
+
+/* Google OAuth Button */
+.btn__oauth--google {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 1.2rem !important;
+  width: 100% !important;
+  padding: 1.5rem !important;
+  background-color: #5b46e0 !important; /* Vibrant modern brand purple / primary accent */
+  color: #ffffff !important;
+  font-family: var(--font-body, sans-serif) !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  border: none !important;
+  border-radius: 10px !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 14px rgba(91, 70, 224, 0.25) !important;
+}
+
+.btn__oauth--google:hover {
+  background-color: #4a36cd !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(91, 70, 224, 0.35) !important;
+}
+
+.google__icon--bg {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  height: 28px !important;
+  background: #ffffff !important;
+  border-radius: 50% !important;
+  padding: 4px !important;
+}
+
+/* Email Input Box with Submit Arrow */
+.account__email--form {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.8rem !important;
+}
+
+.account__email--input-wrap {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.account__email--input {
+  width: 100% !important;
+  padding: 1.5rem 5.5rem 1.5rem 1.8rem !important;
+  border: 1px solid #d0c9c0 !important;
+  border-radius: 12px !important;
+  background-color: #ffffff !important;
+  font-family: var(--font-body, sans-serif) !important;
+  font-size: 1.5rem !important;
+  color: #1a1818 !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+  transition: all 0.3s ease !important;
+}
+
+.account__email--input:focus {
+  border-color: #5b46e0 !important;
+  box-shadow: 0 0 0 4px rgba(91, 70, 224, 0.12) !important;
+}
+
+.account__email--submit-btn {
+  position: absolute !important;
+  right: 8px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 40px !important;
+  height: 40px !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  color: #1a1818 !important;
+  transition: all 0.2s ease !important;
+}
+
+.account__email--submit-btn:hover {
+  background-color: rgba(26, 24, 24, 0.08) !important;
+  color: #5b46e0 !important;
 }
 
 /* ── 6-Digit OTP Verification Code Inputs ── */
 .otp__inputs--wrap {
-  display: flex;
-  justify-content: center;
-  gap: 1.2rem;
-  margin: 1.5rem 0;
-  width: 100%;
+  display: flex !important;
+  justify-content: center !important;
+  gap: 1.2rem !important;
+  margin: 1.5rem 0 !important;
+  width: 100% !important;
 }
 
 .otp__digit--input {
-  width: 52px;
-  height: 60px;
-  border: 1px solid #d0c9c0;
-  border-radius: 12px;
-  background-color: #ffffff;
-  font-size: 2.4rem;
-  font-weight: 600;
-  color: #1a1818;
-  text-align: center;
-  outline: none;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  width: 52px !important;
+  height: 60px !important;
+  border: 1px solid #d0c9c0 !important;
+  border-radius: 12px !important;
+  background-color: #ffffff !important;
+  font-size: 2.4rem !important;
+  font-weight: 600 !important;
+  color: #1a1818 !important;
+  text-align: center !important;
+  outline: none !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02) !important;
 }
 
 .otp__digit--input:focus {
-  border-color: #1a1818;
-  box-shadow: 0 0 0 3px rgba(26, 24, 24, 0.12);
-  background-color: #ffffff;
+  border-color: #1a1818 !important;
+  box-shadow: 0 0 0 3px rgba(26, 24, 24, 0.12) !important;
+  background-color: #ffffff !important;
 }
 
 /* Resend / Status Message */

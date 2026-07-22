@@ -54,8 +54,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       const userNameEl = document.getElementById('portal-user-name');
       const userEmailEl = document.getElementById('portal-user-email');
+      const profileEmailVal = document.getElementById('profile-email-val');
+
       if (userNameEl) userNameEl.textContent = `Welcome, ${name}`;
       if (userEmailEl) userEmailEl.textContent = email;
+      if (profileEmailVal) profileEmailVal.value = email;
     } else {
       // Logged Out -> Show Email Form
       if (portalView) portalView.style.display = 'none';
@@ -218,14 +221,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // ── 6. Sign Out ───────────────────────────────────────────────────────────
-  if (btnLogout) {
-    btnLogout.addEventListener('click', async () => {
-      await supabase.auth.signOut();
-      localStorage.removeItem('mhw_user_session');
-      currentEmail = '';
-      // Clean URL error parameters
-      window.history.replaceState({}, document.title, window.location.pathname);
-      renderState(null);
-    });
-  }
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    localStorage.removeItem('mhw_user_session');
+    currentEmail = '';
+    window.history.replaceState({}, document.title, window.location.pathname);
+    renderState(null);
+  };
+
+  if (btnLogout) btnLogout.addEventListener('click', handleLogout);
+  const btnProfileSignout = document.getElementById('btn-profile-signout');
+  if (btnProfileSignout) btnProfileSignout.addEventListener('click', handleLogout);
 });

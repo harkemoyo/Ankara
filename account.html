@@ -160,13 +160,60 @@
                         </div>
                     </div>
 
-                    <!-- Tab 2: Profile -->
+                    <!-- Tab 2: Profile (Matching Screenshot 2) -->
                     <div id="tab-content-profile" style="display: none;">
-                        <div class="portal__card" style="flex-direction: column; align-items: flex-start; gap: 1.5rem;">
-                            <h2 class="portal__card--title">Profile Details</h2>
-                            <p class="portal__card--desc"><strong style="color:#1a1818;">Email:</strong> <span id="portal-user-email">user@example.com</span></p>
-                            <p class="portal__card--desc"><strong style="color:#1a1818;">Account Name:</strong> <span id="portal-user-name">Member</span></p>
-                            <p class="portal__card--desc"><strong style="color:#1a1818;">Default Address:</strong> Nairobi, Kenya</p>
+                        <div class="profile__section--group">
+                            <!-- Contact Card -->
+                            <div>
+                                <div class="profile__card--header">
+                                    <h3 class="profile__card--header-title">Contact</h3>
+                                    <button type="button" class="profile__action--btn">Edit</button>
+                                </div>
+                                <div class="profile__info--box">
+                                    <input type="email" id="profile-email-val" class="profile__info--input" value="markndeche91@gmail.com" readonly />
+                                </div>
+                            </div>
+
+                            <!-- Addresses Card -->
+                            <div>
+                                <div class="profile__card--header">
+                                    <h3 class="profile__card--header-title">Addresses</h3>
+                                    <button type="button" class="profile__action--btn">Add</button>
+                                </div>
+                                <div class="profile__info--box" style="justify-content: flex-start; gap: 1.2rem; padding: 2.5rem;">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                        <circle cx="12" cy="10" r="3" />
+                                    </svg>
+                                    <span style="font-size: 1.45rem; color: #666666;">No addresses added</span>
+                                </div>
+                            </div>
+
+                            <!-- Marketing Preferences Card -->
+                            <div>
+                                <div class="profile__card--header">
+                                    <h3 class="profile__card--header-title">Marketing preferences</h3>
+                                </div>
+                                <div class="profile__info--box">
+                                    <div style="display: flex; align-items: center; gap: 1.2rem;">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.8">
+                                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                            <polyline points="22,6 12,13 2,6" />
+                                        </svg>
+                                        <span style="font-size: 1.45rem; color: #1a1818; font-weight: 500;">Email</span>
+                                    </div>
+                                    <label class="profile__toggle--switch">
+                                        <input type="checkbox" checked />
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Sign Out Actions -->
+                            <div class="profile__logout--actions">
+                                <button type="button" id="btn-profile-signout" class="btn__signout--secondary">Sign out</button>
+                                <a href="#" onclick="alert('Signed out of all devices successfully.'); location.reload(); return false;" style="font-size: 1.35rem; color: #666; text-decoration: underline;">Sign out of all devices</a>
+                            </div>
                         </div>
                     </div>
                 </div>

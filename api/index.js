@@ -17,12 +17,12 @@ app.use(express.urlencoded({ extended: true }));
 // API Routes
 app.use('/api', apiRoutes);
 
-// Static Files (only for local testing via 'npm run dev', Vercel ignores this)
+// Static Files (only for local dev — Vercel serves static files directly)
 app.use('/assets', express.static(path.join(__dirname, '../assets')));
 app.use(express.static(path.join(__dirname, '../')));
 
-// Fallback
-app.get('*all', (req, res) => {
+// Fallback — Express 4/5 compatible wildcard
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../index.html'));
 });
 
@@ -36,4 +36,3 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Export for Vercel
 module.exports = app;
-

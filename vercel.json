@@ -1,87 +1,9 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "api/index.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.js"
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "/index.html",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/shop.html",
-      "dest": "/shop.html"
-    },
-    {
-      "src": "/product.html",
-      "dest": "/product.html"
-    },
-    {
-      "src": "/cart.html",
-      "dest": "/cart.html"
-    },
-    {
-      "src": "/checkout.html",
-      "dest": "/checkout.html"
-    },
-    {
-      "src": "/thank-you.html",
-      "dest": "/thank-you.html"
-    },
-    {
-      "src": "/contact.html",
-      "dest": "/contact.html"
-    },
-    {
-      "src": "/about.html",
-      "dest": "/about.html"
-    },
-    {
-      "src": "/account.html",
-      "dest": "/account.html"
-    },
-    {
-      "src": "/sale.html",
-      "dest": "/sale.html"
-    },
-    {
-      "src": "/admin.html",
-      "dest": "/admin.html"
-    },
-    {
-      "src": "/privacy-policy.html",
-      "dest": "/privacy-policy.html"
-    },
-    {
-      "src": "/refund-policy.html",
-      "dest": "/refund-policy.html"
-    },
-    {
-      "src": "/shipping-policy.html",
-      "dest": "/shipping-policy.html"
-    },
-    {
-      "src": "/terms-of-service.html",
-      "dest": "/terms-of-service.html"
-    },
-    {
-      "src": "/(.*\\.html)",
-      "dest": "/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/api/index.js"
     }
   ]
 }

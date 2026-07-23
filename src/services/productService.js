@@ -13,8 +13,24 @@ class ProductService {
             query = query.eq('collection', filters.collection);
         }
 
-        const { data: allProducts, error } = await query;
+        let { data: allProducts, error } = await query;
         if (error) throw new Error(error.message);
+
+        // Filter out raw fabric materials (.webp / IMG-)
+        let validProducts = (allProducts || []).filter(p => p.images && p.images[0] && !p.images[0].includes('IMG-') && !p.images[0].includes('.webp'));
+        
+        // If DB has no human model items, load full DSC human model catalog
+        if (validProducts.length === 0) {
+            const fs = require('fs');
+            const path = require('path');
+            try {
+                const localData = fs.readFileSync(path.join(__dirname, '../../data/products.json'), 'utf8');
+                validProducts = JSON.parse(localData);
+            } catch (e) {
+                validProducts = [];
+            }
+        }
+        allProducts = validProducts;
 
         // Normalize filters
         const appliedColors = filters.colors ? (Array.isArray(filters.colors) ? filters.colors : [filters.colors]) : [];

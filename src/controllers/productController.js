@@ -22,7 +22,8 @@ class ProductController {
                 priceGte: req.query.priceGte,
                 priceLte: req.query.priceLte,
                 sort: req.query.sort,
-                q: req.query.q
+                q: req.query.q,
+                page: req.query.page
             };
 
             const result = await productService.getProducts(filters);

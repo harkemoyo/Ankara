@@ -78,50 +78,201 @@ ON CONFLICT (handle) DO NOTHING;
 
 INSERT INTO products (handle, title, price, collection, images, colors, sizes, tags, description) VALUES
 (
-    'ankara-print-dress',
-    'Ankara Print Dress',
-    85.00,
+    'sheba-luxury-couture-gown',
+    'Sheba Luxury Couture Gown',
+    245.00,
     'dresses',
-    ARRAY['assets/IMG-20260622-WA0081.webp', 'assets/IMG-20260622-WA0009.webp'],
-    '[{"label":"Red Print","image":"assets/IMG-20260622-WA0081.webp","hex":"#C0392B"},{"label":"Blue Print","image":"assets/IMG-20260622-WA0009.webp","hex":"#2980B9"}]'::jsonb,
-    ARRAY['S','M','L','XL','2X'],
-    ARRAY['dresses','ankara','new'],
-    'A beautiful authentic Ankara dress with vibrant African prints.'
-),
-(
-    'vibrant-african-tunic',
-    'Vibrant African Tunic',
-    60.00,
-    'tops',
-    ARRAY['assets/IMG-20260622-WA0030.webp','assets/IMG-20260622-WA0031.webp'],
-    '[{"label":"Orange Print","image":"assets/IMG-20260622-WA0030.webp","hex":"#E67E22"}]'::jsonb,
+    ARRAY['assets/DSC02676.jpg', 'assets/DSC02672.jpg'],
+    '[{"label":"Gold Ochre","image":"assets/DSC02676.jpg","hex":"#D4A843"}]'::jsonb,
     ARRAY['S','M','L','XL'],
-    ARRAY['tops','ankara','sale'],
-    'Colorful tunic perfect for any occasion.'
+    ARRAY['dresses','luxury'],
+    'Authentic African wear.'
 ),
 (
-    'traditional-kente-skirt',
-    'Traditional Kente Skirt',
-    120.00,
+    'safari-tailored-ankara-suit',
+    'Safari Tailored Ankara Suit',
+    210.00,
+    'tops',
+    ARRAY['assets/DSC02582.jpg', 'assets/DSC02579.jpg'],
+    '[{"label":"Khaki Gold","image":"assets/DSC02582.jpg","hex":"#B7950B"}]'::jsonb,
+    ARRAY['M','L','XL','2X'],
+    ARRAY['tops','suits'],
+    'Authentic African wear.'
+),
+(
+    'monarch-artisan-evening-coat',
+    'Monarch Artisan Evening Coat',
+    240.00,
+    'dresses',
+    ARRAY['assets/DSC02616.jpg', 'assets/DSC02608.jpg'],
+    '[{"label":"Royal Ochre","image":"assets/DSC02616.jpg","hex":"#D4A843"}]'::jsonb,
+    ARRAY['S','M','L','XL'],
+    ARRAY['coats','dresses'],
+    'Authentic African wear.'
+),
+(
+    'royal-sunburst-ankara-gown',
+    'Royal Sunburst Ankara Gown',
+    145.00,
+    'dresses',
+    ARRAY['assets/DSC01401.jpg', 'assets/DSC01383.jpg'],
+    '[{"label":"Gold Ochre","image":"assets/DSC01401.jpg","hex":"#D4A843"}]'::jsonb,
+    ARRAY['S','M','L','XL'],
+    ARRAY['dresses'],
+    'Authentic African wear.'
+),
+(
+    'empress-geometric-maxi-dress',
+    'Empress Geometric Maxi Dress',
+    160.00,
+    'dresses',
+    ARRAY['assets/DSC01465.jpg', 'assets/DSC01428.jpg'],
+    '[{"label":"Navy Geometric","image":"assets/DSC01465.jpg","hex":"#1C2833"}]'::jsonb,
+    ARRAY['M','L','XL','2X'],
+    ARRAY['dresses'],
+    'Authentic African wear.'
+),
+(
+    'terracotta-earth-wave-kaftan',
+    'Terracotta Earth Wave Kaftan',
+    130.00,
+    'dresses',
+    ARRAY['assets/DSC01755.jpg', 'assets/DSC01715.jpg'],
+    '[{"label":"Terracotta","image":"assets/DSC01755.jpg","hex":"#C97F5F"}]'::jsonb,
+    ARRAY['S','M','L'],
+    ARRAY['dresses','kaftan'],
+    'Authentic African wear.'
+),
+(
+    'savannah-botanical-blazer-set',
+    'Savannah Botanical Blazer Set',
+    190.00,
+    'tops',
+    ARRAY['assets/DSC01528.jpg', 'assets/DSC01550.jpg'],
+    '[{"label":"Botanical Green","image":"assets/DSC01528.jpg","hex":"#2E5B37"}]'::jsonb,
+    ARRAY['M','L','XL'],
+    ARRAY['tops'],
+    'Authentic African wear.'
+),
+(
+    'royal-kente-artisan-kimono',
+    'Royal Kente Artisan Kimono',
+    125.00,
+    'tops',
+    ARRAY['assets/DSC01687.jpg', 'assets/DSC01655.jpg'],
+    '[{"label":"Kente Gold","image":"assets/DSC01687.jpg","hex":"#E59866"}]'::jsonb,
+    ARRAY['S','M','L','XL','2X'],
+    ARRAY['tops'],
+    'Authentic African wear.'
+),
+(
+    'obsidian-geometric-wrap-skirt',
+    'Obsidian Geometric Wrap Skirt',
+    95.00,
     'skirts',
-    ARRAY['assets/IMG-20260622-WA0011.webp','assets/IMG-20260622-WA0012.webp'],
-    '[{"label":"Gold Kente","image":"assets/IMG-20260622-WA0011.webp","hex":"#D4AC0D"}]'::jsonb,
-    ARRAY['S','M','L','XL','2X'],
-    ARRAY['skirts','kente'],
-    'Hand-woven Kente skirt combining tradition with modern fashion.'
+    ARRAY['assets/DSC02035.jpg', 'assets/DSC02018.jpg'],
+    '[{"label":"Obsidian Black","image":"assets/DSC02035.jpg","hex":"#1A1818"}]'::jsonb,
+    ARRAY['S','M','L'],
+    ARRAY['skirts'],
+    'Authentic African wear.'
 ),
 (
-    'african-print-blouse',
-    'African Print Blouse',
-    45.00,
+    'crimson-bloom-peplum-top',
+    'Crimson Bloom Peplum Top',
+    85.00,
     'tops',
-    ARRAY['assets/IMG-20260622-WA0032.webp','assets/IMG-20260622-WA0033.webp'],
-    '[{"label":"Green Print","image":"assets/IMG-20260622-WA0032.webp","hex":"#27AE60"}]'::jsonb,
+    ARRAY['assets/DSC02267.jpg', 'assets/DSC02292.jpg'],
+    '[{"label":"Crimson Red","image":"assets/DSC02267.jpg","hex":"#A93226"}]'::jsonb,
+    ARRAY['M','L','XL'],
+    ARRAY['tops'],
+    'Authentic African wear.'
+),
+(
+    'indigo-sunburst-shift-dress',
+    'Indigo Sunburst Shift Dress',
+    110.00,
+    'dresses',
+    ARRAY['assets/DSC02453.jpg', 'assets/DSC02476.jpg'],
+    '[{"label":"Indigo Blue","image":"assets/DSC02453.jpg","hex":"#2471A3"}]'::jsonb,
     ARRAY['S','M','L','XL'],
-    ARRAY['tops','ankara'],
-    'Elegant African print blouse for every occasion.'
+    ARRAY['dresses'],
+    'Authentic African wear.'
+),
+(
+    'heritage-woven-ball-gown',
+    'Heritage Woven Ball Gown',
+    220.00,
+    'dresses',
+    ARRAY['assets/DSC02662.jpg', 'assets/DSC02657.jpg'],
+    '[{"label":"Imperial Gold","image":"assets/DSC02662.jpg","hex":"#F1C40F"}]'::jsonb,
+    ARRAY['M','L','XL'],
+    ARRAY['dresses'],
+    'Authentic African wear.'
+),
+(
+    'sheba-royal-luxury-robe',
+    'Sheba Royal Luxury Robe',
+    185.00,
+    'dresses',
+    ARRAY['assets/DSC02687.jpg', 'assets/DSC02689.jpg'],
+    '[{"label":"Deep Burgundy","image":"assets/DSC02687.jpg","hex":"#78281F"}]'::jsonb,
+    ARRAY['S','M','L','XL','2X'],
+    ARRAY['dresses'],
+    'Authentic African wear.'
+),
+(
+    'savannah-printed-palazzo-pants',
+    'Savannah Printed Palazzo Pants',
+    98.00,
+    'skirts',
+    ARRAY['assets/DSC02056.jpg', 'assets/DSC02044.jpg'],
+    '[{"label":"Savannah Olive","image":"assets/DSC02056.jpg","hex":"#556B2F"}]'::jsonb,
+    ARRAY['S','M','L'],
+    ARRAY['skirts'],
+    'Authentic African wear.'
+),
+(
+    'african-queen-peplum-blouse',
+    'African Queen Peplum Blouse',
+    89.00,
+    'tops',
+    ARRAY['assets/DSC02142.jpg', 'assets/DSC02133.jpg'],
+    '[{"label":"Amber Red","image":"assets/DSC02142.jpg","hex":"#900C3F"}]'::jsonb,
+    ARRAY['M','L','XL'],
+    ARRAY['tops'],
+    'Authentic African wear.'
+),
+(
+    'empress-sunset-wrap-dress',
+    'Empress Sunset Wrap Dress',
+    155.00,
+    'dresses',
+    ARRAY['assets/DSC02331.jpg', 'assets/DSC02317.jpg'],
+    '[{"label":"Sunset Gold","image":"assets/DSC02331.jpg","hex":"#E67E22"}]'::jsonb,
+    ARRAY['S','M','L','XL'],
+    ARRAY['dresses'],
+    'Authentic African wear.'
+),
+(
+    'kente-structure-designer-blazer',
+    'Kente Structure Designer Blazer',
+    175.00,
+    'tops',
+    ARRAY['assets/DSC02554.jpg', 'assets/DSC02544.jpg'],
+    '[{"label":"Kente Red","image":"assets/DSC02554.jpg","hex":"#C0392B"}]'::jsonb,
+    ARRAY['M','L','XL','2X'],
+    ARRAY['tops'],
+    'Authentic African wear.'
 )
-ON CONFLICT (handle) DO NOTHING;
+ON CONFLICT (handle) DO UPDATE SET
+  title = EXCLUDED.title,
+  price = EXCLUDED.price,
+  collection = EXCLUDED.collection,
+  images = EXCLUDED.images,
+  colors = EXCLUDED.colors,
+  sizes = EXCLUDED.sizes,
+  tags = EXCLUDED.tags,
+  description = EXCLUDED.description;
 
 -- =============================================
 -- MIGRATION 2: Orders System

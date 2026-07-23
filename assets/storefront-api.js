@@ -18,7 +18,7 @@ let filterState = {
 // SHOP PAGE — Load and render product grid (AJAX filtering)
 // =============================================
 async function loadShopProducts() {
-    const grid = document.querySelector('.shop-product-grid');
+    const grid = document.querySelector('.product-grid') || document.querySelector('.shop-product-grid');
     if (!grid) return;
 
     grid.innerHTML = '<p style="padding:2rem;text-align:center;">Loading products...</p>';

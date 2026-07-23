@@ -1,5 +1,11 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    }
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
@@ -68,6 +74,10 @@
     {
       "src": "/terms-of-service.html",
       "dest": "/terms-of-service.html"
+    },
+    {
+      "src": "/(.*\\.html)",
+      "dest": "/$1"
     },
     {
       "src": "/(.*)",

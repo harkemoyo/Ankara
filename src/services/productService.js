@@ -16,10 +16,29 @@ class ProductService {
         let { data: allProducts, error } = await query;
         if (error) throw new Error(error.message);
 
+        // Robust image extractor
+        const getFirstImg = (p) => {
+            if (!p) return '';
+            if (Array.isArray(p.images) && p.images.length > 0) return p.images[0];
+            if (typeof p.images === 'string') {
+                if (p.images.startsWith('[')) {
+                    try {
+                        const parsed = JSON.parse(p.images);
+                        if (Array.isArray(parsed) && parsed.length > 0) return parsed[0];
+                    } catch(e) {}
+                }
+                return p.images;
+            }
+            return p.image || '';
+        };
+
         // Filter out raw fabric materials (.webp / IMG-)
-        let validProducts = (allProducts || []).filter(p => p.images && p.images[0] && !p.images[0].includes('IMG-') && !p.images[0].includes('.webp'));
+        let validProducts = (allProducts || []).filter(p => {
+            const img = getFirstImg(p);
+            return img && !img.includes('IMG-') && !img.includes('.webp');
+        });
         
-        // If DB has no human model items, load full DSC human model catalog
+        // If DB has no human model items, load full DSC human model catalog from local products.json
         if (validProducts.length === 0) {
             const fs = require('fs');
             const path = require('path');

@@ -293,6 +293,10 @@
 </select>
 </div>
 <div class="form-group">
+<label>Product Type / Category</label>
+<input id="p-product-type" placeholder="Joggers, Dresses, Hoodies, etc." type="text"/>
+</div>
+<div class="form-group">
 <label>Price (£) *</label>
 <input id="p-price" min="0" placeholder="85.00" step="0.01" type="number"/>
 </div>
@@ -329,6 +333,13 @@
 <div class="form-group full">
 <label>Tags (comma-separated)</label>
 <input id="p-tags" placeholder="dresses, ankara, new" type="text"/>
+</div>
+<div class="form-group full" style="border-top: 1px solid #eee; padding-top: 16px; margin-top: 8px;">
+<label style="font-weight: 700; font-size: 1.4rem;">Product Variants & Variant Inventory</label>
+<span class="helper-text" style="margin-bottom: 8px; display: block;">Specify SKU, Price & Stock levels for individual variants (e.g. Size M / Black).</span>
+<div id="variants-container">
+  <textarea id="p-variants-json" placeholder='[{"title":"M / Black","sku":"TNJ-M-BLK","price":6000.00,"stock":10},{"title":"L / Black","sku":"TNJ-L-BLK","price":6000.00,"stock":5}]' rows="4"></textarea>
+</div>
 </div>
 <div class="form-group">
 <label>In Stock</label>
@@ -487,7 +498,7 @@ async function populateCollectionSelect() {
 window.openProductModal = function() {
   document.getElementById('product-modal-title').textContent = 'Add Product';
   document.getElementById('p-id').value = '';
-  ['p-title','p-handle','p-price','p-compare-price','p-description','p-images','p-sizes','p-colors','p-tags']
+  ['p-title','p-handle','p-product-type','p-price','p-compare-price','p-description','p-images','p-sizes','p-colors','p-tags','p-variants-json']
     .forEach(id => document.getElementById(id).value = '');
   document.getElementById('p-sizes').value = 'S, M, L, XL, 2X';
   document.getElementById('p-in-stock').value = 'true';
@@ -504,6 +515,7 @@ window.editProduct = function(id) {
   document.getElementById('p-id').value = p.id;
   document.getElementById('p-title').value = p.title;
   document.getElementById('p-handle').value = p.handle;
+  document.getElementById('p-product-type').value = p.product_type || '';
   document.getElementById('p-price').value = p.price;
   document.getElementById('p-compare-price').value = p.compare_at_price || '';
   document.getElementById('p-description').value = p.description || '';
@@ -512,6 +524,12 @@ window.editProduct = function(id) {
   document.getElementById('p-colors').value = JSON.stringify(p.colors || [], null, 2);
   document.getElementById('p-tags').value = (p.tags || []).join(', ');
   document.getElementById('p-in-stock').value = p.in_stock ? 'true' : 'false';
+  
+  // Load variants for product
+  supabase.from('product_variants').select('*').eq('product_id', p.id).then(({ data: vars }) => {
+    document.getElementById('p-variants-json').value = vars && vars.length > 0 ? JSON.stringify(vars.map(v => ({ title: v.title, sku: v.sku, price: v.price, stock: v.stock })), null, 2) : '';
+  });
+
   populateCollectionSelect().then(() => {
     document.getElementById('p-collection').value = p.collection || '';
   });
@@ -531,6 +549,7 @@ window.saveProduct = async function() {
     compare_at_price: parseFloat(document.getElementById('p-compare-price').value) || null,
     description:      document.getElementById('p-description').value.trim(),
     collection:       document.getElementById('p-collection').value,
+    product_type:     document.getElementById('p-product-type').value.trim(),
     images:           document.getElementById('p-images').value.split(',').map(s => s.trim()).filter(Boolean),
     sizes:            document.getElementById('p-sizes').value.split(',').map(s => s.trim()).filter(Boolean),
     colors:           colorsVal,
@@ -538,11 +557,33 @@ window.saveProduct = async function() {
     in_stock:         document.getElementById('p-in-stock').value === 'true',
   };
 
-  const { error } = id
-    ? await supabase.from('products').update(payload).eq('id', id)
-    : await supabase.from('products').insert([payload]);
+  const { data: savedProduct, error } = id
+    ? await supabase.from('products').update(payload).eq('id', id).select().single()
+    : await supabase.from('products').insert([payload]).select().single();
 
   if (error) { toast(error.message, 'error'); return; }
+
+  // Save variants if specified
+  const variantsRaw = document.getElementById('p-variants-json').value.trim();
+  if (variantsRaw && savedProduct) {
+    try {
+      const parsedVars = JSON.parse(variantsRaw);
+      if (Array.isArray(parsedVars) && parsedVars.length > 0) {
+        const variantPayloads = parsedVars.map(v => ({
+          product_id: savedProduct.id,
+          title: v.title || 'Default',
+          sku: v.sku || `${savedProduct.handle}-${Date.now()}`,
+          price: parseFloat(v.price) || savedProduct.price,
+          stock: parseInt(v.stock) || 0
+        }));
+        await supabase.from('product_variants').delete().eq('product_id', savedProduct.id);
+        await supabase.from('product_variants').insert(variantPayloads);
+      }
+    } catch(e) {
+      console.warn('Variants JSON parse issue:', e);
+    }
+  }
+
   toast(id ? 'Product updated!' : 'Product added!');
   closeProductModal();
   loadProducts();

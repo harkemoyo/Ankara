@@ -7,10 +7,14 @@ class ProductService {
     async getProducts(filters = {}) {
         let query = supabaseAnon.from('products').select('*');
 
-        // Fetch all products (we'll filter in memory for complex facet logic)
-        // If collection is specified and not 'all', filter by it
+        // Filter by collection handle if specified
         if (filters.collection && filters.collection !== 'all') {
             query = query.eq('collection', filters.collection);
+        }
+        
+        // Filter by product_type if specified
+        if (filters.product_type) {
+            query = query.eq('product_type', filters.product_type);
         }
 
         let { data: allProducts, error } = await query;
@@ -32,20 +36,7 @@ class ProductService {
             return p.image || '';
         };
 
-        // Load local products.json dataset (Boutique Inventory System)
-        const fs = require('fs');
-        const path = require('path');
-        let validProducts = [];
-        try {
-            const localData = fs.readFileSync(path.join(__dirname, '../../data/products.json'), 'utf8');
-            validProducts = JSON.parse(localData);
-        } catch (e) {
-            validProducts = (allProducts || []).filter(p => {
-                const img = getFirstImg(p);
-                return img && !img.includes('IMG-') && !img.includes('.webp');
-            });
-        }
-        allProducts = validProducts;
+
 
         // Normalize filters
         const appliedColors = filters.colors ? (Array.isArray(filters.colors) ? filters.colors : [filters.colors]) : [];
@@ -184,13 +175,53 @@ class ProductService {
     }
 
     async getProductByHandle(handle) {
-        const { data, error } = await supabaseAnon
+        const { data: product, error } = await supabaseAnon
             .from('products')
             .select('*')
             .eq('handle', handle)
             .single();
         if (error) throw new Error(error.message);
-        return data;
+
+        // Fetch variants if product exists
+        if (product) {
+            const { data: variants } = await supabaseAnon
+                .from('product_variants')
+                .select('*')
+                .eq('product_id', product.id);
+            product.variants = variants || [];
+        }
+
+        return product;
+    }
+
+    async getTheme() {
+        const { data } = await supabaseAnon.from('settings').select('theme_sections').eq('id', 1).single();
+        if (data && data.theme_sections) {
+            return data.theme_sections;
+        }
+        // Default Online Store 2.0 Theme JSON layout
+        return {
+            sections: {
+                "hero": {
+                    type: "hero",
+                    settings: {
+                        heading: "Contemporary African Fashion",
+                        subheading: "Bold prints, exquisite craftsmanship, and timeless designs.",
+                        button_text: "Explore Shop",
+                        button_link: "/shop"
+                    }
+                },
+                "featured-collection": {
+                    type: "featured-collection",
+                    settings: {
+                        heading: "Top Rated Products",
+                        collection: "all",
+                        limit: 4
+                    }
+                }
+            },
+            order: ["hero", "featured-collection"]
+        };
     }
 }
 

@@ -40,6 +40,10 @@ async function loadShopProducts() {
     if (filterState.collection && filterState.collection !== 'all') {
         query = query.eq('collection', filterState.collection);
     }
+    // Apply product_type filter if set
+    if (filterState.productType) {
+        query = query.eq('product_type', filterState.productType);
+    }
 
     // Apply size filter
     if (filterState.sizes && filterState.sizes.length > 0) {
@@ -67,21 +71,7 @@ async function loadShopProducts() {
 
     let { data: dbProducts } = await query;
     
-    // Boutique Inventory System Catalog (from spreadsheet)
-    const humanModelCatalog = [
-        { id: 'tnj-01', product_id: 'TNJ001', handle: 'the-nova-joggers', title: 'The Nova Joggers', price: 6000.00, compare_at_price: null, collection: 'trousers', in_stock: true, images: ['assets/DSC01528.jpg', 'assets/DSC01550.jpg', 'assets/DSC01522.jpg', 'assets/DSC01514.jpg'], colors: [{ label: 'Vibrant Ankara', hex: '#422326', image: 'assets/DSC01528.jpg' }] },
-        { id: 'tnp-02', product_id: 'TNP002', handle: 'the-nova-pullovers', title: 'The Nova Pullovers', price: 7000.00, compare_at_price: null, collection: 'tops', in_stock: true, images: ['assets/DSC02582.jpg', 'assets/DSC02579.jpg', 'assets/DSC02554.jpg', 'assets/DSC02544.jpg'], colors: [{ label: 'Ankara Black Fleece', hex: '#2A1719', image: 'assets/DSC02582.jpg' }] },
-        { id: 'thb-03', product_id: 'THB003', handle: 'the-helsinki-blanket', title: 'The Helsinki Blanket', price: 8000.00, compare_at_price: 10000.00, collection: 'accessories', in_stock: true, images: ['assets/DSC02687.jpg', 'assets/DSC02689.jpg', 'assets/DSC02676.jpg', 'assets/DSC02672.jpg'], colors: [{ label: 'Kitenge Red/Black', hex: '#78281F', image: 'assets/DSC02687.jpg' }] },
-        { id: 'alt-04', product_id: 'ALT004', handle: 'african-luxe-throw', title: 'African Luxe Throw', price: 8000.00, compare_at_price: null, collection: 'accessories', in_stock: true, images: ['assets/DSC02676.jpg', 'assets/DSC02672.jpg', 'assets/DSC02662.jpg'], colors: [{ label: 'Luxe Kitenge', hex: '#D4A843', image: 'assets/DSC02676.jpg' }] },
-        { id: 'tnh-05', product_id: 'TNH005', handle: 'the-nova-hoodies', title: 'The Nova Hoodies', price: 7500.00, compare_at_price: null, collection: 'tops', in_stock: true, images: ['assets/DSC01687.jpg', 'assets/DSC01655.jpg', 'assets/DSC01676.jpg', 'assets/DSC01669.jpg'], colors: [{ label: 'Ankara Fleece Hood', hex: '#E59866', image: 'assets/DSC01687.jpg' }] },
-        { id: 'tdsd-06', product_id: 'TDSD006', handle: 'the-diani-sunny-dress', title: 'The Diani Sunny Dress', price: 6000.00, compare_at_price: null, collection: 'dresses', in_stock: true, images: ['assets/DSC01401.jpg', 'assets/DSC01383.jpg', 'assets/DSC01394.jpg', 'assets/DSC01389.jpg'], colors: [{ label: 'Sunny Ankara', hex: '#D4A843', image: 'assets/DSC01401.jpg' }] },
-        { id: 'ttk-07', product_id: 'TTK007', handle: 'the-talisman-kimono', title: 'The Talisman Kimono', price: 7000.00, compare_at_price: null, collection: 'tops', in_stock: true, images: ['assets/DSC01755.jpg', 'assets/DSC01715.jpg', 'assets/DSC01736.jpg', 'assets/DSC01729.jpg'], colors: [{ label: 'Flowing Ankara', hex: '#C97F5F', image: 'assets/DSC01755.jpg' }] },
-        { id: 'nc-08', product_id: 'Nc008', handle: 'noir-cape', title: 'Noir Cape', price: 8000.00, compare_at_price: null, collection: 'outerwear', in_stock: true, images: ['assets/DSC02616.jpg', 'assets/DSC02608.jpg', 'assets/DSC02637.jpg'], colors: [{ label: 'Fleece Kitenge Trim', hex: '#1C2833', image: 'assets/DSC02616.jpg' }] },
-        { id: 'vmp-09', product_id: 'VMP009', handle: 'village-market-palazzo', title: 'Village Market Palazzo', price: 6000.00, compare_at_price: null, collection: 'skirts', in_stock: true, images: ['assets/DSC02056.jpg', 'assets/DSC02044.jpg', 'assets/DSC02035.jpg'], colors: [{ label: 'Patchwork Ankara', hex: '#556B2F', image: 'assets/DSC02056.jpg' }] },
-        { id: 'cd-10', product_id: 'CD010', handle: 'classic-dungarees', title: 'Classic Dungarees', price: 6500.00, compare_at_price: null, collection: 'trousers', in_stock: true, images: ['assets/DSC02379.jpg', 'assets/DSC02369.jpg', 'assets/DSC02331.jpg'], colors: [{ label: 'Classic Red/Blue', hex: '#CD6155', image: 'assets/DSC02379.jpg' }] }
-    ];
-
-    let products = humanModelCatalog;
+    let products = dbProducts || [];
 
     // Filter by collection if set
     if (filterState.collection && filterState.collection !== 'all') {
@@ -356,6 +346,10 @@ async function loadProductDetails() {
         document.getElementById('dyn-product-title').innerText = 'Product Not Found';
         return;
     }
+
+    // Fetch product variants from DB
+    const { data: vars } = await supabase.from('product_variants').select('*').eq('product_id', product.id);
+    product.variants = vars || [];
 
     // Store product globally for add-to-cart
     window._currentProduct = product;

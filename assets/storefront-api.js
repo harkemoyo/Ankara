@@ -466,6 +466,61 @@ async function loadProductDetails() {
         stickyImg.alt = product.title;
     }
 
+    // Populate Tab Panels (Craftsmanship, Features, Weight, Dimensions)
+    const tabCraftsmanship = document.getElementById('tab-craftsmanship');
+    if (tabCraftsmanship) {
+        tabCraftsmanship.innerHTML = `
+            <p style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
+                Handcrafted with pride using 100% authentic African Ankara wax print fabric. 
+                Every piece reflects rich cultural artistry, tailored precision, and reinforced stitching for exceptional durability and timeless elegance.
+            </p>
+        `;
+    }
+
+    const tabFeatures = document.getElementById('tab-features');
+    if (tabFeatures) {
+        tabFeatures.innerHTML = `
+            <ul style="font-size:1.4rem; line-height:2; color:var(--foreground-color,#333); padding-left:2rem; margin:0;">
+                <li>Premium 100% Cotton Ankara Wax Print</li>
+                <li>Vibrant, fade-resistant color dyes</li>
+                <li>Tailored comfort fit designed for everyday versatility</li>
+                <li>Ethically handcrafted by expert African artisans</li>
+            </ul>
+        `;
+    }
+
+    const tabWeight = document.getElementById('tab-weight');
+    if (tabWeight) {
+        tabWeight.innerHTML = `
+            <p style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
+                <strong>Garment Weight:</strong> Approx. 450g – 650g (Lightweight, breathable & structured for all-day comfort).
+            </p>
+        `;
+    }
+
+    const tabDimensions = document.getElementById('tab-dimensions');
+    if (tabDimensions) {
+        tabDimensions.innerHTML = `
+            <p style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
+                <strong>Sizing & Fit:</strong> Standard international sizing (${(product.sizes || ['S','M','L','XL']).join(', ')}). 
+                Relaxed yet tailored silhouette. Refer to our size guide for precise body measurements.
+            </p>
+        `;
+    }
+
+    // Setup Social Share Links
+    const currentUrl = encodeURIComponent(window.location.href);
+    const productTitle = encodeURIComponent(product.title);
+    const shareLinks = document.querySelectorAll('.product-share-box a');
+    if (shareLinks.length >= 3) {
+        shareLinks[0].href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+        shareLinks[0].target = '_blank';
+        shareLinks[1].href = `https://pinterest.com/pin/create/button/?url=${currentUrl}&media=${encodeURIComponent((product.images && product.images[0]) || '')}&description=${productTitle}`;
+        shareLinks[1].target = '_blank';
+        shareLinks[2].href = `https://twitter.com/intent/tweet?url=${currentUrl}&text=${productTitle}`;
+        shareLinks[2].target = '_blank';
+    }
+
     // Scroll listener for sticky buy bar
     window.addEventListener('scroll', () => {
         const buyBtn = document.querySelector('.product__card--btn');

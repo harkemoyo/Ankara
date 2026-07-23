@@ -1,0 +1,170 @@
+/* assets/material.css — Pure Flex/Grid Fabric Material Gallery (No Margins, No Explanations) */
+
+.material__topbar {
+  background-color: #1a1818;
+  padding: 0.8rem 0;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.material__topbar--text {
+  font-size: 1.3rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #D4A843;
+}
+
+.material__header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 1.5rem 0;
+  will-change: transform;
+}
+
+.material__header--inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.material__nav--list {
+  display: flex;
+  gap: 3rem;
+  list-style: none;
+  padding: 0;
+}
+
+.material__nav--link {
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #1a1818;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.material__nav--link.active,
+.material__nav--link:hover {
+  color: #C97F5F;
+}
+
+.material__header--actions {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+/* Hero Section */
+.material__hero {
+  background: linear-gradient(135deg, #1a1818 0%, #3a2e2e 100%);
+  color: #ffffff;
+  padding: 6rem 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.material__hero--content {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.2rem;
+}
+
+.material__hero--subtitle {
+  color: #D4A843;
+  font-size: 1.3rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.material__hero--title {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(3.2rem, 5vw, 4.8rem);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Material Gallery Grid */
+.material__showcase--section {
+  padding: 6rem 2rem;
+  background-color: #faf8f5;
+}
+
+.material__showcase--container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.material__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2.5rem;
+}
+
+.material__card {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.material__card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+}
+
+.material__card--img {
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Footer */
+.material__footer {
+  background-color: #1a1818;
+  color: #ffffff;
+  padding: 4rem 2rem;
+}
+
+.material__footer--container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.material__footer--links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 1.3rem;
+  flex-wrap: wrap;
+}
+
+.material__footer--links a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.material__footer--links a:hover {
+  color: #D4A843;
+}

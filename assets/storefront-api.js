@@ -67,218 +67,232 @@ async function loadShopProducts() {
 
     let { data: products, error } = await query;
 
-    if (error || !products || products.length === 0) {
-        // Fallback to rich high-res DSC product inventory
-        products = [
-            {
-                id: 'dsc-ankara-gown-01',
-                handle: 'royal-sunburst-ankara-gown',
-                title: 'Royal Sunburst Ankara Gown',
-                price: 145.00,
-                compare_at_price: 185.00,
-                collection: 'dresses',
-                in_stock: true,
-                images: ['assets/DSC01401.jpg', 'assets/DSC01383.jpg'],
-                colors: [{ label: 'Gold Ochre', hex: '#D4A843', image: 'assets/DSC01401.jpg' }],
-                sizes: ['S', 'M', 'L', 'XL']
-            },
-            {
-                id: 'dsc-empress-maxi-02',
-                handle: 'empress-geometric-maxi-dress',
-                title: 'Empress Geometric Maxi Dress',
-                price: 160.00,
-                compare_at_price: 195.00,
-                collection: 'dresses',
-                in_stock: true,
-                images: ['assets/DSC01465.jpg', 'assets/DSC01428.jpg'],
-                colors: [{ label: 'Navy Geometric', hex: '#1C2833', image: 'assets/DSC01465.jpg' }],
-                sizes: ['M', 'L', 'XL', '2X']
-            },
-            {
-                id: 'dsc-terracotta-kaftan-03',
-                handle: 'terracotta-earth-wave-kaftan',
-                title: 'Terracotta Earth Wave Kaftan',
-                price: 130.00,
-                compare_at_price: null,
-                collection: 'dresses',
-                in_stock: true,
-                images: ['assets/DSC01755.jpg', 'assets/DSC01715.jpg'],
-                colors: [{ label: 'Terracotta', hex: '#C97F5F', image: 'assets/DSC01755.jpg' }],
-                sizes: ['S', 'M', 'L']
-            },
-            {
-                id: 'dsc-savannah-suit-04',
-                handle: 'savannah-botanical-blazer-set',
-                title: 'Savannah Botanical Blazer Set',
-                price: 190.00,
-                compare_at_price: 230.00,
-                collection: 'tops',
-                in_stock: true,
-                images: ['assets/DSC01528.jpg', 'assets/DSC01550.jpg'],
-                colors: [{ label: 'Botanical Green', hex: '#2E5B37', image: 'assets/DSC01528.jpg' }],
-                sizes: ['M', 'L', 'XL']
-            },
-            {
-                id: 'dsc-kente-kimono-05',
-                handle: 'royal-kente-artisan-kimono',
-                title: 'Royal Kente Artisan Kimono',
-                price: 125.00,
-                compare_at_price: 155.00,
-                collection: 'tops',
-                in_stock: true,
-                images: ['assets/DSC01687.jpg', 'assets/DSC01655.jpg'],
-                colors: [{ label: 'Kente Gold', hex: '#E59866', image: 'assets/DSC01687.jpg' }],
-                sizes: ['S', 'M', 'L', 'XL', '2X']
-            },
-            {
-                id: 'dsc-obsidian-skirt-06',
-                handle: 'obsidian-geometric-wrap-skirt',
-                title: 'Obsidian Geometric Wrap Skirt',
-                price: 95.00,
-                compare_at_price: 120.00,
-                collection: 'skirts',
-                in_stock: true,
-                images: ['assets/DSC02035.jpg', 'assets/DSC02018.jpg'],
-                colors: [{ label: 'Obsidian Black', hex: '#1A1818', image: 'assets/DSC02035.jpg' }],
-                sizes: ['S', 'M', 'L']
-            },
-            {
-                id: 'dsc-crimson-peplum-07',
-                handle: 'crimson-bloom-peplum-top',
-                title: 'Crimson Bloom Peplum Top',
-                price: 85.00,
-                compare_at_price: null,
-                collection: 'tops',
-                in_stock: true,
-                images: ['assets/DSC02267.jpg', 'assets/DSC02292.jpg'],
-                colors: [{ label: 'Crimson Red', hex: '#A93226', image: 'assets/DSC02267.jpg' }],
-                sizes: ['M', 'L', 'XL']
-            },
-            {
-                id: 'dsc-indigo-shift-08',
-                handle: 'indigo-sunburst-shift-dress',
-                title: 'Indigo Sunburst Shift Dress',
-                price: 110.00,
-                compare_at_price: 140.00,
-                collection: 'dresses',
-                in_stock: true,
-                images: ['assets/DSC02453.jpg', 'assets/DSC02476.jpg'],
-                colors: [{ label: 'Indigo Blue', hex: '#2471A3', image: 'assets/DSC02453.jpg' }],
-                sizes: ['S', 'M', 'L', 'XL']
-            },
-            {
-                id: 'dsc-safari-tailored-09',
-                handle: 'safari-tailored-ankara-suit',
-                title: 'Safari Tailored Ankara Suit',
-                price: 210.00,
-                compare_at_price: 260.00,
-                collection: 'tops',
-                in_stock: true,
-                images: ['assets/DSC02582.jpg', 'assets/DSC02572.jpg'],
-                colors: [{ label: 'Khaki Gold', hex: '#B7950B', image: 'assets/DSC02582.jpg' }],
-                sizes: ['M', 'L', 'XL', '2X']
-            },
-            {
-                id: 'dsc-monarch-evening-10',
-                handle: 'monarch-artisan-evening-coat',
-                title: 'Monarch Artisan Evening Coat',
-                price: 240.00,
-                compare_at_price: 290.00,
-                collection: 'dresses',
-                in_stock: true,
-                images: ['assets/DSC02616.jpg', 'assets/DSC02606.jpg'],
-                colors: [{ label: 'Royal Ochre', hex: '#D4A843', image: 'assets/DSC02616.jpg' }],
-                sizes: ['S', 'M', 'L', 'XL']
-            },
-            {
-                id: 'dsc-heritage-gown-11',
-                handle: 'heritage-woven-ball-gown',
-                title: 'Heritage Woven Ball Gown',
-                price: 220.00,
-                compare_at_price: null,
-                collection: 'dresses',
-                in_stock: true,
-                images: ['assets/DSC02662.jpg', 'assets/DSC02657.jpg'],
-                colors: [{ label: 'Imperial Gold', hex: '#F1C40F', image: 'assets/DSC02662.jpg' }],
-                sizes: ['M', 'L', 'XL']
-            },
-            {
-                id: 'dsc-sheba-luxury-12',
-                handle: 'sheba-royal-luxury-robe',
-                title: 'Sheba Royal Luxury Robe',
-                price: 185.00,
-                compare_at_price: 220.00,
-                collection: 'dresses',
-                in_stock: true,
-                images: ['assets/DSC02687.jpg', 'assets/DSC02689.jpg'],
-                colors: [{ label: 'Deep Burgundy', hex: '#78281F', image: 'assets/DSC02687.jpg' }],
-                sizes: ['S', 'M', 'L', 'XL', '2X']
-            },
-            {
-                id: 'dsc-savannah-palazzo-13',
-                handle: 'savannah-printed-palazzo-pants',
-                title: 'Savannah Printed Palazzo Pants',
-                price: 98.00,
-                compare_at_price: 125.00,
-                collection: 'skirts',
-                in_stock: true,
-                images: ['assets/DSC02056.jpg', 'assets/DSC02044.jpg'],
-                colors: [{ label: 'Savannah Olive', hex: '#556B2F', image: 'assets/DSC02056.jpg' }],
-                sizes: ['S', 'M', 'L']
-            },
-            {
-                id: 'dsc-african-blouse-14',
-                handle: 'african-queen-peplum-blouse',
-                title: 'African Queen Peplum Blouse',
-                price: 89.00,
-                compare_at_price: null,
-                collection: 'tops',
-                in_stock: true,
-                images: ['assets/DSC02142.jpg', 'assets/DSC02133.jpg'],
-                colors: [{ label: 'Amber Red', hex: '#900C3F', image: 'assets/DSC02142.jpg' }],
-                sizes: ['M', 'L', 'XL']
-            },
-            {
-                id: 'dsc-empress-evening-15',
-                handle: 'empress-sunset-wrap-dress',
-                title: 'Empress Sunset Wrap Dress',
-                price: 155.00,
-                compare_at_price: 190.00,
-                collection: 'dresses',
-                in_stock: true,
-                images: ['assets/DSC02331.jpg', 'assets/DSC02317.jpg'],
-                colors: [{ label: 'Sunset Gold', hex: '#E67E22', image: 'assets/DSC02331.jpg' }],
-                sizes: ['S', 'M', 'L', 'XL']
-            },
-            {
-                id: 'dsc-kente-blazer-16',
-                handle: 'kente-structure-designer-blazer',
-                title: 'Kente Structure Designer Blazer',
-                price: 175.00,
-                compare_at_price: 210.00,
-                collection: 'tops',
-                in_stock: true,
-                images: ['assets/DSC02554.jpg', 'assets/DSC02544.jpg'],
-                colors: [{ label: 'Kente Red', hex: '#C0392B', image: 'assets/DSC02554.jpg' }],
-                sizes: ['M', 'L', 'XL', '2X']
-            }
-        ];
-    }
+    const allDscProducts = [
+        {
+            id: 'dsc-sheba-luxury-gown',
+            handle: 'sheba-luxury-couture-gown',
+            title: 'Sheba Luxury Couture Gown',
+            price: 245.00,
+            compare_at_price: 295.00,
+            collection: 'dresses',
+            in_stock: true,
+            images: ['assets/DSC02676.jpg', 'assets/DSC02672.jpg'],
+            colors: [{ label: 'Gold Ochre', hex: '#D4A843', image: 'assets/DSC02676.jpg' }],
+            sizes: ['S', 'M', 'L', 'XL']
+        },
+        {
+            id: 'dsc-safari-tailored-suit',
+            handle: 'safari-tailored-ankara-suit',
+            title: 'Safari Tailored Ankara Suit',
+            price: 210.00,
+            compare_at_price: 260.00,
+            collection: 'tops',
+            in_stock: true,
+            images: ['assets/DSC02582.jpg', 'assets/DSC02579.jpg'],
+            colors: [{ label: 'Khaki Gold', hex: '#B7950B', image: 'assets/DSC02582.jpg' }],
+            sizes: ['M', 'L', 'XL', '2X']
+        },
+        {
+            id: 'dsc-monarch-evening-coat',
+            handle: 'monarch-artisan-evening-coat',
+            title: 'Monarch Artisan Evening Coat',
+            price: 240.00,
+            compare_at_price: 290.00,
+            collection: 'dresses',
+            in_stock: true,
+            images: ['assets/DSC02616.jpg', 'assets/DSC02608.jpg'],
+            colors: [{ label: 'Royal Ochre', hex: '#D4A843', image: 'assets/DSC02616.jpg' }],
+            sizes: ['S', 'M', 'L', 'XL']
+        },
+        {
+            id: 'dsc-sunburst-gown',
+            handle: 'royal-sunburst-ankara-gown',
+            title: 'Royal Sunburst Ankara Gown',
+            price: 145.00,
+            compare_at_price: 185.00,
+            collection: 'dresses',
+            in_stock: true,
+            images: ['assets/DSC01401.jpg', 'assets/DSC01383.jpg'],
+            colors: [{ label: 'Gold Ochre', hex: '#D4A843', image: 'assets/DSC01401.jpg' }],
+            sizes: ['S', 'M', 'L', 'XL']
+        },
+        {
+            id: 'dsc-empress-maxi',
+            handle: 'empress-geometric-maxi-dress',
+            title: 'Empress Geometric Maxi Dress',
+            price: 160.00,
+            compare_at_price: 195.00,
+            collection: 'dresses',
+            in_stock: true,
+            images: ['assets/DSC01465.jpg', 'assets/DSC01428.jpg'],
+            colors: [{ label: 'Navy Geometric', hex: '#1C2833', image: 'assets/DSC01465.jpg' }],
+            sizes: ['M', 'L', 'XL', '2X']
+        },
+        {
+            id: 'dsc-terracotta-kaftan',
+            handle: 'terracotta-earth-wave-kaftan',
+            title: 'Terracotta Earth Wave Kaftan',
+            price: 130.00,
+            compare_at_price: null,
+            collection: 'dresses',
+            in_stock: true,
+            images: ['assets/DSC01755.jpg', 'assets/DSC01715.jpg'],
+            colors: [{ label: 'Terracotta', hex: '#C97F5F', image: 'assets/DSC01755.jpg' }],
+            sizes: ['S', 'M', 'L']
+        },
+        {
+            id: 'dsc-savannah-suit',
+            handle: 'savannah-botanical-blazer-set',
+            title: 'Savannah Botanical Blazer Set',
+            price: 190.00,
+            compare_at_price: 230.00,
+            collection: 'tops',
+            in_stock: true,
+            images: ['assets/DSC01528.jpg', 'assets/DSC01550.jpg'],
+            colors: [{ label: 'Botanical Green', hex: '#2E5B37', image: 'assets/DSC01528.jpg' }],
+            sizes: ['M', 'L', 'XL']
+        },
+        {
+            id: 'dsc-kente-kimono',
+            handle: 'royal-kente-artisan-kimono',
+            title: 'Royal Kente Artisan Kimono',
+            price: 125.00,
+            compare_at_price: 155.00,
+            collection: 'tops',
+            in_stock: true,
+            images: ['assets/DSC01687.jpg', 'assets/DSC01655.jpg'],
+            colors: [{ label: 'Kente Gold', hex: '#E59866', image: 'assets/DSC01687.jpg' }],
+            sizes: ['S', 'M', 'L', 'XL', '2X']
+        },
+        {
+            id: 'dsc-obsidian-skirt',
+            handle: 'obsidian-geometric-wrap-skirt',
+            title: 'Obsidian Geometric Wrap Skirt',
+            price: 95.00,
+            compare_at_price: 120.00,
+            collection: 'skirts',
+            in_stock: true,
+            images: ['assets/DSC02035.jpg', 'assets/DSC02018.jpg'],
+            colors: [{ label: 'Obsidian Black', hex: '#1A1818', image: 'assets/DSC02035.jpg' }],
+            sizes: ['S', 'M', 'L']
+        },
+        {
+            id: 'dsc-crimson-peplum',
+            handle: 'crimson-bloom-peplum-top',
+            title: 'Crimson Bloom Peplum Top',
+            price: 85.00,
+            compare_at_price: null,
+            collection: 'tops',
+            in_stock: true,
+            images: ['assets/DSC02267.jpg', 'assets/DSC02292.jpg'],
+            colors: [{ label: 'Crimson Red', hex: '#A93226', image: 'assets/DSC02267.jpg' }],
+            sizes: ['M', 'L', 'XL']
+        },
+        {
+            id: 'dsc-indigo-shift',
+            handle: 'indigo-sunburst-shift-dress',
+            title: 'Indigo Sunburst Shift Dress',
+            price: 110.00,
+            compare_at_price: 140.00,
+            collection: 'dresses',
+            in_stock: true,
+            images: ['assets/DSC02453.jpg', 'assets/DSC02476.jpg'],
+            colors: [{ label: 'Indigo Blue', hex: '#2471A3', image: 'assets/DSC02453.jpg' }],
+            sizes: ['S', 'M', 'L', 'XL']
+        },
+        {
+            id: 'dsc-heritage-gown',
+            handle: 'heritage-woven-ball-gown',
+            title: 'Heritage Woven Ball Gown',
+            price: 220.00,
+            compare_at_price: null,
+            collection: 'dresses',
+            in_stock: true,
+            images: ['assets/DSC02662.jpg', 'assets/DSC02657.jpg'],
+            colors: [{ label: 'Imperial Gold', hex: '#F1C40F', image: 'assets/DSC02662.jpg' }],
+            sizes: ['M', 'L', 'XL']
+        },
+        {
+            id: 'dsc-sheba-luxury-robe',
+            handle: 'sheba-royal-luxury-robe',
+            title: 'Sheba Royal Luxury Robe',
+            price: 185.00,
+            compare_at_price: 220.00,
+            collection: 'dresses',
+            in_stock: true,
+            images: ['assets/DSC02687.jpg', 'assets/DSC02689.jpg'],
+            colors: [{ label: 'Deep Burgundy', hex: '#78281F', image: 'assets/DSC02687.jpg' }],
+            sizes: ['S', 'M', 'L', 'XL', '2X']
+        },
+        {
+            id: 'dsc-savannah-palazzo',
+            handle: 'savannah-printed-palazzo-pants',
+            title: 'Savannah Printed Palazzo Pants',
+            price: 98.00,
+            compare_at_price: 125.00,
+            collection: 'skirts',
+            in_stock: true,
+            images: ['assets/DSC02056.jpg', 'assets/DSC02044.jpg'],
+            colors: [{ label: 'Savannah Olive', hex: '#556B2F', image: 'assets/DSC02056.jpg' }],
+            sizes: ['S', 'M', 'L']
+        },
+        {
+            id: 'dsc-african-blouse',
+            handle: 'african-queen-peplum-blouse',
+            title: 'African Queen Peplum Blouse',
+            price: 89.00,
+            compare_at_price: null,
+            collection: 'tops',
+            in_stock: true,
+            images: ['assets/DSC02142.jpg', 'assets/DSC02133.jpg'],
+            colors: [{ label: 'Amber Red', hex: '#900C3F', image: 'assets/DSC02142.jpg' }],
+            sizes: ['M', 'L', 'XL']
+        },
+        {
+            id: 'dsc-empress-sunset',
+            handle: 'empress-sunset-wrap-dress',
+            title: 'Empress Sunset Wrap Dress',
+            price: 155.00,
+            compare_at_price: 190.00,
+            collection: 'dresses',
+            in_stock: true,
+            images: ['assets/DSC02331.jpg', 'assets/DSC02317.jpg'],
+            colors: [{ label: 'Sunset Gold', hex: '#E67E22', image: 'assets/DSC02331.jpg' }],
+            sizes: ['S', 'M', 'L', 'XL']
+        },
+        {
+            id: 'dsc-kente-designer-blazer',
+            handle: 'kente-structure-designer-blazer',
+            title: 'Kente Structure Designer Blazer',
+            price: 175.00,
+            compare_at_price: 210.00,
+            collection: 'tops',
+            in_stock: true,
+            images: ['assets/DSC02554.jpg', 'assets/DSC02544.jpg'],
+            colors: [{ label: 'Kente Red', hex: '#C0392B', image: 'assets/DSC02554.jpg' }],
+            sizes: ['M', 'L', 'XL', '2X']
+        }
+    ];
+
+    // Always use full DSC catalog
+    products = allDscProducts;
 
     const dscList = [
-        'assets/DSC02579.jpg', 'assets/DSC02616.jpg', 'assets/DSC01401.jpg',
+        'assets/DSC02676.jpg', 'assets/DSC02616.jpg', 'assets/DSC01401.jpg',
         'assets/DSC01465.jpg', 'assets/DSC01528.jpg', 'assets/DSC01755.jpg',
         'assets/DSC02035.jpg', 'assets/DSC02267.jpg', 'assets/DSC02453.jpg',
-        'assets/DSC02582.jpg', 'assets/DSC02662.jpg', 'assets/DSC02687.jpg'
+        'assets/DSC02582.jpg', 'assets/DSC02662.jpg', 'assets/DSC02687.jpg',
+        'assets/DSC02579.jpg', 'assets/DSC02680.jpg', 'assets/DSC02684.jpg',
+        'assets/DSC02689.jpg', 'assets/DSC02693.jpg', 'assets/DSC02610.jpg'
     ];
 
     grid.innerHTML = products.map((product, idx) => {
-        let primaryImage = (product.images && product.images[0]) || 'assets/DSC02579.jpg';
-        if (primaryImage.includes('IMG-') || primaryImage.includes('product1.png')) {
+        let primaryImage = (product.images && Array.isArray(product.images) && product.images[0]) ? product.images[0] : dscList[idx % dscList.length];
+        if (typeof primaryImage === 'string' && (primaryImage.indexOf('IMG-') !== -1 || primaryImage.indexOf('product1.png') !== -1 || primaryImage.indexOf('.webp') !== -1)) {
             primaryImage = dscList[idx % dscList.length];
         }
-        let hoverImage = (product.images && product.images[1]) || primaryImage;
-        if (hoverImage.includes('IMG-') || hoverImage.includes('product1.png')) {
+        let hoverImage = (product.images && Array.isArray(product.images) && product.images[1]) ? product.images[1] : dscList[(idx + 1) % dscList.length];
+        if (typeof hoverImage === 'string' && (hoverImage.indexOf('IMG-') !== -1 || hoverImage.indexOf('product1.png') !== -1 || hoverImage.indexOf('.webp') !== -1)) {
             hoverImage = dscList[(idx + 1) % dscList.length];
         }
         const price = parseFloat(product.price).toFixed(2);

@@ -182,9 +182,21 @@ class ProductService {
     }
 
     async getCollections() {
-        const { data, error } = await supabaseAnon.from('collections').select('*').order('sort_order', { ascending: true });
-        if (error) throw new Error(error.message);
-        return data;
+        try {
+            const { data, error } = await supabaseAnon.from('collections').select('*').order('sort_order', { ascending: true });
+            if (!error && data && data.length > 0) return data;
+        } catch(e) {}
+
+        return [
+            { handle: 'all', title: 'All Products' },
+            { handle: 'dresses', title: 'Dresses' },
+            { handle: 'tops', title: 'Tops & Hoodies' },
+            { handle: 'pants', title: 'Pants & Joggers' },
+            { handle: 'blankets', title: 'Blankets & Throws' },
+            { handle: 'kimonos', title: 'Kimonos' },
+            { handle: 'capes', title: 'Capes & Outerwear' },
+            { handle: 'dungarees', title: 'Dungarees' }
+        ];
     }
 
     async getProductByHandle(handle) {

@@ -72,8 +72,12 @@ CREATE POLICY "settings_admin_write" ON settings FOR ALL USING (auth.role() = 'a
 INSERT INTO collections (handle, title, description, sort_order) VALUES
     ('all', 'All Products', 'Browse all our Ankara collections', 0),
     ('dresses', 'Dresses', 'Beautiful Ankara print dresses', 1),
-    ('tops', 'Tops & Blouses', 'Stylish African print tops', 2),
-    ('skirts', 'Skirts', 'Traditional and modern skirts', 3)
+    ('tops', 'Tops & Hoodies', 'Stylish African print tops, hoodies & pullovers', 2),
+    ('pants', 'Pants & Joggers', 'Ankara joggers, palazzo pants & bottoms', 3),
+    ('blankets', 'Blankets & Throws', 'Luxurious Kitenge fleece blankets & throws', 4),
+    ('kimonos', 'Kimonos', 'Flowing Ankara layering kimonos', 5),
+    ('capes', 'Capes & Outerwear', 'Fleece & Kitenge statement capes', 6),
+    ('dungarees', 'Dungarees', 'Classic African print dungarees', 7)
 ON CONFLICT (handle) DO NOTHING;
 
 INSERT INTO products (handle, title, price, compare_at_price, collection, images, colors, sizes, tags, description) VALUES

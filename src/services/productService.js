@@ -32,22 +32,18 @@ class ProductService {
             return p.image || '';
         };
 
-        // Filter out raw fabric materials (.webp / IMG-)
-        let validProducts = (allProducts || []).filter(p => {
-            const img = getFirstImg(p);
-            return img && !img.includes('IMG-') && !img.includes('.webp');
-        });
-        
-        // If DB has no human model items, load full DSC human model catalog from local products.json
-        if (validProducts.length === 0) {
-            const fs = require('fs');
-            const path = require('path');
-            try {
-                const localData = fs.readFileSync(path.join(__dirname, '../../data/products.json'), 'utf8');
-                validProducts = JSON.parse(localData);
-            } catch (e) {
-                validProducts = [];
-            }
+        // Load local products.json dataset (Boutique Inventory System)
+        const fs = require('fs');
+        const path = require('path');
+        let validProducts = [];
+        try {
+            const localData = fs.readFileSync(path.join(__dirname, '../../data/products.json'), 'utf8');
+            validProducts = JSON.parse(localData);
+        } catch (e) {
+            validProducts = (allProducts || []).filter(p => {
+                const img = getFirstImg(p);
+                return img && !img.includes('IMG-') && !img.includes('.webp');
+            });
         }
         allProducts = validProducts;
 

@@ -27,4 +27,12 @@ app.use((req, res) => {
     res.status(404).json({ error: 'API route not found' });
 });
 
+// Start server if running locally (not in Vercel)
+if (require.main === module) {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}
+
 module.exports = app;

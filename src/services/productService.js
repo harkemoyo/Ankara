@@ -7,10 +7,7 @@ class ProductService {
     async getProducts(filters = {}) {
         let query = supabaseAnon.from('products').select('*');
 
-        // Filter by collection handle if specified
-        if (filters.collection && filters.collection !== 'all') {
-            query = query.eq('collection', filters.collection);
-        }
+        // We fetch all products and perform collection filtering in memory to support tag-based and sale collections robustly.
         
         // Filter by product_type if specified
         if (filters.product_type) {
@@ -77,8 +74,19 @@ class ProductService {
             return title.includes(search) || desc.includes(search);
         };
 
+        const passesCollection = (p) => {
+            if (!filters.collection || filters.collection === 'all') return true;
+            if (filters.collection === 'sale') {
+                return (p.compare_at_price && parseFloat(p.compare_at_price) > parseFloat(p.price)) || (p.tags && p.tags.map(t => t.toLowerCase()).includes('sale'));
+            }
+            const colLower = filters.collection.toLowerCase();
+            return (p.collection && p.collection.toLowerCase() === colLower) || 
+                   (p.tags && p.tags.map(t => t.toLowerCase()).includes(colLower));
+        };
+
         // Filter the final products list
         const filteredProducts = allProducts.filter(p => 
+            passesCollection(p) &&
             passesColor(p) && 
             passesSize(p) && 
             passesVendor(p) && 
@@ -110,10 +118,10 @@ class ProductService {
 
         allProducts.forEach(p => {
             // Check if product passes all filters EXCEPT the one we are aggregating
-            const baseMatchesForColor = passesSize(p) && passesVendor(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
-            const baseMatchesForSize = passesColor(p) && passesVendor(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
-            const baseMatchesForVendor = passesColor(p) && passesSize(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
-            const baseMatchesForAvailability = passesColor(p) && passesSize(p) && passesVendor(p) && passesPrice(p) && passesSearch(p);
+            const baseMatchesForColor = passesCollection(p) && passesSize(p) && passesVendor(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
+            const baseMatchesForSize = passesCollection(p) && passesColor(p) && passesVendor(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
+            const baseMatchesForVendor = passesCollection(p) && passesColor(p) && passesSize(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
+            const baseMatchesForAvailability = passesCollection(p) && passesColor(p) && passesSize(p) && passesVendor(p) && passesPrice(p) && passesSearch(p);
 
             if (baseMatchesForColor && Array.isArray(p.colors)) {
                 p.colors.forEach(c => {

@@ -7,10 +7,11 @@ class ProductService {
     async getProducts(filters = {}) {
         let query = supabaseAnon.from('products').select('*');
 
-        // Fetch all products (we'll filter in memory for complex facet logic)
-        // If collection is specified and not 'all', filter by it
-        if (filters.collection && filters.collection !== 'all') {
-            query = query.eq('collection', filters.collection);
+        // We fetch all products and perform collection filtering in memory to support tag-based and sale collections robustly.
+        
+        // Filter by product_type if specified
+        if (filters.product_type) {
+            query = query.eq('product_type', filters.product_type);
         }
 
         let { data: allProducts, error } = await query;
@@ -32,24 +33,7 @@ class ProductService {
             return p.image || '';
         };
 
-        // Filter out raw fabric materials (.webp / IMG-)
-        let validProducts = (allProducts || []).filter(p => {
-            const img = getFirstImg(p);
-            return img && !img.includes('IMG-') && !img.includes('.webp');
-        });
-        
-        // If DB has no human model items, load full DSC human model catalog from local products.json
-        if (validProducts.length === 0) {
-            const fs = require('fs');
-            const path = require('path');
-            try {
-                const localData = fs.readFileSync(path.join(__dirname, '../../data/products.json'), 'utf8');
-                validProducts = JSON.parse(localData);
-            } catch (e) {
-                validProducts = [];
-            }
-        }
-        allProducts = validProducts;
+
 
         // Normalize filters
         const appliedColors = filters.colors ? (Array.isArray(filters.colors) ? filters.colors : [filters.colors]) : [];
@@ -90,8 +74,19 @@ class ProductService {
             return title.includes(search) || desc.includes(search);
         };
 
+        const passesCollection = (p) => {
+            if (!filters.collection || filters.collection === 'all') return true;
+            if (filters.collection === 'sale') {
+                return (p.compare_at_price && parseFloat(p.compare_at_price) > parseFloat(p.price)) || (p.tags && p.tags.map(t => t.toLowerCase()).includes('sale'));
+            }
+            const colLower = filters.collection.toLowerCase();
+            return (p.collection && p.collection.toLowerCase() === colLower) || 
+                   (p.tags && p.tags.map(t => t.toLowerCase()).includes(colLower));
+        };
+
         // Filter the final products list
         const filteredProducts = allProducts.filter(p => 
+            passesCollection(p) &&
             passesColor(p) && 
             passesSize(p) && 
             passesVendor(p) && 
@@ -123,10 +118,10 @@ class ProductService {
 
         allProducts.forEach(p => {
             // Check if product passes all filters EXCEPT the one we are aggregating
-            const baseMatchesForColor = passesSize(p) && passesVendor(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
-            const baseMatchesForSize = passesColor(p) && passesVendor(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
-            const baseMatchesForVendor = passesColor(p) && passesSize(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
-            const baseMatchesForAvailability = passesColor(p) && passesSize(p) && passesVendor(p) && passesPrice(p) && passesSearch(p);
+            const baseMatchesForColor = passesCollection(p) && passesSize(p) && passesVendor(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
+            const baseMatchesForSize = passesCollection(p) && passesColor(p) && passesVendor(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
+            const baseMatchesForVendor = passesCollection(p) && passesColor(p) && passesSize(p) && passesAvailability(p) && passesPrice(p) && passesSearch(p);
+            const baseMatchesForAvailability = passesCollection(p) && passesColor(p) && passesSize(p) && passesVendor(p) && passesPrice(p) && passesSearch(p);
 
             if (baseMatchesForColor && Array.isArray(p.colors)) {
                 p.colors.forEach(c => {
@@ -200,13 +195,53 @@ class ProductService {
     }
 
     async getProductByHandle(handle) {
-        const { data, error } = await supabaseAnon
+        const { data: product, error } = await supabaseAnon
             .from('products')
             .select('*')
             .eq('handle', handle)
             .single();
         if (error) throw new Error(error.message);
-        return data;
+
+        // Fetch variants if product exists
+        if (product) {
+            const { data: variants } = await supabaseAnon
+                .from('product_variants')
+                .select('*')
+                .eq('product_id', product.id);
+            product.variants = variants || [];
+        }
+
+        return product;
+    }
+
+    async getTheme() {
+        const { data } = await supabaseAnon.from('settings').select('theme_sections').eq('id', 1).single();
+        if (data && data.theme_sections) {
+            return data.theme_sections;
+        }
+        // Default Online Store 2.0 Theme JSON layout
+        return {
+            sections: {
+                "hero": {
+                    type: "hero",
+                    settings: {
+                        heading: "Contemporary African Fashion",
+                        subheading: "Bold prints, exquisite craftsmanship, and timeless designs.",
+                        button_text: "Explore Shop",
+                        button_link: "/shop"
+                    }
+                },
+                "featured-collection": {
+                    type: "featured-collection",
+                    settings: {
+                        heading: "Top Rated Products",
+                        collection: "all",
+                        limit: 4
+                    }
+                }
+            },
+            order: ["hero", "featured-collection"]
+        };
     }
 }
 

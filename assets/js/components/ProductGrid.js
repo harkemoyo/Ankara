@@ -55,6 +55,9 @@ export default class ProductGrid {
 
         try {
             const params = new URLSearchParams(window.location.search);
+            if (window.location.pathname.includes('sale.html') && !params.has('collection')) {
+                params.set('collection', 'sale');
+            }
             const response = await fetch(`/api/products?${params.toString()}`);
             if (!response.ok) throw new Error('Network response was not ok');
             
@@ -86,7 +89,10 @@ export default class ProductGrid {
 
     updateTitleAndBreadcrumbs() {
         const params = new URLSearchParams(window.location.search);
-        const collectionHandle = params.get('collection');
+        let collectionHandle = params.get('collection');
+        if (window.location.pathname.includes('sale.html') && !collectionHandle) {
+            collectionHandle = 'sale';
+        }
 
         const titleEl = document.querySelector('.breadcrumb__title');
         const breadcrumbContentEl = document.querySelector('.breadcrumb--content');

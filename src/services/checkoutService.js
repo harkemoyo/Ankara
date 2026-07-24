@@ -1,4 +1,5 @@
 const { supabaseAdmin } = require('../config/supabase');
+const emailService = require('./emailService');
 
 async function initializeCheckout(cart, customer) {
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
@@ -120,6 +121,16 @@ async function processWebhook(eventData) {
         if (orderError || !order) {
             console.error('Failed to update order status to paid:', orderError);
             return;
+        }
+
+        // Trigger transactional order confirmation email via MailerSend queue
+        if (data && data.customer && data.customer.email) {
+            emailService.sendOrderConfirmation({
+                id: order.id,
+                order_number: data.reference,
+                total_amount: (data.amount || 0) / 100,
+                customer_name: data.customer.first_name || 'Customer'
+            }, data.customer.email);
         }
 
         // Decrement inventory (assuming inventory_quantity column exists)

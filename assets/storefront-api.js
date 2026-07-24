@@ -40,6 +40,10 @@ async function loadShopProducts() {
     if (filterState.collection && filterState.collection !== 'all') {
         query = query.eq('collection', filterState.collection);
     }
+    // Apply product_type filter if set
+    if (filterState.productType) {
+        query = query.eq('product_type', filterState.productType);
+    }
 
     // Apply size filter
     if (filterState.sizes && filterState.sizes.length > 0) {
@@ -67,53 +71,7 @@ async function loadShopProducts() {
 
     let { data: dbProducts } = await query;
     
-    // Human model DSC product catalog
-    const humanModelCatalog = [
-        { id: 'dsc-01', handle: 'sheba-luxury-couture-gown', title: 'Sheba Luxury Couture Gown', price: 245.00, compare_at_price: 295.00, collection: 'dresses', in_stock: true, images: ['assets/DSC02676.jpg', 'assets/DSC02672.jpg'], colors: [{ label: 'Gold Ochre', hex: '#D4A843', image: 'assets/DSC02676.jpg' }] },
-        { id: 'dsc-02', handle: 'safari-tailored-ankara-suit', title: 'Safari Tailored Ankara Suit', price: 210.00, compare_at_price: 260.00, collection: 'tops', in_stock: true, images: ['assets/DSC02582.jpg', 'assets/DSC02579.jpg'], colors: [{ label: 'Khaki Gold', hex: '#B7950B', image: 'assets/DSC02582.jpg' }] },
-        { id: 'dsc-03', handle: 'monarch-artisan-evening-coat', title: 'Monarch Artisan Evening Coat', price: 240.00, compare_at_price: 290.00, collection: 'dresses', in_stock: true, images: ['assets/DSC02616.jpg', 'assets/DSC02608.jpg'], colors: [{ label: 'Royal Ochre', hex: '#D4A843', image: 'assets/DSC02616.jpg' }] },
-        { id: 'dsc-04', handle: 'royal-sunburst-ankara-gown', title: 'Royal Sunburst Ankara Gown', price: 145.00, compare_at_price: 185.00, collection: 'dresses', in_stock: true, images: ['assets/DSC01401.jpg', 'assets/DSC01383.jpg'], colors: [{ label: 'Gold Ochre', hex: '#D4A843', image: 'assets/DSC01401.jpg' }] },
-        { id: 'dsc-05', handle: 'empress-geometric-maxi-dress', title: 'Empress Geometric Maxi Dress', price: 160.00, compare_at_price: 195.00, collection: 'dresses', in_stock: true, images: ['assets/DSC01465.jpg', 'assets/DSC01428.jpg'], colors: [{ label: 'Navy Geometric', hex: '#1C2833', image: 'assets/DSC01465.jpg' }] },
-        { id: 'dsc-06', handle: 'terracotta-earth-wave-kaftan', title: 'Terracotta Earth Wave Kaftan', price: 130.00, compare_at_price: null, collection: 'dresses', in_stock: true, images: ['assets/DSC01755.jpg', 'assets/DSC01715.jpg'], colors: [{ label: 'Terracotta', hex: '#C97F5F', image: 'assets/DSC01755.jpg' }] },
-        { id: 'dsc-07', handle: 'savannah-botanical-blazer-set', title: 'Savannah Botanical Blazer Set', price: 190.00, compare_at_price: 230.00, collection: 'tops', in_stock: true, images: ['assets/DSC01528.jpg', 'assets/DSC01550.jpg'], colors: [{ label: 'Botanical Green', hex: '#2E5B37', image: 'assets/DSC01528.jpg' }] },
-        { id: 'dsc-08', handle: 'royal-kente-artisan-kimono', title: 'Royal Kente Artisan Kimono', price: 125.00, compare_at_price: 155.00, collection: 'tops', in_stock: true, images: ['assets/DSC01687.jpg', 'assets/DSC01655.jpg'], colors: [{ label: 'Kente Gold', hex: '#E59866', image: 'assets/DSC01687.jpg' }] },
-        { id: 'dsc-09', handle: 'obsidian-geometric-wrap-skirt', title: 'Obsidian Geometric Wrap Skirt', price: 95.00, compare_at_price: 120.00, collection: 'skirts', in_stock: true, images: ['assets/DSC02035.jpg', 'assets/DSC02018.jpg'], colors: [{ label: 'Obsidian Black', hex: '#1A1818', image: 'assets/DSC02035.jpg' }] },
-        { id: 'dsc-10', handle: 'crimson-bloom-peplum-top', title: 'Crimson Bloom Peplum Top', price: 85.00, compare_at_price: null, collection: 'tops', in_stock: true, images: ['assets/DSC02267.jpg', 'assets/DSC02292.jpg'], colors: [{ label: 'Crimson Red', hex: '#A93226', image: 'assets/DSC02267.jpg' }] },
-        { id: 'dsc-11', handle: 'indigo-sunburst-shift-dress', title: 'Indigo Sunburst Shift Dress', price: 110.00, compare_at_price: 140.00, collection: 'dresses', in_stock: true, images: ['assets/DSC02453.jpg', 'assets/DSC02476.jpg'], colors: [{ label: 'Indigo Blue', hex: '#2471A3', image: 'assets/DSC02453.jpg' }] },
-        { id: 'dsc-12', handle: 'heritage-woven-ball-gown', title: 'Heritage Woven Ball Gown', price: 220.00, compare_at_price: null, collection: 'dresses', in_stock: true, images: ['assets/DSC02662.jpg', 'assets/DSC02657.jpg'], colors: [{ label: 'Imperial Gold', hex: '#F1C40F', image: 'assets/DSC02662.jpg' }] },
-        { id: 'dsc-13', handle: 'sheba-royal-luxury-robe', title: 'Sheba Royal Luxury Robe', price: 185.00, compare_at_price: 220.00, collection: 'dresses', in_stock: true, images: ['assets/DSC02687.jpg', 'assets/DSC02689.jpg'], colors: [{ label: 'Deep Burgundy', hex: '#78281F', image: 'assets/DSC02687.jpg' }] },
-        { id: 'dsc-14', handle: 'savannah-printed-palazzo-pants', title: 'Savannah Printed Palazzo Pants', price: 98.00, compare_at_price: 125.00, collection: 'skirts', in_stock: true, images: ['assets/DSC02056.jpg', 'assets/DSC02044.jpg'], colors: [{ label: 'Savannah Olive', hex: '#556B2F', image: 'assets/DSC02056.jpg' }] },
-        { id: 'dsc-15', handle: 'african-queen-peplum-blouse', title: 'African Queen Peplum Blouse', price: 89.00, compare_at_price: null, collection: 'tops', in_stock: true, images: ['assets/DSC02142.jpg', 'assets/DSC02133.jpg'], colors: [{ label: 'Amber Red', hex: '#900C3F', image: 'assets/DSC02142.jpg' }] },
-        { id: 'dsc-16', handle: 'empress-sunset-wrap-dress', title: 'Empress Sunset Wrap Dress', price: 155.00, compare_at_price: 190.00, collection: 'dresses', in_stock: true, images: ['assets/DSC02331.jpg', 'assets/DSC02317.jpg'], colors: [{ label: 'Sunset Gold', hex: '#E67E22', image: 'assets/DSC02331.jpg' }] },
-        { id: 'dsc-17', handle: 'kente-structure-designer-blazer', title: 'Kente Structure Designer Blazer', price: 175.00, compare_at_price: 210.00, collection: 'tops', in_stock: true, images: ['assets/DSC02554.jpg', 'assets/DSC02544.jpg'], colors: [{ label: 'Kente Red', hex: '#C0392B', image: 'assets/DSC02554.jpg' }] },
-        { id: 'dsc-18', handle: 'amber-sunburst-pleated-dress', title: 'Amber Sunburst Pleated Dress', price: 150.00, compare_at_price: 180.00, collection: 'dresses', in_stock: true, images: ['assets/DSC01394.jpg', 'assets/DSC01389.jpg'], colors: [{ label: 'Amber Gold', hex: '#F39C12', image: 'assets/DSC01394.jpg' }] },
-        { id: 'dsc-19', handle: 'golden-sahara-evening-gown', title: 'Golden Sahara Evening Gown', price: 230.00, compare_at_price: 270.00, collection: 'dresses', in_stock: true, images: ['assets/DSC01410.jpg', 'assets/DSC01406.jpg'], colors: [{ label: 'Golden Ochre', hex: '#D4AC0D', image: 'assets/DSC01410.jpg' }] },
-        { id: 'dsc-20', handle: 'nile-delta-silk-kaftan', title: 'Nile Delta Silk Kaftan', price: 165.00, compare_at_price: null, collection: 'dresses', in_stock: true, images: ['assets/DSC01444.jpg', 'assets/DSC01438.jpg'], colors: [{ label: 'Nile Blue', hex: '#2980B9', image: 'assets/DSC01444.jpg' }] },
-        { id: 'dsc-21', handle: 'tribal-dynasty-maxi-dress', title: 'Tribal Dynasty Maxi Dress', price: 175.00, compare_at_price: 210.00, collection: 'dresses', in_stock: true, images: ['assets/DSC01485.jpg', 'assets/DSC01479.jpg'], colors: [{ label: 'Tribal Ochre', hex: '#B9770E', image: 'assets/DSC01485.jpg' }] },
-        { id: 'dsc-22', handle: 'savanna-gold-tailored-jacket', title: 'Savanna Gold Tailored Jacket', price: 195.00, compare_at_price: 235.00, collection: 'tops', in_stock: true, images: ['assets/DSC01507.jpg', 'assets/DSC01504.jpg'], colors: [{ label: 'Savanna Gold', hex: '#D68910', image: 'assets/DSC01507.jpg' }] },
-        { id: 'dsc-23', handle: 'emerald-patterned-trench-coat', title: 'Emerald Patterned Trench Coat', price: 250.00, compare_at_price: 300.00, collection: 'dresses', in_stock: true, images: ['assets/DSC01565.jpg', 'assets/DSC01557.jpg'], colors: [{ label: 'Emerald Green', hex: '#196F3D', image: 'assets/DSC01565.jpg' }] },
-        { id: 'dsc-24', handle: 'royal-chevron-silk-robe', title: 'Royal Chevron Silk Robe', price: 140.00, compare_at_price: null, collection: 'dresses', in_stock: true, images: ['assets/DSC01609.jpg', 'assets/DSC01597.jpg'], colors: [{ label: 'Royal Red', hex: '#922B21', image: 'assets/DSC01609.jpg' }] },
-        { id: 'dsc-25', handle: 'imperial-kente-cape-gown', title: 'Imperial Kente Cape Gown', price: 260.00, compare_at_price: 310.00, collection: 'dresses', in_stock: true, images: ['assets/DSC01676.jpg', 'assets/DSC01669.jpg'], colors: [{ label: 'Kente Gold', hex: '#F4D03F', image: 'assets/DSC01676.jpg' }] },
-        { id: 'dsc-26', handle: 'flame-earth-wave-midi-dress', title: 'Flame Earth Wave Midi Dress', price: 135.00, compare_at_price: 165.00, collection: 'dresses', in_stock: true, images: ['assets/DSC01736.jpg', 'assets/DSC01729.jpg'], colors: [{ label: 'Flame Orange', hex: '#DC7633', image: 'assets/DSC01736.jpg' }] },
-        { id: 'dsc-27', handle: 'midnight-ankara-gala-dress', title: 'Midnight Ankara Gala Dress', price: 215.00, compare_at_price: 250.00, collection: 'dresses', in_stock: true, images: ['assets/DSC01814.jpg', 'assets/DSC01805.jpg'], colors: [{ label: 'Midnight Black', hex: '#1B2631', image: 'assets/DSC01814.jpg' }] },
-        { id: 'dsc-28', handle: 'copper-sunburst-wrap-top', title: 'Copper Sunburst Wrap Top', price: 92.00, compare_at_price: null, collection: 'tops', in_stock: true, images: ['assets/DSC01878.jpg', 'assets/DSC01866.jpg'], colors: [{ label: 'Copper Gold', hex: '#BA4A00', image: 'assets/DSC01878.jpg' }] },
-        { id: 'dsc-29', handle: 'zulu-monarch-printed-gown', title: 'Zulu Monarch Printed Gown', price: 205.00, compare_at_price: 245.00, collection: 'dresses', in_stock: true, images: ['assets/DSC01946.jpg', 'assets/DSC01932.jpg'], colors: [{ label: 'Zulu Blue', hex: '#2874A6', image: 'assets/DSC01946.jpg' }] },
-        { id: 'dsc-30', handle: 'obsidian-gold-fringe-dress', title: 'Obsidian Gold Fringe Dress', price: 180.00, compare_at_price: 220.00, collection: 'dresses', in_stock: true, images: ['assets/DSC02092.jpg', 'assets/DSC02082.jpg'], colors: [{ label: 'Obsidian Gold', hex: '#17202A', image: 'assets/DSC02092.jpg' }] },
-        { id: 'dsc-31', handle: 'coral-bloom-flared-top', title: 'Coral Bloom Flared Top', price: 95.00, compare_at_price: null, collection: 'tops', in_stock: true, images: ['assets/DSC02196.jpg', 'assets/DSC02190.jpg'], colors: [{ label: 'Coral Red', hex: '#CD6155', image: 'assets/DSC02196.jpg' }] },
-        { id: 'dsc-32', handle: 'safari-sunset-silk-jumpsuit', title: 'Safari Sunset Silk Jumpsuit', price: 190.00, compare_at_price: 225.00, collection: 'dresses', in_stock: true, images: ['assets/DSC02379.jpg', 'assets/DSC02369.jpg'], colors: [{ label: 'Sunset Gold', hex: '#E59866', image: 'assets/DSC02379.jpg' }] },
-        { id: 'dsc-33', handle: 'heritage-kente-evening-suit', title: 'Heritage Kente Evening Suit', price: 225.00, compare_at_price: 265.00, collection: 'tops', in_stock: true, images: ['assets/DSC02507.jpg', 'assets/DSC02495.jpg'], colors: [{ label: 'Kente Red', hex: '#A93226', image: 'assets/DSC02507.jpg' }] },
-        { id: 'dsc-34', handle: 'royal-empress-velvet-gown', title: 'Royal Empress Velvet Gown', price: 270.00, compare_at_price: 320.00, collection: 'dresses', in_stock: true, images: ['assets/DSC02637.jpg', 'assets/DSC02628.jpg'], colors: [{ label: 'Empress Gold', hex: '#F4D03F', image: 'assets/DSC02637.jpg' }] }
-    ];
-
-    // Combine database products with human model catalog (excluding raw materials)
-    let products = [];
-    if (dbProducts && dbProducts.length > 0) {
-        // Exclude raw material .webp items
-        const validDb = dbProducts.filter(p => p.images && p.images[0] && !p.images[0].includes('IMG-') && !p.images[0].includes('.webp'));
-        products = validDb.length > 0 ? validDb : humanModelCatalog;
-    } else {
-        products = humanModelCatalog;
-    }
+    let products = dbProducts || [];
 
     // Filter by collection if set
     if (filterState.collection && filterState.collection !== 'all') {
@@ -128,9 +86,13 @@ async function loadShopProducts() {
     grid.innerHTML = products.map((product) => {
         const primaryImage = (product.images && Array.isArray(product.images) && product.images[0]) ? product.images[0] : 'assets/DSC02676.jpg';
         const hoverImage = (product.images && Array.isArray(product.images) && product.images[1]) ? product.images[1] : primaryImage;
-        const price = parseFloat(product.price).toFixed(2);
-        const comparePrice = product.compare_at_price ? parseFloat(product.compare_at_price).toFixed(2) : null;
-        const isOnSale = comparePrice && parseFloat(product.compare_at_price) > parseFloat(product.price);
+        const price = parseFloat(product.price);
+        const isSalePage = window.location.pathname.includes('sale.html') || window.location.search.includes('collection=sale');
+        const comparePrice = (isSalePage && product.compare_at_price) ? parseFloat(product.compare_at_price) : null;
+        let badgeHtml = '';
+        if (isSalePage) {
+            badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#ED1D24; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">Sale</span>`;
+        }
         const colors = product.colors || [];
 
         return `
@@ -140,7 +102,7 @@ async function loadShopProducts() {
                     <img class="product__card--thumbnail__img product__primary--img" src="${primaryImage}" alt="${product.title}">
                     <img class="product__card--thumbnail__img product__secondary--img" src="${hoverImage}" alt="${product.title}">
                 </a>
-                ${isOnSale ? '<span class="product__badge">Sale</span>' : ''}
+                ${badgeHtml}
                 <a href="javascript:void(0)" class="clean-card-add" aria-label="Add to cart" onclick="quickAddToCart('${product.handle}', '${product.title.replace(/'/g, "\\'")}', ${product.price}, '${primaryImage}')">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                 </a>
@@ -163,8 +125,8 @@ async function loadShopProducts() {
                     `).join('')}
                 </div>` : ''}
                 <div class="product__card--price clean-price" style="margin-top: 5px;">
-                    <span class="current__price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : price}</span>
-                    ${comparePrice && product.compare_at_price ? `<span class="old__price" style="text-decoration:line-through;color:#999;margin-left:8px;">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.compare_at_price) : comparePrice}</span>` : ''}
+                    <span class="current__price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : price.toFixed(2)}</span>
+                    ${comparePrice && product.compare_at_price ? `<span class="old__price" style="text-decoration:line-through;color:#999;margin-left:8px;">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.compare_at_price) : comparePrice.toFixed(2)}</span>` : ''}
                 </div>
             </div>
         </article>`;
@@ -173,12 +135,8 @@ async function loadShopProducts() {
 
 // Swap image on product card when swatch is clicked
 window.swapCardImage = function(swatchEl, imageSrc, handle) {
-    const card = document.querySelector(`.product__card[data-handle="${handle}"]`);
-    if (!card) return;
-    const primary = card.querySelector('.product__primary--img');
-    if (primary) primary.src = imageSrc;
-    card.querySelectorAll('.card-swatch').forEach(s => s.style.border = '2px solid #ddd');
-    swatchEl.style.border = '2px solid #1a1a1a';
+    const label = swatchEl.getAttribute('title');
+    window.location.href = `product.html?handle=${handle}&color=${encodeURIComponent(label || '')}`;
 };
 
 // Quick add to cart from shop grid
@@ -389,6 +347,10 @@ async function loadProductDetails() {
         return;
     }
 
+    // Fetch product variants from DB
+    const { data: vars } = await supabase.from('product_variants').select('*').eq('product_id', product.id);
+    product.variants = vars || [];
+
     // Store product globally for add-to-cart
     window._currentProduct = product;
 
@@ -422,12 +384,7 @@ async function loadProductDetails() {
     // Badge
     const badgeEl = document.getElementById('dyn-product-badge');
     if (badgeEl) {
-        if (product.tags && product.tags.length > 0) {
-            badgeEl.innerText = product.tags[0];
-            badgeEl.style.display = 'inline-block';
-        } else {
-            badgeEl.style.display = 'none';
-        }
+        badgeEl.style.display = 'none';
     }
 
     // Main image
@@ -453,25 +410,38 @@ async function loadProductDetails() {
     // Color swatches
     const colourContainer = document.getElementById('colour-options');
     if (colourContainer && product.colors && product.colors.length > 0) {
+        const urlColor = params.get('color');
+        let initialColorIndex = 0;
+        if (urlColor) {
+            const foundIndex = product.colors.findIndex(c => c.label.toLowerCase() === urlColor.toLowerCase());
+            if (foundIndex !== -1) initialColorIndex = foundIndex;
+        }
+        
         colourContainer.innerHTML = product.colors.map((c, i) => `
             <button 
-                class="swatch-btn ${i===0?'active':''}"
+                class="swatch-btn ${i===initialColorIndex?'active':''}"
                 aria-label="${c.label}"
-                aria-pressed="${i===0?'true':'false'}"
+                aria-pressed="${i===initialColorIndex?'true':'false'}"
                 onclick="selectColor(this,'${c.image}','${c.label}')"
                 title="${c.label}"
             >
                 <img src="${c.image || product.images[0]}" alt="${c.label}" class="swatch-img">
             </button>
         `).join('');
-        window._selectedColor = product.colors[0].label;
+        window._selectedColor = product.colors[initialColorIndex].label;
         
         // Update label text
         const activeLabel = document.getElementById('active-colour-label');
-        if (activeLabel) activeLabel.innerText = product.colors[0].label;
+        if (activeLabel) activeLabel.innerText = product.colors[initialColorIndex].label;
         
         const stickyColor = document.getElementById('sticky-selection-color');
-        if (stickyColor) stickyColor.innerText = `Colour: ${product.colors[0].label}`;
+        if (stickyColor) stickyColor.innerText = `Colour: ${product.colors[initialColorIndex].label}`;
+        
+        // Ensure main image matches the selected color initially
+        if (product.colors[initialColorIndex].image) {
+            const mainImg = document.getElementById('dyn-product-image');
+            if (mainImg) mainImg.src = product.colors[initialColorIndex].image;
+        }
     }
 
     // Size buttons
@@ -502,6 +472,61 @@ async function loadProductDetails() {
     if (stickyImg && product.images && product.images.length > 0) {
         stickyImg.src = product.images[0];
         stickyImg.alt = product.title;
+    }
+
+    // Populate Tab Panels (Craftsmanship, Features, Weight, Dimensions)
+    const tabCraftsmanship = document.getElementById('tab-craftsmanship');
+    if (tabCraftsmanship) {
+        tabCraftsmanship.innerHTML = `
+            <p style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
+                Handcrafted with pride using 100% authentic African Ankara wax print fabric. 
+                Every piece reflects rich cultural artistry, tailored precision, and reinforced stitching for exceptional durability and timeless elegance.
+            </p>
+        `;
+    }
+
+    const tabFeatures = document.getElementById('tab-features');
+    if (tabFeatures) {
+        tabFeatures.innerHTML = `
+            <ul style="font-size:1.4rem; line-height:2; color:var(--foreground-color,#333); padding-left:2rem; margin:0;">
+                <li>Premium 100% Cotton Ankara Wax Print</li>
+                <li>Vibrant, fade-resistant color dyes</li>
+                <li>Tailored comfort fit designed for everyday versatility</li>
+                <li>Ethically handcrafted by expert African artisans</li>
+            </ul>
+        `;
+    }
+
+    const tabWeight = document.getElementById('tab-weight');
+    if (tabWeight) {
+        tabWeight.innerHTML = `
+            <p style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
+                <strong>Garment Weight:</strong> Approx. 450g – 650g (Lightweight, breathable & structured for all-day comfort).
+            </p>
+        `;
+    }
+
+    const tabDimensions = document.getElementById('tab-dimensions');
+    if (tabDimensions) {
+        tabDimensions.innerHTML = `
+            <p style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
+                <strong>Sizing & Fit:</strong> Standard international sizing (${(product.sizes || ['S','M','L','XL']).join(', ')}). 
+                Relaxed yet tailored silhouette. Refer to our size guide for precise body measurements.
+            </p>
+        `;
+    }
+
+    // Setup Social Share Links
+    const currentUrl = encodeURIComponent(window.location.href);
+    const productTitle = encodeURIComponent(product.title);
+    const shareLinks = document.querySelectorAll('.product-share-box a');
+    if (shareLinks.length >= 3) {
+        shareLinks[0].href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+        shareLinks[0].target = '_blank';
+        shareLinks[1].href = `https://pinterest.com/pin/create/button/?url=${currentUrl}&media=${encodeURIComponent((product.images && product.images[0]) || '')}&description=${productTitle}`;
+        shareLinks[1].target = '_blank';
+        shareLinks[2].href = `https://twitter.com/intent/tweet?url=${currentUrl}&text=${productTitle}`;
+        shareLinks[2].target = '_blank';
     }
 
     // Scroll listener for sticky buy bar
@@ -667,5 +692,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Product page init
     if (document.getElementById('dyn-product-title')) {
         loadProductDetails();
+    }
+});
+
+// Live currency switching for grids
+window.addEventListener('currency:changed', () => {
+    if (document.querySelector('.shop-product-grid') || document.querySelector('[data-section="product-grid"]') || document.querySelector('.product-grid')) {
+        loadShopProducts();
     }
 });

@@ -86,7 +86,7 @@
                     <nav class="header__menu--navigation">
                         <ul class="header__menu--wrapper d-flex">
                             <li class="header__menu--items">
-                                <a class="header__menu--link" href=".">Home</a>
+                                <a class="header__menu--link" href="index.html">Home</a>
                             </li>
                             <li class="header__menu--items">
                                 <a class="header__menu--link" href="shop.html">Collections
@@ -97,15 +97,21 @@
                                     </svg>
                                 </a>
                                 <ul class="header__sub--menu">
-                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                            href="shop.html">All Products</a></li>
-                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                            href="shop.html?collection=dresses">Dresses</a></li>
-                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                            href="shop.html?collection=tops">Tops & Blouses</a></li>
-                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                            href="shop.html?collection=skirts">Skirts</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html">All Products</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=new-arrivals">New Arrivals</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=dresses">Dresses</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=joggers">Joggers</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=pullovers">Pullovers & Hoodies</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=kimonos">Kimonos & Capes</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=blankets">Blankets & Throws</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html?collection=palazzos">Palazzos & Dungarees</a></li>
                                 </ul>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="material.html">Fabrics</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="sale.html" style="color:#d9534f; font-weight:600;">Sale</a>
                             </li>
                             <li class="header__menu--items">
                                 <a class="header__menu--link" href="about.html">Our Story</a>
@@ -114,6 +120,7 @@
                                 <a class="header__menu--link active" href="contact.html">Contact</a>
                             </li>
                         </ul>
+
                     </nav>
                 </div>
                 <!-- Header Account / Icons -->
@@ -388,6 +395,37 @@
                             </div>
                             <button class="contact__submit--btn" type="submit">Send Message</button>
                         </form>
+                        <script>
+                        document.getElementById('contact-form')?.addEventListener('submit', async function(e) {
+                            e.preventDefault();
+                            const btn = this.querySelector('button');
+                            btn.disabled = true;
+                            btn.textContent = 'Sending...';
+                            const payload = {
+                                name: document.getElementById('contact-name').value,
+                                email: document.getElementById('contact-email').value,
+                                message: document.getElementById('contact-message').value
+                            };
+                            try {
+                                const res = await fetch('/api/contact', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(payload)
+                                });
+                                if (res.ok) {
+                                    alert('Thank you! Your message has been sent successfully.');
+                                    this.reset();
+                                } else {
+                                    alert('Failed to send message. Please try again.');
+                                }
+                            } catch(err) {
+                                alert('Error sending message: ' + err.message);
+                            } finally {
+                                btn.disabled = false;
+                                btn.textContent = 'Send Message';
+                            }
+                        });
+                        </script>
                     </div>
                 </div>
                 <!-- Contact Info -->

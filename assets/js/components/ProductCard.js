@@ -55,11 +55,16 @@ export default class ProductCard {
         thumbnailWrap.appendChild(thumbnailLink);
 
         // Badges
+        const isSalePage = window.location.pathname.includes('sale.html') || window.location.search.includes('collection=sale');
+
         if (!product.in_stock) {
             const badge = this.createEl('span', 'product__card--badge sold-out-badge', {}, 'Sold Out');
             thumbnailWrap.appendChild(badge);
-        } else if (product.compare_at_price > product.price) {
-            const badge = this.createEl('span', 'product__card--badge sale-badge', {}, 'Sale');
+        } else if (isSalePage) {
+            // On the sale page, show the "Sale" badge (vibrant red)
+            const badge = this.createEl('span', 'product__card--badge sale-badge', {
+                style: 'background-color: #ED1D24; color: #fff;'
+            }, 'Sale');
             thumbnailWrap.appendChild(badge);
         }
 
@@ -148,6 +153,8 @@ export default class ProductCard {
                     swatch.classList.add('is-active');
                     
                     mainImg.src = swatchImgUrl;
+                    thumbnailLink.href = `product.html?handle=${product.handle}&color=${encodeURIComponent(color.label)}`;
+                    titleLink.href = `product.html?handle=${product.handle}&color=${encodeURIComponent(color.label)}`;
                 });
 
                 if (index === 0) swatch.classList.add('is-active');
@@ -160,7 +167,7 @@ export default class ProductCard {
         const currentPrice = this.createEl('span', 'current__price', {}, this.formatPrice(product.price));
         priceWrapper.appendChild(currentPrice);
 
-        if (product.compare_at_price > product.price) {
+        if (isSalePage && product.compare_at_price > product.price) {
             const oldPrice = this.createEl('span', 'old__price', {}, this.formatPrice(product.compare_at_price));
             priceWrapper.appendChild(oldPrice);
         }

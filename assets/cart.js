@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
     
-    if ((e.target.closest('.product__card--btn') || e.target.closest('.clean-card-add')) && !e.target.closest('[onclick*="addProductToCart"]')) {
+    if ((e.target.closest('.product__card--btn') || e.target.closest('.clean-card-add')) && !e.target.closest('[onclick*="addProductToCart"]') && !e.target.closest('[onclick*="quickAddToCart"]')) {
       e.preventDefault(); // Prevent navigating to cart.html
       
       const btn = e.target.closest('a') || e.target.closest('button');

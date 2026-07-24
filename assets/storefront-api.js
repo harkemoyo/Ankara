@@ -86,9 +86,19 @@ async function loadShopProducts() {
     grid.innerHTML = products.map((product) => {
         const primaryImage = (product.images && Array.isArray(product.images) && product.images[0]) ? product.images[0] : 'assets/DSC02676.jpg';
         const hoverImage = (product.images && Array.isArray(product.images) && product.images[1]) ? product.images[1] : primaryImage;
-        const price = parseFloat(product.price).toFixed(2);
-        const comparePrice = product.compare_at_price ? parseFloat(product.compare_at_price).toFixed(2) : null;
-        const isOnSale = comparePrice && parseFloat(product.compare_at_price) > parseFloat(product.price);
+        const price = parseFloat(product.price);
+        const comparePrice = product.compare_at_price ? parseFloat(product.compare_at_price) : null;
+        let badgeHtml = '';
+        if (comparePrice && comparePrice > price) {
+            const pct = Math.floor(((comparePrice - price) / comparePrice) * 100);
+            if (pct >= 5) {
+                badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#000; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">${pct}% Off</span>`;
+            } else if (product.tags && product.tags.includes('sale')) {
+                badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#d32f2f; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">Sale</span>`;
+            }
+        } else if (product.tags && product.tags.includes('sale')) {
+            badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#d32f2f; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">Sale</span>`;
+        }
         const colors = product.colors || [];
 
         return `
@@ -98,7 +108,7 @@ async function loadShopProducts() {
                     <img class="product__card--thumbnail__img product__primary--img" src="${primaryImage}" alt="${product.title}">
                     <img class="product__card--thumbnail__img product__secondary--img" src="${hoverImage}" alt="${product.title}">
                 </a>
-                ${isOnSale ? '<span class="product__badge">Sale</span>' : ''}
+                ${badgeHtml}
                 <a href="javascript:void(0)" class="clean-card-add" aria-label="Add to cart" onclick="quickAddToCart('${product.handle}', '${product.title.replace(/'/g, "\\'")}', ${product.price}, '${primaryImage}')">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                 </a>
@@ -121,8 +131,8 @@ async function loadShopProducts() {
                     `).join('')}
                 </div>` : ''}
                 <div class="product__card--price clean-price" style="margin-top: 5px;">
-                    <span class="current__price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : price}</span>
-                    ${comparePrice && product.compare_at_price ? `<span class="old__price" style="text-decoration:line-through;color:#999;margin-left:8px;">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.compare_at_price) : comparePrice}</span>` : ''}
+                    <span class="current__price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : price.toFixed(2)}</span>
+                    ${comparePrice && product.compare_at_price ? `<span class="old__price" style="text-decoration:line-through;color:#999;margin-left:8px;">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.compare_at_price) : comparePrice.toFixed(2)}</span>` : ''}
                 </div>
             </div>
         </article>`;
@@ -131,12 +141,8 @@ async function loadShopProducts() {
 
 // Swap image on product card when swatch is clicked
 window.swapCardImage = function(swatchEl, imageSrc, handle) {
-    const card = document.querySelector(`.product__card[data-handle="${handle}"]`);
-    if (!card) return;
-    const primary = card.querySelector('.product__primary--img');
-    if (primary) primary.src = imageSrc;
-    card.querySelectorAll('.card-swatch').forEach(s => s.style.border = '2px solid #ddd');
-    swatchEl.style.border = '2px solid #1a1a1a';
+    const label = swatchEl.getAttribute('title');
+    window.location.href = `product.html?handle=${handle}&color=${encodeURIComponent(label || '')}`;
 };
 
 // Quick add to cart from shop grid
@@ -384,18 +390,7 @@ async function loadProductDetails() {
     // Badge
     const badgeEl = document.getElementById('dyn-product-badge');
     if (badgeEl) {
-        if (product.compare_at_price > product.price) {
-            const pct = Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100);
-            badgeEl.innerText = `${pct}% Off`;
-            badgeEl.style.backgroundColor = '#000';
-            badgeEl.style.color = '#fff';
-            badgeEl.style.display = 'inline-block';
-        } else if (product.tags && product.tags.length > 0) {
-            badgeEl.innerText = product.tags[0];
-            badgeEl.style.display = 'inline-block';
-        } else {
-            badgeEl.style.display = 'none';
-        }
+        badgeEl.style.display = 'none';
     }
 
     // Main image
@@ -421,25 +416,38 @@ async function loadProductDetails() {
     // Color swatches
     const colourContainer = document.getElementById('colour-options');
     if (colourContainer && product.colors && product.colors.length > 0) {
+        const urlColor = params.get('color');
+        let initialColorIndex = 0;
+        if (urlColor) {
+            const foundIndex = product.colors.findIndex(c => c.label.toLowerCase() === urlColor.toLowerCase());
+            if (foundIndex !== -1) initialColorIndex = foundIndex;
+        }
+        
         colourContainer.innerHTML = product.colors.map((c, i) => `
             <button 
-                class="swatch-btn ${i===0?'active':''}"
+                class="swatch-btn ${i===initialColorIndex?'active':''}"
                 aria-label="${c.label}"
-                aria-pressed="${i===0?'true':'false'}"
+                aria-pressed="${i===initialColorIndex?'true':'false'}"
                 onclick="selectColor(this,'${c.image}','${c.label}')"
                 title="${c.label}"
             >
                 <img src="${c.image || product.images[0]}" alt="${c.label}" class="swatch-img">
             </button>
         `).join('');
-        window._selectedColor = product.colors[0].label;
+        window._selectedColor = product.colors[initialColorIndex].label;
         
         // Update label text
         const activeLabel = document.getElementById('active-colour-label');
-        if (activeLabel) activeLabel.innerText = product.colors[0].label;
+        if (activeLabel) activeLabel.innerText = product.colors[initialColorIndex].label;
         
         const stickyColor = document.getElementById('sticky-selection-color');
-        if (stickyColor) stickyColor.innerText = `Colour: ${product.colors[0].label}`;
+        if (stickyColor) stickyColor.innerText = `Colour: ${product.colors[initialColorIndex].label}`;
+        
+        // Ensure main image matches the selected color initially
+        if (product.colors[initialColorIndex].image) {
+            const mainImg = document.getElementById('dyn-product-image');
+            if (mainImg) mainImg.src = product.colors[initialColorIndex].image;
+        }
     }
 
     // Size buttons

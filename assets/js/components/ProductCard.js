@@ -59,6 +59,12 @@ export default class ProductCard {
             const badge = this.createEl('span', 'product__card--badge sold-out-badge', {}, 'Sold Out');
             thumbnailWrap.appendChild(badge);
         } else if (product.compare_at_price > product.price) {
+            const pct = Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100);
+            const badge = this.createEl('span', 'product__card--badge sale-badge', {
+                style: 'background-color: #000; color: #fff;'
+            }, `${pct}% Off`);
+            thumbnailWrap.appendChild(badge);
+        } else if (product.tags && product.tags.includes('Sale')) {
             const badge = this.createEl('span', 'product__card--badge sale-badge', {}, 'Sale');
             thumbnailWrap.appendChild(badge);
         }
@@ -148,6 +154,8 @@ export default class ProductCard {
                     swatch.classList.add('is-active');
                     
                     mainImg.src = swatchImgUrl;
+                    thumbnailLink.href = `product.html?handle=${product.handle}&color=${encodeURIComponent(color.label)}`;
+                    titleLink.href = `product.html?handle=${product.handle}&color=${encodeURIComponent(color.label)}`;
                 });
 
                 if (index === 0) swatch.classList.add('is-active');

@@ -384,7 +384,13 @@ async function loadProductDetails() {
     // Badge
     const badgeEl = document.getElementById('dyn-product-badge');
     if (badgeEl) {
-        if (product.tags && product.tags.length > 0) {
+        if (product.compare_at_price > product.price) {
+            const pct = Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100);
+            badgeEl.innerText = `${pct}% Off`;
+            badgeEl.style.backgroundColor = '#000';
+            badgeEl.style.color = '#fff';
+            badgeEl.style.display = 'inline-block';
+        } else if (product.tags && product.tags.length > 0) {
             badgeEl.innerText = product.tags[0];
             badgeEl.style.display = 'inline-block';
         } else {
@@ -684,5 +690,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Product page init
     if (document.getElementById('dyn-product-title')) {
         loadProductDetails();
+    }
+});
+
+// Live currency switching for grids
+window.addEventListener('currency:changed', () => {
+    if (document.querySelector('.shop-product-grid') || document.querySelector('[data-section="product-grid"]') || document.querySelector('.product-grid')) {
+        loadShopProducts();
     }
 });

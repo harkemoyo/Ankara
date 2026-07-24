@@ -92,12 +92,12 @@ async function loadShopProducts() {
         if (comparePrice && comparePrice > price) {
             const pct = Math.floor(((comparePrice - price) / comparePrice) * 100);
             if (pct >= 5) {
-                badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#000; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">${pct}% Off</span>`;
+                badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#ED1D24; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">${pct}% Off</span>`;
             } else if (product.tags && product.tags.includes('sale')) {
-                badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#d32f2f; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">Sale</span>`;
+                badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#ED1D24; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">Sale</span>`;
             }
         } else if (product.tags && product.tags.includes('sale')) {
-            badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#d32f2f; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">Sale</span>`;
+            badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#ED1D24; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">Sale</span>`;
         }
         const colors = product.colors || [];
 

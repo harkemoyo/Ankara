@@ -4319,7 +4319,7 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 1.2rem;
   line-height: 2.2rem;
   padding: 0 8px;
-  background: var(--secondary-color);
+  background: #ED1D24;
   color: var(--text-white-color);
   font-family: var(--inter-fonts);
   position: absolute;
@@ -4345,7 +4345,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .current__price {
-  color: var(--hover-color);
+  color: var(--primary-color);
   font-weight: 600;
   line-height: 1.8rem;
   font-family: var(--inter-fonts);

@@ -66,24 +66,6 @@ export default class ProductCard {
                 style: 'background-color: #ED1D24; color: #fff;'
             }, 'Sale');
             thumbnailWrap.appendChild(badge);
-        } else if (product.compare_at_price > product.price) {
-            const pct = Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100);
-            if (pct >= 5) {
-                const badge = this.createEl('span', 'product__card--badge sale-badge', {
-                    style: 'background-color: #000; color: #fff;'
-                }, `${pct}% Off`);
-                thumbnailWrap.appendChild(badge);
-            } else if (product.tags && product.tags.map(t => t.toLowerCase()).includes('sale')) {
-                const badge = this.createEl('span', 'product__card--badge sale-badge', {
-                    style: 'background-color: #ED1D24; color: #fff;'
-                }, 'Sale');
-                thumbnailWrap.appendChild(badge);
-            }
-        } else if (product.tags && product.tags.map(t => t.toLowerCase()).includes('sale')) {
-            const badge = this.createEl('span', 'product__card--badge sale-badge', {
-                style: 'background-color: #ED1D24; color: #fff;'
-            }, 'Sale');
-            thumbnailWrap.appendChild(badge);
         }
 
         // Action overlay buttons on hover
@@ -185,7 +167,7 @@ export default class ProductCard {
         const currentPrice = this.createEl('span', 'current__price', {}, this.formatPrice(product.price));
         priceWrapper.appendChild(currentPrice);
 
-        if (product.compare_at_price > product.price) {
+        if (isSalePage && product.compare_at_price > product.price) {
             const oldPrice = this.createEl('span', 'old__price', {}, this.formatPrice(product.compare_at_price));
             priceWrapper.appendChild(oldPrice);
         }

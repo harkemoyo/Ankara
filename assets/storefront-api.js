@@ -87,16 +87,10 @@ async function loadShopProducts() {
         const primaryImage = (product.images && Array.isArray(product.images) && product.images[0]) ? product.images[0] : 'assets/DSC02676.jpg';
         const hoverImage = (product.images && Array.isArray(product.images) && product.images[1]) ? product.images[1] : primaryImage;
         const price = parseFloat(product.price);
-        const comparePrice = product.compare_at_price ? parseFloat(product.compare_at_price) : null;
+        const isSalePage = window.location.pathname.includes('sale.html') || window.location.search.includes('collection=sale');
+        const comparePrice = (isSalePage && product.compare_at_price) ? parseFloat(product.compare_at_price) : null;
         let badgeHtml = '';
-        if (comparePrice && comparePrice > price) {
-            const pct = Math.floor(((comparePrice - price) / comparePrice) * 100);
-            if (pct >= 5) {
-                badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#ED1D24; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">${pct}% Off</span>`;
-            } else if (product.tags && product.tags.includes('sale')) {
-                badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#ED1D24; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">Sale</span>`;
-            }
-        } else if (product.tags && product.tags.includes('sale')) {
+        if (isSalePage) {
             badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#ED1D24; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">Sale</span>`;
         }
         const colors = product.colors || [];

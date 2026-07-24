@@ -1,10 +1,5 @@
 {
   "version": 2,
-  "functions": {
-    "api/handler.js": {
-      "runtime": "@vercel/node@5"
-    }
-  },
   "routes": [
     {
       "src": "/api/(.*)",

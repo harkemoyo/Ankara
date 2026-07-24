@@ -1,9 +1,26 @@
 {
   "version": 2,
-  "rewrites": [
+  "functions": {
+    "api/handler.js": {
+      "runtime": "@vercel/node@5"
+    }
+  },
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "/index.js"
+      "src": "/api/(.*)",
+      "dest": "/api/handler.js"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/(.*\\.html)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
     }
   ]
 }

@@ -1,2 +1,2 @@
-// api/index.js — Re-exports root Express app for Vercel /api routes
-module.exports = require('../index.js');
+// api/index.js — Re-exports handler for local development & backwards compatibility
+module.exports = require('./handler.js');

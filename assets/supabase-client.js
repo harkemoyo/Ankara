@@ -11,17 +11,19 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ── Multi-Currency Helper ──────────────────────────────────────────────────
-// Prices in the DB are stored in USD-equivalent.
+// Prices in the DB are stored in KES (Kenyan Shillings).
 // convertAndFormat() converts to the selected currency using the live rate from Supabase settings.
 window.AnkaraCurrency = {
     current: localStorage.getItem('mhw-currency') || 'KES',
     rate: 130.00, // Default KES fallback — overwritten by settings.exchange_rate from Supabase
-    convertAndFormat(usdPrice) {
-        const priceNum = parseFloat(usdPrice) || 0;
+    convertAndFormat(kesPrice) {
+        const priceNum = parseFloat(kesPrice) || 0;
         if (this.current === 'KES') {
-            return `KSh ${Math.round(priceNum * this.rate).toLocaleString()}`;
+            // Database already stores KES values, no conversion needed
+            return `KSh ${Math.round(priceNum).toLocaleString()}`;
         }
-        return `$${priceNum.toFixed(2)}`;
+        // Convert to USD: divide by exchange rate
+        return `$${(priceNum / this.rate).toFixed(2)}`;
     },
     setCurrency(currency) {
         this.current = currency;

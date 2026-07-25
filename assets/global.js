@@ -1060,3 +1060,41 @@ class LocalizationForm extends HTMLElement {
 }
 
 customElements.define("localization-form", LocalizationForm);
+
+// Populate the Collections dropdown from the live collections API so the
+// menu never links to collection handles that do not exist in the database.
+const populateCollectionsMenu = async function () {
+  const submenus = document.querySelectorAll(".header__sub--menu");
+  if (submenus.length === 0) return;
+
+  let collections;
+  try {
+    const response = await fetch("/api/collections");
+    if (!response.ok) return;
+    const data = await response.json();
+    collections = data.collections;
+  } catch (error) {
+    console.error("Error loading collections menu:", error);
+    return;
+  }
+
+  if (!Array.isArray(collections) || collections.length === 0) return;
+
+  submenus.forEach((submenu) => {
+    submenu.innerHTML = collections
+      .map((collection) => {
+        const href =
+          collection.handle === "all"
+            ? "shop.html"
+            : `shop.html?collection=${encodeURIComponent(collection.handle)}`;
+        return `<li class="header__sub--menu__items"><a class="header__sub--menu__link" href="${href}">${collection.title}</a></li>`;
+      })
+      .join("");
+  });
+};
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", populateCollectionsMenu);
+} else {
+  populateCollectionsMenu();
+}

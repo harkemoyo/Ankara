@@ -55,7 +55,7 @@ export default class ProductGrid {
 
         try {
             const params = new URLSearchParams(window.location.search);
-            if (window.location.pathname.includes('sale.html') && !params.has('collection')) {
+            if ((window.location.pathname.includes('sale.html') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale')) && !params.has('collection')) {
                 params.set('collection', 'sale');
             }
             const response = await fetch(`/api/products?${params.toString()}`);
@@ -90,7 +90,7 @@ export default class ProductGrid {
     updateTitleAndBreadcrumbs() {
         const params = new URLSearchParams(window.location.search);
         let collectionHandle = params.get('collection');
-        if (window.location.pathname.includes('sale.html') && !collectionHandle) {
+        if ((window.location.pathname.includes('sale.html') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale')) && !collectionHandle) {
             collectionHandle = 'sale';
         }
 

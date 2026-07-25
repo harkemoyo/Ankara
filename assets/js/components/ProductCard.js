@@ -55,7 +55,7 @@ export default class ProductCard {
         thumbnailWrap.appendChild(thumbnailLink);
 
         // Badges
-        const isSalePage = window.location.pathname.includes('sale.html') || window.location.search.includes('collection=sale');
+        const isSalePage = window.location.pathname.includes('sale.html') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale') || window.location.search.includes('collection=sale');
 
         if (!product.in_stock) {
             const badge = this.createEl('span', 'product__card--badge sold-out-badge', {}, 'Sold Out');

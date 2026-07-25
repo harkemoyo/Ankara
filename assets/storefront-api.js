@@ -87,7 +87,7 @@ async function loadShopProducts() {
         const primaryImage = (product.images && Array.isArray(product.images) && product.images[0]) ? product.images[0] : 'assets/DSC02676.jpg';
         const hoverImage = (product.images && Array.isArray(product.images) && product.images[1]) ? product.images[1] : primaryImage;
         const price = parseFloat(product.price);
-        const isSalePage = window.location.pathname.includes('sale.html') || window.location.search.includes('collection=sale');
+        const isSalePage = window.location.pathname.includes('sale.html') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale') || window.location.search.includes('collection=sale');
         const comparePrice = (isSalePage && product.compare_at_price) ? parseFloat(product.compare_at_price) : null;
         let badgeHtml = '';
         if (isSalePage) {

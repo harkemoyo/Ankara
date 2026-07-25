@@ -8137,7 +8137,6 @@ input.quickview__value--number {
 
 .product__view--select {
   border: 1px solid var(--border-color);
-  padding: 0.6rem 3rem 0.6rem 1.2rem;
   -webkit-appearance: none;
   cursor: pointer;
   border-radius: 0.5rem;
@@ -9569,6 +9568,8 @@ li[data-address]>h2 {
   display: flex;
   flex-direction: column;
   gap: 4rem;
+  justify-content: center;
+  align-items: center;
   padding-inline: 1.5rem;
 }
 .product-grid {
@@ -9894,6 +9895,7 @@ li[data-address]>h2 {
   justify-content: center !important;
   align-items: center !important;
 }
+@media only screen and (max-width: 767px) {
   .shop__header {
     grid-template-areas:
       "filter sort"
@@ -9901,6 +9903,7 @@ li[data-address]>h2 {
     grid-template-columns: 1fr 1fr !important;
     gap: 1rem !important;
     padding: 1rem;
+    width: 100%;
   }
 
   .product__view--mode {
@@ -9910,12 +9913,12 @@ li[data-address]>h2 {
   .product__view--mode__list {
     justify-content: flex-end !important;
   }
+}
 
 /* ── Premium Styling for Filter Button & Select Dropdown ── */
-.widget__filter--btn,
-.product__view--select {
+.widget__filter--btn{
   height: 4.2rem !important;
-  display: inline-flex !important;
+  display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   border: 1px solid var(--border-color) !important;
@@ -9941,10 +9944,7 @@ li[data-address]>h2 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Adjust select padding specifically for the dropdown arrow */
-.product__view--select {
-  padding-right: 3.5rem !important;
-}
+
 
 /* Ensure svg icon in filter button aligns nicely */
 .widget__filter--btn__icon-svg {

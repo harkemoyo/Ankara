@@ -8558,7 +8558,6 @@ input.quickview__value--number {
 
 .product__view--select {
   border: 1px solid var(--border-color);
-  padding: 0.6rem 3rem 0.6rem 1.2rem;
   -webkit-appearance: none;
   cursor: pointer;
   border-radius: 0.5rem;

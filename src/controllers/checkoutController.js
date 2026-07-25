@@ -1,4 +1,4 @@
-const { initializeCheckout, processWebhook } = require('../services/checkoutService');
+const { initializeCheckout, initializeMpesaCheckout, processWebhook } = require('../services/checkoutService');
 const crypto = require('crypto');
 
 async function initCheckout(req, res) {
@@ -9,6 +9,23 @@ async function initCheckout(req, res) {
         return res.json(result);
     } catch (error) {
         console.error('Checkout error:', error.message);
+        
+        if (error.message === 'Missing cart' || error.message === 'Customer email and name are required') {
+            return res.status(400).json({ error: error.message });
+        }
+        
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+async function initMpesaCheckout(req, res) {
+    const { cart, customer } = req.body;
+
+    try {
+        const result = await initializeMpesaCheckout(cart, customer);
+        return res.json(result);
+    } catch (error) {
+        console.error('M-Pesa checkout error:', error.message);
         
         if (error.message === 'Missing cart' || error.message === 'Customer email and name are required') {
             return res.status(400).json({ error: error.message });
@@ -38,5 +55,7 @@ async function paystackWebhook(req, res) {
 
 module.exports = {
     initCheckout,
+    initMpesaCheckout,
     paystackWebhook
 };
+

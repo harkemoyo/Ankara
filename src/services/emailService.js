@@ -102,6 +102,96 @@ class EmailService {
             }
         } catch (_) { /* fallback below */ }
 
+        if (!subject || !htmlBody) {
+            // Default Fallbacks
+            if (slug === 'order_confirmation') {
+                subject = 'Order Confirmation - {{order_number}} - {{store_name}}';
+                htmlBody = `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #dad2ce; border-radius: 8px; overflow: hidden; background-color: #faf8f5;">
+                    <div style="background-color: {{email_header_color}}; padding: 32px; text-align: center; color: #fff;">
+                        <h1 style="margin: 0; font-size: 24px; font-weight: bold; letter-spacing: 0.05em;">{{store_name}}</h1>
+                    </div>
+                    <div style="padding: 40px 32px; color: #2a2624; line-height: 1.6;">
+                        <h2 style="font-size: 20px; font-weight: normal; color: {{email_header_color}}; margin-top: 0; margin-bottom: 16px;">Thank You for Your Order, {{customer_name}}!</h2>
+                        <p style="font-size: 15px; margin-bottom: 24px;">We are excited to prepare your premium custom Ankara design. Your order reference is <strong>#{{order_number}}</strong>.</p>
+                        
+                        <div style="background-color: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 6px; padding: 20px; margin-bottom: 28px;">
+                            <h3 style="margin-top: 0; margin-bottom: 12px; font-size: 15px; color: #2e7d32; text-transform: uppercase; letter-spacing: 0.1em;">M-Pesa Payment Instructions</h3>
+                            <p style="font-size: 14px; margin: 0 0 12px 0;">Please complete your order by paying <strong>KSh {{total}}</strong> to either of the following payment details:</p>
+                            <table style="width: 100%; border-collapse: collapse; font-size: 13.5px;">
+                                <tr>
+                                    <td style="padding: 6px 0; border-bottom: 1px dashed #c8e6c9;"><strong>Option 1: Lipa Na M-Pesa (Paybill)</strong></td>
+                                    <td style="text-align: right; padding: 6px 0; border-bottom: 1px dashed #c8e6c9;">Business No: <strong>247247</strong> / Acc No: <strong>687280</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 6px 0;"><strong>Option 2: Send Money (Personal)</strong></td>
+                                    <td style="text-align: right; padding: 6px 0;">Phone No: <strong>0715687280</strong></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div style="border-top: 1px solid #dad2ce; padding-top: 24px; margin-bottom: 24px; font-size: 14px;">
+                            <div style="margin-bottom: 8px;"><strong>Total Amount:</strong> KSh {{total}}</div>
+                            <div><strong>Delivery Address:</strong><br><span style="color: #7a726e;">{{shipping_address}}</span></div>
+                        </div>
+
+                        <p style="font-size: 13px; color: #7a726e; margin-top: 32px; border-top: 1px solid #dad2ce; padding-top: 20px; text-align: center;">{{email_footer_text}}</p>
+                    </div>
+                </div>
+                `;
+            } else if (slug === 'shipping_notification') {
+                subject = 'Your Order {{order_number}} has Shipped!';
+                htmlBody = `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #dad2ce; border-radius: 8px; overflow: hidden; background-color: #faf8f5;">
+                    <div style="background-color: {{email_header_color}}; padding: 32px; text-align: center; color: #fff;">
+                        <h1 style="margin: 0; font-size: 24px; font-weight: bold; letter-spacing: 0.05em;">{{store_name}}</h1>
+                    </div>
+                    <div style="padding: 40px 32px; color: #2a2624; line-height: 1.6;">
+                        <h2 style="font-size: 20px; font-weight: normal; color: {{email_header_color}}; margin-top: 0; margin-bottom: 16px;">Your Order is on the Way!</h2>
+                        <p style="font-size: 15px; margin-bottom: 24px;">Hello {{customer_name}}, we have shipped your premium Ankara items. Your order <strong>#{{order_number}}</strong> is on its way to you.</p>
+                        
+                        <div style="background-color: #f5f1ec; border-radius: 6px; padding: 20px; margin-bottom: 28px;">
+                            <h3 style="margin-top: 0; margin-bottom: 8px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #7a726e;">Tracking Details</h3>
+                            <p style="font-size: 15px; margin: 0;">Tracking Number / Status: <strong>{{tracking_number}}</strong></p>
+                        </div>
+
+                        <p style="font-size: 13px; color: #7a726e; margin-top: 32px; border-top: 1px solid #dad2ce; padding-top: 20px; text-align: center;">{{email_footer_text}}</p>
+                    </div>
+                </div>
+                `;
+            } else if (slug === 'welcome') {
+                subject = 'Welcome to {{store_name}}!';
+                htmlBody = `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #dad2ce; border-radius: 8px; overflow: hidden; background-color: #faf8f5;">
+                    <div style="background-color: {{email_header_color}}; padding: 32px; text-align: center; color: #fff;">
+                        <h1 style="margin: 0; font-size: 24px; font-weight: bold; letter-spacing: 0.05em;">{{store_name}}</h1>
+                    </div>
+                    <div style="padding: 40px 32px; color: #2a2624; line-height: 1.6;">
+                        <h2 style="font-size: 20px; font-weight: normal; color: {{email_header_color}}; margin-top: 0; margin-bottom: 16px;">Welcome, {{first_name}}!</h2>
+                        <p style="font-size: 15px; margin-bottom: 24px;">Thank you for creating an account with {{store_name}}. Discover the vibrant world of premium Ankara fashion, designed for confidence, comfort, and style.</p>
+                        <p style="font-size: 13px; color: #7a726e; margin-top: 32px; border-top: 1px solid #dad2ce; padding-top: 20px; text-align: center;">{{email_footer_text}}</p>
+                    </div>
+                </div>
+                `;
+            } else if (slug === 'contact_notification') {
+                subject = 'New Inquiry from {{name}}';
+                htmlBody = `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #dad2ce; border-radius: 8px; overflow: hidden; background-color: #faf8f5;">
+                    <div style="background-color: {{email_header_color}}; padding: 32px; text-align: center; color: #fff;">
+                        <h1 style="margin: 0; font-size: 24px; font-weight: bold; letter-spacing: 0.05em;">New Inquiry Received</h1>
+                    </div>
+                    <div style="padding: 40px 32px; color: #2a2624; line-height: 1.6;">
+                        <p style="font-size: 15px; margin-bottom: 20px;">You have received a new message from the contact form:</p>
+                        <div style="background-color: #f5f1ec; border-radius: 6px; padding: 20px; margin-bottom: 24px; font-size: 14px;">
+                            <div style="margin-bottom: 8px;"><strong>From:</strong> {{name}} ({{email}})</div>
+                            <div><strong>Message:</strong><br><span style="color: #7a726e;">{{message}}</span></div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }
+        }
+
         // Replace {{variable}} placeholders
         const interpolate = (str) =>
             str.replace(/\{\{(\w+)\}\}/g, (_, key) => mergedVars[key] || '');

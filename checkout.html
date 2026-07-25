@@ -649,8 +649,8 @@
                             type="email" />
                     </div>
                     <div class="form-group">
-                        <label for="phone">Phone Number (optional)</label>
-                        <input autocomplete="tel" id="phone" name="phone" placeholder="+44 7700 900000" type="tel" />
+                        <label for="phone">Phone Number *</label>
+                        <input autocomplete="tel" id="phone" name="phone" placeholder="0712 345 678" required type="tel" />
                     </div>
                     <hr class="section-divider" />
                     <div class="step-label">Step 2</div>
@@ -676,12 +676,13 @@
                     <div class="form-group">
                         <label for="country">Country *</label>
                         <select autocomplete="country" id="country" name="country" required="">
-                            <option selected="" value="GB">United Kingdom</option>
+                            <option selected="" value="KE">Kenya</option>
+                            <option value="GB">United Kingdom</option>
                             <option value="US">United States</option>
                             <option value="GH">Ghana</option>
                             <option value="NG">Nigeria</option>
-                            <option value="CA">Canada</option>
-                            <option value="AU">Australia</option>
+                            <option value="TZ">Tanzania</option>
+                            <option value="UG">Uganda</option>
                             <option value="ZA">South Africa</option>
                         </select>
                     </div>
@@ -696,21 +697,96 @@
                     <label class="shipping-option">
                         <input disabled="" id="ship-free-radio" name="shipping" type="radio" value="free" />
                         <span class="ship-label">Free Delivery
-                            <small style="color:#27ae60;">(qualifies for free delivery)</small>
+                            <small style="color:#27ae60;">(orders over KSh 10,000)</small>
                         </span>
                         <span class="ship-price">FREE</span>
                     </label>
                     <hr class="section-divider" />
-                    <button class="pay-btn" id="pay-btn" type="submit">
-                        Pay with Paystack
+
+                    <!-- ── Step 4: M-Pesa Payment ── -->
+                    <div class="step-label">Step 4</div>
+                    <h2 class="section-title" style="font-size:1.8rem;">Pay via M-Pesa</h2>
+
+                    <div style="display:flex;gap:10px;margin-bottom:18px;">
+                        <label class="shipping-option" style="flex:1;border-color:#4CAF50;">
+                            <input checked name="mpesa_method" type="radio" value="paybill" style="accent-color:#4CAF50;" />
+                            <span class="ship-label">Lipa Na M-Pesa (Paybill)</span>
+                        </label>
+                        <label class="shipping-option" style="flex:1;">
+                            <input name="mpesa_method" type="radio" value="send_money" />
+                            <span class="ship-label">Send Money</span>
+                        </label>
+                    </div>
+
+                    <!-- Paybill Instructions -->
+                    <div id="mpesa-paybill-info" style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;padding:20px 24px;margin-bottom:18px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                            <h3 style="margin:0;font-size:1.5rem;color:#2e7d32;font-family:'Karma',serif;">Lipa Na M-Pesa – Paybill</h3>
+                        </div>
+                        <div style="font-size:1.35rem;line-height:2.2;">
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed #c8e6c9;padding:4px 0;">
+                                <span style="color:#555;">1. Go to M-Pesa</span>
+                                <span style="font-weight:600;">Lipa Na M-Pesa → Pay Bill</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed #c8e6c9;padding:4px 0;">
+                                <span style="color:#555;">2. Business Number</span>
+                                <span style="font-weight:700;font-size:1.5rem;color:#1a1a1a;letter-spacing:0.05em;">247247</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed #c8e6c9;padding:4px 0;">
+                                <span style="color:#555;">3. Account Number</span>
+                                <span style="font-weight:700;font-size:1.5rem;color:#1a1a1a;letter-spacing:0.05em;">687280</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed #c8e6c9;padding:4px 0;">
+                                <span style="color:#555;">4. Amount</span>
+                                <span style="font-weight:700;font-size:1.5rem;color:#2e7d32;" id="mpesa-amount-paybill">—</span>
+                            </div>
+                            <div style="padding:4px 0;">
+                                <span style="color:#555;">5. Enter PIN and Confirm</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Send Money Instructions -->
+                    <div id="mpesa-send-info" style="display:none;background:#e3f2fd;border:1px solid #90caf9;border-radius:8px;padding:20px 24px;margin-bottom:18px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1565c0" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                            <h3 style="margin:0;font-size:1.5rem;color:#1565c0;font-family:'Karma',serif;">M-Pesa – Send Money</h3>
+                        </div>
+                        <div style="font-size:1.35rem;line-height:2.2;">
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed #bbdefb;padding:4px 0;">
+                                <span style="color:#555;">1. Go to M-Pesa</span>
+                                <span style="font-weight:600;">Send Money</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed #bbdefb;padding:4px 0;">
+                                <span style="color:#555;">2. Phone Number</span>
+                                <span style="font-weight:700;font-size:1.5rem;color:#1a1a1a;letter-spacing:0.05em;">0715 687 280</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed #bbdefb;padding:4px 0;">
+                                <span style="color:#555;">3. Amount</span>
+                                <span style="font-weight:700;font-size:1.5rem;color:#1565c0;" id="mpesa-amount-send">—</span>
+                            </div>
+                            <div style="padding:4px 0;">
+                                <span style="color:#555;">4. Enter PIN and Confirm</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mpesa-code">M-Pesa Confirmation Code (optional)</label>
+                        <input id="mpesa-code" name="mpesa_code" placeholder="e.g. SHK3A7B2C1" type="text" style="text-transform:uppercase;letter-spacing:0.1em;" />
+                        <small style="color:#888;font-size:1.1rem;">You'll receive this via SMS after paying. You can also share it later.</small>
+                    </div>
+
+                    <button class="pay-btn" id="pay-btn" type="submit" style="background:#4CAF50;">
+                        ✓ I Have Paid — Place My Order
                     </button>
                     <p class="secure-note">
-                        <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"
-                            width="14">
+                        <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14">
                             <rect height="11" rx="2" width="18" x="3" y="11"></rect>
                             <path d="M7 11V7a5 5 0 0110 0v4"></path>
                         </svg>
-                        Secured by Paystack · SSL encrypted
+                        Pay securely via M-Pesa · Your order will be confirmed once payment is verified
                     </p>
                 </form>
             </div>
@@ -734,14 +810,8 @@
                 </div>
             </aside>
         </div>
-        <!-- Paystack script -->
-        <script src="https://js.paystack.co/v1/inline.js"></script>
         <script src="assets/cart.js"></script>
         <script>
-            // ─── CONFIG — paste your public values here ───────────────────
-            const PAYSTACK_PUBLIC_KEY = 'pk_test_YOUR_PAYSTACK_PUBLIC_KEY';
-            // ─────────────────────────────────────────────────────────────
-
             const cart = getCart();
 
             // Redirect if empty
@@ -750,23 +820,27 @@
                 document.getElementById('empty-cart-msg').style.display = 'block';
             }
 
-            // ── Render cart in summary ──
+            // ── Render cart in summary (KES) ──
             const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
-            const freeShipping = subtotal >= 80;
-            const shippingCost = freeShipping ? 0 : 5.99;
+            const freeShipping = subtotal >= 10000;
+            const shippingCost = freeShipping ? 0 : 500;
             const total = subtotal + shippingCost;
 
-            if (window.AnkaraCurrency) {
-                document.getElementById('sum-subtotal').textContent = window.AnkaraCurrency.convertAndFormat(subtotal);
-                document.getElementById('sum-shipping').textContent = freeShipping ? 'FREE' : window.AnkaraCurrency.convertAndFormat(5.99);
-                document.getElementById('sum-total').textContent = window.AnkaraCurrency.convertAndFormat(total);
-                document.getElementById('ship-standard-price').textContent = freeShipping ? 'FREE' : window.AnkaraCurrency.convertAndFormat(5.99);
-            } else {
-                document.getElementById('sum-subtotal').textContent = `£${subtotal.toFixed(2)}`;
-                document.getElementById('sum-shipping').textContent = freeShipping ? 'FREE' : '£5.99';
-                document.getElementById('sum-total').textContent = `£${total.toFixed(2)}`;
-                document.getElementById('ship-standard-price').textContent = freeShipping ? 'FREE' : '£5.99';
+            function fmtKES(amount) {
+                return 'KSh ' + Number(amount).toLocaleString('en-KE');
             }
+
+            document.getElementById('sum-subtotal').textContent = fmtKES(subtotal);
+            document.getElementById('sum-shipping').textContent = freeShipping ? 'FREE' : fmtKES(500);
+            document.getElementById('sum-total').textContent = fmtKES(total);
+            document.getElementById('ship-standard-price').textContent = freeShipping ? 'FREE' : fmtKES(500);
+
+            // Update M-Pesa amount displays
+            const mpesaPaybillAmt = document.getElementById('mpesa-amount-paybill');
+            const mpesaSendAmt = document.getElementById('mpesa-amount-send');
+            if (mpesaPaybillAmt) mpesaPaybillAmt.textContent = fmtKES(total);
+            if (mpesaSendAmt) mpesaSendAmt.textContent = fmtKES(total);
+
             if (freeShipping) {
                 document.getElementById('ship-free-radio').disabled = false;
                 document.getElementById('ship-free-radio').checked = true;
@@ -782,18 +856,33 @@
             <div class="item-title">${item.title}</div>
             <div class="item-variant">${item.size || ''} ${item.color ? '· ' + item.color : ''}</div>
           </div>
-          <div class="item-price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(parseFloat(item.price) * item.qty) : `£${(parseFloat(item.price) * item.qty).toFixed(2)}`}</div>
+          <div class="item-price">${fmtKES(parseFloat(item.price) * item.qty)}</div>
         </div>
       `).join('');
 
-            // ── Form submit → Paystack → verify → create order ──
+            // ── Toggle M-Pesa method display ──
+            document.querySelectorAll('input[name="mpesa_method"]').forEach(radio => {
+                radio.addEventListener('change', function () {
+                    const paybillBox = document.getElementById('mpesa-paybill-info');
+                    const sendBox = document.getElementById('mpesa-send-info');
+                    if (this.value === 'paybill') {
+                        paybillBox.style.display = 'block';
+                        sendBox.style.display = 'none';
+                    } else {
+                        paybillBox.style.display = 'none';
+                        sendBox.style.display = 'block';
+                    }
+                });
+            });
+
+            // ── Form submit → M-Pesa order ──
             document.getElementById('checkout-form').addEventListener('submit', async function (e) {
                 e.preventDefault();
 
                 const btn = document.getElementById('pay-btn');
 
                 // Basic validation
-                const requiredFields = ['first-name', 'last-name', 'email', 'address1', 'city', 'postcode'];
+                const requiredFields = ['first-name', 'last-name', 'email', 'phone', 'address1', 'city', 'postcode'];
                 let valid = true;
                 requiredFields.forEach(id => {
                     const el = document.getElementById(id);
@@ -804,20 +893,21 @@
 
                 const phoneInput = document.getElementById('phone');
                 const phoneVal = phoneInput.value.trim();
-                if (phoneVal) {
-                    const kePhoneRegex = /^(?:254|\+254|0)?(7\d{8}|1\d{8})$/;
-                    if (!kePhoneRegex.test(phoneVal.replace(/\s+/g, ''))) {
-                        phoneInput.classList.add('error');
-                        alert('Please enter a valid Kenyan phone number (e.g. 0712345678).');
-                        return;
-                    } else {
-                        phoneInput.classList.remove('error');
-                    }
+                const kePhoneRegex = /^(?:254|\+254|0)?(7\d{8}|1\d{8})$/;
+                if (!kePhoneRegex.test(phoneVal.replace(/\s+/g, ''))) {
+                    phoneInput.classList.add('error');
+                    alert('Please enter a valid Kenyan phone number (e.g. 0712345678).');
+                    return;
+                } else {
+                    phoneInput.classList.remove('error');
                 }
 
                 // Disable button + show spinner
                 btn.disabled = true;
-                btn.innerHTML = '<span class="spinner"></span> Opening Paystack...';
+                btn.innerHTML = '<span class="spinner"></span> Placing Order...';
+
+                const mpesaMethod = document.querySelector('input[name="mpesa_method"]:checked')?.value || 'paybill';
+                const mpesaCode = document.getElementById('mpesa-code')?.value?.trim()?.toUpperCase() || '';
 
                 const customer = {
                     name: document.getElementById('first-name').value.trim() + ' ' + document.getElementById('last-name').value.trim(),
@@ -828,42 +918,30 @@
                     city: document.getElementById('city').value.trim(),
                     postcode: document.getElementById('postcode').value.trim(),
                     country: document.getElementById('country').value,
+                    mpesa_method: mpesaMethod,
+                    mpesa_code: mpesaCode,
                 };
 
-                // Init checkout
                 try {
-                    const res = await fetch('/api/checkout/init', {
+                    const res = await fetch('/api/checkout/mpesa', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ cart, customer })
                     });
                     const data = await res.json();
 
-                    if (res.ok && data.success && data.access_code) {
-                        btn.innerHTML = '<span class="spinner"></span> Opening Paystack...';
-
-                        const handler = PaystackPop.setup({
-                            key: PAYSTACK_PUBLIC_KEY,
-                            access_code: data.access_code,
-                            callback: function (response) {
-                                localStorage.removeItem('mhw-cart');
-                                window.location.href = `/thank-you.html?order=${data.reference}`;
-                            },
-                            onClose: function () {
-                                btn.disabled = false;
-                                btn.innerHTML = 'Pay with Paystack';
-                            }
-                        });
-                        handler.openIframe();
+                    if (res.ok && data.success) {
+                        localStorage.removeItem('mhw-cart');
+                        window.location.href = `/thank-you.html?order=${data.reference}&method=mpesa&email=${encodeURIComponent(customer.email)}`;
                     } else {
-                        alert('Failed to initialize checkout: ' + (data.error || 'Unknown error'));
+                        alert('Failed to place order: ' + (data.error || 'Unknown error'));
                         btn.disabled = false;
-                        btn.innerHTML = 'Pay with Paystack';
+                        btn.innerHTML = '✓ I Have Paid — Place My Order';
                     }
                 } catch (err) {
-                    alert('Network error initializing checkout.');
+                    alert('Network error placing order. Please try again.');
                     btn.disabled = false;
-                    btn.innerHTML = 'Pay with Paystack';
+                    btn.innerHTML = '✓ I Have Paid — Place My Order';
                 }
             });
         </script>
@@ -1061,7 +1139,7 @@
                         All Rights Reserved.
                     </p>
                     <div class="footer__payment">
-                        <span class="footer__payment--label">Visa   Mastercard   PayPal</span>
+                        <span class="footer__payment--label">M-Pesa · Paybill · Send Money</span>
                     </div>
                 </div>
             </div>

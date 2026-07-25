@@ -1,5 +1,5 @@
 const express = require('express');
-const { initCheckout, paystackWebhook } = require('../controllers/checkoutController');
+const { initCheckout, initMpesaCheckout, paystackWebhook } = require('../controllers/checkoutController');
 const { getOrder } = require('../controllers/orderController');
 const { orderLookupLimiter } = require('../middleware/rateLimit');
 const { supabaseAdmin } = require('../config/supabase');
@@ -47,6 +47,7 @@ router.put('/settings', async (req, res) => {
 
 // Checkout & Order routes
 router.post('/checkout/init', initCheckout);
+router.post('/checkout/mpesa', initMpesaCheckout);
 router.post('/webhooks/paystack', paystackWebhook);
 router.get('/orders/:order_number', orderLookupLimiter, getOrder);
 

@@ -608,7 +608,7 @@ hr {
   display: grid;
   gap: 3rem;
   padding-inline: 1.5rem;
-  padding-block: 1.5rem;
+  padding-block-end: 3rem;
 }
 
 @media only screen and (max-width: 1199px) {
@@ -9569,9 +9569,8 @@ li[data-address]>h2 {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 2rem;
-  padding-inline: 2rem;
 }
 
 .product-card {

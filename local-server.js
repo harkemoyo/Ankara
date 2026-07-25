@@ -1,11 +1,10 @@
-const app = require('./api/handler');
-const express = require('express');
+const app = require('./assets/api/handler');
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 
 // Serve static assets and HTML files from the root folder
-app.use(express.static(path.join(__dirname)));
+app.use(require('express').static(path.join(__dirname)));
 
 // Route root request to index.html
 app.get('/', (req, res) => {

@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/handler.js",
+      "src": "assets/api/handler.js",
       "use": "@vercel/node"
     },
     {
@@ -15,7 +15,7 @@
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/handler.js" },
+    { "src": "/api/(.*)", "dest": "/assets/api/handler.js" },
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
     { "src": "/(.*\\.html)", "dest": "/$1" },
     { "src": "/", "dest": "/index.html" }

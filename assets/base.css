@@ -8558,6 +8558,8 @@ input.quickview__value--number {
 
 .product__view--select {
   border: 1px solid var(--border-color);
+  padding-inline: .5rem;
+  padding-block: 1rem;
   -webkit-appearance: none;
   cursor: pointer;
   border-radius: 0.5rem;
@@ -8648,12 +8650,7 @@ input.quickview__value--number {
   transform: translateX(0);
 }
 
-.widget__filter--btn {
-  border: 1px solid var(--border-color);
-  background: var(--body-background-color);
-  border-radius: 0.3rem;
-  padding: 0.5rem 1.2rem;
-}
+
 
 .widget__filter--btn:hover {
   border-color: var(--secondary-color);

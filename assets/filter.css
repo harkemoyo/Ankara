@@ -8228,10 +8228,14 @@ input.quickview__value--number {
 }
 
 .widget__filter--btn {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
   border: 1px solid var(--border-color);
   background: var(--body-background-color);
   border-radius: 0.3rem;
-  padding: 0.5rem 4.2rem;
+  padding-inline: 2rem;
+  padding-block: 1rem;
 }
 
 .widget__filter--btn:hover {
@@ -9574,13 +9578,13 @@ li[data-address]>h2 {
 }
 .product-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(autofit, minmax(260px, 1fr));
     gap: 3rem;
 }
 
 @media only screen and (min-width: 640px) {
   .product-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
 }
 
@@ -9916,25 +9920,7 @@ li[data-address]>h2 {
 }
 
 /* ── Premium Styling for Filter Button & Select Dropdown ── */
-.widget__filter--btn{
-  height: 4.2rem !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border: 1px solid var(--border-color) !important;
-  border-radius: 6px !important;
-  background-color: var(--body-background-color) !important;
-  font-size: 1.4rem !important;
-  color: var(--primary-color) !important;
-  padding: 0 2rem !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  cursor: pointer !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02) !important;
-}
 
-.widget__filter--btn {
-  gap: 0.8rem !important;
-}
 
 .widget__filter--btn:hover,
 .product__view--select:hover {

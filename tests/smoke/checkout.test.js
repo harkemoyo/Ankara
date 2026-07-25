@@ -8,7 +8,8 @@ const supabaseAdmin = createClient(
 );
 
 const PORT = process.env.PORT || 3000;
-const API_URL = `http://localhost:${PORT}/api/checkout/init`;
+const HOST = process.env.HOST || 'localhost';
+const API_URL = `http://${HOST}:${PORT}/api/checkout/init`;
 
 const TEST_EMAIL = 'smoketest@example.com';
 

@@ -184,6 +184,9 @@
 <a data-section="customers" href="#" onclick="showSection('customers',this)">
 <span class="icon">👥</span> Customers
     </a>
+<a data-section="inventory" href="#" onclick="showSection('inventory',this)">
+<span class="icon">📦</span> Inventory
+    </a>
 <a data-section="settings" href="#" onclick="showSection('settings',this)">
 <span class="icon">⚙️</span> Settings
     </a>
@@ -298,6 +301,31 @@
 </tr>
 </thead>
 <tbody id="customers-tbody">
+<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Inventory -->
+<section class="admin-section" id="section-inventory">
+<div class="page-header">
+<h1>Inventory</h1>
+<div style="display:flex;gap:8px;">
+<select id="inventory-filter" onchange="loadInventory()" style="padding:8px;border:1px solid var(--border);border-radius:6px;">
+<option value="">All Products</option>
+<option value="low_stock">Low Stock</option>
+<option value="out_of_stock">Out of Stock</option>
+</select>
+</div>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Product</th><th>SKU</th><th>Variant</th><th>Stock</th><th>Price</th><th>Actions</th>
+</tr>
+</thead>
+<tbody id="inventory-tbody">
 <tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
 </tbody>
 </table>
@@ -452,6 +480,40 @@
 </div>
 </div>
 </div>
+<!-- ── CUSTOMER DETAIL MODAL ── -->
+<div class="modal-backdrop" id="customer-modal">
+<div class="modal" style="width:800px;">
+<button class="modal-close" onclick="closeCustomerModal()">×</button>
+<h2 id="customer-modal-title">Customer Details</h2>
+<div id="customer-detail-content"></div>
+<div class="modal-actions">
+<button class="btn btn-ghost" onclick="closeCustomerModal()">Close</button>
+</div>
+</div>
+</div>
+<!-- ── INVENTORY EDIT MODAL ── -->
+<div class="modal-backdrop" id="inventory-modal">
+<div class="modal">
+<button class="modal-close" onclick="closeInventoryModal()">×</button>
+<h2>Edit Stock</h2>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Current Stock</label>
+<input id="inv-current-stock" type="number" disabled style="background:#f5f5f5;"/>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>New Stock Level</label>
+<input id="inv-new-stock" type="number" min="0"/>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Adjustment Note (optional)</label>
+<input id="inv-note" type="text" placeholder="e.g. Restock, Damage, Sale"/>
+</div>
+<div class="modal-actions">
+<button class="btn btn-ghost" onclick="closeInventoryModal()">Cancel</button>
+<button class="btn btn-primary" onclick="saveInventory()">Update Stock</button>
+</div>
+</div>
+</div>
 <!-- ── TOAST ── -->
 <div class="toast" id="toast"></div>
 <script type="module">
@@ -508,6 +570,8 @@ window.showSection = function(name, linkEl) {
   if (name === 'products')    loadProducts();
   if (name === 'collections') loadCollections();
   if (name === 'orders')      loadOrders();
+  if (name === 'customers')  loadCustomers();
+  if (name === 'inventory')  loadInventory();
   if (name === 'settings')    loadSettings();
 };
 
@@ -885,27 +949,279 @@ window.cancelOrder = async function(id) {
   loadOrders();
 };
 
+// ── CUSTOMERS ──
+let customers = [];
+async function loadCustomers() {
+  const tbody = document.getElementById('customers-tbody');
+  const searchQuery = document.getElementById('customer-search').value.toLowerCase();
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+
+  // Get all orders to aggregate customer data
+  const { data: orders, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+  if (error) { toast('Failed to load customers', 'error'); return; }
+
+  // Aggregate customers from orders
+  const customerMap = new Map();
+  (orders || []).forEach(order => {
+    const email = order.customer_email.toLowerCase();
+    if (!customerMap.has(email)) {
+      customerMap.set(email, {
+        name: order.customer_name,
+        email: order.customer_email,
+        phone: order.customer_phone,
+        totalOrders: 0,
+        totalSpent: 0,
+        lastOrder: order.created_at,
+        orders: []
+      });
+    }
+    const customer = customerMap.get(email);
+    customer.totalOrders++;
+    customer.totalSpent += parseFloat(order.total) || 0;
+    if (new Date(order.created_at) > new Date(customer.lastOrder)) {
+      customer.lastOrder = order.created_at;
+    }
+    customer.orders.push(order);
+  });
+
+  customers = Array.from(customerMap.values());
+
+  // Filter by search
+  if (searchQuery) {
+    customers = customers.filter(c =>
+      c.name.toLowerCase().includes(searchQuery) ||
+      c.email.toLowerCase().includes(searchQuery)
+    );
+  }
+
+  if (customers.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">No customers yet.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = customers.map(c => {
+    const spentStr = `KSh ${c.totalSpent.toLocaleString()}`;
+    const lastOrderStr = new Date(c.lastOrder).toLocaleDateString();
+    return `<tr>
+      <td><strong>${c.name}</strong></td>
+      <td>${c.email}</td>
+      <td>${c.totalOrders}</td>
+      <td>${spentStr}</td>
+      <td>${lastOrderStr}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="window.viewCustomer('${c.email}')">View</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+window.viewCustomer = function(email) {
+  const customer = customers.find(c => c.email.toLowerCase() === email.toLowerCase());
+  if (!customer) return;
+
+  const spentStr = `KSh ${customer.totalSpent.toLocaleString()}`;
+  const lastOrderStr = new Date(customer.lastOrder).toLocaleString();
+
+  document.getElementById('customer-modal-title').textContent = customer.name;
+  document.getElementById('customer-detail-content').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
+      <div>
+        <h4 style="margin-bottom:12px;font-size:1.4rem;">Contact Info</h4>
+        <div><strong>Name:</strong> ${customer.name}</div>
+        <div><strong>Email:</strong> ${customer.email}</div>
+        <div><strong>Phone:</strong> ${customer.phone || '—'}</div>
+      </div>
+      <div>
+        <h4 style="margin-bottom:12px;font-size:1.4rem;">Order Summary</h4>
+        <div><strong>Total Orders:</strong> ${customer.totalOrders}</div>
+        <div><strong>Total Spent:</strong> ${spentStr}</div>
+        <div><strong>Last Order:</strong> ${lastOrderStr}</div>
+      </div>
+    </div>
+    <div style="margin-bottom:24px;">
+      <h4 style="margin-bottom:12px;font-size:1.4rem;">Order History</h4>
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="background:#f9f9fb;">
+            <th style="padding:10px;text-align:left;">Order #</th>
+            <th style="padding:10px;text-align:left;">Date</th>
+            <th style="padding:10px;text-align:left;">Status</th>
+            <th style="padding:10px;text-align:right;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${customer.orders.map(order => {
+            const totalStr = order.currency === 'KES' ? `KSh ${order.total.toLocaleString()}` : `$${order.total.toFixed(2)}`;
+            const dateStr = new Date(order.created_at).toLocaleDateString();
+            return `<tr>
+              <td style="padding:10px;border-top:1px solid #eee;"><strong>${order.order_number}</strong></td>
+              <td style="padding:10px;border-top:1px solid #eee;">${dateStr}</td>
+              <td style="padding:10px;border-top:1px solid #eee;"><span class="badge ${order.status === 'paid' || order.status === 'fulfilled' ? 'badge-green' : 'badge-gray'}">${order.status}</span></td>
+              <td style="padding:10px;text-align:right;border-top:1px solid #eee;">${totalStr}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+  document.getElementById('customer-modal').classList.add('open');
+};
+
+window.closeCustomerModal = () => document.getElementById('customer-modal').classList.remove('open');
+
+// ── INVENTORY ──
+let inventoryItems = [];
+let currentInventoryItem = null;
+
+async function loadInventory() {
+  const tbody = document.getElementById('inventory-tbody');
+  const filter = document.getElementById('inventory-filter').value;
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+
+  // Get products and their variants
+  const { data: products, error } = await supabase.from('products').select('*').order('title', { ascending: true });
+  if (error) { toast('Failed to load inventory', 'error'); return; }
+
+  // Get all variants
+  const { data: variants } = await supabase.from('product_variants').select('*');
+
+  // Build inventory list
+  inventoryItems = [];
+  (products || []).forEach(product => {
+    // Add product-level inventory
+    inventoryItems.push({
+      id: product.id,
+      type: 'product',
+      title: product.title,
+      handle: product.handle,
+      sku: product.handle,
+      variant: 'Default',
+      stock: product.in_stock ? 9999 : 0,
+      price: product.price,
+      in_stock: product.in_stock
+    });
+
+    // Add variant-level inventory
+    (variants || []).filter(v => v.product_id === product.id).forEach(variant => {
+      inventoryItems.push({
+        id: variant.id,
+        type: 'variant',
+        product_id: product.id,
+        title: product.title,
+        handle: product.handle,
+        sku: variant.sku,
+        variant: variant.title,
+        stock: variant.stock || 0,
+        price: variant.price || product.price,
+        in_stock: (variant.stock || 0) > 0
+      });
+    });
+  });
+
+  // Apply filter
+  if (filter === 'low_stock') {
+    inventoryItems = inventoryItems.filter(i => i.stock > 0 && i.stock < 10);
+  } else if (filter === 'out_of_stock') {
+    inventoryItems = inventoryItems.filter(i => i.stock === 0);
+  }
+
+  if (inventoryItems.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">No inventory items found.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = inventoryItems.map(item => {
+    const priceStr = `KSh ${item.price.toLocaleString()}`;
+    const stockBadge = item.stock === 0 ? 'badge-gray' : (item.stock < 10 ? 'badge-gray' : 'badge-green');
+    const stockText = item.stock === 0 ? 'Out of Stock' : (item.stock < 10 ? `Low (${item.stock})` : item.stock);
+    return `<tr>
+      <td><strong>${item.title}</strong><br><span style="color:var(--muted);font-size:1.2rem;">${item.handle}</span></td>
+      <td><code style="background:#f5f5f5;padding:2px 8px;border-radius:4px;font-size:1.2rem;">${item.sku}</code></td>
+      <td>${item.variant}</td>
+      <td><span class="badge ${stockBadge}">${stockText}</span></td>
+      <td>${priceStr}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="window.editInventory(${item.id}, '${item.type}')">Edit Stock</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+window.editInventory = function(id, type) {
+  const item = inventoryItems.find(i => i.id === id && i.type === type);
+  if (!item) return;
+
+  currentInventoryItem = item;
+  document.getElementById('inv-current-stock').value = item.stock;
+  document.getElementById('inv-new-stock').value = item.stock;
+  document.getElementById('inv-note').value = '';
+  document.getElementById('inventory-modal').classList.add('open');
+};
+
+window.closeInventoryModal = () => {
+  document.getElementById('inventory-modal').classList.remove('open');
+  currentInventoryItem = null;
+};
+
+window.saveInventory = async function() {
+  if (!currentInventoryItem) return;
+
+  const newStock = parseInt(document.getElementById('inv-new-stock').value);
+  if (isNaN(newStock) || newStock < 0) {
+    toast('Invalid stock value', 'error');
+    return;
+  }
+
+  const note = document.getElementById('inv-note').value;
+
+  if (currentInventoryItem.type === 'product') {
+    // Update product-level stock
+    const { error } = await supabase.from('products').update({ in_stock: newStock > 0 }).eq('id', currentInventoryItem.id);
+    if (error) { toast(error.message, 'error'); return; }
+  } else {
+    // Update variant-level stock
+    const { error } = await supabase.from('product_variants').update({ stock: newStock }).eq('id', currentInventoryItem.id);
+    if (error) { toast(error.message, 'error'); return; }
+  }
+
+  toast('Stock updated successfully');
+  closeInventoryModal();
+  loadInventory();
+};
+
 // ── SETTINGS ──
 async function loadSettings() {
-  const { data } = await supabase.from('settings').select('*').eq('id', 1).single();
-  if (!data) return;
-  document.getElementById('setting-store-name').value   = data.store_name || '';
-  document.getElementById('setting-currency').value     = data.currency || '£';
-  document.getElementById('setting-announcement').value = data.announcement || '';
-  document.getElementById('setting-logo').value         = data.logo || '';
+  try {
+    const response = await fetch('/api/settings');
+    const data = await response.json();
+    if (!data) return;
+    document.getElementById('setting-store-name').value   = data.store_name || '';
+    document.getElementById('setting-currency').value     = data.currency || 'KSh';
+    document.getElementById('setting-announcement').value = data.announcement || '';
+    document.getElementById('setting-logo').value         = data.logo || '';
+  } catch (error) {
+    toast('Failed to load settings', 'error');
+  }
 }
 
 window.saveSettings = async function() {
-  const payload = {
-    store_name:   document.getElementById('setting-store-name').value,
-    currency:     document.getElementById('setting-currency').value,
-    announcement: document.getElementById('setting-announcement').value,
-    logo:         document.getElementById('setting-logo').value,
-    updated_at:   new Date().toISOString(),
-  };
-  const { error } = await supabase.from('settings').upsert({ id: 1, ...payload });
-  if (error) { toast(error.message, 'error'); return; }
-  toast('Settings saved!');
+  try {
+    const payload = {
+      store_name:   document.getElementById('setting-store-name').value,
+      currency:     document.getElementById('setting-currency').value,
+      announcement: document.getElementById('setting-announcement').value,
+      logo:         document.getElementById('setting-logo').value,
+    };
+    const response = await fetch('/api/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) throw new Error('Failed to save settings');
+    toast('Settings saved!');
+  } catch (error) {
+    toast(error.message, 'error');
+  }
 };
 
 window.uploadImages = async function() {

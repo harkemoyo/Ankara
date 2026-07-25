@@ -30,8 +30,9 @@ app.use((req, res) => {
 // Start server if running locally (not in Vercel)
 if (require.main === module) {
     const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-        console.log(`Server running on http://localhost:${PORT}`);
+    const HOST = process.env.HOST || 'localhost';
+    app.listen(PORT, HOST, () => {
+        console.log(`Server running on http://${HOST}:${PORT}`);
     });
 }
 

@@ -4,8 +4,9 @@
 // All displayed content comes from Supabase — no hardcoded values.
 // =============================================
 
-const SUPABASE_URL = 'https://oscqakcygvvtjngbuhbw.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_0lphROA0QZoxj4CGqsI3iA_gXjSS2UF';
+// Load Supabase credentials from environment variables or window config
+const SUPABASE_URL = window.SUPABASE_URL || 'https://oscqakcygvvtjngbuhbw.supabase.co';
+const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'sb_publishable_0lphROA0QZoxj4CGqsI3iA_gXjSS2UF';
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -14,13 +15,14 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // Prices in the DB are stored in KES (Kenyan Shillings).
 // convertAndFormat() converts to the selected currency using the live rate from Supabase settings.
 window.AnkaraCurrency = {
-    current: localStorage.getItem('mhw-currency') || 'KES',
-    rate: 130.00, // Default KES fallback — overwritten by settings.exchange_rate from Supabase
+    current: localStorage.getItem('mhw-currency') || window.DEFAULT_CURRENCY || 'KES',
+    rate: window.DEFAULT_EXCHANGE_RATE || 130.00, // Default fallback — overwritten by settings.exchange_rate from Supabase
+    currencySymbol: window.DEFAULT_CURRENCY_SYMBOL || 'KSh',
     convertAndFormat(kesPrice) {
         const priceNum = parseFloat(kesPrice) || 0;
         if (this.current === 'KES') {
             // Database already stores KES values, no conversion needed
-            return `KSh ${Math.round(priceNum).toLocaleString()}`;
+            return `${this.currencySymbol} ${Math.round(priceNum).toLocaleString()}`;
         }
         // Convert to USD: divide by exchange rate
         return `$${(priceNum / this.rate).toFixed(2)}`;
@@ -131,11 +133,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // ── Store Name (page title + any [data-store-name] elements) ──
         if (data.store_name) {
             const titleEl = document.querySelector('title');
+            if (titleEl && titleEl.textContent.includes('Mary Humphrey Wear')) {
+                titleEl.textContent = titleEl.textContent.replace('Mary Humphrey Wear', data.store_name);
+            }
             if (titleEl && titleEl.textContent.includes('Mary Humphrey African Wear')) {
                 titleEl.textContent = titleEl.textContent.replace('Mary Humphrey African Wear', data.store_name);
             }
             document.querySelectorAll('[data-store-name]').forEach(el => {
                 el.textContent = data.store_name;
+            });
+            // Update alt text for images marked with data-store-name-alt
+            document.querySelectorAll('[data-store-name-alt]').forEach(img => {
+                img.alt = data.store_name;
             });
         }
 
@@ -151,6 +160,14 @@ document.addEventListener('DOMContentLoaded', () => {
             window.AnkaraCurrency.rate = parseFloat(data.exchange_rate);
             document.querySelectorAll('[data-raw-price]').forEach(el => {
                 el.textContent = window.AnkaraCurrency.convertAndFormat(el.dataset.rawPrice);
+            });
+        }
+
+        // ── Currency Symbol: update all currency-symbol elements ──
+        if (data.currency) {
+            window.AnkaraCurrency.currencySymbol = data.currency;
+            document.querySelectorAll('.currency-symbol').forEach(el => {
+                el.textContent = data.currency;
             });
         }
     });

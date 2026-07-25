@@ -9567,14 +9567,38 @@ li[data-address]>h2 {
 }
 
 .product-grid {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr)); 
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
 }
 
+.product-grid > .product__card,
+.product-grid > .product-card {
+  flex: 1 1 100%;
+  max-width: 100%;
+}
+
 @media only screen and (min-width: 640px) {
-  .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  .product-grid > .product__card,
+  .product-grid > .product-card {
+    flex: 1 1 calc(50% - 2rem);
+    max-width: calc(50% - 2rem);
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .product-grid > .product__card,
+  .product-grid > .product-card {
+    flex: 1 1 calc(33.333% - 2rem);
+    max-width: calc(33.333% - 2rem);
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .product-grid > .product__card,
+  .product-grid > .product-card {
+    flex: 1 1 calc(25% - 2rem);
+    max-width: calc(25% - 2rem);
   }
 }
 

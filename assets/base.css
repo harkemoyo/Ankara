@@ -45,7 +45,9 @@
   /* 768px — text-heavy / form pages */
   --transition: all 0.3s ease 0s;
 }
-
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 /* ── Reset & Body Grid ── */
 html {
   font-size: 62.5%;

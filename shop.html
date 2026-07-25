@@ -24,6 +24,7 @@
     <script defer="" src="assets/cart.js"></script>
     <script defer="" src="assets/global.js"></script>
     <link href="assets/filter.css" rel="stylesheet" />
+    <script src="assets/config.js"></script>
     <script defer="" src="assets/filter.js"></script>
     <script defer="" src="assets/js/components/core.js" type="module"></script>
     <script defer src="assets/supabase-client.js" type="module"></script>
@@ -88,7 +89,7 @@
                         <a class="main__logo--link" href=".">
                             <img alt="Mary Humphrey African Wear" class="main__logo--img"
                                 src="assets/IMG-20260622-WA0082.webp"
-                                style="height:60px; width:auto; object-fit:contain;" />
+                                style="height:60px; width:auto; object-fit:contain;" data-store-name-alt />
                         </a>
                     </h1>
                 </div>
@@ -196,7 +197,7 @@
                 <div class="offcanvas__logo">
                     <a class="offcanvas__logo--link" href=".">
                         <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp"
-                            style="height:50px; width:auto; object-fit:contain;" />
+                            style="height:50px; width:auto; object-fit:contain;" data-store-name-alt />
                     </a>
                     <button aria-label="close menu" class="offcanvas__close--btn" data-offcanvas="">✕</button>
                 </div>
@@ -263,7 +264,7 @@
                 <div class="minicart__amount_list">
                     <span>Subtotal</span>
                     <span id="minicart-subtotal" class="js-minicart-subtotal">
-                        <b>KSh0.00</b>
+                        <b><span class="currency-symbol">KSh</span>0.00</b>
                     </span>
                 </div>
                 <p>Shipping, taxes, and discount codes calculated at checkout.</p>

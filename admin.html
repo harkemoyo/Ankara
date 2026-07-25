@@ -178,6 +178,15 @@
 <a data-section="collections" href="#" onclick="showSection('collections',this)">
 <span class="icon">🗂️</span> Collections
     </a>
+<a data-section="orders" href="#" onclick="showSection('orders',this)">
+<span class="icon">📋</span> Orders
+    </a>
+<a data-section="customers" href="#" onclick="showSection('customers',this)">
+<span class="icon">👥</span> Customers
+    </a>
+<a data-section="inventory" href="#" onclick="showSection('inventory',this)">
+<span class="icon">📦</span> Inventory
+    </a>
 <a data-section="settings" href="#" onclick="showSection('settings',this)">
 <span class="icon">⚙️</span> Settings
     </a>
@@ -201,6 +210,8 @@
 <div class="stat-card"><div class="label">Products</div><div class="value" id="stat-products">—</div></div>
 <div class="stat-card"><div class="label">Collections</div><div class="value" id="stat-collections">—</div></div>
 <div class="stat-card"><div class="label">In Stock</div><div class="value" id="stat-instock">—</div></div>
+<div class="stat-card"><div class="label">Orders</div><div class="value" id="stat-orders">—</div></div>
+<div class="stat-card"><div class="label">Revenue (KSh)</div><div class="value" id="stat-revenue">—</div></div>
 </div>
 <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
 <h3 style="margin-bottom:16px;font-size:1.5rem;">Quick Actions</h3>
@@ -247,6 +258,79 @@
 </table>
 </div>
 </section>
+<!-- Orders -->
+<section class="admin-section" id="section-orders">
+<div class="page-header">
+<h1>Orders</h1>
+<div style="display:flex;gap:8px;">
+<select id="order-status-filter" onchange="loadOrders()" style="padding:8px;border:1px solid var(--border);border-radius:6px;">
+<option value="">All Orders</option>
+<option value="pending">Pending</option>
+<option value="paid">Paid</option>
+<option value="fulfilled">Fulfilled</option>
+<option value="cancelled">Cancelled</option>
+</select>
+</div>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Order #</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th>
+</tr>
+</thead>
+<tbody id="orders-tbody">
+<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Customers -->
+<section class="admin-section" id="section-customers">
+<div class="page-header">
+<h1>Customers</h1>
+<div style="display:flex;gap:8px;">
+<input id="customer-search" placeholder="Search customers..." style="padding:8px;border:1px solid var(--border);border-radius:6px;" onkeyup="loadCustomers()">
+</div>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Name</th><th>Email</th><th>Total Orders</th><th>Total Spent</th><th>Last Order</th><th>Actions</th>
+</tr>
+</thead>
+<tbody id="customers-tbody">
+<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Inventory -->
+<section class="admin-section" id="section-inventory">
+<div class="page-header">
+<h1>Inventory</h1>
+<div style="display:flex;gap:8px;">
+<select id="inventory-filter" onchange="loadInventory()" style="padding:8px;border:1px solid var(--border);border-radius:6px;">
+<option value="">All Products</option>
+<option value="low_stock">Low Stock</option>
+<option value="out_of_stock">Out of Stock</option>
+</select>
+</div>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Product</th><th>SKU</th><th>Variant</th><th>Stock</th><th>Price</th><th>Actions</th>
+</tr>
+</thead>
+<tbody id="inventory-tbody">
+<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
 <!-- Settings -->
 <section class="admin-section" id="section-settings">
 <div class="page-header"><h1>Store Settings</h1></div>
@@ -257,7 +341,7 @@
 </div>
 <div class="form-group" style="margin-bottom:20px;">
 <label>Currency Symbol</label>
-<input id="setting-currency" style="width:80px;" type="text"/>
+<input id="setting-currency" style="width:80px;" type="text" value="KSh"/>
 </div>
 <div class="form-group" style="margin-bottom:20px;">
 <label>Announcement Bar Text</label>
@@ -297,7 +381,7 @@
 <input id="p-product-type" placeholder="Joggers, Dresses, Hoodies, etc." type="text"/>
 </div>
 <div class="form-group">
-<label>Price (£) *</label>
+<label>Price (KSh) *</label>
 <input id="p-price" min="0" placeholder="85.00" step="0.01" type="number"/>
 </div>
 <div class="form-group">
@@ -385,6 +469,51 @@
 </div>
 </div>
 </div>
+<!-- ── ORDER DETAIL MODAL ── -->
+<div class="modal-backdrop" id="order-modal">
+<div class="modal" style="width:800px;">
+<button class="modal-close" onclick="closeOrderModal()">×</button>
+<h2 id="order-modal-title">Order Details</h2>
+<div id="order-detail-content"></div>
+<div class="modal-actions">
+<button class="btn btn-ghost" onclick="closeOrderModal()">Close</button>
+</div>
+</div>
+</div>
+<!-- ── CUSTOMER DETAIL MODAL ── -->
+<div class="modal-backdrop" id="customer-modal">
+<div class="modal" style="width:800px;">
+<button class="modal-close" onclick="closeCustomerModal()">×</button>
+<h2 id="customer-modal-title">Customer Details</h2>
+<div id="customer-detail-content"></div>
+<div class="modal-actions">
+<button class="btn btn-ghost" onclick="closeCustomerModal()">Close</button>
+</div>
+</div>
+</div>
+<!-- ── INVENTORY EDIT MODAL ── -->
+<div class="modal-backdrop" id="inventory-modal">
+<div class="modal">
+<button class="modal-close" onclick="closeInventoryModal()">×</button>
+<h2>Edit Stock</h2>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Current Stock</label>
+<input id="inv-current-stock" type="number" disabled style="background:#f5f5f5;"/>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>New Stock Level</label>
+<input id="inv-new-stock" type="number" min="0"/>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Adjustment Note (optional)</label>
+<input id="inv-note" type="text" placeholder="e.g. Restock, Damage, Sale"/>
+</div>
+<div class="modal-actions">
+<button class="btn btn-ghost" onclick="closeInventoryModal()">Cancel</button>
+<button class="btn btn-primary" onclick="saveInventory()">Update Stock</button>
+</div>
+</div>
+</div>
 <!-- ── TOAST ── -->
 <div class="toast" id="toast"></div>
 <script type="module">
@@ -440,19 +569,29 @@ window.showSection = function(name, linkEl) {
   if (linkEl) linkEl.classList.add('active');
   if (name === 'products')    loadProducts();
   if (name === 'collections') loadCollections();
+  if (name === 'orders')      loadOrders();
+  if (name === 'customers')  loadCustomers();
+  if (name === 'inventory')  loadInventory();
   if (name === 'settings')    loadSettings();
 };
 
 // ── DASHBOARD ──
 async function loadDashboard() {
-  const [{ count: pCount }, { count: cCount }, { count: sCount }] = await Promise.all([
+  const [{ count: pCount }, { count: cCount }, { count: sCount }, { count: oCount }, { data: orders }] = await Promise.all([
     supabase.from('products').select('*', { count: 'exact', head: true }),
     supabase.from('collections').select('*', { count: 'exact', head: true }),
     supabase.from('products').select('*', { count: 'exact', head: true }).eq('in_stock', true),
+    supabase.from('orders').select('*', { count: 'exact', head: true }),
+    supabase.from('orders').select('total').in('status', ['paid', 'fulfilled']),
   ]);
   document.getElementById('stat-products').textContent    = pCount ?? '—';
   document.getElementById('stat-collections').textContent = cCount ?? '—';
   document.getElementById('stat-instock').textContent     = sCount ?? '—';
+  document.getElementById('stat-orders').textContent     = oCount ?? '—';
+
+  // Calculate revenue from paid/fulfilled orders
+  const revenue = (orders || []).reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+  document.getElementById('stat-revenue').textContent = revenue > 0 ? `KSh ${revenue.toLocaleString()}` : '—';
 }
 
 // ── PRODUCTS ──
@@ -475,7 +614,7 @@ async function loadProducts() {
       <td>${img}</td>
       <td><strong>${p.title}</strong><br><span style="color:var(--muted);font-size:1.2rem;">${p.handle}</span></td>
       <td>${p.collection || '—'}</td>
-      <td>£${parseFloat(p.price).toFixed(2)}</td>
+      <td>KSh ${parseFloat(p.price).toLocaleString()}</td>
       <td>${colors || '—'}</td>
       <td><span class="badge ${p.in_stock ? 'badge-green' : 'badge-gray'}">${p.in_stock ? 'In Stock' : 'Out'}</span></td>
       <td style="white-space:nowrap;">
@@ -661,27 +800,428 @@ window.deleteCollection = async function(id) {
   loadCollections();
 };
 
+// ── ORDERS ──
+let orders = [];
+async function loadOrders() {
+  const tbody = document.getElementById('orders-tbody');
+  const statusFilter = document.getElementById('order-status-filter').value;
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+
+  let query = supabase.from('orders').select('*').order('created_at', { ascending: false });
+  if (statusFilter) {
+    query = query.eq('status', statusFilter);
+  }
+
+  const { data, error } = await query;
+  if (error) { toast('Failed to load orders', 'error'); return; }
+  orders = data || [];
+
+  if (orders.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">No orders yet.</td></tr>';
+    return;
+  }
+
+  const statusColors = {
+    pending: 'badge-gray',
+    paid: 'badge-green',
+    fulfilled: 'badge-green',
+    cancelled: 'badge-gray'
+  };
+
+  tbody.innerHTML = orders.map(o => {
+    const totalStr = o.currency === 'KES' ? `KSh ${o.total.toLocaleString()}` : `$${o.total.toFixed(2)}`;
+    const dateStr = new Date(o.created_at).toLocaleDateString();
+    return `<tr>
+      <td><strong>${o.order_number}</strong></td>
+      <td>
+        <div>${o.customer_name}</div>
+        <span style="color:var(--muted);font-size:1.2rem;">${o.customer_email}</span>
+      </td>
+      <td>${totalStr}</td>
+      <td><span class="badge ${statusColors[o.status] || 'badge-gray'}">${o.status}</span></td>
+      <td>${dateStr}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="window.viewOrder(${o.id})">View</button>
+        ${o.status === 'paid' ? `<button class="btn btn-primary btn-sm" style="margin-left:6px;" onclick="window.fulfillOrder(${o.id})">Fulfill</button>` : ''}
+        ${o.status === 'pending' ? `<button class="btn btn-danger btn-sm" style="margin-left:6px;" onclick="window.cancelOrder(${o.id})">Cancel</button>` : ''}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+window.viewOrder = async function(id) {
+  const order = orders.find(o => o.id === id);
+  if (!order) return;
+
+  // Fetch order items
+  const { data: items } = await supabase.from('order_items').select('*').eq('order_id', id);
+  order.items = items || [];
+
+  const totalStr = order.currency === 'KES' ? `KSh ${order.total.toLocaleString()}` : `$${order.total.toFixed(2)}`;
+  const shippingStr = order.currency === 'KES' ? `KSh ${order.shipping_cost.toLocaleString()}` : `$${order.shipping_cost.toFixed(2)}`;
+  const subtotalStr = order.currency === 'KES' ? `KSh ${order.subtotal.toLocaleString()}` : `$${order.subtotal.toFixed(2)}`;
+
+  const address = order.shipping_address || {};
+  const addressStr = `${address.address_line1 || ''}${address.address_line2 ? ', ' + address.address_line2 : ''}\n${address.city || ''}, ${address.state || ''}\n${address.country || ''}`;
+
+  document.getElementById('order-modal-title').textContent = `Order ${order.order_number}`;
+  document.getElementById('order-detail-content').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
+      <div>
+        <h4 style="margin-bottom:12px;font-size:1.4rem;">Customer</h4>
+        <div><strong>Name:</strong> ${order.customer_name}</div>
+        <div><strong>Email:</strong> ${order.customer_email}</div>
+        <div><strong>Phone:</strong> ${order.customer_phone || '—'}</div>
+      </div>
+      <div>
+        <h4 style="margin-bottom:12px;font-size:1.4rem;">Order Info</h4>
+        <div><strong>Status:</strong> ${order.status}</div>
+        <div><strong>Date:</strong> ${new Date(order.created_at).toLocaleString()}</div>
+        <div><strong>Payment:</strong> ${order.payment_provider || '—'} (${order.payment_ref || '—'})</div>
+      </div>
+    </div>
+    <div style="margin-bottom:24px;">
+      <h4 style="margin-bottom:12px;font-size:1.4rem;">Shipping Address</h4>
+      <div style="white-space:pre-line;">${addressStr || '—'}</div>
+    </div>
+    <div style="margin-bottom:24px;">
+      <h4 style="margin-bottom:12px;font-size:1.4rem;">Items</h4>
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="background:#f9f9fb;">
+            <th style="padding:10px;text-align:left;">Product</th>
+            <th style="padding:10px;text-align:right;">Price</th>
+            <th style="padding:10px;text-align:center;">Qty</th>
+            <th style="padding:10px;text-align:right;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${order.items.map(item => {
+            const itemPrice = order.currency === 'KES' ? `KSh ${item.unit_price.toLocaleString()}` : `$${item.unit_price.toFixed(2)}`;
+            const itemTotal = order.currency === 'KES' ? `KSh ${item.line_total.toLocaleString()}` : `$${item.line_total.toFixed(2)}`;
+            return `<tr>
+              <td style="padding:10px;border-top:1px solid #eee;">
+                <strong>${item.product_title}</strong>
+                ${item.variant_size || item.variant_color ? `<br><span style="color:var(--muted);font-size:1.2rem;">${[item.variant_size, item.variant_color].filter(Boolean).join(' / ')}</span>` : ''}
+              </td>
+              <td style="padding:10px;text-align:right;border-top:1px solid #eee;">${itemPrice}</td>
+              <td style="padding:10px;text-align:center;border-top:1px solid #eee;">${item.quantity}</td>
+              <td style="padding:10px;text-align:right;border-top:1px solid #eee;">${itemTotal}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" style="padding:10px;text-align:right;"><strong>Subtotal:</strong></td>
+            <td style="padding:10px;text-align:right;">${subtotalStr}</td>
+          </tr>
+          <tr>
+            <td colspan="3" style="padding:10px;text-align:right;"><strong>Shipping:</strong></td>
+            <td style="padding:10px;text-align:right;">${shippingStr}</td>
+          </tr>
+          <tr style="background:#f9f9fb;">
+            <td colspan="3" style="padding:10px;text-align:right;"><strong>Total:</strong></td>
+            <td style="padding:10px;text-align:right;"><strong>${totalStr}</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    ${order.notes ? `<div style="margin-bottom:24px;"><h4 style="margin-bottom:12px;font-size:1.4rem;">Notes</h4><div style="background:#f9f9fb;padding:12px;border-radius:6px;">${order.notes}</div></div>` : ''}
+  `;
+  document.getElementById('order-modal').classList.add('open');
+};
+
+window.closeOrderModal = () => document.getElementById('order-modal').classList.remove('open');
+
+window.fulfillOrder = async function(id) {
+  if (!confirm('Mark this order as fulfilled?')) return;
+  const { error } = await supabase.from('orders').update({ status: 'fulfilled', fulfilled_at: new Date().toISOString() }).eq('id', id);
+  if (error) { toast(error.message, 'error'); return; }
+  toast('Order fulfilled!');
+  loadOrders();
+};
+
+window.cancelOrder = async function(id) {
+  if (!confirm('Cancel this order? This cannot be undone.')) return;
+  const { error } = await supabase.from('orders').update({ status: 'cancelled' }).eq('id', id);
+  if (error) { toast(error.message, 'error'); return; }
+  toast('Order cancelled');
+  loadOrders();
+};
+
+// ── CUSTOMERS ──
+let customers = [];
+async function loadCustomers() {
+  const tbody = document.getElementById('customers-tbody');
+  const searchQuery = document.getElementById('customer-search').value.toLowerCase();
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+
+  // Get all orders to aggregate customer data
+  const { data: orders, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+  if (error) { toast('Failed to load customers', 'error'); return; }
+
+  // Aggregate customers from orders
+  const customerMap = new Map();
+  (orders || []).forEach(order => {
+    const email = order.customer_email.toLowerCase();
+    if (!customerMap.has(email)) {
+      customerMap.set(email, {
+        name: order.customer_name,
+        email: order.customer_email,
+        phone: order.customer_phone,
+        totalOrders: 0,
+        totalSpent: 0,
+        lastOrder: order.created_at,
+        orders: []
+      });
+    }
+    const customer = customerMap.get(email);
+    customer.totalOrders++;
+    customer.totalSpent += parseFloat(order.total) || 0;
+    if (new Date(order.created_at) > new Date(customer.lastOrder)) {
+      customer.lastOrder = order.created_at;
+    }
+    customer.orders.push(order);
+  });
+
+  customers = Array.from(customerMap.values());
+
+  // Filter by search
+  if (searchQuery) {
+    customers = customers.filter(c =>
+      c.name.toLowerCase().includes(searchQuery) ||
+      c.email.toLowerCase().includes(searchQuery)
+    );
+  }
+
+  if (customers.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">No customers yet.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = customers.map(c => {
+    const spentStr = `KSh ${c.totalSpent.toLocaleString()}`;
+    const lastOrderStr = new Date(c.lastOrder).toLocaleDateString();
+    return `<tr>
+      <td><strong>${c.name}</strong></td>
+      <td>${c.email}</td>
+      <td>${c.totalOrders}</td>
+      <td>${spentStr}</td>
+      <td>${lastOrderStr}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="window.viewCustomer('${c.email}')">View</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+window.viewCustomer = function(email) {
+  const customer = customers.find(c => c.email.toLowerCase() === email.toLowerCase());
+  if (!customer) return;
+
+  const spentStr = `KSh ${customer.totalSpent.toLocaleString()}`;
+  const lastOrderStr = new Date(customer.lastOrder).toLocaleString();
+
+  document.getElementById('customer-modal-title').textContent = customer.name;
+  document.getElementById('customer-detail-content').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
+      <div>
+        <h4 style="margin-bottom:12px;font-size:1.4rem;">Contact Info</h4>
+        <div><strong>Name:</strong> ${customer.name}</div>
+        <div><strong>Email:</strong> ${customer.email}</div>
+        <div><strong>Phone:</strong> ${customer.phone || '—'}</div>
+      </div>
+      <div>
+        <h4 style="margin-bottom:12px;font-size:1.4rem;">Order Summary</h4>
+        <div><strong>Total Orders:</strong> ${customer.totalOrders}</div>
+        <div><strong>Total Spent:</strong> ${spentStr}</div>
+        <div><strong>Last Order:</strong> ${lastOrderStr}</div>
+      </div>
+    </div>
+    <div style="margin-bottom:24px;">
+      <h4 style="margin-bottom:12px;font-size:1.4rem;">Order History</h4>
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="background:#f9f9fb;">
+            <th style="padding:10px;text-align:left;">Order #</th>
+            <th style="padding:10px;text-align:left;">Date</th>
+            <th style="padding:10px;text-align:left;">Status</th>
+            <th style="padding:10px;text-align:right;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${customer.orders.map(order => {
+            const totalStr = order.currency === 'KES' ? `KSh ${order.total.toLocaleString()}` : `$${order.total.toFixed(2)}`;
+            const dateStr = new Date(order.created_at).toLocaleDateString();
+            return `<tr>
+              <td style="padding:10px;border-top:1px solid #eee;"><strong>${order.order_number}</strong></td>
+              <td style="padding:10px;border-top:1px solid #eee;">${dateStr}</td>
+              <td style="padding:10px;border-top:1px solid #eee;"><span class="badge ${order.status === 'paid' || order.status === 'fulfilled' ? 'badge-green' : 'badge-gray'}">${order.status}</span></td>
+              <td style="padding:10px;text-align:right;border-top:1px solid #eee;">${totalStr}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+  document.getElementById('customer-modal').classList.add('open');
+};
+
+window.closeCustomerModal = () => document.getElementById('customer-modal').classList.remove('open');
+
+// ── INVENTORY ──
+let inventoryItems = [];
+let currentInventoryItem = null;
+
+async function loadInventory() {
+  const tbody = document.getElementById('inventory-tbody');
+  const filter = document.getElementById('inventory-filter').value;
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+
+  // Get products and their variants
+  const { data: products, error } = await supabase.from('products').select('*').order('title', { ascending: true });
+  if (error) { toast('Failed to load inventory', 'error'); return; }
+
+  // Get all variants
+  const { data: variants } = await supabase.from('product_variants').select('*');
+
+  // Build inventory list
+  inventoryItems = [];
+  (products || []).forEach(product => {
+    // Add product-level inventory
+    inventoryItems.push({
+      id: product.id,
+      type: 'product',
+      title: product.title,
+      handle: product.handle,
+      sku: product.handle,
+      variant: 'Default',
+      stock: product.in_stock ? 9999 : 0,
+      price: product.price,
+      in_stock: product.in_stock
+    });
+
+    // Add variant-level inventory
+    (variants || []).filter(v => v.product_id === product.id).forEach(variant => {
+      inventoryItems.push({
+        id: variant.id,
+        type: 'variant',
+        product_id: product.id,
+        title: product.title,
+        handle: product.handle,
+        sku: variant.sku,
+        variant: variant.title,
+        stock: variant.stock || 0,
+        price: variant.price || product.price,
+        in_stock: (variant.stock || 0) > 0
+      });
+    });
+  });
+
+  // Apply filter
+  if (filter === 'low_stock') {
+    inventoryItems = inventoryItems.filter(i => i.stock > 0 && i.stock < 10);
+  } else if (filter === 'out_of_stock') {
+    inventoryItems = inventoryItems.filter(i => i.stock === 0);
+  }
+
+  if (inventoryItems.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">No inventory items found.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = inventoryItems.map(item => {
+    const priceStr = `KSh ${item.price.toLocaleString()}`;
+    const stockBadge = item.stock === 0 ? 'badge-gray' : (item.stock < 10 ? 'badge-gray' : 'badge-green');
+    const stockText = item.stock === 0 ? 'Out of Stock' : (item.stock < 10 ? `Low (${item.stock})` : item.stock);
+    return `<tr>
+      <td><strong>${item.title}</strong><br><span style="color:var(--muted);font-size:1.2rem;">${item.handle}</span></td>
+      <td><code style="background:#f5f5f5;padding:2px 8px;border-radius:4px;font-size:1.2rem;">${item.sku}</code></td>
+      <td>${item.variant}</td>
+      <td><span class="badge ${stockBadge}">${stockText}</span></td>
+      <td>${priceStr}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="window.editInventory(${item.id}, '${item.type}')">Edit Stock</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+window.editInventory = function(id, type) {
+  const item = inventoryItems.find(i => i.id === id && i.type === type);
+  if (!item) return;
+
+  currentInventoryItem = item;
+  document.getElementById('inv-current-stock').value = item.stock;
+  document.getElementById('inv-new-stock').value = item.stock;
+  document.getElementById('inv-note').value = '';
+  document.getElementById('inventory-modal').classList.add('open');
+};
+
+window.closeInventoryModal = () => {
+  document.getElementById('inventory-modal').classList.remove('open');
+  currentInventoryItem = null;
+};
+
+window.saveInventory = async function() {
+  if (!currentInventoryItem) return;
+
+  const newStock = parseInt(document.getElementById('inv-new-stock').value);
+  if (isNaN(newStock) || newStock < 0) {
+    toast('Invalid stock value', 'error');
+    return;
+  }
+
+  const note = document.getElementById('inv-note').value;
+
+  if (currentInventoryItem.type === 'product') {
+    // Update product-level stock
+    const { error } = await supabase.from('products').update({ in_stock: newStock > 0 }).eq('id', currentInventoryItem.id);
+    if (error) { toast(error.message, 'error'); return; }
+  } else {
+    // Update variant-level stock
+    const { error } = await supabase.from('product_variants').update({ stock: newStock }).eq('id', currentInventoryItem.id);
+    if (error) { toast(error.message, 'error'); return; }
+  }
+
+  toast('Stock updated successfully');
+  closeInventoryModal();
+  loadInventory();
+};
+
 // ── SETTINGS ──
 async function loadSettings() {
-  const { data } = await supabase.from('settings').select('*').eq('id', 1).single();
-  if (!data) return;
-  document.getElementById('setting-store-name').value   = data.store_name || '';
-  document.getElementById('setting-currency').value     = data.currency || '£';
-  document.getElementById('setting-announcement').value = data.announcement || '';
-  document.getElementById('setting-logo').value         = data.logo || '';
+  try {
+    const response = await fetch('/api/settings');
+    const data = await response.json();
+    if (!data) return;
+    document.getElementById('setting-store-name').value   = data.store_name || '';
+    document.getElementById('setting-currency').value     = data.currency || 'KSh';
+    document.getElementById('setting-announcement').value = data.announcement || '';
+    document.getElementById('setting-logo').value         = data.logo || '';
+  } catch (error) {
+    toast('Failed to load settings', 'error');
+  }
 }
 
 window.saveSettings = async function() {
-  const payload = {
-    store_name:   document.getElementById('setting-store-name').value,
-    currency:     document.getElementById('setting-currency').value,
-    announcement: document.getElementById('setting-announcement').value,
-    logo:         document.getElementById('setting-logo').value,
-    updated_at:   new Date().toISOString(),
-  };
-  const { error } = await supabase.from('settings').upsert({ id: 1, ...payload });
-  if (error) { toast(error.message, 'error'); return; }
-  toast('Settings saved!');
+  try {
+    const payload = {
+      store_name:   document.getElementById('setting-store-name').value,
+      currency:     document.getElementById('setting-currency').value,
+      announcement: document.getElementById('setting-announcement').value,
+      logo:         document.getElementById('setting-logo').value,
+    };
+    const response = await fetch('/api/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) throw new Error('Failed to save settings');
+    toast('Settings saved!');
+  } catch (error) {
+    toast(error.message, 'error');
+  }
 };
 
 window.uploadImages = async function() {

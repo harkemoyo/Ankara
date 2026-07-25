@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
-const apiRoutes = require('../src/routes/api');
+const apiRoutes = require('../../src/routes/api');
 
 const app = express();
 
@@ -26,5 +26,14 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
     res.status(404).json({ error: 'API route not found' });
 });
+
+// Start server if running locally (not in Vercel)
+if (require.main === module) {
+    const PORT = process.env.PORT || 3000;
+    const HOST = process.env.HOST || 'localhost';
+    app.listen(PORT, HOST, () => {
+        console.log(`Server running on http://${HOST}:${PORT}`);
+    });
+}
 
 module.exports = app;

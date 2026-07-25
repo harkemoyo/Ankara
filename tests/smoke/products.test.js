@@ -4,7 +4,8 @@ async function runTest() {
     console.log('Starting products smoke test...');
 
     return new Promise((resolve, reject) => {
-        const req = http.request('http://localhost:3000/api/products', { method: 'GET' }, (res) => {
+        const API_URL = process.env.API_URL || 'http://localhost:3000';
+        const req = http.request(`${API_URL}/api/products`, { method: 'GET' }, (res) => {
             if (res.statusCode !== 200) {
                 return reject(new Error(`Expected 200, got ${res.statusCode}`));
             }

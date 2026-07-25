@@ -243,6 +243,23 @@ class ProductService {
             order: ["hero", "featured-collection"]
         };
     }
+
+    async hasSaleProducts() {
+        const { data, error } = await supabaseAnon
+            .from('products')
+            .select('id, compare_at_price, price, tags')
+            .or('compare_at_price.gt.0,tags.cs.{sale}');
+        
+        if (error) throw new Error(error.message);
+        
+        // Check if any product has a valid sale condition
+        const hasSale = data && data.some(p => 
+            (p.compare_at_price && parseFloat(p.compare_at_price) > parseFloat(p.price)) ||
+            (p.tags && p.tags.map(t => t.toLowerCase()).includes('sale'))
+        );
+        
+        return hasSale;
+    }
 }
 
 module.exports = new ProductService();

@@ -64,6 +64,16 @@ class ProductController {
             res.status(500).json({ error: 'Failed to fetch theme layout' });
         }
     }
+
+    async hasSaleProducts(req, res) {
+        try {
+            const hasSale = await productService.hasSaleProducts();
+            res.json({ hasSale });
+        } catch (error) {
+            console.error('Error in hasSaleProducts:', error);
+            res.status(500).json({ error: 'Failed to check sale products' });
+        }
+    }
 }
 
 module.exports = new ProductController();

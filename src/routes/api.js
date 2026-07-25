@@ -12,6 +12,7 @@ router.get('/products', productController.getProducts);
 router.get('/products/:handle', productController.getProductByHandle);
 router.get('/collections', productController.getCollections);
 router.get('/theme', productController.getTheme);
+router.get('/sale-check', productController.hasSaleProducts);
 
 // Settings routes
 router.get('/settings', async (req, res) => {

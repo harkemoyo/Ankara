@@ -50,10 +50,8 @@
 
 /* --- Main Layout Wrapper --- */
 .about-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 6rem;
   padding-block: 2rem;
+  padding-inline: 2rem;
 }
 
 /* --- Hero Banner --- */
@@ -142,27 +140,17 @@
   display: flex;
   flex-direction: column;
   gap: 4rem;
-  align-items: center;
+  align-items: flex-start;
 }
 
 @media (min-width: 992px) {
   .about__story--wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1.1fr;
-    gap: 6rem;
-    align-items: start;
-  }
-
-  .about__story--image {
-    position: sticky;
-    top: 120px;
-    align-self: start;
+    flex-direction: row;
   }
 
   .about__story_content {
     position: sticky;
     top: 120px;
-    align-self: start;
   }
 }
 
@@ -232,6 +220,7 @@
 
 .about__values .product-grid {
   display: grid;
+  justify-content: center;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 3rem;
 }

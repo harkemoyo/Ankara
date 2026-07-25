@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS settings (
     meta_description TEXT DEFAULT 'Handcrafted Ankara fashion from Nairobi. Shop dresses, joggers, hoodies and more.',
     email_header_color TEXT DEFAULT '#422326',
     email_footer_text  TEXT DEFAULT '© 2026 Mary Humphrey African Wear. All rights reserved.',
+    story              JSONB DEFAULT '{}',
     updated_at       TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -48,13 +49,33 @@ ALTER TABLE settings ADD COLUMN IF NOT EXISTS meta_title TEXT;
 ALTER TABLE settings ADD COLUMN IF NOT EXISTS meta_description TEXT;
 ALTER TABLE settings ADD COLUMN IF NOT EXISTS email_header_color TEXT DEFAULT '#422326';
 ALTER TABLE settings ADD COLUMN IF NOT EXISTS email_footer_text TEXT DEFAULT '© 2026 Mary Humphrey African Wear. All rights reserved.';
+ALTER TABLE settings ADD COLUMN IF NOT EXISTS story JSONB DEFAULT '{}';
 
 -- Seed default row if missing (does not overwrite existing row)
 INSERT INTO settings (id) VALUES (1) ON CONFLICT (id) DO NOTHING;
 
 
 -- ─────────────────────────────────────────────────────────────────────
--- 2. PRODUCTS (Preserves all existing rows, adds missing columns safely)
+-- 2. PAGES (CMS-managed static page content, keyed by slug)
+-- ─────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS pages (
+    id          BIGSERIAL PRIMARY KEY,
+    slug        TEXT UNIQUE NOT NULL,
+    title       TEXT NOT NULL DEFAULT '',
+    content     JSONB DEFAULT '{}',
+    updated_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Seed default Our Story page if missing
+INSERT INTO pages (slug, title, content) VALUES (
+    'about',
+    'Our Story',
+    '{}'::jsonb
+) ON CONFLICT (slug) DO NOTHING;
+
+
+-- ─────────────────────────────────────────────────────────────────────
+-- 3. PRODUCTS (Preserves all existing rows, adds missing columns safely)
 -- ─────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS products (
     id               BIGSERIAL PRIMARY KEY,

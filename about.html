@@ -351,12 +351,12 @@
         <!-- Hero -->
         <section class="about__hero">
             <div class="about__hero--bg">
-                <img alt="Mary Humphrey Wear Story" src="assets/IMG-20260622-WA0081.webp" />
+                <img alt="Mary Humphrey Wear Story" src="assets/IMG-20260622-WA0081.webp" data-story="heroImage" />
             </div>
             <div class="page-width">
                 <div class="about__hero--content">
-                    <span class="about__hero--subtitle">Our Story</span>
-                    <h1 class="about__hero--title">The Story Behind<br />Mary Humphrey Wear</h1>
+                    <span class="about__hero--subtitle" data-story="heroSubtitle">Our Story</span>
+                    <h1 class="about__hero--title" data-story="heroTitle">The Story Behind<br />Mary Humphrey Wear</h1>
                 </div>
             </div>
         </section>
@@ -366,33 +366,33 @@
                 <div class="about__story--wrapper">
                     <div class="about__story--image">
                         <img alt="Mary Humphrey Wear Founder" class="about__img"
-                            src="assets/IMG-20260622-WA0081.webp" />
+                            src="assets/IMG-20260622-WA0081.webp" data-story="storyImage" />
                     </div>
                     <div class=" about__story_content">
                         <div class="about_title">
-                            <span class="about__story--subtitle">Born From Passion</span>
-                            <h2 class="about__story--title">Where African Heritage Meets Modern Fashion</h2>
+                            <span class="about__story--subtitle" data-story="bornSubtitle">Born From Passion</span>
+                            <h2 class="about__story--title" data-story="bornTitle">Where African Heritage Meets Modern Fashion</h2>
                         </div>
-                        <p class="about__story--text">
+                        <p class="about__story--text" data-story="paragraph1">
                             Mary Humphrey African Wear began with a simple belief: clothing is more than what we put
                             on our bodies —
                             it is a way of expressing who we are, where we come from, and the stories we carry.
                         </p>
-                        <p class="about__story--text">
+                        <p class="about__story--text" data-story="paragraph2">
                             Inspired by the beauty of African prints and the endless possibilities of design, we
                             create contemporary
                             fashion that celebrates heritage while embracing modern style. Every piece is
                             thoughtfully designed to bring
                             together bold patterns, comfort, elegance, and individuality.
                         </p>
-                        <p class="about__story--text">
+                        <p class="about__story--text" data-story="paragraph3">
                             From statement streetwear to timeless cultural pieces, our collections are created for
                             people who are
                             confident in their identity and unafraid to stand out. We believe every fabric has a
                             story, and every design
                             should make the person wearing it feel special.
                         </p>
-                        <p class="about__story--text">
+                        <p class="about__story--text" data-story="paragraph4">
                             Mary Humphrey African Wear is more than a fashion brand — it is a celebration of African
                             artistry,
                             creativity, and the power of self-expression through what we wear.
@@ -453,17 +453,17 @@
             <section class="about__different">
                 <div class="about__different--inner">
                     <div class="about__different--image">
-                        <img alt="Mary Humphrey African Wear Detail" src="assets/IMG-20260622-WA0032.webp" />
+                        <img alt="Mary Humphrey African Wear Detail" src="assets/IMG-20260622-WA0032.webp" data-story="differentImage" />
                     </div>
                     <div class="about__different--content">
-                        <span class="about__different--subtitle">What Makes Us Different</span>
-                        <h2 class="about__different--title">Comfort Meets Culture</h2>
-                        <p class="about__different--text">
+                        <span class="about__different--subtitle" data-story="differentSubtitle">What Makes Us Different</span>
+                        <h2 class="about__different--title" data-story="differentTitle">Comfort Meets Culture</h2>
+                        <p class="about__different--text" data-story="differentText1">
                             Our clothing stands out thanks to premium, lightweight African fabrics combined with
                             flexible, modern tailoring. The result? Long-lasting comfort without compromising on
                             style.
                         </p>
-                        <p class="about__different--text">
+                        <p class="about__different--text" data-story="differentText2">
                             Whether it’s a statement set, a flowing dress, or a casual staple, we design fashion
                             that’s easy to wear, fun, and truly built for everyday life.
                         </p>
@@ -474,8 +474,8 @@
             <section class="about__gallery">
                 <div class="page-width">
                     <div class="about_title" style="text-align: center; margin-bottom: 4rem; align-items: center;">
-                        <span class="about__story--subtitle">Visual Journey</span>
-                        <h2 class="about__story--title">The Artistry & Elegance</h2>
+                        <span class="about__story--subtitle" data-story="gallerySubtitle">Visual Journey</span>
+                        <h2 class="about__story--title" data-story="galleryTitle">The Artistry & Elegance</h2>
                     </div>
                     <div class="gallery__grid">
                         <a href="assets/IMG-20260622-WA0037.webp" class="glightbox" data-gallery="about-gallery">
@@ -493,8 +493,8 @@
             <!-- Our Promise -->
             <section class="about__promise">
                 <div class="about__promise--content">
-                    <h2 class="about__promise--title">Our Promise</h2>
-                    <p class="about__promise--text">
+                    <h2 class="about__promise--title" data-story="promiseTitle">Our Promise</h2>
+                    <p class="about__promise--text" data-story="promiseText">
                         At Mary Humphrey African Wear, style meets culture. We are committed to creating
                         comfortable, vibrant, and timeless pieces while offering exceptional customer care. From
                         careful craftsmanship and timely delivery to support with alterations, we ensure every
@@ -506,9 +506,31 @@
         <!-- views/partials/footer.ejs -->
     </main>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             if (typeof GLightbox === 'function') {
                 GLightbox({ selector: '.glightbox' });
+            }
+
+            try {
+                const response = await fetch('/api/pages/about');
+                const page = await response.json();
+                const story = page?.content || {};
+
+                document.querySelectorAll('[data-story]').forEach(el => {
+                    const key = el.getAttribute('data-story');
+                    const value = story[key];
+                    if (!value) return;
+                    if (el.tagName === 'IMG') {
+                        el.src = value;
+                        el.alt = value.split('/').pop().split('?')[0] || el.alt;
+                    } else if (['H1','H2','H3'].includes(el.tagName)) {
+                        el.innerHTML = value;
+                    } else {
+                        el.textContent = value;
+                    }
+                });
+            } catch (err) {
+                console.warn('Failed to load story content', err);
             }
         });
     </script>

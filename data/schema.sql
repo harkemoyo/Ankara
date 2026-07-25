@@ -42,11 +42,27 @@ CREATE TABLE IF NOT EXISTS settings (
     tagline TEXT,
     social_links JSONB DEFAULT '{}',
     announcement TEXT,
+    story JSONB DEFAULT '{}',
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Insert default settings row
 INSERT INTO settings (id) VALUES (1) ON CONFLICT (id) DO NOTHING;
+
+-- Pages Table (CMS-managed static page content)
+CREATE TABLE IF NOT EXISTS pages (
+    id          BIGSERIAL PRIMARY KEY,
+    slug        TEXT UNIQUE NOT NULL,
+    title       TEXT NOT NULL DEFAULT '',
+    content     JSONB DEFAULT '{}',
+    updated_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+INSERT INTO pages (slug, title, content) VALUES (
+    'about',
+    'Our Story',
+    '{}'::jsonb
+) ON CONFLICT (slug) DO NOTHING;
 
 -- =============================================
 -- Row Level Security (RLS)
@@ -76,7 +92,8 @@ INSERT INTO collections (handle, title, description, sort_order) VALUES
     ('tops', 'Tops & Blouses', 'Stylish African print tops', 2),
     ('skirts', 'Skirts', 'Traditional and modern skirts', 3)
 ON CONFLICT (handle) DO NOTHING;
--- Reset and insert Boutique Inventory System products
+
+-- Reset and insert Boutique Inventory System products
 TRUNCATE TABLE products RESTART IDENTITY;
 
 INSERT INTO products (handle, title, price, compare_at_price, collection, images, colors, sizes, tags, description) VALUES

@@ -27,7 +27,7 @@ router.get('/settings', async (req, res) => {
 
 router.put('/settings', async (req, res) => {
     try {
-        const { store_name, currency, announcement, logo, exchange_rate, announcements } = req.body;
+        const { store_name, currency, announcement, logo, exchange_rate, announcements, story } = req.body;
         const payload = {
             store_name,
             currency,
@@ -35,6 +35,7 @@ router.put('/settings', async (req, res) => {
             logo,
             exchange_rate,
             announcements,
+            story,
             updated_at: new Date().toISOString()
         };
         const { data, error } = await supabaseAdmin.from('settings').upsert({ id: 1, ...payload }).select().single();
@@ -42,6 +43,63 @@ router.put('/settings', async (req, res) => {
         res.json(data);
     } catch (error) {
         res.status(500).json({ error: 'Failed to update settings' });
+    }
+});
+
+// Pages CMS routes
+router.get('/pages', async (req, res) => {
+    try {
+        const { data, error } = await supabaseAdmin.from('pages').select('*').order('slug');
+        if (error) throw error;
+        res.json(data || []);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch pages' });
+    }
+});
+
+router.get('/pages/:slug', async (req, res) => {
+    try {
+        const { data, error } = await supabaseAdmin.from('pages').select('*').eq('slug', req.params.slug).single();
+        if (error) throw error;
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch page' });
+    }
+});
+
+router.post('/pages', async (req, res) => {
+    try {
+        const { slug, title, content } = req.body;
+        const { data, error } = await supabaseAdmin.from('pages').insert([{ slug, title, content }]).select().single();
+        if (error) throw error;
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to create page' });
+    }
+});
+
+router.put('/pages/:slug', async (req, res) => {
+    try {
+        const { title, content } = req.body;
+        const { data, error } = await supabaseAdmin.from('pages')
+            .update({ title, content, updated_at: new Date().toISOString() })
+            .eq('slug', req.params.slug)
+            .select()
+            .single();
+        if (error) throw error;
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update page' });
+    }
+});
+
+router.delete('/pages/:slug', async (req, res) => {
+    try {
+        const { error } = await supabaseAdmin.from('pages').delete().eq('slug', req.params.slug);
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete page' });
     }
 });
 

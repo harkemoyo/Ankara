@@ -188,6 +188,9 @@
 <a data-section="inventory" href="#" onclick="showSection('inventory',this)">
 <span class="icon">📦</span> Inventory
     </a>
+<a data-section="pages" href="#" onclick="showSection('pages',this)">
+<span class="icon">📄</span> Pages
+    </a>
 <a data-section="settings" href="#" onclick="showSection('settings',this)">
 <span class="icon">⚙️</span> Settings
     </a>
@@ -332,10 +335,29 @@
 </table>
 </div>
 </section>
+<!-- Pages -->
+<section class="admin-section" id="section-pages">
+<div class="page-header">
+<h1>Pages</h1>
+<button class="btn btn-primary" onclick="openPageModal()">+ Add Page</button>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Slug</th><th>Title</th><th>Updated</th><th>Actions</th>
+</tr>
+</thead>
+<tbody id="pages-tbody">
+<tr><td colspan="4" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
 <!-- Settings -->
 <section class="admin-section" id="section-settings">
 <div class="page-header"><h1>Store Settings</h1></div>
-<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:560px;">
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:560px;margin-bottom:32px;">
 <div class="form-group" style="margin-bottom:20px;">
 <label>Store Name</label>
 <input id="setting-store-name" type="text"/>
@@ -352,6 +374,96 @@
 <label>Logo URL</label>
 <input id="setting-logo" placeholder="assets/logo.webp" type="text"/>
 </div>
+</div>
+
+<div class="page-header"><h1>Our Story Content</h1></div>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:720px;">
+<h3 style="font-size:1.6rem;margin-bottom:20px;">Hero</h3>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Hero Subtitle</label>
+<input id="story-hero-subtitle" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Hero Title</label>
+<input id="story-hero-title" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Hero Background Image URL</label>
+<input id="story-hero-image" type="text"/>
+</div>
+
+<h3 style="font-size:1.6rem;margin:28px 0 20px;">Brand Story</h3>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Story Image URL</label>
+<input id="story-image" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Story Subtitle</label>
+<input id="story-born-subtitle" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Story Title</label>
+<input id="story-born-title" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Paragraph 1</label>
+<textarea id="story-paragraph-1" rows="3"></textarea>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Paragraph 2</label>
+<textarea id="story-paragraph-2" rows="3"></textarea>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Paragraph 3</label>
+<textarea id="story-paragraph-3" rows="3"></textarea>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Paragraph 4</label>
+<textarea id="story-paragraph-4" rows="3"></textarea>
+</div>
+
+<h3 style="font-size:1.6rem;margin:28px 0 20px;">What Makes Us Different</h3>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Section Subtitle</label>
+<input id="story-different-subtitle" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Section Title</label>
+<input id="story-different-title" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Paragraph 1</label>
+<textarea id="story-different-text-1" rows="3"></textarea>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Paragraph 2</label>
+<textarea id="story-different-text-2" rows="3"></textarea>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Different Section Image URL</label>
+<input id="story-different-image" type="text"/>
+</div>
+
+<h3 style="font-size:1.6rem;margin:28px 0 20px;">Gallery</h3>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Gallery Subtitle</label>
+<input id="story-gallery-subtitle" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Gallery Title</label>
+<input id="story-gallery-title" type="text"/>
+</div>
+
+<h3 style="font-size:1.6rem;margin:28px 0 20px;">Our Promise</h3>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Promise Title</label>
+<input id="story-promise-title" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:20px;">
+<label>Promise Text</label>
+<textarea id="story-promise-text" rows="4"></textarea>
+</div>
+
 <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
 </div>
 </section>
@@ -515,6 +627,114 @@
 </div>
 </div>
 </div>
+<!-- ── PAGE MODAL ── -->
+<div class="modal-backdrop" id="page-modal">
+<div class="modal" style="width:800px;">
+<button class="modal-close" onclick="closePageModal()">×</button>
+<h2 id="page-modal-title">Add Page</h2>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Page Slug</label>
+<input id="page-slug" type="text" placeholder="about" style="width:200px;"/>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Page Title</label>
+<input id="page-title" type="text"/>
+</div>
+<h3 style="font-size:1.5rem;margin:24px 0 16px;">Hero</h3>
+<div class="form-grid" style="grid-template-columns:1fr 1fr;gap:16px;">
+<div class="form-group">
+<label>Hero Subtitle</label>
+<input id="page-hero-subtitle" type="text"/>
+</div>
+<div class="form-group">
+<label>Hero Title</label>
+<input id="page-hero-title" type="text"/>
+</div>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Hero Background Image URL</label>
+<input id="page-hero-image" type="text"/>
+</div>
+<h3 style="font-size:1.5rem;margin:24px 0 16px;">Brand Story</h3>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Story Image URL</label>
+<input id="page-story-image" type="text"/>
+</div>
+<div class="form-grid" style="grid-template-columns:1fr 1fr;gap:16px;">
+<div class="form-group">
+<label>Story Subtitle</label>
+<input id="page-born-subtitle" type="text"/>
+</div>
+<div class="form-group">
+<label>Story Title</label>
+<input id="page-born-title" type="text"/>
+</div>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Paragraph 1</label>
+<textarea id="page-paragraph-1" rows="3"></textarea>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Paragraph 2</label>
+<textarea id="page-paragraph-2" rows="3"></textarea>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Paragraph 3</label>
+<textarea id="page-paragraph-3" rows="3"></textarea>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Paragraph 4</label>
+<textarea id="page-paragraph-4" rows="3"></textarea>
+</div>
+<h3 style="font-size:1.5rem;margin:24px 0 16px;">What Makes Us Different</h3>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Different Image URL</label>
+<input id="page-different-image" type="text"/>
+</div>
+<div class="form-grid" style="grid-template-columns:1fr 1fr;gap:16px;">
+<div class="form-group">
+<label>Subtitle</label>
+<input id="page-different-subtitle" type="text"/>
+</div>
+<div class="form-group">
+<label>Title</label>
+<input id="page-different-title" type="text"/>
+</div>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Paragraph 1</label>
+<textarea id="page-different-text-1" rows="3"></textarea>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Paragraph 2</label>
+<textarea id="page-different-text-2" rows="3"></textarea>
+</div>
+<h3 style="font-size:1.5rem;margin:24px 0 16px;">Gallery</h3>
+<div class="form-grid" style="grid-template-columns:1fr 1fr;gap:16px;">
+<div class="form-group">
+<label>Subtitle</label>
+<input id="page-gallery-subtitle" type="text"/>
+</div>
+<div class="form-group">
+<label>Title</label>
+<input id="page-gallery-title" type="text"/>
+</div>
+</div>
+<h3 style="font-size:1.5rem;margin:24px 0 16px;">Our Promise</h3>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Promise Title</label>
+<input id="page-promise-title" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Promise Text</label>
+<textarea id="page-promise-text" rows="4"></textarea>
+</div>
+<div class="modal-actions">
+<button class="btn btn-ghost" onclick="closePageModal()">Cancel</button>
+<button class="btn btn-primary" onclick="savePage()">Save Page</button>
+</div>
+</div>
+</div>
 <!-- ── TOAST ── -->
 <div class="toast" id="toast"></div>
 <script type="module">
@@ -573,6 +793,7 @@ window.showSection = function(name, linkEl) {
   if (name === 'orders')      loadOrders();
   if (name === 'customers')  loadCustomers();
   if (name === 'inventory')  loadInventory();
+  if (name === 'pages')       loadPages();
   if (name === 'settings')    loadSettings();
 };
 
@@ -1210,6 +1431,31 @@ async function loadSettings() {
     document.getElementById('setting-currency').value     = data.currency || 'KSh';
     document.getElementById('setting-announcement').value = data.announcement || '';
     document.getElementById('setting-logo').value         = data.logo || '';
+
+    const story = data.story || {};
+    const set = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.value = val || '';
+    };
+    set('story-hero-subtitle',    story.heroSubtitle);
+    set('story-hero-title',       story.heroTitle);
+    set('story-hero-image',       story.heroImage);
+    set('story-image',            story.storyImage);
+    set('story-born-subtitle',    story.bornSubtitle);
+    set('story-born-title',       story.bornTitle);
+    set('story-paragraph-1',      story.paragraph1);
+    set('story-paragraph-2',      story.paragraph2);
+    set('story-paragraph-3',      story.paragraph3);
+    set('story-paragraph-4',      story.paragraph4);
+    set('story-different-subtitle', story.differentSubtitle);
+    set('story-different-title',    story.differentTitle);
+    set('story-different-text-1',   story.differentText1);
+    set('story-different-text-2',   story.differentText2);
+    set('story-different-image',    story.differentImage);
+    set('story-gallery-subtitle', story.gallerySubtitle);
+    set('story-gallery-title',    story.galleryTitle);
+    set('story-promise-title',    story.promiseTitle);
+    set('story-promise-text',     story.promiseText);
   } catch (error) {
     toast('Failed to load settings', 'error');
   }
@@ -1217,11 +1463,34 @@ async function loadSettings() {
 
 window.saveSettings = async function() {
   try {
+    const get = id => document.getElementById(id)?.value || '';
+    const story = {
+      heroSubtitle:    get('story-hero-subtitle'),
+      heroTitle:       get('story-hero-title'),
+      heroImage:       get('story-hero-image'),
+      storyImage:      get('story-image'),
+      bornSubtitle:    get('story-born-subtitle'),
+      bornTitle:       get('story-born-title'),
+      paragraph1:      get('story-paragraph-1'),
+      paragraph2:      get('story-paragraph-2'),
+      paragraph3:      get('story-paragraph-3'),
+      paragraph4:      get('story-paragraph-4'),
+      differentSubtitle: get('story-different-subtitle'),
+      differentTitle:    get('story-different-title'),
+      differentText1:    get('story-different-text-1'),
+      differentText2:    get('story-different-text-2'),
+      differentImage:    get('story-different-image'),
+      gallerySubtitle: get('story-gallery-subtitle'),
+      galleryTitle:    get('story-gallery-title'),
+      promiseTitle:    get('story-promise-title'),
+      promiseText:     get('story-promise-text')
+    };
     const payload = {
-      store_name:   document.getElementById('setting-store-name').value,
-      currency:     document.getElementById('setting-currency').value,
-      announcement: document.getElementById('setting-announcement').value,
-      logo:         document.getElementById('setting-logo').value,
+      store_name:   get('setting-store-name'),
+      currency:     get('setting-currency'),
+      announcement: get('setting-announcement'),
+      logo:         get('setting-logo'),
+      story
     };
     const response = await fetch('/api/settings', {
       method: 'PUT',
@@ -1278,6 +1547,140 @@ document.getElementById('c-title').addEventListener('input', function() {
     document.getElementById('c-handle').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
   }
 });
+
+// ── PAGES ──
+let currentPageSlug = null;
+
+async function loadPages() {
+  const tbody = document.getElementById('pages-tbody');
+  tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+  try {
+    const response = await fetch('/api/pages');
+    const pages = await response.json();
+    if (!Array.isArray(pages)) throw new Error('Invalid response');
+    tbody.innerHTML = pages.map(p => `
+      <tr>
+        <td>${p.slug}</td>
+        <td>${p.title || ''}</td>
+        <td>${p.updated_at ? new Date(p.updated_at).toLocaleString() : '—'}</td>
+        <td>
+          <button class="btn btn-sm" onclick="editPage('${p.slug}')">Edit</button>
+          <button class="btn btn-sm btn-danger" onclick="deletePage('${p.slug}')">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  } catch (error) {
+    toast('Failed to load pages', 'error');
+  }
+}
+
+window.openPageModal = function() {
+  currentPageSlug = null;
+  document.getElementById('page-modal-title').textContent = 'Add Page';
+  document.getElementById('page-slug').value = '';
+  document.getElementById('page-slug').disabled = false;
+  ['page-title','page-hero-subtitle','page-hero-title','page-hero-image','page-story-image','page-born-subtitle','page-born-title','page-paragraph-1','page-paragraph-2','page-paragraph-3','page-paragraph-4','page-different-image','page-different-subtitle','page-different-title','page-different-text-1','page-different-text-2','page-gallery-subtitle','page-gallery-title','page-promise-title','page-promise-text'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('page-modal').classList.add('open');
+};
+
+window.closePageModal = function() {
+  document.getElementById('page-modal').classList.remove('open');
+  currentPageSlug = null;
+};
+
+window.editPage = async function(slug) {
+  try {
+    const response = await fetch(`/api/pages/${slug}`);
+    const page = await response.json();
+    if (!page) return;
+    currentPageSlug = page.slug;
+    document.getElementById('page-modal-title').textContent = 'Edit Page';
+    document.getElementById('page-slug').value = page.slug;
+    document.getElementById('page-slug').disabled = true;
+    const c = page.content || {};
+    const get = (id, val) => { if (document.getElementById(id)) document.getElementById(id).value = val || ''; };
+    get('page-title', page.title);
+    get('page-hero-subtitle', c.heroSubtitle);
+    get('page-hero-title', c.heroTitle);
+    get('page-hero-image', c.heroImage);
+    get('page-story-image', c.storyImage);
+    get('page-born-subtitle', c.bornSubtitle);
+    get('page-born-title', c.bornTitle);
+    get('page-paragraph-1', c.paragraph1);
+    get('page-paragraph-2', c.paragraph2);
+    get('page-paragraph-3', c.paragraph3);
+    get('page-paragraph-4', c.paragraph4);
+    get('page-different-image', c.differentImage);
+    get('page-different-subtitle', c.differentSubtitle);
+    get('page-different-title', c.differentTitle);
+    get('page-different-text-1', c.differentText1);
+    get('page-different-text-2', c.differentText2);
+    get('page-gallery-subtitle', c.gallerySubtitle);
+    get('page-gallery-title', c.galleryTitle);
+    get('page-promise-title', c.promiseTitle);
+    get('page-promise-text', c.promiseText);
+    document.getElementById('page-modal').classList.add('open');
+  } catch (error) {
+    toast('Failed to load page', 'error');
+  }
+};
+
+window.savePage = async function() {
+  try {
+    const get = id => document.getElementById(id)?.value || '';
+    const slug = currentPageSlug || get('page-slug').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    if (!slug) { toast('Slug is required', 'error'); return; }
+    const content = {
+      heroSubtitle:    get('page-hero-subtitle'),
+      heroTitle:       get('page-hero-title'),
+      heroImage:       get('page-hero-image'),
+      storyImage:      get('page-story-image'),
+      bornSubtitle:    get('page-born-subtitle'),
+      bornTitle:       get('page-born-title'),
+      paragraph1:      get('page-paragraph-1'),
+      paragraph2:      get('page-paragraph-2'),
+      paragraph3:      get('page-paragraph-3'),
+      paragraph4:      get('page-paragraph-4'),
+      differentImage:  get('page-different-image'),
+      differentSubtitle: get('page-different-subtitle'),
+      differentTitle:    get('page-different-title'),
+      differentText1:    get('page-different-text-1'),
+      differentText2:    get('page-different-text-2'),
+      gallerySubtitle: get('page-gallery-subtitle'),
+      galleryTitle:    get('page-gallery-title'),
+      promiseTitle:    get('page-promise-title'),
+      promiseText:     get('page-promise-text')
+    };
+    const method = currentPageSlug ? 'PUT' : 'POST';
+    const url = currentPageSlug ? `/api/pages/${slug}` : '/api/pages';
+    const payload = currentPageSlug ? { title: get('page-title'), content } : { slug, title: get('page-title'), content };
+    const response = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) throw new Error('Failed to save page');
+    closePageModal();
+    toast('Page saved!');
+    loadPages();
+  } catch (error) {
+    toast(error.message, 'error');
+  }
+};
+
+window.deletePage = async function(slug) {
+  if (!confirm('Delete this page?')) return;
+  try {
+    const response = await fetch(`/api/pages/${slug}`, { method: 'DELETE' });
+    if (!response.ok) throw new Error('Failed to delete page');
+    toast('Page deleted');
+    loadPages();
+  } catch (error) {
+    toast(error.message, 'error');
+  }
+};
 </script>
 </body>
 </html>

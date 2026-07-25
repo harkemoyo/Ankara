@@ -487,12 +487,17 @@ async function loadProductDetails() {
 
     const tabFeatures = document.getElementById('tab-features');
     if (tabFeatures) {
+        const featureList = (Array.isArray(product.features) && product.features.length > 0)
+            ? product.features
+            : [
+                'Premium 100% Cotton Ankara Wax Print',
+                'Vibrant, fade-resistant color dyes',
+                'Tailored comfort fit designed for everyday versatility',
+                'Ethically handcrafted by expert African artisans'
+            ];
         tabFeatures.innerHTML = `
             <ul style="font-size:1.4rem; line-height:2; color:var(--foreground-color,#333); padding-left:2rem; margin:0;">
-                <li>Premium 100% Cotton Ankara Wax Print</li>
-                <li>Vibrant, fade-resistant color dyes</li>
-                <li>Tailored comfort fit designed for everyday versatility</li>
-                <li>Ethically handcrafted by expert African artisans</li>
+                ${featureList.map(f => `<li>${f}</li>`).join('')}
             </ul>
         `;
     }

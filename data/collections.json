@@ -1,0 +1,50 @@
+[
+  {
+    "handle": "all",
+    "title": "All Products",
+    "description": "Browse our full range of handcrafted Ankara pieces",
+    "sort_order": 0
+  },
+  {
+    "handle": "new-arrivals",
+    "title": "New Arrivals",
+    "description": "The latest additions to the Mary Humphrey collection",
+    "sort_order": 1
+  },
+  {
+    "handle": "dresses",
+    "title": "Dresses",
+    "description": "Beautiful Ankara print dresses",
+    "sort_order": 2
+  },
+  {
+    "handle": "joggers",
+    "title": "Joggers",
+    "description": "Premium Ankara joggers with soft fleece detailing",
+    "sort_order": 3
+  },
+  {
+    "handle": "pullovers",
+    "title": "Pullovers & Hoodies",
+    "description": "Fleece-lined Ankara pullovers and hoodies for cooler days",
+    "sort_order": 4
+  },
+  {
+    "handle": "kimonos",
+    "title": "Kimonos & Capes",
+    "description": "Flowing layering pieces in premium Ankara and kitenge",
+    "sort_order": 5
+  },
+  {
+    "handle": "blankets",
+    "title": "Blankets & Throws",
+    "description": "Double-layered kitenge blankets and throws",
+    "sort_order": 6
+  },
+  {
+    "handle": "palazzos",
+    "title": "Palazzos & Dungarees",
+    "description": "Wide-leg palazzos and classic dungarees",
+    "sort_order": 7
+  }
+]

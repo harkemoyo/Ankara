@@ -1,0 +1,214 @@
+[
+  {
+    "product_id": "TNJ001",
+    "handle": "the-nova-joggers",
+    "title": "The Nova Joggers",
+    "description": "Complete your look with The Nova Joggers—where vibrant African design meets unmatched comfort. Crafted from premium Ankara fabric, these joggers feature a soft black fleece waistband and fleece ankle cuffs for a warm, comfortable fit. The adjustable drawstring waist lets you customize the fit, while practical side pockets add everyday functionality. Designed for movement, warmth, and effortless style, The Nova Joggers are perfect for travel, relaxing, or stepping out in confidence.",
+    "features": [
+      "Premium Ankara fabric",
+      "Soft black fleece waistband for extra comfort",
+      "Soft black fleece ankle cuffs",
+      "Adjustable drawstring waist",
+      "Functional side pockets",
+      "Warm, comfortable, and easy to wear"
+    ],
+    "price": 6000,
+    "compare_at_price": null,
+    "sizes": ["S", "M", "L"],
+    "collection": "joggers",
+    "product_type": "Joggers",
+    "tags": ["joggers", "trousers", "ankara"],
+    "in_stock": true
+  },
+  {
+    "product_id": "TNP002",
+    "handle": "the-nova-pullovers",
+    "title": "The Nova Pullovers",
+    "description": "The Nova Pullover is designed for those who love bold African Fashion without compromising on comfort. It provides exceptional warmth while feeling gentle fabric along your skin. Whether you're heading out on a chilly morning, travelling or relaxing, the Nova Pullover keeps you cozy and stylish all day long. Thoughtfully made for comfort, warmth and everyday elegance.",
+    "features": [
+      "Ankara fabric lined with ultra-soft black fleece",
+      "Soft and comfortable to wear",
+      "Warm and cozy feel",
+      "Stylish and durable design"
+    ],
+    "price": 7000,
+    "compare_at_price": null,
+    "sizes": ["S", "M", "L"],
+    "collection": "pullovers",
+    "product_type": "Pullover",
+    "tags": ["pullover", "tops", "ankara"],
+    "in_stock": true
+  },
+  {
+    "product_id": "THB003",
+    "handle": "the-helsinki-blanket",
+    "title": "The Helsinki Blanket",
+    "description": "Wrap yourself in warmth with The Helsinki Blanket where African craftsmanship meets everyday comfort. Made from vibrant kitenge fabric and lined with an ultra-soft fleece, this double-layered blanket is designed to keep you warm while adding a beautiful touch of African elegance to your home or wardrobe. Whether draped over your shoulders on a chilly evening, wrapped around you while travelling, or styled as a throw blanket on your sofa or bed, The Helsinki Blanket is as versatile as it is beautiful. Thoughtfully crafted for warmth, comfort, and timeless style.",
+    "features": [
+      "Premium kitenge outer fabric",
+      "Ultra-soft fleece lining for exceptional warmth",
+      "Double-layered for added comfort and durability",
+      "Multi-purpose design — wear it as a wrap or use it as a throw blanket",
+      "Lightweight, cozy, and easy to carry",
+      "Handmade with care"
+    ],
+    "price": 8000,
+    "compare_at_price": null,
+    "sizes": ["M", "L"],
+    "collection": "blankets",
+    "product_type": "Blanket",
+    "tags": ["blanket", "kitenge", "home"],
+    "in_stock": true
+  },
+  {
+    "product_id": "ALT004",
+    "handle": "african-luxe-throw",
+    "title": "African Luxe Throw",
+    "description": "Wrap yourself in warmth with the African Luxe Throw where African craftsmanship meets everyday comfort. Made from vibrant kitenge fabric and lined with an ultra-soft fleece, this double-layered throw is designed to keep you warm while adding a beautiful touch of African elegance to your home or wardrobe. Whether draped over your shoulders on a chilly evening, wrapped around you while travelling, or styled as a throw blanket on your sofa or bed, the African Luxe Throw is as versatile as it is beautiful. Thoughtfully crafted for warmth, comfort, and timeless style.",
+    "features": [
+      "Premium kitenge outer fabric",
+      "Ultra-soft fleece lining for exceptional warmth",
+      "Double-layered for added comfort and durability",
+      "Multi-purpose design — wear it as a wrap or use it as a throw blanket",
+      "Lightweight, cozy, and easy to carry",
+      "Handmade with care"
+    ],
+    "price": 9000,
+    "compare_at_price": null,
+    "sizes": ["One Size"],
+    "collection": "blankets",
+    "product_type": "Blanket",
+    "tags": ["throw", "blanket", "kitenge", "home"],
+    "in_stock": true
+  },
+  {
+    "product_id": "TNH005",
+    "handle": "the-nova-hoodies",
+    "title": "The Nova Hoodies",
+    "description": "Stay warm and stylish with this premium Ankara Hoodie, designed for everyday comfort and a bold, fashionable look. Made from high-quality Ankara fabric and finished with a soft fleece lining, it offers warmth, durability, and a comfortable fit. Perfect for casual wear, travel, and cooler weather.",
+    "features": [
+      "Premium Ankara fabric",
+      "Soft fleece lining for extra warmth",
+      "Comfortable hood with adjustable drawstrings",
+      "Front kangaroo pocket",
+      "Ribbed cuffs and waistband",
+      "Warm, comfortable, and easy to wear",
+      "Durable stitching for long-lasting use"
+    ],
+    "price": 7500,
+    "compare_at_price": null,
+    "sizes": ["S", "M", "L"],
+    "collection": "pullovers",
+    "product_type": "Hoodie",
+    "tags": ["hoodie", "tops", "ankara"],
+    "in_stock": true
+  },
+  {
+    "product_id": "TDSD006",
+    "handle": "the-diani-sunny-dress",
+    "title": "The Diani Sunny Dress",
+    "description": "The Diani Sunny Dress is designed to bring joy to every moment. Crafted from vibrant Ankara fabric, this lightweight dress features a flattering, flowing silhouette that moves beautifully with you. Whether you're strolling by the beach, enjoying brunch with friends, exploring a new city, or celebrating a special occasion, The Diani Sunny Dress is made to help you feel confident, feminine, and effortlessly stylish. Easy to wear and beautifully handcrafted, it's the perfect dress for sunshine-filled days and unforgettable moments. Thoughtfully crafted for comfort, confidence, and timeless elegance.",
+    "features": [
+      "Premium Ankara fabric",
+      "Lightweight and breathable",
+      "Flattering, flowing silhouette",
+      "Comfortable fit for all-day wear",
+      "Perfect for casual outings, holidays, brunches, and special occasions",
+      "Handmade with care"
+    ],
+    "price": 6000,
+    "compare_at_price": null,
+    "sizes": ["S", "M", "L"],
+    "collection": "dresses",
+    "product_type": "Dress",
+    "tags": ["dress", "ankara", "summer"],
+    "in_stock": true
+  },
+  {
+    "product_id": "TTK007",
+    "handle": "the-talisman-kimono",
+    "title": "The Talisman Kimono",
+    "description": "The Talisman Kimono is a timeless layering piece designed to elevate every outfit with effortless elegance. Crafted from premium Ankara fabric, its flowing silhouette drapes beautifully, making it perfect for every season and every occasion. Whether worn over a dress, paired with jeans and shorts, or styled with your favorite everyday essentials, The Talisman Kimono adds a bold touch of African artistry to your wardrobe. Lightweight, versatile, and easy to style, it's a statement piece you'll reach for again and again. Thoughtfully crafted for confidence, comfort, and timeless style.",
+    "features": [
+      "Premium Ankara fabric",
+      "Lightweight and breathable",
+      "Relaxed, flowing silhouette",
+      "Unisex design",
+      "Easy to layer over dresses, tops, jumpsuits, shorts, or trousers",
+      "Perfect for everyday wear, travel, holidays, and special occasions",
+      "Handmade with care"
+    ],
+    "price": 7000,
+    "compare_at_price": null,
+    "sizes": ["M"],
+    "collection": "kimonos",
+    "product_type": "Kimono",
+    "tags": ["kimono", "layering", "ankara"],
+    "in_stock": true
+  },
+  {
+    "product_id": "Nc008",
+    "handle": "noir-cape",
+    "title": "Noir Cape",
+    "description": "Wrap yourself in warmth, elegance, and effortless style. Crafted from ultra-soft, body-soothing black fleece and beautifully finished with vibrant kitenge detailing, the Noir Cape is designed for those who love comfort without compromising on style. Its flowing silhouette drapes beautifully over any outfit, making it the perfect layering piece for cool mornings, cozy evenings, travel, or everyday wear. The luxurious fleece provides exceptional warmth, while the bold kitenge trim adds a unique African touch. Designed to be unisex, the Noir Cape is timeless, versatile, and handcrafted to stand out.",
+    "features": [
+      "Ultra-soft body-soothing fleece",
+      "African kitenge trim for a bold finish",
+      "Warm, cozy, and lightweight",
+      "Relaxed, free-flowing fit",
+      "Unisex design",
+      "Easy to layer over any outfit",
+      "Handmade with love",
+      "Perfect for cool mornings and evenings, travel, casual outings, cozy days at home, and thoughtful gifts"
+    ],
+    "price": 8000,
+    "compare_at_price": null,
+    "sizes": ["S", "M", "L"],
+    "collection": "kimonos",
+    "product_type": "Cape",
+    "tags": ["cape", "outerwear", "kitenge"],
+    "in_stock": true
+  },
+  {
+    "product_id": "VMP009",
+    "handle": "village-market-palazzo",
+    "title": "Village Market Palazzo",
+    "description": "A statement piece designed for women who love bold style and effortless comfort. Crafted from two complementary Ankara prints, the Village Market Palazzo features a unique patchwork design that celebrates creativity and individuality. The flattering high waist, functional side pockets, and flowing wide-leg silhouette create a look that's both comfortable and sophisticated. Perfect for brunch, shopping, travel, or making an everyday statement, each pair is handcrafted with attention to detail.",
+    "features": [
+      "Double Ankara patchwork design",
+      "High-waisted fit",
+      "Functional side pockets",
+      "Relaxed wide-leg silhouette"
+    ],
+    "price": 6000,
+    "compare_at_price": null,
+    "sizes": ["M"],
+    "collection": "palazzos",
+    "product_type": "Palazzo",
+    "tags": ["palazzo", "trousers", "ankara"],
+    "in_stock": true
+  },
+  {
+    "product_id": "CD010",
+    "handle": "classic-dungarees",
+    "title": "Classic Dungarees",
+    "description": "The Classic Dungarees combine modern style with everyday comfort. Designed with a relaxed fit and adjustable shoulder straps, they are perfect for casual outings, travel, or everyday wear. Available in multiple colours to suit different styles.",
+    "features": [
+      "Soft and durable fabric",
+      "Adjustable shoulder straps",
+      "Relaxed, comfortable fit",
+      "Functional side pockets",
+      "Straight-leg design",
+      "Suitable for everyday wear",
+      "Available in multiple colours",
+      "Easy to pair with T-shirts, tops, or sweaters"
+    ],
+    "price": 6500,
+    "compare_at_price": null,
+    "sizes": ["M"],
+    "collection": "palazzos",
+    "product_type": "Dungarees",
+    "tags": ["dungarees", "trousers"],
+    "in_stock": true
+  }
+]

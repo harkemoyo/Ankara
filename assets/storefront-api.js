@@ -172,7 +172,7 @@ async function loadCollectionsData() {
                 class="collection-tab ${filterState.collection === c.handle ? 'active' : ''}" 
                 data-collection="${c.handle}"
                 onclick="filterByCollection(this, '${c.handle}')"
-                style="padding:8px 18px;border:1px solid #ddd;background:${filterState.collection === c.handle ? '#1a1a1a' : '#fff'};color:${filterState.collection === c.handle ? '#fff' : '#333'};cursor:pointer;border-radius:2px;font-size:1.3rem;margin-right:8px;margin-bottom:8px;transition:all 0.2s;"
+                style="border:1px solid #ddd;background:${filterState.collection === c.handle ? '#1a1a1a' : '#fff'};color:${filterState.collection === c.handle ? '#fff' : '#333'};cursor:pointer;border-radius:2px;font-size:1.3rem;margin-right:8px;margin-bottom:8px;transition:all 0.2s;"
             >${c.title}</button>
         `).join('');
     }

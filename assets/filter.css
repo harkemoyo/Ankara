@@ -9569,10 +9569,9 @@ li[data-address]>h2 {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 360px));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 2rem;
   padding-inline: 2rem;
-  padding-inline-end: 3rem;
 }
 
 .product-card {

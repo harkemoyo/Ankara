@@ -9579,10 +9579,17 @@ li[data-address]>h2 {
 }
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 3rem;
 }
 
+@media only screen and (min-width: 992px)  {
+  .product-grid {
+   
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+}
 
 
 .product-card {
@@ -9873,8 +9880,6 @@ li[data-address]>h2 {
   border-radius: 0.5rem;
   background: var(--bg-offwhite-color);
 }
-
-@media screen {}
 
 .product__view--mode {
   grid-area: filter !important;

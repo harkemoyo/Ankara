@@ -22,6 +22,9 @@
   gap: 0.8rem;
   font-size: 1.5rem;
 }
+.breadcrumb__header{
+    padding-inline: 1.5rem;
+}
 
 .breadcrumb-item a {
   color: var(--foreground-sub-color, #555);

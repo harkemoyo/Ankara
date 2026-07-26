@@ -168,3 +168,32 @@
 .material__footer--links a:hover {
   color: #D4A843;
 }
+
+/* Floating WhatsApp Button */
+.floating-whatsapp {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  background: #25D366;
+  color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 50rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  transition: background 0.3s;
+}
+
+.floating-whatsapp:hover {
+  background: #1da851;
+}
+
+.floating-whatsapp svg {
+  width: 2rem;
+  height: 2rem;
+}

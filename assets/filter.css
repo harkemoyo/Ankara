@@ -9575,7 +9575,6 @@ li[data-address]>h2 {
   flex-direction: column;
   gap: 4rem;
   justify-content: center;
-  align-items: center;
   padding-inline: 1.5rem;
 }
 .product-grid {

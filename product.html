@@ -571,6 +571,211 @@
                 text-overflow: ellipsis;
             }
         }
+        /* Size Guide Modal */
+        .size-guide-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 100000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+        .size-guide-overlay.active {
+            display: flex;
+        }
+        .size-guide-modal {
+            background: #fff;
+            width: 100%;
+            max-width: 920px;
+            max-height: 85vh;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+        .size-guide-header {
+            padding: 2rem 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .size-guide-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin: 0;
+            font-weight: 600;
+        }
+        .size-guide-select {
+            padding: 0.7rem 1.2rem;
+            border: 1px solid var(--border-color);
+            font-family: var(--font-body-family);
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            background: #fff;
+            min-width: 220px;
+            cursor: pointer;
+        }
+        .size-guide-close {
+            background: none;
+            border: none;
+            font-size: 2.4rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            margin-left: auto;
+        }
+        .size-guide-body {
+            padding: 2rem 2.5rem;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+        .size-guide-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.35rem;
+            color: var(--foreground-sub-color);
+        }
+        .size-guide-table th,
+        .size-guide-table td {
+            padding: 1.1rem 1rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        .size-guide-table th {
+            background: #f7f7f7;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 1.2rem;
+        }
+        .size-guide-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        .size-guide-note {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: var(--foreground-sub-color);
+            line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+            .size-guide-modal {
+                max-height: 90vh;
+                width: 100%;
+            }
+            .size-guide-body {
+                padding: 1.5rem;
+            }
+            .size-guide-table th,
+            .size-guide-table td {
+                padding: 0.7rem 0.4rem;
+                font-size: 1.15rem;
+            }
+        }
+        /* Fit note + model info + size guide enhancements */
+        .fit-note {
+            font-size: 1.25rem;
+            color: var(--secondary-color);
+            margin: 0.8rem 0 0;
+            line-height: 1.5;
+        }
+        .model-info {
+            margin-top: 0.6rem;
+            padding: 1rem 1.2rem;
+            background: #f9f9f9;
+            border-left: 3px solid var(--secondary-color);
+            border-radius: 2px;
+            font-size: 1.25rem;
+            color: var(--foreground-sub-color);
+            line-height: 1.5;
+        }
+        .model-info strong {
+            color: var(--primary-color);
+        }
+        .size-guide-tooltip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.8rem;
+            height: 1.8rem;
+            border-radius: 50%;
+            background: var(--border-color);
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-left: 0.6rem;
+            cursor: help;
+        }
+        .size-match {
+            background: #f5e6d3 !important;
+            font-weight: 600;
+            border: 2px solid #b8763f;
+        }
+        /* Customer measurement submission inside size guide */
+        .size-guide-customer {
+            padding: 2rem 2.5rem;
+            border-top: 1px solid var(--border-color);
+            background: #fafafa;
+        }
+        .size-guide-customer h4 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin: 0 0 0.6rem;
+            font-weight: 600;
+        }
+        .size-guide-customer p {
+            font-size: 1.25rem;
+            color: var(--foreground-sub-color);
+            margin: 0 0 1rem;
+            line-height: 1.5;
+        }
+        .size-guide-inputs {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .size-guide-customer input[type='text'],
+        .size-guide-customer textarea {
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1.3rem;
+            font-family: var(--font-body-family);
+            color: var(--primary-color);
+        }
+        .size-guide-customer input[type='text'] { width: 120px; }
+        .size-guide-customer textarea { width: 100%; min-height: 60px; resize: vertical; margin-bottom: 1rem; }
+        .size-guide-submit {
+            padding: 0.9rem 1.6rem;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+        }
+        .size-guide-submit:hover { opacity: 0.9; }
+        .size-guide-msg { font-size: 1.2rem; margin-top: 0.8rem; }
+        .size-guide-msg.success { color: #2e7d32; }
+        .size-guide-msg.error { color: #c62828; }
     </style>
 </head>
 
@@ -978,6 +1183,8 @@
                             <div id="size-options" style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem;">
                                 <!-- Size swatches dynamically generated -->
                             </div>
+                            <p id='dyn-fit-note' class='fit-note' style='display:none; margin-top:1rem;'></p>
+                            <div id='dyn-model-info' class='model-info' style='display:none; margin-top:1rem;'></div>
                         </div>
 
                         <!-- Quantity Stepper -->
@@ -999,7 +1206,7 @@
                                 Buy it now
                             </button>
                             <div class="fit-finder-box" style="margin-top: 0.5rem; text-align: center;">
-                                <a href="javascript:void(0)" class="fit-finder-link" style="font-size: 1.2rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary-color); text-decoration: underline; display: inline-flex; align-items: center; gap: 0.5rem;">
+                                <a href="javascript:void(0)" class="fit-finder-link" onclick="openSizeGuide()" style="font-size: 1.2rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary-color); text-decoration: underline; display: inline-flex; align-items: center; gap: 0.5rem;">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
                                     Find My Exact Fit
                                 </a>
@@ -1329,6 +1536,244 @@
     </script>
     <script src="assets/storefront-api.js" type="module"></script>
     <script defer src="assets/js/components/core.js" type="module"></script>
+    <!-- Size Guide Modal -->
+    <div class='size-guide-overlay' id='size-guide-overlay' onclick='if(event.target === this) closeSizeGuide()'>
+        <div class='size-guide-modal'>
+            <div class='size-guide-header'>
+                <h2 class='size-guide-title' id='size-guide-title'>Garment Measurement Guide</h2>
+                <button aria-label='close' class='size-guide-close' onclick='closeSizeGuide()' type='button'>&#215;</button>
+            </div>
+            <div class='size-guide-body' id='size-guide-body'></div>
+            <div class='size-guide-customer' id='size-guide-customer'>
+                <h4>Find Your Fit</h4>
+                <p>Enter your measurements (cm) and we'll use them to help with sizing.</p>
+                <div class='size-guide-inputs'>
+                    <input type='text' id='cust-bust' placeholder='Bust (cm)' />
+                    <input type='text' id='cust-waist' placeholder='Waist (cm)' />
+                    <input type='text' id='cust-hips' placeholder='Hips (cm)' />
+                </div>
+                <textarea id='cust-note' placeholder='Optional notes (e.g. between sizes, fit preference)'></textarea>
+                <button class='size-guide-submit' onclick='submitCustomerMeasurements()' type='button'>Submit My Measurements</button>
+                <p class='size-guide-msg' id='cust-msg'></p>
+                <p style='font-size:1.1rem;color:var(--foreground-sub-color);margin-top:0.8rem;'>Used only to help you find your size — not shared.</p>
+            </div>
+        </div>
+    </div>
+    <script type='module'>
+    import { supabase } from './assets/supabase-client.js';
+
+    const FALLBACK_CHART = {
+        name: 'General Guide',
+        unit: 'cm',
+        sizes: ['S','M','L','XL','XXL'],
+        measurements: {
+            bust: { label: 'Bust (cm)', values: { S:'—', M:'—', L:'—', XL:'—', XXL:'—' } },
+            waist: { label: 'Waist (cm)', values: { S:'—', M:'—', L:'—', XL:'—', XXL:'—' } },
+            hips: { label: 'Hips (cm)', values: { S:'—', M:'—', L:'—', XL:'—', XXL:'—' } },
+            length: { label: 'Full Length (cm)', values: { S:'—', M:'—', L:'—', XL:'—', XXL:'—' } }
+        },
+        how_to_measure: {},
+        display_order: ['bust','waist','hips','length']
+    };
+
+    let currentChart = null;
+    let currentSize = null;
+    let loadedProductId = null;
+
+    function normalizeChart(raw) {
+        const chart = Object.assign({}, raw || FALLBACK_CHART);
+        if (!chart.measurements) chart.measurements = {};
+        if (!chart.display_order || !chart.display_order.length) {
+            chart.display_order = Object.keys(chart.measurements);
+        }
+        chart.sizes = Array.isArray(chart.sizes) && chart.sizes.length ? chart.sizes : FALLBACK_CHART.sizes;
+        chart.unit = chart.unit || 'cm';
+        return chart;
+    }
+
+    function renderFitNote(product) {
+        const el = document.getElementById('dyn-fit-note');
+        if (!el) return;
+        if (product.fit_note) {
+            el.textContent = product.fit_note;
+            el.style.display = 'block';
+        } else {
+            el.style.display = 'none';
+        }
+    }
+
+    function renderModelInfo(product) {
+        const el = document.getElementById('dyn-model-info');
+        if (!el) return;
+        const parts = [];
+        if (product.model_wearing_size) parts.push('Model is wearing size <strong>' + product.model_wearing_size + '</strong>');
+        if (product.model_measurements && typeof product.model_measurements === 'object') {
+            const m = product.model_measurements;
+            const info = [];
+            if (m.height) info.push('height ' + m.height + 'cm');
+            if (m.bust) info.push('bust ' + m.bust + 'cm');
+            if (m.waist) info.push('waist ' + m.waist + 'cm');
+            if (m.hips) info.push('hips ' + m.hips + 'cm');
+            if (info.length) parts.push('(' + info.join(', ') + ')');
+        }
+        if (parts.length) {
+            el.innerHTML = parts.join(' ');
+            el.style.display = 'block';
+        } else {
+            el.style.display = 'none';
+        }
+    }
+
+    async function loadSizeChart(product) {
+        if (!product) { currentChart = normalizeChart(FALLBACK_CHART); return; }
+        if (loadedProductId === product.id && currentChart) return;
+        loadedProductId = product.id;
+        console.log('[loadSizeChart] product.id:', product.id, 'size_chart_id:', product.size_chart_id);
+        if (!product.size_chart_id) {
+            console.log('[loadSizeChart] no size_chart_id, using fallback');
+            currentChart = normalizeChart(FALLBACK_CHART);
+            return;
+        }
+        try {
+            const { data, error } = await supabase
+                .from('size_charts')
+                .select('*')
+                .eq('id', product.size_chart_id)
+                .single();
+            console.log('[loadSizeChart] chart fetch result data:', data, 'error:', error);
+            if (error || !data) {
+                console.error('[loadSizeChart] chart fetch failed or empty:', error);
+                currentChart = normalizeChart(FALLBACK_CHART);
+                return;
+            }
+            currentChart = normalizeChart(data);
+        } catch (err) {
+            console.error('[loadSizeChart] exception during chart fetch:', err);
+            currentChart = normalizeChart(FALLBACK_CHART);
+        }
+    }
+
+    function buildTable(chart, selectedSize) {
+        const sizes = chart.sizes;
+        const order = chart.display_order;
+        const htmls = [];
+        htmls.push('<table class=\'size-guide-table\'><thead><tr><th>Measurement</th>');
+        sizes.forEach(function(s) {
+            htmls.push('<th' + (s === selectedSize ? ' class=\'size-match\'' : '') + '>' + s + '</th>');
+        });
+        htmls.push('</tr></thead><tbody>');
+        order.forEach(function(key) {
+            const row = chart.measurements[key];
+            if (!row || !row.label) return;
+            htmls.push('<tr><td>' + row.label);
+            const tip = chart.how_to_measure && chart.how_to_measure[key];
+            if (tip) {
+                htmls.push(' <span class=\'size-guide-tooltip\' title=\'' + tip.replace(/'/g, '&#39;') + '\'>&#63;</span>');
+            }
+            htmls.push('</td>');
+            sizes.forEach(function(s) {
+                const val = (row.values && row.values[s]) ? row.values[s] : '—';
+                const isMatch = s === selectedSize;
+                htmls.push('<td' + (isMatch ? ' class=\'size-match\'' : '') + '>' + val + '</td>');
+            });
+            htmls.push('</tr>');
+        });
+        htmls.push('</tbody></table>');
+        htmls.push('<p class=\'size-guide-note\'>All measurements are in ' + chart.unit + '. Compare with a garment you already own for the best fit.</p>');
+        return htmls.join('');
+    }
+
+    function renderSizeGuideModal() {
+        const overlay = document.getElementById('size-guide-overlay');
+        const body = document.getElementById('size-guide-body');
+        const title = document.getElementById('size-guide-title');
+        if (!overlay || !body || !title || !currentChart) return;
+        title.textContent = 'Garment Measurement Guide' + (currentChart.name ? ' — ' + currentChart.name : '');
+        body.innerHTML = buildTable(currentChart, currentSize || currentChart.sizes[0]);
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    window.openSizeGuide = async function() {
+        const product = window._currentProduct;
+        if (product) await loadSizeChart(product);
+        renderSizeGuideModal();
+    };
+
+    window.closeSizeGuide = function() {
+        const overlay = document.getElementById('size-guide-overlay');
+        if (overlay) overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+
+    function highlightSize(size) {
+        currentSize = size;
+        const overlay = document.getElementById('size-guide-overlay');
+        if (overlay && overlay.classList.contains('active') && currentChart) {
+            const body = document.getElementById('size-guide-body');
+            if (body) body.innerHTML = buildTable(currentChart, size);
+        }
+    }
+
+    window.addEventListener('productLoaded', async function(e) {
+        const product = e.detail;
+        window._currentProduct = product;
+        renderFitNote(product);
+        renderModelInfo(product);
+        await loadSizeChart(product);
+        currentSize = window._selectedSize || (product.sizes && product.sizes[0]);
+    });
+
+    window.addEventListener('sizeSelected', function(e) {
+        highlightSize(e.detail);
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeSizeGuide();
+    });
+
+    function getGuestId() {
+        let id = localStorage.getItem('mhw-guest-id');
+        if (!id) {
+            id = 'guest-' + Date.now() + '-' + Math.random().toString(36).slice(2, 9);
+            localStorage.setItem('mhw-guest-id', id);
+        }
+        return id;
+    }
+
+    function showCustMsg(text, type) {
+        const el = document.getElementById('cust-msg');
+        if (!el) return;
+        el.textContent = text;
+        el.className = 'size-guide-msg ' + (type || '');
+    }
+
+    window.submitCustomerMeasurements = async function() {
+        const product = window._currentProduct;
+        if (!product || !product.id) { showCustMsg('Product not loaded yet', 'error'); return; }
+        const bust = document.getElementById('cust-bust')?.value.trim();
+        const waist = document.getElementById('cust-waist')?.value.trim();
+        const hips = document.getElementById('cust-hips')?.value.trim();
+        const note = document.getElementById('cust-note')?.value.trim();
+        const measurements = {};
+        if (bust) measurements.bust = bust;
+        if (waist) measurements.waist = waist;
+        if (hips) measurements.hips = hips;
+        if (Object.keys(measurements).length === 0) { showCustMsg('Enter at least one measurement', 'error'); return; }
+        const { error } = await supabase.from('customer_measurements').insert({
+            guest_cart_id: getGuestId(),
+            product_id: product.id,
+            measurements,
+            note: note || null
+        });
+        if (error) { showCustMsg('Could not save. Please try again.', 'error'); return; }
+        showCustMsg('Thank you! We will use this to help with sizing.', 'success');
+        document.getElementById('cust-bust').value = '';
+        document.getElementById('cust-waist').value = '';
+        document.getElementById('cust-hips').value = '';
+        document.getElementById('cust-note').value = '';
+    };
+    </script>
 </body>
 
 </html>

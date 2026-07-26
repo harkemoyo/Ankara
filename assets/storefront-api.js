@@ -353,6 +353,7 @@ async function loadProductDetails() {
 
     // Store product globally for add-to-cart
     window._currentProduct = product;
+    window.dispatchEvent(new CustomEvent('productLoaded', { detail: product }));
 
     // Basic info
     document.title = `${product.title} — Mary Humphrey African Wear`;
@@ -586,6 +587,7 @@ window.selectSize = function(btn, size) {
     
     const stickySize = document.getElementById('sticky-selection-size');
     if (stickySize) stickySize.innerText = `Size: ${size}`;
+    window.dispatchEvent(new CustomEvent('sizeSelected', { detail: size }));
 };
 
 // Swap main product image

@@ -194,6 +194,12 @@
 <a data-section="settings" href="#" onclick="showSection('settings',this)">
 <span class="icon">⚙️</span> Settings
     </a>
+<a data-section="size-charts" href="#" onclick="showSection('size-charts',this)">
+<span class="icon">📏</span> Size Charts
+    </a>
+<a data-section="customer-measurements" href="#" onclick="showSection('customer-measurements',this)">
+<span class="icon">📝</span> Measurements
+    </a>
 <a href="index.html" style="margin-top:auto;" target="_blank">
 <span class="icon">🌐</span> View Store
     </a>
@@ -467,6 +473,52 @@
 <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
 </div>
 </section>
+<!-- Size Charts -->
+<section class="admin-section" id="section-size-charts">
+<div class="page-header">
+<h1>Size Charts</h1>
+<button class="btn btn-primary" onclick="openSizeChartModal()">+ New Chart</button>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Unit</th>
+<th>Sizes</th>
+<th>Products</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="size-charts-tbody">
+<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Customer Measurements -->
+<section class="admin-section" id="section-customer-measurements">
+<div class="page-header">
+<h1>Customer Measurements</h1>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Product</th>
+<th>Guest ID</th>
+<th>Measurements</th>
+<th>Note</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="customer-measurements-tbody">
+<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
 </main>
 <!-- ── PRODUCT MODAL ── -->
 <div class="modal-backdrop" id="product-modal">
@@ -521,6 +573,26 @@
 <div class="form-group full">
 <label>Sizes (comma-separated)</label>
 <input id="p-sizes" placeholder="S, M, L, XL, 2X" type="text"/>
+</div>
+<div class="form-group full">
+<label>Size Chart</label>
+<select id="p-size-chart">
+<option value="">— None —</option>
+</select>
+</div>
+<div class="form-group full">
+<label>Fit Note</label>
+<input id="p-fit-note" type="text" placeholder="e.g. Runs true to size"/>
+</div>
+<div class="form-grid">
+<div class="form-group">
+<label>Model Wearing Size</label>
+<input id="p-model-wearing-size" type="text" placeholder="S"/>
+</div>
+<div class="form-group">
+<label>Model Measurements (JSON)</label>
+<textarea id="p-model-measurements" placeholder='{"height":"168","bust":"86","waist":"64","hips":"90"}' rows="2"></textarea>
+</div>
 </div>
 <div class="form-group full">
 <label>Colors (JSON array)</label>
@@ -735,6 +807,37 @@
 </div>
 </div>
 </div>
+<!-- ── SIZE CHART MODAL ── -->
+<div class="modal-backdrop" id="size-chart-modal">
+<div class="modal" style="width:900px; max-width:95vw;">
+<button class="modal-close" onclick="closeSizeChartModal()">×</button>
+<h2 id="size-chart-modal-title">Add Size Chart</h2>
+<input id="sc-id" type="hidden"/>
+<div class="form-grid">
+<div class="form-group full">
+<label>Chart Name *</label>
+<input id="sc-name" type="text" placeholder="Fitted Dresses"/>
+</div>
+<div class="form-group">
+<label>Unit</label>
+<input id="sc-unit" type="text" value="cm"/>
+</div>
+<div class="form-group">
+<label>Sizes (comma-separated) *</label>
+<input id="sc-sizes" type="text" value="S, M, L, XL, XXL"/>
+</div>
+</div>
+<div class="form-group full" style="margin-top:16px;">
+<label>Measurement Rows</label>
+<div id="sc-measurements-wrap" style="margin-bottom:10px;"></div>
+<button class="btn btn-sm btn-ghost" onclick="addMeasurementRow()" type="button">+ Add Measurement Row</button>
+</div>
+<div class="modal-actions">
+<button class="btn btn-ghost" onclick="closeSizeChartModal()">Cancel</button>
+<button class="btn btn-primary" onclick="saveSizeChart()">Save Chart</button>
+</div>
+</div>
+</div>
 <!-- ── TOAST ── -->
 <div class="toast" id="toast"></div>
 <script type="module">
@@ -795,6 +898,8 @@ window.showSection = function(name, linkEl) {
   if (name === 'inventory')  loadInventory();
   if (name === 'pages')       loadPages();
   if (name === 'settings')    loadSettings();
+  if (name === 'size-charts') loadSizeCharts();
+  if (name === 'customer-measurements') loadCustomerMeasurements();
 };
 
 // ── DASHBOARD ──
@@ -1680,6 +1785,300 @@ window.deletePage = async function(slug) {
   } catch (error) {
     toast(error.message, 'error');
   }
+};
+// ── SIZE CHARTS ──
+let sizeCharts = [];
+let sizeChartProductCounts = new Map();
+
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+async function loadSizeCharts() {
+  const tbody = document.getElementById('size-charts-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+  const [{ data, error }, { data: products }] = await Promise.all([
+    supabase.from('size_charts').select('*').order('name'),
+    supabase.from('products').select('size_chart_id')
+  ]);
+  if (error) { toast('Failed to load size charts', 'error'); return; }
+  sizeCharts = data || [];
+  sizeChartProductCounts = new Map();
+  (products || []).forEach(p => {
+    if (p.size_chart_id) sizeChartProductCounts.set(p.size_chart_id, (sizeChartProductCounts.get(p.size_chart_id) || 0) + 1);
+  });
+  if (sizeCharts.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">No size charts yet. Add one!</td></tr>';
+    return;
+  }
+  tbody.innerHTML = sizeCharts.map(c => `
+    <tr>
+      <td><strong>${escapeHtml(c.name)}</strong></td>
+      <td>${escapeHtml(c.unit || 'cm')}</td>
+      <td>${(c.sizes || []).join(', ')}</td>
+      <td>${sizeChartProductCounts.get(c.id) || 0}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="window.editSizeChart('${c.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:6px;" onclick="window.deleteSizeChart('${c.id}')">Delete</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function parseSizes() {
+  return document.getElementById('sc-sizes').value.split(',').map(s => s.trim()).filter(Boolean);
+}
+
+window.addMeasurementRow = function(key, label, values, tip) {
+  const wrap = document.getElementById('sc-measurements-wrap');
+  const sizes = parseSizes();
+  const valuesMap = values || {};
+  const keyVal = escapeHtml(key || '');
+  const labelVal = escapeHtml(label || '');
+  const tipVal = escapeHtml(tip || '');
+  const sizeInputs = sizes.map(s => {
+    const v = escapeHtml(valuesMap[s] || '');
+    return `<input type="text" class="sc-row-val" data-size="${s}" placeholder="${s}" value="${v}" style="padding:8px; border:1px solid var(--border); border-radius:4px; width:80px;" />`;
+  }).join('');
+  const html = `<div class="sc-row" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px; padding:10px; border:1px solid var(--border); border-radius:6px; background:#fafafa;">
+    <div style="display:flex; flex-direction:column; flex:1; min-width:300px; gap:6px;">
+      <div style="display:flex; gap:6px;">
+        <input type="text" class="sc-row-key" placeholder="key e.g. bust" value="${keyVal}" style="padding:8px; border:1px solid var(--border); border-radius:4px; width:140px;" />
+        <input type="text" class="sc-row-label" placeholder="Label e.g. Bust (cm)" value="${labelVal}" style="padding:8px; border:1px solid var(--border); border-radius:4px; flex:1; min-width:160px;" />
+      </div>
+      <input type="text" class="sc-row-tip" placeholder="Tooltip e.g. Measure around fullest part (optional)" value="${tipVal}" style="padding:8px; border:1px solid var(--border); border-radius:4px; width:100%;" />
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">${sizeInputs}</div>
+    </div>
+    <button class="btn btn-sm btn-danger" onclick="this.closest('.sc-row').remove()" type="button">×</button>
+  </div>`;
+  wrap.insertAdjacentHTML('beforeend', html);
+};
+
+window.openSizeChartModal = function() {
+  document.getElementById('size-chart-modal-title').textContent = 'Add Size Chart';
+  document.getElementById('sc-id').value = '';
+  document.getElementById('sc-name').value = '';
+  document.getElementById('sc-unit').value = 'cm';
+  document.getElementById('sc-sizes').value = 'S, M, L, XL, XXL';
+  document.getElementById('sc-measurements-wrap').innerHTML = '';
+  window.addMeasurementRow();
+  document.getElementById('size-chart-modal').classList.add('open');
+};
+
+window.closeSizeChartModal = function() {
+  document.getElementById('size-chart-modal').classList.remove('open');
+};
+
+window.editSizeChart = function(id) {
+  const c = sizeCharts.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('size-chart-modal-title').textContent = 'Edit Size Chart';
+  document.getElementById('sc-id').value = c.id;
+  document.getElementById('sc-name').value = c.name || '';
+  document.getElementById('sc-unit').value = c.unit || 'cm';
+  document.getElementById('sc-sizes').value = (c.sizes || []).join(', ');
+  document.getElementById('sc-measurements-wrap').innerHTML = '';
+  const order = c.display_order || Object.keys(c.measurements || {});
+  if (order.length === 0) window.addMeasurementRow();
+  else order.forEach(key => {
+    const row = (c.measurements && c.measurements[key]) || {};
+    window.addMeasurementRow(key, row.label, row.values, c.how_to_measure && c.how_to_measure[key]);
+  });
+  document.getElementById('size-chart-modal').classList.add('open');
+};
+
+window.saveSizeChart = async function() {
+  const id = document.getElementById('sc-id').value;
+  const name = document.getElementById('sc-name').value.trim();
+  const unit = document.getElementById('sc-unit').value.trim() || 'cm';
+  const sizes = document.getElementById('sc-sizes').value.split(',').map(s => s.trim()).filter(Boolean);
+  if (!name) { toast('Chart name is required', 'error'); return; }
+  if (sizes.length === 0) { toast('At least one size is required', 'error'); return; }
+  const measurements = {};
+  const displayOrder = [];
+  const howTo = {};
+  const seenKeys = new Set();
+  for (const row of document.querySelectorAll('#sc-measurements-wrap .sc-row')) {
+    const key = row.querySelector('.sc-row-key').value.trim();
+    const label = row.querySelector('.sc-row-label').value.trim();
+    const tip = row.querySelector('.sc-row-tip').value.trim();
+    if (!key || !label) continue;
+    if (seenKeys.has(key)) { toast('Duplicate measurement key: ' + key, 'error'); return; }
+    seenKeys.add(key);
+    const values = {};
+    row.querySelectorAll('.sc-row-val').forEach(input => {
+      const s = input.getAttribute('data-size');
+      if (s) values[s] = input.value.trim() || '—';
+    });
+    measurements[key] = { label, values };
+    displayOrder.push(key);
+    if (tip) howTo[key] = tip;
+  }
+  const payload = { name, unit, sizes, measurements, how_to_measure: howTo, display_order: displayOrder, updated_at: new Date().toISOString() };
+  const { error } = id
+    ? await supabase.from('size_charts').update(payload).eq('id', id)
+    : await supabase.from('size_charts').insert([payload]);
+  if (error) { toast(error.message, 'error'); return; }
+  toast(id ? 'Size chart updated!' : 'Size chart added!');
+  window.closeSizeChartModal();
+  loadSizeCharts();
+};
+
+window.deleteSizeChart = async function(id) {
+  if (!confirm('Delete this size chart? Products using it will show the fallback guide.')) return;
+  const { error } = await supabase.from('size_charts').delete().eq('id', id);
+  if (error) { toast(error.message, 'error'); return; }
+  toast('Size chart deleted');
+  loadSizeCharts();
+};
+
+async function populateSizeChartSelect() {
+  const sel = document.getElementById('p-size-chart');
+  if (!sel) return;
+  const { data } = await supabase.from('size_charts').select('id,name').order('name');
+  sel.innerHTML = '<option value="">— None —</option>' + (data || []).map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+}
+
+window.openProductModal = function() {
+  document.getElementById('product-modal-title').textContent = 'Add Product';
+  document.getElementById('p-id').value = '';
+  ['p-title','p-handle','p-product-type','p-price','p-compare-price','p-description','p-images','p-sizes','p-colors','p-tags','p-variants-json','p-fit-note','p-model-wearing-size','p-model-measurements'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('p-sizes').value = 'S, M, L, XL, 2X';
+  document.getElementById('p-in-stock').value = 'true';
+  populateCollectionSelect();
+  populateSizeChartSelect();
+  document.getElementById('product-modal').classList.add('open');
+};
+
+window.closeProductModal = () => document.getElementById('product-modal').classList.remove('open');
+
+window.editProduct = function(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('product-modal-title').textContent = 'Edit Product';
+  document.getElementById('p-id').value = p.id;
+  document.getElementById('p-title').value = p.title;
+  document.getElementById('p-handle').value = p.handle;
+  document.getElementById('p-product-type').value = p.product_type || '';
+  document.getElementById('p-price').value = p.price;
+  document.getElementById('p-compare-price').value = p.compare_at_price || '';
+  document.getElementById('p-description').value = p.description || '';
+  document.getElementById('p-images').value = (p.images || []).join(', ');
+  document.getElementById('p-sizes').value = (p.sizes || []).join(', ');
+  document.getElementById('p-colors').value = JSON.stringify(p.colors || [], null, 2);
+  document.getElementById('p-tags').value = (p.tags || []).join(', ');
+  document.getElementById('p-in-stock').value = p.in_stock ? 'true' : 'false';
+  document.getElementById('p-fit-note').value = p.fit_note || '';
+  document.getElementById('p-model-wearing-size').value = p.model_wearing_size || '';
+  document.getElementById('p-model-measurements').value = p.model_measurements ? JSON.stringify(p.model_measurements, null, 2) : '';
+  
+  supabase.from('product_variants').select('*').eq('product_id', p.id).then(({ data: vars }) => {
+    document.getElementById('p-variants-json').value = vars && vars.length > 0 ? JSON.stringify(vars.map(v => ({ title: v.title, sku: v.sku, price: v.price, stock: v.stock })), null, 2) : '';
+  });
+
+  populateCollectionSelect().then(() => {
+    document.getElementById('p-collection').value = p.collection || '';
+  });
+  populateSizeChartSelect().then(() => {
+    document.getElementById('p-size-chart').value = p.size_chart_id || '';
+  });
+  document.getElementById('product-modal').classList.add('open');
+};
+
+window.saveProduct = async function() {
+  const id = document.getElementById('p-id').value;
+  let colorsVal = [];
+  try { colorsVal = JSON.parse(document.getElementById('p-colors').value || '[]'); } catch(e) { toast('Colors JSON is invalid', 'error'); return; }
+  let modelMeasurementsVal = null;
+  try { const raw = document.getElementById('p-model-measurements').value.trim(); if (raw) modelMeasurementsVal = JSON.parse(raw); } catch(e) { toast('Model measurements JSON is invalid', 'error'); return; }
+
+  const payload = {
+    title:            document.getElementById('p-title').value.trim(),
+    handle:           document.getElementById('p-handle').value.trim(),
+    price:            parseFloat(document.getElementById('p-price').value) || 0,
+    compare_at_price: parseFloat(document.getElementById('p-compare-price').value) || null,
+    description:      document.getElementById('p-description').value.trim(),
+    collection:       document.getElementById('p-collection').value,
+    product_type:     document.getElementById('p-product-type').value.trim(),
+    images:           document.getElementById('p-images').value.split(',').map(s => s.trim()).filter(Boolean),
+    sizes:            document.getElementById('p-sizes').value.split(',').map(s => s.trim()).filter(Boolean),
+    colors:           colorsVal,
+    tags:             document.getElementById('p-tags').value.split(',').map(s => s.trim()).filter(Boolean),
+    in_stock:         document.getElementById('p-in-stock').value === 'true',
+    size_chart_id:    document.getElementById('p-size-chart').value || null,
+    fit_note:         document.getElementById('p-fit-note').value.trim() || null,
+    model_wearing_size: document.getElementById('p-model-wearing-size').value.trim() || null,
+    model_measurements: modelMeasurementsVal
+  };
+
+  const { data: savedProduct, error } = id
+    ? await supabase.from('products').update(payload).eq('id', id).select().single()
+    : await supabase.from('products').insert([payload]).select().single();
+
+  if (error) { toast(error.message, 'error'); return; }
+
+  const variantsRaw = document.getElementById('p-variants-json').value.trim();
+  if (variantsRaw && savedProduct) {
+    try {
+      const parsedVars = JSON.parse(variantsRaw);
+      if (Array.isArray(parsedVars) && parsedVars.length > 0) {
+        const variantPayloads = parsedVars.map(v => ({
+          product_id: savedProduct.id,
+          title: v.title || 'Default',
+          sku: v.sku || `${savedProduct.handle}-${Date.now()}`,
+          price: parseFloat(v.price) || savedProduct.price,
+          stock: parseInt(v.stock) || 0
+        }));
+        await supabase.from('product_variants').delete().eq('product_id', savedProduct.id);
+        await supabase.from('product_variants').insert(variantPayloads);
+      }
+    } catch(e) {
+      console.warn('Variants JSON parse issue:', e);
+    }
+  }
+
+  toast(id ? 'Product updated!' : 'Product added!');
+  window.closeProductModal();
+  loadProducts();
+};
+
+// ── CUSTOMER MEASUREMENTS ──
+async function loadCustomerMeasurements() {
+  const tbody = document.getElementById('customer-measurements-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+  const { data, error } = await supabase.from('customer_measurements')
+    .select('*, products(title)')
+    .order('created_at', { ascending: false });
+  if (error) { toast('Failed to load customer measurements', 'error'); return; }
+  if (data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">No submissions yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(r => {
+    const m = r.measurements || {};
+    const mText = Object.entries(m).map(([k, v]) => `${k}: ${v}`).join(', ');
+    const date = new Date(r.created_at).toLocaleString();
+    const guest = r.guest_cart_id ? r.guest_cart_id.slice(0, 20) + (r.guest_cart_id.length > 20 ? '...' : '') : '—';
+    return `<tr>
+      <td>${date}</td>
+      <td>${r.products ? escapeHtml(r.products.title) : '—'}</td>
+      <td>${guest}</td>
+      <td>${escapeHtml(mText)}</td>
+      <td>${escapeHtml(r.note || '—')}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="window.deleteCustomerMeasurement('${r.id}')">Delete</button></td>
+    </tr>`;
+  }).join('');
+}
+
+window.deleteCustomerMeasurement = async function(id) {
+  if (!confirm('Delete this measurement?')) return;
+  const { error } = await supabase.from('customer_measurements').delete().eq('id', id);
+  if (error) { toast(error.message, 'error'); return; }
+  toast('Measurement deleted');
+  loadCustomerMeasurements();
 };
 </script>
 </body>

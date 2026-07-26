@@ -8818,7 +8818,6 @@ table {
 /* Account/Order */
 :is(.account, .order) {
   margin: 0 auto;
-  max-width: var(--page-width);
   padding-left: 2rem;
   padding-right: 2rem;
 }

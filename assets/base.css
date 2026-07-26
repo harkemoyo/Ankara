@@ -38,10 +38,7 @@
   --space-7: 4rem;
   --space-8: 6rem;
 
-  /* ── Layout ── */
-  --page-width: 80rem;
-  /* 1280px — standard content width */
-  --page-width-narrow: 48rem;
+ 
   /* 768px — text-heavy / form pages */
   --transition: all 0.3s ease 0s;
 }
@@ -82,16 +79,7 @@ body {
   gap: 3.5rem;
 }
 
-/* ── Page Width Containers ── */
-.page-width {
-  /* max-width: var(--page-width); */
-  margin-inline: auto;
-}
 
-.page-width--narrow {
-  max-width: var(--page-width-narrow);
-  margin-inline: auto;
-}
 
 /* ── Header ── */
 .header__topbar {
@@ -9232,7 +9220,6 @@ table {
 /* Account/Order */
 :is(.account, .order) {
   margin: 0 auto;
-  max-width: var(--page-width);
   padding-left: 2rem;
   padding-right: 2rem;
 }

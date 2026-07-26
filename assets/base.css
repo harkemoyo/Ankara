@@ -3401,6 +3401,7 @@ input[type=number]::-webkit-outer-spin-button {
 .site__main {
   display: grid;
   gap: 4rem;
+  padding-inline: 4.5rem;
 }
 
 .site__main>* {

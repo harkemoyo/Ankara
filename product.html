@@ -1581,6 +1581,7 @@
     let loadedProductId = null;
 
     function normalizeChart(raw) {
+        console.log('[normalizeChart] input:', raw ? { name: raw.name, id: raw.id } : raw);
         const chart = Object.assign({}, raw || FALLBACK_CHART);
         if (!chart.measurements) chart.measurements = {};
         if (!chart.display_order || !chart.display_order.length) {
@@ -1588,6 +1589,7 @@
         }
         chart.sizes = Array.isArray(chart.sizes) && chart.sizes.length ? chart.sizes : FALLBACK_CHART.sizes;
         chart.unit = chart.unit || 'cm';
+        console.log('[normalizeChart] output:', { name: chart.name, id: chart.id, sizes: chart.sizes });
         return chart;
     }
 
@@ -1687,6 +1689,7 @@
         const overlay = document.getElementById('size-guide-overlay');
         const body = document.getElementById('size-guide-body');
         const title = document.getElementById('size-guide-title');
+        console.log('[renderSizeGuideModal] currentChart:', currentChart ? { name: currentChart.name, id: currentChart.id } : null);
         if (!overlay || !body || !title || !currentChart) return;
         title.textContent = 'Garment Measurement Guide' + (currentChart.name ? ' — ' + currentChart.name : '');
         body.innerHTML = buildTable(currentChart, currentSize || currentChart.sizes[0]);
@@ -1695,8 +1698,10 @@
     }
 
     window.openSizeGuide = async function() {
+        console.log('[openSizeGuide] called, _currentProduct:', window._currentProduct ? { id: window._currentProduct.id, size_chart_id: window._currentProduct.size_chart_id } : null);
         const product = window._currentProduct;
         if (product) await loadSizeChart(product);
+        console.log('[openSizeGuide] currentChart after load:', currentChart ? { name: currentChart.name, id: currentChart.id } : null);
         renderSizeGuideModal();
     };
 

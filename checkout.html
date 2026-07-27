@@ -14,7 +14,7 @@
         rel="stylesheet" />
     <link href="assets/swiper-bundle.min.css" rel="stylesheet" />
     <link href="assets/glightbox.min.css" rel="stylesheet" />
-    <link href="assets/base.css" rel="stylesheet" />`n
+    <link href="assets/base.css" rel="stylesheet" />
     <link href="assets/filter.css" rel="stylesheet" />
     <link href="assets/normalize.css" rel="stylesheet" />
     <style>
@@ -312,7 +312,6 @@
         }
 
         .summary-qty {
-            display: inline-block;
             background: #1a1a1a;
             color: #fff;
             font-size: 1.1rem;
@@ -354,6 +353,43 @@
             text-align: center;
             padding: 60px 20px;
         }
+
+        /* ── MOBILE RESPONSIVE ── */
+        @media (max-width: 767px) {
+            .checkout-wrap {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-form-col {
+                padding: 24px 16px 48px;
+                border-right: none;
+            }
+
+            .order-summary {
+                order: -1;
+                border-bottom: 1px solid var(--border);
+                padding: 24px 16px;
+                position: static;
+                max-height: none;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .section-title {
+                font-size: 1.7rem;
+            }
+
+            .checkout-logo {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+        }
     </style>
     <style>
         body {
@@ -382,10 +418,6 @@
             </div>
         </div>
     </div>
-</body>
-
-</html>
-</div>
 <header class="header__section">
     <!-- ── Topbar Announcement ─────────────────────── --><!-- ── Main Header ────────────────────────────── -->
     <div class="main__header position__relative header__sticky">

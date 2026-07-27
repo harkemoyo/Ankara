@@ -834,7 +834,7 @@ const offcanvasHeader = function () {
   if (offcanvasOpen) {
     offcanvasOpen.addEventListener("click", function (e) {
       e.preventDefault();
-      if (e.target.dataset.offcanvas != undefined) {
+      if (this.dataset.offcanvas != undefined) {
         offcanvasHeader.classList.add("open");
         body.classList.add("mobile_menu_open");
       }
@@ -843,7 +843,7 @@ const offcanvasHeader = function () {
   if (offcanvasClose) {
     offcanvasClose.addEventListener("click", function (e) {
       e.preventDefault();
-      if (e.target.dataset.offcanvas != undefined) {
+      if (this.dataset.offcanvas != undefined) {
         offcanvasHeader.classList.remove("open");
         body.classList.remove("mobile_menu_open");
       }

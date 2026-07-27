@@ -149,6 +149,11 @@
     .toast.show { opacity: 1; transform: translateY(0); }
     .toast.error { background: var(--danger); }
     .toast.success { background: var(--success); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      #section-product-editor > div:last-child { grid-template-columns: 1fr !important; }
+    }
   </style>
 <style>body { display: block !important; }</style></head>
 <body>
@@ -226,29 +231,209 @@
 <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
 <h3 style="margin-bottom:16px;font-size:1.5rem;">Quick Actions</h3>
 <div style="display:flex;gap:12px;flex-wrap:wrap;">
-<button class="btn btn-primary" onclick="showSection('products',document.querySelector('[data-section=products]'));openProductModal()">+ Add Product</button>
+<button class="btn btn-primary" onclick="showSection('products',document.querySelector('[data-section=products]'));openProductEditor()">+ Add Product</button>
 <button class="btn btn-ghost" onclick="showSection('collections',document.querySelector('[data-section=collections]'));openCollectionModal()">+ Add Collection</button>
 <a class="btn btn-ghost" href="shop.html" target="_blank">View Shop ↗</a>
 </div>
 </div>
 </section>
-<!-- Products -->
+<!-- Products List -->
 <section class="admin-section" id="section-products">
 <div class="page-header">
 <h1>Products</h1>
-<button class="btn btn-primary" onclick="openProductModal()">+ Add Product</button>
+<button class="btn btn-primary" onclick="openProductEditor()">+ Add Product</button>
+</div>
+<div style="display:flex;gap:8px;margin-bottom:16px;">
+<input id="product-search" placeholder="Search products..." style="padding:8px 12px;border:1px solid var(--border);border-radius:6px;flex:1;max-width:300px;font-size:1.3rem;" onkeyup="filterProducts()">
+<select id="product-status-filter" onchange="filterProducts()" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:1.3rem;">
+<option value="">All Status</option>
+<option value="active">Active</option>
+<option value="draft">Draft</option>
+</select>
 </div>
 <div class="table-wrap">
 <table>
 <thead>
 <tr>
-<th>Image</th><th>Title</th><th>Collection</th><th>Price</th><th>Colors</th><th>Stock</th><th>Actions</th>
+<th style="width:40px;"></th><th>Product</th><th>Status</th><th>Inventory</th><th>Category</th><th>Vendor</th><th>Actions</th>
 </tr>
 </thead>
 <tbody id="products-tbody">
 <tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>
 </tbody>
 </table>
+</div>
+</section>
+<!-- Product Editor (Shopify-style full page) -->
+<section class="admin-section" id="section-product-editor">
+<div class="page-header">
+<div style="display:flex;align-items:center;gap:12px;">
+<button class="btn btn-ghost btn-sm" onclick="backToProducts()" style="font-size:1.6rem;padding:4px 10px;">←</button>
+<h1 id="product-editor-title">Add Product</h1>
+<span class="badge badge-gray" id="product-editor-status-badge" style="font-size:1.2rem;"></span>
+</div>
+<div style="display:flex;gap:8px;">
+<button class="btn btn-ghost" onclick="backToProducts()">Discard</button>
+<button class="btn btn-primary" onclick="saveProduct()">Save</button>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start;">
+<!-- LEFT COLUMN: Main Content -->
+<div style="display:flex;flex-direction:column;gap:20px;">
+<!-- Title -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+<input id="p-id" type="hidden"/>
+<div class="form-group" style="margin-bottom:16px;">
+<label>Title</label>
+<input id="p-title" placeholder="Short sleeve t-shirt" type="text" style="font-size:1.5rem;padding:12px;"/>
+</div>
+<div class="form-group">
+<label>Description</label>
+<textarea id="p-description" placeholder="Product description..." rows="5" style="font-size:1.4rem;"></textarea>
+</div>
+</div>
+<!-- Media -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+<label style="margin-bottom:12px;display:block;">Media</label>
+<div id="p-media-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;"></div>
+<div style="display:flex;gap:8px;align-items:center;">
+<input id="p-image-upload" type="file" accept="image/*" multiple style="font-size:1.3rem;"/>
+<button class="btn btn-sm btn-ghost" onclick="uploadImages()" type="button">Upload</button>
+</div>
+<div id="upload-status" style="margin-top:4px;font-size:1.2rem;color:var(--accent);"></div>
+<div class="form-group" style="margin-top:12px;">
+<label>Image URLs (comma-separated)</label>
+<textarea id="p-images" placeholder="assets/img1.webp, assets/img2.webp" rows="2"></textarea>
+</div>
+</div>
+<!-- Pricing -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+<label style="margin-bottom:12px;display:block;font-size:1.4rem;font-weight:700;text-transform:none;color:var(--text);">Pricing</label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+<div class="form-group">
+<label>Price (KSh)</label>
+<input id="p-price" min="0" placeholder="0.00" step="0.01" type="number"/>
+</div>
+<div class="form-group">
+<label>Compare-at price</label>
+<input id="p-compare-price" min="0" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+</div>
+<!-- Inventory -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+<label style="margin-bottom:12px;display:block;font-size:1.4rem;font-weight:700;text-transform:none;color:var(--text);">Inventory</label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+<div class="form-group">
+<label>SKU</label>
+<input id="p-sku" placeholder="MHW-001" type="text"/>
+</div>
+<div class="form-group">
+<label>Quantity</label>
+<input id="p-inventory-qty" min="0" type="number" value="0"/>
+</div>
+</div>
+<div class="form-group" style="margin-top:12px;">
+<label>Track Inventory</label>
+<select id="p-in-stock">
+<option value="true">In Stock</option>
+<option value="false">Out of Stock</option>
+</select>
+</div>
+</div>
+<!-- Variants -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+<label style="margin-bottom:4px;display:block;font-size:1.4rem;font-weight:700;text-transform:none;color:var(--text);">Variants</label>
+<span class="helper-text" style="margin-bottom:12px;display:block;">Add options like size or color</span>
+<div class="form-group" style="margin-bottom:12px;">
+<label>Sizes (comma-separated)</label>
+<input id="p-sizes" placeholder="S, M, L, XL, 2XL" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:12px;">
+<label>Colors (JSON array)</label>
+<textarea id="p-colors" placeholder='[{"label":"Red","hex":"#C0392B","image":"assets/red.webp"}]' rows="3"></textarea>
+</div>
+<div class="form-group">
+<label>Variant Stock (JSON)</label>
+<textarea id="p-variants-json" placeholder='[{"title":"M / Black","sku":"TNJ-M-BLK","price":6000,"stock":10}]' rows="3"></textarea>
+<span class="helper-text">Optional: define per-variant SKU, price, and stock.</span>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Sidebar -->
+<div style="display:flex;flex-direction:column;gap:20px;">
+<!-- Status -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+<div class="form-group">
+<label>Status</label>
+<select id="p-status" style="font-size:1.4rem;padding:10px;">
+<option value="active">Active</option>
+<option value="draft">Draft</option>
+</select>
+</div>
+</div>
+<!-- Product Organization -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+<label style="margin-bottom:12px;display:block;font-size:1.4rem;font-weight:700;text-transform:none;color:var(--text);">Product organization</label>
+<div class="form-group" style="margin-bottom:14px;">
+<label>Category / Type</label>
+<input id="p-product-type" placeholder="Dresses, Joggers..." type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:14px;">
+<label>Vendor</label>
+<input id="p-vendor" placeholder="Mary Humphrey African Wear" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom:14px;">
+<label>Collection</label>
+<select id="p-collection">
+<option value="">— None —</option>
+</select>
+</div>
+<div class="form-group">
+<label>Tags (comma-separated)</label>
+<input id="p-tags" placeholder="new-arrival, ankara, dress" type="text"/>
+</div>
+</div>
+<!-- Handle / SEO -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+<label style="margin-bottom:12px;display:block;font-size:1.4rem;font-weight:700;text-transform:none;color:var(--text);">SEO</label>
+<div class="form-group" style="margin-bottom:14px;">
+<label>URL Handle</label>
+<input id="p-handle" placeholder="ankara-print-dress" type="text"/>
+<span class="helper-text">/products/your-handle</span>
+</div>
+<div class="form-group" style="margin-bottom:14px;">
+<label>SEO Title</label>
+<input id="p-seo-title" placeholder="" type="text"/>
+</div>
+<div class="form-group">
+<label>SEO Description</label>
+<textarea id="p-seo-description" rows="2" placeholder=""></textarea>
+</div>
+</div>
+<!-- Size Chart -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+<label style="margin-bottom:12px;display:block;font-size:1.4rem;font-weight:700;text-transform:none;color:var(--text);">Sizing</label>
+<div class="form-group" style="margin-bottom:14px;">
+<label>Size Chart</label>
+<select id="p-size-chart">
+<option value="">— None —</option>
+</select>
+</div>
+<div class="form-group" style="margin-bottom:14px;">
+<label>Fit Note</label>
+<input id="p-fit-note" type="text" placeholder="Runs true to size"/>
+</div>
+<div class="form-group" style="margin-bottom:14px;">
+<label>Model Wearing Size</label>
+<input id="p-model-wearing-size" type="text" placeholder="S"/>
+</div>
+<div class="form-group">
+<label>Model Measurements (JSON)</label>
+<textarea id="p-model-measurements" placeholder='{"height":"168","bust":"86","waist":"64","hips":"90"}' rows="2"></textarea>
+</div>
+</div>
+</div>
 </div>
 </section>
 <!-- Collections -->
@@ -520,110 +705,6 @@
 </div>
 </section>
 </main>
-<!-- ── PRODUCT MODAL ── -->
-<div class="modal-backdrop" id="product-modal">
-<div class="modal">
-<button class="modal-close" onclick="closeProductModal()">×</button>
-<h2 id="product-modal-title">Add Product</h2>
-<div class="form-grid">
-<input id="p-id" type="hidden"/>
-<div class="form-group full">
-<label>Title *</label>
-<input id="p-title" placeholder="Ankara Print Dress" type="text"/>
-</div>
-<div class="form-group">
-<label>Handle (URL slug) *</label>
-<input id="p-handle" placeholder="ankara-print-dress" type="text"/>
-</div>
-<div class="form-group">
-<label>Collection</label>
-<select id="p-collection">
-<option value="">— Select —</option>
-</select>
-</div>
-<div class="form-group">
-<label>Product Type / Category</label>
-<input id="p-product-type" placeholder="Joggers, Dresses, Hoodies, etc." type="text"/>
-</div>
-<div class="form-group">
-<label>Price (KSh) *</label>
-<input id="p-price" min="0" placeholder="85.00" step="0.01" type="number"/>
-</div>
-<div class="form-group">
-<label>Compare At Price</label>
-<input id="p-compare-price" min="0" placeholder="100.00" step="0.01" type="number"/>
-</div>
-<div class="form-group full">
-<label>Description</label>
-<textarea id="p-description" placeholder="Product description..." rows="3"></textarea>
-</div>
-<div class="form-group full">
-<label>Images (comma-separated URLs)</label>
-<textarea id="p-images" placeholder="assets/img1.webp, assets/img2.webp" rows="2"></textarea>
-<span class="helper-text">First image is the primary image shown on shop and product pages.</span>
-</div>
-<div class="form-group full">
-<label>Upload Images (from computer)</label>
-<div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
-<input id="p-image-upload" type="file" accept="image/*" multiple />
-<button class="btn btn-sm btn-ghost" onclick="uploadImages()" type="button">Upload to Storage</button>
-</div>
-<div id="upload-status" style="margin-top:4px;font-size:1.2rem;color:var(--accent);"></div>
-</div>
-<div class="form-group full">
-<label>Sizes (comma-separated)</label>
-<input id="p-sizes" placeholder="S, M, L, XL, 2X" type="text"/>
-</div>
-<div class="form-group full">
-<label>Size Chart</label>
-<select id="p-size-chart">
-<option value="">— None —</option>
-</select>
-</div>
-<div class="form-group full">
-<label>Fit Note</label>
-<input id="p-fit-note" type="text" placeholder="e.g. Runs true to size"/>
-</div>
-<div class="form-grid">
-<div class="form-group">
-<label>Model Wearing Size</label>
-<input id="p-model-wearing-size" type="text" placeholder="S"/>
-</div>
-<div class="form-group">
-<label>Model Measurements (JSON)</label>
-<textarea id="p-model-measurements" placeholder='{"height":"168","bust":"86","waist":"64","hips":"90"}' rows="2"></textarea>
-</div>
-</div>
-<div class="form-group full">
-<label>Colors (JSON array)</label>
-<textarea id="p-colors" placeholder='[{"label":"Red Print","image":"assets/red.webp","hex":"#C0392B"}]' rows="4"></textarea>
-<span class="helper-text">Each color needs a label, image URL, and hex color code.</span>
-</div>
-<div class="form-group full">
-<label>Tags (comma-separated)</label>
-<input id="p-tags" placeholder="dresses, ankara, new" type="text"/>
-</div>
-<div class="form-group full" style="border-top: 1px solid #eee; padding-top: 16px; margin-top: 8px;">
-<label style="font-weight: 700; font-size: 1.4rem;">Product Variants & Variant Inventory</label>
-<span class="helper-text" style="margin-bottom: 8px; display: block;">Specify SKU, Price & Stock levels for individual variants (e.g. Size M / Black).</span>
-<div id="variants-container">
-  <textarea id="p-variants-json" placeholder='[{"title":"M / Black","sku":"TNJ-M-BLK","price":6000.00,"stock":10},{"title":"L / Black","sku":"TNJ-L-BLK","price":6000.00,"stock":5}]' rows="4"></textarea>
-</div>
-</div>
-<div class="form-group">
-<label>In Stock</label>
-<select id="p-in-stock">
-<option value="true">Yes</option>
-<option value="false">No</option>
-</select>
-</div>
-</div>
-<div class="modal-actions">
-<button class="btn btn-ghost" onclick="closeProductModal()">Cancel</button>
-<button class="btn btn-primary" onclick="saveProduct()">Save Product</button>
-</div>
-</div>
-</div>
 <!-- ── COLLECTION MODAL ── -->
 <div class="modal-backdrop" id="collection-modal">
 <div class="modal">
@@ -929,28 +1010,47 @@ async function loadProducts() {
   const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
   if (error) { toast('Failed to load products', 'error'); return; }
   products = data || [];
-  
-  if (products.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">No products yet. Add one!</td></tr>';
+  renderProductList(products);
+}
+
+function renderProductList(list) {
+  const tbody = document.getElementById('products-tbody');
+  if (list.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">No products found.</td></tr>';
     return;
   }
-  tbody.innerHTML = products.map(p => {
+  tbody.innerHTML = list.map(p => {
     const img = (p.images && p.images[0]) ? `<img src="${p.images[0]}" class="thumb" alt="${p.title}">` : '<div class="thumb"></div>';
-    const colors = (p.colors || []).map(c => `<span class="swatch-dot" style="background:${c.hex};" title="${c.label}"></span>`).join('');
-    return `<tr>
+    const statusBadge = p.status === 'active'
+      ? '<span class="badge badge-green">Active</span>'
+      : '<span class="badge badge-gray">Draft</span>';
+    const invQty = p.inventory_quantity != null ? p.inventory_quantity : (p.in_stock ? 'In stock' : 'Out');
+    const invText = typeof invQty === 'number' ? `${invQty} in stock` : invQty;
+    return `<tr style="cursor:pointer;" onclick="window.editProduct(${p.id})">
       <td>${img}</td>
       <td><strong>${p.title}</strong><br><span style="color:var(--muted);font-size:1.2rem;">${p.handle}</span></td>
-      <td>${p.collection || '—'}</td>
-      <td>KSh ${parseFloat(p.price).toLocaleString()}</td>
-      <td>${colors || '—'}</td>
-      <td><span class="badge ${p.in_stock ? 'badge-green' : 'badge-gray'}">${p.in_stock ? 'In Stock' : 'Out'}</span></td>
-      <td style="white-space:nowrap;">
+      <td>${statusBadge}</td>
+      <td>${invText}</td>
+      <td>${p.product_type || '—'}</td>
+      <td style="font-size:1.2rem;">${p.vendor || '—'}</td>
+      <td style="white-space:nowrap;" onclick="event.stopPropagation();">
         <button class="btn btn-ghost btn-sm" onclick="window.editProduct(${p.id})">Edit</button>
-        <button class="btn btn-danger btn-sm" style="margin-left:6px;" onclick="window.deleteProduct(${p.id})">Delete</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:6px;" onclick="window.deleteProduct(${p.id})">Del</button>
       </td>
     </tr>`;
   }).join('');
 }
+
+window.filterProducts = function() {
+  const q = (document.getElementById('product-search').value || '').toLowerCase();
+  const status = document.getElementById('product-status-filter').value;
+  const filtered = products.filter(p => {
+    if (status && p.status !== status) return false;
+    if (q && !p.title.toLowerCase().includes(q) && !p.handle.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  renderProductList(filtered);
+};
 
 // Populate collection dropdown
 async function populateCollectionSelect() {
@@ -960,28 +1060,47 @@ async function populateCollectionSelect() {
     (data || []).map(c => `<option value="${c.handle}">${c.title}</option>`).join('');
 }
 
-// Open add modal
-window.openProductModal = function() {
-  document.getElementById('product-modal-title').textContent = 'Add Product';
+// Show full-page product editor (add mode)
+window.openProductEditor = function() {
+  document.getElementById('product-editor-title').textContent = 'Add Product';
+  document.getElementById('product-editor-status-badge').textContent = '';
   document.getElementById('p-id').value = '';
-  ['p-title','p-handle','p-product-type','p-price','p-compare-price','p-description','p-images','p-sizes','p-colors','p-tags','p-variants-json']
-    .forEach(id => document.getElementById(id).value = '');
-  document.getElementById('p-sizes').value = 'S, M, L, XL, 2X';
+  ['p-title','p-handle','p-product-type','p-vendor','p-price','p-compare-price','p-description','p-images','p-sizes','p-colors','p-tags','p-variants-json','p-sku','p-seo-title','p-seo-description','p-fit-note','p-model-wearing-size','p-model-measurements']
+    .forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  document.getElementById('p-sizes').value = 'S, M, L, XL, 2XL';
   document.getElementById('p-in-stock').value = 'true';
+  document.getElementById('p-status').value = 'active';
+  document.getElementById('p-inventory-qty').value = '0';
+  document.getElementById('p-vendor').value = 'Mary Humphrey African Wear';
+  document.getElementById('p-media-preview').innerHTML = '';
   populateCollectionSelect();
-  document.getElementById('product-modal').classList.add('open');
+  populateSizeChartSelect();
+  // Show editor section, hide product list
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-product-editor').classList.add('active');
 };
-window.closeProductModal = () => document.getElementById('product-modal').classList.remove('open');
 
-// Open edit modal
+// Back to product list
+window.backToProducts = function() {
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-products').classList.add('active');
+  loadProducts();
+};
+
+// Edit existing product (full-page)
 window.editProduct = function(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
-  document.getElementById('product-modal-title').textContent = 'Edit Product';
+  document.getElementById('product-editor-title').textContent = p.title;
+  const badge = document.getElementById('product-editor-status-badge');
+  badge.textContent = p.status === 'active' ? 'Active' : 'Draft';
+  badge.className = `badge ${p.status === 'active' ? 'badge-green' : 'badge-gray'}`;
+  
   document.getElementById('p-id').value = p.id;
   document.getElementById('p-title').value = p.title;
   document.getElementById('p-handle').value = p.handle;
   document.getElementById('p-product-type').value = p.product_type || '';
+  document.getElementById('p-vendor').value = p.vendor || '';
   document.getElementById('p-price').value = p.price;
   document.getElementById('p-compare-price').value = p.compare_at_price || '';
   document.getElementById('p-description').value = p.description || '';
@@ -990,16 +1109,39 @@ window.editProduct = function(id) {
   document.getElementById('p-colors').value = JSON.stringify(p.colors || [], null, 2);
   document.getElementById('p-tags').value = (p.tags || []).join(', ');
   document.getElementById('p-in-stock').value = p.in_stock ? 'true' : 'false';
+  document.getElementById('p-status').value = p.status || 'active';
+  document.getElementById('p-inventory-qty').value = p.inventory_quantity || 0;
+  document.getElementById('p-seo-title').value = p.seo_title || '';
+  document.getElementById('p-seo-description').value = p.seo_description || '';
   
-  // Load variants for product
+  // Show image previews
+  const previewEl = document.getElementById('p-media-preview');
+  previewEl.innerHTML = (p.images || []).map(url => 
+    `<img src="${url}" style="width:80px;height:80px;object-fit:cover;border-radius:6px;border:1px solid var(--border);" alt=""/>`
+  ).join('');
+
+  // Load variants
   supabase.from('product_variants').select('*').eq('product_id', p.id).then(({ data: vars }) => {
     document.getElementById('p-variants-json').value = vars && vars.length > 0 ? JSON.stringify(vars.map(v => ({ title: v.title, sku: v.sku, price: v.price, stock: v.stock })), null, 2) : '';
+    if (vars && vars.length > 0 && vars[0].sku) {
+      document.getElementById('p-sku').value = vars[0].sku;
+    }
   });
+
+  document.getElementById('p-fit-note').value = p.fit_note || '';
+  document.getElementById('p-model-wearing-size').value = p.model_wearing_size || '';
+  document.getElementById('p-model-measurements').value = p.model_measurements ? JSON.stringify(p.model_measurements, null, 2) : '';
 
   populateCollectionSelect().then(() => {
     document.getElementById('p-collection').value = p.collection || '';
   });
-  document.getElementById('product-modal').classList.add('open');
+  populateSizeChartSelect().then(() => {
+    document.getElementById('p-size-chart').value = p.size_chart_id || '';
+  });
+
+  // Switch to editor view
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-product-editor').classList.add('active');
 };
 
 // Save product
@@ -1007,20 +1149,40 @@ window.saveProduct = async function() {
   const id = document.getElementById('p-id').value;
   let colorsVal = [];
   try { colorsVal = JSON.parse(document.getElementById('p-colors').value || '[]'); } catch(e) { toast('Colors JSON is invalid', 'error'); return; }
+  let modelMeasurementsVal = null;
+  try { const raw = document.getElementById('p-model-measurements').value.trim(); if (raw) modelMeasurementsVal = JSON.parse(raw); } catch(e) { toast('Model measurements JSON is invalid', 'error'); return; }
+
+  const title = document.getElementById('p-title').value.trim();
+  if (!title) { toast('Title is required', 'error'); return; }
+  
+  // Auto-generate handle if empty
+  let handle = document.getElementById('p-handle').value.trim();
+  if (!handle) {
+    handle = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
 
   const payload = {
-    title:            document.getElementById('p-title').value.trim(),
-    handle:           document.getElementById('p-handle').value.trim(),
+    title,
+    handle,
     price:            parseFloat(document.getElementById('p-price').value) || 0,
     compare_at_price: parseFloat(document.getElementById('p-compare-price').value) || null,
     description:      document.getElementById('p-description').value.trim(),
     collection:       document.getElementById('p-collection').value,
     product_type:     document.getElementById('p-product-type').value.trim(),
+    vendor:           document.getElementById('p-vendor').value.trim(),
+    status:           document.getElementById('p-status').value,
     images:           document.getElementById('p-images').value.split(',').map(s => s.trim()).filter(Boolean),
     sizes:            document.getElementById('p-sizes').value.split(',').map(s => s.trim()).filter(Boolean),
     colors:           colorsVal,
     tags:             document.getElementById('p-tags').value.split(',').map(s => s.trim()).filter(Boolean),
     in_stock:         document.getElementById('p-in-stock').value === 'true',
+    inventory_quantity: parseInt(document.getElementById('p-inventory-qty').value) || 0,
+    seo_title:        document.getElementById('p-seo-title').value.trim() || null,
+    seo_description:  document.getElementById('p-seo-description').value.trim() || null,
+    size_chart_id:    document.getElementById('p-size-chart').value || null,
+    fit_note:         document.getElementById('p-fit-note').value.trim() || null,
+    model_wearing_size: document.getElementById('p-model-wearing-size').value.trim() || null,
+    model_measurements: modelMeasurementsVal,
   };
 
   const { data: savedProduct, error } = id
@@ -1050,9 +1212,8 @@ window.saveProduct = async function() {
     }
   }
 
-  toast(id ? 'Product updated!' : 'Product added!');
-  closeProductModal();
-  loadProducts();
+  toast(id ? 'Product updated!' : 'Product created!');
+  backToProducts();
 };
 
 // Delete product
@@ -1636,6 +1797,15 @@ window.uploadImages = async function() {
   if (currentVal && !currentVal.endsWith(',')) currentVal += ', ';
   textarea.value = currentVal + urls.join(', ');
   
+  // Refresh media preview
+  const allUrls = textarea.value.split(',').map(s => s.trim()).filter(Boolean);
+  const previewEl = document.getElementById('p-media-preview');
+  if (previewEl) {
+    previewEl.innerHTML = allUrls.map(url => 
+      `<img src="${url}" style="width:80px;height:80px;object-fit:cover;border-radius:6px;border:1px solid var(--border);" alt=""/>`
+    ).join('');
+  }
+
   status.textContent = 'Upload complete! URLs added above.';
   fileInput.value = '';
   setTimeout(() => { status.textContent = ''; }, 3000);
@@ -1941,108 +2111,6 @@ async function populateSizeChartSelect() {
   sel.innerHTML = '<option value="">— None —</option>' + (data || []).map(c => `<option value="${c.id}">${c.name}</option>`).join('');
 }
 
-window.openProductModal = function() {
-  document.getElementById('product-modal-title').textContent = 'Add Product';
-  document.getElementById('p-id').value = '';
-  ['p-title','p-handle','p-product-type','p-price','p-compare-price','p-description','p-images','p-sizes','p-colors','p-tags','p-variants-json','p-fit-note','p-model-wearing-size','p-model-measurements'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('p-sizes').value = 'S, M, L, XL, 2X';
-  document.getElementById('p-in-stock').value = 'true';
-  populateCollectionSelect();
-  populateSizeChartSelect();
-  document.getElementById('product-modal').classList.add('open');
-};
-
-window.closeProductModal = () => document.getElementById('product-modal').classList.remove('open');
-
-window.editProduct = function(id) {
-  const p = products.find(x => x.id === id);
-  if (!p) return;
-  document.getElementById('product-modal-title').textContent = 'Edit Product';
-  document.getElementById('p-id').value = p.id;
-  document.getElementById('p-title').value = p.title;
-  document.getElementById('p-handle').value = p.handle;
-  document.getElementById('p-product-type').value = p.product_type || '';
-  document.getElementById('p-price').value = p.price;
-  document.getElementById('p-compare-price').value = p.compare_at_price || '';
-  document.getElementById('p-description').value = p.description || '';
-  document.getElementById('p-images').value = (p.images || []).join(', ');
-  document.getElementById('p-sizes').value = (p.sizes || []).join(', ');
-  document.getElementById('p-colors').value = JSON.stringify(p.colors || [], null, 2);
-  document.getElementById('p-tags').value = (p.tags || []).join(', ');
-  document.getElementById('p-in-stock').value = p.in_stock ? 'true' : 'false';
-  document.getElementById('p-fit-note').value = p.fit_note || '';
-  document.getElementById('p-model-wearing-size').value = p.model_wearing_size || '';
-  document.getElementById('p-model-measurements').value = p.model_measurements ? JSON.stringify(p.model_measurements, null, 2) : '';
-  
-  supabase.from('product_variants').select('*').eq('product_id', p.id).then(({ data: vars }) => {
-    document.getElementById('p-variants-json').value = vars && vars.length > 0 ? JSON.stringify(vars.map(v => ({ title: v.title, sku: v.sku, price: v.price, stock: v.stock })), null, 2) : '';
-  });
-
-  populateCollectionSelect().then(() => {
-    document.getElementById('p-collection').value = p.collection || '';
-  });
-  populateSizeChartSelect().then(() => {
-    document.getElementById('p-size-chart').value = p.size_chart_id || '';
-  });
-  document.getElementById('product-modal').classList.add('open');
-};
-
-window.saveProduct = async function() {
-  const id = document.getElementById('p-id').value;
-  let colorsVal = [];
-  try { colorsVal = JSON.parse(document.getElementById('p-colors').value || '[]'); } catch(e) { toast('Colors JSON is invalid', 'error'); return; }
-  let modelMeasurementsVal = null;
-  try { const raw = document.getElementById('p-model-measurements').value.trim(); if (raw) modelMeasurementsVal = JSON.parse(raw); } catch(e) { toast('Model measurements JSON is invalid', 'error'); return; }
-
-  const payload = {
-    title:            document.getElementById('p-title').value.trim(),
-    handle:           document.getElementById('p-handle').value.trim(),
-    price:            parseFloat(document.getElementById('p-price').value) || 0,
-    compare_at_price: parseFloat(document.getElementById('p-compare-price').value) || null,
-    description:      document.getElementById('p-description').value.trim(),
-    collection:       document.getElementById('p-collection').value,
-    product_type:     document.getElementById('p-product-type').value.trim(),
-    images:           document.getElementById('p-images').value.split(',').map(s => s.trim()).filter(Boolean),
-    sizes:            document.getElementById('p-sizes').value.split(',').map(s => s.trim()).filter(Boolean),
-    colors:           colorsVal,
-    tags:             document.getElementById('p-tags').value.split(',').map(s => s.trim()).filter(Boolean),
-    in_stock:         document.getElementById('p-in-stock').value === 'true',
-    size_chart_id:    document.getElementById('p-size-chart').value || null,
-    fit_note:         document.getElementById('p-fit-note').value.trim() || null,
-    model_wearing_size: document.getElementById('p-model-wearing-size').value.trim() || null,
-    model_measurements: modelMeasurementsVal
-  };
-
-  const { data: savedProduct, error } = id
-    ? await supabase.from('products').update(payload).eq('id', id).select().single()
-    : await supabase.from('products').insert([payload]).select().single();
-
-  if (error) { toast(error.message, 'error'); return; }
-
-  const variantsRaw = document.getElementById('p-variants-json').value.trim();
-  if (variantsRaw && savedProduct) {
-    try {
-      const parsedVars = JSON.parse(variantsRaw);
-      if (Array.isArray(parsedVars) && parsedVars.length > 0) {
-        const variantPayloads = parsedVars.map(v => ({
-          product_id: savedProduct.id,
-          title: v.title || 'Default',
-          sku: v.sku || `${savedProduct.handle}-${Date.now()}`,
-          price: parseFloat(v.price) || savedProduct.price,
-          stock: parseInt(v.stock) || 0
-        }));
-        await supabase.from('product_variants').delete().eq('product_id', savedProduct.id);
-        await supabase.from('product_variants').insert(variantPayloads);
-      }
-    } catch(e) {
-      console.warn('Variants JSON parse issue:', e);
-    }
-  }
-
-  toast(id ? 'Product updated!' : 'Product added!');
-  window.closeProductModal();
-  loadProducts();
-};
 
 // ── CUSTOMER MEASUREMENTS ──
 async function loadCustomerMeasurements() {

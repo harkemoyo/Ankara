@@ -227,32 +227,32 @@
             margin-left: 0.5rem;
         }
         
-        /* Swatch Circular Image Buttons */
+        /* Swatch Square Image Buttons (Shopify-style) */
         .swatch-btn {
-            width: 4.8rem;
-            height: 4.8rem;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            box-shadow: 0 0 0 1px var(--border-color);
-            padding: 2px;
-            background: none;
+            width: 7rem;
+            height: 7rem;
+            border-radius: 6px;
+            border: 2px solid var(--border-color);
+            padding: 3px;
+            background: #fff;
             cursor: pointer;
             overflow: hidden;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
             display: inline-block;
-            margin-right: 1rem;
-            margin-bottom: 0.5rem;
+            margin-right: 0.8rem;
+            margin-bottom: 0.8rem;
         }
         .swatch-btn:hover {
-            box-shadow: 0 0 0 1px var(--primary-color);
+            border-color: var(--primary-color);
         }
         .swatch-btn.active {
-            box-shadow: 0 0 0 2px var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 1px var(--primary-color);
         }
         .swatch-img {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
+            border-radius: 4px;
             object-fit: cover;
         }
         
@@ -377,15 +377,6 @@
             opacity: 0.8;
         }
         
-        /* Description */
-        .product-desc-box {
-            font-size: 1.45rem;
-            line-height: 1.8;
-            color: var(--foreground-sub-color);
-            border-top: 1px solid var(--border-color);
-            padding-top: 2.5rem;
-        }
-
         /* Share Area */
         .product-share-box {
             display: flex;
@@ -805,7 +796,6 @@
             </div>
         </div>
     </div>
-    </div>
     <header class="header__section">
         <!-- ── Topbar Announcement ─────────────────────── -->
         <!-- ── Main Header ────────────────────────────── -->
@@ -1154,10 +1144,6 @@
                             
                             <div class="product-price-rating-row" style="display: flex; align-items: baseline; flex-wrap: wrap; gap: 2rem; margin-top: 0.5rem;">
                                 <div class="product-price-box" id="dyn-product-price" style="font-size: 2.4rem; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; margin: 0;">—</div>
-                                <div class="product-rating-box" style="display: flex; align-items: center; gap: 0.6rem; font-size: 1.3rem; color: var(--foreground-sub-color);">
-                                    <div class="rating-stars-val" style="color: #D4A843; letter-spacing: 2px;">★ ★ ★ ★ ★</div>
-                                    <span class="rating-count-val" style="font-size: 1.2rem; color: var(--foreground-sub-color);">(48 reviews)</span>
-                                </div>
                             </div>
                             
                             <p style="font-size: 1.2rem; color: var(--foreground-sub-color); margin: 0.2rem 0 0; line-height: 1.4;">Tax included. Shipping calculated at checkout.</p>
@@ -1223,11 +1209,6 @@
                             </div>
                         </div>
 
-                        <!-- Description & Details -->
-                        <div class="product-desc-box" id="dyn-product-desc">
-                            Description goes here.
-                        </div>
-
                         <!-- Share Options -->
                         <div class="product-share-box">
                             <span class="product-share-title">Share:</span>
@@ -1250,38 +1231,34 @@
                     </div>
                 </div>
 
-                <!-- Tabs Section (CRAFTSMANSHIP, FEATURES, WEIGHT, DIMENSIONS) -->
+                <!-- Tabs Section -->
                 <div class="product__details--tabs-section">
                     <div class="tabs-header-container">
-                        <div class="tab-header-item active" data-tab="craftsmanship">
-                            CRAFTSMANSHIP
+                        <div class="tab-header-item active" data-tab="description">
+                            DESCRIPTION
                             <div class="tab-active-indicator"></div>
                         </div>
-                        <div class="tab-header-item" data-tab="features">
-                            FEATURES
+                        <div class="tab-header-item" data-tab="details">
+                            DETAILS
                             <div class="tab-active-indicator"></div>
                         </div>
-                        <div class="tab-header-item" data-tab="weight">
-                            WEIGHT
-                            <div class="tab-active-indicator"></div>
-                        </div>
-                        <div class="tab-header-item" data-tab="dimensions">
-                            DIMENSIONS
+                        <div class="tab-header-item" data-tab="shipping">
+                            SHIPPING & RETURNS
                             <div class="tab-active-indicator"></div>
                         </div>
                     </div>
                     <div class="tabs-content-container" style="min-height: 100px;">
-                        <div class="tab-content-panel active" id="tab-craftsmanship">
-                            Loading craftsmanship...
+                        <div class="tab-content-panel active" id="tab-description">
+                            Loading...
                         </div>
-                        <div class="tab-content-panel" id="tab-features">
-                            Loading features...
+                        <div class="tab-content-panel" id="tab-details">
+                            Loading...
                         </div>
-                        <div class="tab-content-panel" id="tab-weight">
-                            Loading weight...
-                        </div>
-                        <div class="tab-content-panel" id="tab-dimensions">
-                            Loading dimensions...
+                        <div class="tab-content-panel" id="tab-shipping">
+                            <div style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
+                                <p><strong>Shipping:</strong> We ship Kenya-wide with delivery within 3–7 business days. International shipping available upon request.</p>
+                                <p style="margin-top:1rem;"><strong>Returns:</strong> 7-day hassle-free return policy. Items must be unworn, unwashed, and in original condition with tags attached.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1290,7 +1267,7 @@
                 <div class="product__related" style="display: flex; flex-direction: column; gap: 4rem; border-top:1px solid var(--border-color); padding-top:6rem; margin-top: 6rem;">
                     <h3 style="font-family: var(--font-heading); font-size:2.8rem; color:var(--primary-color); margin:0; font-weight:600;">
                         You may also like</h3>
-                    <div class="product-grid" data-collection="all" data-limit="4" data-section="featured-collection"></div>
+                    <div class="product-grid" id="related-products-grid" data-limit="4"></div>
                 </div>
             </div>
         </section>
@@ -1493,7 +1470,6 @@
         </div>
     </footer>
     <script src="assets/cart.js"></script>
-    <script defer="" src="assets/js/components/core.js" type="module"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Hook tabs click events
@@ -1504,32 +1480,19 @@
                 header.addEventListener('click', () => {
                     const selectedTab = header.getAttribute('data-tab');
 
-                    // Update active tab header style
-                    tabHeaders.forEach(h => {
-                        const indicator = h.querySelector('.tab-active-indicator');
-                        if (h === header) {
-                            h.style.color = 'var(--primary-color)';
-                            if (indicator) indicator.style.background = 'var(--primary-color)';
-                        } else {
-                            h.style.color = 'var(--foreground-sub-color)';
-                            if (indicator) indicator.style.background = 'transparent';
-                        }
-                    });
+                    // Update active tab header
+                    tabHeaders.forEach(h => h.classList.remove('active'));
+                    header.classList.add('active');
 
                     // Show target tab content panel
                     tabPanels.forEach(panel => {
-                        if (panel.id === `tab-${selectedTab}`) {
-                            panel.style.display = 'block';
-                        } else {
-                            panel.style.display = 'none';
-                        }
+                        panel.classList.toggle('active', panel.id === `tab-${selectedTab}`);
                     });
                 });
             });
         });
     </script>
     <script src="assets/storefront-api.js" type="module"></script>
-    <script defer src="assets/js/components/core.js" type="module"></script>
     <!-- Size Guide Modal -->
     <div class='size-guide-overlay' id='size-guide-overlay' onclick='if(event.target === this) closeSizeGuide()'>
         <div class='size-guide-modal'>

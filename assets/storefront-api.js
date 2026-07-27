@@ -18,13 +18,13 @@ let filterState = {
 // SHOP PAGE — Load and render product grid (AJAX filtering)
 // =============================================
 async function loadShopProducts() {
-    const grid = document.querySelector('.product-grid') || document.querySelector('.shop-product-grid');
+    const grid = document.querySelector('.shop-product-grid') || document.querySelector('.product-grid:not(#related-products-grid)');
     if (!grid) return;
 
     grid.innerHTML = '<p style="padding:2rem;text-align:center;">Loading products...</p>';
 
     // Build query
-    let query = supabase.from('products').select('*').eq('in_stock', true);
+    let query = supabase.from('products').select('*').eq('in_stock', true).eq('status', 'active');
 
     // Apply sale filter if on sale page
     if (window.location.pathname.includes('/sale')) {
@@ -340,6 +340,7 @@ async function loadProductDetails() {
         .from('products')
         .select('*')
         .eq('handle', handle)
+        .eq('status', 'active')
         .single();
 
     if (error || !product) {
@@ -379,13 +380,15 @@ async function loadProductDetails() {
     window.addEventListener('currency:changed', renderPrice);
     window.addEventListener('settings:loaded', renderPrice);
 
-    const descEl = document.getElementById('dyn-product-desc');
-    if (descEl) descEl.innerText = product.description || '';
-
-    // Badge
+    // Collection label above title (Shopify-style)
     const badgeEl = document.getElementById('dyn-product-badge');
     if (badgeEl) {
-        badgeEl.style.display = 'none';
+        if (product.product_type || product.vendor) {
+            badgeEl.textContent = product.product_type || product.vendor;
+            badgeEl.style.display = 'block';
+        } else {
+            badgeEl.style.display = 'none';
+        }
     }
 
     // Main image
@@ -475,52 +478,43 @@ async function loadProductDetails() {
         stickyImg.alt = product.title;
     }
 
-    // Populate Tab Panels (Craftsmanship, Features, Weight, Dimensions)
-    const tabCraftsmanship = document.getElementById('tab-craftsmanship');
-    if (tabCraftsmanship) {
-        tabCraftsmanship.innerHTML = `
-            <p style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
-                Handcrafted with pride using 100% authentic African Ankara wax print fabric. 
-                Every piece reflects rich cultural artistry, tailored precision, and reinforced stitching for exceptional durability and timeless elegance.
-            </p>
+    // Populate Tab Panels (Description, Details, Shipping)
+    const tabDescription = document.getElementById('tab-description');
+    if (tabDescription) {
+        tabDescription.innerHTML = `
+            <div style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
+                ${product.description ? `<p>${product.description.replace(/\n/g, '</p><p>')}</p>` : '<p>No description available.</p>'}
+            </div>
         `;
     }
 
-    const tabFeatures = document.getElementById('tab-features');
-    if (tabFeatures) {
-        const featureList = (Array.isArray(product.features) && product.features.length > 0)
-            ? product.features
-            : [
-                'Premium 100% Cotton Ankara Wax Print',
-                'Vibrant, fade-resistant color dyes',
-                'Tailored comfort fit designed for everyday versatility',
-                'Ethically handcrafted by expert African artisans'
-            ];
-        tabFeatures.innerHTML = `
-            <ul style="font-size:1.4rem; line-height:2; color:var(--foreground-color,#333); padding-left:2rem; margin:0;">
-                ${featureList.map(f => `<li>${f}</li>`).join('')}
+    const tabDetails = document.getElementById('tab-details');
+    if (tabDetails) {
+        const details = [];
+        // User-defined details / features (one per line)
+        if (product.details && product.details.trim()) {
+            product.details.trim().split(/\n/).map(line => line.trim()).filter(Boolean).forEach(line => {
+                details.push(`<li style="margin-bottom:6px;">${line}</li>`);
+            });
+        } else {
+            // Fallback defaults if no custom details
+            if (product.product_type) details.push(`<li><strong>Category:</strong> ${product.product_type}</li>`);
+            if (product.vendor) details.push(`<li><strong>Brand:</strong> ${product.vendor}</li>`);
+            if (product.sizes && product.sizes.length) details.push(`<li><strong>Available Sizes:</strong> ${product.sizes.join(', ')}</li>`);
+            if (product.colors && product.colors.length) details.push(`<li><strong>Colours:</strong> ${product.colors.map(c => c.label).join(', ')}</li>`);
+            if (product.tags && product.tags.length) details.push(`<li><strong>Tags:</strong> ${product.tags.join(', ')}</li>`);
+            details.push('<li><strong>Material:</strong> 100% Cotton Ankara Wax Print</li>');
+            details.push('<li><strong>Care:</strong> Hand wash cold, hang dry</li>');
+        }
+        tabDetails.innerHTML = `
+            <ul style="font-size:1.4rem; line-height:2.2; color:var(--foreground-color,#333); padding-left:2rem; margin:0; list-style:none;">
+                ${details.join('')}
             </ul>
         `;
     }
 
-    const tabWeight = document.getElementById('tab-weight');
-    if (tabWeight) {
-        tabWeight.innerHTML = `
-            <p style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
-                <strong>Garment Weight:</strong> Approx. 450g – 650g (Lightweight, breathable & structured for all-day comfort).
-            </p>
-        `;
-    }
-
-    const tabDimensions = document.getElementById('tab-dimensions');
-    if (tabDimensions) {
-        tabDimensions.innerHTML = `
-            <p style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
-                <strong>Sizing & Fit:</strong> Standard international sizing (${(product.sizes || ['S','M','L','XL']).join(', ')}). 
-                Relaxed yet tailored silhouette. Refer to our size guide for precise body measurements.
-            </p>
-        `;
-    }
+    // Load related products from same collection
+    loadRelatedProducts(product);
 
     // Setup Social Share Links
     const currentUrl = encodeURIComponent(window.location.href);
@@ -548,6 +542,62 @@ async function loadProductDetails() {
             stickyBar.classList.remove('visible');
         }
     });
+}
+
+// Load related products from the same collection
+async function loadRelatedProducts(product) {
+    const grid = document.getElementById('related-products-grid');
+    if (!grid) return;
+
+    let query = supabase.from('products').select('*')
+        .eq('status', 'active')
+        .eq('in_stock', true)
+        .neq('id', product.id)
+        .limit(4);
+
+    // Prefer same collection
+    if (product.collection) {
+        query = query.eq('collection', product.collection);
+    }
+
+    const { data: related } = await query;
+
+    // If not enough from same collection, fill with others
+    let items = related || [];
+    if (items.length < 4 && product.collection) {
+        const { data: more } = await supabase.from('products').select('*')
+            .eq('status', 'active').eq('in_stock', true)
+            .neq('id', product.id)
+            .neq('collection', product.collection)
+            .limit(4 - items.length);
+        items = items.concat(more || []);
+    }
+
+    if (items.length === 0) {
+        grid.innerHTML = '<p style="text-align:center;color:#999;">No related products found.</p>';
+        return;
+    }
+
+    grid.innerHTML = items.map(p => {
+        const img = (p.images && p.images[0]) || 'assets/DSC02676.jpg';
+        const priceStr = window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(p.price) : `KSh ${parseFloat(p.price).toLocaleString()}`;
+        return `
+        <article class="product__card clean-card">
+            <div class="product__card--thumbnail clean-card-thumbnail">
+                <a class="product__card--thumbnail__link display-block" href="product.html?handle=${p.handle}">
+                    <img class="product__card--thumbnail__img product__primary--img" src="${img}" alt="${p.title}">
+                </a>
+            </div>
+            <div class="product__card--content clean-card-content">
+                <h3 class="product__card--title clean-title" style="margin-top:10px;">
+                    <a href="product.html?handle=${p.handle}">${p.title}</a>
+                </h3>
+                <div class="product__card--price clean-price" style="margin-top:5px;">
+                    <span class="current__price">${priceStr}</span>
+                </div>
+            </div>
+        </article>`;
+    }).join('');
 }
 
 // Select a color swatch on product page
@@ -704,7 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Live currency switching for grids
 window.addEventListener('currency:changed', () => {
-    if (document.querySelector('.shop-product-grid') || document.querySelector('[data-section="product-grid"]') || document.querySelector('.product-grid')) {
+    if (document.querySelector('.shop-product-grid') || document.querySelector('[data-section="product-grid"]')) {
         loadShopProducts();
     }
 });

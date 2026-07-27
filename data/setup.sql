@@ -106,6 +106,12 @@ ALTER TABLE products ADD COLUMN IF NOT EXISTS compare_at_price NUMERIC(10,2);
 ALTER TABLE products ADD COLUMN IF NOT EXISTS seo_title TEXT;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS seo_description TEXT;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS inventory_quantity INT DEFAULT 0;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS collection TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS fit_note TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS model_wearing_size TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS model_measurements JSONB;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS size_chart_id UUID;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS details TEXT;
 
 
 -- ─────────────────────────────────────────────────────────────────────
@@ -393,6 +399,32 @@ CREATE TABLE IF NOT EXISTS metafields (
     created_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE(owner_type, owner_id, namespace, key)
 );
+
+
+-- ─────────────────────────────────────────────────────────────────────
+-- 13. STORAGE BUCKET for product images
+-- ─────────────────────────────────────────────────────────────────────
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('products', 'products', true)
+ON CONFLICT (id) DO NOTHING;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE schemaname = 'storage' AND tablename = 'objects' AND policyname = 'Public read products bucket') THEN
+    CREATE POLICY "Public read products bucket"
+    ON storage.objects FOR SELECT
+    TO public
+    USING (bucket_id = 'products');
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE schemaname = 'storage' AND tablename = 'objects' AND policyname = 'Authenticated insert products bucket') THEN
+    CREATE POLICY "Authenticated insert products bucket"
+    ON storage.objects FOR INSERT
+    TO authenticated
+    WITH CHECK (bucket_id = 'products');
+  END IF;
+END
+$$;
 
 
 -- ─────────────────────────────────────────────────────────────────────

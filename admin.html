@@ -2893,15 +2893,16 @@
       const urlInput = document.getElementById(inputId);
       const statusEl = statusId ? document.getElementById(statusId) : null;
       if (!file || !urlInput) return;
-      if (statusEl) statusEl.textContent = 'Uploading...';
-      const formData = new FormData();
-      formData.append('file', file);
+      if (statusEl) statusEl.textContent = 'Compressing & uploading...';
       try {
+        const { blob } = await compressImageToWebp(file, 100);
+        const formData = new FormData();
+        formData.append('file', blob, (file.name || 'image').replace(/\.[^/.]+$/, '') + '.webp');
         const res = await fetch('/api/upload/homepage', { method: 'POST', body: formData });
         if (!res.ok) throw new Error('Upload failed');
         const json = await res.json();
         urlInput.value = json.url;
-        if (statusEl) statusEl.textContent = 'Done';
+        if (statusEl) statusEl.textContent = 'Done (<100KB WebP)';
         // Update preview if exists
         const previewImg = document.getElementById(inputId + '-preview');
         const placeholder = document.getElementById(inputId + '-placeholder');
@@ -2911,7 +2912,7 @@
         console.error(err);
         if (statusEl) statusEl.textContent = 'Failed: ' + err.message;
       }
-    }
+    };
 
     function imageUploadBlock(id, currentUrl, label) {
       label = label || 'Image';

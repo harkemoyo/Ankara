@@ -20,16 +20,23 @@ function moveDivisor() {
   divisor.style.width = slider.value + "%";
 }
 
-window.onload = function () {
-  moveDivisor();
-};
-
 // Preloader
 var preLoader = function () {
   let preloaderWrapper = document.getElementById("preloader");
-  window.onload = () => {
-    if (preloaderWrapper) preloaderWrapper.classList.add("loaded");
+  const hidePreloader = () => {
+    if (preloaderWrapper && !preloaderWrapper.classList.contains("loaded")) {
+      preloaderWrapper.classList.add("loaded");
+    }
   };
+
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    setTimeout(hidePreloader, 50);
+  } else {
+    document.addEventListener("DOMContentLoaded", hidePreloader);
+    window.addEventListener("load", hidePreloader);
+  }
+  // Safety fallback so user NEVER gets stuck waiting on slow network/images
+  setTimeout(hidePreloader, 400);
 };
 preLoader();
 

@@ -21,9 +21,8 @@
     "express-rate-limit": "^8.5.2",
     "liquidjs": "^10.27.1",
     "multer": "^2.2.0",
-    "node-fetch": "^3.3.2"
-  },
-  "devDependencies": {
+    "node-fetch": "^3.3.2",
     "sharp": "^0.35.2"
-  }
+  },
+  "devDependencies": {}
 }

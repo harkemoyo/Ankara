@@ -7040,13 +7040,6 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
-
-@media only screen and (max-width: 767px) {
-  .copyright__content {
-    text-align: center;
-  }
-}
-
 @media only screen and (max-width: 767px) {
   .footer__payment.mt-30 {
     margin-top: 2rem;

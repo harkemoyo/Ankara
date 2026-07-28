@@ -8,7 +8,7 @@
 const SUPABASE_URL = window.SUPABASE_URL || 'https://oscqakcygvvtjngbuhbw.supabase.co';
 const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'sb_publishable_0lphROA0QZoxj4CGqsI3iA_gXjSS2UF';
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ── Multi-Currency Helper ──────────────────────────────────────────────────

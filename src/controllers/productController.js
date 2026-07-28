@@ -65,6 +65,16 @@ class ProductController {
         }
     }
 
+    async updateTheme(req, res) {
+        try {
+            const theme = await productService.updateTheme(req.body);
+            res.json({ theme });
+        } catch (error) {
+            console.error('Error in updateTheme:', error);
+            res.status(500).json({ error: 'Failed to update theme layout' });
+        }
+    }
+
     async hasSaleProducts(req, res) {
         try {
             const hasSale = await productService.hasSaleProducts();

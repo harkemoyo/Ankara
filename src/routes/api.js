@@ -1,8 +1,11 @@
 const express = require('express');
+const multer = require('multer');
 const { initCheckout, initMpesaCheckout, paystackWebhook } = require('../controllers/checkoutController');
 const { getOrder } = require('../controllers/orderController');
 const { orderLookupLimiter } = require('../middleware/rateLimit');
 const { supabaseAdmin } = require('../config/supabase');
+
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 
 const router = express.Router();
 const productController = require('../controllers/productController');
@@ -12,7 +15,30 @@ router.get('/products', productController.getProducts);
 router.get('/products/:handle', productController.getProductByHandle);
 router.get('/collections', productController.getCollections);
 router.get('/theme', productController.getTheme);
+router.put('/theme', productController.updateTheme);
 router.get('/sale-check', productController.hasSaleProducts);
+
+// Homepage image upload — stores in Supabase Storage products/homepage/
+router.post('/upload/homepage', upload.single('file'), async (req, res) => {
+    try {
+        if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+        const ext = req.file.originalname.split('.').pop().toLowerCase();
+        const baseName = req.file.originalname.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
+        const fileName = `homepage/${baseName}-${Date.now()}.${ext}`;
+        const { error: uploadError } = await supabaseAdmin.storage
+            .from('products')
+            .upload(fileName, req.file.buffer, {
+                contentType: req.file.mimetype,
+                upsert: true
+            });
+        if (uploadError) throw uploadError;
+        const { data: urlData } = supabaseAdmin.storage.from('products').getPublicUrl(fileName);
+        res.json({ url: urlData.publicUrl, fileName });
+    } catch (error) {
+        console.error('Homepage upload error:', error);
+        res.status(500).json({ error: 'Failed to upload image' });
+    }
+});
 
 // Settings routes
 router.get('/settings', async (req, res) => {

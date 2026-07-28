@@ -402,7 +402,86 @@ CREATE TABLE IF NOT EXISTS metafields (
 
 
 -- ─────────────────────────────────────────────────────────────────────
--- 13. STORAGE BUCKET for product images
+-- 13. HOMEPAGE MEDIA (compressed hero/section images)
+-- ─────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS homepage_media (
+    id          BIGSERIAL PRIMARY KEY,
+    section     TEXT NOT NULL,
+    label       TEXT,
+    image_url   TEXT NOT NULL,
+    sort_order  INT DEFAULT 0,
+    created_at  TIMESTAMPTZ DEFAULT NOW(),
+    updated_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+
+-- ─────────────────────────────────────────────────────────────────────
+-- 14. HOMEPAGE SECTIONS (Shopify-like section builder)
+-- ─────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS homepage_sections (
+    id          BIGSERIAL PRIMARY KEY,
+    section_id  TEXT UNIQUE NOT NULL,
+    title       TEXT,
+    type        TEXT NOT NULL,
+    order_index INT DEFAULT 0,
+    enabled     BOOLEAN DEFAULT TRUE,
+    settings    JSONB DEFAULT '{}',
+    created_at  TIMESTAMPTZ DEFAULT NOW(),
+    updated_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Seed current homepage sections (safe to re-run)
+INSERT INTO homepage_sections (section_id, title, type, order_index, enabled, settings)
+VALUES
+  ('announcement', 'Announcement Bar', 'announcement', 0, true, '{"text":"Free Shipping on Orders Over KSh 5,000"}'::jsonb),
+  ('hero', 'Hero Slideshow', 'hero', 1, true, '{"slides":[{"image":"assets/DSC02616-hero.webp","subtitle":"New Collection","title":"Mary Humphrey","accent":"Wear","desc":"Bold African-inspired designs crafted for the modern individual. Celebrate your identity, stand out beautifully.","button":"Shop Now","link":"shop.html"},{"image":"assets/DSC01401-hero.webp","subtitle":"Premium Quality","title":"African","accent":"Elegance","desc":"Experience the finest materials and craftsmanship. Designed for those who appreciate true artistry.","button":"Discover More","link":"shop.html"},{"image":"assets/DSC01465.jpg","subtitle":"Timeless Style","title":"Modern","accent":"Heritage","desc":"Carry a piece of home with you everywhere. Perfect for any occasion.","button":"View Collection","link":"shop.html"}]}'::jsonb),
+  ('categories', 'Category Grid', 'categories', 2, true, '{}'::jsonb),
+  ('trending', 'Trending Products', 'trending', 3, true, '{"title":"Trending Now","limit":4,"collection":"all"}'::jsonb),
+  ('style-of-month', 'Style of the Month', 'style_of_month', 4, true, '{"subtitle":"Mary Humphrey Collection","title":"STYLE OF THE MONTH","product":"noir-cape","price":"KSh 8,000"}'::jsonb),
+  ('fabrics', 'Fabric Showcase', 'fabrics', 5, true, '{"subtitle":"Premium Materials","title":"AUTHENTIC ANKARA FABRICS"}'::jsonb),
+  ('heritage', 'Heritage & Culture', 'heritage', 6, true, '{"subtitle":"THE LOVE STORY OF","title":"ANKARA FASHION","text":"We started out with a passion for vibrant African fashion and for the past 20 years we have been creating beautiful, authentic Ankara couture that celebrates our rich heritage."}'::jsonb),
+  ('sale-promo', 'Sale Promo Strip', 'sale_promo', 7, true, '{"title":"ON SALE NOW - UP TO 30% OFF","button":"Shop Sale","link":"sale.html"}'::jsonb),
+  ('shop-by-style', 'Shop by Style', 'shop_by_style', 8, true, '{"title":"Shop by Style"}'::jsonb),
+  ('statement', 'Statement Banner', 'statement', 9, true, '{}'::jsonb),
+  ('testimonials', 'Testimonials', 'testimonials', 10, true, '{"title":"Recent Testimonials"}'::jsonb),
+  ('services', 'Service / Features', 'services', 11, true, '{}'::jsonb)
+ON CONFLICT (section_id) DO NOTHING;
+
+-- Enable RLS and open access for both the storefront (anon read) and admin (authenticated write)
+ALTER TABLE IF EXISTS homepage_media ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS homepage_sections ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Allow anon read homepage_media" ON public.homepage_media;
+DROP POLICY IF EXISTS "Allow authenticated manage homepage_media" ON public.homepage_media;
+DROP POLICY IF EXISTS "Allow anon read homepage_sections" ON public.homepage_sections;
+DROP POLICY IF EXISTS "Allow authenticated manage homepage_sections" ON public.homepage_sections;
+
+CREATE POLICY "Allow anon read homepage_media"
+  ON public.homepage_media
+  FOR SELECT TO anon
+  USING (true);
+
+CREATE POLICY "Allow authenticated manage homepage_media"
+  ON public.homepage_media
+  FOR ALL TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+CREATE POLICY "Allow anon read homepage_sections"
+  ON public.homepage_sections
+  FOR SELECT TO anon
+  USING (true);
+
+CREATE POLICY "Allow authenticated manage homepage_sections"
+  ON public.homepage_sections
+  FOR ALL TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+
+
+-- ─────────────────────────────────────────────────────────────────────
+-- 14. STORAGE BUCKET for product images
 -- ─────────────────────────────────────────────────────────────────────
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('products', 'products', true)

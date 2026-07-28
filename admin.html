@@ -651,6 +651,28 @@
         font-size: 16px;
       }
 
+      .homepage-editor {
+        flex-direction: column;
+        height: auto;
+        min-height: auto;
+      }
+
+      .homepage-editor .section-list {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+        padding-right: 0;
+        padding-bottom: 12px;
+      }
+
+      .homepage-editor .section-settings {
+        padding: 16px 0;
+      }
+
+      .hp-section-item strong {
+        font-size: 1.2rem;
+      }
+
       .toast {
         bottom: 16px;
         right: 16px;
@@ -694,7 +716,7 @@
       <p>Sign in to your dashboard</p>
       <input id="login-email" placeholder="Email address" type="email" />
       <input id="login-password" placeholder="Password" type="password" />
-      <button onclick="doLogin()">Sign In</button>
+      <button id="login-btn">Sign In</button>
       <div class="login-error" id="login-error"></div>
     </div>
   </div>
@@ -742,6 +764,9 @@
       </a>
       <a data-section="customer-measurements" href="#" onclick="showSection('customer-measurements',this)">
         <span class="icon">📝</span> Measurements
+      </a>
+      <a data-section="homepage" href="#" onclick="showSection('homepage',this)">
+        <span class="icon">🧩</span> Homepage
       </a>
       <a href="index.html" style="margin-top:auto;" target="_blank">
         <span class="icon">🌐</span> View Store
@@ -1373,6 +1398,26 @@
         </table>
       </div>
     </section>
+    <!-- Homepage Section Editor -->
+    <section class="admin-section" id="section-homepage">
+      <div class="page-header" style="justify-content:space-between;">
+        <div>
+          <h1>Homepage</h1>
+          <p style="color:var(--muted);font-size:1.3rem;">Click a section to edit its settings. Toggle enabled/disabled or drag to reorder later.</p>
+        </div>
+        <button class="btn btn-primary" onclick="addHomepageSection()">+ Add Section</button>
+      </div>
+      <div class="homepage-editor" style="display:flex;gap:24px;height:calc(100vh - 280px);min-height:500px;">
+        <div class="section-list" style="width:320px;overflow:auto;border-right:1px solid #eee;padding-right:12px;">
+          <ul id="homepage-sections-list" style="list-style:none;padding:0;margin:0;"></ul>
+        </div>
+        <div class="section-settings" style="flex:1;overflow:auto;">
+          <div id="homepage-section-form" style="color:var(--muted);padding:24px;">
+            Select a section from the list to edit its settings.
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
   <!-- ── COLLECTION MODAL ── -->
   <div class="modal-backdrop" id="collection-modal">
@@ -1590,10 +1635,15 @@
   </div>
   <!-- ── TOAST ── -->
   <div class="toast" id="toast"></div>
+  <script src="assets/supabase.umd.js"></script>
   <script type="module">
-    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    const createClient = window.supabase?.createClient;
+    if (!createClient) {
+      document.getElementById('login-error').textContent = 'Failed to load Supabase library. Refresh the page.';
+      throw new Error('supabase UMD not loaded');
+    }
 
-    // ─── CONFIG — Replace these with your real values ───────────────────────────
+    // ─── CONFIG ────────────────────────────────────────────────────────────────
     const SUPABASE_URL = 'https://oscqakcygvvtjngbuhbw.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_0lphROA0QZoxj4CGqsI3iA_gXjSS2UF';
     // ────────────────────────────────────────────────────────────────────────────
@@ -1609,7 +1659,7 @@
     }
 
     // ── AUTH ──
-    window.doLogin = async function () {
+    async function doLogin () {
       const email = document.getElementById('login-email').value;
       const password = document.getElementById('login-password').value;
       const errEl = document.getElementById('login-error');
@@ -1619,7 +1669,8 @@
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('admin-user-email').textContent = data.user.email;
       loadDashboard();
-    };
+    }
+    document.getElementById('login-btn').addEventListener('click', doLogin);
 
     window.doLogout = async function () {
       await supabase.auth.signOut();
@@ -1665,6 +1716,7 @@
       if (name === 'settings') loadSettings();
       if (name === 'size-charts') loadSizeCharts();
       if (name === 'customer-measurements') loadCustomerMeasurements();
+      if (name === 'homepage') loadHomepageSections();
     };
 
     // ── DASHBOARD ──
@@ -2714,6 +2766,638 @@
         }
       });
     }
+
+    // ── HOMEPAGE MEDIA ──
+    async function loadHomepageMedia() {
+      const tbody = document.getElementById('homepage-media-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+      try {
+        const { data: rows, error } = await supabase.from('homepage_media').select('*').order('sort_order', { ascending: true });
+        if (error) throw error;
+        if (!rows || rows.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">No homepage media yet.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = rows.map(r => `
+          <tr>
+            <td>${r.section || ''}</td>
+            <td>${r.label || ''}</td>
+            <td><img src="${r.image_url}" style="width:64px;height:64px;object-fit:cover;border-radius:6px;" /></td>
+            <td><code style="font-size:1.1rem;word-break:break-all;">${r.image_url}</code></td>
+            <td><button class="btn btn-sm" style="color:#e74c3c;border-color:#e74c3c;font-size:1.2rem;" onclick="deleteHomepageMedia(${r.id})">Delete</button></td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:32px;color:#e74c3c;">${err.message}</td></tr>`;
+      }
+    }
+
+    window.uploadHomepageImage = async function () {
+      const fileInput = document.getElementById('hm-upload');
+      const sectionSel = document.getElementById('hm-section');
+      const labelInput = document.getElementById('hm-label');
+      const status = document.getElementById('hm-status');
+      const files = fileInput.files;
+      if (!files || files.length === 0) {
+        if (status) status.textContent = 'Please select an image first.';
+        return;
+      }
+      if (status) status.textContent = 'Compressing & uploading...';
+      const file = files[0];
+      const baseName = file.name.replace(/\.[^/.]+$/, '').replace(/\s+/g, '-').replace(/[^a-zA-Z0-9_-]/g, '');
+      const fileName = 'homepage/' + Date.now() + '-' + (baseName || 'image') + '.webp';
+      try {
+        const { blob } = await compressImageToWebp(file, 100);
+        const { data, error } = await supabase.storage.from('products').upload(fileName, blob);
+        if (error) throw error;
+        const { data: { publicUrl } } = supabase.storage.from('products').getPublicUrl(fileName);
+        const { error: dbError } = await supabase.from('homepage_media').insert({
+          section: sectionSel ? sectionSel.value : 'general',
+          label: labelInput ? labelInput.value : '',
+          image_url: publicUrl,
+          sort_order: 0
+        });
+        if (dbError) throw dbError;
+        if (status) status.textContent = 'Upload complete! Copy the URL from the table below and update index.html.';
+        fileInput.value = '';
+        if (labelInput) labelInput.value = '';
+        loadHomepageMedia();
+      } catch (err) {
+        if (status) status.textContent = 'Error: ' + err.message;
+        console.error(err);
+      }
+    };
+
+    window.deleteHomepageMedia = async function (id) {
+      if (!confirm('Delete this homepage media record?')) return;
+      try {
+        const { error } = await supabase.from('homepage_media').delete().eq('id', id);
+        if (error) throw error;
+        loadHomepageMedia();
+      } catch (err) {
+        alert('Error deleting: ' + err.message);
+      }
+    };
+
+    // ── HOMEPAGE SECTION EDITOR (Online Store 2.0 — /api/theme) ──
+    let themeData = { sections: {}, order: [] };
+    let currentSectionKey = null;
+
+    const SECTION_LABELS = {
+      announcement: 'Announcement Bar', hero: 'Hero Slideshow', categories: 'Category Grid',
+      trending: 'Trending Products', style_of_month: 'Style of the Month', fabrics: 'Fabric Showcase',
+      heritage: 'Heritage & Culture', sale_promo: 'Sale Promo Strip', shop_by_style: 'Shop by Style',
+      statement: 'Statement Banner', testimonials: 'Testimonials', services: 'Services Strip', footer: 'Footer'
+    };
+
+    async function loadHomepageSections() {
+      const list = document.getElementById('homepage-sections-list');
+      list.innerHTML = '<li style="padding:12px;color:var(--muted);">Loading...</li>';
+      try {
+        const res = await fetch('/api/theme');
+        if (!res.ok) throw new Error('Failed to load theme');
+        const json = await res.json();
+        themeData = json.theme || { sections: {}, order: [] };
+        renderThemeSectionsList();
+      } catch (err) {
+        list.innerHTML = `<li style="padding:12px;color:#e74c3c;">${err.message}</li>`;
+      }
+    }
+
+    function renderThemeSectionsList() {
+      const list = document.getElementById('homepage-sections-list');
+      const order = themeData.order || [];
+      if (!order.length) { list.innerHTML = '<li style="padding:12px;color:var(--muted);">No sections found. Run the migration SQL first.</li>'; return; }
+      list.innerHTML = order.map((key, i) => {
+        const sec = themeData.sections[key] || {};
+        const label = SECTION_LABELS[sec.type || key] || key;
+        const enabled = sec.enabled !== false;
+        return `<li class="hp-section-item" style="padding:12px;border:1px solid #eee;border-radius:6px;margin-bottom:8px;cursor:pointer;background:${currentSectionKey === key ? '#f0f7ff' : '#fff'};opacity:${enabled ? 1 : 0.5};" onclick="selectThemeSection('${key}')">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <strong style="font-size:1.4rem;">${escapeHtml(label)}</strong>
+              <div style="font-size:1.1rem;color:var(--muted);">${key}</div>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;" onclick="event.stopPropagation()">
+              <button class="btn btn-sm" ${i === 0 ? 'disabled' : ''} onclick="moveThemeSection('${key}',-1)">↑</button>
+              <button class="btn btn-sm" ${i === order.length - 1 ? 'disabled' : ''} onclick="moveThemeSection('${key}',1)">↓</button>
+            </div>
+          </div>
+        </li>`;
+      }).join('');
+    }
+
+    // ── Image upload helper (uses /api/upload/homepage) ──
+    window.uploadSectionImage = async function (file, inputId, statusId) {
+      const urlInput = document.getElementById(inputId);
+      const statusEl = statusId ? document.getElementById(statusId) : null;
+      if (!file || !urlInput) return;
+      if (statusEl) statusEl.textContent = 'Uploading...';
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const res = await fetch('/api/upload/homepage', { method: 'POST', body: formData });
+        if (!res.ok) throw new Error('Upload failed');
+        const json = await res.json();
+        urlInput.value = json.url;
+        if (statusEl) statusEl.textContent = 'Done';
+        // Update preview if exists
+        const previewImg = document.getElementById(inputId + '-preview');
+        const placeholder = document.getElementById(inputId + '-placeholder');
+        if (previewImg) { previewImg.src = json.url; previewImg.style.display = 'block'; }
+        if (placeholder) placeholder.style.display = 'none';
+      } catch (err) {
+        console.error(err);
+        if (statusEl) statusEl.textContent = 'Failed: ' + err.message;
+      }
+    }
+
+    function imageUploadBlock(id, currentUrl, label) {
+      label = label || 'Image';
+      const hasImg = currentUrl ? true : false;
+      return `<div class="form-group" style="grid-column:1/-1;">
+        <label>${escapeHtml(label)}</label>
+        <div ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadSectionImage(event.dataTransfer.files[0],'${id}','${id}-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:12px;background:#fafafa;text-align:center;margin-bottom:8px;">
+          <label class="btn btn-primary" style="cursor:pointer;margin:0;font-size:1.2rem;">
+            <input type="file" accept="image/*" onchange="if(this.files[0])uploadSectionImage(this.files[0],'${id}','${id}-status');this.value=''" style="display:none;" />
+            Upload
+          </label>
+          <span style="font-size:1.1rem;color:var(--muted);margin-left:8px;">or drag here</span>
+          <span id="${id}-status" style="display:block;font-size:1.1rem;color:var(--muted);margin-top:4px;"></span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
+          <div style="width:120px;min-height:80px;border:1px solid #eee;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;">
+            <img id="${id}-preview" src="${escapeHtml(currentUrl || '')}" style="max-width:100%;max-height:100px;object-fit:cover;display:${hasImg ? 'block' : 'none'};" onload="this.style.display='block';this.nextElementSibling.style.display='none';" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+            <span id="${id}-placeholder" style="display:${hasImg ? 'none' : 'flex'};color:#aaa;font-size:1.1rem;text-align:center;padding:6px;">No image</span>
+          </div>
+          <div style="flex:1;min-width:180px;">
+            <input id="${id}" type="text" placeholder="https://..." value="${escapeHtml(currentUrl || '')}" oninput="var p=document.getElementById('${id}-preview'),ph=document.getElementById('${id}-placeholder');if(p){p.src=this.value;p.style.display='block';}if(ph)ph.style.display='none';" />
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function textField(id, label, value, type) {
+      type = type || 'text';
+      if (type === 'textarea') return `<div class="form-group" style="grid-column:1/-1;"><label>${escapeHtml(label)}</label><textarea id="${id}" rows="3">${escapeHtml(value || '')}</textarea></div>`;
+      return `<div class="form-group"><label>${escapeHtml(label)}</label><input id="${id}" type="${type}" value="${escapeHtml(value || '')}" /></div>`;
+    }
+
+    // ── Per-section form renderers ──
+    const sectionFormRenderers = {
+      announcement(s) {
+        return textField('ts-text', 'Announcement Text', s.text);
+      },
+      hero(s) {
+        const slides = s.slides && s.slides.length ? s.slides : [{}, {}, {}];
+        let html = '';
+        for (let i = 0; i < 3; i++) {
+          const sl = slides[i] || {};
+          html += `<div style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:16px;background:#fff;"><h4 style="margin:0 0 10px;font-size:1.3rem;">Slide ${i + 1}</h4><div class="form-grid">
+            ${imageUploadBlock('ts-slide-' + i + '-image', sl.image, 'Slide Image')}
+            ${textField('ts-slide-' + i + '-subtitle', 'Subtitle', sl.subtitle)}
+            ${textField('ts-slide-' + i + '-title', 'Title', sl.title)}
+            ${textField('ts-slide-' + i + '-accent', 'Accent Word', sl.accent)}
+            ${textField('ts-slide-' + i + '-desc', 'Description', sl.desc)}
+            ${textField('ts-slide-' + i + '-button', 'Button Text', sl.button)}
+            ${textField('ts-slide-' + i + '-link', 'Button Link', sl.link)}
+          </div></div>`;
+        }
+        return html;
+      },
+      categories(s) {
+        const blocks = s.blocks && s.blocks.length ? s.blocks : [{}, {}, {}];
+        let html = '';
+        for (let i = 0; i < 3; i++) {
+          const b = blocks[i] || {};
+          html += `<div style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:12px;background:#fff;"><h4 style="margin:0 0 8px;font-size:1.3rem;">Category ${i + 1}</h4><div class="form-grid">
+            ${imageUploadBlock('ts-cat-' + i + '-image', b.image, 'Image')}
+            ${textField('ts-cat-' + i + '-title', 'Title', b.title)}
+            ${textField('ts-cat-' + i + '-link', 'Link', b.link)}
+            ${textField('ts-cat-' + i + '-action', 'Action Text', b.action)}
+          </div></div>`;
+        }
+        return html;
+      },
+      trending(s) {
+        return `<div class="form-grid">
+          ${textField('ts-heading', 'Heading', s.heading)}
+          ${textField('ts-collection', 'Collection Handle', s.collection)}
+          ${textField('ts-limit', 'Product Limit', s.limit, 'number')}
+          ${textField('ts-button_text', 'Button Text', s.button_text)}
+          ${textField('ts-button_link', 'Button Link', s.button_link)}
+        </div>`;
+      },
+      style_of_month(s) {
+        return `<div class="form-grid">
+          ${textField('ts-subtitle', 'Subtitle', s.subtitle)}
+          ${textField('ts-title', 'Section Title', s.title)}
+          ${imageUploadBlock('ts-image', s.image, 'Product Image')}
+          ${textField('ts-product_name', 'Product Name', s.product_name)}
+          ${textField('ts-price', 'Price Text', s.price)}
+          ${textField('ts-product_handle', 'Product Handle', s.product_handle)}
+          ${textField('ts-button_text', 'Button Text', s.button_text)}
+        </div>`;
+      },
+      fabrics(s) {
+        const images = s.images || ['', '', ''];
+        let html = `<div class="form-grid">
+          ${textField('ts-subtitle', 'Subtitle', s.subtitle)}
+          ${textField('ts-title', 'Title', s.title)}`;
+        for (let i = 0; i < 3; i++) {
+          html += imageUploadBlock('ts-fab-' + i + '-image', images[i] || '', 'Fabric Image ' + (i + 1));
+        }
+        html += `${textField('ts-button_text', 'Button Text', s.button_text)}
+          ${textField('ts-button_link', 'Button Link', s.button_link)}
+        </div>`;
+        return html;
+      },
+      heritage(s) {
+        const segs = s.segments || [{}, {}];
+        let html = `<div class="form-grid">${textField('ts-subtitle', 'Subtitle', s.subtitle)}</div>`;
+        for (let i = 0; i < 2; i++) {
+          const seg = segs[i] || {};
+          html += `<div style="border:1px solid #eee;border-radius:8px;padding:16px;margin:12px 0;background:#fff;"><h4 style="margin:0 0 8px;font-size:1.3rem;">Segment ${i + 1}</h4><div class="form-grid">
+            ${textField('ts-seg-' + i + '-label', 'Label', seg.label)}
+            ${textField('ts-seg-' + i + '-title', 'Title', seg.title)}
+            ${textField('ts-seg-' + i + '-desc', 'Description', seg.desc, 'textarea')}
+            ${imageUploadBlock('ts-seg-' + i + '-image', seg.image, 'Image')}
+          </div></div>`;
+        }
+        return html;
+      },
+      sale_promo(s) {
+        return `<div class="form-grid">
+          ${textField('ts-title', 'Title', s.title)}
+          ${textField('ts-description', 'Description', s.description)}
+          ${textField('ts-button_text', 'Button Text', s.button_text)}
+          ${textField('ts-button_link', 'Button Link', s.button_link)}
+          ${textField('ts-bg_color', 'Background Color', s.bg_color)}
+        </div>`;
+      },
+      shop_by_style(s) {
+        const blocks = s.blocks || [];
+        let html = `<div class="form-grid">${textField('ts-title', 'Heading', s.title)}</div>`;
+        const count = Math.max(blocks.length, 6);
+        for (let i = 0; i < count; i++) {
+          const b = blocks[i] || {};
+          html += `<div style="border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:8px;background:#fff;"><h4 style="margin:0 0 6px;font-size:1.2rem;">Style ${i + 1}</h4><div class="form-grid">
+            ${imageUploadBlock('ts-style-' + i + '-image', b.image, 'Image')}
+            ${textField('ts-style-' + i + '-label', 'Label', b.label)}
+            ${textField('ts-style-' + i + '-link', 'Link', b.link)}
+          </div></div>`;
+        }
+        return html;
+      },
+      statement(s) {
+        return `<div class="form-grid">
+          ${imageUploadBlock('ts-bg_image', s.bg_image, 'Background Image')}
+          ${textField('ts-title', 'Title', s.title)}
+          ${textField('ts-description', 'Description', s.description, 'textarea')}
+          ${textField('ts-button_text', 'Button Text', s.button_text)}
+          ${textField('ts-button_link', 'Button Link', s.button_link)}
+        </div>`;
+      },
+      testimonials(s) {
+        const items = s.items || [];
+        let html = `<div class="form-grid">${textField('ts-heading', 'Section Heading', s.heading)}</div>`;
+        const count = Math.max(items.length, 3);
+        for (let i = 0; i < count; i++) {
+          const t = items[i] || {};
+          html += `<div style="border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:8px;background:#fff;"><h4 style="margin:0 0 6px;font-size:1.2rem;">Testimonial ${i + 1}</h4><div class="form-grid">
+            ${textField('ts-test-' + i + '-quote', 'Quote', t.quote, 'textarea')}
+            ${textField('ts-test-' + i + '-author', 'Author', t.author)}
+            ${textField('ts-test-' + i + '-rating', 'Rating (1-5)', t.rating, 'number')}
+          </div></div>`;
+        }
+        return html;
+      },
+      services(s) {
+        const items = s.items || [];
+        let html = '';
+        const count = Math.max(items.length, 3);
+        for (let i = 0; i < count; i++) {
+          const svc = items[i] || {};
+          html += `<div style="border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:8px;background:#fff;"><h4 style="margin:0 0 6px;font-size:1.2rem;">Service ${i + 1}</h4><div class="form-grid">
+            ${textField('ts-svc-' + i + '-icon', 'Icon (truck/lock/heart)', svc.icon)}
+            ${textField('ts-svc-' + i + '-title', 'Title', svc.title)}
+            ${textField('ts-svc-' + i + '-description', 'Description', svc.description)}
+          </div></div>`;
+        }
+        return html;
+      },
+      footer(s) {
+        const social = s.social || {};
+        const colLinks = s.collection_links || [];
+        const quickLinks = s.quick_links || [];
+        let html = `<div class="form-grid">
+          ${imageUploadBlock('ts-logo', s.logo, 'Footer Logo')}
+          ${textField('ts-about', 'About Text', s.about, 'textarea')}
+          ${textField('ts-location', 'Location Name', s.location)}
+          ${textField('ts-location_url', 'Location URL', s.location_url)}
+          ${textField('ts-email', 'Email', s.email)}
+          ${textField('ts-instagram', 'Instagram URL', social.instagram)}
+          ${textField('ts-facebook', 'Facebook URL', social.facebook)}
+          ${textField('ts-tiktok', 'TikTok URL', social.tiktok)}
+          ${textField('ts-newsletter_heading', 'Newsletter Heading', s.newsletter_heading)}
+          ${textField('ts-newsletter_desc', 'Newsletter Description', s.newsletter_desc, 'textarea')}
+          ${textField('ts-copyright', 'Copyright Text', s.copyright)}
+        </div>`;
+        html += `<h4 style="margin:20px 0 4px;font-size:1.3rem;">Collection Menu</h4>
+          <p style="margin:0 0 8px;color:#666;font-size:0.85rem;">Add the page name and its web address.</p>
+          <div style="display:flex;gap:8px;margin-bottom:4px;font-weight:600;color:#444;font-size:0.85rem;">
+            <span style="flex:1;">Name (label)</span>
+            <span style="flex:1;">Link (URL)</span>
+          </div>`;
+        for (let i = 0; i < 4; i++) {
+          const l = colLinks[i] || {};
+          html += `<div style="display:flex;gap:8px;margin-bottom:6px;">
+            <input id="ts-col-${i}-label" type="text" placeholder="e.g. All Products" value="${escapeHtml(l.label || '')}" style="flex:1;" />
+            <input id="ts-col-${i}-url" type="text" placeholder="e.g. shop.html" value="${escapeHtml(l.url || '')}" style="flex:1;" />
+          </div>`;
+        }
+        html += `<h4 style="margin:20px 0 4px;font-size:1.3rem;">Quick Links Menu</h4>
+          <p style="margin:0 0 8px;color:#666;font-size:0.85rem;">Add the page name and its web address.</p>
+          <div style="display:flex;gap:8px;margin-bottom:4px;font-weight:600;color:#444;font-size:0.85rem;">
+            <span style="flex:1;">Name (label)</span>
+            <span style="flex:1;">Link (URL)</span>
+          </div>`;
+        for (let i = 0; i < 5; i++) {
+          const l = quickLinks[i] || {};
+          html += `<div style="display:flex;gap:8px;margin-bottom:6px;">
+            <input id="ts-ql-${i}-label" type="text" placeholder="e.g. Home" value="${escapeHtml(l.label || '')}" style="flex:1;" />
+            <input id="ts-ql-${i}-url" type="text" placeholder="e.g. index.html" value="${escapeHtml(l.url || '')}" style="flex:1;" />
+          </div>`;
+        }
+        return html;
+      }
+    };
+
+    // ── Collect form data back into settings object ──
+    const sectionFormCollectors = {
+      announcement() { return { text: document.getElementById('ts-text')?.value || '' }; },
+      hero() {
+        const slides = [];
+        for (let i = 0; i < 3; i++) {
+          slides.push({
+            image: document.getElementById('ts-slide-' + i + '-image')?.value || '',
+            subtitle: document.getElementById('ts-slide-' + i + '-subtitle')?.value || '',
+            title: document.getElementById('ts-slide-' + i + '-title')?.value || '',
+            accent: document.getElementById('ts-slide-' + i + '-accent')?.value || '',
+            desc: document.getElementById('ts-slide-' + i + '-desc')?.value || '',
+            button: document.getElementById('ts-slide-' + i + '-button')?.value || '',
+            link: document.getElementById('ts-slide-' + i + '-link')?.value || ''
+          });
+        }
+        return { slides };
+      },
+      categories() {
+        const blocks = [];
+        for (let i = 0; i < 3; i++) {
+          blocks.push({
+            image: document.getElementById('ts-cat-' + i + '-image')?.value || '',
+            title: document.getElementById('ts-cat-' + i + '-title')?.value || '',
+            link: document.getElementById('ts-cat-' + i + '-link')?.value || '',
+            action: document.getElementById('ts-cat-' + i + '-action')?.value || ''
+          });
+        }
+        return { blocks };
+      },
+      trending() {
+        return {
+          heading: document.getElementById('ts-heading')?.value || '',
+          collection: document.getElementById('ts-collection')?.value || '',
+          limit: parseInt(document.getElementById('ts-limit')?.value, 10) || 4,
+          button_text: document.getElementById('ts-button_text')?.value || '',
+          button_link: document.getElementById('ts-button_link')?.value || ''
+        };
+      },
+      style_of_month() {
+        return {
+          subtitle: document.getElementById('ts-subtitle')?.value || '',
+          title: document.getElementById('ts-title')?.value || '',
+          image: document.getElementById('ts-image')?.value || '',
+          product_name: document.getElementById('ts-product_name')?.value || '',
+          price: document.getElementById('ts-price')?.value || '',
+          product_handle: document.getElementById('ts-product_handle')?.value || '',
+          button_text: document.getElementById('ts-button_text')?.value || ''
+        };
+      },
+      fabrics() {
+        const images = [];
+        for (let i = 0; i < 3; i++) images.push(document.getElementById('ts-fab-' + i + '-image')?.value || '');
+        return {
+          subtitle: document.getElementById('ts-subtitle')?.value || '',
+          title: document.getElementById('ts-title')?.value || '',
+          images,
+          button_text: document.getElementById('ts-button_text')?.value || '',
+          button_link: document.getElementById('ts-button_link')?.value || ''
+        };
+      },
+      heritage() {
+        const segments = [];
+        for (let i = 0; i < 2; i++) {
+          segments.push({
+            label: document.getElementById('ts-seg-' + i + '-label')?.value || '',
+            title: document.getElementById('ts-seg-' + i + '-title')?.value || '',
+            desc: document.getElementById('ts-seg-' + i + '-desc')?.value || '',
+            image: document.getElementById('ts-seg-' + i + '-image')?.value || ''
+          });
+        }
+        return { subtitle: document.getElementById('ts-subtitle')?.value || '', segments };
+      },
+      sale_promo() {
+        return {
+          title: document.getElementById('ts-title')?.value || '',
+          description: document.getElementById('ts-description')?.value || '',
+          button_text: document.getElementById('ts-button_text')?.value || '',
+          button_link: document.getElementById('ts-button_link')?.value || '',
+          bg_color: document.getElementById('ts-bg_color')?.value || ''
+        };
+      },
+      shop_by_style() {
+        const blocks = [];
+        for (let i = 0; i < 6; i++) {
+          const label = document.getElementById('ts-style-' + i + '-label')?.value || '';
+          if (label || document.getElementById('ts-style-' + i + '-image')?.value) {
+            blocks.push({
+              image: document.getElementById('ts-style-' + i + '-image')?.value || '',
+              label,
+              link: document.getElementById('ts-style-' + i + '-link')?.value || ''
+            });
+          }
+        }
+        return { title: document.getElementById('ts-title')?.value || '', blocks };
+      },
+      statement() {
+        return {
+          bg_image: document.getElementById('ts-bg_image')?.value || '',
+          title: document.getElementById('ts-title')?.value || '',
+          description: document.getElementById('ts-description')?.value || '',
+          button_text: document.getElementById('ts-button_text')?.value || '',
+          button_link: document.getElementById('ts-button_link')?.value || ''
+        };
+      },
+      testimonials() {
+        const items = [];
+        for (let i = 0; i < 6; i++) {
+          const quote = document.getElementById('ts-test-' + i + '-quote')?.value || '';
+          if (quote) {
+            items.push({
+              quote,
+              author: document.getElementById('ts-test-' + i + '-author')?.value || '',
+              rating: parseInt(document.getElementById('ts-test-' + i + '-rating')?.value, 10) || 5
+            });
+          }
+        }
+        return { heading: document.getElementById('ts-heading')?.value || '', items };
+      },
+      services() {
+        const items = [];
+        for (let i = 0; i < 3; i++) {
+          items.push({
+            icon: document.getElementById('ts-svc-' + i + '-icon')?.value || '',
+            title: document.getElementById('ts-svc-' + i + '-title')?.value || '',
+            description: document.getElementById('ts-svc-' + i + '-description')?.value || ''
+          });
+        }
+        return { items };
+      },
+      footer() {
+        const collection_links = [];
+        for (let i = 0; i < 4; i++) {
+          const label = document.getElementById('ts-col-' + i + '-label')?.value || '';
+          if (label) collection_links.push({ label, url: document.getElementById('ts-col-' + i + '-url')?.value || '' });
+        }
+        const quick_links = [];
+        for (let i = 0; i < 5; i++) {
+          const label = document.getElementById('ts-ql-' + i + '-label')?.value || '';
+          if (label) quick_links.push({ label, url: document.getElementById('ts-ql-' + i + '-url')?.value || '' });
+        }
+        return {
+          logo: document.getElementById('ts-logo')?.value || '',
+          about: document.getElementById('ts-about')?.value || '',
+          location: document.getElementById('ts-location')?.value || '',
+          location_url: document.getElementById('ts-location_url')?.value || '',
+          email: document.getElementById('ts-email')?.value || '',
+          social: {
+            instagram: document.getElementById('ts-instagram')?.value || '',
+            facebook: document.getElementById('ts-facebook')?.value || '',
+            tiktok: document.getElementById('ts-tiktok')?.value || ''
+          },
+          collection_links,
+          quick_links,
+          newsletter_heading: document.getElementById('ts-newsletter_heading')?.value || '',
+          newsletter_desc: document.getElementById('ts-newsletter_desc')?.value || '',
+          copyright: document.getElementById('ts-copyright')?.value || ''
+        };
+      }
+    };
+
+    window.selectThemeSection = function (key) {
+      currentSectionKey = key;
+      renderThemeSectionsList();
+      const container = document.getElementById('homepage-section-form');
+      const sec = themeData.sections[key];
+      if (!sec) { container.innerHTML = '<p style="color:var(--muted);">Section not found.</p>'; return; }
+      const type = sec.type || key;
+      const settings = sec.settings || {};
+      const renderer = sectionFormRenderers[type];
+      const formHtml = renderer ? renderer(settings) : `<p style="color:var(--muted);">No editor for type "${type}".</p>`;
+      container.innerHTML = `
+        <h3 style="margin-bottom:12px;">${escapeHtml(SECTION_LABELS[type] || key)}</h3>
+        <div style="margin-bottom:16px;display:flex;align-items:center;gap:12px;">
+          <label style="display:flex;align-items:center;gap:6px;font-size:1.4rem;"><input id="ts-enabled" type="checkbox" ${sec.enabled !== false ? 'checked' : ''} /> Enabled</label>
+          <span style="font-size:1.1rem;color:var(--muted);">Key: ${key}</span>
+        </div>
+        ${formHtml}
+        <div style="margin-top:20px;display:flex;gap:12px;">
+          <button class="btn btn-primary" onclick="saveThemeSection()">Save Section</button>
+          <button class="btn btn-ghost" onclick="window.open('index.html','_blank')">View Storefront</button>
+        </div>
+      `;
+    };
+
+    window.saveThemeSection = async function () {
+      if (!currentSectionKey) return;
+      const sec = themeData.sections[currentSectionKey];
+      if (!sec) return;
+      const type = sec.type || currentSectionKey;
+      const collector = sectionFormCollectors[type];
+      if (collector) sec.settings = collector();
+      sec.enabled = document.getElementById('ts-enabled')?.checked !== false;
+      try {
+        const res = await fetch('/api/theme', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(themeData)
+        });
+        if (!res.ok) throw new Error('Save failed');
+        const json = await res.json();
+        themeData = json.theme || themeData;
+        renderThemeSectionsList();
+        selectThemeSection(currentSectionKey);
+        alert('Saved!');
+      } catch (err) {
+        alert('Save failed: ' + err.message);
+      }
+    };
+
+    window.moveThemeSection = async function (key, dir) {
+      const order = themeData.order || [];
+      const idx = order.indexOf(key);
+      if (idx < 0) return;
+      const newIdx = idx + dir;
+      if (newIdx < 0 || newIdx >= order.length) return;
+      [order[idx], order[newIdx]] = [order[newIdx], order[idx]];
+      themeData.order = order;
+      try {
+        const res = await fetch('/api/theme', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(themeData)
+        });
+        if (!res.ok) throw new Error('Reorder failed');
+        const json = await res.json();
+        themeData = json.theme || themeData;
+        renderThemeSectionsList();
+      } catch (err) {
+        alert('Reorder failed: ' + err.message);
+      }
+    };
+
+    window.addHomepageSection = async function () {
+      const types = Object.keys(SECTION_LABELS).filter(t => t !== 'footer');
+      const type = prompt('Section type?\n' + types.map(t => `• ${t}`).join('\n'));
+      if (!type || !SECTION_LABELS[type]) { alert('Unknown section type: ' + type); return; }
+      let idx = 1;
+      let key = type;
+      while (themeData.sections[key]) {
+        key = `${type}_${idx}`;
+        idx++;
+      }
+      themeData.sections[key] = { type, enabled: true, settings: {} };
+      themeData.order.push(key);
+      try {
+        const res = await fetch('/api/theme', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(themeData)
+        });
+        if (!res.ok) throw new Error('Add failed');
+        const json = await res.json();
+        themeData = json.theme || themeData;
+        renderThemeSectionsList();
+        selectThemeSection(key);
+      } catch (err) {
+        alert('Add failed: ' + err.message);
+      }
+    };
+
+    window.previewHomepage = function () {
+      window.open('index.html', '_blank');
+    };
 
     // Auto-generate handle from title
     document.getElementById('p-title').addEventListener('input', function () {

@@ -1,4 +1,8 @@
-const { supabaseAnon } = require('../config/supabase');
+const { supabaseAnon, supabaseAdmin } = require('../config/supabase');
+const fs = require('fs');
+const path = require('path');
+
+const THEME_FILE = path.join(__dirname, '..', '..', 'data', 'theme-sections.json');
 
 class ProductService {
     /**
@@ -215,33 +219,22 @@ class ProductService {
     }
 
     async getTheme() {
-        const { data } = await supabaseAnon.from('settings').select('theme_sections').eq('id', 1).single();
-        if (data && data.theme_sections) {
-            return data.theme_sections;
+        try {
+            const raw = fs.readFileSync(THEME_FILE, 'utf-8');
+            return JSON.parse(raw);
+        } catch (e) {
+            console.error('Failed to read theme-sections.json:', e.message);
+            return { sections: {}, order: [] };
         }
-        // Default Online Store 2.0 Theme JSON layout
-        return {
-            sections: {
-                "hero": {
-                    type: "hero",
-                    settings: {
-                        heading: "Contemporary African Fashion",
-                        subheading: "Bold prints, exquisite craftsmanship, and timeless designs.",
-                        button_text: "Explore Shop",
-                        button_link: "/shop"
-                    }
-                },
-                "featured-collection": {
-                    type: "featured-collection",
-                    settings: {
-                        heading: "Top Rated Products",
-                        collection: "all",
-                        limit: 4
-                    }
-                }
-            },
-            order: ["hero", "featured-collection"]
-        };
+    }
+
+    async updateTheme(themeSections) {
+        try {
+            fs.writeFileSync(THEME_FILE, JSON.stringify(themeSections, null, 2), 'utf-8');
+            return themeSections;
+        } catch (e) {
+            throw new Error('Failed to write theme-sections.json: ' + e.message);
+        }
     }
 
     async hasSaleProducts() {

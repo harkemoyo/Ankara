@@ -23,6 +23,7 @@
     <link href="assets/glightbox.min.css" rel="stylesheet" />
     <link href="assets/normalize.css" rel="stylesheet" />
     <link href="assets/filter.css" rel="stylesheet" />
+    <link rel="preload" as="image" href="assets/DSC02616-hero.webp" fetchpriority="high" />
     <script defer="" src="assets/js/components/core.js" type="module"></script>
     <style>
         /* ── Logo ── */
@@ -1818,7 +1819,7 @@
     <div class="header__topbar bg__primary">
         <div class="header__topbar--inner">
             <div class="topbar-left-spacer"></div>
-            <p class="header__info--text text-white m-0 text-center" id="announcement-text">
+            <p class="header__info--text text-white m-0 text-center" id="announcement-text" data-section-id="announcement">
 
             </p>
             <div class="header__topbar--currency">
@@ -2128,12 +2129,12 @@
         </div>
     <main class="main">
         <!-- ── HERO SECTION ──────────────────────────────── -->
-        <section class="hero-section">
+        <section class="hero-section" data-section-id="hero">
             <div class="swiper hero-swiper">
                 <div class="swiper-wrapper">
                     <!-- Slide 1 -->
                     <div class="swiper-slide"
-                        style="background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25)), url('assets/DSC02616.jpg');">
+                        style="background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.45)), url('assets/DSC02616-hero.webp');">
                         <div class="hero-container">
                             <div class="hero-content">
                                 <span class="hero-subtitle">New Collection</span>
@@ -2158,7 +2159,7 @@
                     </div>
                     <!-- Slide 2 -->
                     <div class="swiper-slide"
-                        style="background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25)), url('assets/DSC01401.jpg');">
+                        style="background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.45)), url('assets/DSC01401-hero.webp');">
                         <div class="hero-container">
                             <div class="hero-content">
                                 <span class="hero-subtitle">Premium Quality</span>
@@ -2183,7 +2184,7 @@
                     </div>
                     <!-- Slide 3 -->
                     <div class="swiper-slide"
-                        style="background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25)), url('assets/DSC01465.jpg');">
+                        style="background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.45)), url('assets/DSC01465.jpg');">
                         <div class="hero-container">
                             <div class="hero-content">
                                 <span class="hero-subtitle">Timeless Style</span>
@@ -2215,13 +2216,13 @@
                                    ═══════════════════════════════════════════════ -->
         <div class="site__main">
             <!-- Minimalist Categories Section -->
-            <section class="home-categories section--padding">
+            <section class="home-categories section--padding" data-section-id="categories">
                 <div class="home-categories-wrapper">
                     <div class="home-category-grid">
                         <div class="category-block">
                             <a class="category-link" href="shop.html">
                                 <div class="category-image-wrap">
-                                    <img alt="Menswear" src="assets/DSC01401.jpg" />
+                                    <img alt="Menswear" loading="lazy" decoding="async" src="assets/DSC01401-hero.webp" />
                                 </div>
                                 <div class="category-text-wrap">
                                     <h3 class="category-title">Menswear</h3>
@@ -2232,7 +2233,7 @@
                         <div class="category-block">
                             <a class="category-link" href="shop.html">
                                 <div class="category-image-wrap">
-                                    <img alt="Womenswear" src="assets/DSC02616.jpg" />
+                                    <img alt="Womenswear" loading="lazy" decoding="async" src="assets/DSC02616-hero.webp" />
                                 </div>
                                 <div class="category-text-wrap">
                                     <h3 class="category-title">Womenswear</h3>
@@ -2243,7 +2244,7 @@
                         <div class="category-block">
                             <a class="category-link" href="shop.html">
                                 <div class="category-image-wrap">
-                                    <img alt="Fabrics" src="assets/IMG-20260622-WA0028.webp" />
+                                    <img alt="Fabrics" loading="lazy" decoding="async" src="assets/IMG-20260622-WA0028.webp" />
                                 </div>
                                 <div class="category-text-wrap">
                                     <h3 class="category-title">Fabrics</h3>
@@ -2255,7 +2256,7 @@
                 </div>
             </section>
             <!-- Minimalist Trending Grid -->
-            <section class="home-trending section--padding">
+            <section class="home-trending section--padding" data-section-id="trending">
                 <div class="home-trending-wrapper">
                     <div class="section-header">
                         <h2 class="section__heading--maintitle">Trending Now</h2>
@@ -2268,7 +2269,7 @@
                 </div>
             </section>
             <!-- Style of the Month -->
-            <section class="bag-of-the-month" id="botm-section">
+            <section class="bag-of-the-month" id="botm-section" data-section-id="style-of-month">
                 <div class="section-header">
                     <span class="botm-header-subtitle">Mary Humphrey Collection</span>
                     <h2 class="section__heading--maintitle">STYLE OF THE MONTH</h2>
@@ -2276,7 +2277,7 @@
                 <div class="botm-layout">
                     <div class="botm-layout__image">
                         <div class="botm-image-wrap">
-                            <img alt="Noir Cape" class="botm-image" src="assets/DSC01485.jpg" />
+                            <img alt="Noir Cape" class="botm-image" loading="lazy" decoding="async" src="assets/DSC01485-hero.webp" />
                         </div>
                     </div>
                     <div class="botm-layout__content botm-content">
@@ -2287,7 +2288,7 @@
                 </div>
             </section>
             <!-- Fabric Showcase Teaser -->
-            <section class="home-fabrics-teaser section--padding" style="background-color: var(--bg-light-dark-color); margin-top: 4rem; padding-block: 4rem;">
+            <section class="home-fabrics-teaser section--padding" data-section-id="fabrics" style="background-color: var(--bg-light-dark-color); margin-top: 4rem; padding-block: 4rem;">
                 <div class="page-width">
                     <div class="section-header" style="margin-bottom: 3rem;">
                         <span class="botm-header-subtitle">Premium Materials</span>
@@ -2311,11 +2312,11 @@
             </section>
             
             <!-- Heritage & Culture Segment Section -->
-            <section class="heritage-culture-section">
+            <section class="heritage-culture-section" data-section-id="heritage">
                 <div>
                     <div class="hc-layout">
                         <div class="hc-layout__image">
-                            <img alt="African Couture" class="hc-image" src="assets/DSC02616.jpg" />
+                            <img alt="African Couture" class="hc-image" loading="lazy" decoding="async" src="assets/DSC02616-hero.webp" />
                         </div>
                         <div class="hc-layout__content hc-content">
                             <span class="hc-subtitle">THE LOVE STORY OF</span>
@@ -2327,13 +2328,13 @@
                             <div class="hc-segments">
                                 <div class="hc-segment active js-hc-segment"
                                     data-desc="We started out with a passion for vibrant African fashion and for the past 20 years we've been creating beautiful, authentic Ankara couture that celebrates our rich heritage. The vibrancy of Africa is woven into every piece we design."
-                                    data-image="assets/DSC02616.jpg" data-title="ANKARA FASHION">
+                                    data-image="assets/DSC02616-hero.webp" data-title="ANKARA FASHION">
                                     <div class="hc-segment-bar"></div>
                                     <span class="hc-segment-label">HERITAGE</span>
                                 </div>
                                 <div class="hc-segment js-hc-segment"
                                     data-desc="Our designs are inspired by the diverse cultures of Africa. Every outfit tells a story of tradition, elegance, and a deep connection to our roots. We bring this culture to the modern wardrobe."
-                                    data-image="assets/DSC01401.jpg" data-title="RICH CULTURE">
+                                    data-image="assets/DSC01401-hero.webp" data-title="RICH CULTURE">
                                     <div class="hc-segment-bar"></div>
                                     <span class="hc-segment-label">CULTURE</span>
                                 </div>
@@ -2343,7 +2344,7 @@
                 </div>
             </section>
             <!-- Sale Promo Strip -->
-            <section class="home-sale-promo section--padding" style="background-color: #fce8e8; margin-top: 4rem; padding-block: 4rem;">
+            <section class="home-sale-promo section--padding" data-section-id="sale-promo" style="background-color: #fce8e8; margin-top: 4rem; padding-block: 4rem;">
                 <div class="page-width" style="text-align: center;">
                     <div class="section-header" style="margin-bottom: 2rem;">
                         <h2 class="section__heading--maintitle" style="color: #d11f26;">ON SALE NOW - UP TO 30% OFF</h2>
@@ -2356,7 +2357,7 @@
             </section>
 
             <!-- Shop by Style Grid -->
-            <section class="home-shop-by-style section--padding">
+            <section class="home-shop-by-style section--padding" data-section-id="shop-by-style">
                 <div class="home__shop--container">
                     <div class="section-header">
                         <h2 class="section__heading--maintitle">Shop by Style</h2>
@@ -2365,7 +2366,7 @@
                         <!-- Style 1 -->
                         <div class="style-block">
                             <a href="shop.html?cat=two-piece">
-                                <img alt="Two-Piece Sets" src="assets/IMG-20260622-WA0037.webp" />
+                                <img alt="Two-Piece Sets" loading="lazy" decoding="async" src="assets/IMG-20260622-WA0037.webp" />
                                 <div class="style-overlay">
                                     <span>Two-Piece Sets</span>
                                 </div>
@@ -2374,7 +2375,7 @@
                         <!-- Style 2 -->
                         <div class="style-block">
                             <a href="shop.html?cat=dresses">
-                                <img alt="Luxe Dresses" src="assets/IMG-20260622-WA0033.webp" />
+                                <img alt="Luxe Dresses" loading="lazy" decoding="async" src="assets/IMG-20260622-WA0033.webp" />
                                 <div class="style-overlay">
                                     <span>Luxe Dresses</span>
                                 </div>
@@ -2383,7 +2384,7 @@
                         <!-- Style 3 -->
                         <div class="style-block">
                             <a href="shop.html?cat=outerwear">
-                                <img alt="Outerwear" src="assets/IMG-20260622-WA0079.webp" />
+                                <img alt="Outerwear" loading="lazy" decoding="async" src="assets/IMG-20260622-WA0079.webp" />
                                 <div class="style-overlay">
                                     <span>Outerwear</span>
                                 </div>
@@ -2392,7 +2393,7 @@
                         <!-- Style 4 -->
                         <div class="style-block">
                             <a href="shop.html?cat=mens">
-                                <img alt="Men's Collection" src="assets/IMG-20260622-WA0005.webp" />
+                                <img alt="Men's Collection" loading="lazy" decoding="async" src="assets/IMG-20260622-WA0005.webp" />
                                 <div class="style-overlay">
                                     <span>Men's Collection</span>
                                 </div>
@@ -2401,7 +2402,7 @@
                         <!-- Style 5 -->
                         <div class="style-block">
                             <a href="shop.html?cat=accessories">
-                                <img alt="Accessories" src="assets/IMG-20260622-WA0044.webp" />
+                                <img alt="Accessories" loading="lazy" decoding="async" src="assets/IMG-20260622-WA0044.webp" />
                                 <div class="style-overlay">
                                     <span>Accessories</span>
                                 </div>
@@ -2410,7 +2411,7 @@
                         <!-- Style 6 -->
                         <div class="style-block">
                             <a href="shop.html?cat=sale">
-                                <img alt="Clearance" src="assets/IMG-20260622-WA0014.webp" />
+                                <img alt="Clearance" loading="lazy" decoding="async" src="assets/IMG-20260622-WA0014.webp" />
                                 <div class="style-overlay">
                                     <span>Clearance</span>
                                 </div>
@@ -2420,7 +2421,7 @@
                 </div>
             </section>
             <!-- Full-width Statement Banner -->
-            <section class="home-statement" style="background-image: url('assets/IMG-20260622-WA0081.webp');">
+            <section class="home-statement" data-section-id="statement" style="background-image: url('assets/IMG-20260622-WA0081.webp');">
                 <div class="home-statement__overlay"></div>
                 <div>
                     <div class="home-statement__inner">
@@ -2434,7 +2435,7 @@
                 </div>
             </section>
             <!-- Minimalist Testimonials Grid -->
-            <section class="home-testimonials section--padding">
+            <section class="home-testimonials section--padding" data-section-id="testimonials">
                 <div>
                     <div class="section__heading text-center">
                         <h2 class="section__heading--maintitle">Recent Testimonials</h2>
@@ -2516,7 +2517,7 @@
                 </div>
             </section>
             <!-- Minimalist Service/Features Strip -->
-            <section class="home-services">
+            <section class="home-services" data-section-id="services">
                 <div class="page-width">
                     <div class="services-grid">
                         <div class="service-item">
@@ -2558,7 +2559,7 @@
         <!-- views/partials/footer.ejs -->
     </main>
     <!-- /.site__main -->
-    <footer class="footer__section footer__bg">
+    <footer class="footer__section footer__bg" data-section-id="footer">
         <div class="main__footer section--padding">
             <div class="footer__layout">
                 <!-- Col 1: About -->
@@ -2583,7 +2584,7 @@
                                     <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round"
                                         stroke-linejoin="round" stroke-width="2"></path>
                                 </svg>
-                                United Kingdom
+                                <a href="https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920799,36.7594538,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920799!4d36.7620287?hl=en&entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D" rel="noopener" target="_blank">Our Location</a>
                             </li>
                             <li class="footer__widget--contact__list--items">
                                 <svg fill="none" height="16" stroke="currentColor" viewbox="0 0 24 24" width="16">
@@ -2859,7 +2860,7 @@
             }
             new HeaderScrollManager();
             // ── Hero Swiper ──
-            new Swiper(".hero-swiper", {
+            window.heroSwiper = new Swiper(".hero-swiper", {
                 slidesPerView: 1,
                 loop: true,
                 autoplay: {
@@ -2977,6 +2978,7 @@
     </script>
     <script defer src="assets/js/components/core.js" type="module"></script>
     <script defer src="assets/supabase-client.js" type="module"></script>
+    <script defer src="assets/homepage-sections.js?v=4"></script>
     <script defer src="assets/forms-handler.js" type="module"></script>
 </body>
 

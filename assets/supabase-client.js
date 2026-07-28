@@ -34,17 +34,90 @@ window.AnkaraCurrency = {
     }
 };
 
+function escapeHtml(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function updateFooterFromTheme(el, settings) {
+    const desc = el.querySelector('.footer__widget--desc');
+    if (desc && settings.about) desc.textContent = settings.about;
+    const logo = el.querySelector('.offcanvas__logo--img');
+    if (logo && settings.logo) logo.src = settings.logo;
+    const contactItems = el.querySelectorAll('.footer__widget--contact__list--items');
+    if (contactItems[0] && (settings.location || settings.location_url)) {
+        const svg = contactItems[0].querySelector('svg');
+        const locName = (settings.location || 'Our Location').trim();
+        const locUrl = (settings.location_url || '').trim();
+        contactItems[0].textContent = '';
+        if (svg) contactItems[0].appendChild(svg);
+        if (locUrl) {
+            const a = document.createElement('a');
+            a.href = locUrl;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            a.textContent = ' ' + locName;
+            contactItems[0].appendChild(a);
+        } else {
+            contactItems[0].append(' ' + locName);
+        }
+    }
+    if (contactItems[1] && settings.email) {
+        const a = contactItems[1].querySelector('a');
+        if (a) { a.textContent = settings.email; a.href = 'mailto:' + settings.email; }
+    }
+    if (settings.social) {
+        const socialLinks = el.querySelectorAll('.footer__widget--social__list--link');
+        const urls = [settings.social.instagram, settings.social.facebook, settings.social.tiktok];
+        socialLinks.forEach((a, i) => { if (urls[i]) a.href = urls[i]; });
+    }
+    const colLinksList = el.querySelector('.footer__widget--menu__list--collection');
+    if (colLinksList && settings.collection_links) {
+        colLinksList.innerHTML = settings.collection_links.map(l => `<li><a href="${escapeHtml(l.url || '#')}">${escapeHtml(l.label || '')}</a></li>`).join('');
+    }
+    const quickLinksList = el.querySelector('.footer__widget--menu__list--quick');
+    if (quickLinksList && settings.quick_links) {
+        quickLinksList.innerHTML = settings.quick_links.map(l => `<li><a href="${escapeHtml(l.url || '#')}">${escapeHtml(l.label || '')}</a></li>`).join('');
+    }
+}
+
+// ── Load theme from local JSON and sync shared header/footer on every page ─
+async function loadSharedTheme() {
+    try {
+        const res = await fetch('/api/theme');
+        if (!res.ok) return;
+        const { theme } = await res.json();
+        if (!theme || !theme.sections) return;
+        window.AnkaraTheme = theme;
+        const footer = theme.sections.footer;
+        if (footer && footer.settings) {
+            const footerEl = document.querySelector('[data-section-id="footer"]') || document.querySelector('.main__footer');
+            if (footerEl) updateFooterFromTheme(footerEl, footer.settings);
+        }
+        const announcement = theme.sections.announcement;
+        if (announcement && announcement.settings) {
+            const text = announcement.settings.text || '';
+            const annEl = document.getElementById('announcement-text');
+            if (annEl && text) annEl.innerHTML = text;
+        }
+    } catch (e) { /* silent */ }
+}
+
 // ── Load Settings from Supabase (runs immediately, before DOMContentLoaded) ─
 supabase.from('settings').select('*').eq('id', 1).single().then(({ data, error }) => {
     if (!error && data) {
-        // Update exchange rate as soon as it loads
         if (data.exchange_rate) {
             window.AnkaraCurrency.rate = parseFloat(data.exchange_rate);
         }
-        // Fire settings:loaded so any listener can react
         window.dispatchEvent(new CustomEvent('settings:loaded', { detail: data }));
     }
 });
+
+// Load theme after DOM is parsed
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadSharedTheme);
+} else {
+    loadSharedTheme();
+}
 
 // ── Sidebar Featured Products (rendered from Supabase) ────────────────────
 async function renderSidebarProducts() {

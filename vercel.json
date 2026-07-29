@@ -12,11 +12,24 @@
     {
       "src": "assets/**",
       "use": "@vercel/static"
+    },
+    {
+      "src": "favicon.ico",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.png",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.jpg",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/assets/api/handler.js" },
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/(.*\\.(ico|png|jpg))", "dest": "/$1" },
     { "src": "/(.*\\.html)", "dest": "/$1" },
     { "src": "/", "dest": "/index.html" }
   ]

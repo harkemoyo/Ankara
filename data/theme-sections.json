@@ -230,8 +230,8 @@
         "items": [
           {
             "icon": "truck",
-            "title": "Free UK Delivery",
-            "description": "Complimentary shipping on all orders across the UK."
+            "title": "Free Delivery",
+            "description": "Complimentary shipping on orders over KSh 10,000 across Kenya."
           },
           {
             "icon": "lock",

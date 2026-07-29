@@ -3,64 +3,61 @@
 function escapeHtml(str) {
   if (str == null) return '';
   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
-const updaters = {
+}const updaters = {
   announcement(el, settings) {
     if (settings.text != null) el.textContent = settings.text;
   },
 
   hero(el, settings) {
     const slides = settings.slides || [];
-    // Only update real slides, not Swiper loop duplicates
-    const slideEls = el.querySelectorAll('.swiper-slide:not(.swiper-slide-duplicate)');
-    slideEls.forEach((slideEl, i) => {
-      const sl = slides[i];
-      if (!sl) return;
-      if (sl.image) {
-        slideEl.style.backgroundImage =
-          `linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.05)), url("${sl.image.replace(/"/g, '\\"')}")`;
-      }
-      const subtitle = slideEl.querySelector('.hero-subtitle');
-      if (subtitle && sl.subtitle) subtitle.textContent = sl.subtitle;
-      const title = slideEl.querySelector('.hero-title');
-      if (title && (sl.title || sl.accent)) {
-        title.innerHTML = `${escapeHtml(sl.title || '')} <span class="hero-accent">${escapeHtml(sl.accent || '')}</span>`;
-      }
-      const desc = slideEl.querySelector('.hero-desc');
-      if (desc && sl.desc) desc.textContent = sl.desc;
-      const btn = slideEl.querySelector('.hero-btn');
-      if (btn && sl.button) btn.firstChild.textContent = sl.button + ' ';
-      if (btn && sl.link) btn.href = sl.link;
-    });
-    // Recreate Swiper loop duplicates so they match the updated real slides
-    if (window.heroSwiper && typeof window.heroSwiper.loopDestroy === 'function') {
-      try {
-        window.heroSwiper.loopDestroy();
-        window.heroSwiper.loopCreate();
-        window.heroSwiper.update();
-        window.heroSwiper.slideToLoop(0, 0);
-      } catch (e) {
-        console.warn('Swiper refresh error:', e);
-      }
+    const wrapper = el.querySelector('.swiper-wrapper');
+    if (!wrapper) return;
+    
+    wrapper.innerHTML = slides.map(sl => `
+      <div class="swiper-slide" style="background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.45)), url('${escapeHtml(sl.image || '')}');">
+        <div class="hero-container">
+          <div class="hero-content">
+            <span class="hero-subtitle">${escapeHtml(sl.subtitle || '')}</span>
+            <h2 class="hero-title">${escapeHtml(sl.title || '')} <span class="hero-accent">${escapeHtml(sl.accent || '')}</span></h2>
+            <p class="hero-desc">${escapeHtml(sl.desc || '')}</p>
+            <a class="hero-btn" href="${escapeHtml(sl.link || 'shop.html')}">
+              ${escapeHtml(sl.button || 'Shop Now')}
+              <svg fill="none" height="11" viewBox="0 0 17 12" width="16"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"></path></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    if (window.heroSwiper && typeof window.heroSwiper.destroy === 'function') {
+      try { window.heroSwiper.destroy(true, true); } catch(e){}
+    }
+    if (typeof Swiper !== 'undefined') {
+      window.heroSwiper = new Swiper('.hero-swiper', {
+        loop: true,
+        autoplay: { delay: 5000, disableOnInteraction: false },
+        pagination: { el: '.hero-pagination', clickable: true }
+      });
     }
   },
 
   categories(el, settings) {
     const blocks = settings.blocks || [];
-    const blockEls = el.querySelectorAll('.category-block');
-    blockEls.forEach((blockEl, i) => {
-      const b = blocks[i];
-      if (!b) return;
-      const img = blockEl.querySelector('img');
-      if (img && b.image) img.src = b.image;
-      const titleEl = blockEl.querySelector('.category-title');
-      if (titleEl && b.title) titleEl.textContent = b.title;
-      const link = blockEl.querySelector('.category-link');
-      if (link && b.link) link.href = b.link;
-      const action = blockEl.querySelector('.category-action');
-      if (action && b.action) action.textContent = b.action;
-    });
+    const grid = el.querySelector('.home-category-grid');
+    if (!grid) return;
+    grid.innerHTML = blocks.map(b => `
+      <div class="category-block">
+        <a class="category-link" href="${escapeHtml(b.link || 'shop.html')}">
+          <div class="category-image-wrap">
+            <img alt="${escapeHtml(b.title || '')}" loading="lazy" decoding="async" src="${escapeHtml(b.image || '')}" />
+          </div>
+          <div class="category-text-wrap">
+            <h3 class="category-title">${escapeHtml(b.title || '')}</h3>
+            <span class="category-action">${escapeHtml(b.action || 'Shop Now')}</span>
+          </div>
+        </a>
+      </div>
+    `).join('');
   },
 
   trending(el, settings) {
@@ -96,8 +93,14 @@ const updaters = {
     const h = el.querySelector('.section__heading--maintitle');
     if (h && settings.title) h.textContent = settings.title;
     const images = settings.images || [];
-    const imgEls = el.querySelectorAll('img');
-    imgEls.forEach((imgEl, i) => { if (images[i]) imgEl.src = images[i]; });
+    const container = el.querySelector('.fabrics-grid');
+    if (container) {
+      container.innerHTML = images.map((imgUrl, i) => `
+        <div style="aspect-ratio: 1/1; overflow: hidden; border-radius: 4px;">
+          <img src="${escapeHtml(imgUrl)}" alt="Fabric ${i+1}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" loading="lazy">
+        </div>
+      `).join('');
+    }
     const btn = el.querySelector('.view-all-center a');
     if (btn && settings.button_text) btn.textContent = settings.button_text + ' →';
     if (btn && settings.button_link) btn.href = settings.button_link;
@@ -107,16 +110,30 @@ const updaters = {
     const sub = el.querySelector('.hc-subtitle');
     if (sub && settings.subtitle) sub.textContent = settings.subtitle;
     const segments = settings.segments || [];
-    const segEls = el.querySelectorAll('.js-hc-segment');
-    segEls.forEach((segEl, i) => {
-      const seg = segments[i];
-      if (!seg) return;
-      if (seg.label) { const lbl = segEl.querySelector('.hc-segment-label'); if (lbl) lbl.textContent = seg.label; }
-      if (seg.title) segEl.dataset.title = seg.title;
-      if (seg.desc) segEl.dataset.desc = seg.desc;
-      if (seg.image) segEl.dataset.image = seg.image;
-    });
-    // Set initial state from first segment
+    const container = el.querySelector('.hc-segments');
+    if (container && segments.length > 0) {
+      container.innerHTML = segments.map((seg, i) => `
+        <div class="hc-segment ${i === 0 ? 'active' : ''} js-hc-segment"
+          data-desc="${escapeHtml(seg.desc || '')}"
+          data-image="${escapeHtml(seg.image || '')}" data-title="${escapeHtml(seg.title || '')}">
+          <div class="hc-segment-bar"></div>
+          <span class="hc-segment-label">${escapeHtml(seg.label || '')}</span>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.js-hc-segment').forEach(segEl => {
+        segEl.addEventListener('click', () => {
+          container.querySelectorAll('.js-hc-segment').forEach(s => s.classList.remove('active'));
+          segEl.classList.add('active');
+          const img = el.querySelector('.hc-image');
+          if (img && segEl.dataset.image) img.src = segEl.dataset.image;
+          const title = el.querySelector('.hc-title');
+          if (title && segEl.dataset.title) title.textContent = segEl.dataset.title;
+          const desc = el.querySelector('.hc-desc');
+          if (desc && segEl.dataset.desc) desc.textContent = segEl.dataset.desc;
+        });
+      });
+    }
     if (segments[0]) {
       const img = el.querySelector('.hc-image');
       if (img && segments[0].image) img.src = segments[0].image;
@@ -142,17 +159,19 @@ const updaters = {
     const h = el.querySelector('.section__heading--maintitle');
     if (h && settings.title) h.textContent = settings.title;
     const blocks = settings.blocks || [];
-    const blockEls = el.querySelectorAll('.style-block');
-    blockEls.forEach((blockEl, i) => {
-      const b = blocks[i];
-      if (!b) return;
-      const img = blockEl.querySelector('img');
-      if (img && b.image) img.src = b.image;
-      const span = blockEl.querySelector('.style-overlay span');
-      if (span && b.label) span.textContent = b.label;
-      const link = blockEl.querySelector('a');
-      if (link && b.link) link.href = b.link;
-    });
+    const grid = el.querySelector('.style-grid');
+    if (grid) {
+      grid.innerHTML = blocks.map(b => `
+        <div class="style-block">
+          <a href="${escapeHtml(b.link || 'shop.html')}">
+            <img alt="${escapeHtml(b.label || '')}" loading="lazy" decoding="async" src="${escapeHtml(b.image || '')}" />
+            <div class="style-overlay">
+              <span>${escapeHtml(b.label || '')}</span>
+            </div>
+          </a>
+        </div>
+      `).join('');
+    }
   },
 
   statement(el, settings) {
@@ -170,30 +189,48 @@ const updaters = {
     const h = el.querySelector('.section__heading--maintitle');
     if (h && settings.heading) h.textContent = settings.heading;
     const items = settings.items || [];
-    const cards = el.querySelectorAll('.testimonial-card');
-    cards.forEach((card, i) => {
-      const t = items[i];
-      if (!t) return;
-      const stars = card.querySelector('.stars');
-      if (stars && t.rating) stars.textContent = '★'.repeat(t.rating) + '☆'.repeat(5 - t.rating);
-      const p = card.querySelector('p');
-      if (p && t.quote) p.textContent = `"${t.quote}"`;
-      const name = card.querySelector('h4');
-      if (name && t.author) name.textContent = t.author;
-    });
+    const wrapper = el.querySelector('.swiper-wrapper');
+    if (wrapper) {
+      wrapper.innerHTML = items.map(t => `
+        <div class="swiper-slide">
+          <div class="testimonial-card">
+            <div class="stars">${'★'.repeat(t.rating || 5)}${'☆'.repeat(5 - (t.rating || 5))}</div>
+            <p>"${escapeHtml(t.quote || '')}"</p>
+            <h4>${escapeHtml(t.author || '')}</h4>
+          </div>
+        </div>
+      `).join('');
+
+      if (typeof Swiper !== 'undefined') {
+        new Swiper('.testimonial__swiper', {
+          slidesPerView: 1,
+          spaceBetween: 30,
+          pagination: { el: '.swiper-pagination', clickable: true },
+          breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
+        });
+      }
+    }
   },
 
   services(el, settings) {
     const items = settings.items || [];
-    const serviceEls = el.querySelectorAll('.service-item');
-    serviceEls.forEach((svcEl, i) => {
-      const svc = items[i];
-      if (!svc) return;
-      const h = svcEl.querySelector('h3');
-      if (h && svc.title) h.textContent = svc.title;
-      const p = svcEl.querySelector('p');
-      if (p && svc.description) p.textContent = svc.description;
-    });
+    const grid = el.querySelector('.services-grid');
+    const icons = {
+      truck: `<svg fill="none" height="40" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="40"><path d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" stroke-linecap="round" stroke-linejoin="round"></path></svg>`,
+      lock: `<svg fill="none" height="40" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="40"><path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" stroke-linecap="round" stroke-linejoin="round"></path></svg>`,
+      heart: `<svg fill="none" height="40" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="40"><path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
+    };
+    if (grid) {
+      grid.innerHTML = items.map(svc => `
+        <div class="service-item">
+          ${icons[svc.icon] || icons.truck}
+          <h3>${escapeHtml(svc.title || '')}</h3>
+          <p>${escapeHtml(svc.description || '')}</p>
+        </div>
+      `).join('');
+    }
+  }
+};   });
   },
 
   footer(el, settings) {

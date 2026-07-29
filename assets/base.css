@@ -38,9 +38,65 @@
   --space-7: 4rem;
   --space-8: 6rem;
 
- 
   /* 768px — text-heavy / form pages */
   --transition: all 0.3s ease 0s;
+}
+
+/* ── Layout Shift (CLS) Prevention & Skeleton Reserve Heights ── */
+.hero-section {
+  min-height: 500px;
+  background-color: #2a1719;
+}
+.home-categories {
+  min-height: 380px;
+}
+.home-category-grid {
+  min-height: 320px;
+}
+.bag-of-the-month {
+  min-height: 420px;
+}
+.home-fabrics-teaser {
+  min-height: 360px;
+}
+.fabrics-grid {
+  min-height: 280px;
+}
+.heritage-culture-section {
+  min-height: 400px;
+}
+.home-sale-promo {
+  min-height: 200px;
+}
+.home-shop-by-style {
+  min-height: 420px;
+}
+.style-grid {
+  min-height: 360px;
+}
+.home-statement {
+  min-height: 350px;
+  background-color: #422326;
+}
+.home-testimonials {
+  min-height: 280px;
+}
+.home-services {
+  min-height: 180px;
+}
+.services-grid {
+  min-height: 140px;
+}
+
+/* ── Smooth Image Loading & Transition ── */
+img {
+  transition: opacity 0.3s ease-in-out;
+}
+img:not(.loaded) {
+  opacity: 0.85;
+}
+img.loaded {
+  opacity: 1;
 }
 *, *::before, *::after {
   box-sizing: border-box;

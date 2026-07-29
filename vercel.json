@@ -30,6 +30,7 @@
     { "src": "/api/(.*)", "dest": "/assets/api/handler.js" },
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
     { "src": "/(.*\\.(ico|png|jpg))", "dest": "/$1" },
+    { "src": "/shop/([^/]+)", "dest": "/shop.html" },
     { "src": "/(.*\\.html)", "dest": "/$1" },
     { "src": "/", "dest": "/index.html" }
   ]

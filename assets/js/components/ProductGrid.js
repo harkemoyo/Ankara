@@ -48,6 +48,27 @@ export default class ProductGrid {
         this.fetchProducts();
     }
 
+    resolveCollectionHandle() {
+        // 1. Resolve from path-based URL: /shop/:handle
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        if (pathParts[0] === 'shop' && pathParts[1]) {
+            return pathParts[1].replace('.html', '');
+        }
+
+        // 2. Fallback to ?collection= query parameter
+        const params = new URLSearchParams(window.location.search);
+        const handle = params.get('collection');
+        if (handle) return handle;
+
+        // 3. Fallback to sale page default
+        if (window.location.pathname.includes('sale')) {
+            return 'sale';
+        }
+
+        // 4. Default fallback to all
+        return 'all';
+    }
+
     async fetchProducts() {
         this.state.loading = true;
         this.state.error = null;
@@ -55,9 +76,9 @@ export default class ProductGrid {
 
         try {
             const params = new URLSearchParams(window.location.search);
-            if ((window.location.pathname.includes('sale.html') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale')) && !params.has('collection')) {
-                params.set('collection', 'sale');
-            }
+            const collectionHandle = this.resolveCollectionHandle();
+            params.set('collection', collectionHandle);
+
             const response = await fetch(`/api/products?${params.toString()}`);
             if (!response.ok) throw new Error('Network response was not ok');
             
@@ -88,11 +109,7 @@ export default class ProductGrid {
     }
 
     updateTitleAndBreadcrumbs() {
-        const params = new URLSearchParams(window.location.search);
-        let collectionHandle = params.get('collection');
-        if ((window.location.pathname.includes('sale.html') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale')) && !collectionHandle) {
-            collectionHandle = 'sale';
-        }
+        const collectionHandle = this.resolveCollectionHandle();
 
         const titleEl = document.querySelector('.breadcrumb__title');
         const breadcrumbContentEl = document.querySelector('.breadcrumb--content');

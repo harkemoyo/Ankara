@@ -208,10 +208,14 @@ class ProductService {
 
         // Fetch variants if product exists
         if (product) {
-            const { data: variants } = await supabaseAnon
+            const { data: variants, error: variantsError } = await supabaseAnon
                 .from('product_variants')
                 .select('*')
                 .eq('product_id', product.id);
+
+            if (variantsError) {
+                console.error(`product_variants fetch failed for product ${product.id}:`, variantsError.message);
+            }
             product.variants = variants || [];
         }
 

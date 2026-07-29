@@ -229,8 +229,6 @@ function escapeHtml(str) {
         </div>
       `).join('');
     }
-  }
-};   });
   },
 
   footer(el, settings) {

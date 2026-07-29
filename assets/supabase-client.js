@@ -101,23 +101,46 @@ function highlightActiveNav() {
     });
 }
 
+function updateAnnouncementBar(customText) {
+    const annEl = document.getElementById('announcement-text');
+    if (!annEl) return;
+
+    // Check if custom text was provided in database settings
+    if (customText && !customText.includes('5,000') && !customText.includes('$100') && !customText.includes('5000') && !customText.includes('$80') && !customText.includes('10,000')) {
+        annEl.innerHTML = escapeHtml(customText);
+        return;
+    }
+
+    const currentCurrency = window.AnkaraCurrency ? window.AnkaraCurrency.current : 'KES';
+    const rate = (window.AnkaraCurrency && window.AnkaraCurrency.rate) ? window.AnkaraCurrency.rate : 130.00;
+
+    // Threshold: KSh 10,000 / $80 USD
+    const kesThreshold = 10000;
+    const usdThreshold = Math.round(kesThreshold / rate) || 80;
+
+    if (currentCurrency === 'USD') {
+        annEl.innerHTML = `✨ FREE SHIPPING ON ALL ORDERS ABOVE $${usdThreshold} | Celebrating African Heritage Through Fashion`;
+    } else {
+        annEl.innerHTML = `✨ FREE SHIPPING ON ORDERS OVER KSh ${kesThreshold.toLocaleString()} | Celebrating African Heritage Through Fashion`;
+    }
+}
+
 function applySettingsToDOM(data) {
     if (!data) return;
     if (data.exchange_rate) {
         window.AnkaraCurrency.rate = parseFloat(data.exchange_rate);
     }
-    const annEl = document.getElementById('announcement-text');
-    if (annEl) {
-        if (data.announcement) {
-            annEl.innerHTML = data.announcement;
-        } else if (data.announcements && Array.isArray(data.announcements) && data.announcements.length > 0) {
-            annEl.innerHTML = data.announcements[0];
-        }
-    }
+    
+    // Update Announcement Bar
+    updateAnnouncementBar(data.announcement || (data.announcements && data.announcements[0]));
+
+    // Update Logo across Header & Drawers
     if (data.logo) {
-        document.querySelectorAll('.main__logo--img, .offcanvas__logo--img, .offcanvas__logo--link img')
+        document.querySelectorAll('.main__logo--img, .offcanvas__logo--img, .offcanvas__logo--link img, .footer__logo--link img')
             .forEach(img => { img.src = data.logo; });
     }
+    
+    // Update Store Name & Title
     if (data.store_name) {
         const titleEl = document.querySelector('title');
         if (titleEl && titleEl.textContent.includes('Mary Humphrey Wear')) {
@@ -126,13 +149,15 @@ function applySettingsToDOM(data) {
         document.querySelectorAll('[data-store-name]').forEach(el => { el.textContent = data.store_name; });
         document.querySelectorAll('[data-store-name-alt]').forEach(img => { img.alt = data.store_name; });
     }
+    
+    // Update Currency Symbol
     if (data.currency) {
         window.AnkaraCurrency.currencySymbol = data.currency;
         document.querySelectorAll('.currency-symbol').forEach(el => { el.textContent = data.currency; });
     }
 }
 
-// Apply cached settings immediately for zero-latency paint
+// Apply cached settings immediately for zero-latency paint across all pages
 const cachedSettings = localStorage.getItem('mhw_settings_cache');
 if (cachedSettings) {
     try { applySettingsToDOM(JSON.parse(cachedSettings)); } catch (e) {}
@@ -173,11 +198,25 @@ if (document.readyState === 'loading') {
 document.addEventListener('DOMContentLoaded', () => {
     highlightActiveNav();
 
+    // Ensure announcement bar displays immediately
+    updateAnnouncementBar();
+
     const switchers = document.querySelectorAll('.currency-switcher');
     switchers.forEach(sw => { sw.value = window.AnkaraCurrency.current; });
 
     window.addEventListener('currency:changed', (e) => {
+        // Update all currency dropdown switchers across pages
         switchers.forEach(sw => { sw.value = e.detail; });
+
+        // Dynamically update the topbar Announcement Bar text for KES / USD!
+        const cached = localStorage.getItem('mhw_settings_cache');
+        let customAnn = null;
+        if (cached) {
+            try { customAnn = JSON.parse(cached).announcement; } catch (_) {}
+        }
+        updateAnnouncementBar(customAnn);
+
+        // Dynamically update raw price elements
         document.querySelectorAll('[data-raw-price]').forEach(el => {
             el.textContent = window.AnkaraCurrency.convertAndFormat(el.dataset.rawPrice);
         });

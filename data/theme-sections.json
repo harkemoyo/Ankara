@@ -146,11 +146,6 @@
         "title": "Shop by Style",
         "blocks": [
           {
-            "image": "assets/IMG-20260622-WA0037.webp",
-            "label": "Two-Piece Sets",
-            "link": "/shop/sets"
-          },
-          {
             "image": "assets/IMG-20260622-WA0033.webp",
             "label": "Luxe Dresses",
             "link": "/shop/dresses"
@@ -158,17 +153,12 @@
           {
             "image": "assets/IMG-20260622-WA0079.webp",
             "label": "Outerwear",
-            "link": "/shop/outerwear"
+            "link": "/shop/kimonos"
           },
           {
             "image": "assets/IMG-20260622-WA0005.webp",
             "label": "Men's Collection",
             "link": "/shop/palazzos"
-          },
-          {
-            "image": "assets/IMG-20260622-WA0044.webp",
-            "label": "Accessories",
-            "link": "/shop/accessories"
           },
           {
             "image": "assets/IMG-20260622-WA0014.webp",

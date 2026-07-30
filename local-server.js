@@ -22,6 +22,11 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Route path-based collection requests to shop.html
+app.get('/shop/:handle', (req, res) => {
+    res.sendFile(path.join(__dirname, 'shop.html'));
+});
+
 // Fallback for html pages to support clean routes (e.g. /shop instead of /shop.html)
 app.use((req, res, next) => {
     const filePath = path.join(__dirname, req.path + '.html');

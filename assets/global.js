@@ -1093,7 +1093,7 @@ const populateCollectionsMenu = async function () {
         const href =
           collection.handle === "all"
             ? "shop.html"
-            : `shop.html?collection=${encodeURIComponent(collection.handle)}`;
+            : `/shop/${encodeURIComponent(collection.handle)}`;
         return `<li class="header__sub--menu__items"><a class="header__sub--menu__link" href="${href}">${collection.title}</a></li>`;
       })
       .join("");

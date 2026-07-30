@@ -30,9 +30,9 @@
 
         const collectionLinks = s.collection_links || [
             { label: 'All Products', url: 'shop.html' },
-            { label: "Men's Ankara Dungaree", url: '/shop?cat=menswear' },
-            { label: 'Ankara Street Luxe Set', url: '/shop?cat=sets' },
-            { label: 'African Luxe Throw', url: '/shop?cat=home' }
+            { label: "Men's Ankara Dungaree", url: '/shop/palazzos' },
+            { label: 'Ankara Street Luxe Set', url: '/shop/sets' },
+            { label: 'African Luxe Throw', url: '/shop/blankets' }
         ];
 
         const quickLinks = s.quick_links || [

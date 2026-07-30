@@ -32,6 +32,7 @@
     { "src": "/(.*\\.(ico|png|jpg))", "dest": "/$1" },
     { "src": "/shop/([^/]+)", "dest": "/shop.html" },
     { "src": "/(.*\\.html)", "dest": "/$1" },
-    { "src": "/", "dest": "/index.html" }
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/(.*)", "status": 404, "dest": "/404.html" }
   ]
 }

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="/" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <title>404 Page Not Found – Mary Humphrey Wear</title>
+    <meta content="The page you are looking for does not exist." name="description" />
+    <meta content="#3C3836" name="theme-color" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link href="assets/base.css" rel="stylesheet" />
+
+    <style>
+        .error-404__container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem;
+            min-height: 50vh;
+        }
+
+        .error-404__code {
+            font-family: var(--font-heading);
+            font-size: 8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .error-404__title {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: #222;
+        }
+
+        .error-404__text {
+            font-size: 1.6rem;
+            color: #666;
+            max-width: 500px;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .error-404__actions {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .error-404__btn {
+            display: inline-block;
+            padding: 1.2rem 2.8rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1.4rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .error-404__btn--primary {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .error-404__btn--primary:hover {
+            opacity: 0.9;
+        }
+
+        .error-404__btn--secondary {
+            background-color: #f4f4f4;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .error-404__btn--secondary:hover {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Announcement Bar -->
+    <div class="announcement-bar">
+        <p>✨ FREE SHIPPING ON ORDERS OVER KSh 10,000 | Celebrating African Heritage Through Fashion ✨</p>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="assets/IMG-20260622-WA0019.webp" alt="Mary Humphrey Wear Logo" width="60" height="60" />
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="shop.html">COLLECTIONS</a></li>
+                    <li><a href="material.html">FABRICS</a></li>
+                    <li><a href="sale.html" class="sale-link">SALE</a></li>
+                    <li><a href="about.html">OUR STORY</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <div class="error-404__container">
+            <div class="error-404__code">404</div>
+            <h1 class="error-404__title">Page Not Found</h1>
+            <p class="error-404__text">
+                The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+            </p>
+            <div class="error-404__actions">
+                <a href="index.html" class="error-404__btn error-404__btn--primary">Return Home</a>
+                <a href="shop.html" class="error-404__btn error-404__btn--secondary">Browse Shop</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Site Footer -->
+    <div id="site-footer"></div>
+    <script src="assets/footer.js"></script>
+    <script src="assets/global.js"></script>
+</body>
+
+</html>

@@ -118,7 +118,10 @@ export default class ProductGrid {
 
         if (collectionHandle && collectionHandle !== 'all') {
             const collection = this.collections.find(c => c.handle === collectionHandle);
-            const collectionTitle = collection ? collection.title : (collectionHandle.charAt(0).toUpperCase() + collectionHandle.slice(1));
+            const isKnownCollection = collection || collectionHandle === 'sale';
+            const collectionTitle = isKnownCollection 
+                ? (collection ? collection.title : (collectionHandle === 'sale' ? 'Sale' : collectionHandle))
+                : 'Collection Not Found';
 
             // Update Page Heading
             titleEl.textContent = collectionTitle;
@@ -184,14 +187,26 @@ export default class ProductGrid {
     }
 
     renderEmpty() {
+        const collectionHandle = this.resolveCollectionHandle();
+        const isKnownCollection = !collectionHandle || collectionHandle === 'all' || collectionHandle === 'sale' || this.collections.some(c => c.handle === collectionHandle);
+
         const container = this.createEl('div', 'empty-state text-center');
-        const msg = this.createEl('h3', '', {}, 'No products match your filters');
-        const btn = this.createEl('button', 'primary__btn mt-3', {}, 'Clear all filters');
-        btn.addEventListener('click', () => {
-            window.history.pushState({}, '', window.location.pathname);
-            window.dispatchEvent(new Event('filter:changed'));
-        });
-        container.append(msg, btn);
+        
+        if (!isKnownCollection) {
+            const msg = this.createEl('h3', '', {}, 'Collection Not Found');
+            const sub = this.createEl('p', 'text-muted mt-2', {}, 'The collection you are looking for does not exist.');
+            const btn = this.createEl('a', 'primary__btn mt-3', { href: 'shop.html' }, 'View All Products');
+            container.append(msg, sub, btn);
+        } else {
+            const msg = this.createEl('h3', '', {}, 'No products match your filters');
+            const btn = this.createEl('button', 'primary__btn mt-3', {}, 'Clear all filters');
+            btn.addEventListener('click', () => {
+                window.history.pushState({}, '', window.location.pathname);
+                window.dispatchEvent(new Event('filter:changed'));
+            });
+            container.append(msg, btn);
+        }
+
         return container;
     }
 

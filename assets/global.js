@@ -814,11 +814,14 @@ const customLightboxHTML = `<div id="glightbox-body" class="glightbox-container"
     <button class="gclose gbtn" tabindex="2" aria-label="Close">{closeSVG}</button>
     </div>
     </div>`;
-const lightbox = GLightbox({
-  touchNavigation: true,
-  lightboxHTML: customLightboxHTML,
-  loop: true,
-});
+let lightbox = null;
+if (typeof GLightbox !== 'undefined') {
+  lightbox = GLightbox({
+    touchNavigation: true,
+    lightboxHTML: customLightboxHTML,
+    loop: true,
+  });
+}
 
 // CounterUp Activation
 const wrapper = document.getElementById("funfactId");

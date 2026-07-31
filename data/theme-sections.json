@@ -4,7 +4,9 @@
       "type": "announcement",
       "enabled": true,
       "settings": {
-        "text": "Free Shipping on Orders Over KSh 5,000"
+        "text": "Free Shipping on Orders Over KSh 10,000",
+        "free_shipping_threshold_kes": 10000,
+        "auto_format": true
       }
     },
     "hero": {

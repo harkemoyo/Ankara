@@ -7,18 +7,36 @@
     <meta content="width=device-width,initial-scale=1" name="viewport" />
     <title>404 Page Not Found – Mary Humphrey Wear</title>
     <meta content="The page you are looking for does not exist." name="description" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
     <meta content="#3C3836" name="theme-color" />
 
     <!-- Favicons -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/favicon.ico">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&amp;family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;display=swap"
+        rel="stylesheet" />
 
     <!-- CSS -->
     <link href="assets/base.css" rel="stylesheet" />
+    <link href="assets/filter.css" rel="stylesheet" />
+    <link href="assets/glightbox.min.css" rel="stylesheet" />
+    <link href="assets/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="assets/normalize.css" rel="stylesheet" />
+
+    <script src="assets/config.js"></script>
+    <script src="assets/supabase.umd.js"></script>
+    <script defer src="assets/glightbox.min.js"></script>
+    <script defer src="assets/cart.js"></script>
+    <script defer src="assets/global.js"></script>
+    <script defer src="assets/announcement.js"></script>
+    <script defer src="assets/supabase-client.js" type="module"></script>
 
     <style>
         .error-404__container {
@@ -27,12 +45,13 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 8rem 2rem;
+            padding: 10rem 2rem;
             min-height: 50vh;
+            background-color: #faf8f5;
         }
 
         .error-404__code {
-            font-family: var(--font-heading);
+            font-family: var(--font-heading, serif);
             font-size: 8rem;
             font-weight: 700;
             color: var(--primary-color);
@@ -41,7 +60,7 @@
         }
 
         .error-404__title {
-            font-family: var(--font-heading);
+            font-family: var(--font-heading, serif);
             font-size: 2.8rem;
             margin-bottom: 1rem;
             color: #222;
@@ -94,27 +113,183 @@
 </head>
 
 <body>
-    <!-- Top Announcement Bar -->
-    <div class="announcement-bar">
-        <p>✨ FREE SHIPPING ON ORDERS OVER KSh 10,000 | Celebrating African Heritage Through Fashion ✨</p>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="ctn-preloader" id="ctn-preloader">
+            <div class="animation-preloader">
+                <div class="spinner"></div>
+                <div class="txt-loading"><span class="letters-loading" data-text-preloader="M">M</span><span
+                        class="letters-loading" data-text-preloader="H">H</span><span class="letters-loading"
+                        data-text-preloader="W">W</span></div>
+            </div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
     </div>
 
-    <!-- Main Navigation Header -->
-    <header class="site-header">
-        <div class="header-container">
-            <a href="index.html" class="logo">
-                <img src="assets/IMG-20260622-WA0019.webp" alt="Mary Humphrey Wear Logo" width="60" height="60" />
-            </a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html">HOME</a></li>
-                    <li><a href="shop.html">COLLECTIONS</a></li>
-                    <li><a href="material.html">FABRICS</a></li>
-                    <li><a href="sale.html" class="sale-link">SALE</a></li>
-                    <li><a href="about.html">OUR STORY</a></li>
-                    <li><a href="contact.html">CONTACT</a></li>
-                </ul>
-            </nav>
+    <!-- Dynamic topbar Announcement -->
+    <div class="header__topbar bg__primary">
+        <div class="header__topbar--inner">
+            <div class="topbar-left-spacer"></div>
+            <p class="header__info--text text-white m-0 text-center" id="announcement-text" data-section-id="announcement">
+                <!-- Fallback text while loading -->
+                ✨ FREE SHIPPING ON ORDERS OVER KSh 10,000 | Celebrating African Heritage Through Fashion ✨
+            </p>
+            <div class="header__topbar--currency">
+                <select class="currency-switcher"
+                    onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
+                    <option value="KES" style="color: black;">KES</option>
+                    <option value="USD" style="color: black;">USD</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="header__section">
+        <div class="main__header header__sticky">
+            <div class="main__header--inner">
+                <!-- Hamburger / Offcanvas Toggle -->
+                <div class="offcanvas__header--menu__open">
+                    <a class="offcanvas__header--menu__open--btn" data-offcanvas="" href="javascript:void(0)">
+                        <svg class="ionicon offcanvas__header--menu__open--svg" viewbox="0 0 512 512"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M80 160h352M80 256h352M80 352h352" fill="currentColor" stroke="currentColor"
+                                stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"></path>
+                        </svg>
+                        <span class="visually-hidden">Menu</span>
+                    </a>
+                </div>
+                <!-- Logo -->
+                <div class="main__logo">
+                    <h1 class="main__logo--title">
+                        <a class="main__logo--link" href=".">
+                            <img alt="Mary Humphrey African Wear" class="main__logo--img"
+                                src="assets/IMG-20260622-WA0082.webp" />
+                        </a>
+                    </h1>
+                </div>
+                <!-- Desktop Navigation -->
+                <div class="header__menu">
+                    <nav class="header__menu--navigation">
+                        <ul class="header__menu--wrapper">
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="index.html">Home</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="shop.html">Collections
+                                    <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6"
+                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                                <ul class="header__sub--menu">
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html">All Products</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/new-arrivals">New Arrivals</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/dresses">Dresses</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/joggers">Joggers</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/pullovers">Pullovers & Hoodies</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/kimonos">Kimonos & Capes</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/blankets">Blankets & Throws</a></li>
+                                    <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/palazzos">Palazzos & Dungarees</a></li>
+                                </ul>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="material.html">Fabrics</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="sale.html" style="color:#d9534f; font-weight:600;">Sale</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="about.html">Our Story</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="contact.html">Contact</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- Header Account / Icons -->
+                <div class="header__account">
+                    <ul class="header__account--wrapper">
+                        <!-- Account -->
+                        <li class="header__account--items">
+                            <a class="header__account--btn" href="account.html">
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path
+                                            d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </span>
+                                <span class="visually-hidden">My Account</span>
+                            </a>
+                        </li>
+                        <!-- Cart -->
+                        <li class="header__account--items header__minicart--items">
+                            <a class="header__account--btn minicart__open--btn" data-offcanvas=""
+                                href="javascript:void(0)">
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </span>
+                                <span class="items__count js-item-count">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Offcanvas Mobile Menu -->
+        <div class="offcanvas__header">
+            <div class="offcanvas__inner">
+                <!-- Offcanvas Logo -->
+                <div class="offcanvas__logo">
+                    <a class="offcanvas__logo--link" href=".">
+                        <img alt="Mary Humphrey African Wear" class="offcanvas__logo--img"
+                            src="assets/IMG-20260622-WA0082.webp" />
+                    </a>
+                    <button aria-label="close menu" class="offcanvas__close--btn" data-offcanvas="">✕</button>
+                </div>
+                <nav class="offcanvas__menu">
+                    <ul class="offcanvas__menu_ul">
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href=".">Home</a>
+                        </li>
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="shop.html">Collections</a>
+                            <ul class="offcanvas__sub_menu">
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="shop.html">All Products</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop/dresses">Dresses</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop/pullovers">Tops & Blouses</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop/blankets">Blankets &amp; Throws</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop/palazzos">Palazzos &amp; Dungarees</a></li>
+                            </ul>
+                        </li>
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="about.html">Our Story</a>
+                        </li>
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="contact.html">Contact</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </header>
 
@@ -136,7 +311,6 @@
     <!-- Site Footer -->
     <div id="site-footer"></div>
     <script src="assets/footer.js"></script>
-    <script src="assets/global.js"></script>
 </body>
 
 </html>

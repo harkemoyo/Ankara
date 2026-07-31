@@ -51,6 +51,7 @@ async function processImageToWebpUnder100KB(buffer) {
     }
 }
 
+// Trigger redeployment with updated Vercel environment variables
 // Homepage image upload — stores in Supabase Storage products/homepage/
 router.post('/upload/homepage', upload.single('file'), async (req, res) => {
     try {

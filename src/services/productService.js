@@ -224,6 +224,16 @@ class ProductService {
 
     async getTheme() {
         try {
+            // Try Supabase first (works on Vercel and locally)
+            const { data, error } = await supabaseAdmin.from('settings').select('theme_sections').eq('id', 1).single();
+            if (!error && data && data.theme_sections && Object.keys(data.theme_sections).length > 0) {
+                return data.theme_sections;
+            }
+        } catch (e) {
+            console.error('Supabase theme read failed, falling back to file:', e.message);
+        }
+        // Fallback to local file (for local dev or if DB is empty)
+        try {
             const raw = fs.readFileSync(THEME_FILE, 'utf-8');
             return JSON.parse(raw);
         } catch (e) {
@@ -233,12 +243,20 @@ class ProductService {
     }
 
     async updateTheme(themeSections) {
+        // Write to Supabase (works on Vercel's read-only filesystem)
+        const { error } = await supabaseAdmin
+            .from('settings')
+            .update({ theme_sections: themeSections, updated_at: new Date().toISOString() })
+            .eq('id', 1);
+        if (error) throw new Error('Failed to save theme to database: ' + error.message);
+
+        // Also sync to local file for local dev convenience (ignore errors on Vercel)
         try {
             fs.writeFileSync(THEME_FILE, JSON.stringify(themeSections, null, 2), 'utf-8');
-            return themeSections;
         } catch (e) {
-            throw new Error('Failed to write theme-sections.json: ' + e.message);
+            // Expected to fail on Vercel (read-only filesystem) — that's fine
         }
+        return themeSections;
     }
 
     async hasSaleProducts() {

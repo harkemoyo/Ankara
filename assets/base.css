@@ -45,6 +45,7 @@
 /* ── Layout Shift (CLS) Prevention & Skeleton Reserve Heights ── */
 .hero-section {
   min-height: 500px;
+  background-color: #2a1719;
 }
 .home-categories {
   min-height: 380px;
@@ -75,6 +76,7 @@
 }
 .home-statement {
   min-height: 350px;
+  background-color: #422326;
 }
 .home-testimonials {
   min-height: 280px;

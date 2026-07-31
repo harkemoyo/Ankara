@@ -5,7 +5,7 @@ function escapeHtml(str) {
   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }const updaters = {
   announcement(el, settings) {
-    if (settings.text != null) el.textContent = settings.text;
+    // Handled dynamically by assets/announcement.js
   },
 
   hero(el, settings) {

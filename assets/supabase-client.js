@@ -101,29 +101,6 @@ function highlightActiveNav() {
     });
 }
 
-function updateAnnouncementBar(customText) {
-    const annEl = document.getElementById('announcement-text');
-    if (!annEl) return;
-
-    // Check if custom text was provided in database settings
-    if (customText && !customText.includes('5,000') && !customText.includes('$100') && !customText.includes('5000') && !customText.includes('$80') && !customText.includes('10,000')) {
-        annEl.innerHTML = escapeHtml(customText);
-        return;
-    }
-
-    const currentCurrency = window.AnkaraCurrency ? window.AnkaraCurrency.current : 'KES';
-    const rate = (window.AnkaraCurrency && window.AnkaraCurrency.rate) ? window.AnkaraCurrency.rate : 130.00;
-
-    // Threshold: KSh 10,000 / $80 USD
-    const kesThreshold = 10000;
-    const usdThreshold = Math.round(kesThreshold / rate) || 80;
-
-    if (currentCurrency === 'USD') {
-        annEl.innerHTML = `✨ FREE SHIPPING ON ALL ORDERS ABOVE $${usdThreshold} | Celebrating African Heritage Through Fashion`;
-    } else {
-        annEl.innerHTML = `✨ FREE SHIPPING ON ORDERS OVER KSh ${kesThreshold.toLocaleString()} | Celebrating African Heritage Through Fashion`;
-    }
-}
 
 function applySettingsToDOM(data) {
     if (!data) return;
@@ -131,8 +108,6 @@ function applySettingsToDOM(data) {
         window.AnkaraCurrency.rate = parseFloat(data.exchange_rate);
     }
     
-    // Update Announcement Bar
-    updateAnnouncementBar(data.announcement || (data.announcements && data.announcements[0]));
 
     // Update Logo across Header & Drawers
     if (data.logo) {
@@ -198,8 +173,6 @@ if (document.readyState === 'loading') {
 document.addEventListener('DOMContentLoaded', () => {
     highlightActiveNav();
 
-    // Ensure announcement bar displays immediately
-    updateAnnouncementBar();
 
     const switchers = document.querySelectorAll('.currency-switcher');
     switchers.forEach(sw => { sw.value = window.AnkaraCurrency.current; });
@@ -208,13 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update all currency dropdown switchers across pages
         switchers.forEach(sw => { sw.value = e.detail; });
 
-        // Dynamically update the topbar Announcement Bar text for KES / USD!
-        const cached = localStorage.getItem('mhw_settings_cache');
-        let customAnn = null;
-        if (cached) {
-            try { customAnn = JSON.parse(cached).announcement; } catch (_) {}
-        }
-        updateAnnouncementBar(customAnn);
 
         // Dynamically update raw price elements
         document.querySelectorAll('[data-raw-price]').forEach(el => {

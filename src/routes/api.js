@@ -72,7 +72,7 @@ router.post('/upload/homepage', upload.single('file'), async (req, res) => {
         res.json({ url: urlData.publicUrl, fileName, sizeBytes: webpBuffer.length });
     } catch (error) {
         console.error('Homepage upload error:', error);
-        res.status(500).json({ error: 'Failed to upload image' });
+        res.status(500).json({ error: 'Failed to upload image', message: error.message || String(error) });
     }
 });
 

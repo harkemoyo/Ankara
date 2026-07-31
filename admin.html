@@ -2899,7 +2899,10 @@
         const formData = new FormData();
         formData.append('file', blob, (file.name || 'image').replace(/\.[^/.]+$/, '') + '.webp');
         const res = await fetch('/api/upload/homepage', { method: 'POST', body: formData });
-        if (!res.ok) throw new Error('Upload failed');
+        if (!res.ok) {
+          const errJson = await res.json().catch(() => ({}));
+          throw new Error(errJson.message || errJson.error || 'Upload failed');
+        }
         const json = await res.json();
         urlInput.value = json.url;
         if (statusEl) statusEl.textContent = 'Done (<100KB WebP)';

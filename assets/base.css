@@ -14460,11 +14460,7 @@ details>summary::-webkit-details-marker {
 }
 
 .ctn-preloader .loader-section {
-  background: var(--body-background-color);
-  height: 100%;
-  position: fixed;
-  top: 0;
-  width: calc(50% + 1px);
+  display: none !important;
 }
 
 .ctn-preloader .loader-section.section-left {

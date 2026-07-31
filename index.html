@@ -596,10 +596,87 @@
         }
 
         .hero-section {
-            background-color: #000;
+            background-color: #faf6f0;
             overflow: hidden;
             position: relative;
             width: 100%;
+        }
+
+        /* ══ Hero Loading Skeleton ══ */
+        .hero-skeleton-slide {
+            background-color: #faf6f0;
+            display: flex !important;
+            align-items: center;
+            height: 100%;
+            min-height: 500px;
+        }
+
+        @media (min-width: 992px) {
+            .hero-skeleton-slide {
+                height: 90vh;
+            }
+        }
+
+        .skeleton-content {
+            width: 100%;
+            max-width: 700px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: pulse-skeleton 1.5s infinite ease-in-out;
+        }
+
+        .skeleton-line {
+            background: #e8e1d9;
+            border-radius: 4px;
+        }
+
+        .skeleton-subtitle {
+            width: 120px;
+            height: 14px;
+        }
+
+        .skeleton-title {
+            width: 85%;
+            height: 48px;
+            border-radius: 6px;
+        }
+
+        .skeleton-title-short {
+            width: 60%;
+            height: 48px;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .skeleton-desc-long {
+            width: 95%;
+            height: 16px;
+        }
+
+        .skeleton-desc-short {
+            width: 70%;
+            height: 16px;
+            margin-bottom: 1.5rem;
+        }
+
+        .skeleton-button {
+            width: 160px;
+            height: 45px;
+            background: #e8e1d9;
+            border-radius: 4px;
+        }
+
+        @keyframes pulse-skeleton {
+            0% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.6;
+            }
         }
 
         .hero-swiper {
@@ -2151,7 +2228,21 @@
         <!-- ── HERO SECTION ──────────────────────────────── -->
         <section class="hero-section" data-section-id="hero">
             <div class="swiper hero-swiper">
-                <div class="swiper-wrapper"></div>
+                <div class="swiper-wrapper">
+                    <!-- Loading Skeleton Placeholder -->
+                    <div class="swiper-slide hero-skeleton-slide">
+                        <div class="hero-container">
+                            <div class="hero-content skeleton-content">
+                                <div class="skeleton-line skeleton-subtitle"></div>
+                                <div class="skeleton-line skeleton-title"></div>
+                                <div class="skeleton-line skeleton-title-short"></div>
+                                <div class="skeleton-line skeleton-desc-long"></div>
+                                <div class="skeleton-line skeleton-desc-short"></div>
+                                <div class="skeleton-button"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="swiper-pagination hero-pagination"></div>
             </div>
         </section>

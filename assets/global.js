@@ -8,6 +8,40 @@ if (typeof Swiper === 'undefined') { window.Swiper = function() { return {}; } }
 
 "use strict";
 
+// Smooth Image Fade-In Logic
+document.addEventListener("DOMContentLoaded", () => {
+  const handleImgLoad = (img) => {
+    img.classList.add("loaded");
+  };
+  document.querySelectorAll("img").forEach((img) => {
+    if (img.complete) {
+      handleImgLoad(img);
+    } else {
+      img.addEventListener("load", () => handleImgLoad(img));
+      img.addEventListener("error", () => handleImgLoad(img));
+    }
+  });
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeType === 1) {
+          const imgs = node.tagName === "IMG" ? [node] : node.querySelectorAll("img");
+          imgs.forEach((img) => {
+            if (img.complete) {
+              handleImgLoad(img);
+            } else {
+              img.addEventListener("load", () => handleImgLoad(img));
+              img.addEventListener("error", () => handleImgLoad(img));
+            }
+          });
+        }
+      });
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+});
+
 /*
   Before After activation
 */

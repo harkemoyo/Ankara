@@ -73,16 +73,7 @@ router.post('/upload/homepage', upload.single('file'), async (req, res) => {
         res.json({ url: urlData.publicUrl, fileName, sizeBytes: webpBuffer.length });
     } catch (error) {
         console.error('Homepage upload error:', error);
-        const rawKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-        res.status(500).json({ 
-            error: 'Failed to upload image', 
-            message: error.message || String(error),
-            keyLength: rawKey.length,
-            keyPrefix: rawKey.substring(0, 10),
-            keySuffix: rawKey.substring(Math.max(0, rawKey.length - 10)),
-            hasWhitespace: /\s/.test(rawKey),
-            hasQuotes: rawKey.startsWith('"') || rawKey.startsWith("'") || rawKey.endsWith('"') || rawKey.endsWith("'")
-        });
+        res.status(500).json({ error: 'Failed to upload image', message: error.message || String(error) });
     }
 });
 

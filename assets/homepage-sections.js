@@ -71,20 +71,114 @@ function escapeHtml(str) {
     if (btn && settings.button_link) btn.href = settings.button_link;
   },
 
-  style_of_month(el, settings) {
+  async style_of_month(el, settings) {
     const sub = el.querySelector('.botm-header-subtitle');
     if (sub && settings.subtitle) sub.textContent = settings.subtitle;
     const h = el.querySelector('.section__heading--maintitle');
     if (h && settings.title) h.textContent = settings.title;
-    const img = el.querySelector('.botm-image');
-    if (img && settings.image) img.src = settings.image;
-    const name = el.querySelector('.botm-title');
-    if (name && settings.product_name) name.textContent = settings.product_name;
-    const price = el.querySelector('.botm-price');
-    if (price && settings.price) price.textContent = settings.price;
-    const btn = el.querySelector('.botm-layout__content a');
-    if (btn && settings.product_handle) btn.href = `product.html?handle=${encodeURIComponent(settings.product_handle)}`;
-    if (btn && settings.button_text) btn.textContent = settings.button_text;
+
+    if (!settings.product_handle) return;
+
+    try {
+      const res = await fetch(`/api/products?handle=${settings.product_handle}`);
+      if (res.ok) {
+        const data = await res.json();
+        const product = data.product || (data.products && data.products.find(p => p.handle === settings.product_handle));
+        if (product) {
+          window._botmProduct = product; // Store globally for actions
+          const layout = el.querySelector('.botm-layout');
+          if (layout) {
+            const primaryImage = (product.images && product.images.length > 0) ? product.images[0] : (settings.image || 'assets/placeholder.webp');
+            const imagesList = product.images || [primaryImage];
+            const colors = product.colors || [];
+            const sizes = product.sizes || ['S', 'M', 'L'];
+            const price = parseFloat(product.price);
+            const vendor = product.vendor || 'MARY HUMPHREY AFRICAN WEAR';
+
+            // Selected variables state
+            layout.dataset.selectedSize = sizes[0] || 'M';
+            layout.dataset.selectedColor = colors[0] ? colors[0].label : '';
+            layout.dataset.quantity = '1';
+
+            layout.innerHTML = `
+              <!-- Left Side: Images & Thumbnails -->
+              <div class="botm-layout__image" style="display:flex; flex-direction:column; gap:1.2rem; flex: 1; max-width: 480px;">
+                  <div class="botm-image-wrap" style="aspect-ratio:1/1; overflow:hidden; border-radius:4px; background:#fff; border:1px solid #eee;">
+                      <img id="botm-main-image" alt="${product.title}" class="botm-image" src="${primaryImage}" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                  </div>
+                  <!-- Thumbnails list -->
+                  ${imagesList.length > 1 ? `
+                  <div class="botm-thumbnails" style="display:flex; gap:8px; overflow-x:auto; padding-top:4px;">
+                      ${imagesList.map((img, idx) => `
+                          <div class="botm-thumb-item ${idx === 0 ? 'active' : ''}" 
+                               style="width:65px; height:65px; border:2px solid ${idx === 0 ? '#1a1108' : '#e5dec9'}; border-radius:4px; overflow:hidden; cursor:pointer; flex-shrink:0; background:#fff;"
+                               onclick="selectBotmThumbnail(this, '${img}')">
+                              <img src="${img}" style="width:100%; height:100%; object-fit:cover;" />
+                          </div>
+                      `).join('')}
+                  </div>` : ''}
+              </div>
+
+              <!-- Right Side: Details & Actions -->
+              <div class="botm-layout__content botm-content" style="display:flex; flex-direction:column; gap:1.8rem; padding-left:3.5rem; justify-content:center; flex: 1;">
+                  <span style="font-size:1.25rem; letter-spacing:0.15em; text-transform:uppercase; color:#8e7a6b; font-weight:600; display:block;">${vendor}</span>
+                  <h3 class="botm-title" style="margin:0; font-family:var(--font-heading); font-size:3.6rem; font-weight:700; color:#1a1108; line-height:1.2;">${product.title}</h3>
+                  <div class="botm-price" style="font-size:2.6rem; font-weight:600; color:#1a1108;">
+                      ${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : `KSh ${price.toLocaleString()}`}
+                  </div>
+                  <span style="font-size:1.25rem; color:#777; margin-top:-0.8rem; display:block;">Tax included. Shipping calculated at checkout.</span>
+
+                  <!-- Color Selection -->
+                  ${colors.length > 0 ? `
+                  <div style="margin-top:0.5rem;">
+                      <div style="font-size:1.3rem; color:#555; font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">Colour: <span id="botm-selected-color-label" style="font-weight:400; text-transform:none; color:#1a1108;">${colors[0].label}</span></div>
+                      <div style="display:flex; gap:10px; align-items:center;">
+                          ${colors.map((c, i) => `
+                              <span class="botm-color-swatch ${i === 0 ? 'active' : ''}" 
+                                    style="width:28px; height:28px; border-radius:50%; background:${c.hex}; display:inline-block; border:2px solid ${i === 0 ? '#1a1108' : '#e5dec9'}; cursor:pointer; transition:all 0.2s;"
+                                    title="${c.label}"
+                                    onclick="selectBotmColor(this, '${c.label.replace(/'/g, "\\'")}', '${c.image || primaryImage}')"
+                              ></span>
+                          `).join('')}
+                      </div>
+                  </div>` : ''}
+
+                  <!-- Size Selection -->
+                  <div style="margin-top:0.5rem;">
+                      <div style="font-size:1.3rem; color:#555; font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">Size: <span id="botm-selected-size-label" style="font-weight:400; text-transform:none; color:#1a1108;">${sizes[0]}</span></div>
+                      <div style="display:flex; gap:8px;">
+                          ${sizes.map((sz, i) => `
+                              <button class="botm-size-btn ${i === 0 ? 'active' : ''}" 
+                                      style="padding:8px 16px; border:1px solid ${i === 0 ? '#1a1108' : '#ccc'}; background:${i === 0 ? '#1a1108' : '#fff'}; color:${i === 0 ? '#fff' : '#1a1108'}; border-radius:4px; font-size:1.3rem; cursor:pointer; font-weight:600; transition:all 0.2s;"
+                                      onclick="selectBotmSize(this, '${sz}')"
+                              >${sz}</button>
+                          `).join('')}
+                      </div>
+                  </div>
+
+                  <!-- Quantity Stepper -->
+                  <div style="margin-top:0.5rem; display:flex; flex-direction:column; gap:8px;">
+                      <span style="font-weight:600; text-transform:uppercase; font-size:1.2rem; letter-spacing:0.05em; color:#555;">Quantity</span>
+                      <div style="display:inline-flex; align-items:center; border:1px solid #ccc; border-radius:4px; width:fit-content; background:#fff; overflow:hidden;">
+                          <button style="width:36px; height:36px; background:none; border:none; cursor:pointer; font-size:1.6rem; color:#333; font-weight:600;" onclick="changeBotmQty(-1)">-</button>
+                          <input id="botm-qty-input" type="number" value="1" min="1" readonly style="width:44px; height:36px; border:none; border-left:1px solid #ccc; border-right:1px solid #ccc; text-align:center; font-size:1.4rem; color:#1a1108; background:transparent;" />
+                          <button style="width:36px; height:36px; background:none; border:none; cursor:pointer; font-size:1.6rem; color:#333; font-weight:600;" onclick="changeBotmQty(1)">+</button>
+                      </div>
+                  </div>
+
+                  <!-- Call To Actions -->
+                  <div style="display:flex; flex-direction:column; gap:12px; margin-top:1.2rem; max-width:440px;">
+                      <button class="botm-atc-btn" style="width:100%; padding:1.5rem; background:#c69273; color:#fff; border:none; font-size:1.35rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; border-radius:4px; cursor:pointer; transition:background 0.2s;" onclick="addBotmToCart(false)">Add to Bag</button>
+                      <button class="botm-bin-btn" style="width:100%; padding:1.5rem; background:#3b1c22; color:#fff; border:none; font-size:1.35rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; border-radius:4px; cursor:pointer; transition:background 0.2s;" onclick="addBotmToCart(true)">Buy It Now</button>
+                  </div>
+              </div>
+            `;
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load featured style product details:', err);
+    }
   },
 
   fabrics(el, settings) {
@@ -346,3 +440,109 @@ if (document.readyState === 'loading') {
 } else {
   applyThemeSections();
 }
+
+// =============================================
+// STYLE OF THE MONTH (Featured Product) Handlers
+// =============================================
+window.selectBotmThumbnail = function(thumbEl, imgUrl) {
+  const mainImg = document.getElementById('botm-main-image');
+  if (mainImg) mainImg.src = imgUrl;
+
+  const parent = thumbEl.parentNode;
+  if (parent) {
+    parent.querySelectorAll('.botm-thumb-item').forEach(item => {
+      item.style.borderColor = '#e5dec9';
+    });
+  }
+  thumbEl.style.borderColor = '#1a1108';
+};
+
+window.selectBotmColor = function(swatchEl, colorLabel, imgUrl) {
+  const labelEl = document.getElementById('botm-selected-color-label');
+  if (labelEl) labelEl.textContent = colorLabel;
+
+  const mainImg = document.getElementById('botm-main-image');
+  if (mainImg) mainImg.src = imgUrl;
+
+  const parent = swatchEl.parentNode;
+  if (parent) {
+    parent.querySelectorAll('.botm-color-swatch').forEach(s => {
+      s.classList.remove('active');
+      s.style.borderColor = '#e5dec9';
+    });
+  }
+  swatchEl.classList.add('active');
+  swatchEl.style.borderColor = '#1a1108';
+
+  const layout = document.querySelector('.botm-layout');
+  if (layout) layout.dataset.selectedColor = colorLabel;
+};
+
+window.selectBotmSize = function(btnEl, sizeVal) {
+  const labelEl = document.getElementById('botm-selected-size-label');
+  if (labelEl) labelEl.textContent = sizeVal;
+
+  const parent = btnEl.parentNode;
+  if (parent) {
+    parent.querySelectorAll('.botm-size-btn').forEach(btn => {
+      btn.classList.remove('active');
+      btn.style.background = '#fff';
+      btn.style.color = '#1a1108';
+      btn.style.borderColor = '#ccc';
+    });
+  }
+  btnEl.classList.add('active');
+  btnEl.style.background = '#1a1108';
+  btnEl.style.color = '#fff';
+  btnEl.style.borderColor = '#1a1108';
+
+  const layout = document.querySelector('.botm-layout');
+  if (layout) layout.dataset.selectedSize = sizeVal;
+};
+
+window.changeBotmQty = function(delta) {
+  const input = document.getElementById('botm-qty-input');
+  if (input) {
+    let current = parseInt(input.value) || 1;
+    current += delta;
+    if (current < 1) current = 1;
+    input.value = current;
+
+    const layout = document.querySelector('.botm-layout');
+    if (layout) layout.dataset.quantity = current.toString();
+  }
+};
+
+window.addBotmToCart = function(isBuyNow) {
+  const product = window._botmProduct;
+  if (!product) return;
+
+  const layout = document.querySelector('.botm-layout');
+  if (!layout) return;
+
+  const qty = parseInt(layout.dataset.quantity) || 1;
+  const size = layout.dataset.selectedSize || 'M';
+  const color = layout.dataset.selectedColor || '';
+
+  // Get current main image
+  const mainImg = document.getElementById('botm-main-image');
+  const finalImage = mainImg ? mainImg.src : (product.images && product.images[0]) || '';
+
+  if (typeof window.addToCart === 'function') {
+    window.addToCart({
+      id: product.handle,
+      title: product.title,
+      price: product.price,
+      image: finalImage,
+      qty: qty,
+      size: size,
+      color: color
+    });
+
+    if (isBuyNow) {
+      setTimeout(() => {
+        window.location.href = 'checkout.html';
+      }, 300);
+    }
+  }
+};

@@ -49,196 +49,55 @@ async function loadShopProducts() {
     if (products.length === 0) {
         grid.innerHTML = '<div class="col-12 text-center" style="grid-column:1/-1;padding:3rem;"><p>No products found matching your filters.</p></div>';
         return;
-    }
-
-    grid.innerHTML = products.map((product) => {
+    }    grid.innerHTML = products.map((product) => {
         const primaryImage = (product.images && Array.isArray(product.images) && product.images[0]) ? product.images[0] : 'assets/DSC02676.jpg';
+        const hoverImage = (product.images && Array.isArray(product.images) && product.images[1]) ? product.images[1] : primaryImage;
         const price = parseFloat(product.price);
         const isSalePage = window.location.pathname.includes('sale.html') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale') || window.location.search.includes('collection=sale');
         const comparePrice = (isSalePage && product.compare_at_price) ? parseFloat(product.compare_at_price) : null;
         let badgeHtml = '';
         if (isSalePage) {
-            badgeHtml = `<span class="product__card--badge">Sale</span>`;
+            badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#ED1D24; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">Sale</span>`;
         }
         const colors = product.colors || [];
-        const sizes = product.sizes || ['S', 'M', 'L'];
-        const imagesList = product.images || [primaryImage];
-        const vendor = product.vendor || 'MARY HUMPHREY AFRICAN WEAR';
 
         return `
-        <article class="product__card clean-card" data-handle="${product.handle}" id="card-${product.handle}">
-            <!-- Left Side: Images & Thumbnails -->
-            <div style="display:flex; flex-direction:column;">
-                <div class="product__card--thumbnail">
-                    <a class="product__card--thumbnail__link" href="product.html?handle=${product.handle}">
-                        <img id="main-img-${product.handle}" class="product__card--thumbnail__img product__primary--img" src="${primaryImage}" alt="${product.title}">
-                    </a>
-                    ${badgeHtml}
-                </div>
-                
-                <!-- Thumbnails list below the main image -->
-                ${imagesList.length > 1 ? `
-                <div class="card-thumbnails-container" style="display:flex;gap:8px;padding:12px;background:#f5f0ea;overflow-x:auto;">
-                    ${imagesList.map((img, idx) => `
-                        <div class="card-thumb-item ${idx === 0 ? 'active' : ''}" 
-                             style="width:50px;height:50px;border:2px solid ${idx === 0 ? '#1a1108' : '#e5dec9'};border-radius:4px;overflow:hidden;cursor:pointer;flex-shrink:0;background:#fff;"
-                             onclick="selectCardThumbnail(this, '${product.handle}', '${img}')">
-                            <img src="${img}" style="width:100%;height:100%;object-fit:cover;" />
-                        </div>
-                    `).join('')}
-                </div>` : ''}
+        <article class="product__card clean-card" data-handle="${product.handle}">
+            <div class="product__card--thumbnail clean-card-thumbnail">
+                <a class="product__card--thumbnail__link display-block" href="product.html?handle=${product.handle}">
+                    <img class="product__card--thumbnail__img product__primary--img" src="${primaryImage}" alt="${product.title}">
+                    <img class="product__card--thumbnail__img product__secondary--img" src="${hoverImage}" alt="${product.title}">
+                </a>
+                ${badgeHtml}
+                <a href="javascript:void(0)" class="clean-card-add" aria-label="Add to cart" onclick="quickAddToCart('${product.handle}', '${product.title.replace(/'/g, "\\'")}', ${product.price}, '${primaryImage}')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                </a>
             </div>
-
-            <!-- Right Side: Details & Actions -->
-            <div class="product__card--content">
-                <span class="product__card--vendor" style="font-size:1.1rem;letter-spacing:0.15em;text-transform:uppercase;color:#8e7a6b;font-weight:600;">${vendor}</span>
-                <h3 class="product__card--title">
+            <div class="product__card--content clean-card-content">
+                <h3 class="product__card--title clean-title" style="margin-top: 10px;">
                     <a href="product.html?handle=${product.handle}">${product.title}</a>
                 </h3>
-                <div class="product__card--price">
-                    <span class="current__price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : `KSh ${price.toLocaleString()}`}</span>
-                    ${comparePrice && product.compare_at_price ? `<span class="old__price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.compare_at_price) : `KSh ${parseFloat(product.compare_at_price).toLocaleString()}`}</span>` : ''}
-                </div>
-                <span style="font-size:1.1rem;color:#777;margin-top:-0.5rem;display:block;">Tax included. Shipping calculated at checkout.</span>
-
-                <!-- Color selector -->
                 ${colors.length > 0 ? `
-                <div class="card-color-row" style="margin-top:0.5rem;">
-                    <div style="font-size:1.3rem;color:#555;font-weight:600;margin-bottom:6px;">COLOUR: <span id="selected-color-label-${product.handle}" style="font-weight:400;color:#1a1108;">${colors[0].label}</span></div>
-                    <div class="card-color-swatches">
-                        ${colors.map((c, i) => `
-                            <span 
-                                class="card-swatch ${i === 0 ? 'active' : ''}" 
-                                title="${c.label}"
-                                style="background:${c.hex};"
-                                onclick="selectCardColor(this, '${product.handle}', '${c.label.replace(/'/g, "\\'")}', '${c.image || primaryImage}')"
-                            ></span>
-                        `).join('')}
-                    </div>
+                <div class="card-color-swatches" style="display:flex;justify-content:center;gap:6px;margin:8px 0;">
+                    ${colors.map((c, i) => `
+                        <span 
+                            class="card-swatch" 
+                            title="${c.label}"
+                            data-image="${c.image}"
+                            data-handle="${product.handle}"
+                            style="width:16px;height:16px;border-radius:50%;background:${c.hex};border:2px solid ${i === 0 ? '#1a1a1a' : '#ddd'};cursor:pointer;display:inline-block;"
+                            onclick="swapCardImage(this, '${c.image}', '${product.handle}')"
+                        ></span>
+                    `).join('')}
                 </div>` : ''}
-
-                <!-- Size Selector -->
-                <div class="card-size-row" style="margin-top:0.5rem;">
-                    <div style="font-size:1.3rem;color:#555;font-weight:600;margin-bottom:6px;">SIZE: <span id="selected-size-label-${product.handle}" style="font-weight:400;color:#1a1108;">${sizes[0]}</span></div>
-                    <div style="display:flex;gap:6px;">
-                        ${sizes.map((sz, i) => `
-                            <button 
-                                class="card-size-btn ${i === 0 ? 'active' : ''}" 
-                                style="padding:6px 12px;border:1px solid #ccc;background:#fff;border-radius:4px;cursor:pointer;font-size:1.3rem;transition:all 0.2s;"
-                                onclick="selectCardSize(this, '${product.handle}', '${sz}')"
-                            >${sz}</button>
-                        `).join('')}
-                    </div>
-                </div>
-
-                <!-- Quantity selector -->
-                <div class="card-qty-row" style="margin-top:0.5rem;">
-                    <span class="card-qty-label" style="font-weight:600;text-transform:uppercase;font-size:1.2rem;letter-spacing:0.05em;color:#555;">Quantity</span>
-                    <div class="card-qty-stepper">
-                        <button class="card-qty-btn" onclick="changeCardQty('${product.handle}', -1)">-</button>
-                        <input id="qty-${product.handle}" type="number" class="card-qty-num" value="1" min="1" readonly style="width:40px;background:transparent;border:none;text-align:center;font-size:1.4rem;" />
-                        <button class="card-qty-btn" onclick="changeCardQty('${product.handle}', 1)">+</button>
-                    </div>
-                </div>
-
-                <!-- Buttons -->
-                <div style="display:flex;flex-direction:column;gap:10px;margin-top:1rem;">
-                    <button class="card-btn-atc" onclick="addCardProductToCart('${product.handle}', '${product.title.replace(/'/g, "\\'")}', ${product.price}, '${primaryImage}', false)">ADD TO BAG</button>
-                    <button class="card-btn-bin" onclick="addCardProductToCart('${product.handle}', '${product.title.replace(/'/g, "\\'")}', ${product.price}, '${primaryImage}', true)">BUY IT NOW</button>
+                <div class="product__card--price clean-price" style="margin-top: 5px;">
+                    <span class="current__price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : price.toFixed(2)}</span>
+                    ${comparePrice && product.compare_at_price ? `<span class="old__price" style="text-decoration:line-through;color:#999;margin-left:8px;">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.compare_at_price) : comparePrice.toFixed(2)}</span>` : ''}
                 </div>
             </div>
         </article>`;
     }).join('');
 }
-
-// Card Interaction Helper Functions
-window.selectCardThumbnail = function(thumbEl, handle, imgUrl) {
-    const mainImg = document.getElementById(`main-img-${handle}`);
-    if (mainImg) mainImg.src = imgUrl;
-
-    const parent = thumbEl.closest('.card-thumbnails-container');
-    if (parent) {
-        parent.querySelectorAll('.card-thumb-item').forEach(item => {
-            item.style.borderColor = '#e5dec9';
-        });
-    }
-    thumbEl.style.borderColor = '#1a1108';
-};
-
-window.selectCardColor = function(swatchEl, handle, colorLabel, imgUrl) {
-    const labelEl = document.getElementById(`selected-color-label-${handle}`);
-    if (labelEl) labelEl.textContent = colorLabel;
-
-    const mainImg = document.getElementById(`main-img-${handle}`);
-    if (mainImg && imgUrl) mainImg.src = imgUrl;
-
-    const parent = swatchEl.closest('.card-color-swatches');
-    if (parent) {
-        parent.querySelectorAll('.card-swatch').forEach(s => s.classList.remove('active'));
-    }
-    swatchEl.classList.add('active');
-};
-
-window.selectCardSize = function(btnEl, handle, sizeVal) {
-    const labelEl = document.getElementById(`selected-size-label-${handle}`);
-    if (labelEl) labelEl.textContent = sizeVal;
-
-    const parent = btnEl.parentNode;
-    if (parent) {
-        parent.querySelectorAll('.card-size-btn').forEach(b => b.classList.remove('active'));
-    }
-    btnEl.classList.add('active');
-};
-
-window.changeCardQty = function(handle, delta) {
-    const input = document.getElementById(`qty-${handle}`);
-    if (input) {
-        let current = parseInt(input.value) || 1;
-        current += delta;
-        if (current < 1) current = 1;
-        input.value = current;
-    }
-};
-
-window.addCardProductToCart = function(handle, title, price, defaultImage, isBuyNow) {
-    const card = document.getElementById(`card-${handle}`);
-    const qtyInput = document.getElementById(`qty-${handle}`);
-    const qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
-
-    let size = 'M';
-    if (card) {
-        const activeSizeBtn = card.querySelector('.card-size-btn.active');
-        if (activeSizeBtn) size = activeSizeBtn.textContent.trim();
-    }
-
-    let color = '';
-    if (card) {
-        const activeSwatch = card.querySelector('.card-swatch.active');
-        if (activeSwatch) color = activeSwatch.getAttribute('title') || '';
-    }
-
-    // Get current main image src
-    const mainImg = document.getElementById(`main-img-${handle}`);
-    const finalImage = mainImg ? mainImg.src : defaultImage;
-
-    if (typeof addToCart === 'function') {
-        addToCart({
-            id: handle,
-            title: title,
-            price: price,
-            image: finalImage,
-            qty: qty,
-            size: size,
-            color: color
-        });
-
-        if (isBuyNow) {
-            setTimeout(() => {
-                window.location.href = 'checkout.html';
-            }, 300);
-        }
-    }
-};
 
 // Swap image on product card when swatch is clicked
 window.swapCardImage = function(swatchEl, imageSrc, handle) {

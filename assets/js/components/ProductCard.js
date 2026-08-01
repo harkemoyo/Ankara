@@ -1,10 +1,6 @@
 export default class ProductCard {
     constructor(product) {
         this.product = product;
-        this.selectedSize = (product.sizes && product.sizes.length > 0) ? product.sizes[0] : 'M';
-        this.selectedColor = (product.colors && product.colors.length > 0) ? product.colors[0].label : '';
-        this.selectedColorHex = (product.colors && product.colors.length > 0) ? product.colors[0].hex : '';
-        this.quantity = 1;
     }
 
     createEl(tag, classNames, attributes = {}, textContent = null) {
@@ -21,44 +17,46 @@ export default class ProductCard {
         if (window.AnkaraCurrency) {
             return window.AnkaraCurrency.convertAndFormat(num);
         }
-        return `KSh ${parseFloat(num).toLocaleString()}`;
+        return parseFloat(num).toFixed(2);
     }
 
     render() {
         const product = this.product;
         const card = this.createEl('article', 'product__card js-product-card', {
-            'data-handle': product.handle,
-            'id': `card-${product.handle}`
+            'data-handle': product.handle
         });
 
         if (!product.in_stock) {
             card.classList.add('out-of-stock');
         }
 
-        // ================= Left Column (Images & Thumbnails) =================
-        const leftCol = this.createEl('div', 'product-card-left', {
-            style: 'display:flex; flex-direction:column;'
-        });
-
+        // 1. Thumbnail Wrap
         const thumbnailWrap = this.createEl('div', 'product__card--thumbnail');
+        
         const thumbnailLink = this.createEl('a', 'product__card--thumbnail__link', {
             href: `product.html?handle=${product.handle}`
         });
 
-        const primaryImage = (product.images && product.images.length > 0) ? product.images[0] : 'assets/DSC02676.jpg';
+        const primaryImage = (product.images && product.images.length > 0) ? product.images[0] : 'assets/placeholder.webp';
+        const hoverImage = (product.images && product.images.length > 1) ? product.images[1] : primaryImage;
 
         const mainImg = this.createEl('img', 'product__card--thumbnail__img product__primary--img', {
             src: primaryImage,
             alt: product.title,
-            loading: 'lazy',
-            id: `main-img-card-${product.handle}`
+            loading: 'lazy'
+        });
+        const secondaryImg = this.createEl('img', 'product__card--thumbnail__img product__secondary--img', {
+            src: hoverImage,
+            alt: product.title,
+            loading: 'lazy'
         });
 
-        thumbnailLink.appendChild(mainImg);
+        thumbnailLink.append(mainImg, secondaryImg);
         thumbnailWrap.appendChild(thumbnailLink);
 
-        // Badge
+        // Badges
         const isSalePage = window.location.pathname.includes('sale.html') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale') || window.location.search.includes('collection=sale');
+
         if (!product.in_stock) {
             const badge = this.createEl('span', 'product__card--badge sold-out-badge', {}, 'Sold Out');
             thumbnailWrap.appendChild(badge);
@@ -69,53 +67,101 @@ export default class ProductCard {
             thumbnailWrap.appendChild(badge);
         }
 
-        leftCol.appendChild(thumbnailWrap);
-
-        // Thumbnails list (if multiple images exist)
-        if (product.images && product.images.length > 1) {
-            const thumbsContainer = this.createEl('div', 'card-thumbnails-container', {
-                style: 'display:flex; gap:8px; padding:12px; background:#f5f0ea; overflow-x:auto;'
+        // Action overlay buttons on hover
+        if (product.in_stock) {
+            // Quick Add to Cart button
+            const addBtn = this.createEl('button', 'product__card--action-btn js-cart-add-btn', {
+                'type': 'button',
+                'aria-label': 'Add to cart',
+                'title': 'Add to Cart'
+            });
+            addBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>`;
+            addBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                window.dispatchEvent(new CustomEvent('cart:add', {
+                    detail: {
+                        id: product.handle,
+                        title: product.title,
+                        price: product.price,
+                        image: primaryImage,
+                        qty: 1,
+                        size: (product.sizes && product.sizes.length > 0) ? product.sizes[0] : 'M',
+                        color: (product.colors && product.colors.length > 0) ? product.colors[0].label : ''
+                    }
+                }));
             });
 
-            product.images.forEach((img, idx) => {
-                const thumbItem = this.createEl('div', `card-thumb-item ${idx === 0 ? 'active' : ''}`, {
-                    style: `width:50px; height:50px; border:2px solid ${idx === 0 ? '#1a1108' : '#e5dec9'}; border-radius:4px; overflow:hidden; cursor:pointer; flex-shrink:0; background:#fff;`
-                });
-                const thumbImg = this.createEl('img', '', {
-                    src: img,
-                    style: 'width:100%; height:100%; object-fit:cover;'
-                });
-                thumbItem.appendChild(thumbImg);
-
-                thumbItem.addEventListener('click', () => {
-                    mainImg.src = img;
-                    Array.from(thumbsContainer.children).forEach(child => {
-                        child.style.borderColor = '#e5dec9';
-                    });
-                    thumbItem.style.borderColor = '#1a1108';
-                });
-
-                thumbsContainer.appendChild(thumbItem);
+            // Quick View button
+            const quickBtn = this.createEl('button', 'product__card--action-btn js-quickview-btn', {
+                'type': 'button',
+                'aria-label': 'Quick view',
+                'title': 'Quick View'
             });
-            leftCol.appendChild(thumbsContainer);
+            quickBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+            quickBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                window.dispatchEvent(new CustomEvent('quickview:open', {
+                    detail: { handle: product.handle }
+                }));
+            });
+
+            thumbnailWrap.append(addBtn, quickBtn);
         }
 
-        // ================= Right Column (Details & Actions) =================
+        // 2. Card Content (Grouped tightly for Gestalt Law of Proximity)
         const content = this.createEl('div', 'product__card--content');
 
-        // Vendor
-        const vendor = this.createEl('span', 'product__card--vendor', {
-            style: 'font-size:1.1rem; letter-spacing:0.15em; text-transform:uppercase; color:#8e7a6b; font-weight:600;'
-        }, product.vendor || 'MARY HUMPHREY AFRICAN WEAR');
-
-        // Title
         const titleLink = this.createEl('a', 'product__card--title-link', {
             href: `product.html?handle=${product.handle}`
         });
         const title = this.createEl('h3', 'product__card--title', {}, product.title);
         titleLink.appendChild(title);
 
-        // Price
+        // Color Swatches
+        let swatchesContainer = null;
+        if (product.colors && Array.isArray(product.colors) && product.colors.length > 0) {
+            swatchesContainer = this.createEl('div', 'product-card__swatches');
+            product.colors.forEach((color, index) => {
+                const swatch = this.createEl('button', 'swatch-btn js-swatch-btn', {
+                    'aria-label': color.label,
+                    'aria-pressed': index === 0 ? 'true' : 'false',
+                    'title': color.label,
+                    'type': 'button'
+                });
+                
+                const swatchImgUrl = color.image || primaryImage;
+                const swatchImg = this.createEl('img', 'swatch-img', {
+                    src: swatchImgUrl,
+                    alt: color.label
+                });
+                swatch.appendChild(swatchImg);
+
+                swatch.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    Array.from(swatchesContainer.children).forEach(btn => {
+                        btn.setAttribute('aria-pressed', 'false');
+                        btn.classList.remove('is-active');
+                    });
+                    swatch.setAttribute('aria-pressed', 'true');
+                    swatch.classList.add('is-active');
+                    
+                    mainImg.src = swatchImgUrl;
+                    thumbnailLink.href = `product.html?handle=${product.handle}&color=${encodeURIComponent(color.label)}`;
+                    titleLink.href = `product.html?handle=${product.handle}&color=${encodeURIComponent(color.label)}`;
+                });
+
+                if (index === 0) swatch.classList.add('is-active');
+                swatchesContainer.appendChild(swatch);
+            });
+        }
+
+        // Price Wrapper
         const priceWrapper = this.createEl('div', 'product__card--price');
         const currentPrice = this.createEl('span', 'current__price', {}, this.formatPrice(product.price));
         priceWrapper.appendChild(currentPrice);
@@ -125,166 +171,13 @@ export default class ProductCard {
             priceWrapper.appendChild(oldPrice);
         }
 
-        // Subtext
-        const subtext = this.createEl('span', '', {
-            style: 'font-size:1.1rem; color:#777; margin-top:-0.5rem; display:block;'
-        }, 'Tax included. Shipping calculated at checkout.');
-
-        content.append(vendor, titleLink, priceWrapper, subtext);
-
-        // Colors (if any exist)
-        if (product.colors && product.colors.length > 0) {
-            const colorRow = this.createEl('div', 'card-color-row', {
-                style: 'margin-top:0.5rem;'
-            });
-            const colorLabelWrap = this.createEl('div', '', {
-                style: 'font-size:1.3rem; color:#555; font-weight:600; margin-bottom:6px;'
-            });
-            colorLabelWrap.innerHTML = `COLOUR: <span class="sel-color-lbl" style="font-weight:400; color:#1a1108;">${this.selectedColor}</span>`;
-            const colorLabelValue = colorLabelWrap.querySelector('.sel-color-lbl');
-
-            const swatchesContainer = this.createEl('div', 'card-color-swatches');
-
-            product.colors.forEach((c, idx) => {
-                const swatch = this.createEl('span', `card-swatch ${idx === 0 ? 'active' : ''}`, {
-                    style: `background:${c.hex};`,
-                    title: c.label
-                });
-
-                swatch.addEventListener('click', () => {
-                    this.selectedColor = c.label;
-                    colorLabelValue.textContent = c.label;
-                    if (c.image) mainImg.src = c.image;
-
-                    Array.from(swatchesContainer.children).forEach(s => s.classList.remove('active'));
-                    swatch.classList.add('active');
-                });
-
-                swatchesContainer.appendChild(swatch);
-            });
-
-            colorRow.append(colorLabelWrap, swatchesContainer);
-            content.appendChild(colorRow);
+        content.append(titleLink);
+        if (swatchesContainer) {
+            content.appendChild(swatchesContainer);
         }
+        content.appendChild(priceWrapper);
 
-        // Sizes (if any exist)
-        const sizes = product.sizes || ['S', 'M', 'L'];
-        const sizeRow = this.createEl('div', 'card-size-row', {
-            style: 'margin-top:0.5rem;'
-        });
-        const sizeLabelWrap = this.createEl('div', '', {
-            style: 'font-size:1.3rem; color:#555; font-weight:600; margin-bottom:6px;'
-        });
-        sizeLabelWrap.innerHTML = `SIZE: <span class="sel-size-lbl" style="font-weight:400; color:#1a1108;">${this.selectedSize}</span>`;
-        const sizeLabelValue = sizeLabelWrap.querySelector('.sel-size-lbl');
-
-        const sizeButtonsWrap = this.createEl('div', '', {
-            style: 'display:flex; gap:6px;'
-        });
-
-        sizes.forEach((sz, idx) => {
-            const sizeBtn = this.createEl('button', `card-size-btn ${sz === this.selectedSize ? 'active' : ''}`, {
-                style: 'padding:6px 12px; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer; font-size:1.3rem; transition:all 0.2s;'
-            }, sz);
-
-            sizeBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.selectedSize = sz;
-                sizeLabelValue.textContent = sz;
-
-                Array.from(sizeButtonsWrap.children).forEach(btn => btn.classList.remove('active'));
-                sizeBtn.classList.add('active');
-            });
-
-            sizeButtonsWrap.appendChild(sizeBtn);
-        });
-
-        sizeRow.append(sizeLabelWrap, sizeButtonsWrap);
-        content.appendChild(sizeRow);
-
-        // Quantity selector
-        const qtyRow = this.createEl('div', 'card-qty-row', {
-            style: 'margin-top:0.5rem;'
-        });
-        const qtyLabel = this.createEl('span', 'card-qty-label', {
-            style: 'font-weight:600; text-transform:uppercase; font-size:1.2rem; letter-spacing:0.05em; color:#555;'
-        }, 'Quantity');
-
-        const qtyStepper = this.createEl('div', 'card-qty-stepper');
-        const decBtn = this.createEl('button', 'card-qty-btn', {}, '-');
-        const qtyInput = this.createEl('input', 'card-qty-num', {
-            type: 'number',
-            value: '1',
-            min: '1',
-            readonly: 'true',
-            style: 'width:40px; background:transparent; border:none; text-align:center; font-size:1.4rem;'
-        });
-        const incBtn = this.createEl('button', 'card-qty-btn', {}, '+');
-
-        decBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            let current = parseInt(qtyInput.value) || 1;
-            if (current > 1) {
-                current -= 1;
-                qtyInput.value = current;
-                this.quantity = current;
-            }
-        });
-
-        incBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            let current = parseInt(qtyInput.value) || 1;
-            current += 1;
-            qtyInput.value = current;
-            this.quantity = current;
-        });
-
-        qtyStepper.append(decBtn, qtyInput, incBtn);
-        qtyRow.append(qtyLabel, qtyStepper);
-        content.appendChild(qtyRow);
-
-        // ADD TO BAG / BUY IT NOW buttons
-        const btnGroup = this.createEl('div', '', {
-            style: 'display:flex; flex-direction:column; gap:10px; margin-top:1rem;'
-        });
-
-        const atcBtn = this.createEl('button', 'card-btn-atc', {}, 'ADD TO BAG');
-        const binBtn = this.createEl('button', 'card-btn-bin', {}, 'BUY IT NOW');
-
-        const triggerCartAdd = (isBuyNow) => {
-            if (typeof window.addToCart === 'function') {
-                window.addToCart({
-                    id: product.handle,
-                    title: product.title,
-                    price: product.price,
-                    image: mainImg.src || primaryImage,
-                    qty: this.quantity,
-                    size: this.selectedSize,
-                    color: this.selectedColor
-                });
-
-                if (isBuyNow) {
-                    setTimeout(() => {
-                        window.location.href = 'checkout.html';
-                    }, 300);
-                }
-            }
-        };
-
-        atcBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            triggerCartAdd(false);
-        });
-
-        binBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            triggerCartAdd(true);
-        });
-
-        btnGroup.append(atcBtn, binBtn);
-        content.appendChild(btnGroup);
-
-        card.append(leftCol, content);
+        card.append(thumbnailWrap, content);
         return card;
     }
 }

@@ -155,7 +155,7 @@ function updateCartUI() {
                   <span class="color__variant"><b>Color:</b> ${item.color || 'As Shown'}</span>
                   <span class="color__variant"><b>Size:</b> ${item.size}</span>
                </div>
-               <button class="minicart__product--remove js-item-remove" type="button" aria-label="Remove item" onclick="removeFromMinicart(${index})" style="display: inline-flex; align-items: center; gap: 4px; font-size: 1.2rem; color: #777; background: none; border: none; cursor: pointer; transition: color 0.2s;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg> Remove</button>
+               <button class="minicart__product--remove js-item-remove" type="button" aria-label="Remove item" onclick="removeFromMinicart(${index})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg><span style="font-size:1.0rem; font-weight:500; text-transform:capitalize; text-decoration:none;">Remove</span></button>
             </div>
             
             <div class="minicart__text--bottom">

@@ -831,13 +831,45 @@
                     <button class="pay-btn" id="pay-btn" type="submit" style="background:#4CAF50;">
                         ✓ I Have Paid — Place My Order
                     </button>
-                    <p class="secure-note">
-                        <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14">
-                            <rect height="11" rx="2" width="18" x="3" y="11"></rect>
-                            <path d="M7 11V7a5 5 0 0110 0v4"></path>
-                        </svg>
-                        Pay securely via M-Pesa · Your order will be confirmed once payment is verified
-                    </p>
+
+                    <!-- Trust Signals -->
+                    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 14px;">
+                        <!-- Secure checkout badge -->
+                        <div style="display: flex; align-items: center; gap: 8px; justify-content: center; padding: 10px 0; border-top: 1px solid #eee;">
+                            <svg fill="none" height="16" stroke="#2e7d32" stroke-width="2" viewBox="0 0 24 24" width="16">
+                                <rect height="11" rx="2" width="18" x="3" y="11"></rect>
+                                <path d="M7 11V7a5 5 0 0110 0v4"></path>
+                            </svg>
+                            <span style="font-size: 1.2rem; color: #2e7d32; font-weight: 500;">256-bit SSL Encrypted · Secure Checkout</span>
+                        </div>
+
+                        <!-- Policy guarantees -->
+                        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; font-size: 1.15rem; color: #666;">
+                            <span style="display: inline-flex; align-items: center; gap: 4px;">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                7-Day Returns
+                            </span>
+                            <span style="display: inline-flex; align-items: center; gap: 4px;">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Fast Kenya-Wide Delivery
+                            </span>
+                            <span style="display: inline-flex; align-items: center; gap: 4px;">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                1,000+ Happy Customers
+                            </span>
+                        </div>
+
+                        <!-- Payment accepted badge -->
+                        <div style="text-align: center; padding-top: 6px; border-top: 1px solid #eee;">
+                            <span style="font-size: 1.1rem; color: #999; display: block; margin-bottom: 8px;">Accepted Payment</span>
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 14px; opacity: 0.7;">
+                                <!-- M-Pesa icon -->
+                                <div style="background: #e8f5e9; border-radius: 4px; padding: 4px 10px; font-size: 1.2rem; font-weight: 700; color: #2e7d32; letter-spacing: 0.02em;">M-PESA</div>
+                                <!-- Safaricom -->
+                                <div style="background: #e8f5e9; border-radius: 4px; padding: 4px 10px; font-size: 1.1rem; font-weight: 600; color: #2e7d32;">Safaricom</div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <!-- ── RIGHT: ORDER SUMMARY ── -->

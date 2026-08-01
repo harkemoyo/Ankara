@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <title>Track Your Order – Mary Humphrey Wear</title>
+    <meta content="Track your Mary Humphrey Wear order status in real-time." name="description" />
+    <meta content="#3C3836" name="theme-color" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+
+    <link href="assets/base.css" rel="stylesheet" />
+    <link href="assets/normalize.css" rel="stylesheet" />
+    <link href="assets/filter.css" rel="stylesheet" />
+
+    <script src="assets/config.js"></script>
+    <script src="assets/supabase.umd.js"></script>
+    <script defer src="assets/cart.js"></script>
+    <script defer src="assets/global.js"></script>
+    <script defer src="assets/announcement.js"></script>
+    <script defer src="assets/supabase-client.js" type="module"></script>
+    <script defer src="assets/sale-link.js"></script>
+
+    <style>
+        :root {
+            --status-pending: #f59e0b;
+            --status-confirmed: #3b82f6;
+            --status-processing: #8b5cf6;
+            --status-shipped: #06b6d4;
+            --status-delivered: #22c55e;
+            --status-cancelled: #ef4444;
+        }
+
+        .order-track-section {
+            padding: 4rem 0 6rem;
+            min-height: 60vh;
+        }
+
+        .order-track-container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .track-page-title {
+            font-family: var(--font-heading, 'Karma', serif);
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        /* Lookup Form */
+        .lookup-card {
+            background: #fff;
+            border: 1px solid var(--border-color, #eaeaea);
+            border-radius: 8px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .lookup-card p {
+            font-size: 1.4rem;
+            color: var(--foreground-sub-color, #666);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .lookup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+        }
+
+        .lookup-form label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--foreground-color, #333);
+        }
+
+        .lookup-form input {
+            width: 100%;
+            padding: 1.2rem 1.4rem;
+            font-size: 1.4rem;
+            border: 1px solid var(--border-color, #ddd);
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .lookup-form input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .lookup-btn {
+            background: var(--primary-color, #1a1a1a);
+            color: #fff;
+            border: none;
+            padding: 1.4rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .lookup-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .lookup-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .lookup-error {
+            background: #fef2f2;
+            color: #dc2626;
+            font-size: 1.3rem;
+            padding: 1rem 1.4rem;
+            border-radius: 4px;
+            border: 1px solid #fecaca;
+            display: none;
+        }
+
+        /* Order Result Card */
+        .order-result {
+            display: none;
+        }
+
+        .result-header {
+            background: var(--primary-color, #1a1a1a);
+            color: #fff;
+            padding: 2.4rem 2.8rem;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .result-header h2 {
+            font-family: var(--font-heading, serif);
+            font-size: 2rem;
+            color: #fff;
+            margin: 0 0 0.6rem;
+        }
+
+        .result-header .order-date {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .result-body {
+            background: #fff;
+            border: 1px solid var(--border-color, #eaeaea);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: 2.8rem;
+        }
+
+        /* Status Progress Tracker */
+        .status-tracker {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .status-tracker::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 40px;
+            right: 40px;
+            height: 3px;
+            background: #e5e7eb;
+            z-index: 0;
+        }
+
+        .status-tracker .progress-line {
+            position: absolute;
+            top: 18px;
+            left: 40px;
+            height: 3px;
+            background: var(--status-delivered);
+            z-index: 1;
+            transition: width 0.6s ease;
+        }
+
+        .status-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .status-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .status-dot svg {
+            display: none;
+        }
+
+        .status-step.completed .status-dot {
+            background: var(--status-delivered);
+        }
+
+        .status-step.completed .status-dot svg {
+            display: block;
+        }
+
+        .status-step.active .status-dot {
+            background: var(--status-confirmed);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); }
+            50% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.1); }
+        }
+
+        .status-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #999;
+            text-align: center;
+        }
+
+        .status-step.completed .status-label,
+        .status-step.active .status-label {
+            color: var(--foreground-color, #333);
+            font-weight: 600;
+        }
+
+        /* Current Status Badge */
+        .current-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            margin-bottom: 2rem;
+        }
+
+        .status-pending_payment { background: #fef3c7; color: #92400e; }
+        .status-confirmed { background: #dbeafe; color: #1e40af; }
+        .status-processing { background: #ede9fe; color: #5b21b6; }
+        .status-shipped { background: #cffafe; color: #155e75; }
+        .status-delivered { background: #dcfce7; color: #166534; }
+        .status-cancelled { background: #fee2e2; color: #991b1b; }
+
+        /* Order Items in result */
+        .track-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .track-item:last-child {
+            border-bottom: none;
+        }
+
+        .track-item img {
+            width: 56px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 4px;
+            background: #f3f4f6;
+        }
+
+        .track-item-info {
+            flex: 1;
+        }
+
+        .track-item-title {
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .track-item-variant {
+            font-size: 1.2rem;
+            color: #999;
+        }
+
+        .track-item-price {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .track-totals {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .track-total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            color: #555;
+            padding: 4px 0;
+        }
+
+        .track-total-row.grand {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            border-top: 1px solid #eee;
+            padding-top: 12px;
+            margin-top: 6px;
+        }
+
+        .track-address {
+            font-size: 1.35rem;
+            line-height: 2;
+            color: #555;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .track-address strong {
+            display: block;
+            font-size: 1.4rem;
+            color: var(--foreground-color);
+            margin-bottom: 4px;
+        }
+
+        .track-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 2.5rem;
+        }
+
+        .track-actions a {
+            padding: 12px 24px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .track-actions a:hover {
+            opacity: 0.85;
+        }
+
+        .track-btn-primary {
+            background: var(--primary-color, #1a1a1a);
+            color: #fff;
+        }
+
+        .track-btn-whatsapp {
+            background: #25D366;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        @media (max-width: 600px) {
+            .status-tracker {
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-start;
+                padding: 0;
+            }
+            .status-tracker::before,
+            .status-tracker .progress-line {
+                display: none;
+            }
+            .status-step {
+                flex-direction: row;
+                gap: 12px;
+            }
+            .status-dot {
+                width: 28px;
+                height: 28px;
+                min-width: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="preloader">
+        <div class="ctn-preloader" id="ctn-preloader">
+            <div class="animation-preloader">
+                <div class="spinner"></div>
+                <div class="txt-loading">
+                    <span class="letters-loading" data-text-preloader="M">M</span>
+                    <span class="letters-loading" data-text-preloader="H">H</span>
+                    <span class="letters-loading" data-text-preloader="W">W</span>
+                </div>
+            </div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
+    </div>
+
+    <!-- Topbar -->
+    <div class="header__topbar bg__primary">
+        <div class="header__topbar--inner">
+            <div class="topbar-left-spacer"></div>
+            <p class="header__info--text" id="announcement-text"></p>
+            <div class="header__topbar--currency">
+                <select class="currency-switcher" onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
+                    <option value="KES" style="color: black;">KES</option>
+                    <option value="USD" style="color: black;">USD</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header__section">
+        <div class="main__header position__relative header__sticky">
+            <div class="main__header--inner flex-between align-items-center">
+                <div class="offcanvas__header--menu__open">
+                    <a class="offcanvas__header--menu__open--btn" data-offcanvas="" href="javascript:void(0)">
+                        <svg class="ionicon offcanvas__header--menu__open--svg" viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M80 160h352M80 256h352M80 352h352" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"></path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="main__logo">
+                    <h1 class="main__logo--title">
+                        <a class="main__logo--link" href="index.html">
+                            <img alt="Mary Humphrey African Wear Logo" class="main__logo--img" src="assets/apple-touch-icon.png" style="height:44px;" />
+                        </a>
+                    </h1>
+                </div>
+                <div class="header__menu d-none d-lg-block">
+                    <nav class="header__menu--navigation">
+                        <ul class="d-flex">
+                            <li class="header__menu--items"><a class="header__menu--link" href="index.html">HOME</a></li>
+                            <li class="header__menu--items"><a class="header__menu--link" href="shop.html">COLLECTIONS</a></li>
+                            <li class="header__menu--items"><a class="header__menu--link" href="material.html">FABRICS</a></li>
+                            <li class="header__menu--items"><a class="header__menu--link" href="sale.html">SALE</a></li>
+                            <li class="header__menu--items"><a class="header__menu--link" href="about.html">OUR STORY</a></li>
+                            <li class="header__menu--items"><a class="header__menu--link" href="contact.html">CONTACT</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="header__account">
+                    <ul class="d-flex align-items-center">
+                        <li class="header__account--items">
+                            <a class="header__account--btn minicart__open--btn" data-offcanvas="" href="javascript:void(0)">
+                                <svg class="minicart__open--btn__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                                </svg>
+                                <span class="items__count minicart__count js-cart-count">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main__content_wrapper">
+        <section class="breadcrumb__section">
+            <div class="page-width">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-separator">/</li>
+                    <li class="breadcrumb-item active">Track Order</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="order-track-section">
+            <div class="order-track-container">
+                <h1 class="track-page-title">Track Your Order</h1>
+
+                <!-- Lookup Form -->
+                <div class="lookup-card" id="lookup-card">
+                    <p>Enter your order number and email address to check the status of your order.</p>
+                    <form class="lookup-form" id="lookup-form" onsubmit="lookupOrder(event)">
+                        <div>
+                            <label for="track-order-num">Order Number</label>
+                            <input id="track-order-num" placeholder="e.g. ANK-1010" required type="text" />
+                        </div>
+                        <div>
+                            <label for="track-email">Email Address</label>
+                            <input id="track-email" placeholder="your@email.com" required type="email" />
+                        </div>
+                        <div class="lookup-error" id="lookup-error"></div>
+                        <button class="lookup-btn" id="lookup-btn" type="submit">Track Order</button>
+                    </form>
+                </div>
+
+                <!-- Order Result (hidden by default) -->
+                <div class="order-result" id="order-result">
+                    <div class="result-header">
+                        <h2 id="result-order-num">—</h2>
+                        <span class="order-date" id="result-date">—</span>
+                    </div>
+                    <div class="result-body">
+                        <!-- Current Status Badge -->
+                        <div id="result-status-badge"></div>
+
+                        <!-- Progress Tracker -->
+                        <div class="status-tracker" id="status-tracker">
+                            <div class="progress-line" id="progress-line"></div>
+                            <div class="status-step" data-step="pending_payment">
+                                <div class="status-dot">
+                                    <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                                <span class="status-label">Pending</span>
+                            </div>
+                            <div class="status-step" data-step="confirmed">
+                                <div class="status-dot">
+                                    <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                                <span class="status-label">Confirmed</span>
+                            </div>
+                            <div class="status-step" data-step="processing">
+                                <div class="status-dot">
+                                    <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                                <span class="status-label">Processing</span>
+                            </div>
+                            <div class="status-step" data-step="shipped">
+                                <div class="status-dot">
+                                    <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                                <span class="status-label">Shipped</span>
+                            </div>
+                            <div class="status-step" data-step="delivered">
+                                <div class="status-dot">
+                                    <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                                <span class="status-label">Delivered</span>
+                            </div>
+                        </div>
+
+                        <!-- Order Items -->
+                        <div id="result-items"></div>
+
+                        <!-- Totals -->
+                        <div class="track-totals" id="result-totals"></div>
+
+                        <!-- Shipping Address -->
+                        <div class="track-address" id="result-address"></div>
+
+                        <!-- Actions -->
+                        <div class="track-actions">
+                            <a class="track-btn-primary" href="shop.html">Continue Shopping</a>
+                            <a class="track-btn-whatsapp" id="track-whatsapp-btn" href="#" target="_blank">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c-.001 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                Contact Us
+                            </a>
+                            <a class="track-btn-primary" href="javascript:void(0)" onclick="document.getElementById('order-result').style.display='none'; document.getElementById('lookup-card').style.display='block';" style="background: transparent; color: var(--primary-color); border: 1px solid var(--border-color);">
+                                Track Another Order
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="site-footer" class="footer__section footer__bg" data-section-id="footer"></footer>
+
+    <script>
+        // Pre-fill from URL params if coming from thank-you page
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            const ref = params.get('ref') || params.get('order');
+            const email = params.get('email');
+            if (ref) document.getElementById('track-order-num').value = ref;
+            if (email) document.getElementById('track-email').value = email;
+            if (ref && email) {
+                // Auto-lookup
+                setTimeout(() => lookupOrder(null), 300);
+            }
+        })();
+
+        function formatAmount(amt, currency) {
+            const parsed = parseFloat(amt);
+            if (currency === 'KES') return 'KSh ' + Number(parsed).toLocaleString('en-KE');
+            return `$${parsed.toFixed(2)}`;
+        }
+
+        async function lookupOrder(e) {
+            if (e) e.preventDefault();
+
+            const orderNum = document.getElementById('track-order-num').value.trim();
+            const email = document.getElementById('track-email').value.trim();
+            const errorBox = document.getElementById('lookup-error');
+            const btn = document.getElementById('lookup-btn');
+
+            if (!orderNum || !email) {
+                errorBox.textContent = 'Please enter both your order number and email.';
+                errorBox.style.display = 'block';
+                return;
+            }
+
+            errorBox.style.display = 'none';
+            btn.disabled = true;
+            btn.textContent = 'Looking up...';
+
+            try {
+                const res = await fetch(`/api/orders/${encodeURIComponent(orderNum)}?email=${encodeURIComponent(email)}`);
+                if (!res.ok) throw new Error('Order not found');
+                const order = await res.json();
+                renderOrderResult(order);
+            } catch (err) {
+                errorBox.textContent = 'Order not found. Please check your order number and email address, then try again.';
+                errorBox.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Track Order';
+            }
+        }
+
+        function renderOrderResult(order) {
+            document.getElementById('lookup-card').style.display = 'none';
+            const resultEl = document.getElementById('order-result');
+            resultEl.style.display = 'block';
+
+            // Header
+            document.getElementById('result-order-num').textContent = `Order ${order.order_number}`;
+            const orderDate = new Date(order.created_at);
+            document.getElementById('result-date').textContent = `Placed on ${orderDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+
+            // Status badge
+            const status = order.status || 'pending_payment';
+            const statusLabels = {
+                pending_payment: '⏳ Pending Payment',
+                confirmed: '✅ Payment Confirmed',
+                processing: '📦 Processing',
+                shipped: '🚚 Shipped',
+                delivered: '🎉 Delivered',
+                cancelled: '❌ Cancelled'
+            };
+            const badgeEl = document.getElementById('result-status-badge');
+            badgeEl.innerHTML = `<span class="current-status-badge status-${status}">${statusLabels[status] || status}</span>`;
+
+            // Progress tracker
+            const steps = ['pending_payment', 'confirmed', 'processing', 'shipped', 'delivered'];
+            const currentIdx = steps.indexOf(status);
+            const stepEls = document.querySelectorAll('#status-tracker .status-step');
+            stepEls.forEach((el, i) => {
+                el.classList.remove('completed', 'active');
+                if (i < currentIdx) el.classList.add('completed');
+                else if (i === currentIdx) el.classList.add('active');
+            });
+
+            // Progress line width
+            const progressLine = document.getElementById('progress-line');
+            if (currentIdx >= 0) {
+                const pct = (currentIdx / (steps.length - 1)) * 100;
+                progressLine.style.width = `calc(${pct}% - 40px)`;
+            }
+
+            // Items
+            const items = order.order_items || [];
+            const currency = order.currency || 'KES';
+            document.getElementById('result-items').innerHTML = items.map(item => `
+                <div class="track-item">
+                    ${item.image ? `<img src="${item.image}" alt="${item.product_title}">` : '<div style="width:56px;height:56px;background:#f3f4f6;border-radius:4px;"></div>'}
+                    <div class="track-item-info">
+                        <div class="track-item-title">${item.product_title}</div>
+                        <div class="track-item-variant">${item.variant_size || ''} ${item.variant_color ? '· ' + item.variant_color : ''} · Qty: ${item.quantity}</div>
+                    </div>
+                    <div class="track-item-price">${formatAmount(item.line_total || item.quantity * item.unit_price, currency)}</div>
+                </div>
+            `).join('');
+
+            // Totals
+            document.getElementById('result-totals').innerHTML = `
+                <div class="track-total-row"><span>Subtotal</span><span>${formatAmount(order.subtotal, currency)}</span></div>
+                <div class="track-total-row"><span>Shipping</span><span>${parseFloat(order.shipping_cost) === 0 ? 'FREE' : formatAmount(order.shipping_cost, currency)}</span></div>
+                <div class="track-total-row grand"><span>Total</span><span>${formatAmount(order.total, currency)}</span></div>
+            `;
+
+            // Address
+            const addr = order.shipping_address || {};
+            document.getElementById('result-address').innerHTML = `
+                <strong>Shipping Address</strong>
+                ${order.customer_name}<br>
+                ${addr.address1 || ''}${addr.address2 ? '<br>' + addr.address2 : ''}<br>
+                ${addr.city || ''} ${addr.postcode || ''}<br>
+                ${addr.country || ''}
+            `;
+
+            // WhatsApp link
+            const waMsg = encodeURIComponent(
+                `Hi MHW, I'd like to check on my order *${order.order_number}*.\nName: ${order.customer_name}\nStatus: ${statusLabels[status] || status}\nThank you!`
+            );
+            document.getElementById('track-whatsapp-btn').href = `https://wa.me/254715687280?text=${waMsg}`;
+        }
+    </script>
+</body>
+</html>

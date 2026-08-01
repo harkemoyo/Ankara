@@ -1316,13 +1316,27 @@
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Hero Background Image URL</label>
-          <input id="about-hero-image" type="text" />
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;">
+            <input id="about-hero-image" type="text" style="flex:1;" onchange="var preview = document.getElementById('about-hero-image-preview'); if(preview) { preview.src = this.value; preview.style.display = this.value ? 'block' : 'none'; }" />
+            <button type="button" class="btn btn-ghost" onclick="this.nextElementSibling.click()">Upload</button>
+            <input type="file" accept="image/*" style="display:none;" 
+              onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-hero-image','about-hero-image-status');this.value=''" />
+          </div>
+          <span id="about-hero-image-status" style="font-size:1.1rem;color:var(--accent);display:block;margin-bottom:4px;"></span>
+          <img id="about-hero-image-preview" src="" style="max-width:120px;max-height:80px;border-radius:4px;border:1px solid #ddd;display:none;margin-top:8px;" />
         </div>
 
         <h3 style="font-size:1.6rem;margin:28px 0 20px;">Brand Story</h3>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Story Image URL</label>
-          <input id="about-image" type="text" />
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;">
+            <input id="about-image" type="text" style="flex:1;" onchange="var preview = document.getElementById('about-image-preview'); if(preview) { preview.src = this.value; preview.style.display = this.value ? 'block' : 'none'; }" />
+            <button type="button" class="btn btn-ghost" onclick="this.nextElementSibling.click()">Upload</button>
+            <input type="file" accept="image/*" style="display:none;" 
+              onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-image','about-image-status');this.value=''" />
+          </div>
+          <span id="about-image-status" style="font-size:1.1rem;color:var(--accent);display:block;margin-bottom:4px;"></span>
+          <img id="about-image-preview" src="" style="max-width:120px;max-height:80px;border-radius:4px;border:1px solid #ddd;display:none;margin-top:8px;" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Story Subtitle</label>
@@ -1368,7 +1382,14 @@
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Different Section Image URL</label>
-          <input id="about-different-image" type="text" />
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;">
+            <input id="about-different-image" type="text" style="flex:1;" onchange="var preview = document.getElementById('about-different-image-preview'); if(preview) { preview.src = this.value; preview.style.display = this.value ? 'block' : 'none'; }" />
+            <button type="button" class="btn btn-ghost" onclick="this.nextElementSibling.click()">Upload</button>
+            <input type="file" accept="image/*" style="display:none;" 
+              onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-different-image','about-different-image-status');this.value=''" />
+          </div>
+          <span id="about-different-image-status" style="font-size:1.1rem;color:var(--accent);display:block;margin-bottom:4px;"></span>
+          <img id="about-different-image-preview" src="" style="max-width:120px;max-height:80px;border-radius:4px;border:1px solid #ddd;display:none;margin-top:8px;" />
         </div>
 
         <h3 style="font-size:1.6rem;margin:28px 0 20px;">Gallery</h3>
@@ -2821,7 +2842,14 @@
         const c = page?.content || {};
         const set = (id, val) => {
           const el = document.getElementById(id);
-          if (el) el.value = val || '';
+          if (el) {
+            el.value = val || '';
+            const preview = document.getElementById(id + '-preview');
+            if (preview) {
+              preview.src = val || '';
+              preview.style.display = val ? 'block' : 'none';
+            }
+          }
         };
         set('about-hero-subtitle', c.heroSubtitle || 'Our Story');
         set('about-hero-title', c.heroTitle || 'The Story Behind<br />Mary Humphrey Wear');

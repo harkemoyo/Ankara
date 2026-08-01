@@ -759,6 +759,9 @@
       <a data-section="pages" href="#" onclick="showSection('pages',this)">
         <span class="icon">📄</span> Pages
       </a>
+      <a data-section="about" href="#" onclick="showSection('about',this)">
+        <span class="icon">📖</span> About Page
+      </a>
       <a data-section="settings" href="#" onclick="showSection('settings',this)">
         <span class="icon">⚙️</span> Settings
       </a>
@@ -1292,100 +1295,103 @@
           <label>Logo URL</label>
           <input id="setting-logo" placeholder="assets/logo.webp" type="text" />
         </div>
+        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
       </div>
-
+    </section>
+    <!-- About Page -->
+    <section class="admin-section" id="section-about">
       <div class="page-header">
-        <h1>Our Story Content</h1>
+        <h1>About Page Content</h1>
       </div>
       <div
-        style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:720px;">
+        style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:720px;margin-bottom:32px;">
         <h3 style="font-size:1.6rem;margin-bottom:20px;">Hero</h3>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Hero Subtitle</label>
-          <input id="story-hero-subtitle" type="text" />
+          <input id="about-hero-subtitle" type="text" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Hero Title</label>
-          <input id="story-hero-title" type="text" />
+          <input id="about-hero-title" type="text" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Hero Background Image URL</label>
-          <input id="story-hero-image" type="text" />
+          <input id="about-hero-image" type="text" />
         </div>
 
         <h3 style="font-size:1.6rem;margin:28px 0 20px;">Brand Story</h3>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Story Image URL</label>
-          <input id="story-image" type="text" />
+          <input id="about-image" type="text" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Story Subtitle</label>
-          <input id="story-born-subtitle" type="text" />
+          <input id="about-born-subtitle" type="text" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Story Title</label>
-          <input id="story-born-title" type="text" />
+          <input id="about-born-title" type="text" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Paragraph 1</label>
-          <textarea id="story-paragraph-1" rows="3"></textarea>
+          <textarea id="about-paragraph-1" rows="3"></textarea>
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Paragraph 2</label>
-          <textarea id="story-paragraph-2" rows="3"></textarea>
+          <textarea id="about-paragraph-2" rows="3"></textarea>
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Paragraph 3</label>
-          <textarea id="story-paragraph-3" rows="3"></textarea>
+          <textarea id="about-paragraph-3" rows="3"></textarea>
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Paragraph 4</label>
-          <textarea id="story-paragraph-4" rows="3"></textarea>
+          <textarea id="about-paragraph-4" rows="3"></textarea>
         </div>
 
         <h3 style="font-size:1.6rem;margin:28px 0 20px;">What Makes Us Different</h3>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Section Subtitle</label>
-          <input id="story-different-subtitle" type="text" />
+          <input id="about-different-subtitle" type="text" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Section Title</label>
-          <input id="story-different-title" type="text" />
+          <input id="about-different-title" type="text" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Paragraph 1</label>
-          <textarea id="story-different-text-1" rows="3"></textarea>
+          <textarea id="about-different-text-1" rows="3"></textarea>
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Paragraph 2</label>
-          <textarea id="story-different-text-2" rows="3"></textarea>
+          <textarea id="about-different-text-2" rows="3"></textarea>
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Different Section Image URL</label>
-          <input id="story-different-image" type="text" />
+          <input id="about-different-image" type="text" />
         </div>
 
         <h3 style="font-size:1.6rem;margin:28px 0 20px;">Gallery</h3>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Gallery Subtitle</label>
-          <input id="story-gallery-subtitle" type="text" />
+          <input id="about-gallery-subtitle" type="text" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Gallery Title</label>
-          <input id="story-gallery-title" type="text" />
+          <input id="about-gallery-title" type="text" />
         </div>
 
         <h3 style="font-size:1.6rem;margin:28px 0 20px;">Our Promise</h3>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Promise Title</label>
-          <input id="story-promise-title" type="text" />
+          <input id="about-promise-title" type="text" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Promise Text</label>
-          <textarea id="story-promise-text" rows="4"></textarea>
+          <textarea id="about-promise-text" rows="4"></textarea>
         </div>
 
-        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+        <button class="btn btn-primary" onclick="saveAboutPage()">Save About Page</button>
       </div>
     </section>
     <!-- Size Charts -->
@@ -1754,6 +1760,7 @@
       if (name === 'customers') loadCustomers();
       if (name === 'inventory') loadInventory();
       if (name === 'pages') loadPages();
+      if (name === 'about') loadAboutPageEditor();
       if (name === 'settings') loadSettings();
       if (name === 'size-charts') loadSizeCharts();
       if (name === 'customer-measurements') loadCustomerMeasurements();
@@ -2780,31 +2787,6 @@
         document.getElementById('setting-currency').value = data.currency || 'KSh';
         document.getElementById('setting-announcement').value = data.announcement || '';
         document.getElementById('setting-logo').value = data.logo || '';
-
-        const story = data.story || {};
-        const set = (id, val) => {
-          const el = document.getElementById(id);
-          if (el) el.value = val || '';
-        };
-        set('story-hero-subtitle', story.heroSubtitle);
-        set('story-hero-title', story.heroTitle);
-        set('story-hero-image', story.heroImage);
-        set('story-image', story.storyImage);
-        set('story-born-subtitle', story.bornSubtitle);
-        set('story-born-title', story.bornTitle);
-        set('story-paragraph-1', story.paragraph1);
-        set('story-paragraph-2', story.paragraph2);
-        set('story-paragraph-3', story.paragraph3);
-        set('story-paragraph-4', story.paragraph4);
-        set('story-different-subtitle', story.differentSubtitle);
-        set('story-different-title', story.differentTitle);
-        set('story-different-text-1', story.differentText1);
-        set('story-different-text-2', story.differentText2);
-        set('story-different-image', story.differentImage);
-        set('story-gallery-subtitle', story.gallerySubtitle);
-        set('story-gallery-title', story.galleryTitle);
-        set('story-promise-title', story.promiseTitle);
-        set('story-promise-text', story.promiseText);
       } catch (error) {
         toast('Failed to load settings', 'error');
       }
@@ -2813,33 +2795,11 @@
     window.saveSettings = async function () {
       try {
         const get = id => document.getElementById(id)?.value || '';
-        const story = {
-          heroSubtitle: get('story-hero-subtitle'),
-          heroTitle: get('story-hero-title'),
-          heroImage: get('story-hero-image'),
-          storyImage: get('story-image'),
-          bornSubtitle: get('story-born-subtitle'),
-          bornTitle: get('story-born-title'),
-          paragraph1: get('story-paragraph-1'),
-          paragraph2: get('story-paragraph-2'),
-          paragraph3: get('story-paragraph-3'),
-          paragraph4: get('story-paragraph-4'),
-          differentSubtitle: get('story-different-subtitle'),
-          differentTitle: get('story-different-title'),
-          differentText1: get('story-different-text-1'),
-          differentText2: get('story-different-text-2'),
-          differentImage: get('story-different-image'),
-          gallerySubtitle: get('story-gallery-subtitle'),
-          galleryTitle: get('story-gallery-title'),
-          promiseTitle: get('story-promise-title'),
-          promiseText: get('story-promise-text')
-        };
         const payload = {
           store_name: get('setting-store-name'),
           currency: get('setting-currency'),
           announcement: get('setting-announcement'),
-          logo: get('setting-logo'),
-          story
+          logo: get('setting-logo')
         };
         const response = await fetch('/api/settings', {
           method: 'PUT',
@@ -2848,6 +2808,80 @@
         });
         if (!response.ok) throw new Error('Failed to save settings');
         toast('Settings saved!');
+      } catch (error) {
+        toast(error.message, 'error');
+      }
+    };
+
+    // ── ABOUT PAGE ──
+    async function loadAboutPageEditor() {
+      try {
+        const response = await fetch('/api/pages/about');
+        const page = await response.json();
+        const c = page?.content || {};
+        const set = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.value = val || '';
+        };
+        set('about-hero-subtitle', c.heroSubtitle);
+        set('about-hero-title', c.heroTitle);
+        set('about-hero-image', c.heroImage);
+        set('about-image', c.storyImage);
+        set('about-born-subtitle', c.bornSubtitle);
+        set('about-born-title', c.bornTitle);
+        set('about-paragraph-1', c.paragraph1);
+        set('about-paragraph-2', c.paragraph2);
+        set('about-paragraph-3', c.paragraph3);
+        set('about-paragraph-4', c.paragraph4);
+        set('about-different-subtitle', c.differentSubtitle);
+        set('about-different-title', c.differentTitle);
+        set('about-different-text-1', c.differentText1);
+        set('about-different-text-2', c.differentText2);
+        set('about-different-image', c.differentImage);
+        set('about-gallery-subtitle', c.gallerySubtitle);
+        set('about-gallery-title', c.galleryTitle);
+        set('about-promise-title', c.promiseTitle);
+        set('about-promise-text', c.promiseText);
+      } catch (error) {
+        toast('Failed to load About Page content', 'error');
+      }
+    }
+
+    window.saveAboutPage = async function () {
+      try {
+        const get = id => document.getElementById(id)?.value || '';
+        const content = {
+          heroSubtitle: get('about-hero-subtitle'),
+          heroTitle: get('about-hero-title'),
+          heroImage: get('about-hero-image'),
+          storyImage: get('about-image'),
+          bornSubtitle: get('about-born-subtitle'),
+          bornTitle: get('about-born-title'),
+          paragraph1: get('about-paragraph-1'),
+          paragraph2: get('about-paragraph-2'),
+          paragraph3: get('about-paragraph-3'),
+          paragraph4: get('about-paragraph-4'),
+          differentSubtitle: get('about-different-subtitle'),
+          differentTitle: get('about-different-title'),
+          differentText1: get('about-different-text-1'),
+          differentText2: get('about-different-text-2'),
+          differentImage: get('about-different-image'),
+          gallerySubtitle: get('about-gallery-subtitle'),
+          galleryTitle: get('about-gallery-title'),
+          promiseTitle: get('about-promise-title'),
+          promiseText: get('about-promise-text')
+        };
+        const payload = {
+          title: 'Our Story',
+          content
+        };
+        const response = await fetch('/api/pages/about', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!response.ok) throw new Error('Failed to save About Page content');
+        toast('About Page updated successfully!');
       } catch (error) {
         toast(error.message, 'error');
       }

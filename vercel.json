@@ -31,6 +31,8 @@
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
     { "src": "/(.*\\.(ico|png|jpg))", "dest": "/$1" },
     { "src": "/shop/([^/]+)", "dest": "/shop.html" },
+    { "src": "/product/([^/]+)", "dest": "/product.html" },
+    { "src": "/products/([^/]+)", "dest": "/product.html" },
     { "src": "/(.*\\.html)", "dest": "/$1" },
     { "src": "/", "dest": "/index.html" },
     { "src": "/(.*)", "status": 404, "dest": "/404.html" }

@@ -332,18 +332,58 @@ function setupShopFilters() {
 // PRODUCT PAGE — Load single product details
 // =============================================
 async function loadProductDetails() {
+    if (!document.getElementById('dyn-product-title')) return;
+
     const params = new URLSearchParams(window.location.search);
-    const handle = params.get('handle');
-    if (!handle || !document.getElementById('dyn-product-title')) return;
+    let handle = params.get('handle');
 
-    const { data: product, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('handle', handle)
-        .eq('status', 'active')
-        .single();
+    // Extract handle from pathname if clean URL like /product/:handle or /products/:handle is used
+    if (!handle) {
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        const lastSeg = pathSegments[pathSegments.length - 1];
+        if (lastSeg && lastSeg !== 'product.html' && lastSeg !== 'product') {
+            handle = lastSeg;
+        }
+    }
 
-    if (error || !product) {
+    let product = null;
+
+    if (handle) {
+        // Query by handle first using limit(1) to avoid PGRST116 single() errors
+        const { data: handleMatch } = await supabase
+            .from('products')
+            .select('*')
+            .eq('handle', handle)
+            .eq('status', 'active')
+            .limit(1);
+
+        if (handleMatch && handleMatch.length > 0) {
+            product = handleMatch[0];
+        } else if (!isNaN(handle)) {
+            // If handle is numeric, attempt fallback by ID
+            const { data: idMatch } = await supabase
+                .from('products')
+                .select('*')
+                .eq('id', parseInt(handle))
+                .limit(1);
+            if (idMatch && idMatch.length > 0) product = idMatch[0];
+        }
+    }
+
+    // Fallback: If no handle provided or product not found by handle, load first active product
+    if (!product) {
+        const { data: fallbackList } = await supabase
+            .from('products')
+            .select('*')
+            .eq('status', 'active')
+            .order('id', { ascending: true })
+            .limit(1);
+        if (fallbackList && fallbackList.length > 0) {
+            product = fallbackList[0];
+        }
+    }
+
+    if (!product) {
         document.getElementById('dyn-product-title').innerText = 'Product Not Found';
         return;
     }

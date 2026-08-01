@@ -27,6 +27,14 @@ app.get('/shop/:handle', (req, res) => {
     res.sendFile(path.join(__dirname, 'shop.html'));
 });
 
+// Route path-based product requests to product.html
+app.get('/product/:handle', (req, res) => {
+    res.sendFile(path.join(__dirname, 'product.html'));
+});
+app.get('/products/:handle', (req, res) => {
+    res.sendFile(path.join(__dirname, 'product.html'));
+});
+
 // Fallback for html pages to support clean routes (e.g. /shop instead of /shop.html)
 app.use((req, res, next) => {
     const filePath = path.join(__dirname, req.path + '.html');

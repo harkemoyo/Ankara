@@ -530,17 +530,15 @@
         </div>
         <!-- views/partials/footer.ejs -->
     </main>
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
+    <script type="module">
+        import { supabase } from './assets/supabase-client.js';
+
+        function initAboutPage() {
             if (typeof GLightbox === 'function') {
                 GLightbox({ selector: '.glightbox' });
             }
 
-            try {
-                const response = await fetch('/api/pages/about');
-                const page = await response.json();
-                const story = page?.content || {};
-
+            function updateDOM(story) {
                 document.querySelectorAll('[data-story]').forEach(el => {
                     const key = el.getAttribute('data-story');
                     const value = story[key];
@@ -554,10 +552,50 @@
                         el.textContent = value;
                     }
                 });
-            } catch (err) {
-                console.warn('Failed to load story content', err);
             }
-        });
+
+            // 1. Initial Load via REST API
+            fetch('/api/pages/about')
+                .then(res => res.ok ? res.json() : null)
+                .then(page => {
+                    if (page && page.content) {
+                        updateDOM(page.content);
+                    }
+                })
+                .catch(err => console.warn('Failed to load initial story content', err));
+
+            // 2. Realtime Updates via Supabase postgres_changes
+            if (supabase) {
+                try {
+                    supabase
+                        .channel('about-page-changes')
+                        .on(
+                            'postgres_changes',
+                            {
+                                event: 'UPDATE',
+                                schema: 'public',
+                                table: 'pages',
+                                filter: 'slug=eq.about'
+                            },
+                            (payload) => {
+                                console.log('Realtime update received for about page:', payload);
+                                if (payload.new && payload.new.content) {
+                                    updateDOM(payload.new.content);
+                                }
+                            }
+                        )
+                        .subscribe();
+                } catch (e) {
+                    console.error('Realtime subscription error:', e);
+                }
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAboutPage);
+        } else {
+            initAboutPage();
+        }
     </script>
     <footer id="site-footer" class="footer__section footer__bg" data-section-id="footer"></footer>
     <script defer src="assets/footer.js"></script>

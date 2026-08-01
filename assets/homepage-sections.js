@@ -14,7 +14,7 @@ function escapeHtml(str) {
     if (!wrapper) return;
     
     wrapper.innerHTML = slides.map(sl => `
-      <div class="swiper-slide" style="background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.45)), url('${escapeHtml(sl.image || '')}');">
+      <div class="swiper-slide" style="background-image: linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.1) 100%), url('${escapeHtml(sl.image || '')}'); background-size: cover; background-position: center top; background-repeat: no-repeat;">
         <div class="hero-container">
           <div class="hero-content">
             <span class="hero-subtitle">${escapeHtml(sl.subtitle || '')}</span>

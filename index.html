@@ -686,7 +686,7 @@
 
         .hero-swiper .swiper-slide {
             background-size: cover;
-            background-position: center center;
+            background-position: center top;
             background-repeat: no-repeat;
         }
 
@@ -702,16 +702,17 @@
         .hero-container {
             display: flex;
             align-items: center;
-            min-height: 500px;
+            min-height: 520px;
             padding-top: 100px;
-            /* Offset for absolute header */
+            padding-bottom: 60px;
             padding-left: 8%;
-            /* Inset to align beautifully with the logo */
+            box-sizing: border-box;
         }
 
         @media (min-width: 992px) {
             .hero-container {
-                height: 90vh;
+                height: 85vh;
+                max-height: 850px;
             }
         }
 

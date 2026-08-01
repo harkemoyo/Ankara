@@ -15,6 +15,7 @@ class ProductController {
 
             const filters = {
                 collection: req.query.collection || 'all',
+                product_type: req.query.product_type,
                 colors: parseArrayParam(req.query.colors),
                 sizes: parseArrayParam(req.query.sizes),
                 vendor: parseArrayParam(req.query.vendor),

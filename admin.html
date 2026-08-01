@@ -741,6 +741,9 @@
       <a data-section="products" href="#" onclick="showSection('products',this)">
         <span class="icon">📦</span> Products
       </a>
+      <a data-section="fabrics" href="#" onclick="showSection('fabrics',this)">
+        <span class="icon">🧵</span> Fabrics
+      </a>
       <a data-section="collections" href="#" onclick="showSection('collections',this)">
         <span class="icon">🗂️</span> Collections
       </a>
@@ -852,6 +855,43 @@
           <tbody id="products-tbody">
             <tr>
               <td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <!-- Fabrics List -->
+    <section class="admin-section" id="section-fabrics">
+      <div class="page-header">
+        <h1>Fabrics & Materials</h1>
+        <button class="btn btn-primary" onclick="openFabricEditor()">+ Add Fabric</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <input id="fabric-search" placeholder="Search fabrics..."
+          style="padding:8px 12px;border:1px solid var(--border);border-radius:6px;flex:1;max-width:300px;font-size:1.3rem;"
+          onkeyup="filterFabrics()">
+        <select id="fabric-status-filter" onchange="filterFabrics()"
+          style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:1.3rem;">
+          <option value="">All Status</option>
+          <option value="active">Active</option>
+          <option value="draft">Draft</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:40px;"></th>
+              <th>Fabric Name</th>
+              <th>Status</th>
+              <th>Base Price</th>
+              <th>Vendor</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="fabrics-tbody">
+            <tr>
+              <td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td>
             </tr>
           </tbody>
         </table>
@@ -1708,6 +1748,7 @@
         if (overlay) overlay.classList.remove('open');
       }
       if (name === 'products') loadProducts();
+      if (name === 'fabrics') loadFabrics();
       if (name === 'collections') loadCollections();
       if (name === 'orders') loadOrders();
       if (name === 'customers') loadCustomers();
@@ -1738,14 +1779,17 @@
       document.getElementById('stat-revenue').textContent = revenue > 0 ? `KSh ${revenue.toLocaleString()}` : '—';
     }
 
-    // ── PRODUCTS ──
+    // ── PRODUCTS & FABRICS ──
     let products = [];
+    let fabrics = [];
+    let editorSourceSection = 'products';
+
     async function loadProducts() {
       const tbody = document.getElementById('products-tbody');
       tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
       const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
       if (error) { toast('Failed to load products', 'error'); return; }
-      products = data || [];
+      products = (data || []).filter(p => (p.product_type || '').toLowerCase() !== 'fabric');
       renderProductList(products);
     }
 
@@ -1786,6 +1830,53 @@
         return true;
       });
       renderProductList(filtered);
+    };
+
+    // ── FABRICS MANAGEMENT ──
+    async function loadFabrics() {
+      const tbody = document.getElementById('fabrics-tbody');
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+      const { data, error } = await supabase.from('products').select('*').eq('product_type', 'fabric').order('created_at', { ascending: false });
+      if (error) { toast('Failed to load fabrics', 'error'); return; }
+      fabrics = data || [];
+      renderFabricList(fabrics);
+    }
+
+    function renderFabricList(list) {
+      const tbody = document.getElementById('fabrics-tbody');
+      if (list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">No fabrics found.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = list.map(p => {
+        const img = (p.images && p.images[0]) ? `<img src="${p.images[0]}" class="thumb" alt="${p.title}">` : '<div class="thumb"></div>';
+        const statusBadge = p.status === 'active'
+          ? '<span class="badge badge-green">Active</span>'
+          : '<span class="badge badge-gray">Draft</span>';
+        const priceFormatted = window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(p.price) : `KSh ${parseFloat(p.price).toLocaleString()}`;
+        return `<tr style="cursor:pointer;" onclick="window.editFabric(${p.id})">
+          <td>${img}</td>
+          <td><strong>${p.title}</strong><br><span style="color:var(--muted);font-size:1.2rem;">${p.handle}</span></td>
+          <td>${statusBadge}</td>
+          <td>${priceFormatted}</td>
+          <td style="font-size:1.2rem;">${p.vendor || '—'}</td>
+          <td style="white-space:nowrap;" onclick="event.stopPropagation();">
+            <button class="btn btn-ghost btn-sm" onclick="window.editFabric(${p.id})">Edit</button>
+            <button class="btn btn-danger btn-sm" style="margin-left:6px;" onclick="window.deleteProduct(${p.id}, true)">Del</button>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    window.filterFabrics = function () {
+      const q = (document.getElementById('fabric-search').value || '').toLowerCase();
+      const status = document.getElementById('fabric-status-filter').value;
+      const filtered = fabrics.filter(p => {
+        if (status && p.status !== status) return false;
+        if (q && !p.title.toLowerCase().includes(q) && !p.handle.toLowerCase().includes(q)) return false;
+        return true;
+      });
+      renderFabricList(filtered);
     };
 
     // Populate collection dropdown
@@ -1957,6 +2048,7 @@
 
     // ═══════════════ OPEN PRODUCT EDITOR (ADD) ═══════════════
     window.openProductEditor = function () {
+      editorSourceSection = 'products';
       document.getElementById('product-editor-title').textContent = 'Add Product';
       document.getElementById('product-editor-status-badge').textContent = '';
       document.getElementById('p-id').value = '';
@@ -1978,15 +2070,46 @@
       document.getElementById('section-product-editor').classList.add('active');
     };
 
-    // Back to product list
+    // ═══════════════ OPEN FABRIC EDITOR (ADD) ═══════════════
+    window.openFabricEditor = function () {
+      editorSourceSection = 'fabrics';
+      document.getElementById('product-editor-title').textContent = 'Add Fabric';
+      document.getElementById('product-editor-status-badge').textContent = '';
+      document.getElementById('p-id').value = '';
+      ['p-title', 'p-handle', 'p-product-type', 'p-vendor', 'p-price', 'p-compare-price', 'p-description', 'p-details', 'p-images', 'p-sizes', 'p-tags', 'p-sku', 'p-seo-title', 'p-seo-description', 'p-fit-note', 'p-model-wearing-size']
+        .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+      document.getElementById('p-product-type').value = 'fabric';
+      document.getElementById('p-sizes').value = '1 Yard, 2 Yards, 6 Yards Bundle';
+      document.getElementById('p-in-stock').value = 'true';
+      document.getElementById('p-status').value = 'active';
+      document.getElementById('p-inventory-qty').value = '0';
+      document.getElementById('p-vendor').value = 'Mary Humphrey African Wear';
+      document.getElementById('p-media-preview').innerHTML = '';
+      document.getElementById('p-colors-list').innerHTML = '';
+      document.getElementById('p-variants-list').innerHTML = '';
+      setModelMeasurements(null);
+      renderMediaPreview();
+      populateCollectionSelect();
+      populateSizeChartSelect();
+      document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('section-product-editor').classList.add('active');
+    };
+
+    // Back to list
     window.backToProducts = function () {
       document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
-      document.getElementById('section-products').classList.add('active');
-      loadProducts();
+      if (editorSourceSection === 'fabrics') {
+        document.getElementById('section-fabrics').classList.add('active');
+        loadFabrics();
+      } else {
+        document.getElementById('section-products').classList.add('active');
+        loadProducts();
+      }
     };
 
     // ═══════════════ EDIT PRODUCT ═══════════════
     window.editProduct = function (id) {
+      editorSourceSection = 'products';
       const p = products.find(x => x.id === id);
       if (!p) return;
       document.getElementById('product-editor-title').textContent = p.title;
@@ -1998,6 +2121,68 @@
       document.getElementById('p-title').value = p.title;
       document.getElementById('p-handle').value = p.handle;
       document.getElementById('p-product-type').value = p.product_type || '';
+      document.getElementById('p-vendor').value = p.vendor || '';
+      document.getElementById('p-price').value = p.price;
+      document.getElementById('p-compare-price').value = p.compare_at_price || '';
+      document.getElementById('p-description').value = p.description || '';
+      document.getElementById('p-details').value = p.details || '';
+      document.getElementById('p-images').value = (p.images || []).join(',');
+      document.getElementById('p-sizes').value = (p.sizes || []).join(', ');
+      document.getElementById('p-tags').value = (p.tags || []).join(', ');
+      document.getElementById('p-in-stock').value = p.in_stock ? 'true' : 'false';
+      document.getElementById('p-status').value = p.status || 'active';
+      document.getElementById('p-inventory-qty').value = p.inventory_quantity || 0;
+      document.getElementById('p-seo-title').value = p.seo_title || '';
+      document.getElementById('p-seo-description').value = p.seo_description || '';
+
+      // Show image thumbnails
+      renderMediaPreview();
+
+      // Load colour rows
+      const colorsList = document.getElementById('p-colors-list');
+      colorsList.innerHTML = '';
+      (p.colors || []).forEach(c => addColorRow(c.label, c.hex, c.image));
+
+      // Load variant rows
+      const variantsList = document.getElementById('p-variants-list');
+      variantsList.innerHTML = '';
+      supabase.from('product_variants').select('*').eq('product_id', p.id).then(({ data: vars }) => {
+        (vars || []).forEach(v => addVariantRow(v.title, v.sku, v.price, v.stock));
+        if (vars && vars.length > 0 && vars[0].sku) {
+          document.getElementById('p-sku').value = vars[0].sku;
+        }
+      });
+
+      // Sizing
+      document.getElementById('p-fit-note').value = p.fit_note || '';
+      document.getElementById('p-model-wearing-size').value = p.model_wearing_size || '';
+      setModelMeasurements(p.model_measurements);
+
+      populateCollectionSelect().then(() => {
+        document.getElementById('p-collection').value = p.collection || '';
+      });
+      populateSizeChartSelect().then(() => {
+        document.getElementById('p-size-chart').value = p.size_chart_id || '';
+      });
+
+      document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('section-product-editor').classList.add('active');
+    };
+
+    // ═══════════════ EDIT FABRIC ═══════════════
+    window.editFabric = function (id) {
+      editorSourceSection = 'fabrics';
+      const p = fabrics.find(x => x.id === id);
+      if (!p) return;
+      document.getElementById('product-editor-title').textContent = p.title;
+      const badge = document.getElementById('product-editor-status-badge');
+      badge.textContent = p.status === 'active' ? 'Active' : 'Draft';
+      badge.className = `badge ${p.status === 'active' ? 'badge-green' : 'badge-gray'}`;
+
+      document.getElementById('p-id').value = p.id;
+      document.getElementById('p-title').value = p.title;
+      document.getElementById('p-handle').value = p.handle;
+      document.getElementById('p-product-type').value = p.product_type || 'fabric';
       document.getElementById('p-vendor').value = p.vendor || '';
       document.getElementById('p-price').value = p.price;
       document.getElementById('p-compare-price').value = p.compare_at_price || '';
@@ -2110,13 +2295,17 @@
       backToProducts();
     };
 
-    // Delete product
-    window.deleteProduct = async function (id) {
-      if (!confirm('Delete this product? This cannot be undone.')) return;
+    // Delete product / fabric
+    window.deleteProduct = async function (id, isFabric = false) {
+      if (!confirm(`Delete this ${isFabric ? 'fabric' : 'product'}? This cannot be undone.`)) return;
       const { error } = await supabase.from('products').delete().eq('id', id);
       if (error) { toast(error.message, 'error'); return; }
-      toast('Product deleted');
-      loadProducts();
+      toast(`${isFabric ? 'Fabric' : 'Product'} deleted`);
+      if (isFabric) {
+        loadFabrics();
+      } else {
+        loadProducts();
+      }
     };
 
     // ── COLLECTIONS ──

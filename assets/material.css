@@ -197,3 +197,88 @@
   width: 2rem;
   height: 2rem;
 }
+
+/* Shimmer loading skeleton */
+.material__card-skeleton {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  height: 450px;
+}
+
+.material__card-skeleton--img {
+  flex: 1;
+  background: linear-gradient(90deg, #f3f3f3 25%, #eaeaea 50%, #f3f3f3 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.material__card-skeleton--info {
+  padding: 2rem 1.5rem;
+  background: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.material__card-skeleton--title {
+  width: 70%;
+  height: 16px;
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+
+.material__card-skeleton--price {
+  width: 40%;
+  height: 14px;
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+
+.material__card-skeleton--btn {
+  width: 100%;
+  height: 35px;
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.material__whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  background: #25D366;
+  color: #ffffff;
+  padding: 1.2rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1.3rem;
+  text-decoration: none;
+  width: 100%;
+  transition: background 0.3s, transform 0.2s;
+  border: none;
+  cursor: pointer;
+  margin-top: 1.5rem;
+}
+
+.material__whatsapp-btn:hover {
+  background: #1da851;
+  transform: translateY(-1px);
+}
+
+

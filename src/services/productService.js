@@ -223,23 +223,47 @@ class ProductService {
     }
 
     async getTheme() {
+        let fileTheme = { sections: {}, order: [] };
+        try {
+            const raw = fs.readFileSync(THEME_FILE, 'utf-8');
+            fileTheme = JSON.parse(raw);
+        } catch (e) {
+            console.error('Failed to read theme-sections.json:', e.message);
+        }
+
         try {
             // Try Supabase first (works on Vercel and locally)
             const { data, error } = await supabaseAdmin.from('settings').select('theme_sections').eq('id', 1).single();
             if (!error && data && data.theme_sections && Object.keys(data.theme_sections).length > 0) {
-                return data.theme_sections;
+                const dbTheme = data.theme_sections;
+                let changed = false;
+                if (!dbTheme.sections) dbTheme.sections = {};
+                if (!dbTheme.order) dbTheme.order = [];
+
+                // Sync new keys from fileTheme
+                if (fileTheme && fileTheme.order) {
+                    for (const key of fileTheme.order) {
+                        if (!dbTheme.sections[key]) {
+                            dbTheme.sections[key] = fileTheme.sections[key];
+                            changed = true;
+                        }
+                        if (!dbTheme.order.includes(key)) {
+                            dbTheme.order.push(key);
+                            changed = true;
+                        }
+                    }
+                }
+
+                if (changed) {
+                    console.log('Syncing new theme sections to database...');
+                    await this.updateTheme(dbTheme);
+                }
+                return dbTheme;
             }
         } catch (e) {
             console.error('Supabase theme read failed, falling back to file:', e.message);
         }
-        // Fallback to local file (for local dev or if DB is empty)
-        try {
-            const raw = fs.readFileSync(THEME_FILE, 'utf-8');
-            return JSON.parse(raw);
-        } catch (e) {
-            console.error('Failed to read theme-sections.json:', e.message);
-            return { sections: {}, order: [] };
-        }
+        return fileTheme;
     }
 
     async updateTheme(themeSections) {

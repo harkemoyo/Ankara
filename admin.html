@@ -3018,7 +3018,8 @@
         const images = s.images || ['', '', ''];
         let html = `<div class="form-grid">
           ${textField('ts-subtitle', 'Subtitle', s.subtitle)}
-          ${textField('ts-title', 'Title', s.title)}`;
+          ${textField('ts-title', 'Title', s.title)}
+          ${textField('ts-bg_color', 'Background Color (Hex)', s.bg_color || '#800020')}`;
         for (let i = 0; i < 3; i++) {
           html += imageUploadBlock('ts-fab-' + i + '-image', images[i] || '', 'Fabric Image ' + (i + 1));
         }
@@ -3206,6 +3207,7 @@
         return {
           subtitle: document.getElementById('ts-subtitle')?.value || '',
           title: document.getElementById('ts-title')?.value || '',
+          bg_color: document.getElementById('ts-bg_color')?.value || '#800020',
           images,
           button_text: document.getElementById('ts-button_text')?.value || '',
           button_link: document.getElementById('ts-button_link')?.value || ''

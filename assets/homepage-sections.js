@@ -88,6 +88,9 @@ function escapeHtml(str) {
   },
 
   fabrics(el, settings) {
+    if (settings.bg_color) {
+      el.style.backgroundColor = settings.bg_color;
+    }
     const sub = el.querySelector('.botm-header-subtitle');
     if (sub && settings.subtitle) sub.textContent = settings.subtitle;
     const h = el.querySelector('.section__heading--maintitle');

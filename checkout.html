@@ -870,45 +870,76 @@
                 document.getElementById('empty-cart-msg').style.display = 'block';
             }
 
-            // ── Render cart in summary (KES) ──
-            const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
-            const freeShipping = subtotal >= 10000;
-            const shippingCost = freeShipping ? 0 : 500;
-            const total = subtotal + shippingCost;
-
-            function fmtKES(amount) {
+            // ── Multi-Currency Order Summary ──
+            function formatPrice(amount) {
+                if (window.AnkaraCurrency) {
+                    return window.AnkaraCurrency.convertAndFormat(amount);
+                }
                 return 'KSh ' + Number(amount).toLocaleString('en-KE');
             }
 
-            document.getElementById('sum-subtotal').textContent = fmtKES(subtotal);
-            document.getElementById('sum-shipping').textContent = freeShipping ? 'FREE' : fmtKES(500);
-            document.getElementById('sum-total').textContent = fmtKES(total);
-            document.getElementById('ship-standard-price').textContent = freeShipping ? 'FREE' : fmtKES(500);
+            function renderCheckoutSummary() {
+                const cart = typeof getCart === 'function' ? getCart() : [];
+                if (!cart || cart.length === 0) {
+                    const wrap = document.getElementById('checkout-wrap');
+                    const emptyMsg = document.getElementById('empty-cart-msg');
+                    if (wrap) wrap.style.display = 'none';
+                    if (emptyMsg) emptyMsg.style.display = 'block';
+                    return;
+                }
 
-            // Update M-Pesa amount displays
-            const mpesaPaybillAmt = document.getElementById('mpesa-amount-paybill');
-            const mpesaSendAmt = document.getElementById('mpesa-amount-send');
-            if (mpesaPaybillAmt) mpesaPaybillAmt.textContent = fmtKES(total);
-            if (mpesaSendAmt) mpesaSendAmt.textContent = fmtKES(total);
+                const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
+                const freeShipping = subtotal >= 10000;
+                const shippingCost = freeShipping ? 0 : 500;
+                const total = subtotal + shippingCost;
 
-            if (freeShipping) {
-                document.getElementById('ship-free-radio').disabled = false;
-                document.getElementById('ship-free-radio').checked = true;
+                const subtotalEl = document.getElementById('sum-subtotal');
+                const shippingEl = document.getElementById('sum-shipping');
+                const totalEl = document.getElementById('sum-total');
+                const shipPriceEl = document.getElementById('ship-standard-price');
+
+                if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
+                if (shippingEl) shippingEl.textContent = freeShipping ? 'FREE' : formatPrice(shippingCost);
+                if (totalEl) totalEl.textContent = formatPrice(total);
+                if (shipPriceEl) shipPriceEl.textContent = freeShipping ? 'FREE' : formatPrice(shippingCost);
+
+                // Update M-Pesa amount displays (keep KES formatting specifically for local M-Pesa prompt)
+                const mpesaPaybillAmt = document.getElementById('mpesa-amount-paybill');
+                const mpesaSendAmt = document.getElementById('mpesa-amount-send');
+                const kesTotalText = 'KSh ' + Number(total).toLocaleString('en-KE');
+                if (mpesaPaybillAmt) mpesaPaybillAmt.textContent = kesTotalText;
+                if (mpesaSendAmt) mpesaSendAmt.textContent = kesTotalText;
+
+                if (freeShipping) {
+                    const freeRadio = document.getElementById('ship-free-radio');
+                    if (freeRadio) {
+                        freeRadio.disabled = false;
+                        freeRadio.checked = true;
+                    }
+                }
+
+                const summaryItemsEl = document.getElementById('summary-items');
+                if (summaryItemsEl) {
+                    summaryItemsEl.innerHTML = cart.map(item => `
+                        <div class="summary-item">
+                          <div style="position:relative;">
+                            <img src="${item.image}" alt="${item.title}">
+                            <span class="summary-qty">${item.qty}</span>
+                          </div>
+                          <div class="item-info">
+                            <div class="item-title">${item.title}</div>
+                            <div class="item-variant">${item.size || ''} ${item.color ? '· ' + item.color : ''}</div>
+                          </div>
+                          <div class="item-price">${formatPrice(parseFloat(item.price) * item.qty)}</div>
+                        </div>
+                    `).join('');
+                }
             }
 
-            document.getElementById('summary-items').innerHTML = cart.map(item => `
-        <div class="summary-item">
-          <div style="position:relative;">
-            <img src="${item.image}" alt="${item.title}">
-            <span class="summary-qty">${item.qty}</span>
-          </div>
-          <div class="item-info">
-            <div class="item-title">${item.title}</div>
-            <div class="item-variant">${item.size || ''} ${item.color ? '· ' + item.color : ''}</div>
-          </div>
-          <div class="item-price">${fmtKES(parseFloat(item.price) * item.qty)}</div>
-        </div>
-      `).join('');
+            renderCheckoutSummary();
+            window.addEventListener('currency:changed', renderCheckoutSummary);
+            window.addEventListener('settings:loaded', renderCheckoutSummary);
+            document.addEventListener('DOMContentLoaded', renderCheckoutSummary);
 
             // ── Toggle M-Pesa method display ──
             document.querySelectorAll('input[name="mpesa_method"]').forEach(radio => {

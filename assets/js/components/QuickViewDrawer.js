@@ -151,14 +151,14 @@ export default class QuickViewDrawer {
         infoWrap.append(imgWrap, details);
 
         // Color Swatches
-        const colorWrap = this.createEl('div', 'quickview__color-wrap');
-        const colorLabel = this.createEl('div', 'quickview__color-label', {}, 'Color: ');
-        const colorVal = this.createEl('span', 'quickview__color-value', {}, this.selectedColor || 'As Shown');
+        const colorWrap = this.createEl('div', 'quickview__color-wrap', { style: 'margin-bottom: 2rem;' });
+        const colorLabel = this.createEl('div', 'quickview__color-label', { style: 'font-size:1.4rem; color:var(--primary-color); font-weight:600; margin-bottom:1rem;' }, 'Color: ');
+        const colorVal = this.createEl('span', 'quickview__color-value', { style: 'font-weight:400; color:var(--foreground-sub-color);' }, this.selectedColor || 'As Shown');
         colorLabel.appendChild(colorVal);
         colorWrap.appendChild(colorLabel);
 
         if (product.colors && product.colors.length > 0) {
-            const swatches = this.createEl('div', 'quickview__swatches');
+            const swatches = this.createEl('div', 'quickview__swatches', { style: 'display:flex; gap:1rem; flex-wrap:wrap;' });
             product.colors.forEach(color => {
                 const isActive = color.label === this.selectedColor;
                 const swatch = this.createEl('button', 'swatch-btn', {
@@ -166,7 +166,7 @@ export default class QuickViewDrawer {
                     'aria-pressed': isActive ? 'true' : 'false',
                     'title': color.label,
                     'type': 'button',
-                    'style': `width:3.8rem; height:3.8rem; border-radius:50%; overflow:hidden; border: 2px solid ${isActive ? 'var(--primary-color)' : 'var(--border-color)'}; cursor: pointer; padding:0; background:none;`
+                    'style': `width:3.8rem; height:3.8rem; border-radius:50%; overflow:hidden; border: 2px solid ${isActive ? 'var(--primary-color, #1a1a1a)' : 'var(--border-color, #ddd)'}; cursor: pointer; padding:0; background:none; transition: border-color 0.2s;`
                 });
                 
                 const swatchImg = this.createEl('img', 'swatch-img', {
@@ -185,30 +185,37 @@ export default class QuickViewDrawer {
             colorWrap.appendChild(swatches);
         }
 
-        // Size Dropdown
-        const sizeWrap = this.createEl('div', 'quickview__size-wrap');
-        const sizeLabel = this.createEl('label', 'quickview__size-label', { for: 'quickview-size-select' }, 'Size:');
-        const sizeSelect = this.createEl('select', 'quickview__size-select', { id: 'quickview-size-select' });
-        
+        // Modern Size Swatch Pills (replacing ugly raw dropdown)
+        const sizeWrap = this.createEl('div', 'quickview__size-wrap', { style: 'margin-bottom: 2rem;' });
+        const sizeLabel = this.createEl('div', 'quickview__size-label', { style: 'font-size:1.4rem; color:var(--primary-color); font-weight:600; margin-bottom:1rem;' }, 'Size: ');
+        const sizeVal = this.createEl('span', 'quickview__size-value', { style: 'font-weight:400; color:var(--foreground-sub-color);' }, this.selectedSize);
+        sizeLabel.appendChild(sizeVal);
+        sizeWrap.appendChild(sizeLabel);
+
+        const sizePills = this.createEl('div', 'quickview__size-pills', { style: 'display:flex; gap:0.8rem; flex-wrap:wrap;' });
         const sizesList = (product.sizes && product.sizes.length > 0) ? product.sizes : ['S', 'M', 'L', 'XL'];
         sizesList.forEach(size => {
-            const option = this.createEl('option', '', { value: size }, size);
-            if (size === this.selectedSize) option.selected = true;
-            sizeSelect.appendChild(option);
-        });
-        sizeSelect.addEventListener('change', (e) => {
-            this.selectedSize = e.target.value;
-        });
+            const isActive = size === this.selectedSize;
+            const pill = this.createEl('button', 'quickview-size-pill', {
+                'type': 'button',
+                'style': `min-width:4.2rem; height:4rem; padding:0 1.4rem; border-radius:4px; font-size:1.3rem; font-weight:600; cursor:pointer; transition:all 0.2s ease; border: 1.5px solid ${isActive ? 'var(--primary-color, #1a1a1a)' : '#ddd'}; background: ${isActive ? 'var(--primary-color, #1a1a1a)' : '#fff'}; color: ${isActive ? '#fff' : '#333'};`
+            }, size);
 
-        sizeWrap.append(sizeLabel, sizeSelect);
+            pill.addEventListener('click', () => {
+                this.selectedSize = size;
+                this.renderProduct();
+            });
+            sizePills.appendChild(pill);
+        });
+        sizeWrap.appendChild(sizePills);
 
         // Quantity Selector
-        const qtyWrap = this.createEl('div', 'quickview__qty-wrap');
-        const qtyLabel = this.createEl('div', 'quickview__qty-label', {}, 'Quantity:');
+        const qtyWrap = this.createEl('div', 'quickview__qty-wrap', { style: 'margin-bottom: 2.5rem;' });
+        const qtyLabel = this.createEl('div', 'quickview__qty-label', { style: 'font-size:1.4rem; color:var(--primary-color); font-weight:600; margin-bottom:1rem;' }, 'Quantity:');
         
-        const qtySelector = this.createEl('div', 'quickview__qty-selector');
+        const qtySelector = this.createEl('div', 'quickview__qty-selector', { style: 'display:inline-flex; align-items:center; border:1px solid var(--border-color, #ddd); border-radius:4px; background:#fff; overflow:hidden;' });
         
-        const minusBtn = this.createEl('button', 'qty-btn qty-minus', { type: 'button' });
+        const minusBtn = this.createEl('button', 'qty-btn qty-minus', { type: 'button', style: 'width:3.6rem; height:3.6rem; border:none; background:#f8f8f8; font-size:1.6rem; cursor:pointer;' });
         minusBtn.innerHTML = '&minus;';
         minusBtn.addEventListener('click', () => {
             if (this.quantity > 1) {
@@ -220,10 +227,11 @@ export default class QuickViewDrawer {
         const qtyInput = this.createEl('input', 'qty-input', {
             type: 'text',
             value: this.quantity,
-            readonly: true
+            readonly: true,
+            style: 'width:4rem; text-align:center; border:none; font-size:1.4rem; font-weight:600; color:var(--primary-color); outline:none;'
         });
 
-        const plusBtn = this.createEl('button', 'qty-btn qty-plus', { type: 'button' });
+        const plusBtn = this.createEl('button', 'qty-btn qty-plus', { type: 'button', style: 'width:3.6rem; height:3.6rem; border:none; background:#f8f8f8; font-size:1.6rem; cursor:pointer;' });
         plusBtn.innerHTML = '+';
         plusBtn.addEventListener('click', () => {
             this.quantity++;
@@ -233,10 +241,14 @@ export default class QuickViewDrawer {
         qtySelector.append(minusBtn, qtyInput, plusBtn);
         qtyWrap.append(qtyLabel, qtySelector);
 
-        // Action Buttons
-        const actionsWrap = this.createEl('div', 'quickview__actions');
+        // Brand Action Buttons (Matching site primary styling)
+        const actionsWrap = this.createEl('div', 'quickview__actions', { style: 'display:flex; flex-direction:column; gap:1.2rem; margin-top:2rem;' });
         
-        const addToCartBtn = this.createEl('button', 'quickview__btn quickview__btn--cart', { type: 'button' }, 'Add to Cart');
+        const addToCartBtn = this.createEl('button', 'quickview__btn quickview__btn--cart', {
+            type: 'button',
+            style: 'width:100%; padding:1.6rem; background:var(--primary-color, #1a1a1a); color:#fff; font-size:1.3rem; letter-spacing:0.15em; text-transform:uppercase; font-weight:600; border:none; border-radius:4px; cursor:pointer; transition:all 0.3s ease;'
+        }, 'ADD TO BAG');
+
         addToCartBtn.addEventListener('click', () => {
             window.dispatchEvent(new CustomEvent('cart:add', {
                 detail: {
@@ -252,7 +264,11 @@ export default class QuickViewDrawer {
             this.close();
         });
 
-        const buyNowBtn = this.createEl('button', 'quickview__btn quickview__btn--buy', { type: 'button' }, 'Buy It Now');
+        const buyNowBtn = this.createEl('button', 'quickview__btn quickview__btn--buy', {
+            type: 'button',
+            style: 'width:100%; padding:1.6rem; background:var(--bg-black-color, #2a1719); color:#fff; font-size:1.3rem; letter-spacing:0.15em; text-transform:uppercase; font-weight:600; border:none; border-radius:4px; cursor:pointer; transition:all 0.3s ease;'
+        }, 'BUY IT NOW');
+
         buyNowBtn.addEventListener('click', () => {
             window.dispatchEvent(new CustomEvent('cart:add', {
                 detail: {
@@ -279,4 +295,3 @@ export default class QuickViewDrawer {
         this.el.append(header, body);
     }
 }
-

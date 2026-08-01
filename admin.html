@@ -2955,19 +2955,29 @@
       },
       hero(s) {
         const slides = s.slides && s.slides.length ? s.slides : [{}, {}, {}];
-        let html = '';
-        for (let i = 0; i < 3; i++) {
+        let html = '<div id="hero-slides-list">';
+        for (let i = 0; i < slides.length; i++) {
           const sl = slides[i] || {};
-          html += `<div style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:16px;background:#fff;"><h4 style="margin:0 0 10px;font-size:1.3rem;">Slide ${i + 1}</h4><div class="form-grid">
-            ${imageUploadBlock('ts-slide-' + i + '-image', sl.image, 'Slide Image')}
-            ${textField('ts-slide-' + i + '-subtitle', 'Subtitle', sl.subtitle)}
-            ${textField('ts-slide-' + i + '-title', 'Title', sl.title)}
-            ${textField('ts-slide-' + i + '-accent', 'Accent Word', sl.accent)}
-            ${textField('ts-slide-' + i + '-desc', 'Description', sl.desc)}
-            ${textField('ts-slide-' + i + '-button', 'Button Text', sl.button)}
-            ${textField('ts-slide-' + i + '-link', 'Button Link', sl.link)}
-          </div></div>`;
+          html += `<div class="js-hero-slide-item" data-index="${i}" style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:16px;background:#fff;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <h4 style="margin:0;font-size:1.3rem;font-weight:600;color:#333;">Slide ${i + 1}</h4>
+              ${slides.length > 1 ? `<button type="button" onclick="removeHeroSlideCard(${i})" style="background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;padding:4px 12px;border-radius:4px;font-size:1.1rem;cursor:pointer;font-weight:500;">✕ Remove Slide</button>` : ''}
+            </div>
+            <div class="form-grid">
+              ${imageUploadBlock('ts-slide-' + i + '-image', sl.image, 'Slide Image')}
+              ${textField('ts-slide-' + i + '-subtitle', 'Subtitle', sl.subtitle)}
+              ${textField('ts-slide-' + i + '-title', 'Title', sl.title)}
+              ${textField('ts-slide-' + i + '-accent', 'Accent Word', sl.accent)}
+              ${textField('ts-slide-' + i + '-desc', 'Description', sl.desc)}
+              ${textField('ts-slide-' + i + '-button', 'Button Text', sl.button)}
+              ${textField('ts-slide-' + i + '-link', 'Button Link', sl.link)}
+            </div>
+          </div>`;
         }
+        html += '</div>';
+        html += `<button type="button" onclick="addHeroSlideCard()" style="background:#1a1a1a;color:#fff;border:none;padding:12px 22px;border-radius:6px;font-weight:600;font-size:1.25rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;margin-top:8px;">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> + Add Another Hero Slide
+        </button>`;
         return html;
       },
       categories(s) {
@@ -3143,7 +3153,8 @@
       announcement() { return { text: document.getElementById('ts-text')?.value || '' }; },
       hero() {
         const slides = [];
-        for (let i = 0; i < 3; i++) {
+        let i = 0;
+        while (document.getElementById('ts-slide-' + i + '-image') || document.getElementById('ts-slide-' + i + '-title')) {
           slides.push({
             image: document.getElementById('ts-slide-' + i + '-image')?.value || '',
             subtitle: document.getElementById('ts-slide-' + i + '-subtitle')?.value || '',
@@ -3153,6 +3164,7 @@
             button: document.getElementById('ts-slide-' + i + '-button')?.value || '',
             link: document.getElementById('ts-slide-' + i + '-link')?.value || ''
           });
+          i++;
         }
         return { slides };
       },
@@ -3295,7 +3307,32 @@
           newsletter_heading: document.getElementById('ts-newsletter_heading')?.value || '',
           newsletter_desc: document.getElementById('ts-newsletter_desc')?.value || '',
           copyright: document.getElementById('ts-copyright')?.value || ''
-        };
+    };
+
+    window.addHeroSlideCard = function() {
+      const collected = sectionFormCollectors.hero().slides;
+      collected.push({
+        image: '',
+        subtitle: 'New Collection',
+        title: 'Mary Humphrey',
+        accent: 'Wear',
+        desc: 'Bold African-inspired designs crafted for the modern individual.',
+        button: 'Shop Collection',
+        link: 'shop.html'
+      });
+      const container = document.getElementById('homepage-section-form');
+      const sec = themeData.sections[currentSectionKey || 'hero'];
+      if (sec) sec.settings = { slides: collected };
+      window.selectThemeSection(currentSectionKey || 'hero');
+    };
+
+    window.removeHeroSlideCard = function(index) {
+      const collected = sectionFormCollectors.hero().slides;
+      if (collected.length > 1) {
+        collected.splice(index, 1);
+        const sec = themeData.sections[currentSectionKey || 'hero'];
+        if (sec) sec.settings = { slides: collected };
+        window.selectThemeSection(currentSectionKey || 'hero');
       }
     };
 

@@ -438,8 +438,8 @@
                                             stroke-linecap="round" stroke-linejoin="round"></path>
                                     </svg>
                                 </div>
-                                <h3 class="value__card--title">Cultural Heritage</h3>
-                                <p class="value__card--text">Every design honours the rich traditions and artistry of
+                                <h3 class="value__card--title" data-story="value1Title">Cultural Heritage</h3>
+                                <p class="value__card--text" data-story="value1Text">Every design honours the rich traditions and artistry of
                                     African culture, brought to life in contemporary fashion.</p>
                             </div>
                         </div>
@@ -452,8 +452,8 @@
                                             stroke-linecap="round" stroke-linejoin="round"></path>
                                     </svg>
                                 </div>
-                                <h3 class="value__card--title">Craftsmanship</h3>
-                                <p class="value__card--text">Each piece is crafted with meticulous attention to detail,
+                                <h3 class="value__card--title" data-story="value2Title">Craftsmanship</h3>
+                                <p class="value__card--text" data-story="value2Text">Each piece is crafted with meticulous attention to detail,
                                     ensuring quality, comfort, and elegance in every stitch.</p>
                             </div>
                         </div>
@@ -466,8 +466,8 @@
                                             stroke-linecap="round" stroke-linejoin="round"></path>
                                     </svg>
                                 </div>
-                                <h3 class="value__card--title">Individuality</h3>
-                                <p class="value__card--text">We create for people who are confident in their identity
+                                <h3 class="value__card--title" data-story="value3Title">Individuality</h3>
+                                <p class="value__card--text" data-story="value3Text">We create for people who are confident in their identity
                                     and unafraid to stand out and celebrate who they are.</p>
                             </div>
                         </div>
@@ -504,13 +504,13 @@
                     </div>
                     <div class="gallery__grid">
                         <a href="assets/IMG-20260622-WA0037.webp" class="glightbox" data-gallery="about-gallery">
-                            <img alt="Mary Humphrey Two-Piece Sets" src="assets/IMG-20260622-WA0037.webp" />
+                            <img alt="Mary Humphrey Two-Piece Sets" src="assets/IMG-20260622-WA0037.webp" data-story="galleryImage1" />
                         </a>
                         <a href="assets/IMG-20260622-WA0033.webp" class="glightbox" data-gallery="about-gallery">
-                            <img alt="Mary Humphrey Luxe Dresses" src="assets/IMG-20260622-WA0033.webp" />
+                            <img alt="Mary Humphrey Luxe Dresses" src="assets/IMG-20260622-WA0033.webp" data-story="galleryImage2" />
                         </a>
                         <a href="assets/IMG-20260622-WA0079.webp" class="glightbox" data-gallery="about-gallery">
-                            <img alt="Mary Humphrey Outerwear" src="assets/IMG-20260622-WA0079.webp" />
+                            <img alt="Mary Humphrey Outerwear" src="assets/IMG-20260622-WA0079.webp" data-story="galleryImage3" />
                         </a>
                     </div>
                 </div>
@@ -546,6 +546,10 @@
                     if (el.tagName === 'IMG') {
                         el.src = value;
                         el.alt = value.split('/').pop().split('?')[0] || el.alt;
+                        const parentLink = el.closest('a');
+                        if (parentLink && parentLink.classList.contains('glightbox')) {
+                            parentLink.href = value;
+                        }
                     } else if (['H1','H2','H3'].includes(el.tagName)) {
                         el.innerHTML = value;
                     } else {

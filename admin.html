@@ -1304,47 +1304,62 @@
         <h1>About Page Content</h1>
       </div>
       <div
-        style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:720px;margin-bottom:32px;">
-        <h3 style="font-size:1.6rem;margin-bottom:20px;">Hero</h3>
+        style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:760px;margin-bottom:32px;">
+        
+        <!-- Hero Section -->
+        <h3 style="font-size:1.6rem;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:8px;">Hero Section</h3>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Hero Subtitle</label>
-          <input id="about-hero-subtitle" type="text" />
+          <input id="about-hero-subtitle" type="text" placeholder="Our Story" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Hero Title</label>
-          <input id="about-hero-title" type="text" />
+          <input id="about-hero-title" type="text" placeholder="The Story Behind<br />Mary Humphrey Wear" />
         </div>
-        <div class="form-group" style="margin-bottom:20px;">
-          <label>Hero Background Image URL</label>
-          <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;">
-            <input id="about-hero-image" type="text" style="flex:1;" onchange="var preview = document.getElementById('about-hero-image-preview'); if(preview) { preview.src = this.value; preview.style.display = this.value ? 'block' : 'none'; }" />
-            <button type="button" class="btn btn-ghost" onclick="this.nextElementSibling.click()">Upload</button>
-            <input type="file" accept="image/*" style="display:none;" 
-              onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-hero-image','about-hero-image-status');this.value=''" />
+        <div class="form-group" style="margin-bottom:24px;">
+          <label>Hero Background Image</label>
+          <div ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadSectionImage(event.dataTransfer.files[0],'about-hero-image','about-hero-image-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:16px;background:var(--background,#fafafa);text-align:center;margin-bottom:10px;">
+            <label class="btn btn-primary" style="cursor:pointer;margin:0;display:inline-flex;align-items:center;gap:6px;">
+              <input type="file" accept="image/*" onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-hero-image','about-hero-image-status');this.value=''" style="display:none;" />
+              Upload Image
+            </label>
+            <span style="font-size:1.1rem;color:var(--text-muted,#777);margin-left:8px;">or drag file here</span>
+            <span id="about-hero-image-status" style="display:block;font-size:1.1rem;color:var(--accent);margin-top:6px;"></span>
           </div>
-          <span id="about-hero-image-status" style="font-size:1.1rem;color:var(--accent);display:block;margin-bottom:4px;"></span>
-          <img id="about-hero-image-preview" src="" style="max-width:120px;max-height:80px;border-radius:4px;border:1px solid #ddd;display:none;margin-top:8px;" />
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div style="width:120px;height:80px;border:1px solid var(--border);border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff;flex-shrink:0;">
+              <img id="about-hero-image-preview" src="" style="max-width:100%;max-height:100%;object-fit:cover;display:none;" onload="this.style.display='block';" onerror="this.style.display='none';" />
+            </div>
+            <input id="about-hero-image" type="text" placeholder="assets/IMG-... or https://..." style="flex:1;" oninput="var p=document.getElementById('about-hero-image-preview');if(p){p.src=this.value;p.style.display=this.value?'block':'none';}" />
+          </div>
         </div>
 
-        <h3 style="font-size:1.6rem;margin:28px 0 20px;">Brand Story</h3>
-        <div class="form-group" style="margin-bottom:20px;">
-          <label>Story Image URL</label>
-          <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;">
-            <input id="about-image" type="text" style="flex:1;" onchange="var preview = document.getElementById('about-image-preview'); if(preview) { preview.src = this.value; preview.style.display = this.value ? 'block' : 'none'; }" />
-            <button type="button" class="btn btn-ghost" onclick="this.nextElementSibling.click()">Upload</button>
-            <input type="file" accept="image/*" style="display:none;" 
-              onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-image','about-image-status');this.value=''" />
-          </div>
-          <span id="about-image-status" style="font-size:1.1rem;color:var(--accent);display:block;margin-bottom:4px;"></span>
-          <img id="about-image-preview" src="" style="max-width:120px;max-height:80px;border-radius:4px;border:1px solid #ddd;display:none;margin-top:8px;" />
-        </div>
+        <!-- Brand Story -->
+        <h3 style="font-size:1.6rem;margin:32px 0 20px;border-bottom:1px solid var(--border);padding-bottom:8px;">Brand Story</h3>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Story Subtitle</label>
-          <input id="about-born-subtitle" type="text" />
+          <input id="about-born-subtitle" type="text" placeholder="Born From Passion" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Story Title</label>
-          <input id="about-born-title" type="text" />
+          <input id="about-born-title" type="text" placeholder="Where African Heritage Meets Modern Fashion" />
+        </div>
+        <div class="form-group" style="margin-bottom:24px;">
+          <label>Story Image</label>
+          <div ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadSectionImage(event.dataTransfer.files[0],'about-image','about-image-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:16px;background:var(--background,#fafafa);text-align:center;margin-bottom:10px;">
+            <label class="btn btn-primary" style="cursor:pointer;margin:0;display:inline-flex;align-items:center;gap:6px;">
+              <input type="file" accept="image/*" onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-image','about-image-status');this.value=''" style="display:none;" />
+              Upload Image
+            </label>
+            <span style="font-size:1.1rem;color:var(--text-muted,#777);margin-left:8px;">or drag file here</span>
+            <span id="about-image-status" style="display:block;font-size:1.1rem;color:var(--accent);margin-top:6px;"></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div style="width:120px;height:80px;border:1px solid var(--border);border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff;flex-shrink:0;">
+              <img id="about-image-preview" src="" style="max-width:100%;max-height:100%;object-fit:cover;display:none;" onload="this.style.display='block';" onerror="this.style.display='none';" />
+            </div>
+            <input id="about-image" type="text" placeholder="assets/IMG-... or https://..." style="flex:1;" oninput="var p=document.getElementById('about-image-preview');if(p){p.src=this.value;p.style.display=this.value?'block':'none';}" />
+          </div>
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Paragraph 1</label>
@@ -1363,14 +1378,68 @@
           <textarea id="about-paragraph-4" rows="3"></textarea>
         </div>
 
-        <h3 style="font-size:1.6rem;margin:28px 0 20px;">What Makes Us Different</h3>
+        <!-- Core Values Section -->
+        <h3 style="font-size:1.6rem;margin:32px 0 20px;border-bottom:1px solid var(--border);padding-bottom:8px;">Core Values</h3>
+        <div style="background:var(--background,#f9f9f9);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;">
+          <h4 style="font-size:1.3rem;margin-bottom:12px;">Value 1</h4>
+          <div class="form-group" style="margin-bottom:12px;">
+            <label>Title</label>
+            <input id="about-value-1-title" type="text" placeholder="Cultural Heritage" />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="about-value-1-text" rows="2"></textarea>
+          </div>
+        </div>
+        <div style="background:var(--background,#f9f9f9);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;">
+          <h4 style="font-size:1.3rem;margin-bottom:12px;">Value 2</h4>
+          <div class="form-group" style="margin-bottom:12px;">
+            <label>Title</label>
+            <input id="about-value-2-title" type="text" placeholder="Craftsmanship" />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="about-value-2-text" rows="2"></textarea>
+          </div>
+        </div>
+        <div style="background:var(--background,#f9f9f9);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:24px;">
+          <h4 style="font-size:1.3rem;margin-bottom:12px;">Value 3</h4>
+          <div class="form-group" style="margin-bottom:12px;">
+            <label>Title</label>
+            <input id="about-value-3-title" type="text" placeholder="Individuality" />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="about-value-3-text" rows="2"></textarea>
+          </div>
+        </div>
+
+        <!-- What Makes Us Different -->
+        <h3 style="font-size:1.6rem;margin:32px 0 20px;border-bottom:1px solid var(--border);padding-bottom:8px;">What Makes Us Different</h3>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Section Subtitle</label>
-          <input id="about-different-subtitle" type="text" />
+          <input id="about-different-subtitle" type="text" placeholder="What Makes Us Different" />
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Section Title</label>
-          <input id="about-different-title" type="text" />
+          <input id="about-different-title" type="text" placeholder="Comfort Meets Culture" />
+        </div>
+        <div class="form-group" style="margin-bottom:24px;">
+          <label>Section Image</label>
+          <div ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadSectionImage(event.dataTransfer.files[0],'about-different-image','about-different-image-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:16px;background:var(--background,#fafafa);text-align:center;margin-bottom:10px;">
+            <label class="btn btn-primary" style="cursor:pointer;margin:0;display:inline-flex;align-items:center;gap:6px;">
+              <input type="file" accept="image/*" onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-different-image','about-different-image-status');this.value=''" style="display:none;" />
+              Upload Image
+            </label>
+            <span style="font-size:1.1rem;color:var(--text-muted,#777);margin-left:8px;">or drag file here</span>
+            <span id="about-different-image-status" style="display:block;font-size:1.1rem;color:var(--accent);margin-top:6px;"></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div style="width:120px;height:80px;border:1px solid var(--border);border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff;flex-shrink:0;">
+              <img id="about-different-image-preview" src="" style="max-width:100%;max-height:100%;object-fit:cover;display:none;" onload="this.style.display='block';" onerror="this.style.display='none';" />
+            </div>
+            <input id="about-different-image" type="text" placeholder="assets/IMG-... or https://..." style="flex:1;" oninput="var p=document.getElementById('about-different-image-preview');if(p){p.src=this.value;p.style.display=this.value?'block':'none';}" />
+          </div>
         </div>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Paragraph 1</label>
@@ -1380,39 +1449,81 @@
           <label>Paragraph 2</label>
           <textarea id="about-different-text-2" rows="3"></textarea>
         </div>
-        <div class="form-group" style="margin-bottom:20px;">
-          <label>Different Section Image URL</label>
-          <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;">
-            <input id="about-different-image" type="text" style="flex:1;" onchange="var preview = document.getElementById('about-different-image-preview'); if(preview) { preview.src = this.value; preview.style.display = this.value ? 'block' : 'none'; }" />
-            <button type="button" class="btn btn-ghost" onclick="this.nextElementSibling.click()">Upload</button>
-            <input type="file" accept="image/*" style="display:none;" 
-              onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-different-image','about-different-image-status');this.value=''" />
-          </div>
-          <span id="about-different-image-status" style="font-size:1.1rem;color:var(--accent);display:block;margin-bottom:4px;"></span>
-          <img id="about-different-image-preview" src="" style="max-width:120px;max-height:80px;border-radius:4px;border:1px solid #ddd;display:none;margin-top:8px;" />
-        </div>
 
-        <h3 style="font-size:1.6rem;margin:28px 0 20px;">Gallery</h3>
+        <!-- Gallery / Visual Journey -->
+        <h3 style="font-size:1.6rem;margin:32px 0 20px;border-bottom:1px solid var(--border);padding-bottom:8px;">Visual Journey / Gallery</h3>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Gallery Subtitle</label>
-          <input id="about-gallery-subtitle" type="text" />
+          <input id="about-gallery-subtitle" type="text" placeholder="Visual Journey" />
         </div>
-        <div class="form-group" style="margin-bottom:20px;">
+        <div class="form-group" style="margin-bottom:24px;">
           <label>Gallery Title</label>
-          <input id="about-gallery-title" type="text" />
+          <input id="about-gallery-title" type="text" placeholder="The Artistry & Elegance" />
         </div>
 
-        <h3 style="font-size:1.6rem;margin:28px 0 20px;">Our Promise</h3>
+        <div style="background:var(--background,#f9f9f9);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;">
+          <label style="font-weight:600;display:block;margin-bottom:8px;">Gallery Image 1</label>
+          <div ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadSectionImage(event.dataTransfer.files[0],'about-gallery-image-1','about-gallery-image-1-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:12px;background:#fff;text-align:center;margin-bottom:10px;">
+            <label class="btn btn-primary" style="cursor:pointer;margin:0;display:inline-flex;align-items:center;gap:6px;">
+              <input type="file" accept="image/*" onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-gallery-image-1','about-gallery-image-1-status');this.value=''" style="display:none;" />
+              Upload Image
+            </label>
+            <span id="about-gallery-image-1-status" style="display:block;font-size:1.1rem;color:var(--accent);margin-top:4px;"></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div style="width:100px;height:70px;border:1px solid var(--border);border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff;flex-shrink:0;">
+              <img id="about-gallery-image-1-preview" src="" style="max-width:100%;max-height:100%;object-fit:cover;display:none;" onload="this.style.display='block';" onerror="this.style.display='none';" />
+            </div>
+            <input id="about-gallery-image-1" type="text" placeholder="assets/IMG-..." style="flex:1;" oninput="var p=document.getElementById('about-gallery-image-1-preview');if(p){p.src=this.value;p.style.display=this.value?'block':'none';}" />
+          </div>
+        </div>
+
+        <div style="background:var(--background,#f9f9f9);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;">
+          <label style="font-weight:600;display:block;margin-bottom:8px;">Gallery Image 2</label>
+          <div ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadSectionImage(event.dataTransfer.files[0],'about-gallery-image-2','about-gallery-image-2-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:12px;background:#fff;text-align:center;margin-bottom:10px;">
+            <label class="btn btn-primary" style="cursor:pointer;margin:0;display:inline-flex;align-items:center;gap:6px;">
+              <input type="file" accept="image/*" onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-gallery-image-2','about-gallery-image-2-status');this.value=''" style="display:none;" />
+              Upload Image
+            </label>
+            <span id="about-gallery-image-2-status" style="display:block;font-size:1.1rem;color:var(--accent);margin-top:4px;"></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div style="width:100px;height:70px;border:1px solid var(--border);border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff;flex-shrink:0;">
+              <img id="about-gallery-image-2-preview" src="" style="max-width:100%;max-height:100%;object-fit:cover;display:none;" onload="this.style.display='block';" onerror="this.style.display='none';" />
+            </div>
+            <input id="about-gallery-image-2" type="text" placeholder="assets/IMG-..." style="flex:1;" oninput="var p=document.getElementById('about-gallery-image-2-preview');if(p){p.src=this.value;p.style.display=this.value?'block':'none';}" />
+          </div>
+        </div>
+
+        <div style="background:var(--background,#f9f9f9);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:24px;">
+          <label style="font-weight:600;display:block;margin-bottom:8px;">Gallery Image 3</label>
+          <div ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadSectionImage(event.dataTransfer.files[0],'about-gallery-image-3','about-gallery-image-3-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:12px;background:#fff;text-align:center;margin-bottom:10px;">
+            <label class="btn btn-primary" style="cursor:pointer;margin:0;display:inline-flex;align-items:center;gap:6px;">
+              <input type="file" accept="image/*" onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-gallery-image-3','about-gallery-image-3-status');this.value=''" style="display:none;" />
+              Upload Image
+            </label>
+            <span id="about-gallery-image-3-status" style="display:block;font-size:1.1rem;color:var(--accent);margin-top:4px;"></span>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div style="width:100px;height:70px;border:1px solid var(--border);border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff;flex-shrink:0;">
+              <img id="about-gallery-image-3-preview" src="" style="max-width:100%;max-height:100%;object-fit:cover;display:none;" onload="this.style.display='block';" onerror="this.style.display='none';" />
+            </div>
+            <input id="about-gallery-image-3" type="text" placeholder="assets/IMG-..." style="flex:1;" oninput="var p=document.getElementById('about-gallery-image-3-preview');if(p){p.src=this.value;p.style.display=this.value?'block':'none';}" />
+          </div>
+        </div>
+
+        <!-- Our Promise -->
+        <h3 style="font-size:1.6rem;margin:32px 0 20px;border-bottom:1px solid var(--border);padding-bottom:8px;">Our Promise</h3>
         <div class="form-group" style="margin-bottom:20px;">
           <label>Promise Title</label>
-          <input id="about-promise-title" type="text" />
+          <input id="about-promise-title" type="text" placeholder="Our Promise" />
         </div>
-        <div class="form-group" style="margin-bottom:20px;">
+        <div class="form-group" style="margin-bottom:24px;">
           <label>Promise Text</label>
           <textarea id="about-promise-text" rows="4"></textarea>
         </div>
 
-        <button class="btn btn-primary" onclick="saveAboutPage()">Save About Page</button>
+        <button class="btn btn-primary" style="width:100%;padding:14px;font-size:1.3rem;margin-top:12px;" onclick="saveAboutPage()">Save About Page</button>
       </div>
     </section>
     <!-- Size Charts -->
@@ -2854,6 +2965,7 @@
         set('about-hero-subtitle', c.heroSubtitle || 'Our Story');
         set('about-hero-title', c.heroTitle || 'The Story Behind<br />Mary Humphrey Wear');
         set('about-hero-image', c.heroImage || 'assets/IMG-20260622-WA0081.webp');
+
         set('about-image', c.storyImage || 'assets/IMG-20260622-WA0081.webp');
         set('about-born-subtitle', c.bornSubtitle || 'Born From Passion');
         set('about-born-title', c.bornTitle || 'Where African Heritage Meets Modern Fashion');
@@ -2861,13 +2973,26 @@
         set('about-paragraph-2', c.paragraph2 || 'Inspired by the beauty of African prints and the endless possibilities of design, we create contemporary fashion that celebrates heritage while embracing modern style. Every piece is thoughtfully designed to bring together bold patterns, comfort, elegance, and individuality.');
         set('about-paragraph-3', c.paragraph3 || 'From statement streetwear to timeless cultural pieces, our collections are created for people who are confident in their identity and unafraid to stand out. We believe every fabric has a story, and every design should make the person wearing it feel special.');
         set('about-paragraph-4', c.paragraph4 || 'Mary Humphrey African Wear is more than a fashion brand — it is a celebration of African artistry, creativity, and the power of self-expression through what we wear.');
+
+        set('about-value-1-title', c.value1Title || 'Cultural Heritage');
+        set('about-value-1-text', c.value1Text || 'Every design honours the rich traditions and artistry of African culture, brought to life in contemporary fashion.');
+        set('about-value-2-title', c.value2Title || 'Craftsmanship');
+        set('about-value-2-text', c.value2Text || 'Each piece is crafted with meticulous attention to detail, ensuring quality, comfort, and elegance in every stitch.');
+        set('about-value-3-title', c.value3Title || 'Individuality');
+        set('about-value-3-text', c.value3Text || 'We create for people who are confident in their identity and unafraid to stand out and celebrate who they are.');
+
         set('about-different-subtitle', c.differentSubtitle || 'What Makes Us Different');
         set('about-different-title', c.differentTitle || 'Comfort Meets Culture');
         set('about-different-text-1', c.differentText1 || 'Our clothing stands out thanks to premium, lightweight African fabrics combined with flexible, modern tailoring. The result? Long-lasting comfort without compromising on style.');
         set('about-different-text-2', c.differentText2 || 'Whether it’s a statement set, a flowing dress, or a casual staple, we design fashion that’s easy to wear, fun, and truly built for everyday life.');
         set('about-different-image', c.differentImage || 'assets/IMG-20260622-WA0032.webp');
+
         set('about-gallery-subtitle', c.gallerySubtitle || 'Visual Journey');
         set('about-gallery-title', c.galleryTitle || 'The Artistry & Elegance');
+        set('about-gallery-image-1', c.galleryImage1 || 'assets/IMG-20260622-WA0037.webp');
+        set('about-gallery-image-2', c.galleryImage2 || 'assets/IMG-20260622-WA0033.webp');
+        set('about-gallery-image-3', c.galleryImage3 || 'assets/IMG-20260622-WA0079.webp');
+
         set('about-promise-title', c.promiseTitle || 'Our Promise');
         set('about-promise-text', c.promiseText || 'At Mary Humphrey African Wear, style meets culture. We are committed to creating comfortable, vibrant, and timeless pieces while offering exceptional customer care. From careful craftsmanship and timely delivery to support with alterations, we ensure every customer feels confident and valued.');
       } catch (error) {
@@ -2889,6 +3014,12 @@
           paragraph2: get('about-paragraph-2'),
           paragraph3: get('about-paragraph-3'),
           paragraph4: get('about-paragraph-4'),
+          value1Title: get('about-value-1-title'),
+          value1Text: get('about-value-1-text'),
+          value2Title: get('about-value-2-title'),
+          value2Text: get('about-value-2-text'),
+          value3Title: get('about-value-3-title'),
+          value3Text: get('about-value-3-text'),
           differentSubtitle: get('about-different-subtitle'),
           differentTitle: get('about-different-title'),
           differentText1: get('about-different-text-1'),
@@ -2896,6 +3027,9 @@
           differentImage: get('about-different-image'),
           gallerySubtitle: get('about-gallery-subtitle'),
           galleryTitle: get('about-gallery-title'),
+          galleryImage1: get('about-gallery-image-1'),
+          galleryImage2: get('about-gallery-image-2'),
+          galleryImage3: get('about-gallery-image-3'),
           promiseTitle: get('about-promise-title'),
           promiseText: get('about-promise-text')
         };

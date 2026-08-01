@@ -332,6 +332,7 @@ function setupShopFilters() {
 // PRODUCT PAGE — Load single product details
 // =============================================
 async function loadProductDetails() {
+    window.loadProductDetails = loadProductDetails;
     if (!document.getElementById('dyn-product-title')) return;
 
     const params = new URLSearchParams(window.location.search);
@@ -769,7 +770,7 @@ window.buyProductNow = function(e) {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+function initStorefront() {
     // Shop page init
     if (document.querySelector('.shop-product-grid') || document.querySelector('[data-section="product-grid"]')) {
         const params = new URLSearchParams(window.location.search);
@@ -790,7 +791,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('dyn-product-title')) {
         loadProductDetails();
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStorefront);
+} else {
+    initStorefront();
+}
 
 // Live currency switching for grids
 window.addEventListener('currency:changed', () => {

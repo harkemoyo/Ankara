@@ -271,8 +271,6 @@
       document.getElementById('state-success').style.display = 'block';
 
       // Generate WhatsApp confirmation message
-      const items = order.order_items || [];
-      const itemsList = items.map(i => `• ${i.product_title} (${i.variant_size || ''} ${i.variant_color ? '/ ' + i.variant_color : ''}) x${i.quantity}`).join('\n');
       const whatsappMsg = encodeURIComponent(
         `🛍️ *Order Confirmation*\n\n` +
         `Hi Mary Humphrey Wear,\n` +

@@ -1128,6 +1128,190 @@
         </div>
       </div>
     </section>
+
+    <!-- ════ DEDICATED FABRIC EDITOR ════ -->
+    <section class="admin-section" id="section-fabric-editor">
+      <div class="page-header">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="btn btn-ghost btn-sm" onclick="backFromFabricEditor()" style="font-size:1.6rem;padding:4px 10px;">←</button>
+          <h1 id="fabric-editor-title">Add Fabric</h1>
+          <span class="badge badge-gray" id="fabric-editor-status-badge" style="font-size:1.2rem;"></span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-ghost" onclick="backFromFabricEditor()">Discard</button>
+          <button class="btn btn-primary" onclick="saveFabric()">Save Fabric</button>
+        </div>
+      </div>
+      <input id="f-id" type="hidden" />
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;">
+
+        <!-- LEFT: Main Info -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+
+          <!-- Title & Description -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+            <div class="form-group" style="margin-bottom:16px;">
+              <label>Fabric Name / Title</label>
+              <input id="f-title" type="text" placeholder="e.g. Royal Blue & Gold Kente Print Ankara" style="font-size:1.5rem;padding:12px;" />
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+              <label>Description</label>
+              <textarea id="f-description" rows="4" placeholder="Authentic 100% premium cotton Ankara fabric with vibrant wax print pattern. Perfect for dresses, suits, and cultural pieces..." style="font-size:1.4rem;"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Fabric Details / Specs</label>
+              <span class="helper-text" style="display:block;margin-bottom:6px;">One detail per line — these appear on the product page.</span>
+              <textarea id="f-details" rows="6" placeholder="100% Premium Cotton&#10;High-density Wax Print&#10;Width: 45 inches (114cm)&#10;Colourfast & pre-shrunk&#10;Ideal for dresses, suits, and accessories" style="font-size:1.4rem;"></textarea>
+            </div>
+          </div>
+
+          <!-- Fabric Specifications -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+            <label style="margin-bottom:14px;display:block;font-size:1.4rem;font-weight:700;color:var(--text);">Fabric Specifications</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div class="form-group">
+                <label>Material Composition</label>
+                <input id="f-material" type="text" placeholder="e.g. 100% Cotton" />
+              </div>
+              <div class="form-group">
+                <label>Fabric Width</label>
+                <input id="f-width" type="text" placeholder="e.g. 45 inches / 114cm" />
+              </div>
+              <div class="form-group">
+                <label>Pattern / Print Type</label>
+                <input id="f-pattern" type="text" placeholder="e.g. Geometric Wax Print, Kente Stripe" />
+              </div>
+              <div class="form-group">
+                <label>Care Instructions</label>
+                <input id="f-care" type="text" placeholder="e.g. Hand wash cold, line dry" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Media -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+            <label style="margin-bottom:12px;display:block;font-size:1.4rem;font-weight:700;color:var(--text);">Fabric Photos</label>
+            <div id="f-media-preview" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-bottom:12px;"></div>
+            <div id="f-media-actions" style="display:none;margin-bottom:12px;padding:8px 12px;background:#fafafa;border:1px solid var(--border);border-radius:6px;font-size:1.2rem;color:var(--text);align-items:center;gap:12px;">
+              <span id="f-media-selected-count">0 selected</span>
+              <button class="btn btn-sm" onclick="removeFabricSelectedImages()" type="button" style="color:#e74c3c;border-color:#e74c3c;font-size:1.2rem;">Remove</button>
+            </div>
+            <div id="f-media-empty-zone">
+              <div id="f-media-dropzone" onclick="document.getElementById('f-image-upload').click()"
+                style="border:2px dashed var(--border);border-radius:8px;padding:32px 20px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;">
+                <input id="f-image-upload" type="file" accept="image/*" multiple style="display:none;" onchange="uploadFabricImages()" />
+                <div style="font-size:3rem;margin-bottom:8px;">🧵</div>
+                <div style="font-size:1.4rem;font-weight:600;color:var(--text);margin-bottom:4px;">Upload Fabric Photos</div>
+                <div style="font-size:1.2rem;color:#999;">Accepts jpg, png, webp — click or drag files here</div>
+              </div>
+              <div class="form-group" style="margin-top:12px;">
+                <label>Or paste image URL</label>
+                <div style="display:flex;gap:8px;">
+                  <input id="f-image-url-input" placeholder="https://... or assets/filename.webp" type="text" style="flex:1;" />
+                  <button class="btn btn-sm btn-ghost" onclick="addFabricImageUrl()" type="button">+ Add</button>
+                </div>
+              </div>
+            </div>
+            <div id="f-upload-status" style="margin-top:8px;font-size:1.2rem;color:var(--accent);"></div>
+            <div id="f-media-add-more" style="display:none;margin-top:12px;">
+              <button class="btn btn-sm btn-ghost" onclick="document.getElementById('f-image-upload').click()" type="button">+ Add more photos</button>
+            </div>
+            <input id="f-images" type="hidden" />
+          </div>
+
+          <!-- Pricing -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+            <label style="margin-bottom:14px;display:block;font-size:1.4rem;font-weight:700;color:var(--text);">Pricing (per yard)</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div class="form-group">
+                <label>Price (KSh)</label>
+                <input id="f-price" type="number" min="0" step="0.01" placeholder="1200.00" />
+              </div>
+              <div class="form-group">
+                <label>Compare-at Price</label>
+                <input id="f-compare-price" type="number" min="0" step="0.01" placeholder="1500.00" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Available Lengths & Inventory -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+            <label style="margin-bottom:14px;display:block;font-size:1.4rem;font-weight:700;color:var(--text);">Lengths & Inventory</label>
+            <div class="form-group" style="margin-bottom:14px;">
+              <label>Available Lengths (comma-separated)</label>
+              <input id="f-sizes" type="text" placeholder="1 Yard, 2 Yards, 6 Yards Bundle" />
+              <span class="helper-text">These appear as selectable options on the fabric page.</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div class="form-group">
+                <label>SKU</label>
+                <input id="f-sku" type="text" placeholder="FAB-001" />
+              </div>
+              <div class="form-group">
+                <label>Quantity in Stock</label>
+                <input id="f-inventory-qty" type="number" min="0" value="0" />
+              </div>
+            </div>
+            <div class="form-group" style="margin-top:12px;">
+              <label>Stock Status</label>
+              <select id="f-in-stock">
+                <option value="true">In Stock</option>
+                <option value="false">Out of Stock</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: Sidebar -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+
+          <!-- Status -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+            <div class="form-group">
+              <label>Status</label>
+              <select id="f-status" style="font-size:1.4rem;padding:10px;">
+                <option value="active">Active — visible on site</option>
+                <option value="draft">Draft — hidden from site</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Organisation -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+            <label style="margin-bottom:12px;display:block;font-size:1.4rem;font-weight:700;color:var(--text);">Organisation</label>
+            <div class="form-group" style="margin-bottom:12px;">
+              <label>Vendor</label>
+              <input id="f-vendor" type="text" placeholder="Mary Humphrey African Wear" />
+            </div>
+            <div class="form-group">
+              <label>Tags (comma-separated)</label>
+              <input id="f-tags" type="text" placeholder="ankara, wax-print, kente, new-arrival" />
+            </div>
+          </div>
+
+          <!-- SEO -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+            <label style="margin-bottom:12px;display:block;font-size:1.4rem;font-weight:700;color:var(--text);">SEO</label>
+            <div class="form-group" style="margin-bottom:12px;">
+              <label>URL Handle</label>
+              <input id="f-handle" type="text" placeholder="royal-blue-gold-kente-ankara" />
+              <span class="helper-text">/products/your-handle</span>
+            </div>
+            <div class="form-group" style="margin-bottom:12px;">
+              <label>SEO Title</label>
+              <input id="f-seo-title" type="text" placeholder="" />
+            </div>
+            <div class="form-group">
+              <label>SEO Description</label>
+              <textarea id="f-seo-description" rows="2" placeholder=""></textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
     <!-- Collections -->
     <section class="admin-section" id="section-collections">
       <div class="page-header">
@@ -2223,39 +2407,23 @@
 
     // ═══════════════ OPEN FABRIC EDITOR (ADD) ═══════════════
     window.openFabricEditor = function () {
-      editorSourceSection = 'fabrics';
-      document.getElementById('product-editor-title').textContent = 'Add Fabric';
-      document.getElementById('product-editor-status-badge').textContent = '';
-      document.getElementById('p-id').value = '';
-      ['p-title', 'p-handle', 'p-product-type', 'p-vendor', 'p-price', 'p-compare-price', 'p-description', 'p-details', 'p-images', 'p-sizes', 'p-tags', 'p-sku', 'p-seo-title', 'p-seo-description', 'p-fit-note', 'p-model-wearing-size']
+      // Clear all fabric fields
+      ['f-id', 'f-title', 'f-handle', 'f-vendor', 'f-price', 'f-compare-price',
+       'f-description', 'f-details', 'f-images', 'f-sizes', 'f-tags', 'f-sku',
+       'f-seo-title', 'f-seo-description', 'f-material', 'f-width', 'f-pattern', 'f-care']
         .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-      
-      const titleEl = document.getElementById('p-title');
-      if (titleEl) titleEl.placeholder = 'e.g. Royal Blue & Gold Kente Print Ankara';
-      const descEl = document.getElementById('p-description');
-      if (descEl) descEl.placeholder = 'Authentic 100% premium cotton Ankara fabric with vibrant wax print...';
-      const detailsEl = document.getElementById('p-details');
-      if (detailsEl) detailsEl.placeholder = '100% Premium Cotton\nHigh-density Wax Print\nWidth: 45 inches\nIdeal for dresses, suits, and accessories';
 
-      document.getElementById('p-product-type').value = 'fabric';
-      document.getElementById('p-sizes').value = '1 Yard, 2 Yards, 6 Yards Bundle';
-      document.getElementById('p-in-stock').value = 'true';
-      document.getElementById('p-status').value = 'active';
-      document.getElementById('p-inventory-qty').value = '0';
-      document.getElementById('p-vendor').value = 'Mary Humphrey African Wear';
-      document.getElementById('p-media-preview').innerHTML = '';
-      document.getElementById('p-colors-list').innerHTML = '';
-      document.getElementById('p-variants-list').innerHTML = '';
-      setModelMeasurements(null);
-      renderMediaPreview();
-      populateCollectionSelect();
-      populateSizeChartSelect();
-
-      const sizingCard = document.getElementById('p-sizing-card');
-      if (sizingCard) sizingCard.style.display = 'none';
+      document.getElementById('fabric-editor-title').textContent = 'Add Fabric';
+      document.getElementById('fabric-editor-status-badge').textContent = '';
+      document.getElementById('f-sizes').value = '1 Yard, 2 Yards, 6 Yards Bundle';
+      document.getElementById('f-in-stock').value = 'true';
+      document.getElementById('f-status').value = 'active';
+      document.getElementById('f-inventory-qty').value = '0';
+      document.getElementById('f-vendor').value = 'Mary Humphrey African Wear';
+      renderFabricMediaPreview();
 
       document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
-      document.getElementById('section-product-editor').classList.add('active');
+      document.getElementById('section-fabric-editor').classList.add('active');
     };
 
     // Back to list
@@ -2332,69 +2500,250 @@
       document.getElementById('section-product-editor').classList.add('active');
     };
 
-    // ═══════════════ EDIT FABRIC ═══════════════
+    // ═══════════════ EDIT FABRIC (dedicated editor) ═══════════════
     window.editFabric = function (id) {
-      editorSourceSection = 'fabrics';
       const p = fabrics.find(x => x.id === id);
       if (!p) return;
-      document.getElementById('product-editor-title').textContent = p.title;
-      const badge = document.getElementById('product-editor-status-badge');
+
+      document.getElementById('fabric-editor-title').textContent = p.title;
+      const badge = document.getElementById('fabric-editor-status-badge');
       badge.textContent = p.status === 'active' ? 'Active' : 'Draft';
       badge.className = `badge ${p.status === 'active' ? 'badge-green' : 'badge-gray'}`;
 
-      document.getElementById('p-id').value = p.id;
-      document.getElementById('p-title').value = p.title;
-      document.getElementById('p-handle').value = p.handle;
-      document.getElementById('p-product-type').value = p.product_type || 'fabric';
-      document.getElementById('p-vendor').value = p.vendor || '';
-      document.getElementById('p-price').value = p.price;
-      document.getElementById('p-compare-price').value = p.compare_at_price || '';
-      document.getElementById('p-description').value = p.description || '';
-      document.getElementById('p-details').value = p.details || '';
-      document.getElementById('p-images').value = (p.images || []).join(',');
-      document.getElementById('p-sizes').value = (p.sizes || []).join(', ');
-      document.getElementById('p-tags').value = (p.tags || []).join(', ');
-      document.getElementById('p-in-stock').value = p.in_stock ? 'true' : 'false';
-      document.getElementById('p-status').value = p.status || 'active';
-      document.getElementById('p-inventory-qty').value = p.inventory_quantity || 0;
-      document.getElementById('p-seo-title').value = p.seo_title || '';
-      document.getElementById('p-seo-description').value = p.seo_description || '';
+      document.getElementById('f-id').value = p.id;
+      document.getElementById('f-title').value = p.title;
+      document.getElementById('f-handle').value = p.handle || '';
+      document.getElementById('f-vendor').value = p.vendor || '';
+      document.getElementById('f-price').value = p.price || '';
+      document.getElementById('f-compare-price').value = p.compare_at_price || '';
+      document.getElementById('f-description').value = p.description || '';
+      document.getElementById('f-details').value = p.details || '';
+      document.getElementById('f-images').value = (p.images || []).join(',');
+      document.getElementById('f-sizes').value = (p.sizes || []).join(', ');
+      document.getElementById('f-tags').value = (p.tags || []).join(', ');
+      document.getElementById('f-sku').value = p.sku || '';
+      document.getElementById('f-in-stock').value = p.in_stock ? 'true' : 'false';
+      document.getElementById('f-status').value = p.status || 'active';
+      document.getElementById('f-inventory-qty').value = p.inventory_quantity || 0;
+      document.getElementById('f-seo-title').value = p.seo_title || '';
+      document.getElementById('f-seo-description').value = p.seo_description || '';
 
-      // Show image thumbnails
-      renderMediaPreview();
+      // Fabric-specific fields (stored in details or custom columns if available)
+      // Parse from details lines or meta if stored separately
+      document.getElementById('f-material').value = p.material_composition || '';
+      document.getElementById('f-width').value = p.fabric_width || '';
+      document.getElementById('f-pattern').value = p.pattern_type || '';
+      document.getElementById('f-care').value = p.care_instructions || '';
 
-      // Load colour rows
-      const colorsList = document.getElementById('p-colors-list');
-      colorsList.innerHTML = '';
-      (p.colors || []).forEach(c => addColorRow(c.label, c.hex, c.image));
-
-      // Load variant rows
-      const variantsList = document.getElementById('p-variants-list');
-      variantsList.innerHTML = '';
-      supabase.from('product_variants').select('*').eq('product_id', p.id).then(({ data: vars }) => {
-        (vars || []).forEach(v => addVariantRow(v.title, v.sku, v.price, v.stock));
-        if (vars && vars.length > 0 && vars[0].sku) {
-          document.getElementById('p-sku').value = vars[0].sku;
-        }
-      });
-
-      // Sizing
-      document.getElementById('p-fit-note').value = p.fit_note || '';
-      document.getElementById('p-model-wearing-size').value = p.model_wearing_size || '';
-      setModelMeasurements(p.model_measurements);
-
-      const sizingCard = document.getElementById('p-sizing-card');
-      if (sizingCard) sizingCard.style.display = p.product_type === 'fabric' ? 'none' : 'block';
-
-      populateCollectionSelect().then(() => {
-        document.getElementById('p-collection').value = p.collection || '';
-      });
-      populateSizeChartSelect().then(() => {
-        document.getElementById('p-size-chart').value = p.size_chart_id || '';
-      });
+      renderFabricMediaPreview();
 
       document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
-      document.getElementById('section-product-editor').classList.add('active');
+      document.getElementById('section-fabric-editor').classList.add('active');
+    };
+
+    // ═══════════════ BACK FROM FABRIC EDITOR ═══════════════
+    window.backFromFabricEditor = function () {
+      document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('section-fabrics').classList.add('active');
+      loadFabrics();
+    };
+
+    // ═══════════════ FABRIC IMAGE HELPERS ═══════════════
+    function getFabricImageList() {
+      const el = document.getElementById('f-images');
+      if (!el || !el.value.trim()) return [];
+      return el.value.split(',').map(s => s.trim()).filter(Boolean);
+    }
+
+    function setFabricImageList(arr) {
+      const el = document.getElementById('f-images');
+      if (el) el.value = arr.join(',');
+      renderFabricMediaPreview();
+    }
+
+    let fabricSelectedImages = new Set();
+
+    function renderFabricMediaPreview() {
+      const images = getFabricImageList();
+      const preview = document.getElementById('f-media-preview');
+      const emptyZone = document.getElementById('f-media-empty-zone');
+      const addMore = document.getElementById('f-media-add-more');
+      const actions = document.getElementById('f-media-actions');
+      if (!preview) return;
+      fabricSelectedImages = new Set();
+      if (actions) { actions.style.display = 'none'; }
+      if (images.length === 0) {
+        preview.innerHTML = '';
+        if (emptyZone) emptyZone.style.display = '';
+        if (addMore) addMore.style.display = 'none';
+        return;
+      }
+      if (emptyZone) emptyZone.style.display = 'none';
+      if (addMore) addMore.style.display = '';
+      preview.innerHTML = images.map((url, i) => `
+        <div style="position:relative;border-radius:8px;overflow:hidden;background:#f0f0f0;aspect-ratio:1;cursor:pointer;border:2px solid transparent;transition:border-color 0.2s;" id="f-img-wrap-${i}" onclick="toggleFabricImage(${i})">
+          <img src="${url}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          <div style="position:absolute;top:6px;left:6px;width:18px;height:18px;border-radius:4px;background:#fff;border:2px solid #ccc;display:flex;align-items:center;justify-content:center;font-size:1.1rem;" id="f-img-check-${i}"></div>
+          ${i === 0 ? '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);color:#fff;font-size:1.1rem;text-align:center;padding:3px 0;">Cover</div>' : ''}
+        </div>`).join('');
+    }
+
+    window.toggleFabricImage = function(i) {
+      if (fabricSelectedImages.has(i)) {
+        fabricSelectedImages.delete(i);
+        const wrap = document.getElementById(`f-img-wrap-${i}`);
+        if (wrap) wrap.style.borderColor = 'transparent';
+        const chk = document.getElementById(`f-img-check-${i}`);
+        if (chk) chk.innerHTML = '';
+      } else {
+        fabricSelectedImages.add(i);
+        const wrap = document.getElementById(`f-img-wrap-${i}`);
+        if (wrap) wrap.style.borderColor = 'var(--accent, #2c6ecb)';
+        const chk = document.getElementById(`f-img-check-${i}`);
+        if (chk) chk.innerHTML = '✓';
+      }
+      const actions = document.getElementById('f-media-actions');
+      const count = document.getElementById('f-media-selected-count');
+      if (actions) actions.style.display = fabricSelectedImages.size > 0 ? 'flex' : 'none';
+      if (count) count.textContent = `${fabricSelectedImages.size} selected`;
+    };
+
+    window.removeFabricSelectedImages = function() {
+      const images = getFabricImageList();
+      const remaining = images.filter((_, i) => !fabricSelectedImages.has(i));
+      setFabricImageList(remaining);
+    };
+
+    window.addFabricImageUrl = function() {
+      const input = document.getElementById('f-image-url-input');
+      const url = input ? input.value.trim() : '';
+      if (!url) return;
+      const images = getFabricImageList();
+      images.push(url);
+      setFabricImageList(images);
+      if (input) input.value = '';
+    };
+
+    window.uploadFabricImages = async function() {
+      const fileInput = document.getElementById('f-image-upload');
+      const status = document.getElementById('f-upload-status');
+      const files = fileInput.files;
+      if (!files || files.length === 0) return;
+      if (status) status.textContent = 'Compressing & uploading...';
+      const images = getFabricImageList();
+      for (let file of files) {
+        const baseName = file.name.replace(/\.[^/.]+$/, '').replace(/\s+/g, '-').replace(/[^a-zA-Z0-9_-]/g, '');
+        const fileName = Date.now() + '-' + (baseName || 'fabric') + '.webp';
+        try {
+          const { blob } = await compressImageToWebp(file, 100);
+          const { data, error } = await supabase.storage.from('products').upload(fileName, blob);
+          if (error) { alert('Upload error: ' + error.message); continue; }
+          const { data: { publicUrl } } = supabase.storage.from('products').getPublicUrl(fileName);
+          images.push(publicUrl);
+        } catch (err) {
+          console.error(err);
+          alert('Error processing ' + file.name + ': ' + err.message);
+        }
+      }
+      setFabricImageList(images);
+      if (status) status.textContent = 'Upload complete!';
+      fileInput.value = '';
+      setTimeout(() => { if (status) status.textContent = ''; }, 3000);
+    };
+
+    // Drag-and-drop for fabric dropzone
+    (function setupFabricDropzone() {
+      const dz = document.getElementById('f-media-dropzone');
+      if (!dz) return;
+      ['dragenter', 'dragover'].forEach(e => dz.addEventListener(e, ev => {
+        ev.preventDefault(); dz.style.borderColor = 'var(--accent,#2c6ecb)'; dz.style.background = '#f0f7ff';
+      }));
+      ['dragleave', 'drop'].forEach(e => dz.addEventListener(e, ev => {
+        ev.preventDefault(); dz.style.borderColor = ''; dz.style.background = '';
+      }));
+      dz.addEventListener('drop', ev => {
+        const dt = ev.dataTransfer;
+        if (dt.files && dt.files.length > 0) {
+          document.getElementById('f-image-upload').files = dt.files;
+          uploadFabricImages();
+        }
+      });
+    })();
+
+    // ═══════════════ SAVE FABRIC ═══════════════
+    window.saveFabric = async function () {
+      const id = document.getElementById('f-id').value;
+      const title = document.getElementById('f-title').value.trim();
+      if (!title) { toast('Fabric name is required', 'error'); return; }
+
+      let handle = document.getElementById('f-handle').value.trim();
+      if (!handle) {
+        handle = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      }
+
+      const material = document.getElementById('f-material').value.trim();
+      const width    = document.getElementById('f-width').value.trim();
+      const pattern  = document.getElementById('f-pattern').value.trim();
+      const care     = document.getElementById('f-care').value.trim();
+
+      // Build the details text, prepending fabric-specific specs if entered
+      let detailsBase = document.getElementById('f-details').value.trim();
+      // Remove any previously auto-injected spec lines to avoid duplication
+      detailsBase = detailsBase.replace(/^(Material:.*|Width:.*|Pattern:.*|Care:.*)\n?/gm, '').trim();
+      const specLines = [
+        material ? `Material: ${material}` : '',
+        width    ? `Width: ${width}` : '',
+        pattern  ? `Pattern: ${pattern}` : '',
+        care     ? `Care: ${care}` : '',
+      ].filter(Boolean);
+      const details = specLines.length
+        ? specLines.join('\n') + (detailsBase ? '\n' + detailsBase : '')
+        : detailsBase || null;
+
+      const basePayload = {
+        title,
+        handle,
+        product_type: 'fabric',
+        price: parseFloat(document.getElementById('f-price').value) || 0,
+        compare_at_price: parseFloat(document.getElementById('f-compare-price').value) || null,
+        description: document.getElementById('f-description').value.trim(),
+        details,
+        vendor: document.getElementById('f-vendor').value.trim() || 'Mary Humphrey African Wear',
+        status: document.getElementById('f-status').value,
+        images: getFabricImageList(),
+        sizes: document.getElementById('f-sizes').value.split(',').map(s => s.trim()).filter(Boolean),
+        tags: document.getElementById('f-tags').value.split(',').map(s => s.trim()).filter(Boolean),
+        in_stock: document.getElementById('f-in-stock').value === 'true',
+        inventory_quantity: parseInt(document.getElementById('f-inventory-qty').value) || 0,
+        seo_title: document.getElementById('f-seo-title').value.trim() || null,
+        seo_description: document.getElementById('f-seo-description').value.trim() || null,
+      };
+
+      // Try with fabric-specific columns first, fall back without them if DB missing columns
+      const extendedPayload = {
+        ...basePayload,
+        material_composition: material || null,
+        fabric_width: width || null,
+        pattern_type: pattern || null,
+        care_instructions: care || null,
+      };
+
+      let error;
+      const op1 = id
+        ? supabase.from('products').update(extendedPayload).eq('id', id)
+        : supabase.from('products').insert([extendedPayload]);
+      ({ error } = await op1);
+
+      if (error && ['material_composition','fabric_width','pattern_type','care_instructions'].some(c => error.message.includes(c))) {
+        const op2 = id
+          ? supabase.from('products').update(basePayload).eq('id', id)
+          : supabase.from('products').insert([basePayload]);
+        ({ error } = await op2);
+      }
+
+      if (error) { toast(error.message, 'error'); return; }
+      toast(id ? 'Fabric updated!' : 'Fabric created!');
+      backFromFabricEditor();
     };
 
     // ═══════════════ SAVE PRODUCT ═══════════════

@@ -16,6 +16,10 @@ class ProductService {
         // Filter by product_type if specified
         if (filters.product_type) {
             query = query.eq('product_type', filters.product_type);
+        } else if (filters.collection && filters.collection.toLowerCase() === 'fabrics') {
+            query = query.eq('product_type', 'fabric');
+        } else {
+            query = query.neq('product_type', 'fabric');
         }
 
         let { data: allProducts, error } = await query;

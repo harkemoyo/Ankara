@@ -1446,7 +1446,6 @@
         </div>
     </div>
     <script type='module'>
-    import { supabase } from './assets/supabase-client.js';
 
     const FALLBACK_CHART = {
         name: 'General Guide',
@@ -1528,17 +1527,13 @@
             return;
         }
         try {
-            const { data, error } = await supabase
-                .from('size_charts')
-                .select('*')
-                .eq('id', product.size_chart_id)
-                .single();
-            console.log('[loadSizeChart] chart fetch result data:', data, 'error:', error);
-            if (error || !data) {
-                console.error('[loadSizeChart] chart fetch failed or empty:', error);
+            const res = await fetch(`/api/size-charts/${product.size_chart_id}`);
+            if (!res.ok) {
+                console.error('[loadSizeChart] chart fetch failed:', res.statusText);
                 currentChart = normalizeChart(FALLBACK_CHART);
                 return;
             }
+            const data = await res.json();
             currentChart = normalizeChart(data);
         } catch (err) {
             console.error('[loadSizeChart] exception during chart fetch:', err);
@@ -1678,18 +1673,34 @@
         if (waist) measurements.waist = waist;
         if (hips) measurements.hips = hips;
         if (Object.keys(measurements).length === 0) { showCustMsg('Enter at least one measurement', 'error'); return; }
-        const { error } = await supabase.from('customer_measurements').insert({
-            guest_cart_id: getGuestId(),
-            product_id: product.id,
-            measurements,
-            note: note || null
-        });
-        if (error) { showCustMsg('Could not save. Please try again.', 'error'); return; }
-        showCustMsg('Thank you! We will use this to help with sizing.', 'success');
-        document.getElementById('cust-bust').value = '';
-        document.getElementById('cust-waist').value = '';
-        document.getElementById('cust-hips').value = '';
-        document.getElementById('cust-note').value = '';
+        
+        try {
+            const res = await fetch('/api/customer-measurements', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    guest_cart_id: getGuestId(),
+                    product_id: product.id,
+                    measurements,
+                    note: note || null
+                })
+            });
+            if (!res.ok) {
+                const errData = await res.json();
+                showCustMsg(errData.error || 'Could not save. Please try again.', 'error');
+                return;
+            }
+            showCustMsg('Thank you! We will use this to help with sizing.', 'success');
+            document.getElementById('cust-bust').value = '';
+            document.getElementById('cust-waist').value = '';
+            document.getElementById('cust-hips').value = '';
+            document.getElementById('cust-note').value = '';
+        } catch (err) {
+            console.error('Error submitting customer measurements:', err);
+            showCustMsg('Could not save. Please try again.', 'error');
+        }
     };
     </script>
 </body>

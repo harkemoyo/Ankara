@@ -139,15 +139,16 @@ if (cachedSettings) {
 }
 
 // Fetch live settings asynchronously and update cache
-if (supabase) {
-    supabase.from('settings').select('*').eq('id', 1).single().then(({ data, error }) => {
-        if (!error && data) {
+fetch('/api/settings')
+    .then(res => res.ok ? res.json() : null)
+    .then(data => {
+        if (data) {
             localStorage.setItem('mhw_settings_cache', JSON.stringify(data));
             applySettingsToDOM(data);
             window.dispatchEvent(new CustomEvent('settings:loaded', { detail: data }));
         }
-    });
-}
+    })
+    .catch(err => console.error('Error fetching settings:', err));
 
 async function loadSharedTheme() {
     try {

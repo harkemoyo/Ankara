@@ -2,8 +2,6 @@
 // Fetches data from Supabase and renders storefront UI
 // =============================================
 
-import { supabase } from './supabase-client.js';
-
 // Global Filter & Sort State for the Shop Page
 let filterState = {
     collection: 'all',
@@ -23,59 +21,29 @@ async function loadShopProducts() {
 
     grid.innerHTML = '<p style="padding:2rem;text-align:center;">Loading products...</p>';
 
-    // Build query
-    let query = supabase.from('products').select('*').eq('in_stock', true).eq('status', 'active');
+    let products = [];
+    try {
+        const params = new URLSearchParams();
+        if (filterState.collection) params.set('collection', filterState.collection);
+        if (filterState.sortBy) params.set('sort', filterState.sortBy);
+        if (filterState.search) params.set('q', filterState.search);
+        if (filterState.productType) params.set('product_type', filterState.productType);
+        if (filterState.sizes && filterState.sizes.length > 0) params.set('sizes', filterState.sizes.join(','));
+        if (filterState.minPrice) params.set('min_price', filterState.minPrice);
+        if (filterState.maxPrice) params.set('max_price', filterState.maxPrice);
+        
+        // Handle sale page specifically if needed
+        if (window.location.pathname.includes('/sale')) {
+            params.set('collection', 'sale');
+        }
 
-    // Apply sale filter if on sale page
-    if (window.location.pathname.includes('/sale')) {
-        query = query.not('compare_at_price', 'is', null);
-    }
-
-    // Apply search filter
-    if (filterState.search) {
-        query = query.or(`title.ilike.%${filterState.search}%,description.ilike.%${filterState.search}%`);
-    }
-
-    // Apply collection filter
-    if (filterState.collection && filterState.collection !== 'all') {
-        query = query.eq('collection', filterState.collection);
-    }
-    // Apply product_type filter if set
-    if (filterState.productType) {
-        query = query.eq('product_type', filterState.productType);
-    }
-
-    // Apply size filter
-    if (filterState.sizes && filterState.sizes.length > 0) {
-        query = query.overlap('sizes', filterState.sizes);
-    }
-
-    // Apply price filter
-    if (filterState.minPrice > 0) {
-        query = query.gte('price', filterState.minPrice);
-    }
-    if (filterState.maxPrice < 250) {
-        query = query.lte('price', filterState.maxPrice);
-    }
-
-    // Apply sorting
-    if (filterState.sortBy === 'latest') {
-        query = query.order('created_at', { ascending: false });
-    } else if (filterState.sortBy === 'price-asc') {
-        query = query.order('price', { ascending: true });
-    } else if (filterState.sortBy === 'price-desc') {
-        query = query.order('price', { ascending: false });
-    } else {
-        query = query.order('created_at', { ascending: false });
-    }
-
-    let { data: dbProducts } = await query;
-    
-    let products = dbProducts || [];
-
-    // Filter by collection if set
-    if (filterState.collection && filterState.collection !== 'all') {
-        products = products.filter(p => p.collection === filterState.collection);
+        const res = await fetch(`/api/products?${params.toString()}`);
+        if (res.ok) {
+            const data = await res.json();
+            products = data.products || [];
+        }
+    } catch (e) {
+        console.error('Failed to load shop products via API:', e);
     }
 
     if (products.length === 0) {
@@ -157,12 +125,18 @@ window.quickAddToCart = function(handle, title, price, image) {
 // SHOP PAGE — Load collection tabs & sidebar categories
 // =============================================
 async function loadCollectionsData() {
-    const { data: collections } = await supabase
-        .from('collections')
-        .select('*')
-        .order('sort_order');
+    let collections = [];
+    try {
+        const res = await fetch('/api/collections');
+        if (res.ok) {
+            const data = await res.json();
+            collections = data.collections || [];
+        }
+    } catch (e) {
+        console.error('Failed to load collections via API:', e);
+    }
 
-    if (!collections) return;
+    if (collections.length === 0) return;
 
     // 1. Populate top horizontal tabs
     const tabsContainer = document.getElementById('collection-tabs');
@@ -350,37 +324,33 @@ async function loadProductDetails() {
     let product = null;
 
     if (handle) {
-        // Query by handle first using limit(1) to avoid PGRST116 single() errors
-        const { data: handleMatch } = await supabase
-            .from('products')
-            .select('*')
-            .eq('handle', handle)
-            .eq('status', 'active')
-            .limit(1);
-
-        if (handleMatch && handleMatch.length > 0) {
-            product = handleMatch[0];
-        } else if (!isNaN(handle)) {
-            // If handle is numeric, attempt fallback by ID
-            const { data: idMatch } = await supabase
-                .from('products')
-                .select('*')
-                .eq('id', parseInt(handle))
-                .limit(1);
-            if (idMatch && idMatch.length > 0) product = idMatch[0];
+        try {
+            const res = await fetch(`/api/products/${encodeURIComponent(handle)}`);
+            if (res.ok) {
+                product = await res.json();
+            }
+        } catch (e) {
+            console.error('Failed to fetch product details via API:', e);
         }
     }
 
     // Fallback: If no handle provided or product not found by handle, load first active product
     if (!product) {
-        const { data: fallbackList } = await supabase
-            .from('products')
-            .select('*')
-            .eq('status', 'active')
-            .order('id', { ascending: true })
-            .limit(1);
-        if (fallbackList && fallbackList.length > 0) {
-            product = fallbackList[0];
+        try {
+            const res = await fetch('/api/products?limit=1');
+            if (res.ok) {
+                const data = await res.json();
+                if (data.products && data.products.length > 0) {
+                    product = data.products[0];
+                    // Fetch full product details including variants
+                    const detailRes = await fetch(`/api/products/${encodeURIComponent(product.handle)}`);
+                    if (detailRes.ok) {
+                        product = await detailRes.json();
+                    }
+                }
+            }
+        } catch (e) {
+            console.error('Failed to load fallback product details:', e);
         }
     }
 
@@ -390,10 +360,6 @@ async function loadProductDetails() {
         if (section) section.classList.remove('is-loading');
         return;
     }
-
-    // Fetch product variants from DB
-    const { data: vars } = await supabase.from('product_variants').select('*').eq('product_id', product.id);
-    product.variants = vars || [];
 
     // Store product globally for add-to-cart
     window._currentProduct = product;
@@ -596,28 +562,28 @@ async function loadRelatedProducts(product) {
     const grid = document.getElementById('related-products-grid');
     if (!grid) return;
 
-    let query = supabase.from('products').select('*')
-        .eq('status', 'active')
-        .eq('in_stock', true)
-        .neq('id', product.id)
-        .limit(4);
+    let items = [];
+    try {
+        // Fetch up to 5 products in the same collection
+        if (product.collection) {
+            const res = await fetch(`/api/products?collection=${encodeURIComponent(product.collection)}&limit=5`);
+            if (res.ok) {
+                const data = await res.json();
+                items = (data.products || []).filter(p => p.id !== product.id).slice(0, 4);
+            }
+        }
 
-    // Prefer same collection
-    if (product.collection) {
-        query = query.eq('collection', product.collection);
-    }
-
-    const { data: related } = await query;
-
-    // If not enough from same collection, fill with others
-    let items = related || [];
-    if (items.length < 4 && product.collection) {
-        const { data: more } = await supabase.from('products').select('*')
-            .eq('status', 'active').eq('in_stock', true)
-            .neq('id', product.id)
-            .neq('collection', product.collection)
-            .limit(4 - items.length);
-        items = items.concat(more || []);
+        // If not enough items, fallback to fetching general products
+        if (items.length < 4) {
+            const res = await fetch(`/api/products?limit=5`);
+            if (res.ok) {
+                const data = await res.json();
+                const fallbackItems = (data.products || []).filter(p => p.id !== product.id && !items.some(item => item.id === p.id));
+                items = items.concat(fallbackItems).slice(0, 4);
+            }
+        }
+    } catch (e) {
+        console.error('Failed to load related products via API:', e);
     }
 
     if (items.length === 0) {

@@ -109,6 +109,51 @@ router.put('/settings', async (req, res) => {
     }
 });
 
+// Size charts & Customer measurements routes
+router.get('/size-charts/:id', async (req, res) => {
+    try {
+        const { data, error } = await supabaseAdmin
+            .from('size_charts')
+            .select('*')
+            .eq('id', req.params.id)
+            .single();
+        if (error) {
+            console.error('Error fetching size chart:', error.message);
+            return res.status(404).json({ error: 'Size chart not found' });
+        }
+        res.json(data);
+    } catch (error) {
+        console.error('Server error fetching size chart:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.post('/customer-measurements', async (req, res) => {
+    try {
+        const { guest_cart_id, product_id, measurements, note } = req.body;
+        if (!guest_cart_id || !product_id || !measurements) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+        const { data, error } = await supabaseAdmin
+            .from('customer_measurements')
+            .insert({
+                guest_cart_id,
+                product_id,
+                measurements,
+                note: note || null
+            })
+            .select();
+        if (error) {
+            console.error('Error inserting customer measurements:', error.message);
+            return res.status(400).json({ error: error.message });
+        }
+        res.status(201).json({ success: true, data });
+    } catch (error) {
+        console.error('Server error inserting customer measurements:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 // Pages CMS routes
 router.get('/pages', async (req, res) => {
     try {

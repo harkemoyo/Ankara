@@ -1098,7 +1098,7 @@
             </div>
           </div>
           <!-- Size Chart -->
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+          <div id="p-sizing-card" style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
             <label
               style="margin-bottom:12px;display:block;font-size:1.4rem;font-weight:700;text-transform:none;color:var(--text);">Sizing</label>
             <div class="form-group" style="margin-bottom:14px;">
@@ -2193,6 +2193,14 @@
       document.getElementById('p-id').value = '';
       ['p-title', 'p-handle', 'p-product-type', 'p-vendor', 'p-price', 'p-compare-price', 'p-description', 'p-details', 'p-images', 'p-sizes', 'p-tags', 'p-sku', 'p-seo-title', 'p-seo-description', 'p-fit-note', 'p-model-wearing-size']
         .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+      
+      const titleEl = document.getElementById('p-title');
+      if (titleEl) titleEl.placeholder = 'e.g. Royal Blue Ankara Maxi Dress';
+      const descEl = document.getElementById('p-description');
+      if (descEl) descEl.placeholder = 'Product description...';
+      const detailsEl = document.getElementById('p-details');
+      if (detailsEl) detailsEl.placeholder = 'Premium Ankara fabric\nLightweight and breathable\nRelaxed, flowing silhouette';
+
       document.getElementById('p-sizes').value = 'S, M, L, XL, 2XL';
       document.getElementById('p-in-stock').value = 'true';
       document.getElementById('p-status').value = 'active';
@@ -2205,6 +2213,10 @@
       renderMediaPreview();
       populateCollectionSelect();
       populateSizeChartSelect();
+
+      const sizingCard = document.getElementById('p-sizing-card');
+      if (sizingCard) sizingCard.style.display = 'block';
+
       document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
       document.getElementById('section-product-editor').classList.add('active');
     };
@@ -2217,6 +2229,14 @@
       document.getElementById('p-id').value = '';
       ['p-title', 'p-handle', 'p-product-type', 'p-vendor', 'p-price', 'p-compare-price', 'p-description', 'p-details', 'p-images', 'p-sizes', 'p-tags', 'p-sku', 'p-seo-title', 'p-seo-description', 'p-fit-note', 'p-model-wearing-size']
         .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+      
+      const titleEl = document.getElementById('p-title');
+      if (titleEl) titleEl.placeholder = 'e.g. Royal Blue & Gold Kente Print Ankara';
+      const descEl = document.getElementById('p-description');
+      if (descEl) descEl.placeholder = 'Authentic 100% premium cotton Ankara fabric with vibrant wax print...';
+      const detailsEl = document.getElementById('p-details');
+      if (detailsEl) detailsEl.placeholder = '100% Premium Cotton\nHigh-density Wax Print\nWidth: 45 inches\nIdeal for dresses, suits, and accessories';
+
       document.getElementById('p-product-type').value = 'fabric';
       document.getElementById('p-sizes').value = '1 Yard, 2 Yards, 6 Yards Bundle';
       document.getElementById('p-in-stock').value = 'true';
@@ -2230,6 +2250,10 @@
       renderMediaPreview();
       populateCollectionSelect();
       populateSizeChartSelect();
+
+      const sizingCard = document.getElementById('p-sizing-card');
+      if (sizingCard) sizingCard.style.display = 'none';
+
       document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
       document.getElementById('section-product-editor').classList.add('active');
     };
@@ -2359,6 +2383,9 @@
       document.getElementById('p-model-wearing-size').value = p.model_wearing_size || '';
       setModelMeasurements(p.model_measurements);
 
+      const sizingCard = document.getElementById('p-sizing-card');
+      if (sizingCard) sizingCard.style.display = p.product_type === 'fabric' ? 'none' : 'block';
+
       populateCollectionSelect().then(() => {
         document.getElementById('p-collection').value = p.collection || '';
       });
@@ -2430,7 +2457,8 @@
         await supabase.from('product_variants').insert(variantPayloads);
       }
 
-      toast(id ? 'Product updated!' : 'Product created!');
+      const isFabric = editorSourceSection === 'fabrics' || payload.product_type === 'fabric';
+      toast(id ? `${isFabric ? 'Fabric' : 'Product'} updated!` : `${isFabric ? 'Fabric' : 'Product'} created!`);
       backToProducts();
     };
 

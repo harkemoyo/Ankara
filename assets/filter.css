@@ -9952,10 +9952,28 @@ li[data-address]>h2 {
   margin-left: 0 !important;
 }
 
-/* Product Card Action Buttons Overlay (Minimalist Floating Circle Aesthetics) */
+/* Product Card Action Buttons Overlay & Crisp 3:4 Aspect Ratio Fix */
 .product__card--thumbnail {
   position: relative !important;
   overflow: hidden !important;
+  aspect-ratio: 3 / 4 !important;
+  width: 100% !important;
+  background: var(--bg-gray-color, #f5f1ec) !important;
+  border-radius: 6px !important;
+}
+
+.product__card--thumbnail__link {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: relative !important;
+}
+
+.product__card--thumbnail__img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
 }
 
 .product__card--action-btn {

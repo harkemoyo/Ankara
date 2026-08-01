@@ -297,6 +297,16 @@
         "newsletter_desc": "Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.",
         "copyright": "© 2026 Mary Humphrey Wear. All Rights Reserved."
       }
+    },
+    "custom_css": {
+      "type": "custom_css",
+      "enabled": true,
+      "settings": {
+        "primary_color": "#3C3836",
+        "secondary_color": "#bcadae",
+        "bg_color": "#f5f1ec",
+        "custom_css": ""
+      }
     }
   },
   "order": [
@@ -312,6 +322,7 @@
     "statement",
     "testimonials",
     "services",
-    "footer"
+    "footer",
+    "custom_css"
   ]
 }

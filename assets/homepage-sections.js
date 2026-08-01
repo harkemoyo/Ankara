@@ -297,6 +297,21 @@ function escapeHtml(str) {
       const copy = el.querySelector('.copyright__content');
       if (copy) copy.innerHTML = escapeHtml(settings.copyright);
     }
+  },
+
+  custom_css(el, settings) {
+    if (settings.primary_color) document.documentElement.style.setProperty('--primary-color', settings.primary_color);
+    if (settings.secondary_color) document.documentElement.style.setProperty('--secondary-color', settings.secondary_color);
+    if (settings.bg_color) document.documentElement.style.setProperty('--body-background-color', settings.bg_color);
+    if (settings.custom_css) {
+      let styleTag = document.getElementById('dynamic-theme-custom-css');
+      if (!styleTag) {
+        styleTag = document.createElement('style');
+        styleTag.id = 'dynamic-theme-custom-css';
+        document.head.appendChild(styleTag);
+      }
+      styleTag.textContent = settings.custom_css;
+    }
   }
 };
 

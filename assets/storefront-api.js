@@ -386,6 +386,8 @@ async function loadProductDetails() {
 
     if (!product) {
         document.getElementById('dyn-product-title').innerText = 'Product Not Found';
+        const section = document.querySelector('.product__details--section');
+        if (section) section.classList.remove('is-loading');
         return;
     }
 
@@ -583,6 +585,10 @@ async function loadProductDetails() {
             stickyBar.classList.remove('visible');
         }
     });
+
+    // Remove skeleton loading state to reveal real product content
+    const section = document.querySelector('.product__details--section');
+    if (section) section.classList.remove('is-loading');
 }
 
 // Load related products from the same collection

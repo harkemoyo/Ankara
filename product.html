@@ -49,8 +49,74 @@
     <script defer src="assets/supabase-client.js" type="module"></script>
     <script defer src="assets/sale-link.js"></script>
     <style>
-        /* Premium Redesign for Product Details Page */
-        
+        /* Skeleton Loading Shimmer for Product Details Page */
+        .product__details--section {
+            position: relative;
+        }
+        .product-skeleton-overlay {
+            display: none;
+        }
+        .product__details--section.is-loading .product-skeleton-overlay {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            z-index: 10;
+            gap: 4rem;
+            flex-direction: column;
+            padding-block: 1.5rem;
+            padding-inline: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .product__details--section.is-loading .product-skeleton-overlay {
+                flex-direction: row;
+                gap: 5rem;
+            }
+        }
+        .skeleton-shimmer-box {
+            background: linear-gradient(90deg, #f4f4f4 25%, #e8e8e8 50%, #f4f4f4 75%);
+            background-size: 200% 100%;
+            animation: skeletonShimmer 1.5s infinite;
+            border-radius: 4px;
+        }
+        @keyframes skeletonShimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .skeleton-media-preview {
+            width: 100%;
+            max-width: 550px;
+            aspect-ratio: 1 / 1;
+            border-radius: 6px;
+        }
+        .skeleton-info-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 100%;
+        }
+        .skeleton-line-title {
+            height: 38px;
+            width: 80%;
+        }
+        .skeleton-line-price {
+            height: 28px;
+            width: 35%;
+        }
+        .skeleton-line-option {
+            height: 36px;
+            width: 60%;
+        }
+        .skeleton-line-btn {
+            height: 52px;
+            width: 100%;
+            border-radius: 4px;
+        }
+
         /* Breadcrumbs */
         .breadcrumb__section {
             padding-block:  1.5rem !important;
@@ -1147,8 +1213,20 @@
         </section>
 
         <!-- Product Details Section -->
-        <section class="product__details--section">
+        <section class="product__details--section is-loading" id="product-details-section">
             <div class="page-width">
+                <!-- Skeleton Shimmer Placeholder during fetch -->
+                <div class="product-skeleton-overlay" id="product-skeleton-overlay">
+                    <div class="skeleton-media-preview skeleton-shimmer-box"></div>
+                    <div class="skeleton-info-col">
+                        <div class="skeleton-line-title skeleton-shimmer-box"></div>
+                        <div class="skeleton-line-price skeleton-shimmer-box"></div>
+                        <div class="skeleton-line-option skeleton-shimmer-box"></div>
+                        <div class="skeleton-line-option skeleton-shimmer-box"></div>
+                        <div class="skeleton-line-btn skeleton-shimmer-box" style="margin-top: 1rem;"></div>
+                        <div class="skeleton-line-btn skeleton-shimmer-box"></div>
+                    </div>
+                </div>
                 <div class="product-details-grid">
                     <!-- Left: Product Image Gallery -->
                     <div class="product__details--media">

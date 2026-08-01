@@ -753,18 +753,22 @@
                     </label>
                     <hr class="section-divider" />
 
-                    <!-- ── Step 4: M-Pesa Payment ── -->
+                    <!-- ── Step 4: Payment Method ── -->
                     <div class="step-label">Step 4</div>
-                    <h2 class="section-title" style="font-size:1.8rem;">Pay via M-Pesa</h2>
+                    <h2 class="section-title" style="font-size:1.8rem;">Select Payment Method</h2>
 
-                    <div style="display:flex;gap:10px;margin-bottom:18px;">
-                        <label class="shipping-option" style="flex:1;border-color:#4CAF50;">
+                    <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
+                        <label class="shipping-option" style="flex:1;min-width:140px;border-color:#4CAF50;">
                             <input checked name="mpesa_method" type="radio" value="paybill" style="accent-color:#4CAF50;" />
                             <span class="ship-label">Lipa Na M-Pesa (Paybill)</span>
                         </label>
-                        <label class="shipping-option" style="flex:1;">
+                        <label class="shipping-option" style="flex:1;min-width:140px;">
                             <input name="mpesa_method" type="radio" value="send_money" />
                             <span class="ship-label">Send Money</span>
+                        </label>
+                        <label class="shipping-option" style="flex:1;min-width:140px;">
+                            <input name="mpesa_method" type="radio" value="bank_transfer" />
+                            <span class="ship-label">Bank Transfer</span>
                         </label>
                     </div>
 
@@ -818,6 +822,35 @@
                             </div>
                             <div style="padding:4px 0;">
                                 <span style="color:#555;">4. Enter PIN and Confirm</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bank Transfer Instructions -->
+                    <div id="bank-transfer-info" style="display:none;background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:20px 24px;margin-bottom:18px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f57f17" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M9 10v11M13 10v11M17 10v11M12 3L2 7h20l-10-4z"/></svg>
+                            <h3 style="margin:0;font-size:1.5rem;color:#f57f17;font-family:'Karma',serif;">Bank Transfer – Equity Bank</h3>
+                        </div>
+                        <div style="font-size:1.35rem;line-height:2.2;">
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed #ffecb3;padding:4px 0;">
+                                <span style="color:#555;">1. Bank Name</span>
+                                <span style="font-weight:600;">Equity Bank Kenya</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed #ffecb3;padding:4px 0;">
+                                <span style="color:#555;">2. Paybill / Business No.</span>
+                                <span style="font-weight:700;font-size:1.5rem;color:#1a1a1a;letter-spacing:0.05em;">247247</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed #ffecb3;padding:4px 0;">
+                                <span style="color:#555;">3. Account Number</span>
+                                <span style="font-weight:700;font-size:1.5rem;color:#1a1a1a;letter-spacing:0.05em;">687280</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;border-bottom:1px dashed #ffecb3;padding:4px 0;">
+                                <span style="color:#555;">4. Amount</span>
+                                <span style="font-weight:700;font-size:1.5rem;color:#f57f17;" id="bank-amount-send">—</span>
+                            </div>
+                            <div style="padding:4px 0;">
+                                <span style="color:#555;">5. Reference: Use your Full Name or Phone Number</span>
                             </div>
                         </div>
                     </div>
@@ -935,12 +968,14 @@
                 if (totalEl) totalEl.textContent = formatPrice(total);
                 if (shipPriceEl) shipPriceEl.textContent = freeShipping ? 'FREE' : formatPrice(shippingCost);
 
-                // Update M-Pesa amount displays (keep KES formatting specifically for local M-Pesa prompt)
+                // Update M-Pesa & Bank amount displays
                 const mpesaPaybillAmt = document.getElementById('mpesa-amount-paybill');
                 const mpesaSendAmt = document.getElementById('mpesa-amount-send');
+                const bankAmt = document.getElementById('bank-amount-send');
                 const kesTotalText = 'KSh ' + Number(total).toLocaleString('en-KE');
                 if (mpesaPaybillAmt) mpesaPaybillAmt.textContent = kesTotalText;
                 if (mpesaSendAmt) mpesaSendAmt.textContent = kesTotalText;
+                if (bankAmt) bankAmt.textContent = kesTotalText;
 
                 if (freeShipping) {
                     const freeRadio = document.getElementById('ship-free-radio');
@@ -973,18 +1008,15 @@
             window.addEventListener('settings:loaded', renderCheckoutSummary);
             document.addEventListener('DOMContentLoaded', renderCheckoutSummary);
 
-            // ── Toggle M-Pesa method display ──
+            // ── Toggle payment method display ──
             document.querySelectorAll('input[name="mpesa_method"]').forEach(radio => {
                 radio.addEventListener('change', function () {
                     const paybillBox = document.getElementById('mpesa-paybill-info');
                     const sendBox = document.getElementById('mpesa-send-info');
-                    if (this.value === 'paybill') {
-                        paybillBox.style.display = 'block';
-                        sendBox.style.display = 'none';
-                    } else {
-                        paybillBox.style.display = 'none';
-                        sendBox.style.display = 'block';
-                    }
+                    const bankBox = document.getElementById('bank-transfer-info');
+                    if (paybillBox) paybillBox.style.display = this.value === 'paybill' ? 'block' : 'none';
+                    if (sendBox) sendBox.style.display = this.value === 'send_money' ? 'block' : 'none';
+                    if (bankBox) bankBox.style.display = this.value === 'bank_transfer' ? 'block' : 'none';
                 });
             });
 

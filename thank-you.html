@@ -244,9 +244,9 @@
         infoCard.style.border = '1px solid #a5d6a7';
         infoCard.style.background = '#f1f8e9';
         infoCard.innerHTML = `
-          <h2 style="color:#2e7d32; border-bottom-color:#c8e6c9;">M-Pesa Payment Details</h2>
+          <h2 style="color:#2e7d32; border-bottom-color:#c8e6c9;">Payment Details & Instructions</h2>
           <p style="font-size:1.4rem; line-height:1.8; margin-bottom:12px;">
-            To complete your order, please make a payment of <strong>${formatAmount(order.total, order.currency)}</strong> to either of the following accounts:
+            To complete your order, please make a payment of <strong>${formatAmount(order.total, order.currency)}</strong> using any of the following methods:
           </p>
           <div style="display:flex; flex-direction:column; gap:12px; font-size:1.35rem; line-height:2.0;">
             <div style="background:#fff; border:1px solid #e0e0e0; border-radius:6px; padding:12px 16px;">
@@ -255,12 +255,18 @@
               Account Number: <strong>687280</strong>
             </div>
             <div style="background:#fff; border:1px solid #e0e0e0; border-radius:6px; padding:12px 16px;">
-              <strong style="color:#1565c0;">Option 2: Send Money (Personal Mobile)</strong><br>
+              <strong style="color:#1565c0;">Option 2: Send Money (M-Pesa Mobile)</strong><br>
               Phone Number: <strong>0715687280</strong>
+            </div>
+            <div style="background:#fff; border:1px solid #e0e0e0; border-radius:6px; padding:12px 16px;">
+              <strong style="color:#f57f17;">Option 3: Bank Transfer (Equity Bank)</strong><br>
+              Bank Name: <strong>Equity Bank Kenya</strong><br>
+              Paybill / Business No: <strong>247247</strong><br>
+              Account Number: <strong>687280</strong>
             </div>
           </div>
           <p style="font-size:1.25rem; color:#666; margin-top:14px; line-height:1.6;">
-            Once you receive your M-Pesa confirmation SMS, your order will be verified and processed. If you did not enter your confirmation code at checkout, please keep the SMS code ready in case we contact you.
+            Once payment is sent, your order will be verified and processed. If you haven't shared your confirmation code or reference number yet, you can share it via WhatsApp or email.
           </p>
         `;
         const successState = document.getElementById('state-success');

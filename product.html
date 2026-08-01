@@ -1417,17 +1417,22 @@
         });
     </script>
     <script src="assets/storefront-api.js" type="module"></script>
-    <!-- Size Guide Modal -->
+    <!-- Custom Fit & Measurement Modal -->
     <div class='size-guide-overlay' id='size-guide-overlay' onclick='if(event.target === this) closeSizeGuide()'>
-        <div class='size-guide-modal'>
-            <div class='size-guide-header'>
-                <h2 class='size-guide-title' id='size-guide-title'>Garment Measurement Guide</h2>
+        <div class='size-guide-modal' style="max-width: 520px; padding: 2.5rem; border-radius: 8px;">
+            <div class='size-guide-header' style="border-bottom: 1px solid #eee; padding-bottom: 1.5rem; margin-bottom: 1.8rem;">
+                <h2 class='size-guide-title' id='size-guide-title' style="font-family:'Karma',serif; font-size: 2rem;">Custom Fit & Measurements</h2>
                 <button aria-label='close' class='size-guide-close' onclick='closeSizeGuide()' type='button'>&#215;</button>
             </div>
-            <div class='size-guide-body' id='size-guide-body'></div>
-            <div class='size-guide-customer' id='size-guide-customer'>
-                <h4>Find Your Fit</h4>
-                <p>Enter your measurements (cm) and we'll use them to help with sizing.</p>
+
+            <!-- Product Garment Spec Summary Box from Backend -->
+            <div id="modal-product-specs" style="background:#f8f5f2; border:1px solid #e8dfd8; border-radius:6px; padding:1.4rem; margin-bottom:2rem; font-size:1.3rem; line-height:1.6; display:none;">
+                <strong style="color:var(--primary-color);">Item Specs:</strong> <span id="modal-spec-text"></span>
+            </div>
+
+            <div class='size-guide-customer' id='size-guide-customer' style="padding:0;">
+                <h4 style="font-family:'Karma',serif; font-size: 1.6rem; margin-bottom: 0.6rem;">Find Your Exact Fit</h4>
+                <p style="font-size: 1.3rem; color: #666; margin-bottom: 1.6rem;">Enter your custom measurements (cm) and we'll use them to tailor your fit.</p>
                 <div class='size-guide-inputs'>
                     <input type='text' id='cust-bust' placeholder='Bust (cm)' />
                     <input type='text' id='cust-waist' placeholder='Waist (cm)' />
@@ -1436,7 +1441,7 @@
                 <textarea id='cust-note' placeholder='Optional notes (e.g. between sizes, fit preference)'></textarea>
                 <button class='size-guide-submit' onclick='submitCustomerMeasurements()' type='button'>Submit My Measurements</button>
                 <p class='size-guide-msg' id='cust-msg'></p>
-                <p style='font-size:1.1rem;color:var(--foreground-sub-color);margin-top:0.8rem;'>Used only to help you find your size — not shared.</p>
+                <p style='font-size:1.1rem;color:var(--foreground-sub-color);margin-top:0.8rem;'>Used only to help us tailor your exact size — kept private.</p>
             </div>
         </div>
     </div>
@@ -1573,12 +1578,34 @@
 
     function renderSizeGuideModal() {
         const overlay = document.getElementById('size-guide-overlay');
-        const body = document.getElementById('size-guide-body');
         const title = document.getElementById('size-guide-title');
-        console.log('[renderSizeGuideModal] currentChart:', currentChart ? { name: currentChart.name, id: currentChart.id } : null);
-        if (!overlay || !body || !title || !currentChart) return;
-        title.textContent = 'Garment Measurement Guide' + (currentChart.name ? ' — ' + currentChart.name : '');
-        body.innerHTML = buildTable(currentChart, currentSize || currentChart.sizes[0]);
+        const product = window._currentProduct;
+        if (!overlay || !title) return;
+        
+        title.textContent = 'Custom Fit & Measurements';
+
+        const specBox = document.getElementById('modal-product-specs');
+        const specText = document.getElementById('modal-spec-text');
+        if (specBox && specText && product) {
+            const parts = [];
+            if (product.model_wearing_size) parts.push('Model wearing size <strong>' + product.model_wearing_size + '</strong>');
+            if (product.model_measurements && typeof product.model_measurements === 'object') {
+                const m = product.model_measurements;
+                const info = [];
+                if (m.height) info.push('height ' + m.height + 'cm');
+                if (m.bust) info.push('bust ' + m.bust + 'cm');
+                if (m.waist) info.push('waist ' + m.waist + 'cm');
+                if (m.hips) info.push('hips ' + m.hips + 'cm');
+                if (info.length) parts.push('(' + info.join(', ') + ')');
+            }
+            if (parts.length) {
+                specText.innerHTML = parts.join(' ');
+                specBox.style.display = 'block';
+            } else {
+                specBox.style.display = 'none';
+            }
+        }
+
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
     }

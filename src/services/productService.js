@@ -18,7 +18,7 @@ class ProductService {
             const end = start + limit - 1;
             const { data, count, error } = await supabaseAnon
                 .from('products')
-                .select('id,title,handle,price,compare_at_price,images', { count: 'exact' })
+                .select('id,title,handle,price,compare_at_price,images,supports_custom_measurements', { count: 'exact' })
                 .eq('product_type', filters.product_type)
                 .order('id', { ascending: false })
                 .range(start, end);

@@ -59,6 +59,9 @@ async function loadShopProducts() {
         if (isSalePage) {
             badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#ED1D24; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">Sale</span>`;
         }
+        if (product.supports_custom_measurements) {
+            badgeHtml += `<span class="product__badge" style="top:10px; left:10px; right:auto; background:#25d366; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">📏 Made to Measure</span>`;
+        }
         const colors = product.colors || [];
 
         return `
@@ -387,10 +390,13 @@ async function loadProductDetails() {
     window.addEventListener('currency:changed', renderPrice);
     window.addEventListener('settings:loaded', renderPrice);
 
-    // Collection label above title (Shopify-style)
+    // Collection label / Made to Measure badge above title
     const badgeEl = document.getElementById('dyn-product-badge');
     if (badgeEl) {
-        if (product.product_type || product.vendor) {
+        if (product.supports_custom_measurements) {
+            badgeEl.textContent = '📏 Made to Measure';
+            badgeEl.style.display = 'block';
+        } else if (product.product_type || product.vendor) {
             badgeEl.textContent = product.product_type || product.vendor;
             badgeEl.style.display = 'block';
         } else {
@@ -473,6 +479,22 @@ async function loadProductDetails() {
         
         const stickySize = document.getElementById('sticky-selection-size');
         if (stickySize) stickySize.innerText = `Size: ${product.sizes[0]}`;
+    }
+
+    // Custom measurements CTA
+    const customCtaId = 'custom-measurements-cta';
+    document.getElementById(customCtaId)?.remove();
+    if (product.supports_custom_measurements) {
+        const phone = window.WHATSAPP_NUMBER || window.STORE_CONFIG?.WHATSAPP_NUMBER || '254700000000';
+        const productName = encodeURIComponent(product.title || 'this item');
+        const message = encodeURIComponent(`Hello Mary Humphrey African Wear! 👋\n\nI'm interested in the ${product.title || 'this item'} and would like it made to my measurements. Could you please guide me through the measurement process, pricing, and estimated production time?\n\nThank you!`);
+        const cta = document.createElement('div');
+        cta.id = customCtaId;
+        cta.innerHTML = `
+            <p style="margin:1.2rem 0 0.6rem;font-size:1.3rem;color:var(--foreground-sub-color);">✨ Need a perfect fit? This design can be tailored to your exact measurements.</p>
+            <a href="https://wa.me/${phone}?text=${message}" target="_blank" class="btn btn-outline" style="display:inline-flex;align-items:center;gap:0.6rem;text-decoration:none;">📏 Request Custom Size</a>
+        `;
+        if (sizeContainer) sizeContainer.after(cta);
     }
     
     // Set sticky buy bar elements

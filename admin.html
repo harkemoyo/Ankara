@@ -868,12 +868,13 @@
               <th>Inventory</th>
               <th>Category</th>
               <th>Vendor</th>
+              <th>Custom</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody id="products-tbody">
             <tr>
-              <td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td>
+              <td colspan="8" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td>
             </tr>
           </tbody>
         </table>
@@ -1150,6 +1151,17 @@
                 <input id="p-mm-hips" type="text" placeholder="Hips (cm)" />
               </div>
             </div>
+          </div>
+          <!-- Product Options -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+            <label
+              style="margin-bottom:12px;display:block;font-size:1.4rem;font-weight:700;text-transform:none;color:var(--text);">Product
+              Options</label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:1.4rem;">
+              <input id="p-supports-custom-measurements" type="checkbox" value="1" style="width:18px;height:18px;" />
+              Available for Custom Measurements
+            </label>
+            <span class="helper-text" style="display:block;margin-top:6px;">Enable this if this product can be tailored to the customer's measurements.</span>
           </div>
         </div>
       </div>
@@ -2018,7 +2030,7 @@
 
     async function loadProducts() {
       const tbody = document.getElementById('products-tbody');
-      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
       const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
       if (error) { toast('Failed to load products', 'error'); return; }
       products = (data || []).filter(p => (p.product_type || '').toLowerCase() !== 'fabric');
@@ -2028,7 +2040,7 @@
     function renderProductList(list) {
       const tbody = document.getElementById('products-tbody');
       if (list.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">No products found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--muted);">No products found.</td></tr>';
         return;
       }
       tbody.innerHTML = list.map(p => {
@@ -2045,6 +2057,7 @@
       <td>${invText}</td>
       <td>${p.product_type || '—'}</td>
       <td style="font-size:1.2rem;">${p.vendor || '—'}</td>
+      <td style="text-align:center;">${p.supports_custom_measurements ? '✅' : '❌'}</td>
       <td style="white-space:nowrap;" onclick="event.stopPropagation();">
         <button class="btn btn-ghost btn-sm" onclick="window.editProduct(${p.id})">Edit</button>
         <button class="btn btn-danger btn-sm" style="margin-left:6px;" onclick="window.deleteProduct(${p.id})">Del</button>
@@ -2300,6 +2313,7 @@
       document.getElementById('p-status').value = 'active';
       document.getElementById('p-inventory-qty').value = '0';
       document.getElementById('p-vendor').value = 'Mary Humphrey African Wear';
+      document.getElementById('p-supports-custom-measurements').checked = false;
       document.getElementById('p-media-preview').innerHTML = '';
       document.getElementById('p-colors-list').innerHTML = '';
       document.getElementById('p-variants-list').innerHTML = '';
@@ -2526,6 +2540,7 @@
       // Sizing
       document.getElementById('p-fit-note').value = p.fit_note || '';
       document.getElementById('p-model-wearing-size').value = p.model_wearing_size || '';
+      document.getElementById('p-supports-custom-measurements').checked = p.supports_custom_measurements || false;
       setModelMeasurements(p.model_measurements);
 
       populateCollectionSelect().then(() => {
@@ -2830,6 +2845,7 @@
         fit_note: document.getElementById('p-fit-note').value.trim() || null,
         model_wearing_size: document.getElementById('p-model-wearing-size').value.trim() || null,
         model_measurements: modelMeasurementsVal,
+        supports_custom_measurements: document.getElementById('p-supports-custom-measurements').checked,
       };
 
       const { data: savedProduct, error } = id

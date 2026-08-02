@@ -706,6 +706,22 @@
       display: block !important;
     }
   </style>
+  <script>
+    (async function applyAdminTheme() {
+      try {
+        const res = await fetch('/api/theme');
+        if (!res.ok) return;
+        const { theme } = await res.json();
+        if (!theme || !theme.sections) return;
+        const buttons = theme.sections.buttons?.settings || {};
+        const root = document.documentElement;
+        if (buttons.primary_color) root.style.setProperty('--accent', buttons.primary_color);
+        if (buttons.hover_color) root.style.setProperty('--accent-hover', buttons.hover_color);
+      } catch (e) {
+        console.error('Failed to apply admin theme colors', e);
+      }
+    })();
+  </script>
 </head>
 
 <body>

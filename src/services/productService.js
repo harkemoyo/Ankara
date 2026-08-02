@@ -9,6 +9,31 @@ class ProductService {
      * Fetch products and compute facets dynamically based on filters.
      */
     async getProducts(filters = {}) {
+        // Fast path for simple product_type + pagination (e.g. fabrics page)
+        // This avoids pulling every row into memory just to slice the first few.
+        if (filters.product_type && filters.limit) {
+            const page = parseInt(filters.page) || 1;
+            const limit = parseInt(filters.limit) || 12;
+            const start = (page - 1) * limit;
+            const end = start + limit - 1;
+            const { data, count, error } = await supabaseAnon
+                .from('products')
+                .select('id,title,handle,price,compare_at_price,images', { count: 'exact' })
+                .eq('product_type', filters.product_type)
+                .order('id', { ascending: false })
+                .range(start, end);
+            if (error) throw new Error(error.message);
+            return {
+                products: data || [],
+                facets: { colors: [], sizes: [], vendor: [], availability: [] },
+                pagination: {
+                    total: count || 0,
+                    page,
+                    totalPages: Math.ceil((count || 0) / limit) || 1
+                }
+            };
+        }
+
         let query = supabaseAnon.from('products').select('*');
 
         // We fetch all products and perform collection filtering in memory to support tag-based and sale collections robustly.

@@ -466,17 +466,12 @@
 
             async function fetchFabrics() {
                 try {
-                    const start = (currentPage - 1) * perPage;
-                    const end = start + perPage - 1;
-                    const { data, count, error } = await supabase
-                        .from('products')
-                        .select('id,title,handle,price,compare_at_price,images', { count: 'exact' })
-                        .eq('product_type', 'fabric')
-                        .order('id', { ascending: false })
-                        .range(start, end);
-                    if (error) throw error;
-                    loadedFabrics = data || [];
-                    totalCount = count || 0;
+                    const response = await fetch(`/api/products?product_type=fabric&limit=${perPage}&page=${currentPage}`);
+                    if (!response.ok) throw new Error('Failed to fetch fabrics');
+                    const data = await response.json();
+
+                    loadedFabrics = data.products || [];
+                    totalCount = data.pagination ? data.pagination.total : (data.products || []).length;
                     renderFabrics();
                 } catch (error) {
                     console.error('Error loading fabrics:', error);

@@ -1452,6 +1452,11 @@
           <label>Section Title</label>
           <input id="about-different-title" type="text" placeholder="Comfort Meets Culture" />
         </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>Featured Product Handle</label>
+          <input id="about-featured-product" type="text" placeholder="e.g. ankara-two-piece-set" />
+          <small style="display:block;color:var(--muted);margin-top:4px;font-size:1.1rem;">When set, this section displays the product instead of the image/text below.</small>
+        </div>
         <div class="form-group" style="margin-bottom:24px;">
           <label>Section Image</label>
           <div ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadSectionImage(event.dataTransfer.files[0],'about-different-image','about-different-image-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:16px;background:var(--background,#fafafa);text-align:center;margin-bottom:10px;">
@@ -3405,6 +3410,7 @@
 
         set('about-different-subtitle', c.differentSubtitle || 'What Makes Us Different');
         set('about-different-title', c.differentTitle || 'Comfort Meets Culture');
+        set('about-featured-product', c.featuredProduct || '');
         set('about-different-text-1', c.differentText1 || 'Our clothing stands out thanks to premium, lightweight African fabrics combined with flexible, modern tailoring. The result? Long-lasting comfort without compromising on style.');
         set('about-different-text-2', c.differentText2 || 'Whether it’s a statement set, a flowing dress, or a casual staple, we design fashion that’s easy to wear, fun, and truly built for everyday life.');
         set('about-different-image', c.differentImage || 'assets/IMG-20260622-WA0032.webp');
@@ -3444,6 +3450,7 @@
           value3Text: get('about-value-3-text'),
           differentSubtitle: get('about-different-subtitle'),
           differentTitle: get('about-different-title'),
+          featuredProduct: get('about-featured-product'),
           differentText1: get('about-different-text-1'),
           differentText2: get('about-different-text-2'),
           differentImage: get('about-different-image'),

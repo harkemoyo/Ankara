@@ -548,12 +548,19 @@
     <script type="module">
         import { supabase } from './assets/supabase-client.js';
 
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>'"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[m]));
+        }
+
         function initAboutPage() {
             if (typeof GLightbox === 'function') {
                 GLightbox({ selector: '.glightbox' });
             }
 
+            let currentContent = {};
+
             function updateDOM(story) {
+                currentContent = story || {};
                 document.querySelectorAll('[data-story]').forEach(el => {
                     const key = el.getAttribute('data-story');
                     const value = story[key];
@@ -571,6 +578,44 @@
                         el.textContent = value;
                     }
                 });
+                if (story.featuredProduct) loadFeaturedProduct(story.featuredProduct);
+            }
+
+            function loadFeaturedProduct(handle) {
+                fetch('/api/products/' + encodeURIComponent(handle))
+                    .then(res => res.ok ? res.json() : null)
+                    .then(product => {
+                        if (!product) return;
+                        const section = document.querySelector('.about__different');
+                        if (!section) return;
+                        let firstImage = '';
+                        if (Array.isArray(product.images)) firstImage = product.images[0];
+                        else if (typeof product.images === 'string') {
+                            try { const parsed = JSON.parse(product.images); firstImage = Array.isArray(parsed) ? parsed[0] : product.images; } catch (e) { firstImage = product.images; }
+                        }
+                        firstImage = firstImage || product.image || '';
+                        const price = product.price || (product.variants && product.variants[0] ? product.variants[0].price : '');
+                        const currency = (typeof window !== 'undefined' && window.currencySettings && window.currencySettings.symbol) || '$';
+                        const subtitle = currentContent.differentSubtitle || 'What Makes Us Different';
+                        const title = currentContent.differentTitle || 'Comfort Meets Culture';
+                        section.innerHTML = `
+                            <div class="about__different--inner">
+                                <div class="about__different--image">
+                                    <a href="/product/${encodeURIComponent(handle)}">
+                                        <img alt="${escapeHtml(product.title)}" src="${firstImage}" />
+                                    </a>
+                                </div>
+                                <div class="about__different--content">
+                                    <span class="about__different--subtitle">${escapeHtml(subtitle)}</span>
+                                    <h2 class="about__different--title">${escapeHtml(title)}</h2>
+                                    <h3 style="margin:0 0 8px;font-size:1.5rem;">${escapeHtml(product.title)}</h3>
+                                    <p class="price" style="font-size:1.3rem;font-weight:600;color:var(--primary-color);margin-bottom:12px;">${currency}${price}</p>
+                                    <p class="about__different--text" style="margin-bottom:16px;">${escapeHtml(product.description || '')}</p>
+                                    <a href="/product/${encodeURIComponent(handle)}" class="btn btn-primary">View Product</a>
+                                </div>
+                            </div>`;
+                    })
+                    .catch(err => console.warn('Failed to load featured product', err));
             }
 
             // 1. Initial Load via REST API

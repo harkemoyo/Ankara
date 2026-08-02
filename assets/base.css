@@ -17082,3 +17082,48 @@ body.body .header__section {
 .currency-switcher option {
   color: black;
 }
+
+
+/* ── Two-column header mega-menu ── */
+.header__sub--menu.mega-menu {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  min-width: 420px;
+  width: 420px;
+  padding: 2rem 2.5rem;
+}
+
+.mega-menu .mega-col {
+  padding: 0;
+}
+
+.mega-menu__heading {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary-color);
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.mega-col__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mega-col__list .header__sub--menu__items {
+  margin-bottom: 0.4rem;
+}
+
+.mega-col__list .header__sub--menu__link {
+  padding: 0.4rem 0;
+  font-size: 1.4rem;
+  line-height: 2rem;
+}

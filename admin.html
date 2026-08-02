@@ -1074,6 +1074,16 @@
                 <option value="">— None —</option>
               </select>
             </div>
+            <div class="form-group" style="margin-bottom:14px;">
+              <label>Gender</label>
+              <select id="p-gender">
+                <option value="">— None —</option>
+                <option value="menswear">Menswear</option>
+                <option value="womenswear">Womenswear</option>
+                <option value="unisex">Unisex</option>
+              </select>
+              <small style="display:block;margin-top:4px;color:var(--muted);font-size:1.1rem;">Adds Menswear / Womenswear tags so the product appears under those collections.</small>
+            </div>
             <div class="form-group">
               <label>Tags (comma-separated)</label>
               <input id="p-tags" placeholder="new-arrival, ankara, dress" type="text" />
@@ -2080,12 +2090,13 @@
       renderFabricList(filtered);
     };
 
-    // Populate collection dropdown
+    // Populate collection dropdown from database
     async function populateCollectionSelect() {
       const sel = document.getElementById('p-collection');
       const { data } = await supabase.from('collections').select('handle,title').order('sort_order');
+      const db = data || [];
       sel.innerHTML = '<option value="">— None —</option>' +
-        (data || []).map(c => `<option value="${c.handle}">${c.title}</option>`).join('');
+        db.map(c => `<option value="${c.handle}">${c.title}</option>`).join('');
     }
 
     // Show full-page product editor (add mode)
@@ -2253,7 +2264,7 @@
       document.getElementById('product-editor-title').textContent = 'Add Product';
       document.getElementById('product-editor-status-badge').textContent = '';
       document.getElementById('p-id').value = '';
-      ['p-title', 'p-handle', 'p-product-type', 'p-vendor', 'p-price', 'p-compare-price', 'p-description', 'p-details', 'p-images', 'p-sizes', 'p-tags', 'p-sku', 'p-seo-title', 'p-seo-description', 'p-fit-note', 'p-model-wearing-size']
+      ['p-title', 'p-handle', 'p-product-type', 'p-vendor', 'p-price', 'p-compare-price', 'p-description', 'p-details', 'p-images', 'p-sizes', 'p-tags', 'p-gender', 'p-sku', 'p-seo-title', 'p-seo-description', 'p-fit-note', 'p-model-wearing-size']
         .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
       
       const titleEl = document.getElementById('p-title');
@@ -2461,7 +2472,12 @@
       document.getElementById('p-details').value = p.details || '';
       document.getElementById('p-images').value = (p.images || []).join(',');
       document.getElementById('p-sizes').value = (p.sizes || []).join(', ');
-      document.getElementById('p-tags').value = (p.tags || []).join(', ');
+      const genderTags = ['menswear', 'womenswear'];
+      const otherTags = (p.tags || []).filter(t => !genderTags.includes(t));
+      document.getElementById('p-tags').value = otherTags.join(', ');
+      const hasMen = (p.tags || []).includes('menswear');
+      const hasWomen = (p.tags || []).includes('womenswear');
+      document.getElementById('p-gender').value = (hasMen && hasWomen) ? 'unisex' : hasMen ? 'menswear' : hasWomen ? 'womenswear' : '';
       document.getElementById('p-in-stock').value = p.in_stock ? 'true' : 'false';
       document.getElementById('p-status').value = p.status || 'active';
       document.getElementById('p-inventory-qty').value = p.inventory_quantity || 0;
@@ -2761,6 +2777,15 @@
         handle = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
       }
 
+      const gender = document.getElementById('p-gender').value;
+      const finalTags = document.getElementById('p-tags').value
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean)
+        .filter(t => !['menswear','womenswear'].includes(t));
+      if (gender === 'menswear' || gender === 'unisex') finalTags.push('menswear');
+      if (gender === 'womenswear' || gender === 'unisex') finalTags.push('womenswear');
+
       const payload = {
         title,
         handle,
@@ -2775,7 +2800,7 @@
         images: getImageList(),
         sizes: document.getElementById('p-sizes').value.split(',').map(s => s.trim()).filter(Boolean),
         colors: colorsVal,
-        tags: document.getElementById('p-tags').value.split(',').map(s => s.trim()).filter(Boolean),
+        tags: finalTags,
         in_stock: document.getElementById('p-in-stock').value === 'true',
         inventory_quantity: parseInt(document.getElementById('p-inventory-qty').value) || 0,
         seo_title: document.getElementById('p-seo-title').value.trim() || null,

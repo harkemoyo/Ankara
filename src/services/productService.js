@@ -192,6 +192,9 @@ class ProductService {
 
         return [
             { handle: 'all', title: 'All Products' },
+            { handle: 'menswear', title: 'Menswear' },
+            { handle: 'womenswear', title: 'Womenswear' },
+            { handle: 'fabrics', title: 'Fabrics' },
             { handle: 'dresses', title: 'Dresses' },
             { handle: 'tops', title: 'Tops & Hoodies' },
             { handle: 'pants', title: 'Pants & Joggers' },

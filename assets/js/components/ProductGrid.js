@@ -56,13 +56,10 @@ export default class ProductGrid {
             return pathParts[1].replace('.html', '');
         }
 
-        // 2. Resolve from a clean root handle only if it is a real backend collection
+        // 2. Resolve from any clean root handle (e.g. /menswear) as a tag-based collection
         const first = pathParts[0]?.replace('.html', '').toLowerCase() || '';
-        const knownCollections = new Set((this.collections || []).map(c => c.handle));
         if (first && !['shop', 'fabric', 'product', 'products', 'about', 'contact', 'sale'].includes(first)) {
-            if (knownCollections.has(first)) {
-                return first;
-            }
+            return first;
         }
 
         // 3. Fallback to ?collection= query parameter
@@ -118,6 +115,13 @@ export default class ProductGrid {
         }
     }
 
+    humanizeHandle(handle) {
+        return handle
+            .split(/[-_]/)
+            .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(' ');
+    }
+
     updateTitleAndBreadcrumbs() {
         const collectionHandle = this.resolveCollectionHandle();
 
@@ -128,10 +132,7 @@ export default class ProductGrid {
 
         if (collectionHandle && collectionHandle !== 'all') {
             const collection = this.collections.find(c => c.handle === collectionHandle);
-            const isKnownCollection = collection || collectionHandle === 'sale';
-            const collectionTitle = isKnownCollection 
-                ? (collection ? collection.title : (collectionHandle === 'sale' ? 'Sale' : collectionHandle))
-                : 'Collection Not Found';
+            const collectionTitle = collection ? collection.title : (collectionHandle === 'sale' ? 'Sale' : this.humanizeHandle(collectionHandle));
 
             // Update Page Heading
             titleEl.textContent = collectionTitle;
@@ -198,7 +199,12 @@ export default class ProductGrid {
 
     renderEmpty() {
         const collectionHandle = this.resolveCollectionHandle();
-        const isKnownCollection = !collectionHandle || collectionHandle === 'all' || collectionHandle === 'sale' || this.collections.some(c => c.handle === collectionHandle);
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        const isKnownCollection = !collectionHandle ||
+            collectionHandle === 'all' ||
+            collectionHandle === 'sale' ||
+            this.collections.some(c => c.handle === collectionHandle) ||
+            (pathParts.length === 1 && !['shop','fabric','product','products','about','contact'].includes(pathParts[0]));
 
         const container = this.createEl('div', 'empty-state text-center');
         

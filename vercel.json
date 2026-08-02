@@ -33,7 +33,7 @@
     { "src": "/shop/([^/]+)", "dest": "/shop.html" },
     { "src": "/product/([^/]+)", "dest": "/product.html" },
     { "src": "/products/([^/]+)", "dest": "/product.html" },
-    { "src": "/(menswear|womenswear|new-arrivals)", "dest": "/shop.html?collection=$1" },
+    { "src": "/(menswear|womenswear|unisex|new-arrivals)", "dest": "/shop.html?collection=$1" },
     { "src": "/(.*\\.html)", "dest": "/$1" },
     { "src": "/", "dest": "/index.html" },
     { "src": "/fabric", "dest": "/material.html" },

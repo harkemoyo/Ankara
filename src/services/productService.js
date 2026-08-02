@@ -113,8 +113,12 @@ class ProductService {
                 return (p.compare_at_price && parseFloat(p.compare_at_price) > parseFloat(p.price)) || (p.tags && p.tags.map(t => t.toLowerCase()).includes('sale'));
             }
             const colLower = filters.collection.toLowerCase();
+            const pTags = (p.tags || []).map(t => t.toLowerCase());
+            if (colLower === 'unisex') {
+                return pTags.includes('menswear') && pTags.includes('womenswear');
+            }
             return (p.collection && p.collection.toLowerCase() === colLower) || 
-                   (p.tags && p.tags.map(t => t.toLowerCase()).includes(colLower));
+                   pTags.includes(colLower);
         };
 
         // Filter the final products list
@@ -219,6 +223,7 @@ class ProductService {
             { handle: 'all', title: 'All Products' },
             { handle: 'menswear', title: 'Menswear' },
             { handle: 'womenswear', title: 'Womenswear' },
+            { handle: 'unisex', title: 'Unisex' },
             { handle: 'fabrics', title: 'Fabrics' },
             { handle: 'dresses', title: 'Dresses' },
             { handle: 'tops', title: 'Tops & Hoodies' },

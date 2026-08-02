@@ -60,7 +60,7 @@ export default class ProductGrid {
         const first = pathParts[0]?.replace('.html', '').toLowerCase() || '';
         const knownCollections = new Set((this.collections || []).map(c => c.handle));
         if (first && !['shop', 'fabric', 'product', 'products', 'about', 'contact', 'sale'].includes(first)) {
-            if (knownCollections.has(first) || first === 'menswear' || first === 'womenswear' || first === 'new-arrivals') {
+            if (knownCollections.has(first) || ['menswear','womenswear','unisex','new-arrivals'].includes(first)) {
                 return first;
             }
         }

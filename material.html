@@ -444,6 +444,7 @@
                         </div>
                     </div>
                 </div>
+                <div id="fabrics-pagination" class="material__pagination" style="display:flex;justify-content:center;align-items:center;gap:0.8rem;margin-top:3rem;flex-wrap:wrap;"></div>
             </div>
         </section>
     </main>
@@ -458,6 +459,9 @@
         document.addEventListener("DOMContentLoaded", () => {
             const grid = document.getElementById('fabrics-grid');
             let loadedFabrics = [];
+            let currentPage = 1;
+            const perPage = 4;
+            const pagination = document.getElementById('fabrics-pagination');
 
             async function fetchFabrics() {
                 try {
@@ -479,15 +483,24 @@
 
             function renderFabrics() {
                 if (!grid) return;
-                if (loadedFabrics.length === 0) {
+                const totalPages = Math.ceil(loadedFabrics.length / perPage) || 1;
+                if (currentPage > totalPages) currentPage = totalPages;
+
+                const start = (currentPage - 1) * perPage;
+                const pageFabrics = loadedFabrics.slice(start, start + perPage);
+
+                if (pageFabrics.length === 0) {
                     grid.innerHTML = `<div class="col-12 text-center" style="grid-column: 1/-1; padding: 3rem;">
                         <p style="font-size: 1.6rem; color: #555;">No fabrics found.</p>
                     </div>`;
+                    if (pagination) pagination.innerHTML = '';
                     return;
                 }
 
-                grid.innerHTML = loadedFabrics.map((fabric) => {
+                const isFirstPage = currentPage === 1;
+                grid.innerHTML = pageFabrics.map((fabric, index) => {
                     const primaryImage = fabric.images && fabric.images[0] ? fabric.images[0] : 'assets/DSC02676.jpg';
+                    const loading = isFirstPage && index < perPage ? 'eager' : 'lazy';
                     const priceFormatted = window.AnkaraCurrency 
                         ? window.AnkaraCurrency.convertAndFormat(fabric.price) 
                         : `KSh ${parseFloat(fabric.price).toLocaleString()}`;
@@ -503,7 +516,7 @@
                     return `
                     <article class="material__card">
                         <a href="product.html?handle=${fabric.handle}" style="display: block; flex: 1; overflow: hidden; position: relative;">
-                            <img src="${primaryImage}" alt="${fabric.title}" class="material__card--img" />
+                            <img src="${primaryImage}" alt="${fabric.title}" loading="${loading}" class="material__card--img" />
                         </a>
                         <div class="material__card--info" style="padding: 2rem 1.5rem; text-align: center; border-top: 1px solid var(--border-color); background: #fff;">
                             <h3 style="font-size: 1.6rem; color: var(--primary-color); margin-bottom: 0.8rem; font-family: var(--font-heading); font-weight: 600;">
@@ -520,6 +533,35 @@
                     </article>
                     `;
                 }).join('');
+
+                if (!pagination) return;
+
+                let controls = '';
+                if (currentPage > 1) {
+                    controls += `<button class="material__pagination--btn" data-page="${currentPage - 1}" style="padding:0.8rem 1.2rem;background:#f7f7f7;border:1px solid var(--border-color,#e5e5e5);border-radius:6px;cursor:pointer;font-size:1.3rem;">Prev</button>`;
+                }
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i === currentPage) {
+                        controls += `<span class="material__pagination--current" style="padding:0.8rem 1.2rem;background:#800020;color:#fff;border-radius:6px;font-size:1.3rem;">${i}</span>`;
+                    } else {
+                        controls += `<button class="material__pagination--btn" data-page="${i}" style="padding:0.8rem 1.2rem;background:#f7f7f7;border:1px solid var(--border-color,#e5e5e5);border-radius:6px;cursor:pointer;font-size:1.3rem;">${i}</button>`;
+                    }
+                }
+                if (currentPage < totalPages) {
+                    controls += `<button class="material__pagination--btn" data-page="${currentPage + 1}" style="padding:0.8rem 1.2rem;background:#f7f7f7;border:1px solid var(--border-color,#e5e5e5);border-radius:6px;cursor:pointer;font-size:1.3rem;">Next</button>`;
+                }
+                pagination.innerHTML = controls;
+            }
+
+            // Handle pagination clicks
+            if (pagination) {
+                pagination.addEventListener('click', (e) => {
+                    const btn = e.target.closest('button');
+                    if (!btn || !btn.dataset.page) return;
+                    currentPage = parseInt(btn.dataset.page, 10);
+                    renderFabrics();
+                    grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
             }
 
             // Fetch initial fabrics

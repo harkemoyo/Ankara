@@ -464,14 +464,37 @@
 
             async function fetchFabrics() {
                 try {
-                    const response = await fetch(`/api/products?product_type=fabric&limit=${perPage}&page=${currentPage}`);
-                    if (!response.ok) throw new Error('Failed to fetch fabrics');
-                    const data = await response.json();
+                    const firstApiPage = 2 * (currentPage - 1) + 1;
+                    const firstRes = await fetch(`/api/products?product_type=fabric&limit=4&page=${firstApiPage}`);
+                    if (!firstRes.ok) throw new Error('Failed to fetch first fabrics');
+                    const firstData = await firstRes.json();
 
-                    loadedFabrics = data.products || [];
-                    totalCount = data.pagination ? data.pagination.total : (data.products || []).length;
+                    loadedFabrics = firstData.products || [];
+                    totalCount = firstData.pagination ? firstData.pagination.total : 0;
+
+                    if (loadedFabrics.length === 0) {
+                        grid.innerHTML = `<div class="col-12 text-center" style="grid-column: 1/-1; padding: 3rem;">
+                            <p style="font-size: 1.6rem; color: #555;">No fabrics found.</p>
+                        </div>`;
+                        if (pagination) pagination.innerHTML = '';
+                        return;
+                    }
+
                     saveCache(loadedFabrics, totalCount);
-                    renderFabrics();
+                    renderProductCards(loadedFabrics, false);
+                    renderPagination();
+
+                    const secondApiPage = 2 * currentPage;
+                    const secondRes = await fetch(`/api/products?product_type=fabric&limit=4&page=${secondApiPage}`);
+                    if (!secondRes.ok) throw new Error('Failed to fetch remaining fabrics');
+                    const secondData = await secondRes.json();
+
+                    const chunk2 = secondData.products || [];
+                    if (chunk2.length > 0) {
+                        loadedFabrics = [...loadedFabrics, ...chunk2];
+                        saveCache(loadedFabrics, totalCount);
+                        renderProductCards(chunk2, true);
+                    }
                 } catch (error) {
                     console.error('Error loading fabrics:', error);
                     if (grid) {
@@ -482,29 +505,17 @@
                 }
             }
 
-            function renderFabrics() {
-                if (!grid) return;
-                const totalPages = Math.ceil(totalCount / perPage) || 1;
-                if (currentPage > totalPages) currentPage = totalPages;
-
-                const pageFabrics = loadedFabrics;
-
-                if (pageFabrics.length === 0) {
-                    grid.innerHTML = `<div class="col-12 text-center" style="grid-column: 1/-1; padding: 3rem;">
-                        <p style="font-size: 1.6rem; color: #555;">No fabrics found.</p>
-                    </div>`;
-                    if (pagination) pagination.innerHTML = '';
-                    return;
-                }
-
+            function renderProductCards(products, append) {
+                if (!grid || products.length === 0) return;
                 const isFirstPage = currentPage === 1;
-                grid.innerHTML = pageFabrics.map((fabric, index) => {
+                const html = products.map((fabric, index) => {
+                    const actualIndex = append ? (loadedFabrics.length - products.length) + index : index;
                     const primaryImage = fabric.images && fabric.images[0] ? fabric.images[0] : 'assets/DSC02676.jpg';
-                    const loading = isFirstPage && index < 4 ? 'eager' : 'lazy';
+                    const loading = isFirstPage && actualIndex < 4 ? 'eager' : 'lazy';
                     const priceFormatted = window.AnkaraCurrency 
                         ? window.AnkaraCurrency.convertAndFormat(fabric.price) 
                         : `KSh ${parseFloat(fabric.price).toLocaleString()}`;
-                    
+
                     const compareFormatted = fabric.compare_at_price && parseFloat(fabric.compare_at_price) > parseFloat(fabric.price)
                         ? `<span class="old__price" style="text-decoration: line-through; color: #999; margin-left: 8px; font-size: 1.3rem;">${
                             window.AnkaraCurrency 
@@ -514,9 +525,9 @@
                         : '';
 
                     return `
-                    <article class="material__card">decoding="async" 
+                    <article class="material__card">
                         <a href="product.html?handle=${fabric.handle}" style="display: block; flex: 1; overflow: hidden; position: relative;">
-                            <img src="${primaryImage}" alt="${fabric.title}" loading="${loading}" class="material__card--img" />
+                            <img src="${primaryImage}" alt="${fabric.title}" loading="${loading}" decoding="async" class="material__card--img" />
                         </a>
                         <div class="material__card--info" style="padding: 2rem 1.5rem; text-align: center; border-top: 1px solid var(--border-color); background: #fff;">
                             <h3 style="font-size: 1.6rem; color: var(--primary-color); margin-bottom: 0.8rem; font-family: var(--font-heading); font-weight: 600;">
@@ -534,7 +545,17 @@
                     `;
                 }).join('');
 
+                if (append) {
+                    grid.insertAdjacentHTML('beforeend', html);
+                } else {
+                    grid.innerHTML = html;
+                }
+            }
+
+            function renderPagination() {
                 if (!pagination) return;
+                const totalPages = Math.ceil(totalCount / perPage) || 1;
+                if (currentPage > totalPages) currentPage = totalPages;
 
                 let controls = '';
                 const burgundy = 'var(--primary-color, #800020)';
@@ -552,6 +573,19 @@
                     controls += `<button class="material__pagination--btn" data-page="${currentPage + 1}" style="padding:0.8rem 1.2rem;background:#fff;color:${burgundy};border:1px solid ${burgundy};border-radius:6px;cursor:pointer;font-size:1.3rem;font-weight:600;">Next</button>`;
                 }
                 pagination.innerHTML = controls;
+            }
+
+            function renderFabrics() {
+                if (!grid) return;
+                if (loadedFabrics.length === 0) {
+                    grid.innerHTML = `<div class="col-12 text-center" style="grid-column: 1/-1; padding: 3rem;">
+                        <p style="font-size: 1.6rem; color: #555;">No fabrics found.</p>
+                    </div>`;
+                    if (pagination) pagination.innerHTML = '';
+                    return;
+                }
+                renderProductCards(loadedFabrics, false);
+                renderPagination();
             }
 
             // Handle pagination clicks

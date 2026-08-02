@@ -10,12 +10,29 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 
 const router = express.Router();
 const productController = require('../controllers/productController');
 
+// Admin-only auth middleware
+async function requireAdmin(req, res, next) {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'Unauthorized: missing token' });
+    try {
+        const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
+        if (error) throw error;
+        if (user?.app_metadata?.role !== 'admin') {
+            return res.status(403).json({ error: 'Forbidden: admin only' });
+        }
+        req.user = user;
+        next();
+    } catch (err) {
+        return res.status(401).json({ error: 'Invalid or expired token' });
+    }
+}
+
 // Product, Collection & Theme routes
 router.get('/products', productController.getProducts);
 router.get('/products/:handle', productController.getProductByHandle);
 router.get('/collections', productController.getCollections);
 router.get('/theme', productController.getTheme);
-router.put('/theme', productController.updateTheme);
+router.put('/theme', requireAdmin, productController.updateTheme);
 router.get('/sale-check', productController.hasSaleProducts);
 
 const sharp = require('sharp');
@@ -53,7 +70,7 @@ async function processImageToWebpUnder100KB(buffer) {
 
 // Trigger redeployment with updated Vercel environment variables
 // Homepage image upload — stores in Supabase Storage products/homepage/
-router.post('/upload/homepage', upload.single('file'), async (req, res) => {
+router.post('/upload/homepage', requireAdmin, upload.single('file'), async (req, res) => {
     try {
         if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
         const baseName = req.file.originalname.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
@@ -88,7 +105,7 @@ router.get('/settings', async (req, res) => {
     }
 });
 
-router.put('/settings', async (req, res) => {
+router.put('/settings', requireAdmin, async (req, res) => {
     try {
         const { store_name, currency, announcement, logo, exchange_rate, announcements, story } = req.body;
         const payload = {
@@ -175,7 +192,7 @@ router.get('/pages/:slug', async (req, res) => {
     }
 });
 
-router.post('/pages', async (req, res) => {
+router.post('/pages', requireAdmin, async (req, res) => {
     try {
         const { slug, title, content } = req.body;
         const { data, error } = await supabaseAdmin.from('pages').insert([{ slug, title, content }]).select().single();
@@ -186,7 +203,7 @@ router.post('/pages', async (req, res) => {
     }
 });
 
-router.put('/pages/:slug', async (req, res) => {
+router.put('/pages/:slug', requireAdmin, async (req, res) => {
     try {
         const { title, content } = req.body;
         const { data, error } = await supabaseAdmin.from('pages')
@@ -201,7 +218,7 @@ router.put('/pages/:slug', async (req, res) => {
     }
 });
 
-router.delete('/pages/:slug', async (req, res) => {
+router.delete('/pages/:slug', requireAdmin, async (req, res) => {
     try {
         const { error } = await supabaseAdmin.from('pages').delete().eq('slug', req.params.slug);
         if (error) throw error;

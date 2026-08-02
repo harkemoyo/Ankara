@@ -67,13 +67,6 @@ export default class ProductCard {
             thumbnailWrap.appendChild(badge);
         }
 
-        if (product.supports_custom_measurements) {
-            const mtmBadge = this.createEl('span', 'product__card--badge', {
-                style: 'position:absolute;top:10px;left:10px;background:#25d366;color:#fff;padding:0 8px;line-height:22px;height:22px;font-size:1.1rem;font-weight:600;border-radius:2px;'
-            }, '📏 Made to Measure');
-            thumbnailWrap.appendChild(mtmBadge);
-        }
-
         // Action overlay buttons on hover
         if (product.in_stock) {
             // Quick Add to Cart button

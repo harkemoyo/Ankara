@@ -59,9 +59,6 @@ async function loadShopProducts() {
         if (isSalePage) {
             badgeHtml = `<span class="product__badge" style="top:10px; right:10px; left:auto; background:#ED1D24; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">Sale</span>`;
         }
-        if (product.supports_custom_measurements) {
-            badgeHtml += `<span class="product__badge" style="top:10px; left:10px; right:auto; background:#25d366; color:#fff; width:auto; padding:0 8px; line-height:22px; height:22px; font-weight:600;">📏 Made to Measure</span>`;
-        }
         const colors = product.colors || [];
 
         return `
@@ -390,13 +387,10 @@ async function loadProductDetails() {
     window.addEventListener('currency:changed', renderPrice);
     window.addEventListener('settings:loaded', renderPrice);
 
-    // Collection label / Made to Measure badge above title
+    // Collection label above title (no Made to Measure badge)
     const badgeEl = document.getElementById('dyn-product-badge');
     if (badgeEl) {
-        if (product.supports_custom_measurements) {
-            badgeEl.textContent = '📏 Made to Measure';
-            badgeEl.style.display = 'block';
-        } else if (product.product_type || product.vendor) {
+        if (product.product_type || product.vendor) {
             badgeEl.textContent = product.product_type || product.vendor;
             badgeEl.style.display = 'block';
         } else {
@@ -481,20 +475,85 @@ async function loadProductDetails() {
         if (stickySize) stickySize.innerText = `Size: ${product.sizes[0]}`;
     }
 
-    // Custom measurements CTA
-    const customCtaId = 'custom-measurements-cta';
+    // Order method CTA (replaces old custom measurements CTA)
+    const customCtaId = 'order-method-cta';
     document.getElementById(customCtaId)?.remove();
-    if (product.supports_custom_measurements) {
-        const phone = window.WHATSAPP_NUMBER || window.STORE_CONFIG?.WHATSAPP_NUMBER || '254700000000';
-        const productName = encodeURIComponent(product.title || 'this item');
-        const message = encodeURIComponent(`Hello Mary Humphrey African Wear! 👋\n\nI'm interested in the ${product.title || 'this item'} and would like it made to my measurements. Could you please guide me through the measurement process, pricing, and estimated production time?\n\nThank you!`);
-        const cta = document.createElement('div');
-        cta.id = customCtaId;
-        cta.innerHTML = `
-            <p style="margin:1.2rem 0 0.6rem;font-size:1.3rem;color:var(--foreground-sub-color);">✨ Need a perfect fit? This design can be tailored to your exact measurements.</p>
-            <a href="https://wa.me/${phone}?text=${message}" target="_blank" class="btn btn-outline" style="display:inline-flex;align-items:center;gap:0.6rem;text-decoration:none;">📏 Request Custom Size</a>
-        `;
-        if (sizeContainer) sizeContainer.after(cta);
+
+    // Helper: get WhatsApp number from settings, fallback to config
+    function getWhatsAppNumber() {
+        const settings = window.__ankaraSettings || {};
+        return (settings.whatsapp || window.STORE_CONFIG?.WHATSAPP_NUMBER || window.WHATSAPP_NUMBER || '254700000000').replace(/\D/g, '');
+    }
+
+    // Helper: check if WhatsApp is enabled in settings
+    function isWhatsAppEnabled() {
+        const settings = window.__ankaraSettings || {};
+        return settings.whatsapp_enabled !== false;
+    }
+
+    // Store settings globally when settings:loaded fires
+    window.addEventListener('settings:loaded', (e) => {
+        if (e.detail) window.__ankaraSettings = e.detail;
+    });
+
+    const orderMethod = product.order_method || 'standard';
+
+    if (orderMethod !== 'standard' && isWhatsAppEnabled()) {
+        const phone = getWhatsAppNumber();
+        const productName = product.title || 'this item';
+        const selectedSize = window._selectedSize || '';
+        const selectedColor = window._selectedColor || '';
+
+        if (orderMethod === 'standard_plus_custom') {
+            // Small text link below size selector
+            let msg = `Hello Mary Humphrey African Wear! 👋\n\nI'm interested in the ${productName} and would like it made to my measurements. Could you please guide me through the measurement process, pricing, and estimated production time?\n\nThank you!`;
+            if (selectedSize) msg += `\n\nSelected Size: ${selectedSize}`;
+            if (selectedColor) msg += `\nSelected Color: ${selectedColor}`;
+            const encodedMsg = encodeURIComponent(msg);
+            const cta = document.createElement('div');
+            cta.id = customCtaId;
+            cta.innerHTML = `
+                <p style="margin:1.2rem 0 0.6rem;font-size:1.3rem;color:var(--foreground-sub-color);">Need a custom fit? This design can be tailored to your exact measurements.</p>
+                <a href="https://wa.me/${phone}?text=${encodedMsg}" target="_blank" style="display:inline-flex;align-items:center;gap:0.6rem;text-decoration:none;color:#25d366;font-size:1.3rem;font-weight:600;">💬 Contact us on WhatsApp</a>
+            `;
+            if (sizeContainer) sizeContainer.after(cta);
+            else if (colourContainer) colourContainer.after(cta);
+        } else if (orderMethod === 'whatsapp_only') {
+            // Hide Add to Cart and Buy Now buttons only (keep size/color selectors visible)
+            const addBtn = document.querySelector('.btn-add-to-cart');
+            const buyBtn = document.querySelector('.btn-buy-now');
+            if (addBtn) addBtn.style.display = 'none';
+            if (buyBtn) buyBtn.style.display = 'none';
+
+            // Build WhatsApp message
+            let msg = `Hello Mary Humphrey African Wear! 👋\n\nI'm interested in ordering the ${productName}.\n\nThis product requires custom measurements, and I'd like to proceed with a made-to-measure order.\n\nPlease guide me through the measurement process, pricing, and production time.\n\nThank you!`;
+            if (selectedSize) msg += `\n\nPreferred Size: ${selectedSize}`;
+            if (selectedColor) msg += `\nSelected Color: ${selectedColor}`;
+            const encodedMsg = encodeURIComponent(msg);
+
+            // Create info box + WhatsApp button
+            const cta = document.createElement('div');
+            cta.id = customCtaId;
+            cta.style.marginTop = '1.5rem';
+            cta.innerHTML = `
+                <div style="background:#f9f9f9;border:1px solid var(--border-color,#e5e5e5);border-radius:var(--radius,4px);padding:1.2rem 1.4rem;margin-bottom:1rem;">
+                    <p style="margin:0 0 0.8rem;font-size:1.3rem;font-weight:600;color:var(--foreground-color,#333);">How ordering works</p>
+                    <ol style="margin:0;padding-left:1.4rem;font-size:1.25rem;line-height:1.8;color:var(--foreground-sub-color,#666);">
+                        <li>Click "Order via WhatsApp"</li>
+                        <li>Confirm your measurements (if needed)</li>
+                        <li>We tailor your order</li>
+                        <li>We arrange payment and delivery</li>
+                    </ol>
+                </div>
+                <a href="https://wa.me/${phone}?text=${encodedMsg}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:0.6rem;background:#25d366;color:#fff;width:100%;padding:16px;border:none;border-radius:var(--radius,4px);font-size:1.5rem;font-weight:600;cursor:pointer;text-decoration:none;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    💬 Order via WhatsApp
+                </a>
+            `;
+            const buttonsContainer = document.querySelector('.buttons-container');
+            if (buttonsContainer) buttonsContainer.appendChild(cta);
+            else if (sizeContainer) sizeContainer.after(cta);
+        }
     }
     
     // Set sticky buy bar elements

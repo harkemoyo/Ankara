@@ -107,7 +107,7 @@ router.get('/settings', async (req, res) => {
 
 router.put('/settings', requireAdmin, async (req, res) => {
     try {
-        const { store_name, currency, announcement, logo, exchange_rate, announcements, story } = req.body;
+        const { store_name, currency, announcement, logo, exchange_rate, announcements, story, whatsapp, whatsapp_enabled, whatsapp_label } = req.body;
         const payload = {
             store_name,
             currency,
@@ -116,6 +116,9 @@ router.put('/settings', requireAdmin, async (req, res) => {
             exchange_rate,
             announcements,
             story,
+            whatsapp,
+            whatsapp_enabled,
+            whatsapp_label,
             updated_at: new Date().toISOString()
         };
         const { data, error } = await supabaseAdmin.from('settings').upsert({ id: 1, ...payload }).select().single();

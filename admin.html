@@ -868,7 +868,7 @@
               <th>Inventory</th>
               <th>Category</th>
               <th>Vendor</th>
-              <th>Custom</th>
+              <th>Order Method</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -1155,13 +1155,14 @@
           <!-- Product Options -->
           <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
             <label
-              style="margin-bottom:12px;display:block;font-size:1.4rem;font-weight:700;text-transform:none;color:var(--text);">Product
-              Options</label>
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:1.4rem;">
-              <input id="p-supports-custom-measurements" type="checkbox" value="1" style="width:18px;height:18px;" />
-              Available for Custom Measurements
-            </label>
-            <span class="helper-text" style="display:block;margin-top:6px;">Enable this if this product can be tailored to the customer's measurements.</span>
+              style="margin-bottom:12px;display:block;font-size:1.4rem;font-weight:700;text-transform:none;color:var(--text);">Order
+              Method</label>
+            <select id="p-order-method" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--radius);font-size:1.4rem;">
+              <option value="standard">Standard Checkout Only</option>
+              <option value="standard_plus_custom">Standard Checkout + Custom Measurements</option>
+              <option value="whatsapp_only">WhatsApp Order Only (Custom Tailoring)</option>
+            </select>
+            <span class="helper-text" style="display:block;margin-top:6px;">Controls how customers can order this product. "WhatsApp Only" hides Add to Cart and routes orders through WhatsApp.</span>
           </div>
         </div>
       </div>
@@ -1334,6 +1335,20 @@
         <div class="form-group" style="margin-bottom:20px;">
           <label>Logo URL</label>
           <input id="setting-logo" placeholder="assets/logo.webp" type="text" />
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>WhatsApp Number (international format, no +)</label>
+          <input id="setting-whatsapp" placeholder="e.g. 254715687280" type="text" />
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:1.4rem;">
+            <input id="setting-whatsapp-enabled" type="checkbox" style="width:18px;height:18px;" checked />
+            Enable WhatsApp ordering & enquiry buttons
+          </label>
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>WhatsApp Button Label</label>
+          <input id="setting-whatsapp-label" placeholder="e.g. WhatsApp Enquiry" type="text" />
         </div>
         <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
       </div>
@@ -2057,7 +2072,7 @@
       <td>${invText}</td>
       <td>${p.product_type || '—'}</td>
       <td style="font-size:1.2rem;">${p.vendor || '—'}</td>
-      <td style="text-align:center;">${p.supports_custom_measurements ? '✅' : '❌'}</td>
+      <td style="text-align:center;font-size:1.2rem;">${p.order_method === 'whatsapp_only' ? 'WhatsApp' : p.order_method === 'standard_plus_custom' ? 'Std+Custom' : 'Standard'}</td>
       <td style="white-space:nowrap;" onclick="event.stopPropagation();">
         <button class="btn btn-ghost btn-sm" onclick="window.editProduct(${p.id})">Edit</button>
         <button class="btn btn-danger btn-sm" style="margin-left:6px;" onclick="window.deleteProduct(${p.id})">Del</button>
@@ -2313,7 +2328,7 @@
       document.getElementById('p-status').value = 'active';
       document.getElementById('p-inventory-qty').value = '0';
       document.getElementById('p-vendor').value = 'Mary Humphrey African Wear';
-      document.getElementById('p-supports-custom-measurements').checked = false;
+      document.getElementById('p-order-method').value = 'whatsapp_only';
       document.getElementById('p-media-preview').innerHTML = '';
       document.getElementById('p-colors-list').innerHTML = '';
       document.getElementById('p-variants-list').innerHTML = '';
@@ -2540,7 +2555,7 @@
       // Sizing
       document.getElementById('p-fit-note').value = p.fit_note || '';
       document.getElementById('p-model-wearing-size').value = p.model_wearing_size || '';
-      document.getElementById('p-supports-custom-measurements').checked = p.supports_custom_measurements || false;
+      document.getElementById('p-order-method').value = p.order_method || 'standard';
       setModelMeasurements(p.model_measurements);
 
       populateCollectionSelect().then(() => {
@@ -2845,7 +2860,7 @@
         fit_note: document.getElementById('p-fit-note').value.trim() || null,
         model_wearing_size: document.getElementById('p-model-wearing-size').value.trim() || null,
         model_measurements: modelMeasurementsVal,
-        supports_custom_measurements: document.getElementById('p-supports-custom-measurements').checked,
+        order_method: document.getElementById('p-order-method').value,
       };
 
       const { data: savedProduct, error } = id
@@ -3358,6 +3373,9 @@
         document.getElementById('setting-currency').value = data.currency || 'KSh';
         document.getElementById('setting-announcement').value = data.announcement || '';
         document.getElementById('setting-logo').value = data.logo || '';
+        document.getElementById('setting-whatsapp').value = data.whatsapp || '';
+        document.getElementById('setting-whatsapp-enabled').checked = data.whatsapp_enabled !== false;
+        document.getElementById('setting-whatsapp-label').value = data.whatsapp_label || 'WhatsApp Enquiry';
       } catch (error) {
         toast('Failed to load settings', 'error');
       }
@@ -3370,7 +3388,10 @@
           store_name: get('setting-store-name'),
           currency: get('setting-currency'),
           announcement: get('setting-announcement'),
-          logo: get('setting-logo')
+          logo: get('setting-logo'),
+          whatsapp: get('setting-whatsapp'),
+          whatsapp_enabled: document.getElementById('setting-whatsapp-enabled').checked,
+          whatsapp_label: get('setting-whatsapp-label')
         };
         const session = (await supabase.auth.getSession()).data.session;
         const response = await fetch('/api/settings', {

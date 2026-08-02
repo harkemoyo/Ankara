@@ -43,6 +43,7 @@
     <script defer src="assets/global.js"></script>
     <script defer src="assets/announcement.js"></script>
     <script defer src="assets/supabase-client.js" type="module"></script>
+    <script defer src="assets/js/components/core.js" type="module"></script>
     <script defer src="assets/forms-handler.js" type="module"></script>
     <script defer src="assets/sale-link.js"></script>
 </head>
@@ -418,7 +419,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="fabrics-pagination" class="material__pagination" style="display:flex;justify-content:center;align-items:center;gap:0.8rem;margin-top:3rem;flex-wrap:wrap;"></div>
+                <div id="fabrics-pagination" class="pagination__area"></div>
             </div>
         </section>
     </main>
@@ -535,9 +536,9 @@
                                 <span>${priceFormatted}</span>
                                 ${compareFormatted}
                             </div>
-                            <a href="product.html?handle=${fabric.handle}" style="display: inline-block; width: 100%; padding: 10px 14px; font-size: 1.3rem; font-weight: 600; color: var(--primary-color, #111); background: #f7f7f7; border: 1px solid var(--border-color, #e5e5e5); border-radius: 6px; text-decoration: none; margin-top: 10px; transition: all 0.2s ease;">
+                            <button type="button" class="js-fabric-quickview" data-handle="${fabric.handle}" style="display: inline-block; width: 100%; padding: 10px 14px; font-size: 1.3rem; font-weight: 600; color: var(--primary-color, #111); background: #f7f7f7; border: 1px solid var(--border-color, #e5e5e5); border-radius: 6px; text-decoration: none; margin-top: 10px; transition: all 0.2s ease; cursor: pointer;">
                                 View Fabric
-                            </a>
+                            </button>
                         </div>
                     </article>
                     `;
@@ -555,22 +556,50 @@
                 const totalPages = Math.ceil(totalCount / perPage) || 1;
                 if (currentPage > totalPages) currentPage = totalPages;
 
-                let controls = '';
-                const burgundy = 'var(--primary-color, #800020)';
-                if (currentPage > 1) {
-                    controls += `<button class="material__pagination--btn" data-page="${currentPage - 1}" style="padding:0.8rem 1.2rem;background:#fff;color:${burgundy};border:1px solid ${burgundy};border-radius:6px;cursor:pointer;font-size:1.3rem;font-weight:600;">Prev</button>`;
+                if (totalPages <= 1) {
+                    pagination.innerHTML = '';
+                    pagination.style.display = 'none';
+                    return;
                 }
+
+                pagination.style.display = 'block';
+
+                const prevArrow = `<svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>`;
+                const nextArrow = `<svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M268 112l144 144-144 144M392 256H100"/></svg>`;
+
+                let pageNumbers = '';
                 for (let i = 1; i <= totalPages; i++) {
                     if (i === currentPage) {
-                        controls += `<span class="material__pagination--current" style="padding:0.8rem 1.2rem;background:${burgundy};color:#fff;border:1px solid ${burgundy};border-radius:6px;font-size:1.3rem;font-weight:600;">${i}</span>`;
+                        pageNumbers += `<li class="pagination__list"><span class="pagination__item pagination__item--current">${i}</span></li>`;
                     } else {
-                        controls += `<button class="material__pagination--btn" data-page="${i}" style="padding:0.8rem 1.2rem;background:#fff;color:${burgundy};border:1px solid ${burgundy};border-radius:6px;cursor:pointer;font-size:1.3rem;font-weight:600;">${i}</button>`;
+                        pageNumbers += `<li class="pagination__list"><button type="button" class="pagination__item link" data-page="${i}">${i}</button></li>`;
                     }
                 }
-                if (currentPage < totalPages) {
-                    controls += `<button class="material__pagination--btn" data-page="${currentPage + 1}" style="padding:0.8rem 1.2rem;background:#fff;color:${burgundy};border:1px solid ${burgundy};border-radius:6px;cursor:pointer;font-size:1.3rem;font-weight:600;">Next</button>`;
-                }
-                pagination.innerHTML = controls;
+
+                const prevDisabled = currentPage <= 1 ? 'disabled' : '';
+                const prevData = currentPage > 1 ? `data-page="${currentPage - 1}"` : '';
+                const nextDisabled = currentPage >= totalPages ? 'disabled' : '';
+                const nextData = currentPage < totalPages ? `data-page="${currentPage + 1}"` : '';
+
+                pagination.innerHTML = `
+                    <nav class="pagination">
+                        <ul class="pagination__wrapper">
+                            <li class="pagination__list">
+                                <button type="button" class="pagination__item pagination__item--arrow link ${prevDisabled}" ${prevData} style="${currentPage <= 1 ? 'opacity:0.5;cursor:not-allowed;' : ''}">
+                                    ${prevArrow}
+                                    <span class="visually-hidden">page left arrow</span>
+                                </button>
+                            </li>
+                            ${pageNumbers}
+                            <li class="pagination__list">
+                                <button type="button" class="pagination__item pagination__item--arrow link ${nextDisabled}" ${nextData} style="${currentPage >= totalPages ? 'opacity:0.5;cursor:not-allowed;' : ''}">
+                                    ${nextArrow}
+                                    <span class="visually-hidden">page right arrow</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                `;
             }
 
             function renderFabrics() {
@@ -594,6 +623,19 @@
                     currentPage = parseInt(btn.dataset.page, 10);
                     fetchFabrics();
                     grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            }
+
+            // Open existing quick-view popup when View Fabric is clicked
+            if (grid) {
+                grid.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.js-fabric-quickview');
+                    if (!btn) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.dispatchEvent(new CustomEvent('quickview:open', {
+                        detail: { handle: btn.dataset.handle }
+                    }));
                 });
             }
 

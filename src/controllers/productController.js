@@ -29,6 +29,12 @@ class ProductController {
             };
 
             const result = await productService.getProducts(filters);
+
+            // Cache the public paginated fabrics/shop-type endpoints for a short time
+            if (filters.product_type && filters.limit) {
+                res.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+            }
+
             res.json(result);
         } catch (error) {
             console.error('Error in getProducts:', error);

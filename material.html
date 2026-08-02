@@ -30,6 +30,8 @@
     <meta name="twitter:image" content="https://maryhumphreywear.org/og-image.jpg">
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link rel="preconnect" href="https://oscqakcygvvtjngbuhbw.supabase.co" crossorigin>
+    <link rel="dns-prefetch" href="https://oscqakcygvvtjngbuhbw.supabase.co">
     <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&amp;family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;display=swap" rel="stylesheet" />
     <link href="assets/base.css" rel="stylesheet" />
     <link href="assets/filter.css" rel="stylesheet" />
@@ -515,7 +517,7 @@
                         : '';
 
                     return `
-                    <article class="material__card">
+                    <article class="material__card">decoding="async" 
                         <a href="product.html?handle=${fabric.handle}" style="display: block; flex: 1; overflow: hidden; position: relative;">
                             <img src="${primaryImage}" alt="${fabric.title}" loading="${loading}" class="material__card--img" />
                         </a>

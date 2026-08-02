@@ -459,17 +459,24 @@
         document.addEventListener("DOMContentLoaded", () => {
             const grid = document.getElementById('fabrics-grid');
             let loadedFabrics = [];
+            let totalCount = 0;
             let currentPage = 1;
             const perPage = 4;
             const pagination = document.getElementById('fabrics-pagination');
 
             async function fetchFabrics() {
                 try {
-                    const response = await fetch('/api/products?product_type=fabric');
-                    if (!response.ok) throw new Error('Failed to fetch fabrics');
-                    const data = await response.json();
-                    
-                    loadedFabrics = data.products || [];
+                    const start = (currentPage - 1) * perPage;
+                    const end = start + perPage - 1;
+                    const { data, count, error } = await supabase
+                        .from('products')
+                        .select('id,title,handle,price,compare_at_price,images', { count: 'exact' })
+                        .eq('product_type', 'fabric')
+                        .order('id', { ascending: false })
+                        .range(start, end);
+                    if (error) throw error;
+                    loadedFabrics = data || [];
+                    totalCount = count || 0;
                     renderFabrics();
                 } catch (error) {
                     console.error('Error loading fabrics:', error);
@@ -483,11 +490,10 @@
 
             function renderFabrics() {
                 if (!grid) return;
-                const totalPages = Math.ceil(loadedFabrics.length / perPage) || 1;
+                const totalPages = Math.ceil(totalCount / perPage) || 1;
                 if (currentPage > totalPages) currentPage = totalPages;
 
-                const start = (currentPage - 1) * perPage;
-                const pageFabrics = loadedFabrics.slice(start, start + perPage);
+                const pageFabrics = loadedFabrics;
 
                 if (pageFabrics.length === 0) {
                     grid.innerHTML = `<div class="col-12 text-center" style="grid-column: 1/-1; padding: 3rem;">
@@ -559,7 +565,7 @@
                     const btn = e.target.closest('button');
                     if (!btn || !btn.dataset.page) return;
                     currentPage = parseInt(btn.dataset.page, 10);
-                    renderFabrics();
+                    fetchFabrics();
                     grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             }

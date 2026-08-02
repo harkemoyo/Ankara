@@ -241,6 +241,29 @@
             margin-right: 8px;
         }
 
+        .whatsapp-checkout-btn {
+            width: 100%;
+            padding: 16px;
+            background: #25d366;
+            color: #fff;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: var(--radius);
+            margin-top: 12px;
+            transition: background 0.2s;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .whatsapp-checkout-btn:hover {
+            background: #1da851;
+        }
+
         @keyframes spin {
             to {
                 transform: rotate(360deg);
@@ -879,6 +902,13 @@
                         ✓ I Have Paid — Place My Order
                     </button>
 
+                    <div style="text-align:center;margin:16px 0 8px;font-size:1.2rem;color:#999;letter-spacing:0.1em;text-transform:uppercase;">— or —</div>
+
+                    <button class="whatsapp-checkout-btn" id="whatsapp-checkout-btn" type="button">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Order via WhatsApp
+                    </button>
+
                     <!-- Trust Signals -->
                     <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 14px;">
                         <!-- Secure checkout badge -->
@@ -914,6 +944,8 @@
                                 <div style="background: #e8f5e9; border-radius: 4px; padding: 4px 10px; font-size: 1.2rem; font-weight: 700; color: #2e7d32; letter-spacing: 0.02em;">M-PESA</div>
                                 <!-- Safaricom -->
                                 <div style="background: #e8f5e9; border-radius: 4px; padding: 4px 10px; font-size: 1.1rem; font-weight: 600; color: #2e7d32;">Safaricom</div>
+                                <!-- WhatsApp -->
+                                <div style="background: #e8f8ee; border-radius: 4px; padding: 4px 10px; font-size: 1.1rem; font-weight: 600; color: #25d366;">WhatsApp</div>
                             </div>
                         </div>
                     </div>
@@ -1102,6 +1134,56 @@
                     btn.disabled = false;
                     btn.innerHTML = '✓ I Have Paid — Place My Order';
                 }
+            });
+
+            // ── WhatsApp checkout ──
+            document.getElementById('whatsapp-checkout-btn').addEventListener('click', function () {
+                const cart = getCart();
+                if (!cart || cart.length === 0) {
+                    alert('Your shopping bag is empty!');
+                    return;
+                }
+
+                // Gather customer fields (not strictly required for WhatsApp, but include if filled)
+                const firstName = (document.getElementById('first-name')?.value || '').trim();
+                const lastName = (document.getElementById('last-name')?.value || '').trim();
+                const email = (document.getElementById('email')?.value || '').trim();
+                const phone = (document.getElementById('phone')?.value || '').trim();
+                const address1 = (document.getElementById('address1')?.value || '').trim();
+                const address2 = (document.getElementById('address2')?.value || '').trim();
+                const city = (document.getElementById('city')?.value || '').trim();
+                const postcode = (document.getElementById('postcode')?.value || '').trim();
+                const country = (document.getElementById('country')?.value || '').trim();
+
+                const fmtPrice = (amt) => window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(amt) : `KSh ${Number(amt).toLocaleString('en-KE')}`;
+
+                const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
+                const shipping = subtotal >= 10000 ? 0 : 500;
+                const total = subtotal + shipping;
+
+                let msg = `Hello Mary Humphrey African Wear! 👋\n\n`;
+                msg += `I'd like to place the following order:\n\n`;
+                cart.forEach((item, i) => {
+                    msg += `${i + 1}. *${item.title}*\n`;
+                    msg += `   Size: ${item.size || 'N/A'}${item.color ? ' | Colour: ' + item.color : ''}\n`;
+                    msg += `   Qty: ${item.qty} × ${fmtPrice(item.price)} = ${fmtPrice(parseFloat(item.price) * item.qty)}\n\n`;
+                });
+                msg += `Subtotal: ${fmtPrice(subtotal)}\n`;
+                msg += `Shipping: ${shipping === 0 ? 'FREE' : fmtPrice(shipping)}\n`;
+                msg += `*Total: ${fmtPrice(total)}*\n\n`;
+
+                if (firstName || lastName) msg += `Name: ${firstName} ${lastName}\n`;
+                if (phone) msg += `Phone: ${phone}\n`;
+                if (email) msg += `Email: ${email}\n`;
+                if (address1) msg += `Address: ${address1}${address2 ? ', ' + address2 : ''}\n`;
+                if (city) msg += `City: ${city}${postcode ? ' ' + postcode : ''}\n`;
+                if (country) msg += `Country: ${country}\n`;
+
+                msg += `\nPlease confirm my order and share payment details. Thank you!`;
+
+                const waNumber = window.STORE_CONFIG?.WHATSAPP_NUMBER || window.WHATSAPP_NUMBER || '254715687280';
+                const url = `https://wa.me/${waNumber.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`;
+                window.open(url, '_blank');
             });
         </script>
         <!-- Search Overlay -->

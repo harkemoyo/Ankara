@@ -3942,6 +3942,7 @@
           ${textField('ts-text_color', 'Button Text Color (Hex)', s.text_color || '#ffffff')}
           ${textField('ts-link_color', 'Link Color (Hex)', s.link_color || '#800020')}
           ${textField('ts-link_hover_color', 'Link Hover Color (Hex)', s.link_hover_color || '#5c001a')}
+          ${textField('ts-bg_color', 'Page Background Color (Hex)', s.bg_color || '#f5f1ec')}
         </div>`;
       },
       custom_css(s) {
@@ -4122,7 +4123,8 @@
           hover_color: document.getElementById('ts-hover_color')?.value || '#5c001a',
           text_color: document.getElementById('ts-text_color')?.value || '#ffffff',
           link_color: document.getElementById('ts-link_color')?.value || '#800020',
-          link_hover_color: document.getElementById('ts-link_hover_color')?.value || '#5c001a'
+          link_hover_color: document.getElementById('ts-link_hover_color')?.value || '#5c001a',
+          bg_color: document.getElementById('ts-bg_color')?.value || '#f5f1ec'
         };
       },
       custom_css() {

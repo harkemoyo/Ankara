@@ -1162,6 +1162,7 @@ async function loadThemeColors() {
     if (buttons.text_color) root.style.setProperty('--text-white-color', buttons.text_color);
     if (buttons.link_color) root.style.setProperty('--link-color', buttons.link_color);
     if (buttons.link_hover_color) root.style.setProperty('--link-hover-color', buttons.link_hover_color);
+    if (buttons.bg_color) root.style.setProperty('--body-background-color', buttons.bg_color);
 
     if (css.custom_css) {
       const style = document.createElement('style');

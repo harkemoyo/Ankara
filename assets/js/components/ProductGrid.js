@@ -49,23 +49,33 @@ export default class ProductGrid {
     }
 
     resolveCollectionHandle() {
-        // 1. Resolve from path-based URL: /shop/:handle
         const pathParts = window.location.pathname.split('/').filter(Boolean);
+
+        // 1. Resolve from /shop/:handle
         if (pathParts[0] === 'shop' && pathParts[1]) {
             return pathParts[1].replace('.html', '');
         }
 
-        // 2. Fallback to ?collection= query parameter
+        // 2. Resolve from a clean root handle like /menswear or /womenswear
+        const first = pathParts[0]?.replace('.html', '').toLowerCase() || '';
+        const knownCollections = new Set((this.collections || []).map(c => c.handle));
+        if (first && !['shop', 'fabric', 'product', 'products', 'about', 'contact', 'sale'].includes(first)) {
+            if (knownCollections.has(first) || first === 'menswear' || first === 'womenswear' || first === 'new-arrivals') {
+                return first;
+            }
+        }
+
+        // 3. Fallback to ?collection= query parameter
         const params = new URLSearchParams(window.location.search);
         const handle = params.get('collection');
         if (handle) return handle;
 
-        // 3. Fallback to sale page default
+        // 4. Fallback to sale page default
         if (window.location.pathname.includes('sale')) {
             return 'sale';
         }
 
-        // 4. Default fallback to all
+        // 5. Default fallback to all
         return 'all';
     }
 

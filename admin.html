@@ -4177,9 +4177,13 @@
       if (collector) sec.settings = collector();
       sec.enabled = document.getElementById('ts-enabled')?.checked !== false;
       try {
+        const session = (await supabase.auth.getSession()).data.session;
         const res = await fetch('/api/theme', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {})
+          },
           body: JSON.stringify(themeData)
         });
         if (!res.ok) throw new Error('Save failed');
@@ -4202,9 +4206,13 @@
       [order[idx], order[newIdx]] = [order[newIdx], order[idx]];
       themeData.order = order;
       try {
+        const session = (await supabase.auth.getSession()).data.session;
         const res = await fetch('/api/theme', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {})
+          },
           body: JSON.stringify(themeData)
         });
         if (!res.ok) throw new Error('Reorder failed');
@@ -4229,9 +4237,13 @@
       themeData.sections[key] = { type, enabled: true, settings: {} };
       themeData.order.push(key);
       try {
+        const session = (await supabase.auth.getSession()).data.session;
         const res = await fetch('/api/theme', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {})
+          },
           body: JSON.stringify(themeData)
         });
         if (!res.ok) throw new Error('Add failed');

@@ -428,8 +428,6 @@
     <script defer src="assets/footer.js"></script>
 
     <script type="module">
-        import { supabase } from './assets/supabase-client.js';
-
         document.addEventListener("DOMContentLoaded", () => {
             const grid = document.getElementById('fabrics-grid');
             let loadedFabrics = [];
@@ -602,25 +600,6 @@
             // Render from cache immediately, then refresh from server
             tryLoadFromCache();
             fetchFabrics();
-
-            // Realtime updates via Supabase
-            if (supabase) {
-                try {
-                    supabase
-                        .channel('fabrics-page-realtime')
-                        .on(
-                            'postgres_changes',
-                            { event: '*', schema: 'public', table: 'products' },
-                            (payload) => {
-                                console.log('Realtime change on material.html:', payload);
-                                fetchFabrics();
-                            }
-                        )
-                        .subscribe();
-                } catch (e) {
-                    console.error('Realtime subscription error on material.html:', e);
-                }
-            }
 
             // Refresh view on currency switch
             window.addEventListener('currency:changed', renderFabrics);

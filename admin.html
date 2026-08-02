@@ -3686,6 +3686,7 @@
             <div style="display:flex;gap:6px;align-items:center;" onclick="event.stopPropagation()">
               <button class="btn btn-sm" ${i === 0 ? 'disabled' : ''} onclick="moveThemeSection('${key}',-1)">↑</button>
               <button class="btn btn-sm" ${i === order.length - 1 ? 'disabled' : ''} onclick="moveThemeSection('${key}',1)">↓</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteThemeSection('${key}')" title="Remove">🗑</button>
             </div>
           </div>
         </li>`;
@@ -4257,6 +4258,34 @@
         renderThemeSectionsList();
       } catch (err) {
         alert('Reorder failed: ' + err.message);
+      }
+    };
+
+    window.deleteThemeSection = async function (key) {
+      if (!confirm(`Remove the "${SECTION_LABELS[themeData.sections[key]?.type] || key}" section?`)) return;
+      const order = themeData.order || [];
+      const idx = order.indexOf(key);
+      if (idx > -1) order.splice(idx, 1);
+      if (themeData.sections[key]) delete themeData.sections[key];
+      if (currentSectionKey === key) currentSectionKey = null;
+      try {
+        const session = (await supabase.auth.getSession()).data.session;
+        const res = await fetch('/api/theme', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {})
+          },
+          body: JSON.stringify(themeData)
+        });
+        if (!res.ok) throw new Error('Delete failed');
+        const json = await res.json();
+        themeData = json.theme || themeData;
+        renderThemeSectionsList();
+        const container = document.getElementById('homepage-section-form');
+        if (container && currentSectionKey === null) container.innerHTML = '<p style="color:var(--muted);">Select a section to edit.</p>';
+      } catch (err) {
+        alert('Delete failed: ' + err.message);
       }
     };
 

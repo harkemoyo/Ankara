@@ -35,6 +35,11 @@ app.get('/products/:handle', (req, res) => {
     res.sendFile(path.join(__dirname, 'product.html'));
 });
 
+// Clean route for fabrics page
+app.get('/fabric', (req, res) => {
+    res.sendFile(path.join(__dirname, 'material.html'));
+});
+
 // Fallback for html pages to support clean routes (e.g. /shop instead of /shop.html)
 app.use((req, res, next) => {
     const filePath = path.join(__dirname, req.path + '.html');

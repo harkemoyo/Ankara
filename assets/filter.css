@@ -32,7 +32,7 @@
 }
 
 .breadcrumb-item a:hover {
-  color: var(--primary-color, #000);
+  color: var(--primary-color, #800020);
 }
 
 .breadcrumb-item.active {
@@ -150,14 +150,14 @@
   --secondary-color: #C97F5F;
   --hover-color: #ED1D24;
   --yellow-color: #FF9800;
-  --foreground-color: #000000;
+  --foreground-color: #800020;
   --foreground-sub-color: #98928E;
-  --body-text-color: #000000;
+  --body-text-color: #800020;
   --text-white-color: #fff;
   --body-background-color: #fff;
   --bg-offwhite-color: #F5F7FF;
   --bg-gray-color: #F5F8FF;
-  --bg-black-color: #000000;
+  --bg-black-color: #800020;
   --bg-light-dark-color: #1a1818;
   --border-color: #EDEDED;
   --frank-ruhl-fonts: 'Frank Ruhl Libre', serif;
@@ -2249,7 +2249,7 @@ quantity icon button
 }
 
 .header__search--input:focus::-webkit-input-placeholder {
-  color: #000000;
+  color: #800020;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -2377,7 +2377,7 @@ quantity icon button
 }
 
 .predictive__search--input:focus::-webkit-input-placeholder {
-  color: #000000;
+  color: #800020;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -7177,7 +7177,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0 !important;
   -webkit-box-shadow: inherit;
   box-shadow: inherit;
-  color: #000000;
+  color: #800020;
 }
 
 .quickview__close--btn:hover {
@@ -9279,7 +9279,7 @@ li[data-address]>h2 {
 .field__input:-webkit-autofill~.field__button,
 .field__input:-webkit-autofill~.field__label,
 .customer .field input:-webkit-autofill~label {
-  color: rgb(0, 0, 0);
+  color: #800020;
 }
 
 

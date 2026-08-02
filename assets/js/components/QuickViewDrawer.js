@@ -266,7 +266,7 @@ export default class QuickViewDrawer {
 
         const buyNowBtn = this.createEl('button', 'quickview__btn quickview__btn--buy', {
             type: 'button',
-            style: 'width:100%; padding:1.6rem; background:var(--bg-black-color, #2a1719); color:#fff; font-size:1.3rem; letter-spacing:0.15em; text-transform:uppercase; font-weight:600; border:none; border-radius:4px; cursor:pointer; transition:all 0.3s ease;'
+            style: 'width:100%; padding:1.6rem; background:var(--bg-black-color, #800020); color:#fff; font-size:1.3rem; letter-spacing:0.15em; text-transform:uppercase; font-weight:600; border:none; border-radius:4px; cursor:pointer; transition:all 0.3s ease;'
         }, 'BUY IT NOW');
 
         buyNowBtn.addEventListener('click', () => {

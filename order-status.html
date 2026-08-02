@@ -609,8 +609,10 @@
 
         function formatAmount(amt, currency) {
             const parsed = parseFloat(amt);
-            if (currency === 'KES') return 'KSh ' + Number(parsed).toLocaleString('en-KE');
-            return `$${parsed.toFixed(2)}`;
+            const c = (currency || '').toUpperCase();
+            if (c === 'KES' || c === 'KSH') return 'KSh ' + Number(parsed).toLocaleString('en-KE');
+            if (c === 'USD') return '$' + parsed.toFixed(2);
+            return 'KSh ' + Number(parsed).toLocaleString('en-KE');
         }
 
         async function lookupOrder(e) {

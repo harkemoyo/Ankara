@@ -461,7 +461,7 @@
             let loadedFabrics = [];
             let totalCount = 0;
             let currentPage = 1;
-            const perPage = 4;
+            const perPage = 8;
             const pagination = document.getElementById('fabrics-pagination');
 
             async function fetchFabrics() {
@@ -501,7 +501,7 @@
                 const isFirstPage = currentPage === 1;
                 grid.innerHTML = pageFabrics.map((fabric, index) => {
                     const primaryImage = fabric.images && fabric.images[0] ? fabric.images[0] : 'assets/DSC02676.jpg';
-                    const loading = isFirstPage && index < perPage ? 'eager' : 'lazy';
+                    const loading = isFirstPage && index < 4 ? 'eager' : 'lazy';
                     const priceFormatted = window.AnkaraCurrency 
                         ? window.AnkaraCurrency.convertAndFormat(fabric.price) 
                         : `KSh ${parseFloat(fabric.price).toLocaleString()}`;
@@ -538,18 +538,19 @@
                 if (!pagination) return;
 
                 let controls = '';
+                const burgundy = 'var(--primary-color, #800020)';
                 if (currentPage > 1) {
-                    controls += `<button class="material__pagination--btn" data-page="${currentPage - 1}" style="padding:0.8rem 1.2rem;background:#f7f7f7;border:1px solid var(--border-color,#e5e5e5);border-radius:6px;cursor:pointer;font-size:1.3rem;">Prev</button>`;
+                    controls += `<button class="material__pagination--btn" data-page="${currentPage - 1}" style="padding:0.8rem 1.2rem;background:#fff;color:${burgundy};border:1px solid ${burgundy};border-radius:6px;cursor:pointer;font-size:1.3rem;font-weight:600;">Prev</button>`;
                 }
                 for (let i = 1; i <= totalPages; i++) {
                     if (i === currentPage) {
-                        controls += `<span class="material__pagination--current" style="padding:0.8rem 1.2rem;background:#800020;color:#fff;border-radius:6px;font-size:1.3rem;">${i}</span>`;
+                        controls += `<span class="material__pagination--current" style="padding:0.8rem 1.2rem;background:${burgundy};color:#fff;border:1px solid ${burgundy};border-radius:6px;font-size:1.3rem;font-weight:600;">${i}</span>`;
                     } else {
-                        controls += `<button class="material__pagination--btn" data-page="${i}" style="padding:0.8rem 1.2rem;background:#f7f7f7;border:1px solid var(--border-color,#e5e5e5);border-radius:6px;cursor:pointer;font-size:1.3rem;">${i}</button>`;
+                        controls += `<button class="material__pagination--btn" data-page="${i}" style="padding:0.8rem 1.2rem;background:#fff;color:${burgundy};border:1px solid ${burgundy};border-radius:6px;cursor:pointer;font-size:1.3rem;font-weight:600;">${i}</button>`;
                     }
                 }
                 if (currentPage < totalPages) {
-                    controls += `<button class="material__pagination--btn" data-page="${currentPage + 1}" style="padding:0.8rem 1.2rem;background:#f7f7f7;border:1px solid var(--border-color,#e5e5e5);border-radius:6px;cursor:pointer;font-size:1.3rem;">Next</button>`;
+                    controls += `<button class="material__pagination--btn" data-page="${currentPage + 1}" style="padding:0.8rem 1.2rem;background:#fff;color:${burgundy};border:1px solid ${burgundy};border-radius:6px;cursor:pointer;font-size:1.3rem;font-weight:600;">Next</button>`;
                 }
                 pagination.innerHTML = controls;
             }

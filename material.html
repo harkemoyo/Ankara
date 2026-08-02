@@ -465,6 +465,30 @@
             let currentPage = 1;
             const perPage = 8;
             const pagination = document.getElementById('fabrics-pagination');
+            const CACHE_TTL_MS = 5 * 60 * 1000;
+
+            function cacheKey(page) { return `fabrics_page_${page}`; }
+            function cacheMetaKey(page) { return `fabrics_page_${page}_meta`; }
+
+            function tryLoadFromCache() {
+                try {
+                    const meta = JSON.parse(localStorage.getItem(cacheMetaKey(currentPage)) || 'null');
+                    if (!meta || Date.now() - meta.timestamp > CACHE_TTL_MS) return false;
+                    const cached = JSON.parse(localStorage.getItem(cacheKey(currentPage)) || 'null');
+                    if (!cached || !cached.products) return false;
+                    loadedFabrics = cached.products;
+                    totalCount = cached.total;
+                    renderFabrics();
+                    return true;
+                } catch (e) { return false; }
+            }
+
+            function saveCache(products, total) {
+                try {
+                    localStorage.setItem(cacheKey(currentPage), JSON.stringify({ products, total }));
+                    localStorage.setItem(cacheMetaKey(currentPage), JSON.stringify({ timestamp: Date.now() }));
+                } catch (e) {}
+            }
 
             async function fetchFabrics() {
                 try {
@@ -474,6 +498,7 @@
 
                     loadedFabrics = data.products || [];
                     totalCount = data.pagination ? data.pagination.total : (data.products || []).length;
+                    saveCache(loadedFabrics, totalCount);
                     renderFabrics();
                 } catch (error) {
                     console.error('Error loading fabrics:', error);
@@ -568,7 +593,8 @@
                 });
             }
 
-            // Fetch initial fabrics
+            // Render from cache immediately, then refresh from server
+            tryLoadFromCache();
             fetchFabrics();
 
             // Realtime updates via Supabase

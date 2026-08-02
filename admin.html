@@ -3636,7 +3636,7 @@
       trending: 'Trending Products', style_of_month: 'Style of the Month', fabrics: 'Fabric Showcase',
       heritage: 'Heritage & Culture', sale_promo: 'Sale Promo Strip', shop_by_style: 'Shop by Style',
       statement: 'Statement Banner', testimonials: 'Testimonials', services: 'Services Strip', footer: 'Footer',
-      custom_css: 'Custom CSS & Branding Styles'
+      buttons: 'Buttons & Links', custom_css: 'Custom CSS & Branding Styles'
     };
 
     async function loadHomepageSections() {
@@ -3935,6 +3935,15 @@
         }
         return html;
       },
+      buttons(s) {
+        return `<div class="form-grid">
+          ${textField('ts-primary_color', 'Button / Primary Color (Hex)', s.primary_color || '#800020')}
+          ${textField('ts-hover_color', 'Button Hover Color (Hex)', s.hover_color || '#5c001a')}
+          ${textField('ts-text_color', 'Button Text Color (Hex)', s.text_color || '#ffffff')}
+          ${textField('ts-link_color', 'Link Color (Hex)', s.link_color || '#800020')}
+          ${textField('ts-link_hover_color', 'Link Hover Color (Hex)', s.link_hover_color || '#5c001a')}
+        </div>`;
+      },
       custom_css(s) {
         return `<div class="form-grid">
           ${textField('ts-primary_color', 'Primary Color (Hex)', s.primary_color || '#3C3836')}
@@ -4105,6 +4114,15 @@
           newsletter_heading: document.getElementById('ts-newsletter_heading')?.value || '',
           newsletter_desc: document.getElementById('ts-newsletter_desc')?.value || '',
           copyright: document.getElementById('ts-copyright')?.value || ''
+        };
+      },
+      buttons() {
+        return {
+          primary_color: document.getElementById('ts-primary_color')?.value || '#800020',
+          hover_color: document.getElementById('ts-hover_color')?.value || '#5c001a',
+          text_color: document.getElementById('ts-text_color')?.value || '#ffffff',
+          link_color: document.getElementById('ts-link_color')?.value || '#800020',
+          link_hover_color: document.getElementById('ts-link_hover_color')?.value || '#5c001a'
         };
       },
       custom_css() {

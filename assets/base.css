@@ -1,6 +1,13 @@
 /* assets/base.css
    ========================================================================== */
 
+a, a:link, a:visited, a:active {
+    color: var(--link-color);
+}
+a:hover, a:focus {
+    color: var(--link-hover-color);
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
 
 :root {
@@ -30,6 +37,8 @@
   --bg-light-dark-color: #800020;
   --burgundy-color: #800020;
   --border-color: #dad2ce;
+  --link-color: #800020;
+  --link-hover-color: #5c001a;
 
   /* ── Spacing Scale ── */
   --space-1: 0.25rem;

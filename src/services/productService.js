@@ -214,34 +214,9 @@ class ProductService {
     }
 
     async getCollections() {
-        const defaults = [
-            { handle: 'all', title: 'All Products' },
-            { handle: 'menswear', title: 'Menswear' },
-            { handle: 'womenswear', title: 'Womenswear' },
-            { handle: 'unisex', title: 'Unisex' },
-            { handle: 'new-arrivals', title: 'New Arrivals' },
-            { handle: 'sale', title: 'Sale' },
-            { handle: 'fabrics', title: 'Fabrics' },
-            { handle: 'dresses', title: 'Dresses' },
-            { handle: 'tops', title: 'Tops & Hoodies' },
-            { handle: 'pants', title: 'Pants & Joggers' },
-            { handle: 'blankets', title: 'Blankets & Throws' },
-            { handle: 'kimonos', title: 'Kimonos' },
-            { handle: 'capes', title: 'Capes & Outerwear' },
-            { handle: 'dungarees', title: 'Dungarees' }
-        ];
-
-        let dbCollections = [];
-        try {
-            const { data, error } = await supabaseAnon.from('collections').select('*').order('sort_order', { ascending: true });
-            if (!error && data) dbCollections = data;
-        } catch(e) {}
-
-        const merged = new Map();
-        defaults.forEach(c => merged.set(c.handle, c));
-        dbCollections.forEach(c => merged.set(c.handle, c));
-
-        return Array.from(merged.values()).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+        const { data, error } = await supabaseAnon.from('collections').select('*').order('sort_order', { ascending: true });
+        if (error) throw new Error(error.message);
+        return data || [];
     }
 
     async getProductByHandle(handle) {

@@ -10,12 +10,51 @@ const SECTION_REGISTRY = {
     'featured-collection': FeaturedCollection
 };
 
+async function renderHeaderCollections() {
+    try {
+        const res = await fetch('/api/collections');
+        if (!res.ok) return;
+        const { collections } = await res.json();
+        if (!Array.isArray(collections) || collections.length === 0) return;
+
+        const menu = document.querySelector('ul.header__sub--menu.mega-menu');
+        if (!menu) return;
+
+        const columns = menu.querySelectorAll('li.header__sub--menu__items.mega-col');
+        const collectionsCol = Array.from(columns).find(col => {
+            const heading = col.querySelector('span.mega-menu__heading');
+            return heading && heading.textContent.trim().toLowerCase() === 'collections';
+        });
+        const stylesCol = Array.from(columns).find(col => {
+            const heading = col.querySelector('span.mega-menu__heading');
+            return heading && heading.textContent.trim().toLowerCase() === 'shop by style';
+        });
+
+        // Remove the hardcoded "Shop by Style" column
+        if (stylesCol) stylesCol.remove();
+
+        if (!collectionsCol) return;
+        const list = collectionsCol.querySelector('ul.mega-col__list');
+        if (!list) return;
+
+        list.innerHTML = collections
+            .filter(c => c.handle && c.title)
+            .map(c => `<li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/${encodeURIComponent(c.handle)}">${c.title}</a></li>`)
+            .join('');
+    } catch (e) {
+        console.error('Failed to render header collections', e);
+    }
+}
+
 function init() {
-    // 1. Initialize Singletons
+    // 1. Render dynamic header collections from backend
+    renderHeaderCollections();
+
+    // 2. Initialize Singletons
     window.quickViewDrawer = new QuickViewDrawer();
     window.cartDrawer = new CartDrawer();
 
-    // 2. Initialize Page Sections
+    // 3. Initialize Page Sections
     const sections = document.querySelectorAll('[data-section]');
     sections.forEach(el => {
         const sectionName = el.getAttribute('data-section');

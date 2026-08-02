@@ -56,11 +56,11 @@ export default class ProductGrid {
             return pathParts[1].replace('.html', '');
         }
 
-        // 2. Resolve from a clean root handle like /menswear or /womenswear
+        // 2. Resolve from a clean root handle only if it is a real backend collection
         const first = pathParts[0]?.replace('.html', '').toLowerCase() || '';
         const knownCollections = new Set((this.collections || []).map(c => c.handle));
         if (first && !['shop', 'fabric', 'product', 'products', 'about', 'contact', 'sale'].includes(first)) {
-            if (knownCollections.has(first) || ['menswear','womenswear','unisex','new-arrivals'].includes(first)) {
+            if (knownCollections.has(first)) {
                 return first;
             }
         }

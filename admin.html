@@ -3753,6 +3753,20 @@
       return `<div class="form-group"><label>${escapeHtml(label)}</label><input id="${id}" type="${type}" value="${escapeHtml(value || '')}" /></div>`;
     }
 
+    function testimonialBlock(i, t = {}) {
+      return `<div class="js-testimonial-block" data-index="${i}" id="ts-test-block-${i}" style="border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:8px;background:#fff;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <h4 style="margin:0;font-size:1.2rem;">Testimonial</h4>
+          <button type="button" class="btn btn-sm btn-danger" onclick="removeTestimonial('ts-test-block-${i}')">Remove</button>
+        </div>
+        <div class="form-grid">
+          ${textField('ts-test-' + i + '-quote', 'Quote', t.quote, 'textarea')}
+          ${textField('ts-test-' + i + '-author', 'Author', t.author)}
+          ${textField('ts-test-' + i + '-rating', 'Rating (1-5)', t.rating, 'number')}
+        </div>
+      </div>`;
+    }
+
     // ── Per-section form renderers ──
     const sectionFormRenderers = {
       announcement(s) {
@@ -3881,16 +3895,13 @@
       },
       testimonials(s) {
         const items = s.items || [];
-        let html = `<div class="form-grid">${textField('ts-heading', 'Section Heading', s.heading)}</div>`;
-        const count = Math.max(items.length, 3);
-        for (let i = 0; i < count; i++) {
-          const t = items[i] || {};
-          html += `<div style="border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:8px;background:#fff;"><h4 style="margin:0 0 6px;font-size:1.2rem;">Testimonial ${i + 1}</h4><div class="form-grid">
-            ${textField('ts-test-' + i + '-quote', 'Quote', t.quote, 'textarea')}
-            ${textField('ts-test-' + i + '-author', 'Author', t.author)}
-            ${textField('ts-test-' + i + '-rating', 'Rating (1-5)', t.rating, 'number')}
-          </div></div>`;
-        }
+        let html = `<div class="form-grid">${textField('ts-heading', 'Section Heading', s.heading)}</div>
+          <div id="testimonials-list">`;
+        items.forEach((t, i) => {
+          html += testimonialBlock(i, t);
+        });
+        html += `</div>
+          <button type="button" class="btn btn-ghost" onclick="addTestimonial()" style="margin-top:8px;">+ Add Testimonial</button>`;
         return html;
       },
       services(s) {
@@ -4082,7 +4093,8 @@
       },
       testimonials() {
         const items = [];
-        for (let i = 0; i < 6; i++) {
+        document.querySelectorAll('.js-testimonial-block').forEach(block => {
+          const i = block.getAttribute('data-index');
           const quote = document.getElementById('ts-test-' + i + '-quote')?.value || '';
           if (quote) {
             items.push({
@@ -4091,7 +4103,7 @@
               rating: parseInt(document.getElementById('ts-test-' + i + '-rating')?.value, 10) || 5
             });
           }
-        }
+        });
         return { heading: document.getElementById('ts-heading')?.value || '', items };
       },
       services() {
@@ -4179,6 +4191,22 @@
         if (sec) sec.settings = { slides: collected };
         window.selectThemeSection(currentSectionKey || 'hero');
       }
+    };
+
+    window.removeTestimonial = function(id) {
+      document.getElementById(id)?.remove();
+    };
+
+    window.addTestimonial = function() {
+      const list = document.getElementById('testimonials-list');
+      if (!list) return;
+      let max = -1;
+      list.querySelectorAll('.js-testimonial-block').forEach(b => {
+        const idx = parseInt(b.getAttribute('data-index'), 10);
+        if (!isNaN(idx) && idx > max) max = idx;
+      });
+      const next = max + 1;
+      list.insertAdjacentHTML('beforeend', testimonialBlock(next, {}));
     };
 
     window.selectThemeSection = function (key) {

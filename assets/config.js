@@ -17,6 +17,10 @@ window.STORE_CONFIG = {
     STORE_NAME: 'Mary Humphrey African Wear',
     STORE_TAGLINE: 'Celebrating African Heritage Through Fashion',
     
+    // WhatsApp Floating Button
+    // Replace 254700000000 with your real WhatsApp number in international format (no +)
+    WHATSAPP_NUMBER: '254700000000',
+    
     // API Configuration
     API_BASE_URL: window.location.origin,
     

@@ -37,8 +37,8 @@ a:hover, a:focus {
   --bg-light-dark-color: #800020;
   --burgundy-color: #800020;
   --border-color: #dad2ce;
-  --link-color: #800020;
-  --link-hover-color: #5c001a;
+  --link-color: #2a2624;
+  --link-hover-color: #800020;
 
   /* ── Spacing Scale ── */
   --space-1: 0.25rem;
@@ -7442,6 +7442,9 @@ input[type=number]::-webkit-outer-spin-button {
 .footer__widget--menu__text {
   line-height: 2.6rem;
   font-size: 1.5rem;
+  color: var(--foreground-color);
+}
+.footer__widget--menu__text:hover {
   color: var(--primary-color);
 }
 
@@ -7457,7 +7460,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .footer__widget--info__icon {
-  color: var(--primary-color);
+  color: var(--foreground-color);
 }
 
 .footer__widget--info_list {
@@ -8534,7 +8537,7 @@ input.quickview__value--number {
   font-family: var(--font-heading) !important;
   font-size: clamp(3.2rem, 4vw, 4.8rem) !important;
   line-height: 1.2 !important;
-  color: var(--primary-color) !important;
+  color: var(--foreground-color) !important;
   font-weight: 500 !important;
   letter-spacing: -0.02em !important;
   margin-bottom: 0.8rem !important;

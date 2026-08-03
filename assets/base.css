@@ -1454,7 +1454,7 @@ select {
 }
 
 .bg__primary {
-  background: var(--primary-color);
+  background: #800020;
 }
 
 .bg__secondary {

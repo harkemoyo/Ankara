@@ -105,6 +105,31 @@
             background: #fff;
         }
 
+        .checkout-header {
+            text-align: center;
+            padding: 24px 0 32px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checkout-header img {
+            max-height: 60px;
+            margin-bottom: 12px;
+        }
+
+        .checkout-header h1 {
+            font-family: 'Karma', serif;
+            font-size: 2rem;
+            margin: 0 0 6px;
+            color: #1a1a1a;
+        }
+
+        .checkout-header p {
+            font-size: 1.3rem;
+            color: #666;
+            margin: 0;
+        }
+
         .checkout-logo {
             font-family: 'Karma', serif;
             font-size: 2.2rem;
@@ -715,9 +740,17 @@
         <div class="checkout-wrap" id="checkout-wrap">
             <!-- ── LEFT: FORM ── -->
             <div class="checkout-form-col">
-                <a class="checkout-logo" href=".">Ankara</a>
+                <!-- Email-style header with logo -->
+                <div class="checkout-header">
+                    <a href=".">
+                        <img src="assets/logo.webp" alt="Mary Humphrey African Wear" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                        <span style="display:none;font-family:'Karma',serif;font-size:2.4rem;color:#1a1a1a;">Mary Humphrey</span>
+                    </a>
+                    <h1>Complete Your Order</h1>
+                    <p>Fill in your details below and we'll confirm via WhatsApp</p>
+                </div>
                 <div class="step-label">Step 1</div>
-                <h1 class="section-title">Contact &amp; Delivery</h1>
+                <h2 class="section-title">Contact &amp; Delivery</h2>
                 <form id="checkout-form" novalidate="">
                     <div class="form-row">
                         <div class="form-group">
@@ -892,22 +925,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="mpesa-code">M-Pesa Confirmation Code (optional)</label>
-                        <input id="mpesa-code" name="mpesa_code" placeholder="e.g. SHK3A7B2C1" type="text" style="text-transform:uppercase;letter-spacing:0.1em;" />
-                        <small style="color:#888;font-size:1.1rem;">You'll receive this via SMS after paying. You can also share it later.</small>
-                    </div>
-
-                    <button class="pay-btn" id="pay-btn" type="submit" style="background:#4CAF50;">
-                        ✓ I Have Paid — Place My Order
+                    <!-- Primary Action: WhatsApp Order -->
+                    <button class="whatsapp-checkout-btn" id="whatsapp-checkout-btn" type="button" style="margin-top:24px;padding:18px 24px;font-size:1.6rem;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        💬 Place Order via WhatsApp
                     </button>
-
-                    <div style="text-align:center;margin:16px 0 8px;font-size:1.2rem;color:#999;letter-spacing:0.1em;text-transform:uppercase;">— or —</div>
-
-                    <button class="whatsapp-checkout-btn" id="whatsapp-checkout-btn" type="button">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                        Order via WhatsApp
-                    </button>
+                    <p style="text-align:center;font-size:1.2rem;color:#666;margin-top:10px;">We'll confirm your order and arrange payment via WhatsApp</p>
 
                     <!-- Trust Signals -->
                     <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 14px;">
@@ -1172,6 +1195,15 @@
                 msg += `Shipping: ${shipping === 0 ? 'FREE' : fmtPrice(shipping)}\n`;
                 msg += `*Total: ${fmtPrice(total)}*\n\n`;
 
+                // Get selected payment method
+                const paymentMethod = document.querySelector('input[name="mpesa_method"]:checked')?.value || 'paybill';
+                const paymentLabels = {
+                    'paybill': 'M-Pesa Paybill',
+                    'send_money': 'M-Pesa Send Money',
+                    'bank_transfer': 'Bank Transfer'
+                };
+
+                msg += `*Delivery Details:*\n`;
                 if (firstName || lastName) msg += `Name: ${firstName} ${lastName}\n`;
                 if (phone) msg += `Phone: ${phone}\n`;
                 if (email) msg += `Email: ${email}\n`;
@@ -1179,7 +1211,8 @@
                 if (city) msg += `City: ${city}${postcode ? ' ' + postcode : ''}\n`;
                 if (country) msg += `Country: ${country}\n`;
 
-                msg += `\nPlease confirm my order and share payment details. Thank you!`;
+                msg += `\n*Preferred Payment:* ${paymentLabels[paymentMethod] || paymentMethod}\n`;
+                msg += `\nPlease confirm my order and let me know how to proceed with payment. Thank you!`;
 
                 const waNumber = window.STORE_CONFIG?.WHATSAPP_NUMBER || window.WHATSAPP_NUMBER || '254715687280';
                 const url = `https://wa.me/${waNumber.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`;

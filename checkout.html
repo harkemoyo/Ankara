@@ -1218,9 +1218,9 @@
                 const cleanNumber = waNumber.replace(/\D/g, '');
                 const encodedMsg = encodeURIComponent(msg);
                 
-                // Use api.whatsapp.com which opens WhatsApp Web directly (no intermediate page)
-                const url = `https://api.whatsapp.com/send?phone=${cleanNumber}&text=${encodedMsg}`;
-                window.location.href = url;
+                // Open in new tab - this opens WhatsApp Web directly
+                const url = `https://wa.me/${cleanNumber}?text=${encodedMsg}`;
+                window.open(url, '_blank');
             });
         </script>
         <!-- Search Overlay -->

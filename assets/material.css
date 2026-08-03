@@ -63,7 +63,7 @@
 
 /* Hero Section */
 .material__hero {
-  background: linear-gradient(135deg, #1a1818 0%, #3a2e2e 100%);
+  background: #800020;
   color: #ffffff;
   padding: 6rem 2rem;
   display: flex;

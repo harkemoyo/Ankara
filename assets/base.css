@@ -2142,6 +2142,9 @@ body.overlay__active::before,
   display: block;
   padding: 15px 20px;
   text-transform: uppercase;
+  color: var(--foreground-color);
+}
+.offcanvas__menu_item:hover {
   color: var(--primary-color);
 }
 
@@ -2164,6 +2167,9 @@ body.overlay__active::before,
   line-height: 1;
   display: block;
   padding: 15px 0 15px 30px;
+  color: var(--foreground-color);
+}
+.offcanvas__sub_menu_item:hover {
   color: var(--primary-color);
 }
 
@@ -4268,11 +4274,11 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .product__card--title a {
-  color: var(--primary-color);
+  color: var(--foreground-color);
 }
 
 .product__card--title a:hover {
-  color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 .product__card--btn {
@@ -4453,7 +4459,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .current__price {
-  color: var(--primary-color);
+  color: var(--foreground-color);
   font-weight: 600;
   line-height: 1.8rem;
   font-family: var(--inter-fonts);

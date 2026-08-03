@@ -1215,8 +1215,22 @@
                 msg += `\nPlease confirm my order and let me know how to proceed with payment. Thank you!`;
 
                 const waNumber = window.STORE_CONFIG?.WHATSAPP_NUMBER || window.WHATSAPP_NUMBER || '254715687280';
-                const url = `https://wa.me/${waNumber.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`;
-                window.open(url, '_blank');
+                const cleanNumber = waNumber.replace(/\D/g, '');
+                const encodedMsg = encodeURIComponent(msg);
+                
+                // Use whatsapp:// protocol to open directly in app (no intermediate page)
+                // Falls back to wa.me for browsers without WhatsApp installed
+                const directUrl = `whatsapp://send?phone=${cleanNumber}&text=${encodedMsg}`;
+                const fallbackUrl = `https://wa.me/${cleanNumber}?text=${encodedMsg}`;
+                
+                // Try direct protocol first, fallback after short delay
+                window.location.href = directUrl;
+                setTimeout(() => {
+                    // If still on page after 2s, protocol didn't work - use fallback
+                    if (document.hasFocus()) {
+                        window.location.href = fallbackUrl;
+                    }
+                }, 2000);
             });
         </script>
         <!-- Search Overlay -->

@@ -14,7 +14,7 @@ function escapeHtml(str) {
     if (!wrapper) return;
     
     wrapper.innerHTML = slides.map(sl => `
-      <div class="swiper-slide" style="background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.45)), url('${escapeHtml(sl.image || '')}');">
+      <div class="swiper-slide" style="background-image: url('${escapeHtml(sl.image || '')}');">
         <div class="hero-container">
           <div class="hero-content">
             <span class="hero-subtitle">${escapeHtml(sl.subtitle || '')}</span>
@@ -35,7 +35,10 @@ function escapeHtml(str) {
     if (typeof Swiper !== 'undefined') {
       window.heroSwiper = new Swiper('.hero-swiper', {
         loop: true,
-        autoplay: { delay: 5000, disableOnInteraction: false },
+        speed: 1200,
+        autoplay: { delay: 6000, disableOnInteraction: false },
+        effect: 'fade',
+        fadeEffect: { crossFade: true },
         pagination: { el: '.hero-pagination', clickable: true }
       });
     }

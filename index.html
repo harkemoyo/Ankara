@@ -2537,11 +2537,15 @@
             window.heroSwiper = new Swiper(".hero-swiper", {
                 slidesPerView: 1,
                 loop: true,
+                speed: 1200,
                 autoplay: {
-                    delay: 5000,
+                    delay: 6000,
                     disableOnInteraction: false
                 },
                 effect: "fade",
+                fadeEffect: {
+                    crossFade: true
+                },
                 pagination: {
                     el: ".hero-pagination",
                     clickable: true

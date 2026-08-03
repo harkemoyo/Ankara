@@ -1218,19 +1218,9 @@
                 const cleanNumber = waNumber.replace(/\D/g, '');
                 const encodedMsg = encodeURIComponent(msg);
                 
-                // Use whatsapp:// protocol to open directly in app (no intermediate page)
-                // Falls back to wa.me for browsers without WhatsApp installed
-                const directUrl = `whatsapp://send?phone=${cleanNumber}&text=${encodedMsg}`;
-                const fallbackUrl = `https://wa.me/${cleanNumber}?text=${encodedMsg}`;
-                
-                // Try direct protocol first, fallback after short delay
-                window.location.href = directUrl;
-                setTimeout(() => {
-                    // If still on page after 2s, protocol didn't work - use fallback
-                    if (document.hasFocus()) {
-                        window.location.href = fallbackUrl;
-                    }
-                }, 2000);
+                // Use api.whatsapp.com which opens WhatsApp Web directly (no intermediate page)
+                const url = `https://api.whatsapp.com/send?phone=${cleanNumber}&text=${encodedMsg}`;
+                window.location.href = url;
             });
         </script>
         <!-- Search Overlay -->

@@ -556,14 +556,12 @@ async function loadProductDetails() {
         }
     }
 
-    // Global helper to open WhatsApp directly (no intermediate page)
+    // Global helper to open WhatsApp directly
+    // Uses api.whatsapp.com which opens WhatsApp Web directly on desktop
     window.openWhatsAppDirect = function(phone, encodedMsg) {
-        const directUrl = `whatsapp://send?phone=${phone}&text=${encodedMsg}`;
-        const fallbackUrl = `https://wa.me/${phone}?text=${encodedMsg}`;
-        window.location.href = directUrl;
-        setTimeout(() => {
-            if (document.hasFocus()) window.location.href = fallbackUrl;
-        }, 1500);
+        // api.whatsapp.com opens WhatsApp Web directly (no intermediate page on desktop)
+        const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodedMsg}`;
+        window.location.href = url;
     };
     
     // Set sticky buy bar elements

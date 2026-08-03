@@ -16703,9 +16703,9 @@ body.offCanvas__minicart_active::before {
 }
 
 .minicart__button--link.checkout__btn {
-  background: var(--primary-color) !important;
+  background: #800020 !important;
   color: #fff !important;
-  border: 1.5px solid var(--primary-color) !important;
+  border: 1.5px solid #5c001a !important;
 }
 
 /* ========================================================

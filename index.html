@@ -1595,13 +1595,15 @@
         }
 
         .botm-thumb-item {
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             cursor: pointer;
-            border: 2px solid transparent;
+            border: 2px solid #e5dec9;
             overflow: hidden;
             transition: all 0.3s ease;
-            border-radius: 2px;
+            border-radius: 4px;
+            background: #fff;
+            flex-shrink: 0;
         }
 
         .botm-thumb-item img {
@@ -1611,7 +1613,7 @@
         }
 
         .botm-thumb-item.active {
-            border-color: var(--primary-color);
+            border-color: #1a1108;
         }
 
         .botm-thumb-item:hover {
@@ -1825,6 +1827,216 @@
             display: flex;
             gap: 1.5rem;
             flex-direction: column;
+        }
+
+        .botm-layout__image {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            flex: 1;
+            max-width: 480px;
+        }
+
+        .botm-image-wrap {
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border-radius: 4px;
+            background: #fff;
+            border: 1px solid #eee;
+        }
+
+        .botm-layout__content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+            justify-content: center;
+        }
+
+        .botm-vendor {
+            font-size: 1.25rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #8e7a6b;
+            font-weight: 600;
+            display: block;
+        }
+
+        .botm-title {
+            margin: 0;
+            font-family: var(--font-heading);
+            font-size: 3.6rem;
+            font-weight: 700;
+            color: #1a1108;
+            line-height: 1.2;
+        }
+
+        .botm-price {
+            font-size: 2.6rem;
+            font-weight: 600;
+            color: #1a1108;
+        }
+
+        .botm-tax {
+            font-size: 1.25rem;
+            color: #777;
+            margin-top: -0.8rem;
+            display: block;
+        }
+
+        .botm-option {
+            margin-top: 0.5rem;
+        }
+
+        .botm-option-label {
+            font-size: 1.3rem;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .botm-option-value {
+            font-weight: 400;
+            text-transform: none;
+            color: #1a1108;
+        }
+
+        .botm-color-options {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .botm-color-swatch {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 2px solid #e5dec9;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .botm-color-swatch.active {
+            border-color: #1a1108;
+        }
+
+        .botm-size-options {
+            display: flex;
+            gap: 8px;
+        }
+
+        .botm-size-btn {
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+            background: #fff;
+            color: #1a1108;
+            border-radius: 4px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .botm-size-btn.active {
+            background: #1a1108;
+            color: #fff;
+            border-color: #1a1108;
+        }
+
+        .botm-qty {
+            margin-top: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .botm-qty-label {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+            color: #555;
+        }
+
+        .botm-qty-stepper {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: fit-content;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .botm-qty-stepper input {
+            width: 44px;
+            height: 36px;
+            border: none;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            text-align: center;
+            font-size: 1.4rem;
+            color: #1a1108;
+            background: transparent;
+        }
+
+        .botm-qty-btn {
+            width: 36px;
+            height: 36px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.6rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .botm-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 1.2rem;
+            max-width: 440px;
+        }
+
+        .botm-atc-btn {
+            width: 100%;
+            padding: 1.5rem;
+            background: #c69273;
+            color: #fff;
+            border: none;
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .botm-atc-btn:hover {
+            background: #a87961;
+        }
+
+        .botm-bin-btn {
+            width: 100%;
+            padding: 1.5rem;
+            background: #3b1c22;
+            color: #fff;
+            border: none;
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .botm-bin-btn:hover {
+            background: #2c1318;
         }
 
         /* ══ Heritage & Culture Layout ══ */

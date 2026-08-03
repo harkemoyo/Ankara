@@ -840,6 +840,10 @@
                             <input name="mpesa_method" type="radio" value="bank_transfer" />
                             <span class="ship-label">Bank Transfer</span>
                         </label>
+                        <label class="shipping-option" style="flex:1;min-width:140px;border-color:#ff9800;">
+                            <input name="mpesa_method" type="radio" value="pay_on_delivery" style="accent-color:#ff9800;" />
+                            <span class="ship-label">💵 Pay on Delivery</span>
+                        </label>
                     </div>
 
                     <!-- Paybill Instructions -->
@@ -1202,8 +1206,10 @@
                 const paymentLabels = {
                     'paybill': 'M-Pesa Paybill',
                     'send_money': 'M-Pesa Send Money',
-                    'bank_transfer': 'Bank Transfer'
+                    'bank_transfer': 'Bank Transfer',
+                    'pay_on_delivery': 'Pay on Delivery (COD)'
                 };
+                const paymentStatus = paymentMethod === 'pay_on_delivery' ? '⏳ PENDING (COD)' : '⏳ PENDING';
 
                 // ── BUILD CLEAN MESSAGE ──
                 // Get site URL for logo link
@@ -1243,9 +1249,16 @@
                 msg += `\n`;
 
                 msg += `💳 *PAYMENT*\n`;
-                msg += `${paymentLabels[paymentMethod] || paymentMethod}\n\n`;
+                msg += `Method: ${paymentLabels[paymentMethod] || paymentMethod}\n`;
+                msg += `Status: ${paymentStatus}\n`;
+                
+                if (paymentMethod === 'pay_on_delivery') {
+                    msg += `\n_Payment will be collected on delivery._\n`;
+                } else {
+                    msg += `\n_I will send M-Pesa confirmation code after payment._\n`;
+                }
 
-                msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+                msg += `\n━━━━━━━━━━━━━━━━━━━━\n`;
                 msg += `Thank you for your order! 🙏`;
 
                 const waNumber = window.STORE_CONFIG?.WHATSAPP_NUMBER || window.WHATSAPP_NUMBER || '254715687280';

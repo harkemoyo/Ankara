@@ -1274,16 +1274,17 @@
                 msg += `*TOTAL: ${fmtPrice(total)}*\n`;
                 msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-                msg += `👤 *CUSTOMER*\n`;
-                msg += `${firstName} ${lastName}\n`;
-                msg += `📞 ${phone}\n`;
-                if (email) msg += `✉️ ${email}\n`;
+                msg += `👤 *CUSTOMER DETAILS*\n`;
+                msg += `Name: ${firstName} ${lastName}\n`;
+                msg += `Phone: ${phone}\n`;
+                if (email) msg += `Email: ${email}\n`;
                 msg += `\n`;
 
                 msg += `📍 *DELIVERY ADDRESS*\n`;
-                msg += `${address1}${address2 ? ', ' + address2 : ''}\n`;
-                msg += `${city}${postcode ? ' ' + postcode : ''}\n`;
-                if (country && country !== 'KE') msg += `${country}\n`;
+                msg += `Address: ${address1}${address2 ? ', ' + address2 : ''}\n`;
+                msg += `City: ${city}\n`;
+                if (postcode) msg += `Postcode: ${postcode}\n`;
+                if (country && country !== 'KE') msg += `Country: ${country}\n`;
                 msg += `\n`;
 
                 msg += `💳 *PAYMENT*\n`;

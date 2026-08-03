@@ -1167,14 +1167,27 @@
                     return;
                 }
 
-                // Gather customer fields (not strictly required for WhatsApp, but include if filled)
+                // Gather customer fields
                 const firstName = (document.getElementById('first-name')?.value || '').trim();
                 const lastName = (document.getElementById('last-name')?.value || '').trim();
                 const email = (document.getElementById('email')?.value || '').trim();
                 const phone = (document.getElementById('phone')?.value || '').trim();
                 const address1 = (document.getElementById('address1')?.value || '').trim();
-                const address2 = (document.getElementById('address2')?.value || '').trim();
                 const city = (document.getElementById('city')?.value || '').trim();
+
+                // ── VALIDATION: Require customer details before WhatsApp ──
+                const missing = [];
+                if (!firstName || !lastName) missing.push('Full Name');
+                if (!phone) missing.push('Phone Number');
+                if (!address1) missing.push('Address');
+                if (!city) missing.push('City');
+                
+                if (missing.length > 0) {
+                    alert('Please fill in the following required fields:\n\n• ' + missing.join('\n• '));
+                    return;
+                }
+
+                const address2 = (document.getElementById('address2')?.value || '').trim();
                 const postcode = (document.getElementById('postcode')?.value || '').trim();
                 const country = (document.getElementById('country')?.value || '').trim();
 
@@ -1184,17 +1197,6 @@
                 const shipping = subtotal >= 10000 ? 0 : 500;
                 const total = subtotal + shipping;
 
-                let msg = `Hello Mary Humphrey African Wear! 👋\n\n`;
-                msg += `I'd like to place the following order:\n\n`;
-                cart.forEach((item, i) => {
-                    msg += `${i + 1}. *${item.title}*\n`;
-                    msg += `   Size: ${item.size || 'N/A'}${item.color ? ' | Colour: ' + item.color : ''}\n`;
-                    msg += `   Qty: ${item.qty} × ${fmtPrice(item.price)} = ${fmtPrice(parseFloat(item.price) * item.qty)}\n\n`;
-                });
-                msg += `Subtotal: ${fmtPrice(subtotal)}\n`;
-                msg += `Shipping: ${shipping === 0 ? 'FREE' : fmtPrice(shipping)}\n`;
-                msg += `*Total: ${fmtPrice(total)}*\n\n`;
-
                 // Get selected payment method
                 const paymentMethod = document.querySelector('input[name="mpesa_method"]:checked')?.value || 'paybill';
                 const paymentLabels = {
@@ -1203,16 +1205,44 @@
                     'bank_transfer': 'Bank Transfer'
                 };
 
-                msg += `*Delivery Details:*\n`;
-                if (firstName || lastName) msg += `Name: ${firstName} ${lastName}\n`;
-                if (phone) msg += `Phone: ${phone}\n`;
-                if (email) msg += `Email: ${email}\n`;
-                if (address1) msg += `Address: ${address1}${address2 ? ', ' + address2 : ''}\n`;
-                if (city) msg += `City: ${city}${postcode ? ' ' + postcode : ''}\n`;
-                if (country) msg += `Country: ${country}\n`;
+                // ── BUILD CLEAN MESSAGE ──
+                let msg = `━━━━━━━━━━━━━━━━━━━━\n`;
+                msg += `    *MARY HUMPHREY*\n`;
+                msg += `    *AFRICAN WEAR*\n`;
+                msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+                
+                msg += `📦 *ORDER DETAILS*\n\n`;
+                cart.forEach((item, i) => {
+                    msg += `${i + 1}. *${item.title}*\n`;
+                    msg += `   • Size: ${item.size || 'N/A'}\n`;
+                    if (item.color) msg += `   • Colour: ${item.color}\n`;
+                    msg += `   • Qty: ${item.qty} × ${fmtPrice(item.price)}\n`;
+                    msg += `   • Subtotal: ${fmtPrice(parseFloat(item.price) * item.qty)}\n\n`;
+                });
+                
+                msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+                msg += `Subtotal: ${fmtPrice(subtotal)}\n`;
+                msg += `Shipping: ${shipping === 0 ? 'FREE 🎉' : fmtPrice(shipping)}\n`;
+                msg += `*TOTAL: ${fmtPrice(total)}*\n`;
+                msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-                msg += `\n*Preferred Payment:* ${paymentLabels[paymentMethod] || paymentMethod}\n`;
-                msg += `\nPlease confirm my order and let me know how to proceed with payment. Thank you!`;
+                msg += `👤 *CUSTOMER*\n`;
+                msg += `${firstName} ${lastName}\n`;
+                msg += `📞 ${phone}\n`;
+                if (email) msg += `✉️ ${email}\n`;
+                msg += `\n`;
+
+                msg += `📍 *DELIVERY ADDRESS*\n`;
+                msg += `${address1}${address2 ? ', ' + address2 : ''}\n`;
+                msg += `${city}${postcode ? ' ' + postcode : ''}\n`;
+                if (country && country !== 'KE') msg += `${country}\n`;
+                msg += `\n`;
+
+                msg += `💳 *PAYMENT*\n`;
+                msg += `${paymentLabels[paymentMethod] || paymentMethod}\n\n`;
+
+                msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+                msg += `Thank you for your order! 🙏`;
 
                 const waNumber = window.STORE_CONFIG?.WHATSAPP_NUMBER || window.WHATSAPP_NUMBER || '254715687280';
                 const cleanNumber = waNumber.replace(/\D/g, '');

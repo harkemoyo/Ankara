@@ -71,9 +71,13 @@
                                 ${ICONS.phone}
                                 <a href="tel:+${phone.replace(/\D/g, '')}">${escapeHtml(phoneDisplay)}</a>
                             </li>
+                            <li class="footer__widget--contact__list--items">
+                                ${ICONS.location}
+                                <a href="${escapeHtml(locationUrl)}" rel="noopener" target="_blank">${escapeHtml(locationName)}</a>
+                            </li>
                         </ul>
                         <!-- Map Preview -->
-                        <div class="footer__map" style="margin-top:1.5rem;border-radius:8px;overflow:hidden;border:1px solid var(--border-color);position:relative;">
+                        <div class="footer__map" style="margin-top:1.5rem;border-radius:8px;overflow:hidden;border:1px solid var(--border-color);">
                             <iframe 
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15955.277444357!2d36.7678!3d-1.2741!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1a6bf7445dc1%3A0x1c5f3e8c8e8e8e8e!2sLavington%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske" 
                                 width="100%" 
@@ -84,18 +88,6 @@
                                 referrerpolicy="no-referrer-when-downgrade"
                                 title="Store Location - Lavington, Nairobi">
                             </iframe>
-                            <!-- Map pin overlay -->
-                            <div class="footer__map-pin" aria-hidden="true" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-100%);width:28px;height:40px;pointer-events:none;z-index:2;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.3));">
-                                <svg viewBox="0 0 24 36" fill="none" style="width:100%;height:100%;display:block;">
-                                    <path d="M12 0C5.383 0 0 5.383 0 12c0 9 12 24 12 24s12-15 12-24c0-6.617-5.383-12-12-12z" fill="#E02020"/>
-                                    <circle cx="12" cy="12" r="5" fill="white"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <!-- Location below map -->
-                        <div class="footer__map-location" style="margin-top:0.8rem;display:flex;align-items:center;gap:0.6rem;font-size:1.4rem;color:var(--foreground-color);">
-                            ${ICONS.location}
-                            <a href="${escapeHtml(locationUrl)}" rel="noopener" target="_blank" style="color:var(--foreground-color);text-decoration:underline;">${escapeHtml(locationName)}</a>
                         </div>
                         <!-- Social Media -->
                         <ul class="footer__widget--social__list">

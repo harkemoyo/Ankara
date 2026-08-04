@@ -1,5 +1,7 @@
 const express = require('express');
 const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 const { initCheckout, initMpesaCheckout, paystackWebhook } = require('../controllers/checkoutController');
 const { getOrder } = require('../controllers/orderController');
 const { orderLookupLimiter } = require('../middleware/rateLimit');
@@ -92,6 +94,62 @@ router.post('/upload/homepage', requireAdmin, upload.single('file'), async (req,
         console.error('Homepage upload error:', error);
         res.status(500).json({ error: 'Failed to upload image', message: error.message || String(error) });
     }
+});
+
+// Permanently purge a section from HTML, JS, and theme JSON
+router.delete('/section-purge/:key', requireAdmin, async (req, res) => {
+    const key = req.params.key;
+    if (!key || /[^a-z0-9_-]/.test(key)) return res.status(400).json({ error: 'Invalid section key' });
+    const rootDir = path.join(__dirname, '..', '..');
+    const results = { html: false, js: false, theme: false };
+
+    // 1. Remove from index.html
+    try {
+        const indexPath = path.join(rootDir, 'index.html');
+        let html = fs.readFileSync(indexPath, 'utf-8');
+        const sectionRegex = new RegExp(
+            `([ \\t]*<!--[^>]*?-->\\s*)?<section[^>]*data-section-id="${key}"[^>]*>[\\s\\S]*?<\\/section>\\s*`,
+            'i'
+        );
+        const newHtml = html.replace(sectionRegex, '');
+        if (newHtml !== html) {
+            fs.writeFileSync(indexPath, newHtml, 'utf-8');
+            results.html = true;
+        }
+    } catch (e) { console.error('Purge HTML error:', e.message); }
+
+    // 2. Remove updater from homepage-sections.js
+    try {
+        const jsPath = path.join(rootDir, 'assets', 'homepage-sections.js');
+        let js = fs.readFileSync(jsPath, 'utf-8');
+        // Match the updater: "  key(el, settings) { ... }," or "  key(el, settings) { ... }\n"
+        // We look for the function in the updaters object
+        const fnRegex = new RegExp(
+            `\\n  ${key}\\(el,\\s*settings\\)\\s*\\{[\\s\\S]*?\\n  \\},?\\n`,
+            ''
+        );
+        const newJs = js.replace(fnRegex, '\n');
+        if (newJs !== js) {
+            fs.writeFileSync(jsPath, newJs, 'utf-8');
+            results.js = true;
+        }
+    } catch (e) { console.error('Purge JS error:', e.message); }
+
+    // 3. Remove from theme JSON (Supabase + file)
+    try {
+        const productService = require('../services/productService');
+        const theme = await productService.getTheme();
+        if (theme.sections && theme.sections[key]) {
+            delete theme.sections[key];
+        }
+        if (theme.order) {
+            theme.order = theme.order.filter(k => k !== key);
+        }
+        await productService.updateTheme(theme);
+        results.theme = true;
+    } catch (e) { console.error('Purge theme error:', e.message); }
+
+    res.json({ success: true, purged: key, results });
 });
 
 // Settings routes

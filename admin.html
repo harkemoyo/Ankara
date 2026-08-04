@@ -4429,28 +4429,28 @@
     };
 
     window.deleteThemeSection = async function (key) {
-      if (!confirm(`Remove the "${SECTION_LABELS[themeData.sections[key]?.type] || key}" section?`)) return;
-      const order = themeData.order || [];
-      const idx = order.indexOf(key);
-      if (idx > -1) order.splice(idx, 1);
-      if (themeData.sections[key]) delete themeData.sections[key];
+      const label = SECTION_LABELS[themeData.sections[key]?.type] || key;
+      if (!confirm(`⚠️ PERMANENTLY DELETE "${label}"?\n\nThis will remove the section from:\n• Theme configuration\n• Homepage HTML\n• JavaScript renderer\n\nThis CANNOT be undone.`)) return;
       if (currentSectionKey === key) currentSectionKey = null;
       try {
         const session = (await supabase.auth.getSession()).data.session;
-        const res = await fetch('/api/theme', {
-          method: 'PUT',
+        const res = await fetch('/api/section-purge/' + encodeURIComponent(key), {
+          method: 'DELETE',
           headers: {
-            'Content-Type': 'application/json',
             ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {})
-          },
-          body: JSON.stringify(themeData)
+          }
         });
-        if (!res.ok) throw new Error('Delete failed');
+        if (!res.ok) throw new Error('Purge failed');
         const json = await res.json();
-        themeData = json.theme || themeData;
+        // Update local state
+        const order = themeData.order || [];
+        const idx = order.indexOf(key);
+        if (idx > -1) order.splice(idx, 1);
+        if (themeData.sections[key]) delete themeData.sections[key];
         renderThemeSectionsList();
         const container = document.getElementById('homepage-section-form');
-        if (container && currentSectionKey === null) container.innerHTML = '<p style="color:var(--muted);">Select a section to edit.</p>';
+        if (container && currentSectionKey === null) container.innerHTML = '<p style="color:var(--muted);">Section permanently deleted.</p>';
+        alert(`✓ "${label}" has been permanently removed.`);
       } catch (err) {
         alert('Delete failed: ' + err.message);
       }

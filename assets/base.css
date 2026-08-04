@@ -1,12 +1,12 @@
 /* assets/base.css
    ========================================================================== */
 
-a,
+/* a,
 a:link,
 a:visited,
 a:active {
   color: var(--text-white-color);
-}
+} */
 
 a:hover,
 a:focus {
@@ -7655,7 +7655,9 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 1.3rem;
   color: var(--foreground-color);
 }
-
+.footer__map--link, .footer__map--link a{
+color: var(--primary-color);
+}
 .footer__map--link:hover {
   color: var(--primary-color);
 }

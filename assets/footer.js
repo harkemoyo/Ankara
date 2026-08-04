@@ -71,11 +71,14 @@
                                 ${ICONS.phone}
                                 <a href="tel:+${phone.replace(/\D/g, '')}">${escapeHtml(phoneDisplay)}</a>
                             </li>
+                            <li>
                               <!-- Location Link -->
+
                         <a class="footer__map--link" href="https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920833,36.7620278,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920833!4d36.7620278?hl=en&entry=ttu&g_ep=EgoyMDI2MDgwMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">
                             <svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
                             <span>${escapeHtml(locationName)}</span>
                         </a>
+                        </li>
                         </ul>
                         <!-- Map Preview -->
                         <div class="footer__map">

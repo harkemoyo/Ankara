@@ -324,9 +324,9 @@
         "description": "Find us at Noir boutique on Muthangari Drive, Nairobi. Explore the collection and try on your favorites.",
         "button_text": "Get Directions",
         "button_link": "https://www.google.com/maps/search/?api=1&query=Noir+Boutique+Muthangari+Drive+Nairobi",
-        "images": [
-          "assets/noir-outlet-1.webp",
-          "assets/noir-outlet-2.webp"
+        "slides": [
+          { "type": "image", "url": "assets/noir-outlet-1.webp" },
+          { "type": "image", "url": "assets/noir-outlet-2.webp" }
         ]
       }
     }

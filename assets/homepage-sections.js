@@ -407,13 +407,49 @@ function escapeHtml(str) {
       if (settings.button_text) btn.textContent = settings.button_text;
       if (settings.button_link) btn.href = settings.button_link;
     }
-    const imagesWrap = el.querySelector('.outlet-images');
-    if (imagesWrap) {
-      imagesWrap.innerHTML = (settings.images || []).map(img => `
-        <div class="outlet-image-wrap">
-          <img alt="" loading="lazy" decoding="async" src="${escapeHtml(img)}" />
-        </div>
-      `).join('');
+    const slides = settings.slides || (settings.images || []).map(url => ({ type: 'image', url }));
+    const wrapper = el.querySelector('.outlet-slides');
+    if (wrapper && slides.length) {
+      wrapper.innerHTML = slides.map(sl => {
+        if (sl.type === 'video') {
+          return `<div class="swiper-slide outlet-slide">
+            <video class="outlet-video" src="${escapeHtml(sl.url)}" muted playsinline loop preload="metadata"></video>
+          </div>`;
+        }
+        return `<div class="swiper-slide outlet-slide">
+          <img alt="" loading="lazy" decoding="async" src="${escapeHtml(sl.url)}" />
+        </div>`;
+      }).join('');
+      if (window._outletSwiper && typeof window._outletSwiper.destroy === 'function') {
+        try { window._outletSwiper.destroy(true, true); } catch(e){}
+      }
+      if (typeof Swiper !== 'undefined') {
+        window._outletSwiper = new Swiper('.outlet-swiper', {
+          loop: slides.length > 1,
+          autoplay: { delay: 4000, disableOnInteraction: false },
+          pagination: { el: '.outlet-pagination', clickable: true },
+          navigation: { prevEl: '.outlet-prev', nextEl: '.outlet-next' },
+          on: {
+            slideChangeTransitionStart: function () {
+              const activeSlide = this.slides[this.activeIndex];
+              if (activeSlide) {
+                const video = activeSlide.querySelector('video');
+                if (video) video.play();
+              }
+            },
+            slideChangeTransitionEnd: function () {
+              this.slides.forEach((slide, i) => {
+                if (i !== this.activeIndex) {
+                  const v = slide.querySelector('video');
+                  if (v) { v.pause(); v.currentTime = 0; }
+                }
+              });
+            }
+          }
+        });
+        const firstVideo = wrapper.querySelector('.swiper-slide-active video');
+        if (firstVideo) firstVideo.play();
+      }
     }
   },
 

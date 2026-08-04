@@ -3703,7 +3703,7 @@
       announcement: 'Announcement Bar', hero: 'Hero Slideshow', categories: 'Category Grid',
       trending: 'Trending Products', style_of_month: 'Style of the Month', fabrics: 'Fabric Showcase',
       heritage: 'Heritage & Culture', sale_promo: 'Sale Promo Strip', shop_by_style: 'Shop by Style',
-      statement: 'Statement Banner', testimonials: 'Testimonials', services: 'Services Strip', footer: 'Footer',
+      outlet: 'Our Outlet', statement: 'Statement Banner', testimonials: 'Testimonials', services: 'Services Strip', footer: 'Footer',
       buttons: 'Buttons & Links', custom_css: 'Custom CSS & Branding Styles'
     };
 
@@ -3941,6 +3941,37 @@
         }
         return html;
       },
+      outlet(s) {
+        const slides = s.slides || (s.images || []).map(url => ({ type: 'image', url }));
+        let html = `<div class="form-grid">
+          ${textField('ts-subtitle', 'Subtitle', s.subtitle)}
+          ${textField('ts-title', 'Title', s.title)}
+          ${textField('ts-description', 'Description', s.description, 'textarea')}
+          ${textField('ts-button_text', 'Button Text', s.button_text)}
+          ${textField('ts-button_link', 'Button Link / Directions URL', s.button_link)}
+        </div>`;
+        html += `<h4 style="margin:20px 0 8px;font-size:1.3rem;">Slider Media</h4>
+          <p style="margin:0 0 10px;color:#666;font-size:0.85rem;">Add images or videos. They will display as a slider on the storefront.</p>
+          <div id="ts-outlet-slides-list">`;
+        slides.forEach((sl, i) => {
+          html += `<div class="js-outlet-slide" style="border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:10px;background:#fff;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <strong style="font-size:1.1rem;">Slide ${i + 1}</strong>
+              <button type="button" onclick="this.closest('.js-outlet-slide').remove()" style="padding:4px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
+            </div>
+            <div class="form-grid">
+              <div class="form-group"><label style="font-size:1.2rem;">Type</label><select class="js-outlet-slide-type" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+                <option value="image" ${sl.type !== 'video' ? 'selected' : ''}>Image</option>
+                <option value="video" ${sl.type === 'video' ? 'selected' : ''}>Video</option>
+              </select></div>
+              <div class="form-group"><label style="font-size:1.2rem;">URL</label><input class="js-outlet-slide-url" type="text" value="${escapeHtml(sl.url || '')}" placeholder="e.g. assets/photo.webp or https://..." style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;" /></div>
+            </div>
+          </div>`;
+        });
+        html += `</div>
+          <button type="button" onclick="addOutletSlide()" style="margin-top:8px;padding:8px 14px;background:#f5f1ec;border:1px solid #D4A843;color:#3C3836;border-radius:4px;cursor:pointer;font-size:0.9rem;">+ Add Slide</button>`;
+        return html;
+      },
       statement(s) {
         return `<div class="form-grid">
           ${imageUploadBlock('ts-bg_image', s.bg_image, 'Background Image')}
@@ -4147,6 +4178,22 @@
           }
         }
         return { title: document.getElementById('ts-title')?.value || '', blocks };
+      },
+      outlet() {
+        const slides = [];
+        document.querySelectorAll('.js-outlet-slide').forEach(el => {
+          const type = el.querySelector('.js-outlet-slide-type')?.value || 'image';
+          const url = el.querySelector('.js-outlet-slide-url')?.value || '';
+          if (url) slides.push({ type, url });
+        });
+        return {
+          subtitle: document.getElementById('ts-subtitle')?.value || '',
+          title: document.getElementById('ts-title')?.value || '',
+          description: document.getElementById('ts-description')?.value || '',
+          button_text: document.getElementById('ts-button_text')?.value || '',
+          button_link: document.getElementById('ts-button_link')?.value || '',
+          slides
+        };
       },
       statement() {
         return {
@@ -4383,6 +4430,30 @@
       } catch (err) {
         alert('Delete failed: ' + err.message);
       }
+    };
+
+    window.addOutletSlide = function () {
+      const container = document.getElementById('ts-outlet-slides-list');
+      if (!container) return;
+      const idx = container.querySelectorAll('.js-outlet-slide').length + 1;
+      const slide = document.createElement('div');
+      slide.className = 'js-outlet-slide';
+      slide.style.cssText = 'border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:10px;background:#fff;';
+      slide.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <strong style="font-size:1.1rem;">Slide ${idx}</strong>
+          <button type="button" onclick="this.closest('.js-outlet-slide').remove()" style="padding:4px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label style="font-size:1.2rem;">Type</label><select class="js-outlet-slide-type" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+            <option value="image" selected>Image</option>
+            <option value="video">Video</option>
+          </select></div>
+          <div class="form-group"><label style="font-size:1.2rem;">URL</label><input class="js-outlet-slide-url" type="text" placeholder="e.g. assets/photo.webp or https://..." style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;" /></div>
+        </div>
+      `;
+      container.appendChild(slide);
+      slide.querySelector('.js-outlet-slide-url').focus();
     };
 
     window.addFooterLink = function (list) {

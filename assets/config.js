@@ -19,6 +19,7 @@ window.STORE_CONFIG = {
     
     // WhatsApp Floating Button
     WHATSAPP_NUMBER: '254715687280',
+    PHONE_NUMBER: '254715687280',
     
     // API Configuration
     API_BASE_URL: window.location.origin,

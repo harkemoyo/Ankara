@@ -6,6 +6,7 @@
 
     const ICONS = {
         location: `<svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>`,
+        phone: `<svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>`,
         email: `<svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>`,
         arrowDown: `<svg class="footer__widget--title__arrowdown--icon" height="8" viewBox="0 0 10.355 6.394" width="12" xmlns="http://www.w3.org/2000/svg"><path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z" fill="currentColor" transform="translate(-6 -8.59)"></path></svg>`,
         instagram: `<svg fill="currentColor" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path></svg>`,
@@ -26,6 +27,8 @@
         const locationName = s.location || 'Nairobi, Kenya';
         const locationUrl = s.location_url || 'https://maps.google.com';
         const email = s.email || 'hello@maryhumphreywear.com';
+        const phone = s.phone || (window.STORE_CONFIG?.PHONE_NUMBER || window.STORE_CONFIG?.WHATSAPP_NUMBER) || '254715687280';
+        const phoneDisplay = '+' + phone.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{3})/, '$1 $2 $3 $4');
         const social = s.social || { instagram: '#', facebook: '#', tiktok: '#' };
 
         const collectionLinks = s.collection_links || [
@@ -67,6 +70,10 @@
                             <li class="footer__widget--contact__list--items">
                                 ${ICONS.email}
                                 <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a>
+                            </li>
+                            <li class="footer__widget--contact__list--items">
+                                ${ICONS.phone}
+                                <a href="tel:+${phone.replace(/\D/g, '')}">${escapeHtml(phoneDisplay)}</a>
                             </li>
                         </ul>
                         <!-- Social Media -->

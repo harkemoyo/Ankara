@@ -17147,3 +17147,104 @@ body.body .header__section {
   font-size: 1.4rem;
   line-height: 2rem;
 }
+
+/* ── Floating Contact Cluster ── */
+.floating-contact-cluster {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.floating-contact-toggle {
+  width: 5.6rem;
+  height: 5.6rem;
+  border-radius: 50%;
+  border: none;
+  background: #c69273;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.floating-contact-toggle:hover {
+  background: #a87961;
+  transform: scale(1.05);
+}
+
+.floating-contact-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  opacity: 0;
+  transform: scale(0.8) translateY(2rem);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.floating-contact-cluster.active .floating-contact-menu {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+
+.floating-contact-btn {
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.floating-contact-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+}
+
+.floating-contact-call {
+  background: #1a9c53;
+}
+
+.floating-contact-call:hover {
+  background: #158244;
+}
+
+.floating-contact-whatsapp {
+  background: #25d366;
+}
+
+.floating-contact-whatsapp:hover {
+  background: #1da851;
+}
+
+@media only screen and (max-width: 479px) {
+  .floating-contact-cluster {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .floating-contact-toggle {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .floating-contact-btn {
+    width: 4.4rem;
+    height: 4.4rem;
+  }
+}

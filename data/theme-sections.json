@@ -319,10 +319,10 @@
       "type": "outlet",
       "enabled": true,
       "settings": {
-        "subtitle": "Visit Us In Person",
-        "title": "Our Outlet",
-        "description": "Find us at Noir boutique on Muthangari Drive, Nairobi. Explore the collection and try on your favorites.",
-        "button_text": "Get Directions",
+        "subtitle": "Now Open at Noir Boutique",
+        "title": "Touch It. Try It. Love It.",
+        "description": "Bold Ankara prints, cozy sets, elegant dresses — some things you just have to experience in person. Visit our outlet at Noir Boutique on Muthangari Drive, Nairobi. Open Tuesday to Sunday, 11 AM – 10 PM.",
+        "button_text": "Visit Us",
         "button_link": "https://www.google.com/maps/search/?api=1&query=Noir+Boutique+Muthangari+Drive+Nairobi",
         "slides": [
           { "type": "image", "url": "assets/noir-outlet-1.webp" },

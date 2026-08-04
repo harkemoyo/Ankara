@@ -76,6 +76,19 @@
                                 <a href="tel:+${phone.replace(/\D/g, '')}">${escapeHtml(phoneDisplay)}</a>
                             </li>
                         </ul>
+                        <!-- Map Preview -->
+                        <div class="footer__map" style="margin-top:1.5rem;border-radius:8px;overflow:hidden;border:1px solid var(--border-color);">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15955.277444357!2d36.7678!3d-1.2741!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1a6bf7445dc1%3A0x1c5f3e8c8e8e8e8e!2sLavington%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske" 
+                                width="100%" 
+                                height="120" 
+                                style="border:0;display:block;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Store Location - Lavington, Nairobi">
+                            </iframe>
+                        </div>
                         <!-- Social Media -->
                         <ul class="footer__widget--social__list">
                             <li class="footer__widget--social__list--items">

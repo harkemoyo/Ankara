@@ -17252,12 +17252,21 @@ body.body .header__section {
 /* ── Visit Our Outlet ── */
 .home-outlet {
   background-color: #f5f1ec;
+  padding-inline: 1.5rem;
+  padding-block: 1.5rem;
+}
+.outlet__wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .outlet-header {
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto 3.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 .outlet-header .outlet-subtitle {
@@ -17267,7 +17276,6 @@ body.body .header__section {
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  margin-bottom: 1rem;
   padding-bottom: 0.4rem;
   border-bottom: 2px solid #D4A843;
 }
@@ -17275,14 +17283,14 @@ body.body .header__section {
 .outlet-header .outlet-title {
   font-size: clamp(2.8rem, 4vw, 4rem);
   line-height: 1.1;
-  margin-bottom: 1.4rem;
   color: #3C3836;
 }
 
 .outlet-header .outlet-desc {
   font-size: 1.5rem;
+  text-align: center;
   line-height: 1.7;
-  margin: 0 auto 2rem;
+  margin: 0 auto;
   max-width: 44ch;
   color: #5c5755;
 }
@@ -17364,18 +17372,4 @@ body.body .header__section {
 .outlet-swiper .swiper-pagination-bullet-active {
   opacity: 1;
   background: #D4A843;
-}
-
-@media only screen and (max-width: 767px) {
-  .outlet-header {
-    margin-bottom: 2.5rem;
-  }
-
-  .outlet-cta.primary__btn {
-    width: 100%;
-  }
-
-  .outlet-slide {
-    aspect-ratio: 3 / 4;
-  }
 }

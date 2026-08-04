@@ -1226,14 +1226,41 @@ function renderContactCluster() {
   }
 
   let isOpen = false;
+  let hoverTimeout = null;
+
+  function openContactMenu() {
+    clearTimeout(hoverTimeout);
+    if (!isOpen) {
+      isOpen = true;
+      setExpanded(true);
+    }
+  }
+
+  function closeContactMenu() {
+    hoverTimeout = setTimeout(() => {
+      isOpen = false;
+      setExpanded(false);
+    }, 300);
+  }
+
   toggle.addEventListener('click', function (e) {
     e.stopPropagation();
-    isOpen = !isOpen;
-    setExpanded(isOpen);
+    clearTimeout(hoverTimeout);
+    if (isOpen) {
+      isOpen = false;
+      setExpanded(false);
+    } else {
+      isOpen = true;
+      setExpanded(true);
+    }
   });
+
+  container.addEventListener('mouseenter', openContactMenu);
+  container.addEventListener('mouseleave', closeContactMenu);
 
   document.addEventListener('click', function (e) {
     if (isOpen && !container.contains(e.target)) {
+      clearTimeout(hoverTimeout);
       isOpen = false;
       setExpanded(false);
     }

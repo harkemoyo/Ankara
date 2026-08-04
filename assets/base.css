@@ -1,11 +1,16 @@
 /* assets/base.css
    ========================================================================== */
 
-a, a:link, a:visited, a:active {
-    color: var(--link-color);
+a,
+a:link,
+a:visited,
+a:active {
+  color: var(--link-color);
 }
-a:hover, a:focus {
-    color: var(--link-hover-color);
+
+a:hover,
+a:focus {
+  color: var(--link-hover-color);
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
@@ -59,43 +64,56 @@ a:hover, a:focus {
   min-height: 500px;
   background-color: #800020;
 }
+
 .home-categories {
   min-height: 380px;
 }
+
 .home-category-grid {
   min-height: 320px;
 }
+
 .bag-of-the-month {
   min-height: 420px;
 }
+
 .home-fabrics-teaser {
   min-height: 360px;
 }
+
 .fabrics-grid {
   min-height: 280px;
 }
+
 .heritage-culture-section {
   min-height: 400px;
 }
+
 .home-sale-promo {
   min-height: 200px;
 }
+
 .home-shop-by-style {
   min-height: 420px;
 }
+
 .style-grid {
   min-height: 360px;
 }
+
 .home-statement {
   min-height: 350px;
   background-color: #800020;
 }
+
 .home-testimonials {
   min-height: 280px;
 }
+
 .home-services {
   min-height: 180px;
 }
+
 .services-grid {
   min-height: 140px;
 }
@@ -104,15 +122,21 @@ a:hover, a:focus {
 img {
   transition: opacity 0.3s ease-in-out;
 }
+
 img:not(.loaded) {
   opacity: 0.85;
 }
+
 img.loaded {
   opacity: 1;
 }
-*, *::before, *::after {
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
+
 /* ── Reset & Body Grid ── */
 html {
   font-size: 62.5%;
@@ -155,7 +179,7 @@ body {
   justify-content: center;
   padding-inline: var(--space-4);
   padding-block: var(--space-2);
-background: #3c3836;
+  background: #3c3836;
 }
 
 
@@ -1196,6 +1220,7 @@ hr {
   padding-inline: 1.5rem;
   border-top: 1px solid var(--border-color);
 }
+
 .footer__bottom--inner {
   display: flex;
   flex-direction: column;
@@ -1209,6 +1234,7 @@ hr {
   .footer__bottom--inner {
     flex-direction: row;
   }
+
   .footer__bottom {
     padding-inline: 4.5rem;
   }
@@ -2144,6 +2170,7 @@ body.overlay__active::before,
   text-transform: uppercase;
   color: var(--foreground-color);
 }
+
 .offcanvas__menu_item:hover {
   color: var(--primary-color);
 }
@@ -2169,6 +2196,7 @@ body.overlay__active::before,
   padding: 15px 0 15px 30px;
   color: var(--foreground-color);
 }
+
 .offcanvas__sub_menu_item:hover {
   color: var(--primary-color);
 }
@@ -7450,6 +7478,7 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 1.5rem;
   color: var(--foreground-color);
 }
+
 .footer__widget--menu__text:hover {
   color: var(--primary-color);
 }
@@ -17255,7 +17284,8 @@ body.body .header__section {
   padding-inline: 1.5rem;
   padding-block: 1.5rem;
 }
-.outlet__wrapper{
+
+.outlet__wrapper {
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -17334,7 +17364,7 @@ body.body .header__section {
 .outlet-slide {
   border-radius: 10px;
   overflow: hidden;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 9 / 6;
 }
 
 .outlet-slide img,

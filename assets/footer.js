@@ -71,24 +71,22 @@
                                 ${ICONS.phone}
                                 <a href="tel:+${phone.replace(/\D/g, '')}">${escapeHtml(phoneDisplay)}</a>
                             </li>
-                            <li class="footer__widget--contact__list--items">
-                                ${ICONS.location}
-                                <a href="${escapeHtml(locationUrl)}" rel="noopener" target="_blank">${escapeHtml(locationName)}</a>
-                            </li>
                         </ul>
                         <!-- Map Preview -->
-                        <div class="footer__map" style="margin-top:1.5rem;border-radius:8px;overflow:hidden;border:1px solid var(--border-color);">
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15955.277444357!2d36.7678!3d-1.2741!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1a6bf7445dc1%3A0x1c5f3e8c8e8e8e8e!2sLavington%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske" 
-                                width="100%" 
-                                height="120" 
-                                style="border:0;display:block;" 
-                                allowfullscreen="" 
-                                loading="lazy" 
+                        <div class="footer__map">
+                            <iframe
+                                src="https://www.google.com/maps?q=-1.2920833,36.7620278&z=17&output=embed&iwloc=near"
+                                allowfullscreen=""
+                                loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade"
-                                title="Store Location - Lavington, Nairobi">
+                                title="Mary Humphrey Wear - Lavington, Kingara Road, Nairobi">
                             </iframe>
                         </div>
+                        <!-- Location Link -->
+                        <a class="footer__map--link" href="https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920833,36.7620278,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920833!4d36.7620278?hl=en&entry=ttu&g_ep=EgoyMDI2MDgwMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">
+                            <svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                            <span>${escapeHtml(locationName)}</span>
+                        </a>
                         <!-- Social Media -->
                         <ul class="footer__widget--social__list">
                             <li class="footer__widget--social__list--items">

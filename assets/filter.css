@@ -200,7 +200,7 @@ body {
   position: relative;
   visibility: visible;
   overflow-x: hidden;
-  color: var(--foreground-color);
+  color: var(--primary-color);
   background-color: var(--background-color);
 }
 

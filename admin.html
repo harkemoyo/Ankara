@@ -3804,6 +3804,42 @@
       </div>`;
     }
 
+    function outletSlideBlock(i, sl = {}) {
+      const id = 'ts-outlet-slide-' + i;
+      const isVideo = sl.type === 'video';
+      const hasMedia = sl.url ? true : false;
+      return `<div class="js-outlet-slide" style="border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:10px;background:#fff;max-width:480px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <strong style="font-size:1.1rem;">Slide ${i + 1}</strong>
+          <button type="button" onclick="this.closest('.js-outlet-slide').remove()" style="padding:4px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
+        </div>
+        <div style="margin-bottom:8px;">
+          <label style="font-size:1.2rem;font-weight:600;display:block;margin-bottom:4px;">Type</label>
+          <select class="js-outlet-slide-type" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+            <option value="image" ${!isVideo ? 'selected' : ''}>Image</option>
+            <option value="video" ${isVideo ? 'selected' : ''}>Video</option>
+          </select>
+        </div>
+        <div ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadSectionImage(event.dataTransfer.files[0],'${id}-url','${id}-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:10px;background:#fafafa;text-align:center;margin-bottom:8px;">
+          <label class="btn btn-primary" style="cursor:pointer;margin:0;font-size:1.2rem;">
+            <input type="file" accept="image/*,video/*" onchange="if(this.files[0])uploadSectionImage(this.files[0],'${id}-url','${id}-status');this.value=''" style="display:none;" />
+            Upload
+          </label>
+          <span style="font-size:1.1rem;color:var(--muted);margin-left:8px;">or drag here</span>
+          <span id="${id}-status" style="display:block;font-size:1.1rem;color:var(--muted);margin-top:4px;"></span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <div style="width:80px;min-height:60px;border:1px solid #eee;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;">
+            <img id="${id}-preview" src="${escapeHtml(sl.url || '')}" style="max-width:100%;max-height:80px;object-fit:cover;display:${hasMedia && !isVideo ? 'block' : 'none'};" onload="this.style.display='block';this.nextElementSibling.style.display='none';" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+            <span id="${id}-placeholder" style="display:${hasMedia && !isVideo ? 'none' : 'flex'};color:#aaa;font-size:1rem;text-align:center;padding:4px;">${isVideo ? '▶ Video' : 'No file'}</span>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <input id="${id}-url" class="js-outlet-slide-url" type="text" placeholder="https://... or assets/file.webp" value="${escapeHtml(sl.url || '')}" oninput="var p=document.getElementById('${id}-preview'),ph=document.getElementById('${id}-placeholder');if(p){p.src=this.value;p.style.display='block';}if(ph)ph.style.display='none';" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;" />
+          </div>
+        </div>
+      </div>`;
+    }
+
     function textField(id, label, value, type) {
       type = type || 'text';
       if (type === 'textarea') return `<div class="form-group" style="grid-column:1/-1;"><label>${escapeHtml(label)}</label><textarea id="${id}" rows="3">${escapeHtml(value || '')}</textarea></div>`;
@@ -3954,19 +3990,7 @@
           <p style="margin:0 0 10px;color:#666;font-size:0.85rem;">Add images or videos. They will display as a slider on the storefront.</p>
           <div id="ts-outlet-slides-list">`;
         slides.forEach((sl, i) => {
-          html += `<div class="js-outlet-slide" style="border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:10px;background:#fff;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-              <strong style="font-size:1.1rem;">Slide ${i + 1}</strong>
-              <button type="button" onclick="this.closest('.js-outlet-slide').remove()" style="padding:4px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
-            </div>
-            <div class="form-grid">
-              <div class="form-group"><label style="font-size:1.2rem;">Type</label><select class="js-outlet-slide-type" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;">
-                <option value="image" ${sl.type !== 'video' ? 'selected' : ''}>Image</option>
-                <option value="video" ${sl.type === 'video' ? 'selected' : ''}>Video</option>
-              </select></div>
-              <div class="form-group"><label style="font-size:1.2rem;">URL</label><input class="js-outlet-slide-url" type="text" value="${escapeHtml(sl.url || '')}" placeholder="e.g. assets/photo.webp or https://..." style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;" /></div>
-            </div>
-          </div>`;
+          html += outletSlideBlock(i, sl);
         });
         html += `</div>
           <button type="button" onclick="addOutletSlide()" style="margin-top:8px;padding:8px 14px;background:#f5f1ec;border:1px solid #D4A843;color:#3C3836;border-radius:4px;cursor:pointer;font-size:0.9rem;">+ Add Slide</button>`;
@@ -4435,23 +4459,10 @@
     window.addOutletSlide = function () {
       const container = document.getElementById('ts-outlet-slides-list');
       if (!container) return;
-      const idx = container.querySelectorAll('.js-outlet-slide').length + 1;
-      const slide = document.createElement('div');
-      slide.className = 'js-outlet-slide';
-      slide.style.cssText = 'border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:10px;background:#fff;';
-      slide.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-          <strong style="font-size:1.1rem;">Slide ${idx}</strong>
-          <button type="button" onclick="this.closest('.js-outlet-slide').remove()" style="padding:4px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
-        </div>
-        <div class="form-grid">
-          <div class="form-group"><label style="font-size:1.2rem;">Type</label><select class="js-outlet-slide-type" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;">
-            <option value="image" selected>Image</option>
-            <option value="video">Video</option>
-          </select></div>
-          <div class="form-group"><label style="font-size:1.2rem;">URL</label><input class="js-outlet-slide-url" type="text" placeholder="e.g. assets/photo.webp or https://..." style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;" /></div>
-        </div>
-      `;
+      const idx = container.querySelectorAll('.js-outlet-slide').length;
+      const tmp = document.createElement('div');
+      tmp.innerHTML = outletSlideBlock(idx, {});
+      const slide = tmp.firstElementChild;
       container.appendChild(slide);
       slide.querySelector('.js-outlet-slide-url').focus();
     };

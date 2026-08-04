@@ -3997,27 +3997,36 @@
           <div style="display:flex;gap:8px;margin-bottom:4px;font-weight:600;color:#444;font-size:0.85rem;">
             <span style="flex:1;">Name (label)</span>
             <span style="flex:1;">Link (URL)</span>
+            <span style="width:80px;"></span>
+          </div>
+          <div id="ts-col-links-list">`;
+        colLinks.forEach((l) => {
+          html += `<div class="js-footer-link-row" data-list="collection" style="display:flex;gap:8px;margin-bottom:6px;align-items:center;">
+            <input class="js-footer-link-label" type="text" placeholder="e.g. All Products" value="${escapeHtml(l.label || '')}" style="flex:1;" />
+            <input class="js-footer-link-url" type="text" placeholder="e.g. shop.html" value="${escapeHtml(l.url || '')}" style="flex:1;" />
+            <button type="button" onclick="this.parentElement.remove()" style="width:80px;padding:6px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
           </div>`;
-        for (let i = 0; i < 4; i++) {
-          const l = colLinks[i] || {};
-          html += `<div style="display:flex;gap:8px;margin-bottom:6px;">
-            <input id="ts-col-${i}-label" type="text" placeholder="e.g. All Products" value="${escapeHtml(l.label || '')}" style="flex:1;" />
-            <input id="ts-col-${i}-url" type="text" placeholder="e.g. shop.html" value="${escapeHtml(l.url || '')}" style="flex:1;" />
-          </div>`;
-        }
-        html += `<h4 style="margin:20px 0 4px;font-size:1.3rem;">Quick Links Menu</h4>
+        });
+        html += `</div>
+          <button type="button" onclick="addFooterLink('collection')" style="margin-top:8px;padding:8px 14px;background:#f5f1ec;border:1px solid #D4A843;color:#3C3836;border-radius:4px;cursor:pointer;font-size:0.9rem;">+ Add Collection Link</button>`;
+
+        html += `<h4 style="margin:30px 0 4px;font-size:1.3rem;">Quick Links Menu</h4>
           <p style="margin:0 0 8px;color:#666;font-size:0.85rem;">Add the page name and its web address.</p>
           <div style="display:flex;gap:8px;margin-bottom:4px;font-weight:600;color:#444;font-size:0.85rem;">
             <span style="flex:1;">Name (label)</span>
             <span style="flex:1;">Link (URL)</span>
+            <span style="width:80px;"></span>
+          </div>
+          <div id="ts-ql-links-list">`;
+        quickLinks.forEach((l) => {
+          html += `<div class="js-footer-link-row" data-list="quick" style="display:flex;gap:8px;margin-bottom:6px;align-items:center;">
+            <input class="js-footer-link-label" type="text" placeholder="e.g. Home" value="${escapeHtml(l.label || '')}" style="flex:1;" />
+            <input class="js-footer-link-url" type="text" placeholder="e.g. index.html" value="${escapeHtml(l.url || '')}" style="flex:1;" />
+            <button type="button" onclick="this.parentElement.remove()" style="width:80px;padding:6px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
           </div>`;
-        for (let i = 0; i < 5; i++) {
-          const l = quickLinks[i] || {};
-          html += `<div style="display:flex;gap:8px;margin-bottom:6px;">
-            <input id="ts-ql-${i}-label" type="text" placeholder="e.g. Home" value="${escapeHtml(l.label || '')}" style="flex:1;" />
-            <input id="ts-ql-${i}-url" type="text" placeholder="e.g. index.html" value="${escapeHtml(l.url || '')}" style="flex:1;" />
-          </div>`;
-        }
+        });
+        html += `</div>
+          <button type="button" onclick="addFooterLink('quick')" style="margin-top:8px;padding:8px 14px;background:#f5f1ec;border:1px solid #D4A843;color:#3C3836;border-radius:4px;cursor:pointer;font-size:0.9rem;">+ Add Quick Link</button>`;
         return html;
       },
       buttons(s) {
@@ -4176,15 +4185,17 @@
       },
       footer() {
         const collection_links = [];
-        for (let i = 0; i < 4; i++) {
-          const label = document.getElementById('ts-col-' + i + '-label')?.value || '';
-          if (label) collection_links.push({ label, url: document.getElementById('ts-col-' + i + '-url')?.value || '' });
-        }
+        document.querySelectorAll('.js-footer-link-row[data-list="collection"]').forEach(row => {
+          const label = row.querySelector('.js-footer-link-label')?.value || '';
+          const url = row.querySelector('.js-footer-link-url')?.value || '';
+          if (label) collection_links.push({ label, url });
+        });
         const quick_links = [];
-        for (let i = 0; i < 5; i++) {
-          const label = document.getElementById('ts-ql-' + i + '-label')?.value || '';
-          if (label) quick_links.push({ label, url: document.getElementById('ts-ql-' + i + '-url')?.value || '' });
-        }
+        document.querySelectorAll('.js-footer-link-row[data-list="quick"]').forEach(row => {
+          const label = row.querySelector('.js-footer-link-label')?.value || '';
+          const url = row.querySelector('.js-footer-link-url')?.value || '';
+          if (label) quick_links.push({ label, url });
+        })
         return {
           logo: document.getElementById('ts-logo')?.value || '',
           about: document.getElementById('ts-about')?.value || '',
@@ -4372,6 +4383,25 @@
       } catch (err) {
         alert('Delete failed: ' + err.message);
       }
+    };
+
+    window.addFooterLink = function (list) {
+      const listId = list === 'collection' ? 'ts-col-links-list' : 'ts-ql-links-list';
+      const container = document.getElementById(listId);
+      if (!container) return;
+      const row = document.createElement('div');
+      row.className = 'js-footer-link-row';
+      row.setAttribute('data-list', list);
+      row.style.cssText = 'display:flex;gap:8px;margin-bottom:6px;align-items:center;';
+      const labelPlaceholder = list === 'collection' ? 'All Products' : 'Home';
+      const urlPlaceholder = list === 'collection' ? 'shop.html' : 'index.html';
+      row.innerHTML = `
+        <input class="js-footer-link-label" type="text" placeholder="e.g. ${labelPlaceholder}" style="flex:1;" />
+        <input class="js-footer-link-url" type="text" placeholder="e.g. ${urlPlaceholder}" style="flex:1;" />
+        <button type="button" onclick="this.parentElement.remove()" style="width:80px;padding:6px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
+      `;
+      container.appendChild(row);
+      row.querySelector('.js-footer-link-label').focus();
     };
 
     window.addHomepageSection = async function () {

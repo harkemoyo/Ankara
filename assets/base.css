@@ -17321,6 +17321,8 @@ body.body .header__section {
 }
 
 .outlet-slider-wrap {
+  display: grid;
+  gap: 2rem;
   overflow: visible;
 }
 

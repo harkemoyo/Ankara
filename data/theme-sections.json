@@ -1,219 +1,151 @@
 {
+  "order": [
+    "announcement",
+    "hero",
+    "categories",
+    "trending",
+    "style_of_month",
+    "fabrics",
+    "heritage",
+    "sale_promo",
+    "shop_by_style",
+    "statement",
+    "testimonials",
+    "services",
+    "footer",
+    "custom_css",
+    "outlet"
+  ],
   "sections": {
-    "announcement": {
-      "type": "announcement",
-      "enabled": true,
-      "settings": {
-        "text": "Free Shipping on Orders Over KSh 10,000",
-        "free_shipping_threshold_kes": 10000,
-        "auto_format": true
-      }
-    },
     "hero": {
       "type": "hero",
       "enabled": true,
       "settings": {
         "slides": [
           {
-            "image": "assets/DSC02616-hero.webp",
-            "subtitle": "New Collection",
+            "desc": "Bold African-inspired designs crafted for the modern individual. Celebrate your identity, stand out beautifully.",
+            "link": "shop.html",
+            "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Gemini_Generated_Image_yqs8moyqs8moyqs8-1785766572863.webp",
             "title": "Mary Humphrey",
             "accent": "Wear",
-            "desc": "Bold African-inspired designs crafted for the modern individual. Celebrate your identity, stand out beautifully.",
             "button": "Shop Now",
-            "link": "shop.html"
+            "subtitle": "New Collection"
           },
           {
-            "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/DSC01960-1785256143458.jpg",
-            "subtitle": "Premium Quality",
-            "title": "African",
-            "accent": "Elegance",
             "desc": "Experience the finest materials and craftsmanship. Designed for those who appreciate true artistry.",
-            "button": "Discover More",
-            "link": "shop.html"
+            "link": "shop.html",
+            "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Gemini_Generated_Image_xm8tr5xm8tr5xm8t-1785764067321.webp",
+            "title": "Talisman ",
+            "accent": "Kimono",
+            "button": "Shop Now",
+            "subtitle": "Premium Quality"
           },
           {
-            "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/DSC01499-1785255941189.jpg",
-            "subtitle": "Timeless Style",
-            "title": "Modern",
-            "accent": "Heritage",
             "desc": "Carry a piece of home with you everywhere. Perfect for any occasion.",
-            "button": "View Collection",
-            "link": "shop.html"
+            "link": "shop.html",
+            "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/img11_upscaled_sharpened-1785763865650.webp",
+            "title": "Geco",
+            "accent": "Dungarees",
+            "button": "Shop Now",
+            "subtitle": "Timeless Style"
           }
         ]
       }
     },
-    "categories": {
-      "type": "categories",
+    "footer": {
+      "type": "footer",
       "enabled": true,
       "settings": {
-        "blocks": [
+        "logo": "assets/IMG-20260622-WA0082.webp",
+        "about": "Contemporary fashion rooted in African heritage and crafted for the modern world. Every piece tells a story of culture, elegance, and bold identity.",
+        "email": "maryhumpheyafricanwear@gmail.com",
+        "social": {
+          "tiktok": "#",
+          "facebook": "https://www.facebook.com/profile.php?id=100077341767677",
+          "instagram": "https://www.instagram.com/maryhumphreywear?igsh=OWQyNW84cmpzeXNn"
+        },
+        "location": "Lavignton, Kingara Road",
+        "copyright": "© 2026 Mary Humphrey Wear. All Rights Reserved.",
+        "quick_links": [
           {
-            "image": "assets/DSC01401-hero.webp",
-            "title": "Menswear",
-            "link": "shop.html",
-            "action": "Shop Now"
+            "url": "index.html",
+            "label": "Home"
           },
           {
-            "image": "assets/DSC02616-hero.webp",
-            "title": "Womenswear",
-            "link": "shop.html",
-            "action": "Shop Now"
+            "url": "about.html",
+            "label": "Our Story"
           },
           {
-            "image": "assets/IMG-20260622-WA0028.webp",
-            "title": "Fabrics",
-            "link": "shop.html",
-            "action": "Shop Now"
+            "url": "contact.html",
+            "label": "Contact Us"
+          },
+          {
+            "url": "/faq",
+            "label": "FAQ"
+          },
+          {
+            "url": "/privacy",
+            "label": "Privacy Policy"
           }
-        ]
-      }
-    },
-    "trending": {
-      "type": "trending",
-      "enabled": true,
-      "settings": {
-        "heading": "Trending Now",
-        "collection": "all",
-        "limit": 4,
-        "button_text": "View All Products",
-        "button_link": "shop.html"
-      }
-    },
-    "style_of_month": {
-      "type": "style_of_month",
-      "enabled": true,
-      "settings": {
-        "subtitle": "Mary Humphrey Collection",
-        "title": "STYLE OF THE MONTH",
-        "image": "assets/DSC01485-hero.webp",
-        "product_name": "Noir Cape",
-        "price": "KSh 8,000",
-        "product_handle": "noir-cape",
-        "button_text": "Shop Now"
+        ],
+        "location_url": "https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920799,36.7594538,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920799!4d36.7620287?hl=en&entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D",
+        "newsletter_desc": "Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.",
+        "collection_links": [
+          {
+            "url": "shop.html",
+            "label": "All Products"
+          },
+          {
+            "url": "/shop/geco-dungaree",
+            "label": "Geco Dungaree"
+          },
+          {
+            "url": "/shop/diani-dresses",
+            "label": "Diani Dresses"
+          },
+          {
+            "url": "/shop/blankets",
+            "label": "Helsinki Blankets"
+          }
+        ],
+        "newsletter_heading": "Join Our World"
       }
     },
     "fabrics": {
       "type": "fabrics",
       "enabled": true,
       "settings": {
-        "subtitle": "Premium Materials",
         "title": "AUTHENTIC ANKARA FABRICS",
-        "bg_color": "#800020",
         "images": [
-          "assets/IMG-20260622-WA0070.webp",
-          "assets/IMG-20260622-WA0069.webp",
-          "assets/IMG-20260622-WA0071.webp"
+          "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/WhatsApp_Image_2026-08-01_at_19_20_52-1785601555971.webp",
+          "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/WhatsApp_Image_2026-08-01_at_19_22_53-1785601400123.webp",
+          "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/WhatsApp_Image_2026-08-01_at_19_24_13-1785601528902.webp"
         ],
-        "button_text": "Explore Fabrics",
-        "button_link": "/fabric"
+        "bg_color": "#800020",
+        "subtitle": "Premium Materials",
+        "button_link": "material.html",
+        "button_text": "Explore Fabrics"
       }
     },
     "heritage": {
       "type": "heritage",
       "enabled": true,
       "settings": {
-        "subtitle": "THE LOVE STORY OF",
         "segments": [
           {
-            "label": "HERITAGE",
-            "title": "ANKARA FASHION",
             "desc": "We started out with a passion for vibrant African fashion and for the past 20 years we have been creating beautiful, authentic Ankara couture that celebrates our rich heritage. The vibrancy of Africa is woven into every piece we design.",
-            "image": "assets/DSC02616-hero.webp"
+            "image": "assets/DSC02616-hero.webp",
+            "label": "HERITAGE",
+            "title": "ANKARA FASHION"
           },
           {
-            "label": "CULTURE",
-            "title": "RICH CULTURE",
             "desc": "Our designs are inspired by the diverse cultures of Africa. Every outfit tells a story of tradition, elegance, and a deep connection to our roots. We bring this culture to the modern wardrobe.",
-            "image": "assets/DSC01401-hero.webp"
+            "image": "assets/DSC01401-hero.webp",
+            "label": "CULTURE",
+            "title": "RICH CULTURE"
           }
-        ]
-      }
-    },
-    "sale_promo": {
-      "type": "sale_promo",
-      "enabled": true,
-      "settings": {
-        "title": "ON SALE NOW - UP TO 30% OFF",
-        "description": "Refresh your wardrobe with our authentic designs at a discount.",
-        "button_text": "Shop Sale",
-        "button_link": "sale.html",
-        "bg_color": "#fce8e8"
-      }
-    },
-    "shop_by_style": {
-      "type": "shop_by_style",
-      "enabled": true,
-      "settings": {
-        "title": "Shop by Style",
-        "blocks": [
-          {
-            "image": "assets/IMG-20260622-WA0033.webp",
-            "label": "Luxe Dresses",
-            "link": "/shop/dresses"
-          },
-          {
-            "image": "assets/IMG-20260622-WA0079.webp",
-            "label": "Outerwear",
-            "link": "/shop/kimonos"
-          },
-          {
-            "image": "assets/IMG-20260622-WA0005.webp",
-            "label": "Men's Collection",
-            "link": "/shop/palazzos"
-          },
-          {
-            "image": "assets/IMG-20260622-WA0014.webp",
-            "label": "Clearance",
-            "link": "/shop/sale"
-          }
-        ]
-      }
-    },
-    "statement": {
-      "type": "statement",
-      "enabled": true,
-      "settings": {
-        "bg_image": "assets/IMG-20260622-WA0081.webp",
-        "title": "Redefining African Elegance",
-        "description": "Discover our latest collection where traditional prints meet contemporary street style. Crafted for the modern individual.",
-        "button_text": "Explore the Collection",
-        "button_link": "shop.html"
-      }
-    },
-    "testimonials": {
-      "type": "testimonials",
-      "enabled": true,
-      "settings": {
-        "heading": "Recent Testimonials",
-        "items": [
-          {
-            "quote": "Fantastic product, so beautifully made. Love the swift delivery too! Highly recommended!",
-            "author": "Florianna S. K.",
-            "rating": 5
-          },
-          {
-            "quote": "I have been buying Ankara wear for years, but this brand is different. The fit is perfect and the prints are stunning.",
-            "author": "Taimi N.",
-            "rating": 5
-          },
-          {
-            "quote": "Incredibly elegant pieces. I wore the two-piece set to a wedding and got compliments all day long.",
-            "author": "Kate M.",
-            "rating": 5
-          },
-          {
-            "quote": "The quality is outstanding. I have washed my pieces multiple times and the colors are still as vibrant as day one.",
-            "author": "Sarah J.",
-            "rating": 5
-          },
-          {
-            "quote": "Amazing customer service. They helped me pick the right size, and the shipping was incredibly fast!",
-            "author": "Michael D.",
-            "rating": 5
-          }
-        ]
+        ],
+        "subtitle": "THE LOVE STORY OF"
       }
     },
     "services": {
@@ -239,90 +171,164 @@
         ]
       }
     },
-    "footer": {
-      "type": "footer",
+    "trending": {
+      "type": "trending",
       "enabled": true,
       "settings": {
-        "logo": "assets/IMG-20260622-WA0082.webp",
-        "about": "Contemporary fashion rooted in African heritage and crafted for the modern world. Every piece tells a story of culture, elegance, and bold identity.",
-        "location": "Nairobi  Kenya",
-        "location_url": "https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920799,36.7594538,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920799!4d36.7620287?hl=en&entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D",
-        "email": "hello@maryhumphreywear.com",
-        "social": {
-          "instagram": "#",
-          "facebook": "#",
-          "tiktok": "#"
-        },
-        "collection_links": [
+        "limit": 4,
+        "heading": "Trending Now",
+        "collection": "all",
+        "button_link": "shop.html",
+        "button_text": "View All Products"
+      }
+    },
+    "statement": {
+      "type": "statement",
+      "enabled": true,
+      "settings": {
+        "title": "Redefining African Elegance",
+        "bg_image": "assets/IMG-20260622-WA0081.webp",
+        "button_link": "shop.html",
+        "button_text": "Explore the Collection",
+        "description": "Discover our latest collection where traditional prints meet contemporary street style. Crafted for the modern individual."
+      }
+    },
+    "categories": {
+      "type": "categories",
+      "enabled": true,
+      "settings": {
+        "blocks": [
           {
-            "label": "All Products",
-            "url": "shop.html"
+            "link": "/menswear",
+            "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/DSC01389-1785601630729.webp",
+            "title": "Menswear",
+            "action": "View All"
           },
           {
-            "label": "Men's Ankara Dungaree",
-            "url": "/shop/palazzos"
+            "link": "/womenswear",
+            "image": "assets/DSC02616-hero.webp",
+            "title": "Womenswear",
+            "action": "View All"
           },
           {
-            "label": "Ankara Street Luxe Set",
-            "url": "/shop/sets"
-          },
-          {
-            "label": "African Luxe Throw",
-            "url": "/shop/blankets"
+            "link": "/fabric",
+            "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/WhatsApp_Image_2026-08-01_at_19_10_52__1_-1785601678542.webp",
+            "title": "Fabrics",
+            "action": "View All"
           }
-        ],
-        "quick_links": [
-          {
-            "label": "Home",
-            "url": "index.html"
-          },
-          {
-            "label": "Our Story",
-            "url": "about.html"
-          },
-          {
-            "label": "Contact Us",
-            "url": "contact.html"
-          },
-          {
-            "label": "FAQ",
-            "url": "/faq"
-          },
-          {
-            "label": "Privacy Policy",
-            "url": "/privacy"
-          }
-        ],
-        "newsletter_heading": "Join Our World",
-        "newsletter_desc": "Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.",
-        "copyright": "© 2026 Mary Humphrey Wear. All Rights Reserved."
+        ]
       }
     },
     "custom_css": {
       "type": "custom_css",
       "enabled": true,
       "settings": {
-        "primary_color": "#3C3836",
-        "secondary_color": "#bcadae",
         "bg_color": "#f5f1ec",
-        "custom_css": ""
+        "custom_css": "",
+        "primary_color": "#3C3836",
+        "secondary_color": "#bcadae"
+      }
+    },
+    "sale_promo": {
+      "type": "sale_promo",
+      "enabled": true,
+      "settings": {
+        "title": "ON SALE NOW - UP TO 30% OFF",
+        "bg_color": "#fce8e8",
+        "button_link": "sale.html",
+        "button_text": "Shop Sale",
+        "description": "Refresh your wardrobe with our authentic designs at a discount."
+      }
+    },
+    "announcement": {
+      "type": "announcement",
+      "enabled": true,
+      "settings": {
+        "text": "Free Shipping on Orders Over KSh 10,000",
+        "auto_format": true,
+        "free_shipping_threshold_kes": 10000
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "enabled": true,
+      "settings": {
+        "items": [
+          {
+            "quote": "Working with Mary is a wonderful experience from start to finish. She listens carefully, pays attention to every detail, and transforms beautiful Ankara fabrics into timeless, high-quality pieces. Her passion for her craft shines through in every stitch.",
+            "author": "Cal",
+            "rating": 5
+          },
+          {
+            "quote": "Mary has an eye for detail – whether it’s choosing the fabric, the design or the measurements. She is positive, creative and a quick worker who produces expertly made garments.",
+            "author": "Rianne",
+            "rating": 5
+          },
+          {
+            "quote": "Mary combines exceptional craftsmanship with genuine care. Every piece is thoughtfully designed, beautifully finished, and tailored to fit perfectly. Her creativity, professionalism, and dedication make every garment feel truly special.",
+            "author": "Stephani",
+            "rating": 5
+          }
+        ],
+        "heading": "Recent Testimonials"
+      }
+    },
+    "shop_by_style": {
+      "type": "shop_by_style",
+      "enabled": true,
+      "settings": {
+        "title": "Shop by Style",
+        "blocks": [
+          {
+            "link": "fabric.html",
+            "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/WhatsApp_Image_2026-08-01_at_19_08_33-1785600797238.webp",
+            "label": "Ankara"
+          },
+          {
+            "link": "Shop.html",
+            "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/WhatsApp_Image_2026-08-01_at_19_39_21-1785602537174.webp",
+            "label": "Mary Humphrey Collection"
+          },
+          {
+            "link": "Helsinki.html",
+            "image": "assets/IMG-20260622-WA0005.webp",
+            "label": "Helsinki Blanket"
+          },
+          {
+            "link": "shop.html",
+            "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/DSC01747-1785600641141.webp",
+            "label": "Nova Collection"
+          }
+        ]
+      }
+    },
+    "style_of_month": {
+      "type": "style_of_month",
+      "enabled": true,
+      "settings": {
+        "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/DSC01512-1785705894960.webp",
+        "price": "KSh 6500",
+        "title": "STYLE OF THE MONTH",
+        "subtitle": "Mary Humphrey Collection",
+        "button_text": "Shop Now",
+        "product_name": "Geco Dungaree",
+        "product_handle": "classic-dungarees"
+      }
+    },
+    "outlet": {
+      "type": "outlet",
+      "enabled": true,
+      "settings": {
+        "subtitle": "Visit Us In Person",
+        "title": "Our Outlet",
+        "description": "Find us at Noir boutique on Muthangari Drive, Nairobi. Explore the collection and try on your favorites.",
+        "button_text": "Get Directions",
+        "button_link": "https://www.google.com/maps/search/?api=1&query=Noir+Boutique+Muthangari+Drive+Nairobi",
+        "images": [
+          "assets/noir-outlet-1.webp",
+          "assets/noir-outlet-2.webp"
+        ]
       }
     }
-  },
-  "order": [
-    "announcement",
-    "hero",
-    "categories",
-    "trending",
-    "style_of_month",
-    "fabrics",
-    "heritage",
-    "sale_promo",
-    "shop_by_style",
-    "statement",
-    "testimonials",
-    "services",
-    "footer",
-    "custom_css"
-  ]
+  }
 }

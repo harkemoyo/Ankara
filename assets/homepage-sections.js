@@ -395,6 +395,28 @@ function escapeHtml(str) {
     }
   },
 
+  outlet(el, settings) {
+    const subtitle = el.querySelector('.outlet-subtitle');
+    if (subtitle && settings.subtitle) subtitle.textContent = settings.subtitle;
+    const h = el.querySelector('.outlet-title');
+    if (h && settings.title) h.textContent = settings.title;
+    const desc = el.querySelector('.outlet-desc');
+    if (desc && settings.description) desc.textContent = settings.description;
+    const btn = el.querySelector('.outlet-cta');
+    if (btn) {
+      if (settings.button_text) btn.textContent = settings.button_text;
+      if (settings.button_link) btn.href = settings.button_link;
+    }
+    const imagesWrap = el.querySelector('.outlet-images');
+    if (imagesWrap) {
+      imagesWrap.innerHTML = (settings.images || []).map(img => `
+        <div class="outlet-image-wrap">
+          <img alt="" loading="lazy" decoding="async" src="${escapeHtml(img)}" />
+        </div>
+      `).join('');
+    }
+  },
+
   custom_css(el, settings) {
     if (settings.primary_color) document.documentElement.style.setProperty('--primary-color', settings.primary_color);
     if (settings.secondary_color) document.documentElement.style.setProperty('--secondary-color', settings.secondary_color);

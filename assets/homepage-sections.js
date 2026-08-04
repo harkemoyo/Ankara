@@ -425,10 +425,16 @@ function escapeHtml(str) {
       }
       if (typeof Swiper !== 'undefined') {
         window._outletSwiper = new Swiper('.outlet-swiper', {
-          loop: slides.length > 1,
-          autoplay: { delay: 4000, disableOnInteraction: false },
+          slidesPerView: 1.2,
+          spaceBetween: 16,
+          loop: slides.length > 3,
+          autoplay: { delay: 4500, disableOnInteraction: false },
           pagination: { el: '.outlet-pagination', clickable: true },
           navigation: { prevEl: '.outlet-prev', nextEl: '.outlet-next' },
+          breakpoints: {
+            576: { slidesPerView: 2, spaceBetween: 20 },
+            992: { slidesPerView: 3, spaceBetween: 24 }
+          },
           on: {
             slideChangeTransitionStart: function () {
               const activeSlide = this.slides[this.activeIndex];

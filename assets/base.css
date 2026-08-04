@@ -5,7 +5,7 @@ a,
 a:link,
 a:visited,
 a:active {
-  color: var(--link-color);
+  color: var(--text-white-color);
 }
 
 a:hover,
@@ -16332,14 +16332,13 @@ body.body .footer__section {
   padding: 0 2rem;
   letter-spacing: 0.2px;
   border-radius: 0.5rem;
-  background: var(--secondary-color);
+  background: #800020;
   color: var(--text-white-color);
   border: 0;
 }
 
 .primary__btn:hover {
-  background: var(--primary-color);
-  color: var(--text-white-color);
+  background: #800020;
 }
 
 @media only screen and (min-width: 768px) {

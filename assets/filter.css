@@ -871,13 +871,11 @@ hr {
   padding: 0 2rem;
   letter-spacing: 0.2px;
   border-radius: 0.5rem;
-  background: var(--secondary-color);
   color: var(--text-white-color);
   border: 0;
 }
 
 .primary__btn:hover {
-  background: var(--primary-color);
   color: var(--text-white-color);
 }
 

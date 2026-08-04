@@ -9,12 +9,11 @@
     "heritage",
     "sale_promo",
     "shop_by_style",
-    "statement",
     "testimonials",
     "services",
-    "footer",
     "custom_css",
-    "outlet"
+    "outlet",
+    "footer"
   ],
   "sections": {
     "hero": {
@@ -97,7 +96,7 @@
           },
           {
             "url": "/shop/geco-dungaree",
-            "label": "Geco Dungaree"
+            "label": "Geco Dungarees"
           },
           {
             "url": "/shop/diani-dresses",
@@ -109,6 +108,35 @@
           }
         ],
         "newsletter_heading": "Join Our World"
+      }
+    },
+    "outlet": {
+      "type": "outlet",
+      "enabled": true,
+      "settings": {
+        "title": "Our Outlet",
+        "slides": [
+          {
+            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Noir-1-1785860802723.webp",
+            "type": "image"
+          },
+          {
+            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Noir-2-1785860819226.webp",
+            "type": "image"
+          },
+          {
+            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Nior-3-1785860835512.webp",
+            "type": "image"
+          },
+          {
+            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Nior-4-1785860850389.webp",
+            "type": "image"
+          }
+        ],
+        "subtitle": "Visit Us In Person",
+        "button_link": "https://www.google.com/maps/search/?api=1&query=Noir+Boutique+Muthangari+Drive+Nairobi",
+        "button_text": "Get Directions",
+        "description": "Find us at Noir boutique on Muthangari Drive, Nairobi. Explore the collection and try on your favorites."
       }
     },
     "fabrics": {
@@ -180,17 +208,6 @@
         "collection": "all",
         "button_link": "shop.html",
         "button_text": "View All Products"
-      }
-    },
-    "statement": {
-      "type": "statement",
-      "enabled": true,
-      "settings": {
-        "title": "Redefining African Elegance",
-        "bg_image": "assets/IMG-20260622-WA0081.webp",
-        "button_link": "shop.html",
-        "button_text": "Explore the Collection",
-        "description": "Discover our latest collection where traditional prints meet contemporary street style. Crafted for the modern individual."
       }
     },
     "categories": {
@@ -313,21 +330,6 @@
         "button_text": "Shop Now",
         "product_name": "Geco Dungaree",
         "product_handle": "classic-dungarees"
-      }
-    },
-    "outlet": {
-      "type": "outlet",
-      "enabled": true,
-      "settings": {
-        "subtitle": "Now Open at Noir Boutique",
-        "title": "Touch It. Try It. Love It.",
-        "description": "Bold Ankara prints, cozy sets, elegant dresses — some things you just have to experience in person. Visit our outlet at Noir Boutique on Muthangari Drive, Nairobi. Open Tuesday to Sunday, 11 AM – 10 PM.",
-        "button_text": "Visit Us",
-        "button_link": "https://www.google.com/maps/search/?api=1&query=Noir+Boutique+Muthangari+Drive+Nairobi",
-        "slides": [
-          { "type": "image", "url": "assets/noir-outlet-1.webp" },
-          { "type": "image", "url": "assets/noir-outlet-2.webp" }
-        ]
       }
     }
   }

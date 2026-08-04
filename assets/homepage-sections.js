@@ -440,17 +440,18 @@ async function applyThemeSections() {
     const json = await res.json();
     const theme = json.theme;
     if (!theme || !theme.sections) return;
+    const allSections = document.querySelectorAll('[data-section-id]');
+    allSections.forEach(el => {
+      if (el.id === 'site-footer') return;
+      el.style.display = 'none';
+    });
     const order = theme.order || Object.keys(theme.sections);
     order.forEach(key => {
       const sec = theme.sections[key];
-      if (!sec) return;
-      if (sec.enabled === false) {
-        const el = document.querySelector(`[data-section-id="${key}"]`);
-        if (el) el.style.display = 'none';
-        return;
-      }
+      if (!sec || sec.enabled === false) return;
       const el = document.querySelector(`[data-section-id="${key}"]`);
       if (!el) return;
+      el.style.display = '';
       const fn = updaters[sec.type || key];
       if (fn) fn(el, sec.settings || {});
     });

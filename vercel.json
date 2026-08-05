@@ -37,6 +37,9 @@
     { "src": "/(.*\\.html)", "dest": "/$1" },
     { "src": "/", "dest": "/index.html" },
     { "src": "/fabric", "dest": "/material.html" },
+    { "src": "/contact", "dest": "/contact.html" },
+    { "src": "/about", "dest": "/about.html" },
+    { "src": "/sale", "dest": "/sale.html" },
     { "src": "/(.*)", "status": 404, "dest": "/404.html" }
   ]
 }

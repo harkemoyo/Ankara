@@ -769,6 +769,9 @@
       <a data-section="customers" href="#" onclick="showSection('customers',this)">
         <span class="icon">👥</span> Customers
       </a>
+      <a data-section="messages" href="#" onclick="showSection('messages',this)">
+        <span class="icon">✉️</span> Messages
+      </a>
       <a data-section="inventory" href="#" onclick="showSection('inventory',this)">
         <span class="icon">📦</span> Inventory
       </a>
@@ -1251,6 +1254,35 @@
           <tbody id="customers-tbody">
             <tr>
               <td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <!-- Messages -->
+    <section class="admin-section" id="section-messages">
+      <div class="page-header">
+        <h1>Contact Messages</h1>
+        <div style="display:flex;gap:8px;">
+          <input id="message-search" placeholder="Search messages..."
+            style="padding:8px;border:1px solid var(--border);border-radius:6px;" onkeyup="loadMessages()">
+          <button class="btn" onclick="loadMessages()">Refresh</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Subject</th>
+              <th>Message</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="messages-tbody">
+            <tr>
+              <td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td>
             </tr>
           </tbody>
         </table>
@@ -2010,6 +2042,7 @@
       if (name === 'collections') loadCollections();
       if (name === 'orders') loadOrders();
       if (name === 'customers') loadCustomers();
+      if (name === 'messages') loadMessages();
       if (name === 'inventory') loadInventory();
       if (name === 'pages') loadPages();
       if (name === 'about') loadAboutPageEditor();
@@ -3242,6 +3275,55 @@
     };
 
     window.closeCustomerModal = () => document.getElementById('customer-modal').classList.remove('open');
+
+    // ── MESSAGES ──
+    let messages = [];
+    async function loadMessages() {
+      const tbody = document.getElementById('messages-tbody');
+      const searchQuery = document.getElementById('message-search')?.value.toLowerCase() || '';
+      if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+
+      const { data, error } = await supabase
+        .from('contact_messages')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Supabase messages error:', error);
+        toast('Failed to load messages: ' + error.message, 'error');
+        if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">Failed to load.</td></tr>';
+        return;
+      }
+
+      messages = data || [];
+
+      if (searchQuery) {
+        messages = messages.filter(m =>
+          (m.name || '').toLowerCase().includes(searchQuery) ||
+          (m.email || '').toLowerCase().includes(searchQuery) ||
+          (m.subject || '').toLowerCase().includes(searchQuery) ||
+          (m.message || '').toLowerCase().includes(searchQuery)
+        );
+      }
+
+      if (messages.length === 0) {
+        if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">No messages yet.</td></tr>';
+        return;
+      }
+
+      if (tbody) {
+        tbody.innerHTML = messages.map(m => `
+          <tr>
+            <td>${escapeHtml(m.name || '')}</td>
+            <td><a href="mailto:${encodeURIComponent(m.email || '')}">${escapeHtml(m.email || '')}</a></td>
+            <td>${escapeHtml(m.subject || '-')}</td>
+            <td style="max-width:300px;white-space:pre-wrap;word-wrap:break-word;">${escapeHtml(m.message || '')}</td>
+            <td>${new Date(m.created_at).toLocaleString()}</td>
+          </tr>
+        `).join('');
+      }
+    }
+    window.loadMessages = loadMessages;
 
     // ── INVENTORY ──
     let inventoryItems = [];

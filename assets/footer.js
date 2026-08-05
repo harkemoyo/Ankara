@@ -41,7 +41,7 @@
         const quickLinks = s.quick_links || [
             { label: 'Home', url: 'index.html' },
             { label: 'Our Story', url: 'about.html' },
-            { label: 'Contact Us', url: 'contact.html' },
+            { label: 'Contact Us', url: '/contact' },
             { label: 'FAQ', url: '/faq' },
             { label: 'Privacy Policy', url: '/privacy' }
         ];

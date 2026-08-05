@@ -22,7 +22,7 @@
     <meta property="og:title" content="Contact Us – Mary Humphrey Wear">
     <meta property="og:description" content="Get in touch with Mary Humphrey Wear. We are here to answer questions about collections, orders, and sizing.">
     <meta property="og:image" content="https://maryhumphreywear.org/og-image.jpg">
-    <meta property="og:url" content="https://maryhumphreywear.org/contact.html">
+    <meta property="og:url" content="https://maryhumphreywear.org/contact">
     <meta property="og:type" content="website">
 
     <!-- Twitter -->
@@ -156,7 +156,7 @@
                                 <a class="header__menu--link" href="about.html">Our Story</a>
                             </li>
                             <li class="header__menu--items active-page">
-                                <a class="header__menu--link active" href="contact.html">Contact</a>
+                                <a class="header__menu--link active" href="/contact">Contact</a>
                             </li>
                         </ul>
 
@@ -253,7 +253,7 @@
                             <a class="offcanvas__menu_item" href="about.html">Our Story</a>
                         </li>
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="contact.html">Contact</a>
+                            <a class="offcanvas__menu_item" href="/contact">Contact</a>
                         </li>
                     </ul>
                     <div class="offcanvas__account--items">
@@ -443,6 +443,7 @@
                             const payload = {
                                 name: document.getElementById('contact-name').value,
                                 email: document.getElementById('contact-email').value,
+                                subject: document.getElementById('contact-subject').value,
                                 message: document.getElementById('contact-message').value
                             };
                             try {

@@ -309,11 +309,24 @@ router.get('/orders/:order_number', orderLookupLimiter, getOrder);
 
 // Contact Inquiry Route
 const emailService = require('../services/emailService');
-router.post('/contact', (req, res) => {
-    const { name, email, message } = req.body;
+router.post('/contact', async (req, res) => {
+    const { name, email, subject, message } = req.body;
     if (!name || !email || !message) {
         return res.status(400).json({ error: 'Name, email, and message are required' });
     }
+    try {
+        // Store in Supabase
+        await supabaseAdmin.from('contact_messages').insert({
+            name,
+            email,
+            subject: subject || '',
+            message,
+            created_at: new Date().toISOString()
+        });
+    } catch (e) {
+        console.error('Failed to store contact message:', e.message);
+    }
+    // Send email notification (non-blocking)
     emailService.sendContactFormNotification(name, email, message);
     res.json({ success: true, message: 'Message sent successfully' });
 });

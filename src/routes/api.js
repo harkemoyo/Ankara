@@ -76,23 +76,35 @@ router.post('/upload/homepage', requireAdmin, upload.single('file'), async (req,
     try {
         if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
         const baseName = req.file.originalname.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
-        const fileName = `homepage/${baseName}-${Date.now()}.webp`;
+        const isVideo = req.file.mimetype && req.file.mimetype.startsWith('video/');
 
-        // Automatically convert to WebP and ensure file size is under 100KB
-        const webpBuffer = await processImageToWebpUnder100KB(req.file.buffer);
+        let uploadBuffer, fileName, contentType;
+
+        if (isVideo) {
+            // Upload video as-is (no conversion)
+            const ext = req.file.originalname.match(/\.([^.]+)$/)?.[1] || 'mp4';
+            fileName = `homepage/${baseName}-${Date.now()}.${ext}`;
+            uploadBuffer = req.file.buffer;
+            contentType = req.file.mimetype || 'video/mp4';
+        } else {
+            // Automatically convert to WebP and ensure file size is under 100KB
+            fileName = `homepage/${baseName}-${Date.now()}.webp`;
+            uploadBuffer = await processImageToWebpUnder100KB(req.file.buffer);
+            contentType = 'image/webp';
+        }
 
         const { error: uploadError } = await supabaseAdmin.storage
             .from('products')
-            .upload(fileName, webpBuffer, {
-                contentType: 'image/webp',
+            .upload(fileName, uploadBuffer, {
+                contentType,
                 upsert: true
             });
         if (uploadError) throw uploadError;
         const { data: urlData } = supabaseAdmin.storage.from('products').getPublicUrl(fileName);
-        res.json({ url: urlData.publicUrl, fileName, sizeBytes: webpBuffer.length });
+        res.json({ url: urlData.publicUrl, fileName, sizeBytes: uploadBuffer.length });
     } catch (error) {
         console.error('Homepage upload error:', error);
-        res.status(500).json({ error: 'Failed to upload image', message: error.message || String(error) });
+        res.status(500).json({ error: 'Failed to upload file', message: error.message || String(error) });
     }
 });
 

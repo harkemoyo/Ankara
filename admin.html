@@ -3745,16 +3745,21 @@
       }).join('');
     }
 
-    // ── Image upload helper (uses /api/upload/homepage) ──
+    // ── Image/Video upload helper (uses /api/upload/homepage) ──
     window.uploadSectionImage = async function (file, inputId, statusId) {
       const urlInput = document.getElementById(inputId);
       const statusEl = statusId ? document.getElementById(statusId) : null;
       if (!file || !urlInput) return;
-      if (statusEl) statusEl.textContent = 'Compressing & uploading...';
+      const isVideo = file.type && file.type.startsWith('video/');
+      if (statusEl) statusEl.textContent = isVideo ? 'Uploading video...' : 'Compressing & uploading...';
       try {
-        const { blob } = await compressImageToWebp(file, 100);
         const formData = new FormData();
-        formData.append('file', blob, (file.name || 'image').replace(/\.[^/.]+$/, '') + '.webp');
+        if (isVideo) {
+          formData.append('file', file, file.name || 'video.mp4');
+        } else {
+          const { blob } = await compressImageToWebp(file, 100);
+          formData.append('file', blob, (file.name || 'image').replace(/\.[^/.]+$/, '') + '.webp');
+        }
         const session = (await supabase.auth.getSession()).data.session;
         const res = await fetch('/api/upload/homepage', {
           method: 'POST',
@@ -3767,12 +3772,17 @@
         }
         const json = await res.json();
         urlInput.value = json.url;
-        if (statusEl) statusEl.textContent = 'Done (<100KB WebP)';
+        if (statusEl) statusEl.textContent = isVideo ? 'Done (video uploaded)' : 'Done (<100KB WebP)';
         // Update preview if exists
         const previewImg = document.getElementById(inputId + '-preview');
         const placeholder = document.getElementById(inputId + '-placeholder');
-        if (previewImg) { previewImg.src = json.url; previewImg.style.display = 'block'; }
-        if (placeholder) placeholder.style.display = 'none';
+        if (isVideo) {
+          if (previewImg) previewImg.style.display = 'none';
+          if (placeholder) { placeholder.textContent = '▶ Video'; placeholder.style.display = 'flex'; }
+        } else {
+          if (previewImg) { previewImg.src = json.url; previewImg.style.display = 'block'; }
+          if (placeholder) placeholder.style.display = 'none';
+        }
       } catch (err) {
         console.error(err);
         if (statusEl) statusEl.textContent = 'Failed: ' + err.message;

@@ -177,7 +177,8 @@ router.get('/settings', async (req, res) => {
 
 router.put('/settings', requireAdmin, async (req, res) => {
     try {
-        const { store_name, currency, announcement, logo, exchange_rate, announcements, story, whatsapp, whatsapp_enabled, whatsapp_label } = req.body;
+        const { store_name, currency, announcement, logo, exchange_rate, announcements, story, whatsapp, whatsapp_enabled, whatsapp_label,
+            contact_email, contact_hero_title, contact_hero_subtitle, contact_response_time, contact_follow_us } = req.body;
         const payload = {
             store_name,
             currency,
@@ -189,6 +190,11 @@ router.put('/settings', requireAdmin, async (req, res) => {
             whatsapp,
             whatsapp_enabled,
             whatsapp_label,
+            contact_email,
+            contact_hero_title,
+            contact_hero_subtitle,
+            contact_response_time,
+            contact_follow_us,
             updated_at: new Date().toISOString()
         };
         const { data, error } = await supabaseAdmin.from('settings').upsert({ id: 1, ...payload }).select().single();
@@ -326,8 +332,9 @@ router.post('/contact', async (req, res) => {
     } catch (e) {
         console.error('Failed to store contact message:', e.message);
     }
-    // Send email notification (non-blocking)
-    emailService.sendContactFormNotification(name, email, message);
+    // Send email notification and auto-reply (non-blocking)
+    emailService.sendContactFormNotification(name, email, subject, message);
+    emailService.sendContactAutoReply(name, email, subject, message);
     res.json({ success: true, message: 'Message sent successfully' });
 });
 

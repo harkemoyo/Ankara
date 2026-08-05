@@ -722,6 +722,11 @@
       }
     })();
   </script>
+  <style>
+    .message-unread td { background: #fff8f8; font-weight: 600; }
+    .message-row:hover td { background: #f9f9f9; }
+    #message-status-filter { min-width: 120px; }
+  </style>
 </head>
 
 <body>
@@ -780,6 +785,9 @@
       </a>
       <a data-section="about" href="#" onclick="showSection('about',this)">
         <span class="icon">📖</span> About Page
+      </a>
+      <a data-section="contact-page" href="#" onclick="showSection('contact-page',this)">
+        <span class="icon">✉️</span> Contact Page
       </a>
       <a data-section="settings" href="#" onclick="showSection('settings',this)">
         <span class="icon">⚙️</span> Settings
@@ -1263,31 +1271,60 @@
     <section class="admin-section" id="section-messages">
       <div class="page-header">
         <h1>Contact Messages</h1>
-        <div style="display:flex;gap:8px;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
           <input id="message-search" placeholder="Search messages..."
             style="padding:8px;border:1px solid var(--border);border-radius:6px;" onkeyup="loadMessages()">
+          <select id="message-status-filter" onchange="loadMessages()"
+            style="padding:8px;border:1px solid var(--border);border-radius:6px;">
+            <option value="">All Status</option>
+            <option value="new">New</option>
+            <option value="read">Read</option>
+            <option value="replied">Replied</option>
+            <option value="archived">Archived</option>
+          </select>
           <button class="btn" onclick="loadMessages()">Refresh</button>
+          <button class="btn" onclick="exportMessagesCSV()">Export CSV</button>
         </div>
       </div>
-      <div class="table-wrap">
+      <div class="table-wrap" id="messages-table-wrap">
         <table>
           <thead>
             <tr>
+              <th>Status</th>
               <th>Name</th>
               <th>Email</th>
               <th>Subject</th>
-              <th>Message</th>
               <th>Date</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody id="messages-tbody">
             <tr>
-              <td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td>
+              <td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
+
+    <!-- Message Detail Modal -->
+    <div class="modal-backdrop" id="message-modal">
+      <div class="modal" style="width:700px;max-width:95vw;">
+        <button class="modal-close" onclick="closeMessageModal()">×</button>
+        <h2 id="message-modal-title">Message</h2>
+        <div id="message-modal-body" style="margin:20px 0;line-height:1.6;"></div>
+        <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px;">
+          <label style="display:block;margin-bottom:8px;font-weight:600;">Internal Notes</label>
+          <textarea id="message-modal-notes" rows="3" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;box-sizing:border-box;"></textarea>
+          <div class="modal-actions" style="justify-content:flex-end;">
+            <button class="btn" onclick="saveMessageNotes()">Save Notes</button>
+            <button class="btn" onclick="markMessageStatus('replied')">Mark Replied</button>
+            <button class="btn" style="background:#c0392b;color:#fff;" onclick="deleteCurrentMessage()">Delete</button>
+            <button class="btn btn-ghost" onclick="closeMessageModal()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Inventory -->
     <section class="admin-section" id="section-inventory">
       <div class="page-header">
@@ -1343,6 +1380,40 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </section>
+    <!-- Contact Page -->
+    <section class="admin-section" id="section-contact-page">
+      <div class="page-header">
+        <h1>Contact Page</h1>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span id="contact-page-live-status" style="display:none;color:#27ae60;font-size:1.2rem;">● Live</span>
+          <button class="btn btn-primary" onclick="saveContactPage()">Save Changes</button>
+        </div>
+      </div>
+      <div
+        style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:720px;margin-bottom:32px;">
+        <div class="form-group">
+          <label>Contact Email</label>
+          <input id="contact-page-email" type="email" placeholder="support@maryhumphrey.com" />
+        </div>
+        <div class="form-group">
+          <label>Hero Title</label>
+          <input id="contact-page-hero-title" type="text" placeholder="Get In Touch" />
+        </div>
+        <div class="form-group">
+          <label>Hero Subtitle</label>
+          <textarea id="contact-page-hero-subtitle" rows="3" placeholder="We'd love to hear from you..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Response Time Text</label>
+          <textarea id="contact-page-response-time" rows="2" placeholder="We aim to respond..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Follow Us Text</label>
+          <textarea id="contact-page-follow-us" rows="3" placeholder="Stay connected on Instagram..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="saveContactPage()">Save Changes</button>
       </div>
     </section>
     <!-- Settings -->
@@ -2042,10 +2113,11 @@
       if (name === 'collections') loadCollections();
       if (name === 'orders') loadOrders();
       if (name === 'customers') loadCustomers();
-      if (name === 'messages') loadMessages();
+      if (name === 'messages') { loadMessages(); subscribeMessages(); }
       if (name === 'inventory') loadInventory();
       if (name === 'pages') loadPages();
       if (name === 'about') loadAboutPageEditor();
+      if (name === 'contact-page') { loadContactPageEditor(); subscribeContactPage(); }
       if (name === 'settings') loadSettings();
       if (name === 'size-charts') loadSizeCharts();
       if (name === 'customer-measurements') loadCustomerMeasurements();
@@ -3278,10 +3350,14 @@
 
     // ── MESSAGES ──
     let messages = [];
+    let currentMessageId = null;
+    let messagesSubscription = null;
+
     async function loadMessages() {
       const tbody = document.getElementById('messages-tbody');
-      const searchQuery = document.getElementById('message-search')?.value.toLowerCase() || '';
-      if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
+      const searchQuery = (document.getElementById('message-search')?.value || '').toLowerCase();
+      const statusFilter = document.getElementById('message-status-filter')?.value || '';
+      if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
 
       const { data, error } = await supabase
         .from('contact_messages')
@@ -3291,39 +3367,162 @@
       if (error) {
         console.error('Supabase messages error:', error);
         toast('Failed to load messages: ' + error.message, 'error');
-        if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">Failed to load.</td></tr>';
+        if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Failed to load.</td></tr>';
         return;
       }
 
       messages = data || [];
+
+      if (statusFilter) {
+        messages = messages.filter(m => (m.status || 'new') === statusFilter);
+      }
 
       if (searchQuery) {
         messages = messages.filter(m =>
           (m.name || '').toLowerCase().includes(searchQuery) ||
           (m.email || '').toLowerCase().includes(searchQuery) ||
           (m.subject || '').toLowerCase().includes(searchQuery) ||
-          (m.message || '').toLowerCase().includes(searchQuery)
+          (m.message || '').toLowerCase().includes(searchQuery) ||
+          (m.notes || '').toLowerCase().includes(searchQuery)
         );
       }
 
       if (messages.length === 0) {
-        if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);">No messages yet.</td></tr>';
+        if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">No messages found.</td></tr>';
         return;
       }
 
       if (tbody) {
         tbody.innerHTML = messages.map(m => `
-          <tr>
+          <tr class="message-row ${m.is_read ? '' : 'message-unread'}" data-id="${m.id}">
+            <td>
+              <select onchange="updateMessageStatus(${m.id}, this.value)" style="padding:4px;border:1px solid var(--border);border-radius:4px;${m.is_read ? '' : 'font-weight:bold;color:#c0392b;'}">
+                <option value="new" ${(m.status || 'new') === 'new' ? 'selected' : ''}>New</option>
+                <option value="read" ${m.status === 'read' ? 'selected' : ''}>Read</option>
+                <option value="replied" ${m.status === 'replied' ? 'selected' : ''}>Replied</option>
+                <option value="archived" ${m.status === 'archived' ? 'selected' : ''}>Archived</option>
+              </select>
+            </td>
             <td>${escapeHtml(m.name || '')}</td>
             <td><a href="mailto:${encodeURIComponent(m.email || '')}">${escapeHtml(m.email || '')}</a></td>
             <td>${escapeHtml(m.subject || '-')}</td>
-            <td style="max-width:300px;white-space:pre-wrap;word-wrap:break-word;">${escapeHtml(m.message || '')}</td>
             <td>${new Date(m.created_at).toLocaleString()}</td>
+            <td>
+              <button class="btn" onclick="viewMessage(${m.id})">View</button>
+              <button class="btn" style="background:#c0392b;color:#fff;" onclick="deleteMessage(${m.id})">Delete</button>
+            </td>
           </tr>
         `).join('');
       }
     }
+
+    async function viewMessage(id) {
+      const m = messages.find(x => x.id === id);
+      if (!m) return;
+      currentMessageId = id;
+      document.getElementById('message-modal-title').textContent = m.subject || 'No subject';
+      document.getElementById('message-modal-body').innerHTML = `
+        <p><strong>From:</strong> ${escapeHtml(m.name)} &lt;${escapeHtml(m.email)}&gt;</p>
+        <p><strong>Date:</strong> ${new Date(m.created_at).toLocaleString()}</p>
+        <p><strong>Status:</strong> ${escapeHtml(m.status || 'new')}</p>
+        <hr style="margin:16px 0;border:0;border-top:1px solid var(--border);">
+        <p style="white-space:pre-wrap;word-wrap:break-word;">${escapeHtml(m.message || '')}</p>
+      `;
+      document.getElementById('message-modal-notes').value = m.notes || '';
+      document.getElementById('message-modal').classList.add('open');
+      if (!m.is_read || (m.status || 'new') === 'new') {
+        await updateMessageStatus(id, 'read');
+      }
+    }
+
+    function closeMessageModal() {
+      document.getElementById('message-modal').classList.remove('open');
+      currentMessageId = null;
+    }
+
+    async function saveMessageNotes() {
+      if (!currentMessageId) return;
+      const notes = document.getElementById('message-modal-notes').value;
+      const { error } = await supabase.from('contact_messages').update({ notes }).eq('id', currentMessageId);
+      if (error) {
+        toast('Failed to save notes', 'error');
+      } else {
+        toast('Notes saved', 'success');
+        const m = messages.find(x => x.id === currentMessageId);
+        if (m) m.notes = notes;
+      }
+    }
+
+    async function markMessageStatus(status) {
+      if (!currentMessageId) return;
+      await updateMessageStatus(currentMessageId, status);
+    }
+
+    async function updateMessageStatus(id, status) {
+      const is_read = (status !== 'new');
+      const { error } = await supabase.from('contact_messages').update({ status, is_read }).eq('id', id);
+      if (error) {
+        toast('Failed to update status', 'error');
+        console.error(error);
+      } else {
+        await loadMessages();
+      }
+    }
+
+    async function deleteMessage(id) {
+      if (!confirm('Delete this message?')) return;
+      const { error } = await supabase.from('contact_messages').delete().eq('id', id);
+      if (error) {
+        toast('Failed to delete message', 'error');
+        console.error(error);
+      } else {
+        toast('Message deleted', 'success');
+        if (currentMessageId === id) closeMessageModal();
+        await loadMessages();
+      }
+    }
+
+    async function deleteCurrentMessage() {
+      if (currentMessageId) await deleteMessage(currentMessageId);
+    }
+
+    function exportMessagesCSV() {
+      if (!messages.length) { toast('No messages to export', 'error'); return; }
+      const headers = ['id', 'name', 'email', 'subject', 'message', 'status', 'notes', 'is_read', 'created_at'];
+      const rows = messages.map(m => headers.map(h => JSON.stringify(m[h] || '')).join(','));
+      const csv = [headers.join(','), ...rows].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `contact-messages-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function subscribeMessages() {
+      if (messagesSubscription) return;
+      messagesSubscription = supabase
+        .channel('contact-messages-admin')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_messages' }, payload => {
+          console.log('[Realtime] contact message changed:', payload);
+          loadMessages();
+        })
+        .subscribe(status => {
+          if (status === 'SUBSCRIBED') console.log('Realtime messages subscription active');
+          if (status === 'CLOSED' || status === 'CHANNEL_ERROR') messagesSubscription = null;
+        });
+    }
+
     window.loadMessages = loadMessages;
+    window.viewMessage = viewMessage;
+    window.closeMessageModal = closeMessageModal;
+    window.saveMessageNotes = saveMessageNotes;
+    window.markMessageStatus = markMessageStatus;
+    window.updateMessageStatus = updateMessageStatus;
+    window.deleteMessage = deleteMessage;
+    window.deleteCurrentMessage = deleteCurrentMessage;
+    window.exportMessagesCSV = exportMessagesCSV;
 
     // ── INVENTORY ──
     let inventoryItems = [];
@@ -3444,6 +3643,75 @@
       closeInventoryModal();
       loadInventory();
     };
+
+    // ── CONTACT PAGE ──
+    let contactPageSubscription = null;
+
+    async function loadContactPageEditor() {
+      try {
+        const response = await fetch('/api/settings');
+        const data = await response.json();
+        if (!data) return;
+        document.getElementById('contact-page-email').value = data.contact_email || '';
+        document.getElementById('contact-page-hero-title').value = data.contact_hero_title || '';
+        document.getElementById('contact-page-hero-subtitle').value = data.contact_hero_subtitle || '';
+        document.getElementById('contact-page-response-time').value = data.contact_response_time || '';
+        document.getElementById('contact-page-follow-us').value = data.contact_follow_us || '';
+      } catch (error) {
+        toast('Failed to load contact page settings', 'error');
+      }
+    }
+
+    window.saveContactPage = async function () {
+      try {
+        const get = id => document.getElementById(id)?.value || '';
+        const payload = {
+          contact_email: get('contact-page-email'),
+          contact_hero_title: get('contact-page-hero-title'),
+          contact_hero_subtitle: get('contact-page-hero-subtitle'),
+          contact_response_time: get('contact-page-response-time'),
+          contact_follow_us: get('contact-page-follow-us')
+        };
+        const session = (await supabase.auth.getSession()).data.session;
+        const response = await fetch('/api/settings', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.access_token || ''}`
+          },
+          body: JSON.stringify(payload)
+        });
+        if (!response.ok) throw new Error('Failed to save contact page');
+        toast('Contact page saved!');
+      } catch (error) {
+        toast(error.message, 'error');
+      }
+    };
+
+    function subscribeContactPage() {
+      if (contactPageSubscription) return;
+      contactPageSubscription = supabase
+        .channel('contact-page-admin')
+        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'settings' }, payload => {
+          const newRecord = payload.new || {};
+          if (document.getElementById('contact-page-email')) document.getElementById('contact-page-email').value = newRecord.contact_email || '';
+          if (document.getElementById('contact-page-hero-title')) document.getElementById('contact-page-hero-title').value = newRecord.contact_hero_title || '';
+          if (document.getElementById('contact-page-hero-subtitle')) document.getElementById('contact-page-hero-subtitle').value = newRecord.contact_hero_subtitle || '';
+          if (document.getElementById('contact-page-response-time')) document.getElementById('contact-page-response-time').value = newRecord.contact_response_time || '';
+          if (document.getElementById('contact-page-follow-us')) document.getElementById('contact-page-follow-us').value = newRecord.contact_follow_us || '';
+          const status = document.getElementById('contact-page-live-status');
+          if (status) {
+            status.style.display = 'inline';
+            setTimeout(() => status.style.display = 'none', 2000);
+          }
+        })
+        .subscribe(status => {
+          if (status === 'SUBSCRIBED') console.log('Realtime contact page subscription active');
+          if (status === 'CLOSED' || status === 'CHANNEL_ERROR') contactPageSubscription = null;
+        });
+    }
+
+    window.loadContactPageEditor = loadContactPageEditor;
 
     // ── SETTINGS ──
     async function loadSettings() {

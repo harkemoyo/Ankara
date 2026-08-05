@@ -174,7 +174,7 @@ class EmailService {
                 </div>
                 `;
             } else if (slug === 'contact_notification') {
-                subject = 'New Inquiry from {{name}}';
+                subject = 'New Inquiry: {{subject}} — {{name}}';
                 htmlBody = `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #dad2ce; border-radius: 8px; overflow: hidden; background-color: #faf8f5;">
                     <div style="background-color: {{email_header_color}}; padding: 32px; text-align: center; color: #fff;">
@@ -184,8 +184,28 @@ class EmailService {
                         <p style="font-size: 15px; margin-bottom: 20px;">You have received a new message from the contact form:</p>
                         <div style="background-color: #f5f1ec; border-radius: 6px; padding: 20px; margin-bottom: 24px; font-size: 14px;">
                             <div style="margin-bottom: 8px;"><strong>From:</strong> {{name}} ({{email}})</div>
+                            <div style="margin-bottom: 8px;"><strong>Subject:</strong> {{subject}}</div>
                             <div><strong>Message:</strong><br><span style="color: #7a726e;">{{message}}</span></div>
                         </div>
+                        <p style="font-size: 13px; color: #7a726e; margin-top: 32px; border-top: 1px solid #dad2ce; padding-top: 20px; text-align: center;">{{email_footer_text}}</p>
+                    </div>
+                </div>
+                `;
+            } else if (slug === 'contact_auto_reply') {
+                subject = 'We received your message — {{store_name}}';
+                htmlBody = `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #dad2ce; border-radius: 8px; overflow: hidden; background-color: #faf8f5;">
+                    <div style="background-color: {{email_header_color}}; padding: 32px; text-align: center; color: #fff;">
+                        <h1 style="margin: 0; font-size: 24px; font-weight: bold; letter-spacing: 0.05em;">Thank You for Reaching Out</h1>
+                    </div>
+                    <div style="padding: 40px 32px; color: #2a2624; line-height: 1.6;">
+                        <h2 style="font-size: 20px; font-weight: normal; color: {{email_header_color}}; margin-top: 0; margin-bottom: 16px;">Hi {{name}},</h2>
+                        <p style="font-size: 15px; margin-bottom: 24px;">We have received your message and will get back to you within 24–48 hours, Monday to Friday.</p>
+                        <div style="background-color: #f5f1ec; border-radius: 6px; padding: 20px; margin-bottom: 24px; font-size: 14px;">
+                            <div style="margin-bottom: 8px;"><strong>Subject:</strong> {{subject}}</div>
+                            <div><strong>Your message:</strong><br><span style="color: #7a726e;">{{message}}</span></div>
+                        </div>
+                        <p style="font-size: 13px; color: #7a726e; margin-top: 32px; border-top: 1px solid #dad2ce; padding-top: 20px; text-align: center;">{{email_footer_text}}</p>
                     </div>
                 </div>
                 `;
@@ -249,17 +269,33 @@ class EmailService {
     // ─────────────────────────────────────────────────────────────────
     // Contact Form Notification
     // ─────────────────────────────────────────────────────────────────
-    sendContactFormNotification(name, email, message) {
+    sendContactFormNotification(name, email, subject, message) {
         setImmediate(async () => {
             const supportEmail = process.env.SUPPORT_EMAIL || 'info@maryhumphreywear.org';
 
-            const { subject, html } = await this.buildEmail('contact_notification', {
+            const { subject: emailSubject, html } = await this.buildEmail('contact_notification', {
                 name,
                 email,
+                subject: subject || 'No subject',
                 message
             });
 
-            await this.sendEmail({ to: supportEmail, subject, html });
+            await this.sendEmail({ to: supportEmail, subject: emailSubject, html });
+        });
+    }
+
+    // ─────────────────────────────────────────────────────────────────
+    // Contact Form Auto-Reply
+    // ─────────────────────────────────────────────────────────────────
+    sendContactAutoReply(name, email, subject, message) {
+        setImmediate(async () => {
+            const { subject: emailSubject, html } = await this.buildEmail('contact_auto_reply', {
+                name,
+                subject: subject || 'No subject',
+                message
+            });
+
+            await this.sendEmail({ to: email, subject: emailSubject, html });
         });
     }
 }

@@ -48,6 +48,11 @@ app.use((req, res, next) => {
     });
 });
 
+// 404 fallback
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, '404.html'));
+});
+
 // Global Error Handler
 app.use((err, req, res, next) => {
     console.error('Server Error:', err);

@@ -34,7 +34,7 @@ export default class ProductCard {
         const thumbnailWrap = this.createEl('div', 'product__card--thumbnail');
         
         const thumbnailLink = this.createEl('a', 'product__card--thumbnail__link', {
-            href: `product.html?handle=${product.handle}`
+            href: `/product/${product.handle}`
         });
 
         const primaryImage = (product.images && product.images.length > 0) ? product.images[0] : 'assets/placeholder.webp';
@@ -55,7 +55,7 @@ export default class ProductCard {
         thumbnailWrap.appendChild(thumbnailLink);
 
         // Badges
-        const isSalePage = window.location.pathname.includes('sale.html') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale') || window.location.search.includes('collection=sale');
+        const isSalePage = window.location.pathname.includes('/sale') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale') || window.location.search.includes('collection=sale');
 
         if (!product.in_stock) {
             const badge = this.createEl('span', 'product__card--badge sold-out-badge', {}, 'Sold Out');
@@ -116,7 +116,7 @@ export default class ProductCard {
         const content = this.createEl('div', 'product__card--content');
 
         const titleLink = this.createEl('a', 'product__card--title-link', {
-            href: `product.html?handle=${product.handle}`
+            href: `/product/${product.handle}`
         });
         const title = this.createEl('h3', 'product__card--title', {}, product.title);
         titleLink.appendChild(title);
@@ -152,8 +152,8 @@ export default class ProductCard {
                     swatch.classList.add('is-active');
                     
                     mainImg.src = swatchImgUrl;
-                    thumbnailLink.href = `product.html?handle=${product.handle}&color=${encodeURIComponent(color.label)}`;
-                    titleLink.href = `product.html?handle=${product.handle}&color=${encodeURIComponent(color.label)}`;
+                    thumbnailLink.href = `/product/${product.handle}&color=${encodeURIComponent(color.label)}`;
+                    titleLink.href = `/product/${product.handle}&color=${encodeURIComponent(color.label)}`;
                 });
 
                 if (index === 0) swatch.classList.add('is-active');

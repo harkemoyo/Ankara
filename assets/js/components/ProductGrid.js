@@ -143,11 +143,11 @@ export default class ProductGrid {
             // Update Breadcrumbs
             breadcrumbContentEl.innerHTML = `
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
+                    <a href="/">Home</a>
                 </li>
                 <div class="divider">/</div>
                 <li class="breadcrumb-item">
-                    <a href="shop.html">Shop</a>
+                    <a href="/shop">Shop</a>
                 </li>
                 <div class="divider">/</div>
                 <li class="breadcrumb-item active">${collectionTitle}</li>
@@ -158,7 +158,7 @@ export default class ProductGrid {
             document.title = 'Shop – Mary Humphrey Wear';
             breadcrumbContentEl.innerHTML = `
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
+                    <a href="/">Home</a>
                 </li>
                 <div class="divider">/</div>
                 <li class="breadcrumb-item active">Shop</li>
@@ -211,7 +211,7 @@ export default class ProductGrid {
         if (!isKnownCollection) {
             const msg = this.createEl('h3', '', {}, 'Collection Not Found');
             const sub = this.createEl('p', 'text-muted mt-2', {}, 'The collection you are looking for does not exist.');
-            const btn = this.createEl('a', 'primary__btn mt-3', { href: 'shop.html' }, 'View All Products');
+            const btn = this.createEl('a', 'primary__btn mt-3', { href: '/shop' }, 'View All Products');
             container.append(msg, sub, btn);
         } else {
             const msg = this.createEl('h3', '', {}, 'No products match your filters');

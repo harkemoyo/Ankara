@@ -2101,6 +2101,9 @@
             display: grid;
             gap: 4rem;
         }
+        .home-sale-promo {
+            padding-block: 1.5rem;
+}
     </style>
     <script src="assets/config.js"></script>
     <script defer src="assets/supabase-client.js" type="module"></script>
@@ -2159,7 +2162,7 @@
                 <!-- Logo -->
                 <div class="main__logo">
                     <h1 class="main__logo--title">
-                        <a class="main__logo--link" href=".">
+                        <a class="main__logo--link" href="/">
                             <img alt="Mary Humphrey African Wear" class="main__logo--img"
                                 src="assets/IMG-20260622-WA0082.webp" />
                         </a>
@@ -2170,10 +2173,10 @@
                     <nav class="header__menu--navigation">
                         <ul class="header__menu--wrapper">
                             <li class="header__menu--items active-page">
-                                <a class="header__menu--link active" href="index.html">Home</a>
+                                <a class="header__menu--link active" href="/">Home</a>
                             </li>
                             <li class="header__menu--items">
-                                <a class="header__menu--link" href="shop.html">Collections
+                                <a class="header__menu--link" href="/shop">Collections
                                     <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6"
                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"
@@ -2184,7 +2187,7 @@
     <li class="header__sub--menu__items mega-col">
         <span class="mega-menu__heading">Shop by Style</span>
         <ul class="mega-col__list">
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="shop.html">All Products</a></li>
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop">All Products</a></li>
             <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/dresses">Dresses</a></li>
             <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/pullovers">Pullovers & Hoodies</a></li>
             <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/joggers">Joggers</a></li>
@@ -2200,7 +2203,7 @@
             <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/menswear">Menswear</a></li>
             <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/womenswear">Womenswear</a></li>
             <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/fabrics">Fabrics</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="sale.html">Sale</a></li>
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/sale">Sale</a></li>
         </ul>
     </li>
 </ul>
@@ -2209,10 +2212,10 @@
                                 <a class="header__menu--link" href="/fabric">Fabrics</a>
                             </li>
                             <li class="header__menu--items">
-                                <a class="header__menu--link" href="sale.html" style="color:#d9534f; font-weight:600;">Sale</a>
+                                <a class="header__menu--link" href="/sale" style="color:#d9534f; font-weight:600;">Sale</a>
                             </li>
                             <li class="header__menu--items">
-                                <a class="header__menu--link" href="about.html">Our Story</a>
+                                <a class="header__menu--link" href="/about">Our Story</a>
                             </li>
                             <li class="header__menu--items">
                                 <a class="header__menu--link" href="/contact">Contact</a>
@@ -2241,7 +2244,7 @@
                         </li>
                         <!-- Account -->
                         <li class="header__account--items">
-                            <a class="header__account--btn" href="account.html">
+                            <a class="header__account--btn" href="/account">
                                 <span class="header__account--btn__icon">
                                     <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -2280,7 +2283,7 @@
             <div class="offcanvas__inner">
                 <!-- Offcanvas Logo -->
                 <div class="offcanvas__logo">
-                    <a class="offcanvas__logo--link" href=".">
+                    <a class="offcanvas__logo--link" href="/">
                         <img alt="Mary Humphrey African Wear" class="offcanvas__logo--img"
                             src="assets/IMG-20260622-WA0082.webp" />
                     </a>
@@ -2289,13 +2292,13 @@
                 <nav class="offcanvas__menu">
                     <ul class="offcanvas__menu_ul">
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href=".">Home</a>
+                            <a class="offcanvas__menu_item" href="/">Home</a>
                         </li>
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="shop.html">Collections</a>
+                            <a class="offcanvas__menu_item" href="/shop">Collections</a>
                             <ul class="offcanvas__sub_menu">
                                 <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                        href="shop.html">All Products</a></li>
+                                        href="/shop">All Products</a></li>
                                 <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
                                         href="/shop/dresses">Dresses</a></li>
                                 <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
@@ -2309,7 +2312,7 @@
                             </ul>
                         </li>
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="about.html">Our Story</a>
+                            <a class="offcanvas__menu_item" href="/about">Our Story</a>
                         </li>
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item" href="/contact">Contact</a>
@@ -2343,7 +2346,7 @@
             </div>
             <div class="minicart__empty--text">
                 <p>Your bag is empty.</p>
-                <a class="primary__btn" href="shop.html">Continue Shopping</a>
+                <a class="primary__btn" href="/shop">Continue Shopping</a>
             </div>
             <div class="minicart__product" id="minicart-items-list"></div>
             <div class="minicart__amount">
@@ -2369,7 +2372,7 @@
         <div class="predictive__search--box">
             <div class="predictive__search--box__inner">
                 <h2 class="predictive__search--title">Search Products</h2>
-                <form action="shop.html" class="predictive__search--form" method="get" role="search">
+                <form action="/shop" class="predictive__search--form" method="get" role="search">
                     <label for="Search">
                         <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here"
                             type="search" />
@@ -2394,7 +2397,7 @@
         <div class="offcanvas__sticky--toolbar">
             <ul class="flex-between">
                 <li class="offcanvas__sticky--toolbar__list">
-                    <a class="offcanvas__sticky--toolbar__btn" href=".">
+                    <a class="offcanvas__sticky--toolbar__btn" href="/">
                         <span class="offcanvas__sticky--toolbar__icon">
                             <svg fill="none" height="21" viewbox="0 0 22 17" width="21"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -2407,7 +2410,7 @@
                     </a>
                 </li>
                 <li class="offcanvas__sticky--toolbar__list">
-                    <a class="offcanvas__sticky--toolbar__btn" href="shop.html">
+                    <a class="offcanvas__sticky--toolbar__btn" href="/shop">
                         <span class="offcanvas__sticky--toolbar__icon">
                             <svg fill="currentColor" height="17" viewbox="0 0 448 512" width="18"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -2492,7 +2495,7 @@
                     <div class="home-product-grid product-grid" data-collection="all" data-limit="4"
                         data-section="featured-collection"></div>
                     <div class="view-all-center">
-                        <a class="primary__btn" href="shop.html">View All Products</a>
+                        <a class="primary__btn" href="/shop">View All Products</a>
                     </div>
                 </div>
             </section>
@@ -2511,12 +2514,12 @@
                     <div class="botm-layout__content botm-content">
                         <h3 class="botm-title"></h3>
                         <div class="botm-price"></div>
-                        <a class="primary__btn" href="shop.html">Shop Now</a>
+                        <a class="primary__btn" href="/shop">Shop Now</a>
                     </div>
                 </div>
             </section>
             <!-- Fabric Showcase Teaser -->
-            <section class="home-fabrics-teaser section--padding" data-section-id="fabrics" style="background-color: #800020; margin-top: 4rem; padding-block: 5rem;">
+            <section class="home-fabrics-teaser section--padding" data-section-id="fabrics" style="background-color: #800020; padding-block: 5rem;">
                 <div class="page-width">
                     <div class="section-header" style="margin-bottom: 3.5rem; text-align: center;">
                         <span class="botm-header-subtitle" style="color: #D4A843; font-size: 1.3rem; letter-spacing: 0.25em; text-transform: uppercase;"></span>
@@ -2546,14 +2549,14 @@
                 </div>
             </section>
             <!-- Sale Promo Strip -->
-            <section class="home-sale-promo section--padding" data-section-id="sale_promo" style="background-color: #fce8e8; margin-top: 4rem; padding-block: 4rem;">
-                <div class="page-width" style="text-align: center;">
-                    <div class="section-header" style="margin-bottom: 2rem;">
-                        <h2 class="section__heading--maintitle" style="color: #d11f26;"></h2>
-                        <p style="font-size: 1.6rem; color: #333; margin-top: 1rem;"></p>
+            <section class="home-sale-promo section--padding" data-section-id="sale_promo">
+                <div class="page-width">
+                    <div class="section-header">
+                        <h2 class="section__heading--maintitle" ></h2>
+                        <p></p>
                     </div>
                     <div class="view-all-center">
-                        <a class="primary__btn" href="sale.html" style="background-color: #d11f26; border-color: #d11f26; color: #fff;"></a>
+                        <a class="primary__btn" href="/sale"></a>
                     </div>
                 </div>
             </section>

@@ -20,7 +20,7 @@ function escapeHtml(str) {
             <span class="hero-subtitle">${escapeHtml(sl.subtitle || '')}</span>
             <h2 class="hero-title">${escapeHtml(sl.title || '')} <span class="hero-accent">${escapeHtml(sl.accent || '')}</span></h2>
             <p class="hero-desc">${escapeHtml(sl.desc || '')}</p>
-            <a class="hero-btn" href="${escapeHtml(sl.link || 'shop.html')}">
+            <a class="hero-btn" href="${escapeHtml(sl.link || '/shop')}">
               ${escapeHtml(sl.button || 'Shop Now')}
               <svg fill="none" height="11" viewBox="0 0 17 12" width="16"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"></path></svg>
             </a>
@@ -47,7 +47,7 @@ function escapeHtml(str) {
     if (!grid) return;
     grid.innerHTML = blocks.map(b => `
       <div class="category-block">
-        <a class="category-link" href="${escapeHtml(b.link || 'shop.html')}">
+        <a class="category-link" href="${escapeHtml(b.link || '/shop')}">
           <div class="category-image-wrap">
             <img alt="${escapeHtml(b.title || '')}" loading="lazy" decoding="async" src="${escapeHtml(b.image || '')}" />
           </div>
@@ -262,7 +262,7 @@ function escapeHtml(str) {
     if (grid) {
       grid.innerHTML = blocks.map(b => `
         <div class="style-block">
-          <a href="${escapeHtml(b.link || 'shop.html')}">
+          <a href="${escapeHtml(b.link || '/shop')}">
             <img alt="${escapeHtml(b.label || '')}" loading="lazy" decoding="async" src="${escapeHtml(b.image || '')}" />
             <div class="style-overlay">
               <span>${escapeHtml(b.label || '')}</span>
@@ -600,7 +600,7 @@ window.addBotmToCart = function(isBuyNow) {
 
     if (isBuyNow) {
       setTimeout(() => {
-        window.location.href = 'checkout.html';
+        window.location.href = '/checkout';
       }, 300);
     }
   }

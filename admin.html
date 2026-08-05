@@ -801,7 +801,7 @@
       <a data-section="homepage" href="#" onclick="showSection('homepage',this)">
         <span class="icon">🧩</span> Homepage
       </a>
-      <a href="index.html" style="margin-top:auto;" target="_blank">
+      <a href="/" style="margin-top:auto;" target="_blank">
         <span class="icon">🌐</span> View Store
       </a>
     </nav>
@@ -848,7 +848,7 @@
           <button class="btn btn-ghost"
             onclick="showSection('collections',document.querySelector('[data-section=collections]'));openCollectionModal()">+
             Add Collection</button>
-          <a class="btn btn-ghost" href="shop.html" target="_blank">View Shop ↗</a>
+          <a class="btn btn-ghost" href="/shop" target="_blank">View Shop ↗</a>
         </div>
       </div>
     </section>
@@ -4674,7 +4674,7 @@
         accent: 'Wear',
         desc: 'Bold African-inspired designs crafted for the modern individual.',
         button: 'Shop Collection',
-        link: 'shop.html'
+        link: '/shop'
       });
       const container = document.getElementById('homepage-section-form');
       const sec = themeData.sections[currentSectionKey || 'hero'];
@@ -4727,7 +4727,7 @@
         ${formHtml}
         <div style="margin-top:20px;display:flex;gap:12px;">
           <button class="btn btn-primary" onclick="saveThemeSection()">Save Section</button>
-          <button class="btn btn-ghost" onclick="window.open('index.html','_blank')">View Storefront</button>
+          <button class="btn btn-ghost" onclick="window.open('/','_blank')">View Storefront</button>
         </div>
       `;
     };
@@ -4836,7 +4836,7 @@
       row.setAttribute('data-list', list);
       row.style.cssText = 'display:flex;gap:8px;margin-bottom:6px;align-items:center;';
       const labelPlaceholder = list === 'collection' ? 'All Products' : 'Home';
-      const urlPlaceholder = list === 'collection' ? 'shop.html' : 'index.html';
+      const urlPlaceholder = list === 'collection' ? '/shop' : '/';
       row.innerHTML = `
         <input class="js-footer-link-label" type="text" placeholder="e.g. ${labelPlaceholder}" style="flex:1;" />
         <input class="js-footer-link-url" type="text" placeholder="e.g. ${urlPlaceholder}" style="flex:1;" />
@@ -4879,7 +4879,7 @@
     };
 
     window.previewHomepage = function () {
-      window.open('index.html', '_blank');
+      window.open('/', '_blank');
     };
 
     // Auto-generate handle from title

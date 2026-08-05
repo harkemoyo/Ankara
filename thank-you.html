@@ -130,7 +130,7 @@
 <div class="state-error" id="state-error" style="display:none;">
 <h2>Order not found</h2>
 <p style="color:#777;font-size:1.3rem;margin-bottom:20px;">We couldn't find that order. Please check your email or contact support.</p>
-<a class="btn-action btn-track" href="shop.html">Continue Shopping</a>
+<a class="btn-action btn-track" href="/shop">Continue Shopping</a>
 </div>
 
 <!-- Success state -->
@@ -204,7 +204,7 @@
                         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
                         Track Order
                     </a>
-                    <a class="btn-action btn-shop" href="shop.html">Shop More</a>
+                    <a class="btn-action btn-shop" href="/shop">Shop More</a>
                 </div>
             </div>
         </div>
@@ -289,7 +289,7 @@
       // Set Track Order link
       const trackBtn = document.getElementById('track-order-btn');
       if (trackBtn) {
-        trackBtn.href = `order-status.html?ref=${encodeURIComponent(order.order_number)}&email=${encodeURIComponent(order.customer_email)}`;
+        trackBtn.href = `/order-status?ref=${encodeURIComponent(order.order_number)}&email=${encodeURIComponent(order.customer_email)}`;
       }
 
       document.getElementById('state-loading').style.display = 'none';

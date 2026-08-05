@@ -81,8 +81,8 @@ function updateFooterFromTheme(el, settings) {
 // ── Active Navigation Link Highlighter ──────────────────────────────────────
 function highlightActiveNav() {
     const pathParts = window.location.pathname.split('/').filter(Boolean);
-    const currentFile = pathParts.length ? pathParts[pathParts.length - 1] : 'index.html';
-    const activeFile = (currentFile === '' || currentFile === '/') ? 'index.html' : currentFile;
+    const currentFile = pathParts.length ? pathParts[pathParts.length - 1] : '/';
+    const activeFile = (currentFile === '' || currentFile === '/') ? '/' : currentFile;
 
     document.querySelectorAll('.header__menu--navigation .header__menu--items').forEach(item => {
         const link = item.querySelector('a.header__menu--link');
@@ -91,7 +91,7 @@ function highlightActiveNav() {
         if (!href) return;
         const linkFile = href.split('/').pop().split('?')[0];
 
-        if (linkFile === activeFile || (activeFile === 'index.html' && (linkFile === '.' || linkFile === 'index.html'))) {
+        if (linkFile === activeFile || (activeFile === '/' && (linkFile === '.' || linkFile === '/'))) {
             item.classList.add('active-page');
             link.classList.add('active');
         } else {

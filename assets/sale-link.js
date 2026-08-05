@@ -1,5 +1,5 @@
 // Dynamically show/hide sale link based on whether there are sale products
-const SALE_LINK_SELECTOR = 'a[href="/sale"], a[href="sale.html"], a[href="/sale.html"]';
+const SALE_LINK_SELECTOR = 'a[href="/sale"], a[href="/sale"], a[href="/sale"]';
 
 function findSaleItems(nav) {
     return Array.from(nav.querySelectorAll(SALE_LINK_SELECTOR))

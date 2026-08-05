@@ -27,19 +27,98 @@
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/assets/api/handler.js" },
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*\\.(ico|png|jpg))", "dest": "/$1" },
-    { "src": "/shop/([^/]+)", "dest": "/shop.html" },
-    { "src": "/product/([^/]+)", "dest": "/product.html" },
-    { "src": "/products/([^/]+)", "dest": "/product.html" },
-    { "src": "/(menswear|womenswear|unisex|new-arrivals)", "dest": "/shop.html?collection=$1" },
-    { "src": "/(.*\\.html)", "dest": "/$1" },
-    { "src": "/", "dest": "/index.html" },
-    { "src": "/fabric", "dest": "/material.html" },
-    { "src": "/contact", "dest": "/contact.html" },
-    { "src": "/about", "dest": "/about.html" },
-    { "src": "/sale", "dest": "/sale.html" },
-    { "src": "/(.*)", "status": 404, "dest": "/404.html" }
+    {
+      "src": "/api/(.*)",
+      "dest": "/assets/api/handler.js"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/(.*\\.(ico|png|jpg))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/shop/([^/]+)",
+      "dest": "/shop.html"
+    },
+    {
+      "src": "/product/([^/]+)",
+      "dest": "/product.html"
+    },
+    {
+      "src": "/products/([^/]+)",
+      "dest": "/product.html"
+    },
+    {
+      "src": "/(menswear|womenswear|unisex|new-arrivals)",
+      "dest": "/shop.html?collection=$1"
+    },
+    {
+      "src": "/(.*\\.html)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/fabric",
+      "dest": "/material.html"
+    },
+    {
+      "src": "/contact",
+      "dest": "/contact.html"
+    },
+    {
+      "src": "/about",
+      "dest": "/about.html"
+    },
+    {
+      "src": "/sale",
+      "dest": "/sale.html"
+    },
+    {
+      "src": "/shop",
+      "dest": "/shop.html"
+    },
+    {
+      "src": "/checkout",
+      "dest": "/checkout.html"
+    },
+    {
+      "src": "/account",
+      "dest": "/account.html"
+    },
+    {
+      "src": "/order-status",
+      "dest": "/order-status.html"
+    },
+    {
+      "src": "/terms-of-service",
+      "dest": "/terms-of-service.html"
+    },
+    {
+      "src": "/shipping-policy",
+      "dest": "/shipping-policy.html"
+    },
+    {
+      "src": "/refund-policy",
+      "dest": "/refund-policy.html"
+    },
+    {
+      "src": "/privacy-policy",
+      "dest": "/privacy-policy.html"
+    },
+    {
+      "src": "/thank-you",
+      "dest": "/thank-you.html"
+    },
+    {
+      "src": "/(.*)",
+      "status": 404,
+      "dest": "/404.html"
+    }
   ]
 }

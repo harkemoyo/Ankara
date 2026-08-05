@@ -53,7 +53,7 @@ async function loadShopProducts() {
         const primaryImage = (product.images && Array.isArray(product.images) && product.images[0]) ? product.images[0] : 'assets/DSC02676.jpg';
         const hoverImage = (product.images && Array.isArray(product.images) && product.images[1]) ? product.images[1] : primaryImage;
         const price = parseFloat(product.price);
-        const isSalePage = window.location.pathname.includes('sale.html') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale') || window.location.search.includes('collection=sale');
+        const isSalePage = window.location.pathname.includes('/sale') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale') || window.location.search.includes('collection=sale');
         const comparePrice = (isSalePage && product.compare_at_price) ? parseFloat(product.compare_at_price) : null;
         let badgeHtml = '';
         if (isSalePage) {
@@ -64,7 +64,7 @@ async function loadShopProducts() {
         return `
         <article class="product__card clean-card" data-handle="${product.handle}">
             <div class="product__card--thumbnail clean-card-thumbnail">
-                <a class="product__card--thumbnail__link display-block" href="product.html?handle=${product.handle}">
+                <a class="product__card--thumbnail__link display-block" href="/product/${product.handle}">
                     <img class="product__card--thumbnail__img product__primary--img" src="${primaryImage}" alt="${product.title}">
                     <img class="product__card--thumbnail__img product__secondary--img" src="${hoverImage}" alt="${product.title}">
                 </a>
@@ -75,7 +75,7 @@ async function loadShopProducts() {
             </div>
             <div class="product__card--content clean-card-content">
                 <h3 class="product__card--title clean-title" style="margin-top: 10px;">
-                    <a href="product.html?handle=${product.handle}">${product.title}</a>
+                    <a href="/product/${product.handle}">${product.title}</a>
                 </h3>
                 ${colors.length > 0 ? `
                 <div class="card-color-swatches" style="display:flex;justify-content:center;gap:6px;margin:8px 0;">
@@ -102,7 +102,7 @@ async function loadShopProducts() {
 // Swap image on product card when swatch is clicked
 window.swapCardImage = function(swatchEl, imageSrc, handle) {
     const label = swatchEl.getAttribute('title');
-    window.location.href = `product.html?handle=${handle}&color=${encodeURIComponent(label || '')}`;
+    window.location.href = `/product/${handle}&color=${encodeURIComponent(label || '')}`;
 };
 
 // Quick add to cart from shop grid
@@ -676,13 +676,13 @@ async function loadRelatedProducts(product) {
         return `
         <article class="product__card clean-card">
             <div class="product__card--thumbnail clean-card-thumbnail">
-                <a class="product__card--thumbnail__link display-block" href="product.html?handle=${p.handle}">
+                <a class="product__card--thumbnail__link display-block" href="/product/${p.handle}">
                     <img class="product__card--thumbnail__img product__primary--img" src="${img}" alt="${p.title}">
                 </a>
             </div>
             <div class="product__card--content clean-card-content">
                 <h3 class="product__card--title clean-title" style="margin-top:10px;">
-                    <a href="product.html?handle=${p.handle}">${p.title}</a>
+                    <a href="/product/${p.handle}">${p.title}</a>
                 </h3>
                 <div class="product__card--price clean-price" style="margin-top:5px;">
                     <span class="current__price">${priceStr}</span>
@@ -817,7 +817,7 @@ window.buyProductNow = function(e) {
             size,
             color
         });
-        window.location.href = 'checkout.html';
+        window.location.href = '/checkout';
     }
 };
 

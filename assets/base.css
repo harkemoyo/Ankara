@@ -152,21 +152,6 @@ body {
   font-size: 62.5%;
   padding: 0;
 }
-
-body {
-
-  font-family: var(--karma-fonts);
-  font-size: var(--body-font-size, 1.5rem);
-  font-weight: var(--body-font-weight);
-  font-style: normal;
-  line-height: var(--body-line-height, 26px);
-  position: relative;
-  visibility: visible;
-  overflow-x: hidden;
-  color: var(--primary-color);
-  background-color: var(--background-color);
-}
-
 /* Hide css */
 .hide {
   display: none;
@@ -591,10 +576,6 @@ hr {
   min-height: 400px;
 }
 
-.home-sale-promo {
-  min-height: 200px;
-}
-
 .home-shop-by-style {
   min-height: 420px;
 }
@@ -656,7 +637,7 @@ body {
   font-size: calc(var(--font-body-scale) * var(--font-body-size, 1.6rem));
   letter-spacing: 0.06rem;
   line-height: calc(1 + 0.8 / var(--font-body-scale, 1));
-  color: var(--bg-black-color);
+  color: #2a2624;;
   background-color: var(--body-background-color);
 }
 
@@ -2110,7 +2091,6 @@ body.overlay__active::before,
   height: 100vh;
   content: "";
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1060;
   opacity: 1;
   cursor: pointer;
 }
@@ -3077,18 +3057,6 @@ quantity icon button
     padding: 16px 0;
   }
 }
-
-.main__header--inner {
-  gap: 3rem;
-}
-
-@media only screen and (max-width: 575px) {
-  .main__header--inner {
-    gap: 1.5rem;
-    padding-block: 1.5rem;
-  }
-}
-
 .main__logo--link {
   display: block;
 }
@@ -3250,7 +3218,6 @@ quantity icon button
   left: 0;
   right: 0;
   top: 0;
-  bottom: 0;
   opacity: 0;
   visibility: hidden;
   z-index: 10001;
@@ -3343,7 +3310,7 @@ quantity icon button
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  background: var(--primary-color);
+  background: var(--bg-black-color);
 }
 
 .predictive__search--button:hover {

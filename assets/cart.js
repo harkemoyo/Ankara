@@ -146,12 +146,12 @@ function updateCartUI() {
       listEl.innerHTML = cart.map((item, index) => `
         <div class="minicart__product--items js-minicart-item">
           <div class="minicart__thumb">
-            <a href="product.html?handle=${item.id}"><img src="${item.image}" alt="${item.title}"></a>
+            <a href="/product/${item.id}"><img src="${item.image}" alt="${item.title}"></a>
           </div>
           <div class="minicart__text">
             <div class="minicart__text--top">
                <div>
-                  <h4 class="minicart__subtitle"><a href="product.html?handle=${item.id}">${item.title}</a></h4>
+                  <h4 class="minicart__subtitle"><a href="/product/${item.id}">${item.title}</a></h4>
                   <span class="color__variant"><b>Color:</b> ${item.color || 'As Shown'}</span>
                   <span class="color__variant"><b>Size:</b> ${item.size}</span>
                </div>
@@ -184,14 +184,14 @@ function updateCartUI() {
   }
 }
 
-// Redirect checkout to checkout.html page
+// Redirect checkout to /checkout page
 function triggerCheckout() {
   const cart = getCart();
   if (cart.length === 0) {
     alert('Your shopping bag is empty!');
     return;
   }
-  window.location.href = 'checkout.html';
+  window.location.href = '/checkout';
 }
 
 // Simulate network loading state for add to cart buttons

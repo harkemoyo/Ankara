@@ -143,7 +143,7 @@ export default class QuickViewDrawer {
         const priceWrap = this.createEl('div', 'quickview__price-wrap');
         const priceSpan = this.createEl('span', 'quickview__price', {}, this.formatPrice(product.price));
         const viewDetailsLink = this.createEl('a', 'quickview__details-link', {
-            href: `product.html?handle=${product.handle}`
+            href: `/product/${product.handle}`
         }, 'View details');
         priceWrap.append(priceSpan, viewDetailsLink);
 
@@ -282,7 +282,7 @@ export default class QuickViewDrawer {
                 }
             }));
             setTimeout(() => {
-                window.location.href = 'checkout.html';
+                window.location.href = '/checkout';
             }, 100);
         });
 

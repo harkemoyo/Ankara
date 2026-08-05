@@ -153,8 +153,6 @@ export default class ProductGrid {
                 <li class="breadcrumb-item active">${collectionTitle}</li>
             `;
         } else {
-            // Default "Shop All"
-            titleEl.textContent = 'Shop All';
             document.title = 'Shop – Mary Humphrey Wear';
             breadcrumbContentEl.innerHTML = `
                 <li class="breadcrumb-item">

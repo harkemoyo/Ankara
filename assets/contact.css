@@ -101,7 +101,6 @@
   text-align: center;
   padding: 8rem 2rem 6rem;
   background: #800020;
-  margin-bottom: 5rem;
   color: #ffffff;
   position: relative;
   overflow: hidden;
@@ -111,7 +110,6 @@
   font-family: 'Frank Ruhl Libre', serif;
   font-size: clamp(3.6rem, 5vw, 5.2rem);
   color: #ffffff;
-  margin-bottom: 1.5rem;
   font-weight: 700;
 }
 

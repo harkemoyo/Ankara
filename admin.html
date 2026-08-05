@@ -3830,9 +3830,9 @@
             <option value="video" ${isVideo ? 'selected' : ''}>Video</option>
           </select>
         </div>
-        <div ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadSectionImage(event.dataTransfer.files[0],'${id}-url','${id}-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:10px;background:#fafafa;text-align:center;margin-bottom:8px;">
+        <div ondrop="event.preventDefault();var f=event.dataTransfer.files[0];if(f){if(f.type.startsWith('video/'))this.closest('.js-outlet-slide').querySelector('.js-outlet-slide-type').value='video';else this.closest('.js-outlet-slide').querySelector('.js-outlet-slide-type').value='image';uploadSectionImage(f,'${id}-url','${id}-status')}" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:10px;background:#fafafa;text-align:center;margin-bottom:8px;">
           <label class="btn btn-primary" style="cursor:pointer;margin:0;font-size:1.2rem;">
-            <input type="file" accept="image/*,video/*" onchange="if(this.files[0])uploadSectionImage(this.files[0],'${id}-url','${id}-status');this.value=''" style="display:none;" />
+            <input type="file" accept="image/*,video/*" onchange="if(this.files[0]){if(this.files[0].type.startsWith('video/'))this.closest('.js-outlet-slide').querySelector('.js-outlet-slide-type').value='video';else this.closest('.js-outlet-slide').querySelector('.js-outlet-slide-type').value='image';uploadSectionImage(this.files[0],'${id}-url','${id}-status')}this.value=''" style="display:none;" />
             Upload
           </label>
           <span style="font-size:1.1rem;color:var(--muted);margin-left:8px;">or drag here</span>

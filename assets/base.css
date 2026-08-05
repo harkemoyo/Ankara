@@ -2744,11 +2744,11 @@ quantity icon button
   background: var(--body-background-color);
   -webkit-box-shadow: 0 -4px 27px rgba(62, 70, 120, 0.16);
   box-shadow: 0 -4px 27px rgba(62, 70, 120, 0.16);
-  position: relative;
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
+  bottom: 0;
   opacity: 0;
   visibility: hidden;
   z-index: 999;
@@ -2756,6 +2756,11 @@ quantity icon button
   transition: all 0.3s ease 0s;
   -webkit-transform: translateY(-100%);
   transform: translateY(-100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
 }
 
 .predictive__search--box.active {

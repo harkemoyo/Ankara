@@ -4735,8 +4735,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .product__card:hover .product__primary--img {
-  opacity: 0;
-  visibility: hidden;
+  opacity: 1;
+  visibility: visible;
 }
 
 .product__card:hover .swiper__nav--btn {

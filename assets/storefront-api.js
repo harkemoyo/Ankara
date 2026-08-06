@@ -31,7 +31,7 @@ async function loadShopProducts() {
         if (filterState.sizes && filterState.sizes.length > 0) params.set('sizes', filterState.sizes.join(','));
         if (filterState.minPrice) params.set('min_price', filterState.minPrice);
         if (filterState.maxPrice) params.set('max_price', filterState.maxPrice);
-        
+
         // Handle sale page specifically if needed
         if (window.location.pathname.includes('/sale')) {
             params.set('collection', 'sale');
@@ -49,7 +49,7 @@ async function loadShopProducts() {
     if (products.length === 0) {
         grid.innerHTML = '<div class="col-12 text-center" style="grid-column:1/-1;padding:3rem;"><p>No products found matching your filters.</p></div>';
         return;
-    }    grid.innerHTML = products.map((product) => {
+    } grid.innerHTML = products.map((product) => {
         const primaryImage = (product.images && Array.isArray(product.images) && product.images[0]) ? product.images[0] : 'assets/DSC02676.jpg';
         const hoverImage = (product.images && Array.isArray(product.images) && product.images[1]) ? product.images[1] : primaryImage;
         const price = parseFloat(product.price);
@@ -100,13 +100,13 @@ async function loadShopProducts() {
 }
 
 // Swap image on product card when swatch is clicked
-window.swapCardImage = function(swatchEl, imageSrc, handle) {
+window.swapCardImage = function (swatchEl, imageSrc, handle) {
     const label = swatchEl.getAttribute('title');
     window.location.href = `/product/${handle}&color=${encodeURIComponent(label || '')}`;
 };
 
 // Quick add to cart from shop grid
-window.quickAddToCart = function(handle, title, price, image) {
+window.quickAddToCart = function (handle, title, price, image) {
     if (typeof addToCart === 'function') {
         addToCart({
             id: handle,
@@ -165,9 +165,9 @@ async function loadCollectionsData() {
     }
 }
 
-window.filterByCollection = function(btn, collection) {
+window.filterByCollection = function (btn, collection) {
     filterState.collection = collection;
-    
+
     // Sync top tabs UI
     document.querySelectorAll('.collection-tab').forEach(t => {
         t.style.background = '#fff';
@@ -200,7 +200,7 @@ window.filterByCollection = function(btn, collection) {
     window.dispatchEvent(new Event('filter:changed'));
 };
 
-window.filterByCollectionSidebar = function(linkEl, collection) {
+window.filterByCollectionSidebar = function (linkEl, collection) {
     filterState.collection = collection;
 
     // Sync sidebar active links
@@ -258,10 +258,10 @@ function setupShopFilters() {
             e.preventDefault();
             const minInput = document.getElementById('Filter-Price-GTE2');
             const maxInput = document.getElementById('Filter-Price-LTE2');
-            
+
             filterState.minPrice = minInput && minInput.value ? parseFloat(minInput.value) : 0;
             filterState.maxPrice = maxInput && maxInput.value ? parseFloat(maxInput.value) : 250;
-            
+
             loadShopProducts();
         });
     }
@@ -281,7 +281,7 @@ function setupShopFilters() {
             } else if (val === '5') {
                 sortBy = 'price_desc';
             }
-            
+
             const params = new URLSearchParams(window.location.search);
             params.set('sort', sortBy);
             const newUrl = `${window.location.pathname}?${params.toString()}`;
@@ -378,7 +378,7 @@ async function loadProductDetails() {
             html += `<span class="compare-price-val">${compareText}</span>`;
         }
         document.getElementById('dyn-product-price').innerHTML = html;
-        
+
         // Also update sticky price
         const stickyPrice = document.getElementById('sticky-product-price');
         if (stickyPrice) stickyPrice.innerText = priceText;
@@ -411,8 +411,8 @@ async function loadProductDetails() {
         gallery.innerHTML = product.images.map((img, i) => `
             <img 
                 src="${img}" 
-                alt="${product.title} image ${i+1}"
-                class="${i===0?'active':''}"
+                alt="${product.title} image ${i + 1}"
+                class="${i === 0 ? 'active' : ''}"
                 onclick="swapMainImage(this,'${img}')"
             >
         `).join('');
@@ -427,12 +427,12 @@ async function loadProductDetails() {
             const foundIndex = product.colors.findIndex(c => c.label.toLowerCase() === urlColor.toLowerCase());
             if (foundIndex !== -1) initialColorIndex = foundIndex;
         }
-        
+
         colourContainer.innerHTML = product.colors.map((c, i) => `
             <button 
-                class="swatch-btn ${i===initialColorIndex?'active':''}"
+                class="swatch-btn ${i === initialColorIndex ? 'active' : ''}"
                 aria-label="${c.label}"
-                aria-pressed="${i===initialColorIndex?'true':'false'}"
+                aria-pressed="${i === initialColorIndex ? 'true' : 'false'}"
                 onclick="selectColor(this,'${c.image}','${c.label}')"
                 title="${c.label}"
             >
@@ -440,14 +440,14 @@ async function loadProductDetails() {
             </button>
         `).join('');
         window._selectedColor = product.colors[initialColorIndex].label;
-        
+
         // Update label text
         const activeLabel = document.getElementById('active-colour-label');
         if (activeLabel) activeLabel.innerText = product.colors[initialColorIndex].label;
-        
+
         const stickyColor = document.getElementById('sticky-selection-color');
         if (stickyColor) stickyColor.innerText = `Colour: ${product.colors[initialColorIndex].label}`;
-        
+
         // Ensure main image matches the selected color initially
         if (product.colors[initialColorIndex].image) {
             const mainImg = document.getElementById('dyn-product-image');
@@ -460,17 +460,17 @@ async function loadProductDetails() {
     if (sizeContainer && product.sizes && product.sizes.length > 0) {
         sizeContainer.innerHTML = product.sizes.map((size, i) => `
             <button 
-                class="size-btn ${i===0?'active':''}" 
+                class="size-btn ${i === 0 ? 'active' : ''}" 
                 data-size="${size}"
                 onclick="selectSize(this,'${size}')"
             >${size}</button>
         `).join('');
         window._selectedSize = product.sizes[0];
-        
+
         // Update label text
         const activeSizeLabel = document.getElementById('active-size-label');
         if (activeSizeLabel) activeSizeLabel.innerText = product.sizes[0];
-        
+
         const stickySize = document.getElementById('sticky-selection-size');
         if (stickySize) stickySize.innerText = `Size: ${product.sizes[0]}`;
     }
@@ -519,47 +519,39 @@ async function loadProductDetails() {
             if (sizeContainer) sizeContainer.after(cta);
             else if (colourContainer) colourContainer.after(cta);
         } else if (orderMethod === 'whatsapp_only') {
-            // Hide Add to Cart and Buy Now buttons only (keep size/color selectors visible)
-            const addBtn = document.querySelector('.btn-add-to-cart');
-            const buyBtn = document.querySelector('.btn-buy-now');
-            if (addBtn) addBtn.style.display = 'none';
-            if (buyBtn) buyBtn.style.display = 'none';
-
-            // Build WhatsApp message
-            let msg = `Hello Mary Humphrey African Wear! 👋\n\nI'm interested in ordering the ${productName}.\n\nThis product requires custom measurements, and I'd like to proceed with a made-to-measure order.\n\nPlease guide me through the measurement process, pricing, and production time.\n\nThank you!`;
-            if (selectedSize) msg += `\n\nPreferred Size: ${selectedSize}`;
-            if (selectedColor) msg += `\nSelected Color: ${selectedColor}`;
-            const encodedMsg = encodeURIComponent(msg);
-
-            // Create info box + WhatsApp button (target="_blank" opens WhatsApp Web directly)
+            // Show made-to-measure checkbox instead of WhatsApp button
+            // Buttons remain visible, checkbox marks order as custom fit
             const cta = document.createElement('div');
             cta.id = customCtaId;
-            cta.style.marginTop = '1.5rem';
+            cta.className = 'made-to-measure-option';
             cta.innerHTML = `
-                <div style="background:#f9f9f9;border:1px solid var(--border-color,#e5e5e5);border-radius:var(--radius,4px);padding:1.2rem 1.4rem;margin-bottom:1rem;">
-                    <p style="margin:0 0 0.8rem;font-size:1.3rem;font-weight:600;color:var(--foreground-color,#333);">How ordering works</p>
-                    <ol style="margin:0;padding-left:1.4rem;font-size:1.25rem;line-height:1.8;color:var(--foreground-sub-color,#666);">
-                        <li>Click "Order via WhatsApp"</li>
-                        <li>Confirm your measurements (if needed)</li>
-                        <li>We tailor your order</li>
-                        <li>We arrange payment and delivery</li>
-                    </ol>
-                </div>
-                <a href="https://wa.me/${phone}?text=${encodedMsg}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:0.6rem;background:#25d366;color:#fff;width:100%;padding:16px;border:none;border-radius:var(--radius,4px);font-size:1.5rem;font-weight:600;text-decoration:none;">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    💬 Order via WhatsApp
-                </a>
+                <label class="made-to-measure-label">
+                    <input type="checkbox" id="made-to-measure-checkbox" class="made-to-measure-checkbox" />
+                    <span class="made-to-measure-text">
+                        <strong>Made-to-measure</strong>
+                        <small>Check this box if you'd like this item tailored to your exact measurements</small>
+                    </span>
+                </label>
             `;
+            // Insert before buttons container
             const buttonsContainer = document.querySelector('.buttons-container');
-            if (buttonsContainer) buttonsContainer.appendChild(cta);
+            if (buttonsContainer) buttonsContainer.before(cta);
             else if (sizeContainer) sizeContainer.after(cta);
+
+            // Store checkbox state globally for cart
+            const checkbox = cta.querySelector('#made-to-measure-checkbox');
+            if (checkbox) {
+                checkbox.addEventListener('change', () => {
+                    window._madeToMeasure = checkbox.checked;
+                });
+            }
         }
     }
-    
+
     // Set sticky buy bar elements
     const stickyTitle = document.getElementById('sticky-product-title');
     if (stickyTitle) stickyTitle.innerText = product.title;
-    
+
     const stickyImg = document.getElementById('sticky-product-img');
     if (stickyImg && product.images && product.images.length > 0) {
         stickyImg.src = product.images[0];
@@ -622,7 +614,7 @@ async function loadProductDetails() {
         const buyBtn = document.querySelector('.product__card--btn');
         const stickyBar = document.getElementById('sticky-buy-bar');
         if (!buyBtn || !stickyBar) return;
-        
+
         const buyBtnRect = buyBtn.getBoundingClientRect();
         if (buyBtnRect.bottom < 0) {
             stickyBar.classList.add('visible');
@@ -693,7 +685,7 @@ async function loadRelatedProducts(product) {
 }
 
 // Select a color swatch on product page
-window.selectColor = function(btn, image, label) {
+window.selectColor = function (btn, image, label) {
     window._selectedColor = label;
     swapMainImage(null, image);
     document.querySelectorAll('#colour-options .swatch-btn').forEach(s => {
@@ -704,17 +696,17 @@ window.selectColor = function(btn, image, label) {
         btn.classList.add('active');
         btn.setAttribute('aria-pressed', 'true');
     }
-    
+
     // Update labels
     const activeLabel = document.getElementById('active-colour-label');
     if (activeLabel) activeLabel.innerText = label;
-    
+
     const stickyColor = document.getElementById('sticky-selection-color');
     if (stickyColor) stickyColor.innerText = `Colour: ${label}`;
 };
 
 // Select a size on product page
-window.selectSize = function(btn, size) {
+window.selectSize = function (btn, size) {
     window._selectedSize = size;
     document.querySelectorAll('.size-btn').forEach(b => {
         b.classList.remove('active');
@@ -722,18 +714,18 @@ window.selectSize = function(btn, size) {
     if (btn) {
         btn.classList.add('active');
     }
-    
+
     // Update labels
     const activeSizeLabel = document.getElementById('active-size-label');
     if (activeSizeLabel) activeSizeLabel.innerText = size;
-    
+
     const stickySize = document.getElementById('sticky-selection-size');
     if (stickySize) stickySize.innerText = `Size: ${size}`;
     window.dispatchEvent(new CustomEvent('sizeSelected', { detail: size }));
 };
 
 // Swap main product image
-window.swapMainImage = function(thumbEl, src) {
+window.swapMainImage = function (thumbEl, src) {
     const mainImg = document.getElementById('dyn-product-image');
     if (mainImg) mainImg.src = src;
     document.querySelectorAll('#dyn-product-gallery img').forEach(t => t.classList.remove('active'));
@@ -748,7 +740,7 @@ window.swapMainImage = function(thumbEl, src) {
             }
         });
     }
-    
+
     const stickyImg = document.getElementById('sticky-product-img');
     if (stickyImg) stickyImg.src = src;
 };
@@ -756,7 +748,7 @@ window.swapMainImage = function(thumbEl, src) {
 // =============================================
 // QUANTITY STEPPER (product page)
 // =============================================
-window.changeQty = function(delta) {
+window.changeQty = function (delta) {
     const input = document.getElementById('product-quantity-display');
     if (!input) return;
     let qty = parseInt(input.value) || 1;
@@ -767,7 +759,7 @@ window.changeQty = function(delta) {
 // =============================================
 // ADD TO CART (overrides product.html's handler)
 // =============================================
-window.addProductToCart = function(e) {
+window.addProductToCart = function (e) {
     if (e) { e.preventDefault(); e.stopPropagation(); }
     const product = window._currentProduct;
     if (!product) return;
@@ -776,6 +768,7 @@ window.addProductToCart = function(e) {
     const qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
     const size = window._selectedSize || (product.sizes && product.sizes[0]) || 'M';
     const color = window._selectedColor || '';
+    const madeToMeasure = window._madeToMeasure || false;
 
     if (typeof addToCart === 'function') {
         const btn = document.querySelector('[onclick*="addProductToCart"]');
@@ -788,16 +781,17 @@ window.addProductToCart = function(e) {
                     image: (product.images && product.images[0]) || '',
                     qty,
                     size,
-                    color
+                    color,
+                    madeToMeasure
                 });
             });
         } else {
-            addToCart({ id: product.handle, title: product.title, price: product.price, image: (product.images && product.images[0]) || '', qty, size, color });
+            addToCart({ id: product.handle, title: product.title, price: product.price, image: (product.images && product.images[0]) || '', qty, size, color, madeToMeasure });
         }
     }
 };
 
-window.buyProductNow = function(e) {
+window.buyProductNow = function (e) {
     if (e) { e.preventDefault(); e.stopPropagation(); }
     const product = window._currentProduct;
     if (!product) return;
@@ -806,6 +800,7 @@ window.buyProductNow = function(e) {
     const qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
     const size = window._selectedSize || (product.sizes && product.sizes[0]) || 'M';
     const color = window._selectedColor || '';
+    const madeToMeasure = window._madeToMeasure || false;
 
     if (typeof addToCart === 'function') {
         addToCart({
@@ -815,7 +810,8 @@ window.buyProductNow = function(e) {
             image: (product.images && product.images[0]) || '',
             qty,
             size,
-            color
+            color,
+            madeToMeasure
         });
         window.location.href = '/checkout';
     }

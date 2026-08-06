@@ -140,7 +140,6 @@
         .breadcrumb__section {
             padding-block: 1.5rem !important;
             padding-inline: 1.5rem;
-            background: #fff !important;
             border-bottom: 1px solid var(--border-color);
             margin-top: 0 !important;
             margin-bottom: 0 !important;
@@ -168,13 +167,10 @@
             color: var(--primary-color) !important;
         }
 
-        .breadcrumb-item.active {
-            color: var(--primary-color) !important;
-            font-weight: 600;
-        }
+      
 
         .breadcrumb-separator {
-            color: var(--border-color);
+            color: var(--primary-color);
             font-size: 1rem;
         }
 
@@ -1317,6 +1313,47 @@
         #dyn-model-info {
             display: none;
             margin-top: 1rem;
+        }
+
+        /* Made-to-measure checkbox option */
+        .made-to-measure-option {
+            margin: 1.5rem 0;
+            padding: 1.2rem 1.4rem;
+            background: #f9f9f9;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .made-to-measure-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            cursor: pointer;
+        }
+
+        .made-to-measure-checkbox {
+            width: 2rem;
+            height: 2rem;
+            margin-top: 0.2rem;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .made-to-measure-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .made-to-measure-text strong {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+        }
+
+        .made-to-measure-text small {
+            font-size: 1.2rem;
+            color: var(--foreground-sub-color);
+            line-height: 1.4;
         }
     </style>
 </head>

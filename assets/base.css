@@ -58,6 +58,7 @@ a:focus {
   /* 768px — text-heavy / form pages */
   --transition: all 0.3s ease 0s;
 }
+
 /*
   Template Name: Becute - Jewelry, Cosmetics and Beauty eCommerce HTML Template
   Author Name: Hook theme
@@ -152,6 +153,7 @@ body {
   font-size: 62.5%;
   padding: 0;
 }
+
 /* Hide css */
 .hide {
   display: none;
@@ -637,7 +639,8 @@ body {
   font-size: calc(var(--font-body-scale) * var(--font-body-size, 1.6rem));
   letter-spacing: 0.06rem;
   line-height: calc(1 + 0.8 / var(--font-body-scale, 1));
-  color: #2a2624;;
+  color: #2a2624;
+  ;
   background-color: var(--body-background-color);
 }
 
@@ -3057,6 +3060,7 @@ quantity icon button
     padding: 16px 0;
   }
 }
+
 .main__logo--link {
   display: block;
 }
@@ -8129,9 +8133,12 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 1.3rem;
   color: var(--foreground-color);
 }
-.footer__map--link, .footer__map--link a{
-color: var(--primary-color);
+
+.footer__map--link,
+.footer__map--link a {
+  color: var(--primary-color);
 }
+
 .footer__map--link:hover {
   color: var(--primary-color);
 }
@@ -17312,6 +17319,14 @@ body.offCanvas__minicart_active::before {
   font-size: 1.2rem !important;
   color: var(--foreground-sub-color) !important;
   margin-bottom: 0.2rem !important;
+}
+
+.made-to-measure-badge {
+  color: var(--secondary-color) !important;
+  background: rgba(212, 168, 67, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  margin-top: 0.3rem;
 }
 
 .minicart__product--remove {

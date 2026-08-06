@@ -562,7 +562,7 @@ async function loadProductDetails() {
     const tabDescription = document.getElementById('tab-description');
     if (tabDescription) {
         tabDescription.innerHTML = `
-            <div style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
+            <div">
                 ${product.description ? `<p>${product.description.replace(/\n/g, '</p><p>')}</p>` : '<p>No description available.</p>'}
             </div>
         `;
@@ -587,7 +587,7 @@ async function loadProductDetails() {
             details.push('<li><strong>Care:</strong> Hand wash cold, hang dry</li>');
         }
         tabDetails.innerHTML = `
-            <ul style="font-size:1.4rem; line-height:2.2; color:var(--foreground-color,#333); padding-left:2rem; margin:0; list-style:none;">
+            <ul">
                 ${details.join('')}
             </ul>
         `;

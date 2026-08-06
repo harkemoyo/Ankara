@@ -41,7 +41,7 @@ a:focus {
   --bg-black-color: #800020;
   --bg-light-dark-color: #800020;
   --burgundy-color: #800020;
-  --border-color: #dad2ce;
+  --border-color: #DAD2CE;
   --link-color: #2a2624;
   --link-hover-color: #800020;
 
@@ -123,7 +123,6 @@ a:focus {
   --bg-gray-color: #F5F8FF;
   --bg-black-color: #800020;
   --bg-light-dark-color: #1a1818;
-  --border-color: #EDEDED;
   --frank-ruhl-fonts: 'Frank Ruhl Libre', serif;
   --karma-fonts: 'Karma', serif;
   --body-font-size: 1.5rem;

@@ -8,7 +8,8 @@
     <meta charset="utf-8" />
     <meta content="width=device-width,initial-scale=1" name="viewport" />
     <title>Product Details – Mary Humphrey Wear</title>
-    <meta content="Discover handcrafted Ankara clothing rooted in African heritage and tailored for modern elegance." name="description" />
+    <meta content="Discover handcrafted Ankara clothing rooted in African heritage and tailored for modern elegance."
+        name="description" />
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
     <meta content="#3C3836" name="theme-color" />
 
@@ -20,7 +21,8 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content="Product Details – Mary Humphrey Wear">
-    <meta property="og:description" content="Discover handcrafted Ankara clothing rooted in African heritage and tailored for modern elegance.">
+    <meta property="og:description"
+        content="Discover handcrafted Ankara clothing rooted in African heritage and tailored for modern elegance.">
     <meta property="og:image" content="https://maryhumphreywear.org/og-image.jpg">
     <meta property="og:url" content="https://maryhumphreywear.org/product">
     <meta property="og:type" content="website">
@@ -28,7 +30,8 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Product Details – Mary Humphrey Wear">
-    <meta name="twitter:description" content="Discover handcrafted Ankara clothing rooted in African heritage and tailored for modern elegance.">
+    <meta name="twitter:description"
+        content="Discover handcrafted Ankara clothing rooted in African heritage and tailored for modern elegance.">
     <meta name="twitter:image" content="https://maryhumphreywear.org/og-image.jpg">
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
@@ -53,9 +56,11 @@
         .product__details--section {
             position: relative;
         }
+
         .product-skeleton-overlay {
             display: none;
         }
+
         .product__details--section.is-loading .product-skeleton-overlay {
             display: flex;
             position: absolute;
@@ -70,28 +75,38 @@
             padding-block: 1.5rem;
             padding-inline: 1.5rem;
         }
+
         @media (min-width: 768px) {
             .product__details--section.is-loading .product-skeleton-overlay {
                 flex-direction: row;
                 gap: 5rem;
             }
         }
+
         .skeleton-shimmer-box {
             background: linear-gradient(90deg, #f4f4f4 25%, #e8e8e8 50%, #f4f4f4 75%);
             background-size: 200% 100%;
             animation: skeletonShimmer 1.5s infinite;
             border-radius: 4px;
         }
+
         @keyframes skeletonShimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
+
         .skeleton-media-preview {
             width: 100%;
             max-width: 550px;
             aspect-ratio: 1 / 1;
             border-radius: 6px;
         }
+
         .skeleton-info-col {
             flex: 1;
             display: flex;
@@ -99,18 +114,22 @@
             gap: 2rem;
             width: 100%;
         }
+
         .skeleton-line-title {
             height: 38px;
             width: 80%;
         }
+
         .skeleton-line-price {
             height: 28px;
             width: 35%;
         }
+
         .skeleton-line-option {
             height: 36px;
             width: 60%;
         }
+
         .skeleton-line-btn {
             height: 52px;
             width: 100%;
@@ -119,13 +138,14 @@
 
         /* Breadcrumbs */
         .breadcrumb__section {
-            padding-block:  1.5rem !important;
+            padding-block: 1.5rem !important;
             padding-inline: 1.5rem;
             background: #fff !important;
             border-bottom: 1px solid var(--border-color);
             margin-top: 0 !important;
             margin-bottom: 0 !important;
         }
+
         .breadcrumb {
             display: flex;
             align-items: center;
@@ -137,29 +157,33 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
+
         .breadcrumb-item a {
             color: var(--foreground-sub-color) !important;
             text-decoration: none;
             transition: color 0.2s;
         }
+
         .breadcrumb-item a:hover {
             color: var(--primary-color) !important;
         }
+
         .breadcrumb-item.active {
             color: var(--primary-color) !important;
             font-weight: 600;
         }
+
         .breadcrumb-separator {
             color: var(--border-color);
             font-size: 1rem;
         }
 
         /* Product Main Details Flexbox Layout */
-         .product__details--section {
+        .product__details--section {
             padding-block: 1.5rem;
             padding-inline: 1.5rem;
-        } 
-        
+        }
+
         .product-details-grid {
             display: flex;
             flex-direction: column;
@@ -167,20 +191,21 @@
             gap: 6rem;
             align-items: flex-start;
         }
-    
+
 
         .product__details--info {
             display: flex;
             flex-direction: column;
             gap: 2rem;
         }
-        
+
         @media (min-width: 768px) {
             .product-details-grid {
                 flex-direction: row;
                 gap: 5rem;
                 align-items: flex-start;
             }
+
             .product__details--info {
                 position: sticky !important;
                 top: 100px !important;
@@ -188,7 +213,7 @@
                 flex: 1;
             }
         }
-        
+
         /* Left Column: Image Gallery */
         .product__media--preview {
             overflow: hidden;
@@ -198,11 +223,13 @@
             margin-bottom: 1.5rem;
             position: relative;
         }
+
         @media (min-width: 992px) {
             .product__media--preview {
                 margin-inline-start: auto;
             }
         }
+
         .product__media--preview img {
             width: 100%;
             display: block;
@@ -210,16 +237,18 @@
             object-fit: cover;
             transition: transform 0.5s ease;
         }
+
         .product__media--preview:hover img {
             transform: scale(1.03);
         }
-        
+
         .product__media--thumbnails {
             display: flex;
             gap: 1rem;
             overflow-x: auto;
             padding-bottom: 0.5rem;
         }
+
         .product__media--thumbnails img {
             width: 70px;
             height: 90px;
@@ -229,25 +258,28 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
+
         .product__media--thumbnails img:hover {
             border-color: var(--border-color);
         }
+
         .product__media--thumbnails img.active {
             border-color: var(--primary-color);
         }
-        
+
         /* Right Column: Meta Info */
         .product__details--info {
             display: flex;
             flex-direction: column;
             gap: 3rem;
         }
-        
+
         .product-meta-header {
             display: flex;
             flex-direction: column;
             gap: 0.6rem;
         }
+
         .product-collection-label {
             font-size: 1.2rem;
             text-transform: uppercase;
@@ -255,6 +287,7 @@
             color: var(--secondary-color);
             font-weight: 600;
         }
+
         .product-main-title {
             font-family: var(--font-heading);
             font-size: clamp(3.2rem, 4vw, 4.4rem);
@@ -263,7 +296,7 @@
             font-weight: 700;
             margin: 0;
         }
-        
+
         .product-price-box {
             font-size: 2.6rem;
             font-weight: 700;
@@ -272,6 +305,7 @@
             align-items: center;
             margin-top: 0.5rem;
         }
+
         .compare-price-val {
             text-decoration: line-through;
             color: var(--foreground-sub-color);
@@ -279,7 +313,7 @@
             margin-left: 1.5rem;
             font-weight: 400;
         }
-        
+
         .product-rating-box {
             display: flex;
             align-items: center;
@@ -287,6 +321,7 @@
             font-size: 1.3rem;
             color: var(--foreground-sub-color);
         }
+
         .rating-stars-val {
             color: #D4A843;
             letter-spacing: 2px;
@@ -300,6 +335,7 @@
             border-top: 1px solid var(--border-color);
             padding-top: 2rem;
         }
+
         .variant-title-label {
             font-family: var(--font-body-family);
             font-size: 1.3rem;
@@ -309,13 +345,14 @@
             color: var(--primary-color);
             margin: 0;
         }
+
         .variant-title-value {
             font-weight: 400;
             text-transform: none;
             color: var(--foreground-sub-color);
             margin-left: 0.5rem;
         }
-        
+
         /* Swatch Square Image Buttons (Shopify-style) */
         .swatch-btn {
             width: 7rem;
@@ -331,20 +368,23 @@
             margin-right: 0.8rem;
             margin-bottom: 0.8rem;
         }
+
         .swatch-btn:hover {
             border-color: var(--primary-color);
         }
+
         .swatch-btn.active {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 1px var(--primary-color);
         }
+
         .swatch-img {
             width: 100%;
             height: 100%;
             border-radius: 4px;
             object-fit: cover;
         }
-        
+
         /* Size Swatch Buttons */
         .size-btn {
             min-width: 4.8rem;
@@ -363,15 +403,17 @@
             margin-right: 0.8rem;
             margin-bottom: 0.5rem;
         }
+
         .size-btn:hover {
             border-color: var(--primary-color);
         }
+
         .size-btn.active {
             background: var(--primary-color);
             color: #fff;
             border-color: var(--primary-color);
         }
-        
+
         /* Quantity Selector */
         .qty-stepper {
             display: inline-flex;
@@ -380,6 +422,7 @@
             height: 4.8rem;
             width: fit-content;
         }
+
         .qty-btn {
             width: 4rem;
             height: 100%;
@@ -393,9 +436,11 @@
             justify-content: center;
             transition: background 0.2s;
         }
+
         .qty-btn:hover {
             background: #f5f5f5;
         }
+
         .qty-input {
             width: 5rem;
             height: 100%;
@@ -408,7 +453,7 @@
             color: var(--primary-color);
             font-weight: 600;
         }
-        
+
         /* Buttons */
         .buttons-container {
             display: flex;
@@ -416,6 +461,7 @@
             gap: 1.2rem;
             margin-top: 1.5rem;
         }
+
         .btn-add-to-cart {
             width: 100%;
             height: 5.2rem;
@@ -433,11 +479,13 @@
             justify-content: center;
             border-radius: 4px;
         }
+
         .btn-add-to-cart:hover {
             background: var(--primary-color);
             color: #fff;
             border-color: var(--primary-color);
         }
+
         .btn-buy-now {
             width: 100%;
             height: 5.2rem;
@@ -455,17 +503,20 @@
             justify-content: center;
             border-radius: 4px;
         }
+
         .btn-buy-now:hover {
             background: var(--hover-color);
             border-color: var(--hover-color);
         }
+
         .fit-finder-link {
             transition: opacity 0.2s;
         }
+
         .fit-finder-link:hover {
             opacity: 0.8;
         }
-        
+
         /* Share Area */
         .product-share-box {
             display: flex;
@@ -474,6 +525,7 @@
             border-top: 1px solid var(--border-color);
             padding-top: 2rem;
         }
+
         .product-share-title {
             font-size: 1.3rem;
             font-weight: 600;
@@ -481,10 +533,12 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
+
         .share-icon-link {
             color: var(--foreground-sub-color);
             transition: color 0.2s;
         }
+
         .share-icon-link:hover {
             color: var(--primary-color);
         }
@@ -495,6 +549,7 @@
             padding-top: 5rem;
             margin-top: 2rem;
         }
+
         .tabs-header-container {
             display: flex;
             gap: 3.5rem;
@@ -503,6 +558,7 @@
             margin-bottom: 3rem;
             flex-wrap: wrap;
         }
+
         .tab-header-item {
             font-family: var(--font-body-family);
             font-size: 1.35rem;
@@ -515,9 +571,11 @@
             position: relative;
             transition: color 0.3s ease;
         }
+
         .tab-header-item.active {
             color: var(--primary-color);
         }
+
         .tab-active-indicator {
             position: absolute;
             bottom: -1px;
@@ -527,15 +585,18 @@
             background: transparent;
             transition: background 0.3s ease;
         }
+
         .tab-header-item.active .tab-active-indicator {
             background: var(--primary-color);
         }
+
         .tab-content-panel {
             display: none;
             font-size: 1.45rem;
             line-height: 1.85;
             color: var(--foreground-sub-color);
         }
+
         .tab-content-panel.active {
             display: block;
         }
@@ -548,21 +609,26 @@
             right: 0;
             height: 70px;
             background: #fff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
             z-index: 999;
             transition: top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             border-bottom: 1px solid var(--border-color);
         }
+
         .sticky-buy-bar.visible {
-            top: 58px; /* Standard sticky header offset */
+            top: 58px;
+            /* Standard sticky header offset */
         }
+
         @media (max-width: 991px) {
             .sticky-buy-bar.visible {
-                top: 0; /* Align to viewport top on mobile if logo header goes offscreen */
+                top: 0;
+                /* Align to viewport top on mobile if logo header goes offscreen */
             }
         }
+
         .sticky-buy-inner {
             display: flex;
             justify-content: space-between;
@@ -571,11 +637,13 @@
             padding-inline: 1.5rem;
             margin-inline: auto;
         }
+
         .sticky-buy-left {
             display: flex;
             align-items: center;
             gap: 1.2rem;
         }
+
         .sticky-buy-left img {
             width: 42px;
             height: 52px;
@@ -583,26 +651,31 @@
             border-radius: 2px;
             border: 1px solid var(--border-color);
         }
+
         .sticky-product-meta {
             display: flex;
             flex-direction: column;
             gap: 0.2rem;
         }
+
         .sticky-product-title {
             font-size: 1.4rem;
             font-weight: 600;
             color: var(--primary-color);
         }
+
         .sticky-product-price {
             font-size: 1.3rem;
             color: var(--secondary-color);
             font-weight: 600;
         }
+
         .sticky-buy-right {
             display: flex;
             align-items: center;
             gap: 2rem;
         }
+
         .sticky-selections {
             font-size: 1.2rem;
             color: var(--foreground-sub-color);
@@ -612,6 +685,7 @@
             gap: 0.2rem;
             line-height: 1.2;
         }
+
         .sticky-add-btn {
             background: var(--primary-color);
             color: #fff;
@@ -628,16 +702,20 @@
             align-items: center;
             border-radius: 2px;
         }
+
         .sticky-add-btn:hover {
             background: var(--secondary-color);
         }
+
         @media (max-width: 767px) {
             .sticky-selections {
                 display: none;
             }
+
             .sticky-buy-left img {
                 display: none;
             }
+
             .sticky-product-title {
                 font-size: 1.2rem;
                 max-width: 140px;
@@ -646,6 +724,7 @@
                 text-overflow: ellipsis;
             }
         }
+
         /* Size Guide Modal */
         .size-guide-overlay {
             position: fixed;
@@ -661,9 +740,11 @@
             padding: 2rem;
             box-sizing: border-box;
         }
+
         .size-guide-overlay.active {
             display: flex;
         }
+
         .size-guide-modal {
             background: #fff;
             width: 100%;
@@ -673,8 +754,9 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
         }
+
         .size-guide-header {
             padding: 2rem 2.5rem;
             border-bottom: 1px solid var(--border-color);
@@ -684,6 +766,7 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
+
         .size-guide-title {
             font-family: var(--font-heading);
             font-size: 2.2rem;
@@ -691,6 +774,7 @@
             margin: 0;
             font-weight: 600;
         }
+
         .size-guide-select {
             padding: 0.7rem 1.2rem;
             border: 1px solid var(--border-color);
@@ -701,6 +785,7 @@
             min-width: 220px;
             cursor: pointer;
         }
+
         .size-guide-close {
             background: none;
             border: none;
@@ -711,23 +796,27 @@
             padding: 0;
             margin-left: auto;
         }
+
         .size-guide-body {
             padding: 2rem 2.5rem;
             overflow-y: auto;
             max-height: 60vh;
         }
+
         .size-guide-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 1.35rem;
             color: var(--foreground-sub-color);
         }
+
         .size-guide-table th,
         .size-guide-table td {
             padding: 1.1rem 1rem;
             text-align: center;
             border: 1px solid var(--border-color);
         }
+
         .size-guide-table th {
             background: #f7f7f7;
             color: var(--primary-color);
@@ -736,31 +825,37 @@
             letter-spacing: 0.05em;
             font-size: 1.2rem;
         }
+
         .size-guide-table td:first-child {
             text-align: left;
             font-weight: 500;
             color: var(--primary-color);
         }
+
         .size-guide-note {
             margin-top: 1.5rem;
             font-size: 1.2rem;
             color: var(--foreground-sub-color);
             line-height: 1.6;
         }
+
         @media (max-width: 768px) {
             .size-guide-modal {
                 max-height: 90vh;
                 width: 100%;
             }
+
             .size-guide-body {
                 padding: 1.5rem;
             }
+
             .size-guide-table th,
             .size-guide-table td {
                 padding: 0.7rem 0.4rem;
                 font-size: 1.15rem;
             }
         }
+
         /* Fit note + model info + size guide enhancements */
         .fit-note {
             font-size: 1.25rem;
@@ -768,6 +863,7 @@
             margin: 0.8rem 0 0;
             line-height: 1.5;
         }
+
         .model-info {
             margin-top: 0.6rem;
             padding: 1rem 1.2rem;
@@ -778,9 +874,11 @@
             color: var(--foreground-sub-color);
             line-height: 1.5;
         }
+
         .model-info strong {
             color: var(--primary-color);
         }
+
         .size-guide-tooltip {
             display: inline-flex;
             align-items: center;
@@ -794,17 +892,20 @@
             margin-left: 0.6rem;
             cursor: help;
         }
+
         .size-match {
             background: #f5e6d3 !important;
             font-weight: 600;
             border: 2px solid #b8763f;
         }
+
         /* Customer measurement submission inside size guide */
         .size-guide-customer {
             padding: 2rem 2.5rem;
             border-top: 1px solid var(--border-color);
             background: #fafafa;
         }
+
         .size-guide-customer h4 {
             font-family: var(--font-heading);
             font-size: 1.6rem;
@@ -812,18 +913,21 @@
             margin: 0 0 0.6rem;
             font-weight: 600;
         }
+
         .size-guide-customer p {
             font-size: 1.25rem;
             color: var(--foreground-sub-color);
             margin: 0 0 1rem;
             line-height: 1.5;
         }
+
         .size-guide-inputs {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
             margin-bottom: 1rem;
         }
+
         .size-guide-customer input[type='text'],
         .size-guide-customer textarea {
             padding: 0.8rem 1rem;
@@ -833,8 +937,18 @@
             font-family: var(--font-body-family);
             color: var(--primary-color);
         }
-        .size-guide-customer input[type='text'] { width: 120px; }
-        .size-guide-customer textarea { width: 100%; min-height: 60px; resize: vertical; margin-bottom: 1rem; }
+
+        .size-guide-customer input[type='text'] {
+            width: 120px;
+        }
+
+        .size-guide-customer textarea {
+            width: 100%;
+            min-height: 60px;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+
         .size-guide-submit {
             padding: 0.9rem 1.6rem;
             background: var(--primary-color);
@@ -847,10 +961,363 @@
             letter-spacing: 0.1em;
             cursor: pointer;
         }
-        .size-guide-submit:hover { opacity: 0.9; }
-        .size-guide-msg { font-size: 1.2rem; margin-top: 0.8rem; }
-        .size-guide-msg.success { color: #2e7d32; }
-        .size-guide-msg.error { color: #c62828; }
+
+        .size-guide-submit:hover {
+            opacity: 0.9;
+        }
+
+        .size-guide-msg {
+            font-size: 1.2rem;
+            margin-top: 0.8rem;
+        }
+
+        .size-guide-msg.success {
+            color: #2e7d32;
+        }
+
+        .size-guide-msg.error {
+            color: #c62828;
+        }
+
+        /* ── Extracted inline styles ── */
+        .currency-switcher option {
+            color: black;
+        }
+
+        .main__logo--img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .offcanvas__logo--img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header__menu--link.sale-link {
+            color: #d9534f;
+            font-weight: 600;
+        }
+
+        .offCanvas__minicart {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .minicart__header--top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .minicart__title {
+            font-family: var(--font-body);
+            font-size: 2.4rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .minicart__close--btn {
+            background: none;
+            border: none;
+            font-size: 2.4rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+
+        .minicart__product {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .minicart__amount {
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+
+        .cart__note {
+            margin-bottom: 2rem;
+        }
+
+        .cart__note h4 {
+            font-family: var(--font-body);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            letter-spacing: 0.2em;
+        }
+
+        .cart__note--input {
+            width: 100%;
+            height: 80px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            font-family: var(--font-body);
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            resize: vertical;
+            outline: none;
+        }
+
+        .minicart__amount_list {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .minicart__amount_list span:first-child {
+            font-family: var(--font-body);
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .minicart__subtotal-val {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .minicart__shipping-note {
+            font-size: 1.2rem;
+            color: var(--foreground-sub-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .minicart__button {
+            padding-bottom: 2rem;
+        }
+
+        .minicart__button--link {
+            display: block;
+            width: 100%;
+            padding: 1.6rem;
+            background: var(--primary-color, #1a1a1a);
+            color: #fff;
+            font-size: 1.4rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .skeleton-line-btn.extra-mt {
+            margin-top: 1rem;
+        }
+
+        .product-meta-header {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .product-collection-label#dyn-product-badge {
+            display: none;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .product-main-title#dyn-product-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.8rem, 3.5vw, 3.8rem);
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .product-price-rating-row {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .product-price-box#dyn-product-price {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+
+        .product-tax-note {
+            font-size: 1.2rem;
+            color: var(--foreground-sub-color);
+            margin: 0.2rem 0 0;
+            line-height: 1.4;
+        }
+
+        #colour-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        #size-options {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .variant-section.qty-section {
+            gap: 0.8rem;
+        }
+
+        .fit-finder-box {
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .fit-finder-link {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--primary-color);
+            text-decoration: underline;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .product-trust-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f9f9f9;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .trust-badge-row {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            font-size: 1.35rem;
+            color: var(--foreground-sub-color);
+        }
+
+        .tabs-content-container {
+            min-height: 100px;
+        }
+
+        .tab-shipping-content {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: var(--foreground-color, #333);
+        }
+
+        .tab-shipping-content p+p {
+            margin-top: 1rem;
+        }
+
+        .product__related {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 6rem;
+            margin-top: 6rem;
+        }
+
+        .product__related h3 {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .size-guide-modal.custom-fit {
+            max-width: 520px;
+            padding: 2.5rem;
+            border-radius: 8px;
+        }
+
+        .size-guide-header.custom-fit {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .size-guide-title#size-guide-title {
+            font-family: 'Karma', serif;
+            font-size: 2rem;
+        }
+
+        #modal-product-specs {
+            background: #f8f5f2;
+            border: 1px solid #e8dfd8;
+            border-radius: 6px;
+            padding: 1.4rem;
+            margin-bottom: 2rem;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            display: none;
+        }
+
+        #modal-product-specs strong {
+            color: var(--primary-color);
+        }
+
+        .size-guide-customer#size-guide-customer {
+            padding: 0;
+        }
+
+        .size-guide-customer#size-guide-customer h4 {
+            font-family: 'Karma', serif;
+            font-size: 1.6rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .size-guide-customer#size-guide-customer p {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 1.6rem;
+        }
+
+        .size-guide-privacy-note {
+            font-size: 1.1rem;
+            color: var(--foreground-sub-color);
+            margin-top: 0.8rem;
+        }
+
+        #dyn-fit-note {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        #dyn-model-info {
+            display: none;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 
@@ -879,8 +1346,8 @@
             <div class="header__topbar--currency">
                 <select class="currency-switcher"
                     onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
-                    <option value="KES" style="color: black;">KES</option>
-                    <option value="USD" style="color: black;">USD</option>
+                    <option value="KES">KES</option>
+                    <option value="USD">USD</option>
                 </select>
             </div>
         </div>
@@ -895,131 +1362,144 @@
                     <a class="offcanvas__header--menu__open--btn" data-offcanvas="" href="javascript:void(0)">
                         <svg class="ionicon offcanvas__header--menu__open--svg" viewbox="0 0 512 512"
                             xmlns="http://www.w3.org/2000/svg">
-                                <path d="M80 160h352M80 256h352M80 352h352" fill="currentColor" stroke="currentColor"
-                                    stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"></path>
-                            </svg>
-                            <span class="visually-hidden">Menu</span>
+                            <path d="M80 160h352M80 256h352M80 352h352" fill="currentColor" stroke="currentColor"
+                                stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"></path>
+                        </svg>
+                        <span class="visually-hidden">Menu</span>
+                    </a>
+                </div>
+                <!-- Logo -->
+                <div class="main__logo">
+                    <h1 class="main__logo--title">
+                        <a class="main__logo--link" href="/">
+                            <img alt="Mary Humphrey African Wear" class="main__logo--img"
+                                src="assets/IMG-20260622-WA0082.webp" />
                         </a>
-                    </div>
-                    <!-- Logo -->
-                    <div class="main__logo">
-                        <h1 class="main__logo--title">
-                            <a class="main__logo--link" href="/">
-                                <img alt="Mary Humphrey African Wear" class="main__logo--img"
-                                    src="assets/IMG-20260622-WA0082.webp"
-                                    style="height:60px; width:auto; object-fit:contain;" />
-                            </a>
-                        </h1>
-                    </div>
-                    <!-- Desktop Navigation -->
-                    <div class="header__menu d-none d-lg-block">
-                        <nav class="header__menu--navigation">
-                            <ul class="header__menu--wrapper d-flex">
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link" href="/">Home</a>
-                                </li>
-                                <li class="header__menu--items active-page">
-                                    <a class="header__menu--link active" href="/shop">Collections 
-                                        <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                    </a>
-                                    <ul class="header__sub--menu mega-menu">
-    <li class="header__sub--menu__items mega-col">
-        <span class="mega-menu__heading">Shop by Style</span>
-        <ul class="mega-col__list">
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop">All Products</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/dresses">Dresses</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/pullovers">Pullovers & Hoodies</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/joggers">Joggers</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/kimonos">Kimonos & Capes</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/blankets">Blankets & Throws</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/palazzos">Palazzos & Dungarees</a></li>
-        </ul>
-    </li>
-    <li class="header__sub--menu__items mega-col">
-        <span class="mega-menu__heading">Collections</span>
-        <ul class="mega-col__list">
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/new-arrivals">New Arrivals</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/menswear">Menswear</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/womenswear">Womenswear</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/fabrics">Fabrics</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/sale">Sale</a></li>
-        </ul>
-    </li>
-</ul>
-                                </li>
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link" href="/fabric">Fabrics</a>
-                                </li>
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link" href="/sale" style="color:#d9534f; font-weight:600;">Sale</a>
-                                </li>
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link" href="/about">Our Story</a>
-                                </li>
-                                <li class="header__menu--items">
-                                    <a class="header__menu--link" href="/contact">Contact</a>
-                                </li>
-                            </ul>
-
-                        </nav>
-                    </div>
-                    <!-- Header Account / Icons -->
-                    <div class="header__account">
-                        <ul class="header__account--wrapper d-flex align-items-center">
-                            <!-- Search -->
-                            <li class="header__account--items header__account--search__items d-none d-lg-block">
-                                <a class="header__account--btn search__open--btn" data-offcanvas=""
-                                    href="javascript:void(0)">
-                                    <span class="header__account--btn__icon">
-                                        <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z"
-                                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                            </path>
-                                        </svg>
-                                    </span>
-                                    <span class="visually-hidden">Search</span>
-                                </a>
+                    </h1>
+                </div>
+                <!-- Desktop Navigation -->
+                <div class="header__menu d-none d-lg-block">
+                    <nav class="header__menu--navigation">
+                        <ul class="header__menu--wrapper d-flex">
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/">Home</a>
                             </li>
-                            <!-- Account -->
-                            <li class="header__account--items">
-                                <a class="header__account--btn" href="/account">
-                                    <span class="header__account--btn__icon">
-                                        <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16"
-                                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                            </path>
-                                            <path
-                                                d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z"
-                                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                            </path>
-                                        </svg>
-                                    </span>
-                                    <span class="visually-hidden">My Account</span>
+                            <li class="header__menu--items active-page">
+                                <a class="header__menu--link active" href="/shop">Collections
+                                    <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6"
+                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
                                 </a>
+                                <ul class="header__sub--menu mega-menu">
+                                    <li class="header__sub--menu__items mega-col">
+                                        <span class="mega-menu__heading">Shop by Style</span>
+                                        <ul class="mega-col__list">
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop">All Products</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/dresses">Dresses</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/pullovers">Pullovers & Hoodies</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/joggers">Joggers</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/kimonos">Kimonos & Capes</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/blankets">Blankets & Throws</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/palazzos">Palazzos & Dungarees</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="header__sub--menu__items mega-col">
+                                        <span class="mega-menu__heading">Collections</span>
+                                        <ul class="mega-col__list">
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/new-arrivals">New Arrivals</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/menswear">Menswear</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/womenswear">Womenswear</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/fabrics">Fabrics</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/sale">Sale</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </li>
-                            <!-- Cart -->
-                            <li class="header__account--items header__minicart--items">
-                                <a class="header__account--btn minicart__open--btn" data-offcanvas=""
-                                    href="javascript:void(0)">
-                                    <span class="header__account--btn__icon">
-                                        <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z"
-                                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                            </path>
-                                        </svg>
-                                    </span>
-                                    <span class="items__count js-item-count">0</span>
-                                </a>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/fabric">Fabrics</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link sale-link" href="/sale">Sale</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/about">Our Story</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/contact">Contact</a>
                             </li>
                         </ul>
+
+                    </nav>
+                </div>
+                <!-- Header Account / Icons -->
+                <div class="header__account">
+                    <ul class="header__account--wrapper d-flex align-items-center">
+                        <!-- Search -->
+                        <li class="header__account--items header__account--search__items d-none d-lg-block">
+                            <a class="header__account--btn search__open--btn" data-offcanvas=""
+                                href="javascript:void(0)">
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        </path>
+                                    </svg>
+                                </span>
+                                <span class="visually-hidden">Search</span>
+                            </a>
+                        </li>
+                        <!-- Account -->
+                        <li class="header__account--items">
+                            <a class="header__account--btn" href="/account">
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        </path>
+                                        <path
+                                            d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        </path>
+                                    </svg>
+                                </span>
+                                <span class="visually-hidden">My Account</span>
+                            </a>
+                        </li>
+                        <!-- Cart -->
+                        <li class="header__account--items header__minicart--items">
+                            <a class="header__account--btn minicart__open--btn" data-offcanvas=""
+                                href="javascript:void(0)">
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                        </path>
+                                    </svg>
+                                </span>
+                                <span class="items__count js-item-count">0</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -1029,8 +1509,8 @@
                 <!-- Offcanvas Logo -->
                 <div class="offcanvas__logo">
                     <a class="offcanvas__logo--link" href="/">
-                        <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp"
-                            style="height:50px; width:auto; object-fit:contain;" />
+                        <img alt="Mary Humphrey African Wear" class="offcanvas__logo--img"
+                            src="assets/IMG-20260622-WA0082.webp" />
                     </a>
                     <button aria-label="close menu" class="offcanvas__close--btn" data-offcanvas="">✕</button>
                 </div>
@@ -1042,10 +1522,14 @@
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item" href="/shop">Collections</a>
                             <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop">All Products</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop?collection=dresses">Dresses</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop?collection=pullovers">Tops & Blouses</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop?collection=blankets">Blankets &amp; Throws</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop">All
+                                        Products</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop?collection=dresses">Dresses</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop?collection=pullovers">Tops & Blouses</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop?collection=blankets">Blankets &amp; Throws</a></li>
                             </ul>
                         </li>
                         <li class="offcanvas__menu_li">
@@ -1072,15 +1556,12 @@
             </div>
         </div>
         <!-- ── Mini Cart Drawer ───────────────────────── -->
-        <div class="offCanvas__minicart js-cart-form" style="display: flex; flex-direction: column;">
+        <div class="offCanvas__minicart js-cart-form">
             <div class="minicart__header">
-                <div class="minicart__header--top"
-                    style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem;">
-                    <h3 class="minicart__title"
-                        style="font-family: var(--font-body); font-size: 2.4rem; color: var(--primary-color); font-weight: 500;">
+                <div class="minicart__header--top">
+                    <h3 class="minicart__title">
                         Cart</h3>
                     <button aria-label="close cart" class="minicart__close--btn" data-offcanvas=""
-                        style="background: none; border: none; font-size: 2.4rem; cursor: pointer; color: var(--primary-color); line-height: 1;"
                         type="button">×</button>
                 </div>
             </div>
@@ -1088,33 +1569,25 @@
                 <p>Your bag is empty.</p>
                 <a class="primary__btn" href="/shop">Continue Shopping</a>
             </div>
-            <div class="minicart__product" id="minicart-items-list"
-                style="flex: 1; overflow-y: auto; padding-right: 1rem;"></div>
-            <div class="minicart__amount"
-                style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
-                <div class="cart__note" style="margin-bottom: 2rem;">
-                    <h4
-                        style="font-family: var(--font-body); font-size: 1.3rem; font-weight: 600; color: var(--primary-color); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.2em;">
+            <div class="minicart__product" id="minicart-items-list"></div>
+            <div class="minicart__amount">
+                <div class="cart__note">
+                    <h4>
                         Order Note</h4>
-                    <textarea class="cart__note--input" placeholder=""
-                        style="width: 100%; height: 80px; padding: 1rem; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 1.3rem; color: var(--primary-color); resize: vertical; outline: none;"></textarea>
+                    <textarea class="cart__note--input" placeholder=""></textarea>
                 </div>
-                <div class="minicart__amount_list"
-                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <span
-                        style="font-family: var(--font-body); font-size: 1.3rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;">Subtotal</span>
-                    <span id="minicart-subtotal"
-                        style="font-size: 1.6rem; font-weight: 700; color: var(--primary-color);">
+                <div class="minicart__amount_list">
+                    <span>Subtotal</span>
+                    <span class="minicart__subtotal-val" id="minicart-subtotal">
                         <b><span class="currency-symbol">KSh</span>0.00</b>
                     </span>
                 </div>
-                <p
-                    style="font-size: 1.2rem; color: var(--foreground-sub-color); text-align: center; margin-bottom: 2rem; line-height: 1.6;">
+                <p class="minicart__shipping-note">
                     Shipping, taxes, and discount codes calculated at checkout.</p>
             </div>
-            <div class="minicart__button" style="padding-bottom: 2rem;">
-                <a class="minicart__button--link checkout__btn js-checkout-btn" href="javascript:void(0)" onclick="triggerCheckout()"
-                    style="display: block; width: 100%; padding: 1.6rem; background: var(--primary-color, #1a1a1a); color: #fff; font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border-radius: 4px; cursor: pointer; transition: all 0.3s ease; font-weight: 600;">Check
+            <div class="minicart__button">
+                <a class="minicart__button--link checkout__btn js-checkout-btn" href="javascript:void(0)"
+                    onclick="triggerCheckout()">Check
                     Out</a>
             </div>
         </div>
@@ -1207,20 +1680,20 @@
     <main class="site__main">
         <!-- Breadcrumb -->
         <section class="breadcrumb__section">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="/">Home</a>
-                        </li>
-                        <li class="breadcrumb-separator">/</li>
-                        <li class="breadcrumb-item">
-                            <a href="/shop">Collections</a>
-                        </li>
-                        <li class="breadcrumb-separator">/</li>
-                        <li class="breadcrumb-item active" id="dyn-product-title-bc-active">Product</li>
-                    </ol>
-                </nav>
-            
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/">Home</a>
+                    </li>
+                    <li class="breadcrumb-separator">/</li>
+                    <li class="breadcrumb-item">
+                        <a href="/shop">Collections</a>
+                    </li>
+                    <li class="breadcrumb-separator">/</li>
+                    <li class="breadcrumb-item active" id="dyn-product-title-bc-active">Product</li>
+                </ol>
+            </nav>
+
         </section>
 
         <!-- Product Details Section -->
@@ -1234,7 +1707,7 @@
                         <div class="skeleton-line-price skeleton-shimmer-box"></div>
                         <div class="skeleton-line-option skeleton-shimmer-box"></div>
                         <div class="skeleton-line-option skeleton-shimmer-box"></div>
-                        <div class="skeleton-line-btn skeleton-shimmer-box" style="margin-top: 1rem;"></div>
+                        <div class="skeleton-line-btn skeleton-shimmer-box extra-mt"></div>
                         <div class="skeleton-line-btn skeleton-shimmer-box"></div>
                     </div>
                 </div>
@@ -1250,73 +1723,93 @@
                     </div>
                     <!-- Right: Product Info -->
                     <div class="product__details--info">
-                        <div class="product-meta-header" style="display: flex; flex-direction: column; gap: 1rem;">
-                            <span class="product-collection-label" id="dyn-product-badge" style="display: none; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--secondary-color); font-weight: 600;">NEW ARRIVAL</span>
-                            <h1 class="product-main-title" id="dyn-product-title" style="font-family: var(--font-heading); font-size: clamp(2.8rem, 3.5vw, 3.8rem); font-weight: 700; color: var(--primary-color); line-height: 1.2; margin: 0;">Product Name</h1>
-                            
-                            <div class="product-price-rating-row" style="display: flex; align-items: baseline; flex-wrap: wrap; gap: 2rem; margin-top: 0.5rem;">
-                                <div class="product-price-box" id="dyn-product-price" style="font-size: 2.4rem; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; margin: 0;">—</div>
+                        <div class="product-meta-header">
+                            <span class="product-collection-label" id="dyn-product-badge">NEW ARRIVAL</span>
+                            <h1 class="product-main-title" id="dyn-product-title">Product Name</h1>
+
+                            <div class="product-price-rating-row">
+                                <div class="product-price-box" id="dyn-product-price">—</div>
                             </div>
-                            
-                            <p style="font-size: 1.2rem; color: var(--foreground-sub-color); margin: 0.2rem 0 0; line-height: 1.4;">Tax included. Shipping calculated at checkout.</p>
+
+                            <p class="product-tax-note">Tax included. Shipping calculated at checkout.</p>
                         </div>
-                        
+
                         <!-- Colour Selection -->
                         <div class="variant-section">
-                            <h4 class="variant-title-label">Colour:<span id="active-colour-label" class="variant-title-value">—</span></h4>
-                            <div id="colour-options" style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.5rem;">
+                            <h4 class="variant-title-label">Colour:<span id="active-colour-label"
+                                    class="variant-title-value">—</span></h4>
+                            <div id="colour-options">
                                 <!-- Circular image swatches dynamically generated -->
                             </div>
                         </div>
 
                         <!-- Size Selection -->
                         <div class="variant-section">
-                            <h4 class="variant-title-label">Size:<span id="active-size-label" class="variant-title-value">—</span></h4>
-                            <div id="size-options" style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                            <h4 class="variant-title-label">Size:<span id="active-size-label"
+                                    class="variant-title-value">—</span></h4>
+                            <div id="size-options">
                                 <!-- Size swatches dynamically generated -->
                             </div>
-                            <p id='dyn-fit-note' class='fit-note' style='display:none; margin-top:1rem;'></p>
-                            <div id='dyn-model-info' class='model-info' style='display:none; margin-top:1rem;'></div>
+                            <p id='dyn-fit-note' class='fit-note'></p>
+                            <div id='dyn-model-info' class='model-info'></div>
                         </div>
 
                         <!-- Quantity Stepper -->
-                        <div class="variant-section" style="gap: 0.8rem;">
+                        <div class="variant-section qty-section">
                             <h4 class="variant-title-label">Quantity</h4>
                             <div class="qty-stepper">
                                 <button onclick="changeQty(-1)" class="qty-btn" type="button">−</button>
-                                <input id="product-quantity-display" min="1" readonly class="qty-input" type="number" value="1" />
+                                <input id="product-quantity-display" min="1" readonly class="qty-input" type="number"
+                                    value="1" />
                                 <button onclick="changeQty(1)" class="qty-btn" type="button">+</button>
                             </div>
                         </div>
 
                         <!-- Sandstorm-style Purchase Actions -->
                         <div class="buttons-container">
-                            <button class="btn-add-to-cart product__card--btn" onclick="addProductToCart(event)" type="button">
+                            <button class="btn-add-to-cart product__card--btn" onclick="addProductToCart(event)"
+                                type="button">
                                 Add to bag
                             </button>
                             <button class="btn-buy-now" onclick="buyProductNow(event)" type="button">
                                 Buy it now
                             </button>
-                            <div class="fit-finder-box" style="margin-top: 0.5rem; text-align: center;">
-                                <a href="javascript:void(0)" class="fit-finder-link" onclick="openSizeGuide()" style="font-size: 1.2rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary-color); text-decoration: underline; display: inline-flex; align-items: center; gap: 0.5rem;">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                            <div class="fit-finder-box">
+                                <a href="javascript:void(0)" class="fit-finder-link" onclick="openSizeGuide()">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                    </svg>
                                     Find My Exact Fit
                                 </a>
                             </div>
                         </div>
-                        
+
                         <!-- Trust Badges -->
-                        <div class="product-trust-badges" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; padding: 1.5rem; background: #f9f9f9; border-radius: 4px; border: 1px solid var(--border-color);">
-                            <div style="display: flex; align-items: center; gap: 1.2rem; font-size: 1.35rem; color: var(--foreground-sub-color);">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 15h2m12 0h2M7 15a2 2 0 104 0m3 0a2 2 0 104 0M3 9h15l3 3v3h-3M3 9v6h1M3 9L4 6h11v3"></path></svg>
+                        <div class="product-trust-badges">
+                            <div class="trust-badge-row">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <path
+                                        d="M4 15h2m12 0h2M7 15a2 2 0 104 0m3 0a2 2 0 104 0M3 9h15l3 3v3h-3M3 9v6h1M3 9L4 6h11v3">
+                                    </path>
+                                </svg>
                                 <span>Fast Kenya-wide delivery</span>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 1.2rem; font-size: 1.35rem; color: var(--foreground-sub-color);">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                            <div class="trust-badge-row">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"></path>
+                                    <path d="M3 3v5h5"></path>
+                                </svg>
                                 <span>7 day hassle-free returns</span>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 1.2rem; font-size: 1.35rem; color: var(--foreground-sub-color);">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            <div class="trust-badge-row">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                </svg>
                                 <span>Trusted by 1000+ customers</span>
                             </div>
                         </div>
@@ -1325,18 +1818,27 @@
                         <div class="product-share-box">
                             <span class="product-share-title">Share:</span>
                             <a class="share-icon-link" href="#">
-                                <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+                                <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z">
+                                    </path>
                                 </svg>
                             </a>
                             <a class="share-icon-link" href="#">
-                                <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.347 1.413c-.056.23-.186.277-.428.166-1.597-.743-2.593-3.078-2.593-4.953 0-4.032 2.931-7.734 8.444-7.734 4.432 0 7.876 3.158 7.876 7.379 0 4.404-2.776 7.947-6.629 7.947-1.294 0-2.511-.672-2.927-1.465l-.796 3.033c-.287 1.099-1.062 2.478-1.58 3.327C9.914 23.763 10.939 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"></path>
+                                <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.347 1.413c-.056.23-.186.277-.428.166-1.597-.743-2.593-3.078-2.593-4.953 0-4.032 2.931-7.734 8.444-7.734 4.432 0 7.876 3.158 7.876 7.379 0 4.404-2.776 7.947-6.629 7.947-1.294 0-2.511-.672-2.927-1.465l-.796 3.033c-.287 1.099-1.062 2.478-1.58 3.327C9.914 23.763 10.939 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z">
+                                    </path>
                                 </svg>
                             </a>
                             <a class="share-icon-link" href="#">
-                                <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                                <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
+                                    </path>
                                 </svg>
                             </a>
                         </div>
@@ -1359,7 +1861,7 @@
                             <div class="tab-active-indicator"></div>
                         </div>
                     </div>
-                    <div class="tabs-content-container" style="min-height: 100px;">
+                    <div class="tabs-content-container">
                         <div class="tab-content-panel active" id="tab-description">
                             Loading...
                         </div>
@@ -1367,17 +1869,19 @@
                             Loading...
                         </div>
                         <div class="tab-content-panel" id="tab-shipping">
-                            <div style="font-size:1.4rem; line-height:1.8; color:var(--foreground-color,#333);">
-                                <p><strong>Shipping:</strong> We ship Kenya-wide with delivery within 3–7 business days. International shipping available upon request.</p>
-                                <p style="margin-top:1rem;"><strong>Returns:</strong> 7-day hassle-free return policy. Items must be unworn, unwashed, and in original condition with tags attached.</p>
+                            <div class="tab-shipping-content">
+                                <p><strong>Shipping:</strong> We ship Kenya-wide with delivery within 3–7 business days.
+                                    International shipping available upon request.</p>
+                                <p><strong>Returns:</strong> 7-day hassle-free return policy. Items must be unworn,
+                                    unwashed, and in original condition with tags attached.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- You May Also Like Section -->
-                <div class="product__related" style="display: flex; flex-direction: column; gap: 4rem; border-top:1px solid var(--border-color); padding-top:6rem; margin-top: 6rem;">
-                    <h3 style="font-family: var(--font-heading); font-size:2.8rem; color:var(--primary-color); margin:0; font-weight:600;">
+                <div class="product__related">
+                    <h3>
                         You may also like</h3>
                     <div class="product-grid" id="related-products-grid" data-limit="4"></div>
                 </div>
@@ -1433,171 +1937,88 @@
     <script src="assets/storefront-api.js" type="module"></script>
     <!-- Custom Fit & Measurement Modal -->
     <div class='size-guide-overlay' id='size-guide-overlay' onclick='if(event.target === this) closeSizeGuide()'>
-        <div class='size-guide-modal' style="max-width: 520px; padding: 2.5rem; border-radius: 8px;">
-            <div class='size-guide-header' style="border-bottom: 1px solid #eee; padding-bottom: 1.5rem; margin-bottom: 1.8rem;">
-                <h2 class='size-guide-title' id='size-guide-title' style="font-family:'Karma',serif; font-size: 2rem;">Custom Fit & Measurements</h2>
-                <button aria-label='close' class='size-guide-close' onclick='closeSizeGuide()' type='button'>&#215;</button>
+        <div class='size-guide-modal custom-fit'>
+            <div class='size-guide-header custom-fit'>
+                <h2 class='size-guide-title' id='size-guide-title'>Custom Fit & Measurements</h2>
+                <button aria-label='close' class='size-guide-close' onclick='closeSizeGuide()'
+                    type='button'>&#215;</button>
             </div>
 
             <!-- Product Garment Spec Summary Box from Backend -->
-            <div id="modal-product-specs" style="background:#f8f5f2; border:1px solid #e8dfd8; border-radius:6px; padding:1.4rem; margin-bottom:2rem; font-size:1.3rem; line-height:1.6; display:none;">
-                <strong style="color:var(--primary-color);">Item Specs:</strong> <span id="modal-spec-text"></span>
+            <div id="modal-product-specs">
+                <strong>Item Specs:</strong> <span id="modal-spec-text"></span>
             </div>
 
-            <div class='size-guide-customer' id='size-guide-customer' style="padding:0;">
-                <h4 style="font-family:'Karma',serif; font-size: 1.6rem; margin-bottom: 0.6rem;">Find Your Exact Fit</h4>
-                <p style="font-size: 1.3rem; color: #666; margin-bottom: 1.6rem;">Enter your custom measurements (cm) and we'll use them to tailor your fit.</p>
+            <div class='size-guide-customer' id='size-guide-customer'>
+                <h4>Find Your Exact Fit</h4>
+                <p>Enter your custom measurements (cm) and we'll use them to tailor your fit.</p>
                 <div class='size-guide-inputs'>
                     <input type='text' id='cust-bust' placeholder='Bust (cm)' />
                     <input type='text' id='cust-waist' placeholder='Waist (cm)' />
                     <input type='text' id='cust-hips' placeholder='Hips (cm)' />
                 </div>
                 <textarea id='cust-note' placeholder='Optional notes (e.g. between sizes, fit preference)'></textarea>
-                <button class='size-guide-submit' onclick='submitCustomerMeasurements()' type='button'>Submit My Measurements</button>
+                <button class='size-guide-submit' onclick='submitCustomerMeasurements()' type='button'>Submit My
+                    Measurements</button>
                 <p class='size-guide-msg' id='cust-msg'></p>
-                <p style='font-size:1.1rem;color:var(--foreground-sub-color);margin-top:0.8rem;'>Used only to help us tailor your exact size — kept private.</p>
+                <p class='size-guide-privacy-note'>Used only to help us tailor your exact size — kept private.</p>
             </div>
         </div>
     </div>
     <script type='module'>
 
-    const FALLBACK_CHART = {
-        name: 'General Guide',
-        unit: 'cm',
-        sizes: ['S','M','L','XL','XXL'],
-        measurements: {
-            bust: { label: 'Bust (cm)', values: { S: '84 – 88', M: '89 – 94', L: '95 – 101', XL: '102 – 108', XXL: '109 – 116' } },
-            waist: { label: 'Waist (cm)', values: { S: '66 – 70', M: '71 – 76', L: '77 – 83', XL: '84 – 90', XXL: '91 – 98' } },
-            hips: { label: 'Hips (cm)', values: { S: '92 – 96', M: '97 – 102', L: '103 – 109', XL: '110 – 116', XXL: '117 – 124' } },
-            length: { label: 'Full Length (cm)', values: { S: '100', M: '102', L: '104', XL: '106', XXL: '108' } }
-        },
-        how_to_measure: {
-            bust: 'Measure around the fullest part of your bust.',
-            waist: 'Measure around the narrowest part of your natural waist line.',
-            hips: 'Measure around the fullest part of your hips.',
-            length: 'Measured from the shoulder seam down to the bottom hem.'
-        },
-        display_order: ['bust','waist','hips','length']
-    };
+        const FALLBACK_CHART = {
+            name: 'General Guide',
+            unit: 'cm',
+            sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+            measurements: {
+                bust: { label: 'Bust (cm)', values: { S: '84 – 88', M: '89 – 94', L: '95 – 101', XL: '102 – 108', XXL: '109 – 116' } },
+                waist: { label: 'Waist (cm)', values: { S: '66 – 70', M: '71 – 76', L: '77 – 83', XL: '84 – 90', XXL: '91 – 98' } },
+                hips: { label: 'Hips (cm)', values: { S: '92 – 96', M: '97 – 102', L: '103 – 109', XL: '110 – 116', XXL: '117 – 124' } },
+                length: { label: 'Full Length (cm)', values: { S: '100', M: '102', L: '104', XL: '106', XXL: '108' } }
+            },
+            how_to_measure: {
+                bust: 'Measure around the fullest part of your bust.',
+                waist: 'Measure around the narrowest part of your natural waist line.',
+                hips: 'Measure around the fullest part of your hips.',
+                length: 'Measured from the shoulder seam down to the bottom hem.'
+            },
+            display_order: ['bust', 'waist', 'hips', 'length']
+        };
 
-    let currentChart = null;
-    let currentSize = null;
-    let loadedProductId = null;
+        let currentChart = null;
+        let currentSize = null;
+        let loadedProductId = null;
 
-    function normalizeChart(raw) {
-        console.log('[normalizeChart] input:', raw ? { name: raw.name, id: raw.id } : raw);
-        const chart = Object.assign({}, raw || FALLBACK_CHART);
-        if (!chart.measurements) chart.measurements = {};
-        if (!chart.display_order || !chart.display_order.length) {
-            chart.display_order = Object.keys(chart.measurements);
-        }
-        chart.sizes = Array.isArray(chart.sizes) && chart.sizes.length ? chart.sizes : FALLBACK_CHART.sizes;
-        chart.unit = chart.unit || 'cm';
-        console.log('[normalizeChart] output:', { name: chart.name, id: chart.id, sizes: chart.sizes });
-        return chart;
-    }
-
-    function renderFitNote(product) {
-        const el = document.getElementById('dyn-fit-note');
-        if (!el) return;
-        if (product.fit_note) {
-            el.textContent = product.fit_note;
-            el.style.display = 'block';
-        } else {
-            el.style.display = 'none';
-        }
-    }
-
-    function renderModelInfo(product) {
-        const el = document.getElementById('dyn-model-info');
-        if (!el) return;
-        const parts = [];
-        if (product.model_wearing_size) parts.push('Model is wearing size <strong>' + product.model_wearing_size + '</strong>');
-        if (product.model_measurements && typeof product.model_measurements === 'object') {
-            const m = product.model_measurements;
-            const info = [];
-            if (m.height) info.push('height ' + m.height + 'cm');
-            if (m.bust) info.push('bust ' + m.bust + 'cm');
-            if (m.waist) info.push('waist ' + m.waist + 'cm');
-            if (m.hips) info.push('hips ' + m.hips + 'cm');
-            if (info.length) parts.push('(' + info.join(', ') + ')');
-        }
-        if (parts.length) {
-            el.innerHTML = parts.join(' ');
-            el.style.display = 'block';
-        } else {
-            el.style.display = 'none';
-        }
-    }
-
-    async function loadSizeChart(product) {
-        if (!product) { currentChart = normalizeChart(FALLBACK_CHART); return; }
-        if (loadedProductId === product.id && currentChart) return;
-        loadedProductId = product.id;
-        console.log('[loadSizeChart] product.id:', product.id, 'size_chart_id:', product.size_chart_id);
-        if (!product.size_chart_id) {
-            console.log('[loadSizeChart] no size_chart_id, using fallback');
-            currentChart = normalizeChart(FALLBACK_CHART);
-            return;
-        }
-        try {
-            const res = await fetch(`/api/size-charts/${product.size_chart_id}`);
-            if (!res.ok) {
-                console.error('[loadSizeChart] chart fetch failed:', res.statusText);
-                currentChart = normalizeChart(FALLBACK_CHART);
-                return;
+        function normalizeChart(raw) {
+            console.log('[normalizeChart] input:', raw ? { name: raw.name, id: raw.id } : raw);
+            const chart = Object.assign({}, raw || FALLBACK_CHART);
+            if (!chart.measurements) chart.measurements = {};
+            if (!chart.display_order || !chart.display_order.length) {
+                chart.display_order = Object.keys(chart.measurements);
             }
-            const data = await res.json();
-            currentChart = normalizeChart(data);
-        } catch (err) {
-            console.error('[loadSizeChart] exception during chart fetch:', err);
-            currentChart = normalizeChart(FALLBACK_CHART);
+            chart.sizes = Array.isArray(chart.sizes) && chart.sizes.length ? chart.sizes : FALLBACK_CHART.sizes;
+            chart.unit = chart.unit || 'cm';
+            console.log('[normalizeChart] output:', { name: chart.name, id: chart.id, sizes: chart.sizes });
+            return chart;
         }
-    }
 
-    function buildTable(chart, selectedSize) {
-        const sizes = chart.sizes;
-        const order = chart.display_order;
-        const htmls = [];
-        htmls.push('<table class=\'size-guide-table\'><thead><tr><th>Measurement</th>');
-        sizes.forEach(function(s) {
-            htmls.push('<th' + (s === selectedSize ? ' class=\'size-match\'' : '') + '>' + s + '</th>');
-        });
-        htmls.push('</tr></thead><tbody>');
-        order.forEach(function(key) {
-            const row = chart.measurements[key];
-            if (!row || !row.label) return;
-            htmls.push('<tr><td>' + row.label);
-            const tip = chart.how_to_measure && chart.how_to_measure[key];
-            if (tip) {
-                htmls.push(' <span class=\'size-guide-tooltip\' title=\'' + tip.replace(/'/g, '&#39;') + '\'>&#63;</span>');
+        function renderFitNote(product) {
+            const el = document.getElementById('dyn-fit-note');
+            if (!el) return;
+            if (product.fit_note) {
+                el.textContent = product.fit_note;
+                el.style.display = 'block';
+            } else {
+                el.style.display = 'none';
             }
-            htmls.push('</td>');
-            sizes.forEach(function(s) {
-                const val = (row.values && row.values[s]) ? row.values[s] : '—';
-                const isMatch = s === selectedSize;
-                htmls.push('<td' + (isMatch ? ' class=\'size-match\'' : '') + '>' + val + '</td>');
-            });
-            htmls.push('</tr>');
-        });
-        htmls.push('</tbody></table>');
-        htmls.push('<p class=\'size-guide-note\'>All measurements are in ' + chart.unit + '. Compare with a garment you already own for the best fit.</p>');
-        return htmls.join('');
-    }
+        }
 
-    function renderSizeGuideModal() {
-        const overlay = document.getElementById('size-guide-overlay');
-        const title = document.getElementById('size-guide-title');
-        const product = window._currentProduct;
-        if (!overlay || !title) return;
-        
-        title.textContent = 'Custom Fit & Measurements';
-
-        const specBox = document.getElementById('modal-product-specs');
-        const specText = document.getElementById('modal-spec-text');
-        if (specBox && specText && product) {
+        function renderModelInfo(product) {
+            const el = document.getElementById('dyn-model-info');
+            if (!el) return;
             const parts = [];
-            if (product.model_wearing_size) parts.push('Model wearing size <strong>' + product.model_wearing_size + '</strong>');
+            if (product.model_wearing_size) parts.push('Model is wearing size <strong>' + product.model_wearing_size + '</strong>');
             if (product.model_measurements && typeof product.model_measurements === 'object') {
                 const m = product.model_measurements;
                 const info = [];
@@ -1608,114 +2029,199 @@
                 if (info.length) parts.push('(' + info.join(', ') + ')');
             }
             if (parts.length) {
-                specText.innerHTML = parts.join(' ');
-                specBox.style.display = 'block';
+                el.innerHTML = parts.join(' ');
+                el.style.display = 'block';
             } else {
-                specBox.style.display = 'none';
+                el.style.display = 'none';
             }
         }
 
-        overlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    window.openSizeGuide = async function() {
-        console.log('[openSizeGuide] called, _currentProduct:', window._currentProduct ? { id: window._currentProduct.id, size_chart_id: window._currentProduct.size_chart_id } : null);
-        const product = window._currentProduct;
-        if (product) await loadSizeChart(product);
-        console.log('[openSizeGuide] currentChart after load:', currentChart ? { name: currentChart.name, id: currentChart.id } : null);
-        renderSizeGuideModal();
-    };
-
-    window.closeSizeGuide = function() {
-        const overlay = document.getElementById('size-guide-overlay');
-        if (overlay) overlay.classList.remove('active');
-        document.body.style.overflow = '';
-    };
-
-    function highlightSize(size) {
-        currentSize = size;
-        const overlay = document.getElementById('size-guide-overlay');
-        if (overlay && overlay.classList.contains('active') && currentChart) {
-            const body = document.getElementById('size-guide-body');
-            if (body) body.innerHTML = buildTable(currentChart, size);
-        }
-    }
-
-    window.addEventListener('productLoaded', async function(e) {
-        const product = e.detail;
-        window._currentProduct = product;
-        renderFitNote(product);
-        renderModelInfo(product);
-        await loadSizeChart(product);
-        currentSize = window._selectedSize || (product.sizes && product.sizes[0]);
-    });
-
-    window.addEventListener('sizeSelected', function(e) {
-        highlightSize(e.detail);
-    });
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeSizeGuide();
-    });
-
-    function getGuestId() {
-        let id = localStorage.getItem('mhw-guest-id');
-        if (!id) {
-            id = 'guest-' + Date.now() + '-' + Math.random().toString(36).slice(2, 9);
-            localStorage.setItem('mhw-guest-id', id);
-        }
-        return id;
-    }
-
-    function showCustMsg(text, type) {
-        const el = document.getElementById('cust-msg');
-        if (!el) return;
-        el.textContent = text;
-        el.className = 'size-guide-msg ' + (type || '');
-    }
-
-    window.submitCustomerMeasurements = async function() {
-        const product = window._currentProduct;
-        if (!product || !product.id) { showCustMsg('Product not loaded yet', 'error'); return; }
-        const bust = document.getElementById('cust-bust')?.value.trim();
-        const waist = document.getElementById('cust-waist')?.value.trim();
-        const hips = document.getElementById('cust-hips')?.value.trim();
-        const note = document.getElementById('cust-note')?.value.trim();
-        const measurements = {};
-        if (bust) measurements.bust = bust;
-        if (waist) measurements.waist = waist;
-        if (hips) measurements.hips = hips;
-        if (Object.keys(measurements).length === 0) { showCustMsg('Enter at least one measurement', 'error'); return; }
-        
-        try {
-            const res = await fetch('/api/customer-measurements', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    guest_cart_id: getGuestId(),
-                    product_id: product.id,
-                    measurements,
-                    note: note || null
-                })
-            });
-            if (!res.ok) {
-                const errData = await res.json();
-                showCustMsg(errData.error || 'Could not save. Please try again.', 'error');
+        async function loadSizeChart(product) {
+            if (!product) { currentChart = normalizeChart(FALLBACK_CHART); return; }
+            if (loadedProductId === product.id && currentChart) return;
+            loadedProductId = product.id;
+            console.log('[loadSizeChart] product.id:', product.id, 'size_chart_id:', product.size_chart_id);
+            if (!product.size_chart_id) {
+                console.log('[loadSizeChart] no size_chart_id, using fallback');
+                currentChart = normalizeChart(FALLBACK_CHART);
                 return;
             }
-            showCustMsg('Thank you! We will use this to help with sizing.', 'success');
-            document.getElementById('cust-bust').value = '';
-            document.getElementById('cust-waist').value = '';
-            document.getElementById('cust-hips').value = '';
-            document.getElementById('cust-note').value = '';
-        } catch (err) {
-            console.error('Error submitting customer measurements:', err);
-            showCustMsg('Could not save. Please try again.', 'error');
+            try {
+                const res = await fetch(`/api/size-charts/${product.size_chart_id}`);
+                if (!res.ok) {
+                    console.error('[loadSizeChart] chart fetch failed:', res.statusText);
+                    currentChart = normalizeChart(FALLBACK_CHART);
+                    return;
+                }
+                const data = await res.json();
+                currentChart = normalizeChart(data);
+            } catch (err) {
+                console.error('[loadSizeChart] exception during chart fetch:', err);
+                currentChart = normalizeChart(FALLBACK_CHART);
+            }
         }
-    };
+
+        function buildTable(chart, selectedSize) {
+            const sizes = chart.sizes;
+            const order = chart.display_order;
+            const htmls = [];
+            htmls.push('<table class=\'size-guide-table\'><thead><tr><th>Measurement</th>');
+            sizes.forEach(function (s) {
+                htmls.push('<th' + (s === selectedSize ? ' class=\'size-match\'' : '') + '>' + s + '</th>');
+            });
+            htmls.push('</tr></thead><tbody>');
+            order.forEach(function (key) {
+                const row = chart.measurements[key];
+                if (!row || !row.label) return;
+                htmls.push('<tr><td>' + row.label);
+                const tip = chart.how_to_measure && chart.how_to_measure[key];
+                if (tip) {
+                    htmls.push(' <span class=\'size-guide-tooltip\' title=\'' + tip.replace(/'/g, '&#39;') + '\'>&#63;</span>');
+                }
+                htmls.push('</td>');
+                sizes.forEach(function (s) {
+                    const val = (row.values && row.values[s]) ? row.values[s] : '—';
+                    const isMatch = s === selectedSize;
+                    htmls.push('<td' + (isMatch ? ' class=\'size-match\'' : '') + '>' + val + '</td>');
+                });
+                htmls.push('</tr>');
+            });
+            htmls.push('</tbody></table>');
+            htmls.push('<p class=\'size-guide-note\'>All measurements are in ' + chart.unit + '. Compare with a garment you already own for the best fit.</p>');
+            return htmls.join('');
+        }
+
+        function renderSizeGuideModal() {
+            const overlay = document.getElementById('size-guide-overlay');
+            const title = document.getElementById('size-guide-title');
+            const product = window._currentProduct;
+            if (!overlay || !title) return;
+
+            title.textContent = 'Custom Fit & Measurements';
+
+            const specBox = document.getElementById('modal-product-specs');
+            const specText = document.getElementById('modal-spec-text');
+            if (specBox && specText && product) {
+                const parts = [];
+                if (product.model_wearing_size) parts.push('Model wearing size <strong>' + product.model_wearing_size + '</strong>');
+                if (product.model_measurements && typeof product.model_measurements === 'object') {
+                    const m = product.model_measurements;
+                    const info = [];
+                    if (m.height) info.push('height ' + m.height + 'cm');
+                    if (m.bust) info.push('bust ' + m.bust + 'cm');
+                    if (m.waist) info.push('waist ' + m.waist + 'cm');
+                    if (m.hips) info.push('hips ' + m.hips + 'cm');
+                    if (info.length) parts.push('(' + info.join(', ') + ')');
+                }
+                if (parts.length) {
+                    specText.innerHTML = parts.join(' ');
+                    specBox.style.display = 'block';
+                } else {
+                    specBox.style.display = 'none';
+                }
+            }
+
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.openSizeGuide = async function () {
+            console.log('[openSizeGuide] called, _currentProduct:', window._currentProduct ? { id: window._currentProduct.id, size_chart_id: window._currentProduct.size_chart_id } : null);
+            const product = window._currentProduct;
+            if (product) await loadSizeChart(product);
+            console.log('[openSizeGuide] currentChart after load:', currentChart ? { name: currentChart.name, id: currentChart.id } : null);
+            renderSizeGuideModal();
+        };
+
+        window.closeSizeGuide = function () {
+            const overlay = document.getElementById('size-guide-overlay');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        function highlightSize(size) {
+            currentSize = size;
+            const overlay = document.getElementById('size-guide-overlay');
+            if (overlay && overlay.classList.contains('active') && currentChart) {
+                const body = document.getElementById('size-guide-body');
+                if (body) body.innerHTML = buildTable(currentChart, size);
+            }
+        }
+
+        window.addEventListener('productLoaded', async function (e) {
+            const product = e.detail;
+            window._currentProduct = product;
+            renderFitNote(product);
+            renderModelInfo(product);
+            await loadSizeChart(product);
+            currentSize = window._selectedSize || (product.sizes && product.sizes[0]);
+        });
+
+        window.addEventListener('sizeSelected', function (e) {
+            highlightSize(e.detail);
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeSizeGuide();
+        });
+
+        function getGuestId() {
+            let id = localStorage.getItem('mhw-guest-id');
+            if (!id) {
+                id = 'guest-' + Date.now() + '-' + Math.random().toString(36).slice(2, 9);
+                localStorage.setItem('mhw-guest-id', id);
+            }
+            return id;
+        }
+
+        function showCustMsg(text, type) {
+            const el = document.getElementById('cust-msg');
+            if (!el) return;
+            el.textContent = text;
+            el.className = 'size-guide-msg ' + (type || '');
+        }
+
+        window.submitCustomerMeasurements = async function () {
+            const product = window._currentProduct;
+            if (!product || !product.id) { showCustMsg('Product not loaded yet', 'error'); return; }
+            const bust = document.getElementById('cust-bust')?.value.trim();
+            const waist = document.getElementById('cust-waist')?.value.trim();
+            const hips = document.getElementById('cust-hips')?.value.trim();
+            const note = document.getElementById('cust-note')?.value.trim();
+            const measurements = {};
+            if (bust) measurements.bust = bust;
+            if (waist) measurements.waist = waist;
+            if (hips) measurements.hips = hips;
+            if (Object.keys(measurements).length === 0) { showCustMsg('Enter at least one measurement', 'error'); return; }
+
+            try {
+                const res = await fetch('/api/customer-measurements', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        guest_cart_id: getGuestId(),
+                        product_id: product.id,
+                        measurements,
+                        note: note || null
+                    })
+                });
+                if (!res.ok) {
+                    const errData = await res.json();
+                    showCustMsg(errData.error || 'Could not save. Please try again.', 'error');
+                    return;
+                }
+                showCustMsg('Thank you! We will use this to help with sizing.', 'success');
+                document.getElementById('cust-bust').value = '';
+                document.getElementById('cust-waist').value = '';
+                document.getElementById('cust-hips').value = '';
+                document.getElementById('cust-note').value = '';
+            } catch (err) {
+                console.error('Error submitting customer measurements:', err);
+                showCustMsg('Could not save. Please try again.', 'error');
+            }
+        };
     </script>
 </body>
 

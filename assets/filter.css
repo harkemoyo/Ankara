@@ -32,16 +32,16 @@
 }
 
 .breadcrumb-item a:hover {
-  color: var(--primary-color, #800020);
+  color: var(--foreground-color);
 }
 
 .breadcrumb-item.active {
-  color: var(--secondary-color, #d4a373);
+  color: var(--foreground-color);
   font-weight: 600;
 }
 
 .divider {
-  color: var(--foreground-sub-color, #999);
+  color: var(--primary-color);
   display: flex;
   align-items: center;
 }

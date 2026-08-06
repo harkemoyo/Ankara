@@ -170,17 +170,38 @@
             color: var(--primary-color) !important;
         }
 
-      
-
         .breadcrumb-separator {
             color: var(--primary-color);
             font-size: 1rem;
         }
 
-        /* Product Main Details Flexbox Layout */
-        .product__details--section {
-            padding-block: 1.5rem;
+        /* ── Shopify Standard 1200px Max Width Page Layout ── */
+        :root {
+            --page-width: 1200px;
+        }
+
+        .breadcrumb__section,
+        .product__details--section,
+        .product__details--tabs-section,
+        .product__related {
+            max-width: var(--page-width, 1200px);
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
             padding-inline: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .breadcrumb__section,
+            .product__details--section,
+            .product__details--tabs-section,
+            .product__related {
+                padding-inline: 2.5rem;
+            }
+        }
+
+        .product__details--section {
+            padding-block: 2rem;
         }
 
         .product-details-grid {
@@ -1723,7 +1744,7 @@
         </section>
 
         <!-- Product Details Section -->
-        <section class="product__details--section is-loading" id="product-details-section">
+        <section class="product product--thumbnails-bottom product__details--section is-loading" id="product-details-section">
             <div class="product__details--wrapper">
                 <!-- Skeleton Shimmer Placeholder during fetch -->
                 <div class="product-skeleton-overlay" id="product-skeleton-overlay">

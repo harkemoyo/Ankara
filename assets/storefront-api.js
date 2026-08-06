@@ -74,7 +74,7 @@ async function loadShopProducts() {
                 </a>
             </div>
             <div class="product__card--content clean-card-content">
-                <h3 class="product__card--title clean-title" style="margin-top: 10px;">
+                <h3 class="product__card--title clean-title">
                     <a href="/product/${product.handle}">${product.title}</a>
                 </h3>
                 ${colors.length > 0 ? `
@@ -673,10 +673,10 @@ async function loadRelatedProducts(product) {
                 </a>
             </div>
             <div class="product__card--content clean-card-content">
-                <h3 class="product__card--title clean-title" style="margin-top:10px;">
+                <h3 class="product__card--title clean-title">
                     <a href="/product/${p.handle}">${p.title}</a>
                 </h3>
-                <div class="product__card--price clean-price" style="margin-top:5px;">
+                <div class="product__card--price clean-price">
                     <span class="current__price">${priceStr}</span>
                 </div>
             </div>

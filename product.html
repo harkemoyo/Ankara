@@ -60,10 +60,12 @@
         .product-skeleton-overlay {
             display: none;
         }
-        .product__details--wrapper{
+
+        .product__details--wrapper {
             display: grid;
             gap: 3rem;
         }
+
         .product__details--section.is-loading .product-skeleton-overlay {
             display: flex;
             position: absolute;
@@ -170,45 +172,20 @@
             color: var(--primary-color) !important;
         }
 
+
+
         .breadcrumb-separator {
             color: var(--primary-color);
             font-size: 1rem;
         }
 
-        /* ── Shopify Standard 1200px Max Width Page Layout ── */
-        :root {
-            --page-width: 1200px;
-        }
 
-        .breadcrumb__section,
-        .product__details--section,
-        .product__details--tabs-section,
-        .product__related {
-            max-width: var(--page-width, 1200px);
-            margin-left: auto;
-            margin-right: auto;
-            width: 100%;
-            padding-inline: 1.5rem;
-        }
 
-        @media (min-width: 768px) {
-            .breadcrumb__section,
-            .product__details--section,
-            .product__details--tabs-section,
-            .product__related {
-                padding-inline: 2.5rem;
-            }
-        }
-
-        .product__details--section {
-            padding-block: 2rem;
-        }
 
         .product-details-grid {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            gap: 6rem;
+            justify-content: space-between;
             align-items: flex-start;
         }
 
@@ -219,11 +196,9 @@
             gap: 2rem;
         }
 
-        @media (min-width: 920px) {
+        @media (min-width: 768px) {
             .product-details-grid {
                 flex-direction: row;
-                gap: 5rem;
-                align-items: flex-start;
             }
 
             .product__details--info {
@@ -1255,7 +1230,9 @@
 
         .product__related h3 {
             font-family: var(--font-heading);
+            font-size: 2rem;
             color: var(--primary-color);
+            padding-block-start: 1rem;
             margin: 0;
             font-weight: 600;
         }
@@ -1742,7 +1719,7 @@
         </section>
 
         <!-- Product Details Section -->
-        <section class="product product--thumbnails-bottom product__details--section is-loading" id="product-details-section">
+        <section class="product__details--section is-loading" id="product-details-section">
             <div class="product__details--wrapper">
                 <!-- Skeleton Shimmer Placeholder during fetch -->
                 <div class="product-skeleton-overlay" id="product-skeleton-overlay">

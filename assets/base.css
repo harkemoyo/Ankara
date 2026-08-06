@@ -1822,7 +1822,6 @@ select {
   font-family: var(--font-lato);
   font-size: var(--body-font-size);
   font-weight: var(--body-font-weight);
-  line-height: var(--body-line-height);
 }
 
 .select {
@@ -10861,26 +10860,16 @@ li[data-address]>h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.8rem;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.pagination__list {
-  margin-right: 0.8rem;
-}
-
-.pagination__list:last-child {
-  margin-right: 0;
-}
 
 @media only screen and (min-width: 768px) {
   .customer h2.form__message {
     font-size: 2.2rem;
-  }
-
-  .pagination__list {
-    margin-right: 1.2rem;
   }
 }
 
@@ -10898,7 +10887,7 @@ li[data-address]>h2 {
   cursor: pointer;
   padding: 0;
   transition: all 0.3s ease;
-  color: inherit;
+  color: var(--bg-offwhite-color);
 }
 
 @media only screen and (min-width: 768px) {

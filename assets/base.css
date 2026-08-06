@@ -10849,7 +10849,6 @@ li[data-address]>h2 {
 */
 .pagination__area {
   padding: 1.5rem 2rem;
-  background: var(--bg-offwhite-color);
   border-radius: 5px;
 }
 
@@ -10895,7 +10894,7 @@ li[data-address]>h2 {
   font-weight: 600;
   border-radius: 50%;
   border: 1px solid var(--border-color);
-  background: var(--body-background-color);
+  background: var(--foreground-color);
   cursor: pointer;
   padding: 0;
   transition: all 0.3s ease;

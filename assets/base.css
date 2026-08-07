@@ -1102,9 +1102,12 @@ ul {
   gap: var(--space-5);
 }
 
-@media only screen and (min-width: 992px) {
-  .main__header--inner {
-    padding-inline: 2.5rem;
+@media only screen and (min-width: 768px) {
+  .main__header {
+    .main__header--inner {
+      padding-inline: 2.5rem;
+    }
+
   }
 }
 

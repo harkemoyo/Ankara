@@ -228,7 +228,7 @@
 }
 
 .portal-view-hidden {
-  display: none !important;
+  display: none;
 }
 
 .portal__header {

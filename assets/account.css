@@ -1,452 +1,59 @@
-/* assets/account.css — Authentic Shopify-Style Authentication & Customer Portal */
+/* assets/account.css - Customer Account & Portal Styling */
 
-.account__page--main {
-  background-color: #f6f5f1;
-  min-height: 100vh;
+.auth-step-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5rem 2rem 3rem;
-  box-sizing: border-box;
 }
 
-/* ── Centered Brand Header Logo ── */
-.shopify__auth--header {
-  margin-bottom: 4rem;
-  text-align: center;
-}
-
-.shopify__auth--logo-box {
-  display: inline-block;
-  border: 2px solid #1a1818;
-  padding: 1rem 2.5rem;
-  background-color: #ffffff;
-}
-
-.shopify__auth--logo-img {
-  height: 48px;
+.auth-logo-img {
+  height: 56px;
   width: auto;
-  object-fit: contain;
-  display: block;
+  border-radius: var(--radius-sm, 6px);
 }
 
-/* ── Auth Card Wrapper ── */
-.shopify__auth--card {
-  width: 100%;
-  max-width: 440px;
-  margin: 0 auto;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  background-color: #ffffff !important;
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
-  border-radius: 16px !important;
-  padding: 4rem 3rem !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04) !important;
-  box-sizing: border-box !important;
+.auth-sent-email {
+  font-weight: 600;
+  color: var(--foreground-color, #1a1818);
 }
 
-.shopify__auth--title {
-  font-family: var(--font-heading, serif) !important;
-  font-size: 2.8rem !important;
-  color: #1a1818 !important;
-  font-weight: 600 !important;
-  margin: 0 !important;
+.portal-view-hidden {
+  display: none;
 }
 
-.shopify__auth--subtitle {
-  font-size: 1.45rem !important;
-  color: #666666 !important;
-  margin: 0 !important;
+.portal-signout-text {
+  font-size: var(--text-sm, 1.4rem);
+  font-weight: 500;
 }
 
-.shopify__auth--subtitle button {
-  background: none !important;
-  border: none !important;
-  color: #1a1818 !important;
-  text-decoration: underline !important;
-  cursor: pointer !important;
-  font-weight: 500 !important;
-  padding: 0 4px !important;
+.profile-info-box-custom {
+  justify-content: flex-start;
+  gap: 1.2rem;
+  padding: 2.5rem;
 }
 
-/* Google OAuth Button */
-.btn__oauth--google {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 1.2rem !important;
-  width: 100% !important;
-  padding: 1.5rem !important;
-  background-color: #5b46e0 !important; /* Vibrant modern brand purple / primary accent */
-  color: #ffffff !important;
-  font-family: var(--font-body, sans-serif) !important;
-  font-size: 1.5rem !important;
-  font-weight: 600 !important;
-  border: none !important;
-  border-radius: 10px !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
-  box-shadow: 0 4px 14px rgba(91, 70, 224, 0.25) !important;
+.profile-empty-text {
+  font-size: 1.45rem;
+  color: var(--foreground-sub-color, #666666);
 }
 
-.btn__oauth--google:hover {
-  background-color: #4a36cd !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(91, 70, 224, 0.35) !important;
-}
-
-.google__icon--bg {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 28px !important;
-  height: 28px !important;
-  background: #ffffff !important;
-  border-radius: 50% !important;
-  padding: 4px !important;
-}
-
-/* Email Input Box with Submit Arrow */
-.account__email--form {
-  width: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 0.8rem !important;
-}
-
-.account__email--input-wrap {
-  position: relative !important;
-  display: flex !important;
-  align-items: center !important;
-  width: 100% !important;
-}
-
-.account__email--input {
-  width: 100% !important;
-  padding: 1.5rem 5.5rem 1.5rem 1.8rem !important;
-  border: 1px solid #d0c9c0 !important;
-  border-radius: 12px !important;
-  background-color: #ffffff !important;
-  font-family: var(--font-body, sans-serif) !important;
-  font-size: 1.5rem !important;
-  color: #1a1818 !important;
-  outline: none !important;
-  box-sizing: border-box !important;
-  transition: all 0.3s ease !important;
-}
-
-.account__email--input:focus {
-  border-color: #5b46e0 !important;
-  box-shadow: 0 0 0 4px rgba(91, 70, 224, 0.12) !important;
-}
-
-.account__email--submit-btn {
-  position: absolute !important;
-  right: 8px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  width: 40px !important;
-  height: 40px !important;
-  background: transparent !important;
-  border: none !important;
-  border-radius: 8px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer !important;
-  color: #1a1818 !important;
-  transition: all 0.2s ease !important;
-}
-
-.account__email--submit-btn:hover {
-  background-color: rgba(26, 24, 24, 0.08) !important;
-  color: #5b46e0 !important;
-}
-
-/* ── 6-Digit OTP Verification Code Inputs ── */
-.otp__inputs--wrap {
-  display: flex !important;
-  justify-content: center !important;
-  gap: 1.2rem !important;
-  margin: 1.5rem 0 !important;
-  width: 100% !important;
-}
-
-.otp__digit--input {
-  width: 52px !important;
-  height: 60px !important;
-  border: 1px solid #d0c9c0 !important;
-  border-radius: 12px !important;
-  background-color: #ffffff !important;
-  font-size: 2.4rem !important;
-  font-weight: 600 !important;
-  color: #1a1818 !important;
-  text-align: center !important;
-  outline: none !important;
-  transition: all 0.2s ease !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02) !important;
-}
-
-.otp__digit--input:focus {
-  border-color: #1a1818 !important;
-  box-shadow: 0 0 0 3px rgba(26, 24, 24, 0.12) !important;
-  background-color: #ffffff !important;
-}
-
-/* Resend / Status Message */
-.otp__status--msg {
-  font-size: 1.35rem;
-  margin-top: 0.5rem;
-}
-
-/* ── Customer Portal (Logged In Page) ── */
-.portal__container {
-  width: 100%;
-  max-width: 1080px;
-  margin: 0 auto;
-}
-
-.portal__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 3rem;
-  margin-bottom: 4rem;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-}
-
-.portal__avatar--btn {
-  background: transparent;
-  border: none;
-  font-size: 2.4rem;
-  cursor: pointer;
-  color: #1a1818;
+.profile-item-row {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-}
-
-.portal__layout {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 4rem;
-}
-
-@media (max-width: 768px) {
-  .portal__layout {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-}
-
-.portal__nav--menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
   gap: 1.2rem;
 }
 
-.portal__nav--item {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #777777;
-  cursor: pointer;
-  transition: color 0.2s ease;
-  padding: 0.5rem 0;
+.profile-item-label {
+  font-size: 1.45rem;
+  color: var(--foreground-color, #1a1818);
+  font-weight: 500;
 }
 
-.portal__nav--item.active {
-  color: #1a1818;
-}
-
-.portal__card {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 4rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.portal__card--title {
-  font-family: var(--font-heading, serif);
-  font-size: 2.6rem;
-  color: #1a1818;
-  margin-bottom: 0.8rem;
-}
-
-.portal__card--desc {
-  font-size: 1.5rem;
-  color: #666666;
-  margin: 0;
-}
-
-.btn__shop--now {
-  padding: 1.4rem 2.8rem;
-  background-color: #422326;
-  color: #ffffff;
-  border-radius: 8px;
-  font-size: 1.4rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
-}
-
-.btn__shop--now:hover {
-  background-color: #5c3539;
-}
-
-/* ── Profile Tab Specific Styles (Matching Shopify Profile) ── */
-.profile__section--group {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 2.5rem !important;
-  width: 100% !important;
-}
-
-.profile__card--header {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  margin-bottom: 1rem !important;
-}
-
-.profile__card--header-title {
-  font-size: 1.6rem !important;
-  font-weight: 600 !important;
-  color: #1a1818 !important;
-  margin: 0 !important;
-}
-
-.profile__action--btn {
-  background: #ffffff !important;
-  border: 1px solid #d0c9c0 !important;
-  border-radius: 6px !important;
-  padding: 0.6rem 1.4rem !important;
-  font-size: 1.3rem !important;
-  font-weight: 500 !important;
-  color: #1a1818 !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-}
-
-.profile__action--btn:hover {
-  background: #f6f5f1 !important;
-}
-
-.profile__info--box {
-  background-color: #ffffff !important;
-  border-radius: 12px !important;
-  padding: 2.2rem 2.5rem !important;
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 1.5rem !important;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.02) !important;
-}
-
-.profile__info--input {
-  width: 100% !important;
-  padding: 1.2rem 1.6rem !important;
-  border: 1px solid #e0dcd5 !important;
-  border-radius: 8px !important;
-  background-color: #faf8f5 !important;
-  font-size: 1.45rem !important;
-  color: #1a1818 !important;
-  outline: none !important;
-}
-
-.profile__toggle--switch {
-  position: relative !important;
-  display: inline-block !important;
-  width: 44px !important;
-  height: 24px !important;
-}
-
-.profile__toggle--switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #555555;
-  transition: .3s;
-  border-radius: 24px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: .3s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #422326;
-}
-
-input:checked + .slider:before {
-  transform: translateX(20px);
-}
-
-.profile__logout--actions {
-  display: flex !important;
-  align-items: center !important;
-  gap: 2rem !important;
-  margin-top: 1rem !important;
-}
-
-.btn__signout--secondary {
-  background: #ffffff !important;
-  border: 1px solid #d0c9c0 !important;
-  border-radius: 8px !important;
-  padding: 1rem 2.2rem !important;
-  font-size: 1.4rem !important;
-  font-weight: 500 !important;
-  color: #1a1818 !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-}
-
-.btn__signout--secondary:hover {
-  background: #f6f5f1 !important;
-}
-
-/* ── Minimal Shopify Footer Links ── */
-.shopify__footer--links {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  font-size: 1.25rem;
-  color: #666666;
-  margin-top: 5rem;
-  flex-wrap: wrap;
-}
-
-.shopify__footer--links a {
+.signout-all-link {
+  font-size: 1.35rem;
   color: #666666;
   text-decoration: underline;
 }
 
-.shopify__footer--links a:hover {
-  color: #1a1818;
+.signout-all-link:hover {
+  color: var(--primary-color);
 }

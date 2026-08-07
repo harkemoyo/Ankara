@@ -4,6 +4,15 @@
 <html lang="en">
 
     <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-1GXEHGGPH8"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'G-1GXEHGGPH8');
+        </script>
         <base href="/" />
         <meta charset="utf-8"/>
         <meta content="width=device-width,initial-scale=1" name="viewport"/>
@@ -39,6 +48,7 @@
         <link href="assets/normalize.css" rel="stylesheet"/>
 
         <link href="assets/filter.css" rel="stylesheet"/>
+        <link href="assets/shop.css" rel="stylesheet"/>
         <script defer="" src="assets/swiper-bundle.min.js"></script>
         <script defer="" src="assets/glightbox.min.js"></script>
         <script defer="" src="assets/cart.js"></script>
@@ -75,8 +85,8 @@
                 <p class="header__info--text text-white m-0 text-center" id="announcement-text"></p>
                 <div class="header__topbar--currency">
                     <select class="currency-switcher" onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
-                        <option value="KES" style="color: black;">KES</option>
-                        <option value="USD" style="color: black;">USD</option>
+                        <option value="KES">KES</option>
+                        <option value="USD">USD</option>
                     </select>
                 </div>
         </div>
@@ -99,7 +109,7 @@
         <div class="main__logo">
             <h1 class="main__logo--title">
                 <a class="main__logo--link" href="/">
-                    <img alt="Mary Humphrey African Wear" class="main__logo--img" src="assets/IMG-20260622-WA0082.webp" style="height:60px; width:auto; object-fit:contain;"/>
+                    <img alt="Mary Humphrey African Wear" class="main__logo--img" src="assets/IMG-20260622-WA0082.webp"/>
                 </a>
             </h1>
         </div>
@@ -145,7 +155,7 @@
                         <a class="header__menu--link" href="/fabric">Fabrics</a>
                     </li>
                     <li class="header__menu--items active-page">
-                        <a class="header__menu--link active" href="/sale" style="color:#d9534f; font-weight:600;">Sale</a>
+                        <a class="header__menu--link active" href="/sale">Sale</a>
                     </li>
                     <li class="header__menu--items">
                         <a class="header__menu--link" href="/about">Our Story</a>
@@ -206,7 +216,7 @@
         <!-- Offcanvas Logo -->
         <div class="offcanvas__logo">
             <a class="offcanvas__logo--link" href="/">
-                <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp" style="height:50px; width:auto; object-fit:contain;"/>
+                <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp" class="offcanvas__logo--img"/>
             </a>
             <button aria-label="close menu" class="offcanvas__close--btn" data-offcanvas="">✕</button>
         </div>
@@ -573,7 +583,7 @@ class="site__main">
                         </div>
                         <!-- Center: Product Count -->
                         <div class="product__count text-center">
-                            <span style="font-size: 1.5rem; color: var(--foreground-sub-color);">Loading…
+                            <span class="loading-state-text">Loading…
                                                                         products</span>
                         </div>
                         <!-- Right: Sort By Dropdown -->
@@ -589,7 +599,7 @@ class="site__main">
                         </div>
                     </div>
                     <div class="tab_content">
-                        <div id="collection-tabs" style="padding:16px 0 12px;display:flex;flex-wrap:wrap;"></div>
+                        <div id="collection-tabs" class="collection-tabs"></div>
                         <div class="tab_pane active show" id="product_grid">
                             <div class="product__section--inner">
                                 <div class="product-grid" data-section="product-grid"></div>

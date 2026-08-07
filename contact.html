@@ -4,6 +4,15 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1GXEHGGPH8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1GXEHGGPH8');
+    </script>
     <base href="/" />
     <meta charset="utf-8" />
     <meta content="width=device-width,initial-scale=1" name="viewport" />
@@ -74,8 +83,8 @@
             <div class="header__topbar--currency">
                 <select class="currency-switcher"
                     onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
-                    <option value="KES" style="color: black;">KES</option>
-                    <option value="USD" style="color: black;">USD</option>
+                    <option value="KES" class="currency-option">KES</option>
+                    <option value="USD" class="currency-option">USD</option>
                 </select>
             </div>
         </div>
@@ -150,7 +159,7 @@
                                 <a class="header__menu--link" href="/fabric">Fabrics</a>
                             </li>
                             <li class="header__menu--items">
-                                <a class="header__menu--link" href="/sale" style="color:#d9534f; font-weight:600;">Sale</a>
+                                <a class="header__menu--link header__menu--link--sale" href="/sale">Sale</a>
                             </li>
                             <li class="header__menu--items">
                                 <a class="header__menu--link" href="/about">Our Story</a>

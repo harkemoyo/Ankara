@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1GXEHGGPH8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1GXEHGGPH8');
+    </script>
     <base href="/" />
     <meta charset="utf-8" />
     <meta content="width=device-width,initial-scale=1" name="viewport" />
@@ -35,6 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&amp;family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;display=swap" rel="stylesheet" />
     <link href="assets/base.css" rel="stylesheet" />
     <link href="assets/filter.css" rel="stylesheet" />
+    <link href="assets/shop.css" rel="stylesheet" />
     <link href="assets/normalize.css" rel="stylesheet" />
     <link href="assets/material.css" rel="stylesheet" />
     <script src="assets/config.js"></script>
@@ -60,8 +70,8 @@
             <div class="header__topbar--currency">
                 <select class="currency-switcher"
                     onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
-                    <option value="KES" style="color: black;">KES</option>
-                    <option value="USD" style="color: black;">USD</option>
+                    <option value="KES" class="currency-option">KES</option>
+                    <option value="USD" class="currency-option">USD</option>
                 </select>
             </div>
         </div>
@@ -88,8 +98,7 @@
                     <h1 class="main__logo--title">
                         <a class="main__logo--link" href="/">
                             <img alt="Mary Humphrey African Wear" class="main__logo--img"
-                                src="assets/IMG-20260622-WA0082.webp"
-                                style="height:60px; width:auto; object-fit:contain;" data-store-name-alt />
+                                src="assets/IMG-20260622-WA0082.webp" data-store-name-alt />
                         </a>
                     </h1>
                 </div>
@@ -137,7 +146,7 @@
                                 <a class="header__menu--link active" href="/fabric">Fabrics</a>
                             </li>
                             <li class="header__menu--items">
-                                <a class="header__menu--link" href="/sale" style="color:#d9534f; font-weight:600;">Sale</a>
+                                <a class="header__menu--link header__menu--link--sale" href="/sale">Sale</a>
                             </li>
                             <li class="header__menu--items">
                                 <a class="header__menu--link" href="/about">Our Story</a>
@@ -149,11 +158,29 @@
 
                     </nav>
                 </div>
-                <!-- Header Account / Icons -->
+
+                <!-- Action Items: Account, Search, Cart -->
                 <div class="header__account">
-                    <ul class="header__account--wrapper d-flex align-items-center">
-                        <!-- Search -->
-                        <li class="header__account--items header__account--search__items d-none d-lg-block">
+                    <ul class="header__account--wrapper d-flex">
+                        <!-- Account Link -->
+                        <li class="header__account--items">
+                            <a class="header__account--btn" href="/account">
+                                <svg class="header__account--btn__icon" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 512 512">
+                                    <path
+                                        d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.13-88-96c-4.38-59.2 38.66-112 88-112s92.38 52.8 88 112z"
+                                        fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="32" />
+                                    <path
+                                        d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 70.4 464 81.61 464h348.78c11.21 0 19.22-10.48 17.25-21.4C431.3 352 343 304 256 304z"
+                                        fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="32" />
+                                </svg>
+                                <span class="visually-hidden">Account</span>
+                            </a>
+                        </li>
+                        <!-- Search Icon Toggle -->
+                        <li class="header__account--items">
                             <a class="header__account--btn search__open--btn" data-offcanvas=""
                                 href="javascript:void(0)">
                                 <span class="header__account--btn__icon">
@@ -211,7 +238,7 @@
                 <div class="offcanvas__logo">
                     <a class="offcanvas__logo--link" href="/">
                         <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp"
-                            style="height:50px; width:auto; object-fit:contain;" data-store-name-alt />
+                            class="offcanvas__logo--img" data-store-name-alt />
                     </a>
                     <button aria-label="close menu" class="offcanvas__close--btn" data-offcanvas="">✕</button>
                 </div>

@@ -1885,21 +1885,6 @@ quantity icon button
 .header__account--btn>* {
   pointer-events: none;
 }
-
-.items__count {
-  position: absolute;
-  left: 2px;
-  top: -14px;
-  width: 2rem;
-  height: 2rem;
-  font-size: 1.1rem;
-  line-height: 2rem;
-  background: var(--primary-color);
-  text-align: center;
-  border-radius: 50%;
-  color: var(--text-white-color);
-}
-
 /*
     main menu css here
 */

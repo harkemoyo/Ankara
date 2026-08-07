@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1GXEHGGPH8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1GXEHGGPH8');
+    </script>
     <base href="/" />
     <meta charset="utf-8" />
     <meta content="width=device-width,initial-scale=1" name="viewport" />
@@ -138,8 +147,8 @@
             <div class="header__topbar--currency">
                 <select class="currency-switcher"
                     onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
-                    <option value="KES" style="color: black;">KES</option>
-                    <option value="USD" style="color: black;">USD</option>
+                    <option value="KES" class="currency-option">KES</option>
+                    <option value="USD" class="currency-option">USD</option>
                 </select>
             </div>
         </div>
@@ -147,8 +156,9 @@
 
     <!-- Header Section -->
     <header class="header__section">
-        <div class="main__header header__sticky">
-            <div class="main__header--inner">
+        <!-- ── Main Header ────────────────────────────── -->
+        <div class="main__header position__relative header__sticky">
+            <div class="main__header--inner flex-between align-items-center">
                 <!-- Hamburger / Offcanvas Toggle -->
                 <div class="offcanvas__header--menu__open">
                     <a class="offcanvas__header--menu__open--btn" data-offcanvas="" href="javascript:void(0)">
@@ -198,13 +208,10 @@
         </ul>
     </li>
     <li class="header__sub--menu__items mega-col">
-        <span class="mega-menu__heading">Collections</span>
+        <span class="mega-menu__heading">Fabrics & Custom</span>
         <ul class="mega-col__list">
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/new-arrivals">New Arrivals</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/menswear">Menswear</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/womenswear">Womenswear</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/fabrics">Fabrics</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/sale">Sale</a></li>
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/fabric">Ankara Fabrics</a></li>
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/fabric">Bespoke Orders</a></li>
         </ul>
     </li>
 </ul>
@@ -213,7 +220,7 @@
                                 <a class="header__menu--link" href="/fabric">Fabrics</a>
                             </li>
                             <li class="header__menu--items">
-                                <a class="header__menu--link" href="/sale" style="color:#d9534f; font-weight:600;">Sale</a>
+                                <a class="header__menu--link header__menu--link--sale" href="/sale">Sale</a>
                             </li>
                             <li class="header__menu--items">
                                 <a class="header__menu--link" href="/about">Our Story</a>

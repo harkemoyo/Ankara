@@ -3,6 +3,15 @@
 <html lang="en">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1GXEHGGPH8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1GXEHGGPH8');
+    </script>
     <meta charset="utf-8" />
     <title>Checkout – Mary Humphrey Wear</title>
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
@@ -17,6 +26,7 @@
     <link href="assets/base.css" rel="stylesheet" />
     <link href="assets/filter.css" rel="stylesheet" />
     <link href="assets/normalize.css" rel="stylesheet" />
+    <link href="assets/checkout.css" rel="stylesheet" />
     <script defer src="assets/announcement.js"></script>
     <style>
         :root {
@@ -461,8 +471,8 @@
             <div class="header__topbar--currency">
                 <select class="currency-switcher"
                     onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
-                    <option value="KES" style="color: black;">KES</option>
-                    <option value="USD" style="color: black;">USD</option>
+                    <option value="KES" class="currency-option">KES</option>
+                    <option value="USD" class="currency-option">USD</option>
                 </select>
             </div>
         </div>
@@ -488,8 +498,7 @@
                     <h1 class="main__logo--title">
                         <a class="main__logo--link" href="/">
                             <img alt="Mary Humphrey African Wear" class="main__logo--img"
-                                src="assets/IMG-20260622-WA0082.webp"
-                                style="height:60px; width:auto; object-fit:contain;" />
+                                src="assets/IMG-20260622-WA0082.webp" />
                         </a>
                     </h1>
                 </div>
@@ -549,8 +558,7 @@
                                 <a class="header__menu--link" href="/fabric">Fabrics</a>
                             </li>
                             <li class="header__menu--items">
-                                <a class="header__menu--link" href="/sale"
-                                    style="color:#d9534f; font-weight:600;">Sale</a>
+                                <a class="header__menu--link header__menu--link--sale" href="/sale">Sale</a>
                             </li>
                             <li class="header__menu--items">
                                 <a class="header__menu--link" href="/about">Our Story</a>
@@ -622,7 +630,7 @@
                 <div class="offcanvas__logo">
                     <a class="offcanvas__logo--link" href="/">
                         <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp"
-                            style="height:50px; width:auto; object-fit:contain;" />
+                            class="offcanvas__logo--img" />
                     </a>
                     <button aria-label="close menu" class="offcanvas__close--btn" data-offcanvas="">✕</button>
                 </div>
@@ -656,8 +664,7 @@
                             <a class="offcanvas__menu_item" href="/fabric">Fabrics</a>
                         </li>
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="/sale"
-                                style="color:#d9534f; font-weight:600;">Sale</a>
+                            <a class="offcanvas__menu_item header__menu--link--sale" href="/sale">Sale</a>
                         </li>
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item" href="/about">Our Story</a>
@@ -667,7 +674,7 @@
                         </li>
                     </ul>
                     <div class="offcanvas__account--items">
-                        <a class="offcanvas__account--signup__btn" href="#">
+                        <a class="offcanvas__account--signup__btn" href="/account">
                             <svg fill="none" height="16" viewbox="0 0 17 17" width="16"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16"
@@ -682,52 +689,35 @@
                 </nav>
             </div>
         </div><!-- ── Mini Cart Drawer ───────────────────────── -->
-        <div class="offCanvas__minicart js-cart-form" style="display: flex; flex-direction: column;">
+        <div class="offCanvas__minicart js-cart-form minicart__drawer">
             <div class="minicart__header">
-                <div class="minicart__header--top"
-                    style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem;">
-                    <h3 class="minicart__title"
-                        style="font-family: var(--font-body); font-size: 2.4rem; color: var(--primary-color); font-weight: 500;">
-                        Cart</h3>
-                    <button aria-label="close cart" class="minicart__close--btn" data-offcanvas=""
-                        style="background: none; border: none; font-size: 2.4rem; cursor: pointer; color: var(--primary-color); line-height: 1;"
-                        type="button">×</button>
+                <div class="minicart__header--top flex-between">
+                    <h3 class="minicart__title">Cart</h3>
+                    <button aria-label="close cart" class="minicart__close-btn" data-offcanvas="" type="button">×</button>
                 </div>
             </div>
             <div class="minicart__empty--text">
                 <p>Your bag is empty.</p>
                 <a class="primary__btn" href="/shop">Continue Shopping</a>
             </div>
-            <div class="minicart__product" id="minicart-items-list"
-                style="flex: 1; overflow-y: auto; padding-right: 1rem;">
+            <div class="minicart__product minicart__items-list" id="minicart-items-list">
             </div>
-            <div class="minicart__amount"
-                style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
-                <div class="cart__note" style="margin-bottom: 2rem;">
-                    <h4
-                        style="font-family: var(--font-body); font-size: 1.3rem; font-weight: 600; color: var(--primary-color); text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.2em;">
-                        Order Note</h4>
-                    <textarea class="cart__note--input" placeholder=""
-                        style="width: 100%; height: 80px; padding: 1rem; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 1.3rem; color: var(--primary-color); resize: vertical; outline: none;"></textarea>
+            <div class="minicart__amount minicart__footer">
+                <div class="cart__note minicart__note-section">
+                    <h4 class="minicart__note-label">Order Note</h4>
+                    <textarea class="cart__note--input minicart__note-textarea" placeholder=""></textarea>
                 </div>
-                <div class="minicart__amount_list"
-                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <span
-                        style="font-family: var(--font-body); font-size: 1.3rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;">Subtotal</span>
-                    <span id="minicart-subtotal"
-                        style="font-size: 1.6rem; font-weight: 700; color: var(--primary-color);">
+                <div class="minicart__amount_list minicart__subtotal-row">
+                    <span class="minicart__subtotal-label">Subtotal</span>
+                    <span id="minicart-subtotal" class="minicart__subtotal-price">
                         <b><span class="currency-symbol">KSh</span>0.00</b>
                     </span>
                 </div>
-                <p
-                    style="font-size: 1.2rem; color: var(--foreground-sub-color); text-align: center; margin-bottom: 2rem; line-height: 1.6;">
-                    Shipping, taxes, and discount codes calculated at checkout.</p>
+                <p class="minicart__tax-note">Shipping, taxes, and discount codes calculated at checkout.</p>
             </div>
-            <div class="minicart__button" style="padding-bottom: 2rem;">
-                <a class="minicart__button--link checkout__btn js-checkout-btn" href="javascript:void(0)"
-                    onclick="triggerCheckout()"
-                    style="display: block; width: 100%; padding: 1.6rem; background: var(--primary-color, #1a1a1a); color: #fff; font-size: 1.4rem; letter-spacing: 0.15em; text-transform: uppercase; text-align: center; border-radius: 4px; cursor: pointer; transition: all 0.3s ease; font-weight: 600;">Check
-                    Out</a>
+            <div class="minicart__button">
+                <a class="minicart__button--link checkout__btn js-checkout-btn minicart__checkout-btn" href="javascript:void(0)"
+                    onclick="triggerCheckout()">Check Out</a>
             </div>
         </div><!-- ── Search Overlay ─────────────────────────── -->
         <div class="predictive__search--box">
@@ -754,15 +744,13 @@
                 </svg>
             </button>
         </div>
-        <main style="background: var(--bg); padding: 4rem 0;">
+        <main class="checkout__main">
 
             <!-- Empty cart fallback -->
-            <div id="empty-cart-msg">
-                <h2 style="font-family:'Karma',serif;font-size:2.4rem;margin-bottom:16px;">Your bag is empty</h2>
-                <p style="font-size:1.4rem;color:#777;margin-bottom:24px;">Add some items before checking out.</p>
-                <a href="/shop"
-                    style="background:#1a1a1a;color:#fff;padding:14px 32px;text-decoration:none;font-size:1.4rem;">Shop
-                    Now</a>
+            <div id="empty-cart-msg" class="checkout__empty-state">
+                <h2 class="checkout__empty-title">Your bag is empty</h2>
+                <p class="checkout__empty-text">Add some items before checking out.</p>
+                <a href="/shop" class="checkout__empty-btn">Shop Now</a>
             </div>
             <div class="checkout-wrap" id="checkout-wrap">
                 <!-- ── LEFT: FORM ── -->
@@ -772,8 +760,7 @@
                         <a href="/">
                             <img src="assets/logo.webp" alt="Mary Humphrey African Wear"
                                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-                            <span style="display:none;font-family:'Karma',serif;font-size:2.4rem;color:#1a1a1a;">Mary
-                                Humphrey</span>
+                            <span class="d-none checkout__empty-title">Mary Humphrey</span>
                         </a>
                         <h1>Complete Your Order</h1>
                         <p>Fill in your details below and we'll confirm via WhatsApp</p>
@@ -805,7 +792,7 @@
                         </div>
                         <hr class="section-divider" />
                         <div class="step-label">Step 2</div>
-                        <h2 class="section-title" style="font-size:1.8rem;">Shipping Address</h2>
+                        <h2 class="section-title checkout__section-title">Shipping Address</h2>
                         <div class="form-group">
                             <label for="address1">Address Line 1 *</label>
                             <input autocomplete="address-line1" id="address1" name="address1" required="" type="text" />
@@ -840,16 +827,14 @@
                         </div>
                         <hr class="section-divider" />
                         <div class="step-label">Step 3</div>
-                        <h2 class="section-title" style="font-size:1.8rem;">Shipping Method</h2>
+                        <h2 class="section-title checkout__section-title">Shipping Method</h2>
 
                         <!-- Nairobi Only Notice -->
-                        <div
-                            style="background:#e3f2fd;border:1px solid #90caf9;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
-                            <span style="font-size:1.8rem;">📍</span>
-                            <span style="font-size:1.25rem;color:#1565c0;">
+                        <div class="checkout__shipping-notice">
+                            <span class="checkout__shipping-icon">📍</span>
+                            <span class="checkout__shipping-text">
                                 <strong>Delivery is currently available within Nairobi only.</strong><br>
-                                <small style="color:#666;">For orders outside Nairobi, please contact us via
-                                    WhatsApp.</small>
+                                <small class="checkout__shipping-subtext">For orders outside Nairobi, please contact us via WhatsApp.</small>
                             </span>
                         </div>
 
@@ -861,7 +846,7 @@
                         <label class="shipping-option">
                             <input disabled="" id="ship-free-radio" name="shipping" type="radio" value="free" />
                             <span class="ship-label">Free Delivery
-                                <small style="color:#27ae60;">(orders over KSh 10,000)</small>
+                                <small class="checkout__free-shipping-tag">(orders over KSh 10,000)</small>
                             </span>
                             <span class="ship-price">FREE</span>
                         </label>
@@ -869,188 +854,154 @@
 
                         <!-- ── Step 4: Payment Method ── -->
                         <div class="step-label">Step 4</div>
-                        <h2 class="section-title" style="font-size:1.8rem;">Select Payment Method</h2>
+                        <h2 class="section-title checkout__section-title">Select Payment Method</h2>
 
-                        <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
-                            <label class="shipping-option" style="flex:1;min-width:140px;border-color:#4CAF50;">
+                        <div class="checkout__payment-options">
+                            <label class="shipping-option shipping-option--selected">
                                 <input checked name="mpesa_method" type="radio" value="paybill"
-                                    style="accent-color:#4CAF50;" />
+                                    class="shipping-option__radio" />
                                 <span class="ship-label">Lipa Na M-Pesa (Paybill)</span>
                             </label>
-                            <label class="shipping-option" style="flex:1;min-width:140px;">
+                            <label class="shipping-option shipping-option--selected">
                                 <input name="mpesa_method" type="radio" value="send_money" />
                                 <span class="ship-label">Send Money</span>
                             </label>
-                            <label class="shipping-option" style="flex:1;min-width:140px;">
+                            <label class="shipping-option shipping-option--selected">
                                 <input name="mpesa_method" type="radio" value="bank_transfer" />
                                 <span class="ship-label">Bank Transfer</span>
                             </label>
                         </div>
 
                         <!-- Paybill Instructions -->
-                        <div id="mpesa-paybill-info"
-                            style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;padding:20px 24px;margin-bottom:18px;">
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+                        <div id="mpesa-paybill-info" class="mpesa-instruction-card">
+                            <div class="mpesa-instruction-header">
                                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32"
                                     stroke-width="2">
                                     <path
                                         d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
                                 </svg>
-                                <h3 style="margin:0;font-size:1.5rem;color:#2e7d32;font-family:'Karma',serif;">Lipa Na
-                                    M-Pesa - Paybill</h3>
+                                <h3 class="mpesa-instruction-title">Lipa Na M-Pesa - Paybill</h3>
                             </div>
-                            <div style="font-size:1.35rem;line-height:2.2;">
-                                <div
-                                    style="display:flex;justify-content:space-between;border-bottom:1px dashed #c8e6c9;padding:4px 0;">
-                                    <span style="color:#555;">1. Go to M-Pesa</span>
-                                    <span style="font-weight:600;">Lipa Na M-Pesa → Pay Bill</span>
+                            <div class="mpesa-steps-list">
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">1. Go to M-Pesa</span>
+                                    <span class="mpesa-step-value">Lipa Na M-Pesa → Pay Bill</span>
                                 </div>
-                                <div
-                                    style="display:flex;justify-content:space-between;border-bottom:1px dashed #c8e6c9;padding:4px 0;">
-                                    <span style="color:#555;">2. Business Number</span>
-                                    <span
-                                        style="font-weight:700;font-size:1.5rem;color:#1a1a1a;letter-spacing:0.05em;">247247</span>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">2. Business Number</span>
+                                    <span class="mpesa-code-highlight">247247</span>
                                 </div>
-                                <div
-                                    style="display:flex;justify-content:space-between;border-bottom:1px dashed #c8e6c9;padding:4px 0;">
-                                    <span style="color:#555;">3. Account Number</span>
-                                    <span
-                                        style="font-weight:700;font-size:1.5rem;color:#1a1a1a;letter-spacing:0.05em;">687280</span>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">3. Account Number</span>
+                                    <span class="mpesa-code-highlight">687280</span>
                                 </div>
-                                <div
-                                    style="display:flex;justify-content:space-between;border-bottom:1px dashed #c8e6c9;padding:4px 0;">
-                                    <span style="color:#555;">4. Amount</span>
-                                    <span style="font-weight:700;font-size:1.5rem;color:#2e7d32;"
-                                        id="mpesa-amount-paybill">—</span>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">4. Amount</span>
+                                    <span class="mpesa-code-highlight" id="mpesa-amount-paybill">—</span>
                                 </div>
-                                <div style="padding:4px 0;">
-                                    <span style="color:#555;">5. Enter PIN and Confirm</span>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">5. Enter PIN and Confirm</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Send Money Instructions -->
-                        <div id="mpesa-send-info"
-                            style="display:none;background:#e3f2fd;border:1px solid #90caf9;border-radius:8px;padding:20px 24px;margin-bottom:18px;">
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+                        <div id="mpesa-send-info" class="mpesa-instruction-card d-none">
+                            <div class="mpesa-instruction-header">
                                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1565c0"
                                     stroke-width="2">
                                     <path
                                         d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
                                 </svg>
-                                <h3 style="margin:0;font-size:1.5rem;color:#1565c0;font-family:'Karma',serif;">M-Pesa –
-                                    Send Money</h3>
+                                <h3 class="mpesa-instruction-title">M-Pesa – Send Money</h3>
                             </div>
-                            <div style="font-size:1.35rem;line-height:2.2;">
-                                <div
-                                    style="display:flex;justify-content:space-between;border-bottom:1px dashed #bbdefb;padding:4px 0;">
-                                    <span style="color:#555;">1. Go to M-Pesa</span>
-                                    <span style="font-weight:600;">Send Money</span>
+                            <div class="mpesa-steps-list">
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">1. Go to M-Pesa</span>
+                                    <span class="mpesa-step-value">Send Money</span>
                                 </div>
-                                <div
-                                    style="display:flex;justify-content:space-between;border-bottom:1px dashed #bbdefb;padding:4px 0;">
-                                    <span style="color:#555;">2. Phone Number</span>
-                                    <span
-                                        style="font-weight:700;font-size:1.5rem;color:#1a1a1a;letter-spacing:0.05em;">0715
-                                        687 280</span>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">2. Phone Number</span>
+                                    <span class="mpesa-code-highlight">0715 687 280</span>
                                 </div>
-                                <div
-                                    style="display:flex;justify-content:space-between;border-bottom:1px dashed #bbdefb;padding:4px 0;">
-                                    <span style="color:#555;">3. Amount</span>
-                                    <span style="font-weight:700;font-size:1.5rem;color:#1565c0;"
-                                        id="mpesa-amount-send">—</span>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">3. Amount</span>
+                                    <span class="mpesa-code-highlight" id="mpesa-amount-send">—</span>
                                 </div>
-                                <div style="padding:4px 0;">
-                                    <span style="color:#555;">4. Enter PIN and Confirm</span>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">4. Enter PIN and Confirm</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Bank Transfer Instructions -->
-                        <div id="bank-transfer-info"
-                            style="display:none;background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:20px 24px;margin-bottom:18px;">
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+                        <div id="bank-transfer-info" class="mpesa-instruction-card d-none">
+                            <div class="mpesa-instruction-header">
                                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f57f17"
                                     stroke-width="2">
                                     <path d="M3 21h18M3 10h18M5 10v11M9 10v11M13 10v11M17 10v11M12 3L2 7h20l-10-4z" />
                                 </svg>
-                                <h3 style="margin:0;font-size:1.5rem;color:#f57f17;font-family:'Karma',serif;">Bank
-                                    Transfer – Equity Bank</h3>
+                                <h3 class="mpesa-instruction-title">Bank Transfer – Equity Bank</h3>
                             </div>
-                            <div style="font-size:1.35rem;line-height:2.2;">
-                                <div
-                                    style="display:flex;justify-content:space-between;border-bottom:1px dashed #ffecb3;padding:4px 0;">
-                                    <span style="color:#555;">1. Bank Name</span>
-                                    <span style="font-weight:600;">Equity Bank Kenya</span>
+                            <div class="mpesa-steps-list">
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">1. Bank Name</span>
+                                    <span class="mpesa-step-value">Equity Bank Kenya</span>
                                 </div>
-                                <div
-                                    style="display:flex;justify-content:space-between;border-bottom:1px dashed #ffecb3;padding:4px 0;">
-                                    <span style="color:#555;">2. Paybill / Business No.</span>
-                                    <span
-                                        style="font-weight:700;font-size:1.5rem;color:#1a1a1a;letter-spacing:0.05em;">247247</span>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">2. Paybill / Business No.</span>
+                                    <span class="mpesa-code-highlight">247247</span>
                                 </div>
-                                <div
-                                    style="display:flex;justify-content:space-between;border-bottom:1px dashed #ffecb3;padding:4px 0;">
-                                    <span style="color:#555;">3. Account Number</span>
-                                    <span
-                                        style="font-weight:700;font-size:1.5rem;color:#1a1a1a;letter-spacing:0.05em;">687280</span>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">3. Account Number</span>
+                                    <span class="mpesa-code-highlight">687280</span>
                                 </div>
-                                <div
-                                    style="display:flex;justify-content:space-between;border-bottom:1px dashed #ffecb3;padding:4px 0;">
-                                    <span style="color:#555;">4. Amount</span>
-                                    <span style="font-weight:700;font-size:1.5rem;color:#f57f17;"
-                                        id="bank-amount-send">—</span>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">4. Amount</span>
+                                    <span class="mpesa-code-highlight" id="bank-amount-send">—</span>
                                 </div>
-                                <div style="padding:4px 0;">
-                                    <span style="color:#555;">5. Reference: Use your Full Name or Phone Number</span>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">5. Reference: Use your Full Name or Phone Number</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Payment Confirmation Checkbox (hidden for COD) -->
-                        <div id="payment-confirm-box"
-                            style="margin-top:20px;padding:16px;background:#fff8e1;border:1px solid #ffcc02;border-radius:8px;">
-                            <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;">
-                                <input type="checkbox" id="payment-confirmed"
-                                    style="width:20px;height:20px;margin-top:2px;accent-color:#4CAF50;">
-                                <span style="font-size:1.3rem;color:#333;">
+                        <div id="payment-confirm-box" class="mpesa-instruction-card">
+                            <label class="d-flex gap-2 cursor-pointer align-items-start">
+                                <input type="checkbox" id="payment-confirmed" class="shipping-option__radio">
+                                <span class="checkout__shipping-subtext">
                                     <strong>✓ I have completed payment</strong><br>
-                                    <small style="color:#666;">Check this box after you've paid via M-Pesa or Bank
-                                        Transfer. You'll share the confirmation code in WhatsApp.</small>
+                                    <small>Check this box after you've paid via M-Pesa or Bank Transfer. You'll share the confirmation code in WhatsApp.</small>
                                 </span>
                             </label>
                         </div>
 
                         <!-- Primary Action: WhatsApp Order -->
-                        <button class="whatsapp-checkout-btn" id="whatsapp-checkout-btn" type="button"
-                            style="margin-top:24px;padding:18px 24px;font-size:1.6rem;">
+                        <button class="whatsapp-checkout-btn btn-lg btn-full mt-4" id="whatsapp-checkout-btn" type="button">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                                 <path
                                     d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                             </svg>
                             💬 Place Order via WhatsApp
                         </button>
-                        <p style="text-align:center;font-size:1.2rem;color:#666;margin-top:10px;">We'll confirm your
-                            order and arrange payment via WhatsApp</p>
+                        <p class="text-center mt-2 checkout__shipping-subtext">We'll confirm your order and arrange payment via WhatsApp</p>
 
                         <!-- Trust Signals -->
-                        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 14px;">
+                        <div class="mt-4 d-flex flex-column gap-3">
                             <!-- Secure checkout badge -->
-                            <div
-                                style="display: flex; align-items: center; gap: 8px; justify-content: center; padding: 10px 0; border-top: 1px solid #eee;">
+                            <div class="d-flex align-items-center justify-content-center gap-2 pt-3 border-top">
                                 <svg fill="none" height="16" stroke="#2e7d32" stroke-width="2" viewBox="0 0 24 24"
                                     width="16">
                                     <rect height="11" rx="2" width="18" x="3" y="11"></rect>
                                     <path d="M7 11V7a5 5 0 0110 0v4"></path>
                                 </svg>
-                                <span style="font-size: 1.2rem; color: #2e7d32; font-weight: 500;">256-bit SSL Encrypted
-                                    · Secure Checkout</span>
+                                <span class="checkout__shipping-text">256-bit SSL Encrypted · Secure Checkout</span>
                             </div>
 
                             <!-- Policy guarantees -->
-                            <div
-                                style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; font-size: 1.15rem; color: #666;">
-                                <span style="display: inline-flex; align-items: center; gap: 4px;">
+                            <div class="d-flex flex-wrap justify-content-center gap-3 checkout__shipping-subtext">
+                                <span class="d-inline-flex align-items-center gap-1">
                                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -1058,7 +1009,7 @@
                                     </svg>
                                     7-Day Returns
                                 </span>
-                                <span style="display: inline-flex; align-items: center; gap: 4px;">
+                                <span class="d-inline-flex align-items-center gap-1">
                                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -1066,7 +1017,7 @@
                                     </svg>
                                     Fast Kenya-Wide Delivery
                                 </span>
-                                <span style="display: inline-flex; align-items: center; gap: 4px;">
+                                <span class="d-inline-flex align-items-center gap-1">
                                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -1077,24 +1028,15 @@
                             </div>
 
                             <!-- Payment accepted badge -->
-                            <div style="text-align: center; padding-top: 6px; border-top: 1px solid #eee;">
-                                <span
-                                    style="font-size: 1.1rem; color: #999; display: block; margin-bottom: 8px;">Accepted
-                                    Payment</span>
-                                <div
-                                    style="display: flex; align-items: center; justify-content: center; gap: 14px; opacity: 0.7;">
+                            <div class="text-center pt-2 border-top">
+                                <span class="checkout__shipping-subtext d-block mb-2">Accepted Payment</span>
+                                <div class="d-flex align-items-center justify-content-center gap-3 opacity-75">
                                     <!-- M-Pesa icon -->
-                                    <div
-                                        style="background: #e8f5e9; border-radius: 4px; padding: 4px 10px; font-size: 1.2rem; font-weight: 700; color: #2e7d32; letter-spacing: 0.02em;">
-                                        M-PESA</div>
+                                    <div class="payment-method-box payment-method-box--mpesa">M-PESA</div>
                                     <!-- Safaricom -->
-                                    <div
-                                        style="background: #e8f5e9; border-radius: 4px; padding: 4px 10px; font-size: 1.1rem; font-weight: 600; color: #2e7d32;">
-                                        Safaricom</div>
+                                    <div class="payment-method-box payment-method-box--mpesa">Safaricom</div>
                                     <!-- WhatsApp -->
-                                    <div
-                                        style="background: #e8f8ee; border-radius: 4px; padding: 4px 10px; font-size: 1.1rem; font-weight: 600; color: #25d366;">
-                                        WhatsApp</div>
+                                    <div class="payment-method-box payment-method-box--sendmoney">WhatsApp</div>
                                 </div>
                             </div>
                         </div>
@@ -1449,7 +1391,7 @@
                             <div class="footer__logo">
                                 <a class="footer__logo--link" href="/">
                                     <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp"
-                                        style="height:70px; width:auto; object-fit:contain; filter:brightness(1.1);" />
+                                        class="footer__logo--img" />
                                 </a>
                             </div>
                             <p class="footer__widget--desc">

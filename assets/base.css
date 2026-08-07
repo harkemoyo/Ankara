@@ -18409,7 +18409,7 @@ body.body .header__section {
 .outlet-slide {
   border-radius: 10px;
   overflow: hidden;
-  aspect-ratio: 9 / 6;
+  aspect-ratio: 1 / 1;
 }
 
 .outlet-slide img,

@@ -532,6 +532,10 @@
       background: var(--success);
     }
 
+    .about-page.outlet-slide {
+      aspect-ratio: 1/1 !important;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
       #section-product-editor>div:last-child {
@@ -4203,8 +4207,8 @@
           <span id="${id}-status" style="display:block;font-size:1.1rem;color:var(--muted);margin-top:4px;"></span>
         </div>
         <div style="display:flex;gap:10px;align-items:flex-start;">
-          <div style="width:80px;min-height:60px;border:1px solid #eee;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;">
-            <img id="${id}-url-preview" src="${escapeHtml(sl.url || '')}" style="max-width:100%;max-height:80px;object-fit:cover;display:${hasMedia && !isVideo ? 'block' : 'none'};" onload="this.style.display='block';this.nextElementSibling.style.display='none';" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div style="width:120px;aspect-ratio:1/1;border:1px solid #eee;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;">
+            <img id="${id}-url-preview" src="${escapeHtml(sl.url || '')}" style="width:100%;height:100%;object-fit:cover;display:${hasMedia && !isVideo ? 'block' : 'none'};" onload="this.style.display='block';this.nextElementSibling.style.display='none';" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
             <span id="${id}-url-placeholder" style="display:${hasMedia && !isVideo ? 'none' : 'flex'};color:#aaa;font-size:1rem;text-align:center;padding:4px;">${isVideo ? '▶ Video' : 'No file'}</span>
           </div>
           <div style="flex:1;min-width:0;">
@@ -4231,8 +4235,8 @@
           <span id="${id}-status" style="display:block;font-size:1.1rem;color:var(--muted);margin-top:4px;"></span>
         </div>
         <div style="display:flex;gap:10px;align-items:flex-start;">
-          <div style="width:80px;min-height:60px;border:1px solid #eee;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;">
-            <img id="${id}-image-preview" src="${escapeHtml(sl.image || '')}" style="max-width:100%;max-height:80px;object-fit:cover;display:${hasMedia ? 'block' : 'none'};" onload="this.style.display='block';this.nextElementSibling.style.display='none';" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div style="width:120px;aspect-ratio:9/6;border:1px solid #eee;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;">
+            <img id="${id}-image-preview" src="${escapeHtml(sl.image || '')}" style="width:100%;height:100%;object-fit:cover;display:${hasMedia ? 'block' : 'none'};" onload="this.style.display='block';this.nextElementSibling.style.display='none';" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
             <span id="${id}-image-placeholder" style="display:${hasMedia ? 'none' : 'flex'};color:#aaa;font-size:1rem;text-align:center;padding:4px;">No image</span>
           </div>
           <div style="flex:1;min-width:0;">

@@ -18005,18 +18005,109 @@ body.body .header__section {
   color: var(--primary-color) !important;
 }
 
-/* -- Header Topbar Enhancements -- */
+/* -- Header Topbar & Rotating Announcement Slider System -- */
 .header__topbar {
   padding: 0 2rem;
+  background: #800020;
 }
 
 .header__topbar--inner {
   min-height: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 #announcement-text {
-  transition: opacity 0.5s ease;
+  position: relative;
+  height: 40px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  max-width: 100%;
+  margin: 0;
+}
+
+.announcement-slider-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.announcement-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
   font-size: 1.3rem;
+  font-weight: 500;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-inline: 1rem;
+}
+
+.announcement-slide.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-slide {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .announcement-slide {
+    font-size: 1.15rem;
+    padding-inline: 0.5rem;
+  }
+}
+
+/* -- Checkout Delivery Announcement Banner -- */
+.checkout-banner-announcement {
+  background: var(--bg-offwhite-color, #faf6f0);
+  border: 1px solid var(--border-color, #e8e0d8);
+  border-left: 4px solid var(--primary-color, #800020);
+  border-radius: 8px;
+  padding: 1.2rem 1.6rem;
+  margin-bottom: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 1.35rem;
+  color: var(--primary-color, #3c3836);
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .checkout-banner-announcement {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+}
+
+.checkout-banner-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
 .header__topbar--currency {

@@ -765,6 +765,16 @@
                         <h1>Complete Your Order</h1>
                         <p>Fill in your details below and we'll confirm via WhatsApp</p>
                     </div>
+
+                    <!-- Checkout Delivery & Free Shipping Announcement Banner -->
+                    <div class="checkout-banner-announcement">
+                        <div class="checkout-banner-item">
+                            <span>📍 Currently Delivering Within Nairobi County Only</span>
+                        </div>
+                        <div class="checkout-banner-item">
+                            <span>🚚 FREE Nairobi Delivery on Orders Over KSh 10,000</span>
+                        </div>
+                    </div>
                     <div class="step-label">Step 1</div>
                     <h2 class="section-title">Contact &amp; Delivery</h2>
                     <form id="checkout-form" novalidate="">
@@ -906,7 +916,7 @@
                         </div>
 
                         <!-- Send Money Instructions -->
-                        <div id="mpesa-send-info" class="mpesa-instruction-card d-none">
+                        <div id="mpesa-send-info" class="mpesa-instruction-card" style="display: none;">
                             <div class="mpesa-instruction-header">
                                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1565c0"
                                     stroke-width="2">
@@ -935,33 +945,42 @@
                         </div>
 
                         <!-- Bank Transfer Instructions -->
-                        <div id="bank-transfer-info" class="mpesa-instruction-card d-none">
+                        <div id="bank-transfer-info" class="mpesa-instruction-card" style="display: none;">
                             <div class="mpesa-instruction-header">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f57f17"
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#800020"
                                     stroke-width="2">
                                     <path d="M3 21h18M3 10h18M5 10v11M9 10v11M13 10v11M17 10v11M12 3L2 7h20l-10-4z" />
                                 </svg>
-                                <h3 class="mpesa-instruction-title">Bank Transfer – Equity Bank</h3>
+                                <h3 class="mpesa-instruction-title">Bank Transfer Details – Equity Bank</h3>
                             </div>
                             <div class="mpesa-steps-list">
                                 <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">1. Bank Name</span>
+                                    <span class="mpesa-step-label">Bank Name</span>
                                     <span class="mpesa-step-value">Equity Bank Kenya</span>
                                 </div>
                                 <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">2. Paybill / Business No.</span>
-                                    <span class="mpesa-code-highlight">247247</span>
+                                    <span class="mpesa-step-label">Account Number (A/C)</span>
+                                    <span class="mpesa-code-highlight">0150186781642</span>
                                 </div>
                                 <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">3. Account Number</span>
-                                    <span class="mpesa-code-highlight">687280</span>
+                                    <span class="mpesa-step-label">SWIFT Code</span>
+                                    <span class="mpesa-code-highlight">EQBLKENA</span>
                                 </div>
                                 <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">4. Amount</span>
+                                    <span class="mpesa-step-label">Bank Code</span>
+                                    <span class="mpesa-code-highlight">68</span>
+                                </div>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">Branch Code</span>
+                                    <span class="mpesa-code-highlight">015</span>
+                                </div>
+                                <div class="mpesa-step-item">
+                                    <span class="mpesa-step-label">Amount</span>
                                     <span class="mpesa-code-highlight" id="bank-amount-send">—</span>
                                 </div>
                                 <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">5. Reference: Use your Full Name or Phone Number</span>
+                                    <span class="mpesa-step-label">Reference</span>
+                                    <span class="mpesa-step-value">Use your Full Name or Phone Number</span>
                                 </div>
                             </div>
                         </div>

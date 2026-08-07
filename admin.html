@@ -4403,11 +4403,11 @@
         const social = s.social || {};
         const colLinks = s.collection_links || [];
         const quickLinks = s.quick_links || [];
+        // Build locations array from new format or legacy single fields
+        const locations = s.locations || (s.location ? [{ name: s.location, url: s.location_url || '' }] : []);
         let html = `<div class="form-grid">
           ${imageUploadBlock('ts-logo', s.logo, 'Footer Logo')}
           ${textField('ts-about', 'About Text', s.about, 'textarea')}
-          ${textField('ts-location', 'Location Name', s.location)}
-          ${textField('ts-location_url', 'Location URL', s.location_url)}
           ${textField('ts-email', 'Email', s.email)}
           ${textField('ts-instagram', 'Instagram URL', social.instagram)}
           ${textField('ts-facebook', 'Facebook URL', social.facebook)}
@@ -4416,6 +4416,25 @@
           ${textField('ts-newsletter_desc', 'Newsletter Description', s.newsletter_desc, 'textarea')}
           ${textField('ts-copyright', 'Copyright Text', s.copyright)}
         </div>`;
+
+        // Locations list
+        html += `<h4 style="margin:20px 0 4px;font-size:1.3rem;">Store Locations</h4>
+          <p style="margin:0 0 8px;color:#666;font-size:0.85rem;">Add your store locations. Each one appears as a separate map pin in the footer.</p>
+          <div style="display:flex;gap:8px;margin-bottom:4px;font-weight:600;color:#444;font-size:0.85rem;">
+            <span style="flex:1;">Location Name</span>
+            <span style="flex:1;">Google Maps URL</span>
+            <span style="width:80px;"></span>
+          </div>
+          <div id="ts-locations-list">`;
+        locations.forEach((loc) => {
+          html += `<div class="js-footer-link-row" data-list="location" style="display:flex;gap:8px;margin-bottom:6px;align-items:center;">
+            <input class="js-footer-link-label" type="text" placeholder="e.g. Lavington, Kingara Road" value="${escapeHtml(loc.name || '')}" style="flex:1;" />
+            <input class="js-footer-link-url" type="text" placeholder="e.g. https://maps.google.com/..." value="${escapeHtml(loc.url || '')}" style="flex:1;" />
+            <button type="button" onclick="this.parentElement.remove()" style="width:80px;padding:6px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
+          </div>`;
+        });
+        html += `</div>
+          <button type="button" onclick="addFooterLocation()" style="margin-top:8px;padding:8px 14px;background:#f5f1ec;border:1px solid #D4A843;color:#3C3836;border-radius:4px;cursor:pointer;font-size:0.9rem;">+ Add Location</button>`;
         html += `<h4 style="margin:20px 0 4px;font-size:1.3rem;">Collection Menu</h4>
           <p style="margin:0 0 8px;color:#666;font-size:0.85rem;">Add the page name and its web address.</p>
           <div style="display:flex;gap:8px;margin-bottom:4px;font-weight:600;color:#444;font-size:0.85rem;">
@@ -4624,6 +4643,12 @@
         return { items };
       },
       footer() {
+        const locations = [];
+        document.querySelectorAll('.js-footer-link-row[data-list="location"]').forEach(row => {
+          const name = row.querySelector('.js-footer-link-label')?.value || '';
+          const url = row.querySelector('.js-footer-link-url')?.value || '';
+          if (name) locations.push({ name, url });
+        });
         const collection_links = [];
         document.querySelectorAll('.js-footer-link-row[data-list="collection"]').forEach(row => {
           const label = row.querySelector('.js-footer-link-label')?.value || '';
@@ -4639,8 +4664,9 @@
         return {
           logo: document.getElementById('ts-logo')?.value || '',
           about: document.getElementById('ts-about')?.value || '',
-          location: document.getElementById('ts-location')?.value || '',
-          location_url: document.getElementById('ts-location_url')?.value || '',
+          location: locations[0]?.name || '',
+          location_url: locations[0]?.url || '',
+          locations,
           email: document.getElementById('ts-email')?.value || '',
           social: {
             instagram: document.getElementById('ts-instagram')?.value || '',
@@ -4849,6 +4875,22 @@
       row.innerHTML = `
         <input class="js-footer-link-label" type="text" placeholder="e.g. ${labelPlaceholder}" style="flex:1;" />
         <input class="js-footer-link-url" type="text" placeholder="e.g. ${urlPlaceholder}" style="flex:1;" />
+        <button type="button" onclick="this.parentElement.remove()" style="width:80px;padding:6px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
+      `;
+      container.appendChild(row);
+      row.querySelector('.js-footer-link-label').focus();
+    };
+
+    window.addFooterLocation = function () {
+      const container = document.getElementById('ts-locations-list');
+      if (!container) return;
+      const row = document.createElement('div');
+      row.className = 'js-footer-link-row';
+      row.setAttribute('data-list', 'location');
+      row.style.cssText = 'display:flex;gap:8px;margin-bottom:6px;align-items:center;';
+      row.innerHTML = `
+        <input class="js-footer-link-label" type="text" placeholder="e.g. Noir Boutique, Muthangari Drive" style="flex:1;" />
+        <input class="js-footer-link-url" type="text" placeholder="e.g. https://maps.google.com/..." style="flex:1;" />
         <button type="button" onclick="this.parentElement.remove()" style="width:80px;padding:6px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
       `;
       container.appendChild(row);

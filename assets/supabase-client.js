@@ -50,26 +50,21 @@ function updateFooterFromTheme(el, settings) {
     const logo = el.querySelector('.offcanvas__logo--img');
     if (logo && settings.logo) logo.src = settings.logo;
     const contactItems = el.querySelectorAll('.footer__widget--contact__list--items');
-    if (contactItems[0] && (settings.location || settings.location_url)) {
-        const svg = contactItems[0].querySelector('svg');
-        const locName = (settings.location || 'Our Location').trim();
-        const locUrl = (settings.location_url || '').trim();
-        contactItems[0].textContent = '';
-        if (svg) contactItems[0].appendChild(svg);
-        if (locUrl) {
-            const a = document.createElement('a');
-            a.href = locUrl;
-            a.target = '_blank';
-            a.rel = 'noopener';
-            a.textContent = ' ' + locName;
-            contactItems[0].appendChild(a);
-        } else {
-            contactItems[0].append(' ' + locName);
-        }
-    }
-    if (contactItems[1] && settings.email) {
-        const a = contactItems[1].querySelector('a');
+    // Item 0: Email
+    if (contactItems[0] && settings.email) {
+        const a = contactItems[0].querySelector('a');
         if (a) { a.textContent = settings.email; a.href = 'mailto:' + settings.email; }
+    }
+    // Item 1: Phone (no dynamic update needed unless phone is in settings)
+    // Items 2+: Locations — update from locations array
+    if (settings.locations && settings.locations.length) {
+        settings.locations.forEach((loc, i) => {
+            const item = contactItems[2 + i];
+            if (item) {
+                const a = item.querySelector('a');
+                if (a) { a.textContent = loc.name; a.href = loc.url; }
+            }
+        });
     }
     if (settings.social) {
         const socialLinks = el.querySelectorAll('.footer__widget--social__list--link');

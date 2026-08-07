@@ -24,12 +24,15 @@
 
         const logoImg = s.logo || 'assets/IMG-20260622-WA0082.webp';
         const aboutText = s.about || 'Contemporary fashion rooted in African heritage and crafted for the modern world.';
-        const locationName = s.location || 'Nairobi, Kenya';
-        const locationUrl = s.location_url || 'https://maps.google.com';
         const email = s.email || 'hello@maryhumphreywear.com';
         const phone = s.phone || (window.STORE_CONFIG?.PHONE_NUMBER || window.STORE_CONFIG?.WHATSAPP_NUMBER) || '254715687280';
         const phoneDisplay = '+' + phone.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{3})/, '$1 $2 $3 $4');
         const social = s.social || { instagram: '#', facebook: '#', tiktok: '#' };
+
+        // Build locations array — prefer the new array format, fall back to legacy single fields
+        const locations = s.locations || [
+            { name: s.location || 'Nairobi, Kenya', url: s.location_url || 'https://maps.google.com' }
+        ];
 
         const collectionLinks = s.collection_links || [
             { label: 'All Products', url: '/shop' },
@@ -49,6 +52,13 @@
         const newsHeading = s.newsletter_heading || 'Join Our World';
         const newsDesc = s.newsletter_desc || 'Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.';
         const copyright = s.copyright || '© 2026 Mary Humphrey Wear. All Rights Reserved.';
+
+        // Render location list items
+        const locationItems = locations.map(loc => `
+                            <li class="footer__widget--contact__list--items">
+                                ${ICONS.location}
+                                <a href="${escapeHtml(loc.url)}" target="_blank" rel="noopener">${escapeHtml(loc.name)}</a>
+                            </li>`).join('');
 
         el.innerHTML = `
         <div class="main__footer section--padding">
@@ -71,23 +81,16 @@
                                 ${ICONS.phone}
                                 <a href="tel:+${phone.replace(/\D/g, '')}">${escapeHtml(phoneDisplay)}</a>
                             </li>
-                            <li>
-                              <!-- Location Link -->
-
-                        <a class="footer__map--link" href="https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920833,36.7620278,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920833!4d36.7620278?hl=en&entry=ttu&g_ep=EgoyMDI2MDgwMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">
-                            <svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                            <span>${escapeHtml(locationName)}</span>
-                        </a>
-                        </li>
+                            ${locationItems}
                         </ul>
                         <!-- Map Preview -->
                         <div class="footer__map">
                             <iframe
-                                src="https://www.google.com/maps?q=-1.2920833,36.7620278&z=17&output=embed&iwloc=near"
+                                src="https://www.google.com/maps?q=-1.2920833,36.7620278&z=15&output=embed&iwloc=near"
                                 allowfullscreen=""
                                 loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade"
-                                title="Mary Humphrey Wear - Lavington, Kingara Road, Nairobi">
+                                title="Mary Humphrey Wear - Locations, Nairobi">
                             </iframe>
                         </div>
                     

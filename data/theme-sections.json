@@ -58,106 +58,116 @@
       "settings": {
         "logo": "assets/IMG-20260622-WA0082.webp",
         "about": "Contemporary fashion rooted in African heritage and crafted for the modern world. Every piece tells a story of culture, elegance, and bold identity.",
+        "location": "Lavignton, Kingara Road",
+        "location_url": "https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920799,36.7594538,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920799!4d36.7620287?hl=en&entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D",
+        "locations": [
+          {
+            "name": "Lavignton, Kingara Road",
+            "url": "https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920799,36.7594538,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920799!4d36.7620287?hl=en&entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D"
+          },
+          {
+            "name": " Noir Boutique, Muthangari Drive",
+            "url": "https://www.google.com/maps/search/?api=1&query=Noir+Boutique+Muthangari+Drive+Nairobi"
+          }
+        ],
         "email": "maryhumphreyafricanwear@gmail.com",
         "social": {
-          "tiktok": "#",
+          "instagram": "https://www.instagram.com/maryhumphreywear?igsh=OWQyNW84cmpzeXNn",
           "facebook": "https://www.facebook.com/profile.php?id=100077341767677",
-          "instagram": "https://www.instagram.com/maryhumphreywear?igsh=OWQyNW84cmpzeXNn"
+          "tiktok": "#"
         },
-        "location": "Lavignton, Kingara Road",
-        "copyright": "© 2026 Mary Humphrey Wear. All Rights Reserved.",
-        "quick_links": [
-          {
-            "url": "index.html",
-            "label": "Home"
-          },
-          {
-            "url": "about.html",
-            "label": "Our Story"
-          },
-          {
-            "url": "contact.html",
-            "label": "Contact Us"
-          },
-          {
-            "url": "/privacy",
-            "label": "Privacy Policy"
-          }
-        ],
-        "location_url": "https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920799,36.7594538,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920799!4d36.7620287?hl=en&entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D",
-        "newsletter_desc": "Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.",
         "collection_links": [
           {
-            "url": "shop.html",
-            "label": "All Products"
+            "label": "All Products",
+            "url": "shop.html"
           },
           {
-            "url": "/shop/geco-dungaree",
-            "label": "Geco Dungarees"
+            "label": "Geco Dungarees",
+            "url": "/shop/geco-dungaree"
           },
           {
-            "url": "/shop/diani-dresses",
-            "label": "Diani Dresses"
+            "label": "Diani Dresses",
+            "url": "/shop/diani-dresses"
           },
           {
-            "url": "/shop/blankets",
-            "label": "Helsinki Blankets"
+            "label": "Helsinki Blankets",
+            "url": "/shop/blankets"
           },
           {
-            "url": "/shop/kimonos",
-            "label": "Talisman Kimonos"
+            "label": "Talisman Kimonos",
+            "url": "/shop/kimonos"
           },
           {
-            "url": "/shop/palazzos",
-            "label": "Village Market Palazzos"
+            "label": "Village Market Palazzos",
+            "url": "/shop/palazzos"
           },
           {
-            "url": "/shop/noir-cape",
-            "label": "Noir Cape"
+            "label": "Noir Cape",
+            "url": "/shop/noir-cape"
           },
           {
-            "url": "/shop/joggers",
-            "label": "Nova Joggers"
+            "label": "Nova Joggers",
+            "url": "/shop/joggers"
           },
           {
-            "url": "/shop/pullovers",
-            "label": "Nova Pullovers"
+            "label": "Nova Pullovers",
+            "url": "/shop/pullovers"
           },
           {
-            "url": "/shop/nova-hoodies",
-            "label": "Nova Hoodies"
+            "label": "Nova Hoodies",
+            "url": "/shop/nova-hoodies"
           }
         ],
-        "newsletter_heading": "Join Our World"
+        "quick_links": [
+          {
+            "label": "Home",
+            "url": "index.html"
+          },
+          {
+            "label": "Our Story",
+            "url": "about.html"
+          },
+          {
+            "label": "Contact Us",
+            "url": "contact.html"
+          },
+          {
+            "label": "Privacy Policy",
+            "url": "/privacy"
+          }
+        ],
+        "newsletter_heading": "Join Our World",
+        "newsletter_desc": "Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.",
+        "copyright": "© 2026 Mary Humphrey Wear. All Rights Reserved."
       }
     },
     "outlet": {
       "type": "outlet",
       "enabled": true,
       "settings": {
-        "subtitle": "Visit Us In Person",
         "title": "Our Outlet",
-        "description": "Find us at Noir boutique on Muthangari Drive, Nairobi. Explore the collection and try on your favorites.",
-        "button_text": "Get Directions",
-        "button_link": "https://www.google.com/maps/search/?api=1&query=Noir+Boutique+Muthangari+Drive+Nairobi",
         "slides": [
           {
-            "type": "image",
-            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Noir-2-1785860819226.webp"
+            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Noir-2-1785860819226.webp",
+            "type": "image"
           },
           {
-            "type": "image",
-            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Nior-3-1785860835512.webp"
+            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Nior-3-1785860835512.webp",
+            "type": "image"
           },
           {
-            "type": "image",
-            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Nior-4-1785860850389.webp"
+            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Nior-4-1785860850389.webp",
+            "type": "image"
           },
           {
-            "type": "video",
-            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Noir_video-1785906444161.mp4"
+            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Noir_video-1785906788513.mp4",
+            "type": "video"
           }
-        ]
+        ],
+        "subtitle": "Visit Us In Person",
+        "button_link": "https://www.google.com/maps/search/?api=1&query=Noir+Boutique+Muthangari+Drive+Nairobi",
+        "button_text": "Get Directions",
+        "description": "Find us at Noir boutique on Muthangari Drive, Nairobi. Explore the collection and try on your favorites."
       }
     },
     "fabrics": {

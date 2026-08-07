@@ -1411,7 +1411,8 @@ select {
 
 @media only screen and (max-width: 575px) {
   .header__sticky.sticky {
-    padding: 1.5rem 0.5rem;
+    padding-inline: 1.5rem;
+    padding-block: 1.5rem;
   }
 }
 

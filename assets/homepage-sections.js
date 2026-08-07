@@ -331,63 +331,15 @@ function escapeHtml(str) {
   },
 
   footer(el, settings) {
+    if (window.renderFooter) {
+      window.renderFooter(el, settings);
+      return;
+    }
+    // Fallback if footer.js hasn't loaded (unlikely)
     const desc = el.querySelector('.footer__widget--desc');
     if (desc && settings.about) desc.textContent = settings.about;
     const logo = el.querySelector('.offcanvas__logo--img');
     if (logo && settings.logo) logo.src = settings.logo;
-    const contactItems = el.querySelectorAll('.footer__widget--contact__list--items');
-    // Item 0: Email
-    if (contactItems[0] && settings.email) {
-      const a = contactItems[0].querySelector('a');
-      if (a) { a.textContent = settings.email; a.href = 'mailto:' + settings.email; }
-    }
-    // Item 1: Phone (no dynamic update needed unless phone is in settings)
-    // Items 2+: Locations — update from locations array
-    if (settings.locations && settings.locations.length) {
-      settings.locations.forEach((loc, i) => {
-        const item = contactItems[2 + i];
-        if (item) {
-          const a = item.querySelector('a');
-          if (a) { a.textContent = loc.name; a.href = loc.url; }
-        }
-      });
-    }
-    // Social links
-    if (settings.social) {
-      const socialLinks = el.querySelectorAll('.footer__widget--social__list--link');
-      const urls = [settings.social.instagram, settings.social.facebook, settings.social.tiktok];
-      socialLinks.forEach((a, i) => { if (urls[i]) a.href = urls[i]; });
-    }
-    // Collection links
-    if (settings.collection_links) {
-      const col = el.querySelectorAll('.footer__col--narrow');
-      if (col[0]) {
-        const items = col[0].querySelectorAll('.footer__widget--menu__text');
-        settings.collection_links.forEach((l, i) => {
-          if (items[i]) { items[i].textContent = l.label; items[i].href = l.url; }
-        });
-      }
-    }
-    // Quick links
-    if (settings.quick_links) {
-      const col = el.querySelectorAll('.footer__col--narrow');
-      if (col[1]) {
-        const items = col[1].querySelectorAll('.footer__widget--menu__text');
-        settings.quick_links.forEach((l, i) => {
-          if (items[i]) { items[i].textContent = l.label; items[i].href = l.url; }
-        });
-      }
-    }
-    // Newsletter
-    const newsTitle = el.querySelector('.footer__col--wide:last-child .footer__widget--title');
-    if (newsTitle && settings.newsletter_heading) newsTitle.textContent = settings.newsletter_heading;
-    const newsDesc = el.querySelector('.footer__col--wide:last-child .footer__widget--desc');
-    if (newsDesc && settings.newsletter_desc) newsDesc.textContent = settings.newsletter_desc;
-    // Copyright
-    if (settings.copyright) {
-      const copy = el.querySelector('.copyright__content');
-      if (copy) copy.innerHTML = escapeHtml(settings.copyright);
-    }
   },
 
   outlet(el, settings) {

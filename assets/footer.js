@@ -19,7 +19,7 @@
         return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    function renderFooter(el, s) {
+    window.renderFooter = function(el, s) {
         if (!el || !s) return;
 
         const logoImg = s.logo || 'assets/IMG-20260622-WA0082.webp';
@@ -85,14 +85,16 @@
 
             const embedSrc = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&z=16&output=embed&iwloc=near`;
             return `<div class="footer__map--item">
-                        <span class="footer__map--label">${ICONS.location} ${escapeHtml(loc.name)}</span>
-                        <iframe
-                            src="${embedSrc}"
-                            allowfullscreen=""
-                            loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"
-                            title="${escapeHtml(loc.name)}">
-                        </iframe>
+                        <span class="footer__map--label">${escapeHtml(loc.name)}</span>
+                        <div class="footer__map--iframe-wrap">
+                            <iframe
+                                src="${embedSrc}"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="${escapeHtml(loc.name)}">
+                            </iframe>
+                        </div>
                     </div>`;
         }).join('');
 

@@ -12,8 +12,8 @@
     "testimonials",
     "services",
     "custom_css",
-    "outlet",
     "footer",
+    "outlet",
     "statement"
   ],
   "sections": {
@@ -58,23 +58,23 @@
       "settings": {
         "logo": "assets/IMG-20260622-WA0082.webp",
         "about": "Contemporary fashion rooted in African heritage and crafted for the modern world. Every piece tells a story of culture, elegance, and bold identity.",
-        "location": "Lavignton, Kingara Road",
+        "location": "Lavignton, Kingara Road, Nairobi",
         "location_url": "https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920799,36.7594538,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920799!4d36.7620287?hl=en&entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D",
         "locations": [
           {
-            "name": "Lavignton, Kingara Road",
+            "name": "Lavignton, Kingara Road, Nairobi",
             "url": "https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920799,36.7594538,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920799!4d36.7620287?hl=en&entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D"
           },
           {
-            "name": "Noir Boutique, Muthangari Drive",
-            "url": "https://www.google.com/maps/search/?api=1&query=PQQM%2BPG+Nairobi+Kenya"
+            "name": "Noir Boutique, Muthangari Drive, Nairobi",
+            "url": "https://www.google.com/maps/search/?api=1&query=Noir+Boutique+Muthangari+Drive+Nairobi"
           }
         ],
         "email": "maryhumphreyafricanwear@gmail.com",
         "social": {
           "instagram": "https://www.instagram.com/maryhumphreywear?igsh=OWQyNW84cmpzeXNn",
           "facebook": "https://www.facebook.com/profile.php?id=100077341767677",
-          "tiktok": "#"
+          "tiktok": "https://www.tiktok.com/@maryhumphreyafricanwear"
         },
         "collection_links": [
           {

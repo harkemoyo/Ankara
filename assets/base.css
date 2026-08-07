@@ -8527,11 +8527,18 @@ input[type=number]::-webkit-outer-spin-button {
   border: 1px solid var(--border-color);
 }
 
-.footer__map--item iframe {
-  width: 100%;
+.footer__map--iframe-wrap {
+  overflow: hidden;
   height: 14rem;
+  width: 100%;
+}
+
+.footer__map--iframe-wrap iframe {
+  width: 100%;
+  height: calc(14rem + 130px);
   border: 0;
   display: block;
+  margin-top: -65px;
 }
 
 .footer__map--label {

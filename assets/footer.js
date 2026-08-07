@@ -60,6 +60,42 @@
                                 <a href="${escapeHtml(loc.url)}" target="_blank" rel="noopener">${escapeHtml(loc.name)}</a>
                             </li>`).join('');
 
+        // Render one map per location
+        const mapItems = locations.map(loc => {
+            // Extract a usable query for the embed from the location's Google Maps URL
+            let mapQuery = loc.name + ', Nairobi';
+            try {
+                const u = new URL(loc.url);
+                // Search URLs: ?query=Noir+Boutique+...
+                if (u.searchParams.has('query')) {
+                    mapQuery = u.searchParams.get('query');
+                }
+                // Direct ?q= param
+                else if (u.searchParams.has('q')) {
+                    mapQuery = u.searchParams.get('q');
+                }
+                // Place URLs with coordinates: /@-1.29,36.76,...
+                else {
+                    const coordMatch = loc.url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+                    if (coordMatch) {
+                        mapQuery = coordMatch[1] + ',' + coordMatch[2];
+                    }
+                }
+            } catch (e) { /* use fallback name */ }
+
+            const embedSrc = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&z=16&output=embed&iwloc=near`;
+            return `<div class="footer__map--item">
+                        <span class="footer__map--label">${ICONS.location} ${escapeHtml(loc.name)}</span>
+                        <iframe
+                            src="${embedSrc}"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="${escapeHtml(loc.name)}">
+                        </iframe>
+                    </div>`;
+        }).join('');
+
         el.innerHTML = `
         <div class="main__footer section--padding">
             <div class="footer__layout">
@@ -83,15 +119,9 @@
                             </li>
                             ${locationItems}
                         </ul>
-                        <!-- Map Preview -->
-                        <div class="footer__map">
-                            <iframe
-                                src="https://www.google.com/maps?q=-1.2920833,36.7620278&z=15&output=embed&iwloc=near"
-                                allowfullscreen=""
-                                loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"
-                                title="Mary Humphrey Wear - Locations, Nairobi">
-                            </iframe>
+                        <!-- Map Previews -->
+                        <div class="footer__maps-grid">
+                            ${mapItems}
                         </div>
                     
                         <!-- Social Media -->

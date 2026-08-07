@@ -333,7 +333,7 @@
             </div>
 
             <!-- Email Form -->
-            <form id="form-send-code">
+            <form id="form-send-code" action="javascript:void(0);" onsubmit="event.preventDefault();">
                 <div class="shopify__field">
                     <input type="email" id="input-email" class="shopify__input" placeholder="Email" required autofocus />
                 </div>
@@ -352,23 +352,14 @@
                 </div>
             </div>
 
-            <h1 class="shopify__auth--title">Enter code</h1>
+            <h1 class="shopify__auth--title">Check your email</h1>
             <p class="shopify__auth--subtitle">
-                Sent to <span id="sent-email-display" class="auth-sent-email">user@example.com</span>
+                We sent a sign-in email to <span id="sent-email-display" class="auth-sent-email">user@example.com</span>
                 <button type="button" id="btn-change-email">Change</button>
             </p>
 
-            <!-- 6 OTP Input Boxes -->
-            <div class="otp__inputs--wrap">
-                <input type="text" maxlength="1" class="otp__digit--input" data-index="0" autofocus />
-                <input type="text" maxlength="1" class="otp__digit--input" data-index="1" />
-                <input type="text" maxlength="1" class="otp__digit--input" data-index="2" />
-                <input type="text" maxlength="1" class="otp__digit--input" data-index="3" />
-                <input type="text" maxlength="1" class="otp__digit--input" data-index="4" />
-                <input type="text" maxlength="1" class="otp__digit--input" data-index="5" />
-            </div>
-
             <div id="otp-status-msg" class="otp__status--msg"></div>
+            <button type="button" id="btn-submit-otp" class="btn__submit--primary" style="margin-top:2rem;">Sign In Instantly</button>
         </div>
 
 

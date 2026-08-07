@@ -24,15 +24,18 @@
   border: 1px solid var(--border-color, #E8E0D8);
   border-radius: 1.6rem;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.05);
-  padding: 4rem 3.5rem;
-  max-width: 460px;
+  padding: 3.5rem 3rem;
+  width: 100%;
+  max-width: 480px;
   margin: 2rem auto;
   box-sizing: border-box;
+  text-align: center;
+  position: relative;
 }
 
 @media (max-width: 575px) {
   .shopify__auth--card {
-    padding: 3rem 2rem;
+    padding: 2.5rem 1.6rem;
     border-radius: 1.2rem;
   }
 }
@@ -53,23 +56,28 @@
 
 .shopify__auth--title {
   font-family: var(--font-heading, 'Frank Ruhl Libre', serif);
-  font-size: 2.8rem;
+  font-size: 2.6rem;
   color: var(--primary-color, #3C3836);
   text-align: center;
   margin: 0 0 0.8rem 0;
   font-weight: 700;
+  word-break: break-word;
 }
 
 .shopify__auth--subtitle {
-  font-size: 1.45rem;
+  font-size: 1.4rem;
   color: var(--foreground-sub-color, #666666);
   text-align: center;
-  margin: 0 0 2.5rem 0;
+  margin: 0 0 2rem 0;
+  word-break: break-word;
+  line-height: 1.5;
 }
 
 .auth-sent-email {
   font-weight: 600;
   color: var(--foreground-color, #1a1818);
+  display: inline-block;
+  word-break: break-all;
 }
 
 #btn-change-email {
@@ -181,14 +189,17 @@
 .otp__inputs--wrap {
   display: flex;
   justify-content: center;
-  gap: 0.8rem;
-  margin-block: 2rem;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block: 1.8rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .otp__digit--input {
-  width: 4.6rem;
-  height: 5.4rem;
-  font-size: 2.2rem;
+  width: 3.8rem;
+  height: 4.8rem;
+  font-size: 1.8rem;
   font-weight: 700;
   text-align: center;
   border: 1.5px solid #dcd6d0;
@@ -197,6 +208,8 @@
   background: #ffffff;
   box-sizing: border-box;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  flex: 0 1 3.8rem;
+  min-width: 0;
 }
 
 .otp__digit--input:focus {
@@ -207,8 +220,11 @@
 
 .otp__status--msg {
   text-align: center;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   margin-top: 1.2rem;
+  width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
 }
 
 /* ── 3. Customer Portal (Logged In State) ── */

@@ -46,12 +46,14 @@
         rel="stylesheet" />
     <link href="assets/base.css" rel="stylesheet" />
     <link href="assets/filter.css" rel="stylesheet" />
+    <link href="assets/home.css" rel="stylesheet" />
     <link href="assets/about.css" rel="stylesheet" />
     <link href="assets/glightbox.min.css" rel="stylesheet" />
     <link href="assets/swiper-bundle.min.css" rel="stylesheet" />
     <link href="assets/normalize.css" rel="stylesheet" />
     <script src="assets/config.js"></script>
     <script src="assets/supabase.umd.js"></script>
+    <script src="assets/swiper-bundle.min.js"></script>
     <script defer="" src="assets/glightbox.min.js"></script>
     <script defer="" src="assets/cart.js"></script>
     <script defer="" src="assets/global.js"></script>
@@ -278,14 +280,22 @@
 
     <main class="main-content">
         <!-- Hero -->
-        <section class="about__hero">
-            <div class="about__hero--bg">
-                <img alt="Mary Humphrey Wear Story" src="assets/IMG-20260622-WA0081.webp" data-story="heroImage" />
-            </div>
-            <div class="page-width">
-                <div class="about__hero--content">
-                    <span class="about__hero--subtitle" data-story="heroSubtitle">Our Story</span>
-                    <h1 class="about__hero--title" data-story="heroTitle">The Story Behind<br />Mary Humphrey Wear</h1>
+        <section class="home-outlet section--padding" style="background: none;">
+            <div class="outlet__wrapper">
+                <div class="outlet-header text-center">
+                    <span class="outlet-subtitle" data-story="heroSubtitle">OUR STORY</span>
+                    <h2 class="section__heading--maintitle outlet-title" data-story="heroTitle" style="font-family: 'Frank Ruhl Libre', serif; font-size: clamp(3rem, 5vw, 5rem); margin: 10px 0 15px;">The Story Behind Mary Humphrey Wear</h2>
+                    <p class="outlet-desc" data-story="heroDescription" style="max-width: 650px; font-size: 1.3rem; line-height: 1.6;">Explore our physical space and browse our handcrafted fashion collections.</p>
+                </div>
+                <div class="outlet-slider-wrap">
+                    <div class="swiper about-hero-swiper outlet-swiper">
+                        <div class="swiper-wrapper" id="about-hero-swiper-wrapper">
+                            <!-- Slides loaded dynamically -->
+                        </div>
+                        <div class="swiper-pagination about-hero-pagination outlet-pagination"></div>
+                        <div class="swiper-button-prev about-hero-prev outlet-prev"></div>
+                        <div class="swiper-button-next about-hero-next outlet-next"></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -431,6 +441,25 @@
                     </p>
                 </div>
             </section>
+            <!-- Visit Our Outlet -->
+            <section class="home-outlet section--padding" id="about-outlet-section" style="display:none;">
+                <div class="outlet__wrapper">
+                    <div class="outlet-header">
+                        <span class="outlet-subtitle"></span>
+                        <h2 class="section__heading--maintitle outlet-title"></h2>
+                        <p class="outlet-desc"></p>
+                        <a class="outlet-cta primary__btn" href=""></a>
+                    </div>
+                    <div class="outlet-slider-wrap">
+                        <div class="swiper about-outlet-swiper outlet-swiper">
+                            <div class="swiper-wrapper about-outlet-slides"></div>
+                            <div class="swiper-pagination about-outlet-pagination outlet-pagination"></div>
+                            <div class="swiper-button-prev about-outlet-prev outlet-prev"></div>
+                            <div class="swiper-button-next about-outlet-next outlet-next"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
         <!-- views/partials/footer.ejs -->
     </main>
@@ -448,8 +477,107 @@
 
             let currentContent = {};
 
+            // Load outlet section from homepage_sections
+            async function loadOutletSection() {
+                try {
+                    const res = await fetch('/api/homepage-sections');
+                    if (!res.ok) return;
+                    const sections = await res.json();
+                    const outletSection = sections.find(s => s.section_id === 'outlet');
+                    if (!outletSection || !outletSection.settings) return;
+                    const s = outletSection.settings;
+
+                    const el = document.getElementById('about-outlet-section');
+                    if (!el) return;
+
+                    const subtitle = el.querySelector('.outlet-subtitle');
+                    if (subtitle && s.subtitle) subtitle.textContent = s.subtitle;
+                    const h = el.querySelector('.outlet-title');
+                    if (h && s.title) h.textContent = s.title;
+                    const desc = el.querySelector('.outlet-desc');
+                    if (desc && s.description) desc.textContent = s.description;
+                    const btn = el.querySelector('.outlet-cta');
+                    if (btn) {
+                        if (s.button_text) btn.textContent = s.button_text;
+                        if (s.button_link) btn.href = s.button_link;
+                    }
+
+                    const slides = s.slides || (s.images || []).map(url => ({ type: 'image', url }));
+                    const wrapper = el.querySelector('.about-outlet-slides');
+                    if (wrapper && slides.length) {
+                        wrapper.innerHTML = slides.map(sl => {
+                            if (sl.type === 'video') {
+                                return `<div class="swiper-slide outlet-slide">
+                                    <video class="outlet-video" src="${escapeHtml(sl.url)}" muted playsinline loop preload="metadata"></video>
+                                </div>`;
+                            }
+                            return `<div class="swiper-slide outlet-slide">
+                                <img alt="" loading="lazy" decoding="async" src="${escapeHtml(sl.url)}" />
+                            </div>`;
+                        }).join('');
+
+                        if (typeof Swiper !== 'undefined') {
+                            new Swiper('.about-outlet-swiper', {
+                                slidesPerView: 1.2,
+                                spaceBetween: 16,
+                                loop: slides.length > 3,
+                                autoplay: { delay: 4500, disableOnInteraction: false },
+                                pagination: { el: '.about-outlet-pagination', clickable: true },
+                                navigation: { prevEl: '.about-outlet-prev', nextEl: '.about-outlet-next' },
+                                breakpoints: {
+                                    576: { slidesPerView: 2, spaceBetween: 20 },
+                                    992: { slidesPerView: 3, spaceBetween: 24 }
+                                }
+                            });
+                        }
+                    }
+
+                    el.style.display = '';
+                } catch (err) {
+                    console.warn('Failed to load outlet section', err);
+                }
+            }
+            loadOutletSection();
+
             function updateDOM(story) {
                 currentContent = story || {};
+                
+                // Render About Hero Cards Swiper Slides
+                const slidesWrapper = document.getElementById('about-hero-swiper-wrapper');
+                if (slidesWrapper) {
+                    let slidesData = currentContent.heroSlides;
+                    if (!slidesData || slidesData.length === 0) {
+                        slidesData = [
+                            { image: 'https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Noir-2-1785860819226.webp' },
+                            { image: 'https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Nior-3-1785860835512.webp' },
+                            { image: 'https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Nior-4-1785860850389.webp' }
+                        ];
+                    }
+                    slidesWrapper.innerHTML = slidesData.map(sl => `
+                        <div class="swiper-slide outlet-slide">
+                            <img alt="" loading="lazy" decoding="async" src="${escapeHtml(sl.image || '')}" />
+                        </div>
+                    `).join('');
+
+                    if (window.aboutHeroSwiper && typeof window.aboutHeroSwiper.destroy === 'function') {
+                        try { window.aboutHeroSwiper.destroy(true, true); } catch(e){}
+                    }
+                    if (typeof Swiper !== 'undefined') {
+                        window.aboutHeroSwiper = new Swiper('.about-hero-swiper', {
+                            slidesPerView: 1.2,
+                            spaceBetween: 16,
+                            loop: slidesData.length > 3,
+                            autoplay: { delay: 4500, disableOnInteraction: false },
+                            pagination: { el: '.about-hero-pagination', clickable: true },
+                            navigation: { prevEl: '.about-hero-prev', nextEl: '.about-hero-next' },
+                            breakpoints: {
+                                576: { slidesPerView: 2, spaceBetween: 20 },
+                                992: { slidesPerView: 3, spaceBetween: 24 }
+                            }
+                        });
+                    }
+                }
+
                 document.querySelectorAll('[data-story]').forEach(el => {
                     const key = el.getAttribute('data-story');
                     const value = story[key];

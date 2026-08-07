@@ -1483,22 +1483,14 @@
           <label>Hero Title</label>
           <input id="about-hero-title" type="text" placeholder="The Story Behind<br />Mary Humphrey Wear" />
         </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>Hero Description</label>
+          <textarea id="about-hero-description" rows="3" placeholder="Find us at Noir boutique on Muthangari Drive..."></textarea>
+        </div>
         <div class="form-group" style="margin-bottom:24px;">
-          <label>Hero Background Image</label>
-          <div ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadSectionImage(event.dataTransfer.files[0],'about-hero-image','about-hero-image-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:16px;background:var(--background,#fafafa);text-align:center;margin-bottom:10px;">
-            <label class="btn btn-primary" style="cursor:pointer;margin:0;display:inline-flex;align-items:center;gap:6px;">
-              <input type="file" accept="image/*" onchange="if(this.files[0])uploadSectionImage(this.files[0],'about-hero-image','about-hero-image-status');this.value=''" style="display:none;" />
-              Upload Image
-            </label>
-            <span style="font-size:1.1rem;color:var(--text-muted,#777);margin-left:8px;">or drag file here</span>
-            <span id="about-hero-image-status" style="display:block;font-size:1.1rem;color:var(--accent);margin-top:6px;"></span>
-          </div>
-          <div style="display:flex;gap:12px;align-items:center;">
-            <div style="width:120px;height:80px;border:1px solid var(--border);border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff;flex-shrink:0;">
-              <img id="about-hero-image-preview" src="" style="max-width:100%;max-height:100%;object-fit:cover;display:none;" onload="this.style.display='block';" onerror="this.style.display='none';" />
-            </div>
-            <input id="about-hero-image" type="text" placeholder="assets/IMG-... or https://..." style="flex:1;" oninput="var p=document.getElementById('about-hero-image-preview');if(p){p.src=this.value;p.style.display=this.value?'block':'none';}" />
-          </div>
+          <label>Hero Slider Images</label>
+          <div id="about-hero-slides-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:10px;"></div>
+          <button class="btn btn-sm btn-ghost" type="button" onclick="addAboutHeroSlide()">+ Add Slide Image</button>
         </div>
 
         <!-- Brand Story -->
@@ -3787,7 +3779,15 @@
         };
         set('about-hero-subtitle', c.heroSubtitle || 'Our Story');
         set('about-hero-title', c.heroTitle || 'The Story Behind<br />Mary Humphrey Wear');
-        set('about-hero-image', c.heroImage || 'assets/IMG-20260622-WA0081.webp');
+        set('about-hero-description', c.heroDescription || 'Find us at Noir boutique on Muthangari Drive, Nairobi. Explore our physical space and browse our handcrafted fashion collections.');
+        
+        const defaultSlides = [
+          { image: 'https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Noir-2-1785860819226.webp' },
+          { image: 'https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Nior-3-1785860835512.webp' },
+          { image: 'https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Nior-4-1785860850389.webp' }
+        ];
+        const slides = c.heroSlides || (c.heroImage ? [{ image: c.heroImage }] : defaultSlides);
+        renderAboutHeroSlides(slides);
 
         set('about-image', c.storyImage || 'assets/IMG-20260622-WA0081.webp');
         set('about-born-subtitle', c.bornSubtitle || 'Born From Passion');
@@ -3827,10 +3827,15 @@
     window.saveAboutPage = async function () {
       try {
         const get = id => document.getElementById(id)?.value || '';
+        const heroSlides = Array.from(document.querySelectorAll('#about-hero-slides-list .js-about-hero-slide-image')).map(input => ({
+          image: input.value.trim()
+        })).filter(sl => sl.image);
+
         const content = {
           heroSubtitle: get('about-hero-subtitle'),
           heroTitle: get('about-hero-title'),
-          heroImage: get('about-hero-image'),
+          heroDescription: get('about-hero-description'),
+          heroSlides,
           storyImage: get('about-image'),
           bornSubtitle: get('about-born-subtitle'),
           bornTitle: get('about-born-title'),
@@ -4208,6 +4213,56 @@
         </div>
       </div>`;
     }
+
+    function aboutHeroSlideBlock(i, sl = {}) {
+      const id = 'about-hero-slide-' + i;
+      const hasMedia = sl.image ? true : false;
+      return `<div class="js-about-hero-slide" style="border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:10px;background:#fff;max-width:480px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <strong style="font-size:1.1rem;">Slide ${i + 1}</strong>
+          <button type="button" onclick="this.closest('.js-about-hero-slide').remove()" style="padding:4px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
+        </div>
+        <div ondrop="event.preventDefault();var f=event.dataTransfer.files[0];if(f)uploadSectionImage(f,'${id}-image','${id}-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:10px;background:#fafafa;text-align:center;margin-bottom:8px;">
+          <label class="btn btn-primary" style="cursor:pointer;margin:0;font-size:1.2rem;">
+            <input type="file" accept="image/*" onchange="if(this.files[0])uploadSectionImage(this.files[0],'${id}-image','${id}-status');this.value=''" style="display:none;" />
+            Upload Image
+          </label>
+          <span style="font-size:1.1rem;color:var(--muted);margin-left:8px;">or drag here</span>
+          <span id="${id}-status" style="display:block;font-size:1.1rem;color:var(--muted);margin-top:4px;"></span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <div style="width:80px;min-height:60px;border:1px solid #eee;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;">
+            <img id="${id}-image-preview" src="${escapeHtml(sl.image || '')}" style="max-width:100%;max-height:80px;object-fit:cover;display:${hasMedia ? 'block' : 'none'};" onload="this.style.display='block';this.nextElementSibling.style.display='none';" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+            <span id="${id}-image-placeholder" style="display:${hasMedia ? 'none' : 'flex'};color:#aaa;font-size:1rem;text-align:center;padding:4px;">No image</span>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <input id="${id}-image" class="js-about-hero-slide-image" type="text" placeholder="https://... or assets/file.webp" value="${escapeHtml(sl.image || '')}" oninput="var p=document.getElementById('${id}-image-preview'),ph=document.getElementById('${id}-image-placeholder');if(p){p.src=this.value;p.style.display='block';}if(ph)ph.style.display='none';" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;" />
+          </div>
+        </div>
+      </div>`;
+    }
+
+    window.renderAboutHeroSlides = function(slides) {
+      const container = document.getElementById('about-hero-slides-list');
+      if (!container) return;
+      container.innerHTML = '';
+      if (!slides || !slides.length) {
+        addAboutHeroSlide();
+        return;
+      }
+      slides.forEach((sl, idx) => {
+        addAboutHeroSlide(sl);
+      });
+    };
+
+    window.addAboutHeroSlide = function(sl = {}) {
+      const container = document.getElementById('about-hero-slides-list');
+      if (!container) return;
+      const count = container.querySelectorAll('.js-about-hero-slide').length;
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = aboutHeroSlideBlock(count, sl);
+      container.appendChild(tempDiv.firstElementChild);
+    };
 
     function textField(id, label, value, type) {
       type = type || 'text';

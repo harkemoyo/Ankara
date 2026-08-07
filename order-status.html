@@ -33,6 +33,7 @@
     <script src="assets/config.js"></script>
     <script src="assets/supabase.umd.js"></script>
     <script defer src="assets/cart.js"></script>
+    <script defer src="assets/footer.js"></script>
     <script defer src="assets/global.js"></script>
     <script defer src="assets/announcement.js"></script>
     <script defer src="assets/supabase-client.js" type="module"></script>
@@ -442,7 +443,7 @@
     <div class="header__topbar bg__primary">
         <div class="header__topbar--inner">
             <div class="topbar-left-spacer"></div>
-            <p class="header__info--text" id="announcement-text"></p>
+            <p class="header__info--text text-white m-0 text-center" id="announcement-text" data-section-id="announcement"></p>
             <div class="header__topbar--currency">
                 <select class="currency-switcher" onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
                     <option value="KES" class="currency-option">KES</option>
@@ -466,19 +467,59 @@
                 <div class="main__logo">
                     <h1 class="main__logo--title">
                         <a class="main__logo--link" href="/">
-                            <img alt="Mary Humphrey African Wear Logo" class="main__logo--img offcanvas__logo--img" src="assets/apple-touch-icon.png" />
+                            <img alt="Mary Humphrey African Wear" class="main__logo--img" src="assets/IMG-20260622-WA0082.webp" />
                         </a>
                     </h1>
                 </div>
                 <div class="header__menu d-none d-lg-block">
                     <nav class="header__menu--navigation">
-                        <ul class="d-flex">
-                            <li class="header__menu--items"><a class="header__menu--link" href="/">HOME</a></li>
-                            <li class="header__menu--items"><a class="header__menu--link" href="/shop">COLLECTIONS</a></li>
-                            <li class="header__menu--items"><a class="header__menu--link" href="/fabric">FABRICS</a></li>
-                            <li class="header__menu--items"><a class="header__menu--link" href="/sale">SALE</a></li>
-                            <li class="header__menu--items"><a class="header__menu--link" href="/about">OUR STORY</a></li>
-                            <li class="header__menu--items"><a class="header__menu--link" href="/contact">CONTACT</a></li>
+                        <ul class="header__menu--wrapper d-flex">
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/">Home</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/shop">Collections
+                                    <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                                <ul class="header__sub--menu mega-menu">
+                                    <li class="header__sub--menu__items mega-col">
+                                        <span class="mega-menu__heading">Shop by Style</span>
+                                        <ul class="mega-col__list">
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop">All Products</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/dresses">Dresses</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/pullovers">Pullovers & Hoodies</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/joggers">Joggers</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/kimonos">Kimonos & Capes</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/blankets">Blankets & Throws</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/palazzos">Palazzos & Dungarees</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="header__sub--menu__items mega-col">
+                                        <span class="mega-menu__heading">Collections</span>
+                                        <ul class="mega-col__list">
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/new-arrivals">New Arrivals</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/menswear">Menswear</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/womenswear">Womenswear</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/fabrics">Fabrics</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/sale">Sale</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/fabric">Fabrics</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link header__menu--link--sale" href="/sale">Sale</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/about">Our Story</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/contact">Contact</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>

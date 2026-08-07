@@ -17145,7 +17145,7 @@ img {
 
 body.body .header__section {
   position: absolute !important;
-  top: 10rem;
+  top: 6rem;
   left: 0;
   right: 0;
   z-index: 120;
@@ -17154,12 +17154,12 @@ body.body .header__section {
   transition: all 0.3s ease;
 }
 
-@media (min-width: 767px) {
+/* @media (min-width: 767px) {
   body.body .header__section {
     top: 6rem;
 
   }
-}
+} */
 
 body.body .footer__section {
   width: 100%;

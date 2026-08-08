@@ -1,4 +1,5 @@
-const apiKey = 'mlsn.c383f5794ab4a2beb1dbdfc14bfdd867c00d8ba2878e4c7cd9ce9bf0662b7cd9';
+require('dotenv').config();
+const apiKey = process.env.MAILERSEND_API_KEY || process.env.MAILERSEND_KEY;
 
 async function testMailersend() {
     try {

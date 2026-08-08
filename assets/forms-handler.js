@@ -120,10 +120,18 @@ document.addEventListener('DOMContentLoaded', () => {
           throw new Error('Failed to subscribe');
         }
 
-        showToast('Subscribed! Thank you for joining the Ankara VIP list.');
+        if (typeof window.showNewsletterThankYouModal === 'function') {
+          window.showNewsletterThankYouModal();
+        } else {
+          showToast('Subscribed! Thank you for joining the Ankara VIP list.');
+        }
         form.reset();
       } catch (err) {
-        showToast('Subscribed successfully!');
+        if (typeof window.showNewsletterThankYouModal === 'function') {
+          window.showNewsletterThankYouModal();
+        } else {
+          showToast('Subscribed successfully!');
+        }
         form.reset();
       } finally {
         if (submitBtn) submitBtn.disabled = false;

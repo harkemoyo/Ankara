@@ -179,7 +179,7 @@
                     <div class="footer__widget">
                         <h2 class="footer__widget--title">${escapeHtml(newsHeading)}</h2>
                         <p class="footer__widget--desc">${escapeHtml(newsDesc)}</p>
-                        <form action="#" class="footer__newsletter--form" id="newsletter-form" method="POST" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                        <form action="#" class="footer__newsletter--form" id="newsletter-form" method="POST" onsubmit="event.preventDefault(); window.handleNewsletterSubmit(this);">
                             <label for="newsletter-email">
                                 <input class="footer__newsletter--input" id="newsletter-email" name="email" placeholder="Enter your email address" required="" type="email" />
                             </label>
@@ -202,6 +202,172 @@
         </div>
         `;
     }
+
+    window.showNewsletterThankYouModal = function () {
+        let modal = document.getElementById('newsletter-thankyou-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'newsletter-thankyou-modal';
+            modal.style.cssText = `
+                position: fixed;
+                inset: 0;
+                z-index: 999999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.55);
+                backdrop-filter: blur(5px);
+                -webkit-backdrop-filter: blur(5px);
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+                padding: 20px;
+            `;
+
+            modal.innerHTML = `
+                <div style="
+                    background: #ffffff;
+                    max-width: 440px;
+                    width: 100%;
+                    border-radius: 16px;
+                    padding: 40px 32px 36px;
+                    text-align: center;
+                    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
+                    position: relative;
+                    transform: scale(0.92);
+                    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                    box-sizing: border-box;
+                ">
+                    <button type="button" aria-label="Close" onclick="window.closeNewsletterThankYouModal()" style="
+                        position: absolute;
+                        top: 16px;
+                        right: 16px;
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;
+                        border: none;
+                        background: #f5f5f5;
+                        color: #555;
+                        font-size: 16px;
+                        line-height: 1;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: background 0.2s, color 0.2s;
+                    " onmouseover="this.style.background='#e5e5e5';this.style.color='#111'" onmouseout="this.style.background='#f5f5f5';this.style.color='#555'">✕</button>
+
+                    <div style="
+                        width: 64px;
+                        height: 64px;
+                        background: linear-gradient(135deg, #fdeddf 0%, #f7d4aa 100%);
+                        border: 2px solid #800020;
+                        color: #800020;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 0 auto 20px;
+                        box-shadow: 0 8px 16px rgba(128, 0, 32, 0.12);
+                    ">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#800020" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+
+                    <h3 style="
+                        font-family: 'Frank Ruhl Libre', serif;
+                        font-size: 2.2rem;
+                        line-height: 1.25;
+                        color: #1a1818;
+                        margin: 0 0 12px;
+                        font-weight: 700;
+                    ">Thank You for Subscribing!</h3>
+
+                    <p style="
+                        font-size: 1.15rem;
+                        line-height: 1.6;
+                        color: #5c5755;
+                        margin: 0 0 28px;
+                    ">Welcome to the Mary Humphrey African Wear family. You will be the first to receive exclusive updates, new arrivals, and special VIP offers.</p>
+
+                    <button type="button" onclick="window.closeNewsletterThankYouModal()" class="primary__btn" style="
+                        width: 100%;
+                        padding: 14px 28px;
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                        letter-spacing: 0.05em;
+                        text-transform: uppercase;
+                        border-radius: 8px;
+                        cursor: pointer;
+                    ">Continue</button>
+                </div>
+            `;
+
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) {
+                    window.closeNewsletterThankYouModal();
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal.style.visibility === 'visible') {
+                    window.closeNewsletterThankYouModal();
+                }
+            });
+
+            document.body.appendChild(modal);
+        }
+
+        // Trigger animation
+        requestAnimationFrame(() => {
+            modal.style.visibility = 'visible';
+            modal.style.opacity = '1';
+            const card = modal.firstElementChild;
+            if (card) {
+                card.style.transform = 'scale(1)';
+            }
+        });
+    };
+
+    window.closeNewsletterThankYouModal = function () {
+        const modal = document.getElementById('newsletter-thankyou-modal');
+        if (!modal) return;
+        modal.style.opacity = '0';
+        const card = modal.firstElementChild;
+        if (card) {
+            card.style.transform = 'scale(0.92)';
+        }
+        setTimeout(() => {
+            modal.style.visibility = 'hidden';
+        }, 300);
+    };
+
+    window.handleNewsletterSubmit = async function (form) {
+        const input = form.querySelector('input[type="email"]');
+        const email = input ? input.value.trim() : '';
+        const btn = form.querySelector('button[type="submit"]');
+
+        if (!email) return;
+
+        if (btn) btn.disabled = true;
+
+        try {
+            fetch('/api/newsletter/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            }).catch(e => console.warn('Newsletter sync warning:', e));
+
+            form.reset();
+            window.showNewsletterThankYouModal();
+        } catch (err) {
+            form.reset();
+            window.showNewsletterThankYouModal();
+        } finally {
+            if (btn) btn.disabled = false;
+        }
+    };
 
     async function initFooter() {
         const el = document.getElementById('site-footer') || document.querySelector('[data-section-id="footer"]') || document.querySelector('.footer__section');

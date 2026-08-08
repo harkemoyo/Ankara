@@ -18325,10 +18325,17 @@ body.body .header__section {
   background: #1da851;
 }
 
+@media only screen and (max-width: 991px) {
+  .floating-contact-cluster {
+    bottom: calc(75px + 1.2rem);
+    right: 1.5rem;
+  }
+}
+
 @media only screen and (max-width: 479px) {
   .floating-contact-cluster {
-    bottom: 1.5rem;
-    right: 1.5rem;
+    bottom: calc(75px + 1.2rem + env(safe-area-inset-bottom, 0px));
+    right: 1.2rem;
   }
 
   .floating-contact-toggle {

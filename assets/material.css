@@ -189,6 +189,13 @@
   transition: background 0.3s;
 }
 
+@media only screen and (max-width: 991px) {
+  .floating-whatsapp {
+    bottom: calc(75px + 1.2rem);
+    right: 1.5rem;
+  }
+}
+
 .floating-whatsapp:hover {
   background: #1da851;
 }

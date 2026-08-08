@@ -1323,18 +1323,6 @@ select {
   display: none;
 }
 
-@media only screen and (min-width: 500px) {
-  .offcanvas__sticky--toolbar {
-    padding: 14px 40px;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .offcanvas__sticky--toolbar {
-    padding: 14px 60px;
-  }
-}
-
 @media only screen and (max-width: 991px) {
   .offcanvas__sticky--toolbar {
     display: block;

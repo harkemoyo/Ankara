@@ -1018,6 +1018,41 @@ img.loaded {
   opacity: 1;
 }
 
+/* ── Skeleton Shimmer Loaders (Sketches) ── */
+.skeleton-card {
+  border-radius: 8px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.skeleton-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(90deg, #f0eae4 0%, #faf6f2 50%, #f0eae4 100%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite ease-in-out;
+  border-radius: 8px;
+}
+
+.skeleton-text {
+  height: 16px;
+  background: linear-gradient(90deg, #f0eae4 0%, #faf6f2 50%, #f0eae4 100%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite ease-in-out;
+  border-radius: 4px;
+  margin-top: 10px;
+  width: 80%;
+}
+
+.skeleton-text.short {
+  width: 45%;
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 *,
 *::before,
 *::after {
@@ -18087,7 +18122,7 @@ body.body .header__section {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  padding-inline: 1.5rem;
 }
 
 .topbar-left-spacer {
@@ -18167,14 +18202,13 @@ body.body .header__section {
 
 @media (max-width: 767px) {
   .announcement-slide {
-    font-size: 1.15rem;
     padding-inline: 0.2rem;
   }
 }
 
 @media (max-width: 480px) {
   .announcement-slide {
-    font-size: 1.05rem;
+    font-size: 1.25rem;
     letter-spacing: -0.01em;
   }
 }
@@ -18183,16 +18217,12 @@ body.body .header__section {
 .checkout-banner-announcement {
   background: var(--bg-offwhite-color, #faf6f0);
   border: 1px solid var(--border-color, #e8e0d8);
-  border-left: 4px solid var(--primary-color, #800020);
+  border-left: 4px solid #800020;
   border-radius: 8px;
   padding: 1.2rem 1.6rem;
-  margin-bottom: 2.2rem;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  font-size: 1.35rem;
-  color: var(--primary-color, #3c3836);
-  font-weight: 500;
 }
 
 @media (min-width: 768px) {

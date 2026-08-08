@@ -178,7 +178,8 @@ router.get('/settings', async (req, res) => {
 router.put('/settings', requireAdmin, async (req, res) => {
     try {
         const { store_name, currency, announcement, logo, exchange_rate, announcements, story, whatsapp, whatsapp_enabled, whatsapp_label,
-            contact_email, contact_hero_title, contact_hero_subtitle, contact_response_time, contact_follow_us } = req.body;
+            contact_email, contact_hero_title, contact_hero_subtitle, contact_response_time, contact_follow_us,
+            fabric_hero_title, fabric_hero_subtitle } = req.body;
         const payload = {
             store_name,
             currency,
@@ -195,6 +196,8 @@ router.put('/settings', requireAdmin, async (req, res) => {
             contact_hero_subtitle,
             contact_response_time,
             contact_follow_us,
+            fabric_hero_title,
+            fabric_hero_subtitle,
             updated_at: new Date().toISOString()
         };
         const { data, error } = await supabaseAdmin.from('settings').upsert({ id: 1, ...payload }).select().single();
@@ -321,14 +324,26 @@ router.post('/contact', async (req, res) => {
         return res.status(400).json({ error: 'Name, email, and message are required' });
     }
     try {
-        // Store in Supabase
-        await supabaseAdmin.from('contact_messages').insert({
-            name,
-            email,
-            subject: subject || '',
-            message,
+        // Store in Supabase contact_messages
+        const { error: dbErr } = await supabaseAdmin.from('contact_messages').insert({
+            name: name.trim(),
+            email: email.trim().toLowerCase(),
+            subject: (subject || '').trim(),
+            message: message.trim(),
+            status: 'new',
+            is_read: false,
             created_at: new Date().toISOString()
         });
+        if (dbErr) console.error('Contact message DB error:', dbErr.message);
+
+        // Also upsert into customers table
+        try {
+            await supabaseAdmin.from('customers').upsert([
+                { email: email.trim().toLowerCase(), full_name: name.trim() }
+            ], { onConflict: 'email' });
+        } catch (custErr) {
+            console.log('Customer upsert note:', custErr.message);
+        }
     } catch (e) {
         console.error('Failed to store contact message:', e.message);
     }
@@ -336,6 +351,92 @@ router.post('/contact', async (req, res) => {
     emailService.sendContactFormNotification(name, email, subject, message);
     emailService.sendContactAutoReply(name, email, subject, message);
     res.json({ success: true, message: 'Message sent successfully' });
+});
+
+// Admin Contact Messages Routes
+router.get('/admin/messages', requireAdmin, async (req, res) => {
+    try {
+        const { data, error } = await supabaseAdmin
+            .from('contact_messages')
+            .select('*')
+            .order('created_at', { ascending: false });
+        if (error) throw error;
+        res.json(data || []);
+    } catch (e) {
+        console.error('Failed to fetch contact messages:', e.message);
+        res.status(500).json({ error: 'Failed to fetch contact messages' });
+    }
+});
+
+router.put('/admin/messages/:id', requireAdmin, async (req, res) => {
+    try {
+        const { status, notes, is_read } = req.body;
+        const updateData = {};
+        if (status !== undefined) updateData.status = status;
+        if (notes !== undefined) updateData.notes = notes;
+        if (is_read !== undefined) updateData.is_read = is_read;
+
+        const { data, error } = await supabaseAdmin
+            .from('contact_messages')
+            .update(updateData)
+            .eq('id', req.params.id)
+            .select()
+            .single();
+        if (error) throw error;
+        res.json(data);
+    } catch (e) {
+        console.error('Failed to update contact message:', e.message);
+        res.status(500).json({ error: 'Failed to update contact message' });
+    }
+});
+
+router.delete('/admin/messages/:id', requireAdmin, async (req, res) => {
+    try {
+        const { error } = await supabaseAdmin
+            .from('contact_messages')
+            .delete()
+            .eq('id', req.params.id);
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (e) {
+        console.error('Failed to delete contact message:', e.message);
+        res.status(500).json({ error: 'Failed to delete contact message' });
+    }
+});
+
+// Newsletter Subscription Route
+router.post('/newsletter/subscribe', async (req, res) => {
+    const { email } = req.body;
+    if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+    }
+    try {
+        try {
+            // Store in Supabase subscribers table (if exists)
+            await supabaseAdmin.from('subscribers').upsert([
+                { email, accepts_marketing: true, subscribed_at: new Date().toISOString() }
+            ], { onConflict: 'email' });
+        } catch (dbErr) {
+            console.log('Subscribers table might not exist, skipping...');
+        }
+
+        try {
+            // Also save to customers table (as a lead/prospect)
+            await supabaseAdmin.from('customers').upsert([
+                { email, accepts_marketing: true }
+            ], { onConflict: 'email' });
+        } catch (dbErr) {
+            console.log('Customers table insert failed:', dbErr.message);
+        }
+        
+        // Send email
+        emailService.sendNewsletterWelcomeEmail(email);
+
+        res.json({ success: true, message: 'Subscribed successfully' });
+    } catch (e) {
+        console.error('Failed to subscribe:', e.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
 module.exports = router;

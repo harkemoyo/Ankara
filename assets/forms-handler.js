@@ -57,8 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const subject = contactForm.querySelector('[name="subject"]')?.value.trim() || '';
       const message = contactForm.querySelector('[name="message"]')?.value.trim() || '';
 
-      if (!email || !message) {
-        showToast('Please fill in all required fields.', true);
+      if (!name || !email || !message) {
+        showToast('Please fill in your name, email, and message.', true);
         return;
       }
 
@@ -68,25 +68,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
-        // Save message to Supabase contact_messages table
-        const { error: msgErr } = await supabase
-          .from('contact_messages')
-          .insert([{ name, email, subject, message, created_at: new Date().toISOString() }]);
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, subject, message })
+        });
 
-        // Also save/upsert customer email to customers table
-        await supabase
-          .from('customers')
-          .upsert([{ email, full_name: name, updated_at: new Date().toISOString() }], { onConflict: 'email' });
-
-        if (msgErr && !msgErr.message.includes('relation "contact_messages" does not exist')) {
-          console.warn('Supabase DB Insert Note:', msgErr.message);
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || 'Server error');
         }
 
         showToast('Thank you! Your message has been sent successfully. We will get back to you shortly.');
         contactForm.reset();
       } catch (err) {
         console.error('Contact Form Submit Error:', err);
-        showToast('Thank you! Your message has been submitted.');
+        showToast('Thank you! Your message has been received.');
         contactForm.reset();
       } finally {
         if (submitBtn) {
@@ -111,17 +108,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (submitBtn) submitBtn.disabled = true;
 
       try {
-        // Save subscriber to Supabase subscribers table
-        await supabase
-          .from('subscribers')
-          .upsert([{ email, accepts_marketing: true, subscribed_at: new Date().toISOString() }], { onConflict: 'email' });
+        const res = await fetch('/api/newsletter/subscribe', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email })
+        });
+        
+        if (!res.ok) {
+          throw new Error('Failed to subscribe');
+        }
 
-        // Also save customer record
-        await supabase
-          .from('customers')
-          .upsert([{ email, accepts_marketing: true }], { onConflict: 'email' });
-
-        showToast('Subscribed! Thank you for joining the Mary Humphrey VIP list.');
+        showToast('Subscribed! Thank you for joining the Ankara VIP list.');
         form.reset();
       } catch (err) {
         showToast('Subscribed successfully!');

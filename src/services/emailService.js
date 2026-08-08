@@ -6,7 +6,7 @@ const { supabaseAdmin } = require('../config/supabase');
 
 class EmailService {
     constructor() {
-        this.apiKey        = process.env.MAILERSEND_API_KEY;
+        this.apiKey        = process.env.MAILERSEND_API_KEY || process.env.MAILERSEND_KEY;
         this.senderEmail   = process.env.MAILERSEND_SENDER_EMAIL || 'info@maryhumphreywear.org';
         this.senderName    = process.env.MAILERSEND_SENDER_NAME  || 'Mary Humphrey African Wear';
     }
@@ -209,6 +209,20 @@ class EmailService {
                     </div>
                 </div>
                 `;
+            } else if (slug === 'newsletter_welcome') {
+                subject = 'Welcome to the {{store_name}} VIP List!';
+                htmlBody = `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #dad2ce; border-radius: 8px; overflow: hidden; background-color: #faf8f5;">
+                    <div style="background-color: {{email_header_color}}; padding: 32px; text-align: center; color: #fff;">
+                        <h1 style="margin: 0; font-size: 24px; font-weight: bold; letter-spacing: 0.05em;">Thank You for Subscribing</h1>
+                    </div>
+                    <div style="padding: 40px 32px; color: #2a2624; line-height: 1.6;">
+                        <h2 style="font-size: 20px; font-weight: normal; color: {{email_header_color}}; margin-top: 0; margin-bottom: 16px;">Welcome to Our World</h2>
+                        <p style="font-size: 15px; margin-bottom: 24px;">Thank you for joining the {{store_name}} VIP list. You'll be the first to know about our exclusive updates, new arrivals, and stories from the heart of African fashion.</p>
+                        <p style="font-size: 13px; color: #7a726e; margin-top: 32px; border-top: 1px solid #dad2ce; padding-top: 20px; text-align: center;">{{email_footer_text}}</p>
+                    </div>
+                </div>
+                `;
             }
         }
 
@@ -296,6 +310,15 @@ class EmailService {
             });
 
             await this.sendEmail({ to: email, subject: emailSubject, html });
+        });
+    }
+    // ─────────────────────────────────────────────────────────────────
+    // Newsletter Subscription
+    // ─────────────────────────────────────────────────────────────────
+    sendNewsletterWelcomeEmail(email) {
+        setImmediate(async () => {
+            const { subject, html } = await this.buildEmail('newsletter_welcome', {});
+            await this.sendEmail({ to: email, subject, html });
         });
     }
 }

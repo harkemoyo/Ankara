@@ -910,10 +910,31 @@
     <!-- Fabrics List -->
     <section class="admin-section" id="section-fabrics">
       <div class="page-header">
-        <h1>Fabrics & Materials</h1>
-        <button class="btn btn-primary" onclick="openFabricModal()">+ Add Fabric</button>
+        <h1>Fabrics</h1>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="btn btn-primary" onclick="saveFabricHeaderSettings()">Save Header</button>
+          <button class="btn btn-primary" onclick="openFabricModal()">+ Add Fabric</button>
+        </div>
       </div>
-      <div style="display:flex;gap:8px;margin-bottom:16px;">
+      
+      <!-- Fabric Page Header Settings -->
+      <div class="card" style="margin-bottom: 24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+        <h3 style="margin-top:0;">Fabric Page Header Settings</h3>
+        <p style="color:var(--muted); font-size:1.3rem; margin-bottom:16px;">Customize the title and subtitle that appear at the top of the Fabrics page.</p>
+        
+        <div class="form-group">
+          <label>Subtitle</label>
+          <input type="text" id="fabric-page-hero-subtitle" placeholder="Artisan Fabric Showcase">
+        </div>
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="fabric-page-hero-title" placeholder="Our Ankara Fabrics">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <div style="display:flex;gap:12px;margin-bottom:16px;">
         <input id="fabric-search" placeholder="Search fabrics..."
           style="padding:8px 12px;border:1px solid var(--border);border-radius:6px;flex:1;max-width:300px;font-size:1.3rem;"
           onkeyup="filterFabrics()">
@@ -943,6 +964,7 @@
           </tbody>
         </table>
       </div>
+     </div>
     </section>
     <!-- Product Editor (Shopify-style full page) -->
     <section class="admin-section" id="section-product-editor">
@@ -2335,6 +2357,41 @@
       renderFabricList(filtered);
     };
 
+    window.loadFabricHeaderSettings = async function () {
+      try {
+        const { data, error } = await supabase.from('settings').select('*').eq('id', 1).single();
+        if (data) {
+          const titleInput = document.getElementById('fabric-page-hero-title');
+          const subtitleInput = document.getElementById('fabric-page-hero-subtitle');
+          if (titleInput) titleInput.value = data.fabric_hero_title || '';
+          if (subtitleInput) subtitleInput.value = data.fabric_hero_subtitle || '';
+        }
+      } catch (err) {
+        console.error('Failed to load fabric header settings:', err);
+      }
+    };
+
+    window.saveFabricHeaderSettings = async function () {
+      const btn = document.querySelector('#section-fabrics .page-header button:first-child');
+      if (btn) btn.disabled = true;
+      try {
+        const title = document.getElementById('fabric-page-hero-title')?.value || '';
+        const subtitle = document.getElementById('fabric-page-hero-subtitle')?.value || '';
+        const { error } = await supabase.from('settings').upsert({
+          id: 1,
+          fabric_hero_title: title,
+          fabric_hero_subtitle: subtitle
+        });
+        if (error) throw error;
+        toast('Fabric header settings saved!');
+      } catch (err) {
+        toast('Failed to save header settings: ' + (err.message || err), 'error');
+        console.error(err);
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    };
+
     // Populate collection dropdown from database
     async function populateCollectionSelect() {
       const sel = document.getElementById('p-collection');
@@ -3455,19 +3512,36 @@
       const statusFilter = document.getElementById('message-status-filter')?.value || '';
       if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Loading...</td></tr>';
 
-      const { data, error } = await supabase
-        .from('contact_messages')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Supabase messages error:', error);
-        toast('Failed to load messages: ' + error.message, 'error');
-        if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted);">Failed to load.</td></tr>';
-        return;
+      let fetchedData = null;
+      try {
+        const { data, error } = await supabase
+          .from('contact_messages')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (!error && data && data.length > 0) {
+          fetchedData = data;
+        }
+      } catch (e) {
+        console.warn('Direct Supabase messages query issue:', e);
       }
 
-      messages = data || [];
+      if (!fetchedData) {
+        try {
+          const session = (await supabase.auth.getSession()).data.session;
+          const res = await fetch('/api/admin/messages', {
+            headers: {
+              'Authorization': `Bearer ${session?.access_token || ''}`
+            }
+          });
+          if (res.ok) {
+            fetchedData = await res.json();
+          }
+        } catch (apiErr) {
+          console.error('API messages error:', apiErr);
+        }
+      }
+
+      messages = fetchedData || [];
 
       if (statusFilter) {
         messages = messages.filter(m => (m.status || 'new') === statusFilter);
@@ -3504,8 +3578,8 @@
             <td>${escapeHtml(m.subject || '-')}</td>
             <td>${new Date(m.created_at).toLocaleString()}</td>
             <td>
-              <button class="btn" onclick="viewMessage(${m.id})">View</button>
-              <button class="btn" style="background:#c0392b;color:#fff;" onclick="deleteMessage(${m.id})">Delete</button>
+              <button class="btn btn-sm" onclick="viewMessage(${m.id})">View</button>
+              <button class="btn btn-sm" style="background:#c0392b;color:#fff;margin-left:6px;" onclick="deleteMessage(${m.id})">Delete</button>
             </td>
           </tr>
         `).join('');
@@ -3541,12 +3615,16 @@
       const notes = document.getElementById('message-modal-notes').value;
       const { error } = await supabase.from('contact_messages').update({ notes }).eq('id', currentMessageId);
       if (error) {
-        toast('Failed to save notes', 'error');
-      } else {
-        toast('Notes saved', 'success');
-        const m = messages.find(x => x.id === currentMessageId);
-        if (m) m.notes = notes;
+        const session = (await supabase.auth.getSession()).data.session;
+        await fetch(`/api/admin/messages/${currentMessageId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token || ''}` },
+          body: JSON.stringify({ notes })
+        });
       }
+      toast('Notes saved', 'success');
+      const m = messages.find(x => x.id === currentMessageId);
+      if (m) m.notes = notes;
     }
 
     async function markMessageStatus(status) {
@@ -3558,24 +3636,29 @@
       const is_read = (status !== 'new');
       const { error } = await supabase.from('contact_messages').update({ status, is_read }).eq('id', id);
       if (error) {
-        toast('Failed to update status', 'error');
-        console.error(error);
-      } else {
-        await loadMessages();
+        const session = (await supabase.auth.getSession()).data.session;
+        await fetch(`/api/admin/messages/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token || ''}` },
+          body: JSON.stringify({ status, is_read })
+        });
       }
+      await loadMessages();
     }
 
     async function deleteMessage(id) {
       if (!confirm('Delete this message?')) return;
       const { error } = await supabase.from('contact_messages').delete().eq('id', id);
       if (error) {
-        toast('Failed to delete message', 'error');
-        console.error(error);
-      } else {
-        toast('Message deleted', 'success');
-        if (currentMessageId === id) closeMessageModal();
-        await loadMessages();
+        const session = (await supabase.auth.getSession()).data.session;
+        await fetch(`/api/admin/messages/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${session?.access_token || ''}` }
+        });
       }
+      toast('Message deleted', 'success');
+      if (currentMessageId === id) closeMessageModal();
+      await loadMessages();
     }
 
     async function deleteCurrentMessage() {

@@ -407,8 +407,8 @@
         <!-- Hero Section -->
         <section class="material__hero">
             <div class="material__hero--content">
-                <span class="material__hero--subtitle">Artisan Fabric Showcase</span>
-                <h1 class="material__hero--title">Our Ankara Fabrics</h1>
+                <span class="material__hero--subtitle" id="fabric-hero-subtitle">Artisan Fabric Showcase</span>
+                <h1 class="material__hero--title" id="fabric-hero-title">Our Ankara Fabrics</h1>
             </div>
         </section>
 
@@ -673,9 +673,19 @@
             // Refresh view on currency switch
             window.addEventListener('currency:changed', renderFabrics);
             window.addEventListener('settings:loaded', renderFabrics);
+            window.addEventListener('settings:loaded', (e) => {
+                const settings = e.detail;
+                if (settings) {
+                    if (settings.fabric_hero_title) {
+                        document.getElementById('fabric-hero-title').textContent = settings.fabric_hero_title;
+                    }
+                    if (settings.fabric_hero_subtitle) {
+                        document.getElementById('fabric-hero-subtitle').textContent = settings.fabric_hero_subtitle;
+                    }
+                }
+            });
         });
     </script>
 </body>
-
 
 </html>

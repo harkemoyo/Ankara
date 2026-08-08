@@ -22,7 +22,7 @@
     "liquidjs": "^10.27.1",
     "multer": "^2.2.0",
     "node-fetch": "^3.3.2",
+    "nodemailer": "^9.0.5",
     "sharp": "^0.35.2"
-  },
-  "devDependencies": {}
+  }
 }

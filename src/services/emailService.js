@@ -1,53 +1,84 @@
 // src/services/emailService.js
-// Transactional MailerSend Email Service — Database-driven templates
+// Transactional Email Service (MailerSend + Automatic SMTP Fallback)
 // =================================================================
 
+const nodemailer = require('nodemailer');
 const { supabaseAdmin } = require('../config/supabase');
 
 class EmailService {
     constructor() {
         this.apiKey        = process.env.MAILERSEND_API_KEY || process.env.MAILERSEND_KEY;
-        this.senderEmail   = process.env.MAILERSEND_SENDER_EMAIL || 'info@maryhumphreywear.org';
+        this.senderEmail   = process.env.MAILERSEND_SENDER_EMAIL || 'info@send.maryhumphreywear.org';
         this.senderName    = process.env.MAILERSEND_SENDER_NAME  || 'Mary Humphrey African Wear';
+        
+        // SMTP fallback transport
+        if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+            this.smtpTransporter = nodemailer.createTransport({
+                host: process.env.SMTP_HOST || 'smtp.gmail.com',
+                port: parseInt(process.env.SMTP_PORT, 10) || 465,
+                secure: (parseInt(process.env.SMTP_PORT, 10) || 465) === 465,
+                auth: {
+                    user: process.env.SMTP_USER,
+                    pass: process.env.SMTP_PASS
+                }
+            });
+        }
     }
 
     // ─────────────────────────────────────────────────────────────────
-    // Core send — calls MailerSend API
+    // Core send — MailerSend with seamless SMTP fallback
     // ─────────────────────────────────────────────────────────────────
     async sendEmail({ to, subject, html, text }) {
-        if (!this.apiKey) {
-            console.log(`[Email Mock — key missing] To: ${to} | Subject: ${subject}`);
-            return { success: true, mocked: true };
+        // Try MailerSend first if configured
+        if (this.apiKey) {
+            try {
+                const response = await fetch('https://api.mailersend.com/v1/email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':  'application/json',
+                        'Authorization': `Bearer ${this.apiKey}`
+                    },
+                    body: JSON.stringify({
+                        from: { email: this.senderEmail, name: this.senderName },
+                        to:   [{ email: to }],
+                        subject,
+                        html,
+                        text: text || subject
+                    })
+                });
+
+                if (response.ok) {
+                    console.log(`[MailerSend Sent] To: ${to} | Subject: ${subject}`);
+                    return { success: true, provider: 'mailersend' };
+                }
+
+                const errText = await response.text();
+                console.warn(`[MailerSend ${response.status} warning - falling back to SMTP]:`, errText);
+            } catch (err) {
+                console.warn('[MailerSend Network Error - falling back to SMTP]:', err.message);
+            }
         }
 
-        try {
-            const response = await fetch('https://api.mailersend.com/v1/email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type':  'application/json',
-                    'Authorization': `Bearer ${this.apiKey}`
-                },
-                body: JSON.stringify({
-                    from: { email: this.senderEmail, name: this.senderName },
-                    to:   [{ email: to }],
+        // Fallback to SMTP (Gmail)
+        if (this.smtpTransporter) {
+            try {
+                const info = await this.smtpTransporter.sendMail({
+                    from: `"${this.senderName}" <${process.env.SMTP_USER}>`,
+                    to,
                     subject,
                     html,
                     text: text || subject
-                })
-            });
-
-            if (!response.ok) {
-                const errText = await response.text();
-                console.error(`[MailerSend Error ${response.status}]:`, errText);
-                return { success: false, error: errText };
+                });
+                console.log(`[SMTP Sent via Gmail] To: ${to} | MsgID: ${info.messageId}`);
+                return { success: true, provider: 'smtp' };
+            } catch (smtpErr) {
+                console.error('[SMTP Send Error]:', smtpErr.message);
+                return { success: false, error: smtpErr.message };
             }
-
-            console.log(`[Email Sent] To: ${to} | Subject: ${subject}`);
-            return { success: true };
-        } catch (error) {
-            console.error('[Email Send Failed]:', error.message);
-            return { success: false, error: error.message };
         }
+
+        console.log(`[Email Mock — no active provider] To: ${to} | Subject: ${subject}`);
+        return { success: true, mocked: true };
     }
 
     // ─────────────────────────────────────────────────────────────────

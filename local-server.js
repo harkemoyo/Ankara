@@ -35,6 +35,11 @@ app.get('/products/:handle', (req, res) => {
     res.sendFile(path.join(__dirname, 'product.html'));
 });
 
+// Route clean collection aliases to shop.html
+app.get(['/menswear', '/womenswear', '/unisex', '/new-arrivals', '/nova', '/nova-collection'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'shop.html'));
+});
+
 // Clean route for fabrics page
 app.get('/fabric', (req, res) => {
     res.sendFile(path.join(__dirname, 'material.html'));

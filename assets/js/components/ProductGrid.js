@@ -116,6 +116,7 @@ export default class ProductGrid {
     }
 
     humanizeHandle(handle) {
+        if (handle === 'nova' || handle === 'nova-collection') return 'Nova Collection';
         return handle
             .split(/[-_]/)
             .map(w => w.charAt(0).toUpperCase() + w.slice(1))

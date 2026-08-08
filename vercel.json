@@ -52,7 +52,7 @@
       "dest": "/product.html"
     },
     {
-      "src": "/(menswear|womenswear|unisex|new-arrivals)",
+      "src": "/(menswear|womenswear|unisex|new-arrivals|nova|nova-collection)",
       "dest": "/shop.html?collection=$1"
     },
     {

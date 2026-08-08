@@ -1116,14 +1116,15 @@
               </select>
             </div>
             <div class="form-group" style="margin-bottom:14px;">
-              <label>Gender</label>
+              <label>Gender / Audience</label>
               <select id="p-gender">
                 <option value="">— None —</option>
                 <option value="menswear">Menswear</option>
                 <option value="womenswear">Womenswear</option>
                 <option value="unisex">Unisex</option>
+                <option value="nova">Nova Collection</option>
               </select>
-              <small style="display:block;margin-top:4px;color:var(--muted);font-size:1.1rem;">Adds Menswear / Womenswear tags so the product appears under those collections.</small>
+              <small style="display:block;margin-top:4px;color:var(--muted);font-size:1.1rem;">Adds Menswear / Womenswear / Nova tags so the product links and appears under those collections.</small>
             </div>
             <div class="form-group">
               <label>Tags (comma-separated)</label>
@@ -2632,12 +2633,13 @@
       document.getElementById('p-details').value = p.details || '';
       document.getElementById('p-images').value = (p.images || []).join(',');
       document.getElementById('p-sizes').value = (p.sizes || []).join(', ');
-      const genderTags = ['menswear', 'womenswear'];
+      const genderTags = ['menswear', 'womenswear', 'nova', 'nova-collection'];
       const otherTags = (p.tags || []).filter(t => !genderTags.includes(t));
       document.getElementById('p-tags').value = otherTags.join(', ');
       const hasMen = (p.tags || []).includes('menswear');
       const hasWomen = (p.tags || []).includes('womenswear');
-      document.getElementById('p-gender').value = (hasMen && hasWomen) ? 'unisex' : hasMen ? 'menswear' : hasWomen ? 'womenswear' : '';
+      const hasNova = (p.tags || []).includes('nova') || (p.tags || []).includes('nova-collection') || p.collection === 'nova' || p.collection === 'nova-collection';
+      document.getElementById('p-gender').value = hasNova ? 'nova' : (hasMen && hasWomen) ? 'unisex' : hasMen ? 'menswear' : hasWomen ? 'womenswear' : '';
       document.getElementById('p-in-stock').value = p.in_stock ? 'true' : 'false';
       document.getElementById('p-status').value = p.status || 'active';
       document.getElementById('p-inventory-qty').value = p.inventory_quantity || 0;
@@ -2943,9 +2945,13 @@
         .split(',')
         .map(s => s.trim())
         .filter(Boolean)
-        .filter(t => !['menswear','womenswear'].includes(t));
+        .filter(t => !['menswear','womenswear','nova','nova-collection'].includes(t));
       if (gender === 'menswear' || gender === 'unisex') finalTags.push('menswear');
       if (gender === 'womenswear' || gender === 'unisex') finalTags.push('womenswear');
+      if (gender === 'nova') {
+        finalTags.push('nova');
+        finalTags.push('nova-collection');
+      }
 
       const payload = {
         title,

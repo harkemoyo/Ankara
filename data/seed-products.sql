@@ -24,7 +24,8 @@ INSERT INTO collections (handle, title, description, sort_order) VALUES
   ('capes',       'Capes',           'Ankara capes',                                        10),
   ('palazzos',    'Palazzos',        'Ankara palazzo trousers',                             11),
   ('dungarees',   'Dungarees',       'Ankara dungarees',                                    12),
-  ('sale',        'Sale',            'Discounted items',                                    13);
+  ('nova',        'Nova Collection', 'Handcrafted Ankara joggers, pullovers, and hoodies',  13),
+  ('sale',        'Sale',            'Discounted items',                                    14);
 
 
 -- ─────────────────────────────────────────────────────────────────────

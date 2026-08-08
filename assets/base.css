@@ -892,6 +892,11 @@ hr {
   .home__shop--container,
   .home-outlet,
   .home-testimonials,
+  .home-services,
+  .home-fabrics-teaser,
+  .heritage-culture-section,
+  .home-shop-by-style,
+  .home-sale-promo,
   .privacy__section {
     max-width: 1200px !important;
     margin-left: auto !important;

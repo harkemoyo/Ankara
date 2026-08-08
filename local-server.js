@@ -45,6 +45,23 @@ app.get('/fabric', (req, res) => {
     res.sendFile(path.join(__dirname, 'material.html'));
 });
 
+// Route clean aliases for legal policies & thank-you page
+app.get(['/privacy', '/privacy-policy'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'privacy-policy.html'));
+});
+app.get(['/terms', '/terms-of-service', '/terms-and-conditions'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'terms-of-service.html'));
+});
+app.get(['/shipping', '/shipping-policy'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'shipping-policy.html'));
+});
+app.get(['/refund', '/refunds', '/refund-policy', '/returns'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'refund-policy.html'));
+});
+app.get('/thank-you', (req, res) => {
+    res.sendFile(path.join(__dirname, 'thank-you.html'));
+});
+
 // Fallback for html pages to support clean routes (e.g. /shop instead of /shop.html)
 app.use((req, res, next) => {
     const filePath = path.join(__dirname, req.path + '.html');

@@ -96,20 +96,20 @@
       "dest": "/order-status.html"
     },
     {
-      "src": "/terms-of-service",
+      "src": "/(privacy|privacy-policy)",
+      "dest": "/privacy-policy.html"
+    },
+    {
+      "src": "/(terms|terms-of-service|terms-and-conditions)",
       "dest": "/terms-of-service.html"
     },
     {
-      "src": "/shipping-policy",
+      "src": "/(shipping|shipping-policy)",
       "dest": "/shipping-policy.html"
     },
     {
-      "src": "/refund-policy",
+      "src": "/(refund|refunds|refund-policy|returns)",
       "dest": "/refund-policy.html"
-    },
-    {
-      "src": "/privacy-policy",
-      "dest": "/privacy-policy.html"
     },
     {
       "src": "/thank-you",

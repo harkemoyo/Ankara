@@ -45,8 +45,10 @@
             { label: 'Home', url: '/' },
             { label: 'Our Story', url: '/about' },
             { label: 'Contact Us', url: '/contact' },
-            { label: 'FAQ', url: '/faq' },
-            { label: 'Privacy Policy', url: '/privacy' }
+            { label: 'Privacy Policy', url: '/privacy' },
+            { label: 'Terms of Service', url: '/terms' },
+            { label: 'Refund & Return Policy', url: '/refund' },
+            { label: 'Shipping Policy', url: '/shipping' }
         ];
 
         const newsHeading = s.newsletter_heading || 'Join Our World';

@@ -796,6 +796,9 @@
       <a data-section="pages" href="#" onclick="showSection('pages',this)">
         <span class="icon">📄</span> Pages
       </a>
+      <a data-section="legal" href="#" onclick="showSection('legal',this)">
+        <span class="icon">⚖️</span> Legal
+      </a>
       <a data-section="about" href="#" onclick="showSection('about',this)">
         <span class="icon">📖</span> About Page
       </a>
@@ -1471,6 +1474,87 @@
       </div>
     </section>
     <!-- About Page -->
+    <section class="admin-section" id="section-legal">
+      <div class="page-header">
+        <h1>Legal Pages</h1>
+      </div>
+      
+      <p style="margin-bottom:24px;color:var(--text-muted);">Manage the content of your legal pages. Changes are immediately pushed to the live site via Realtime.</p>
+
+      <!-- Privacy Policy -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:800px;margin-bottom:24px;">
+        <h2 style="font-size:1.4rem;margin-bottom:16px;">Privacy Policy</h2>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>Page Title</label>
+          <input id="legal-privacy-title" type="text" placeholder="e.g. Privacy Policy" />
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>Last Updated (e.g. August 8, 2026)</label>
+          <input id="legal-privacy-date" type="text" placeholder="Month DD, YYYY" />
+        </div>
+        <div class="form-group" style="margin-bottom:24px;">
+          <label>HTML Content</label>
+          <textarea id="legal-privacy-html" rows="10" placeholder="<div class='legal-section'>...</div>"></textarea>
+        </div>
+        <button class="btn btn-primary" id="save-legal-privacy-btn" onclick="saveLegalPage('privacy')">Save Privacy Policy</button>
+      </div>
+
+      <!-- Terms of Service -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:800px;margin-bottom:24px;">
+        <h2 style="font-size:1.4rem;margin-bottom:16px;">Terms of Service</h2>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>Page Title</label>
+          <input id="legal-terms-title" type="text" placeholder="e.g. Terms of Service" />
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>Last Updated (e.g. August 8, 2026)</label>
+          <input id="legal-terms-date" type="text" placeholder="Month DD, YYYY" />
+        </div>
+        <div class="form-group" style="margin-bottom:24px;">
+          <label>HTML Content</label>
+          <textarea id="legal-terms-html" rows="10" placeholder="<div class='legal-section'>...</div>"></textarea>
+        </div>
+        <button class="btn btn-primary" id="save-legal-terms-btn" onclick="saveLegalPage('terms')">Save Terms of Service</button>
+      </div>
+
+      <!-- Refund Policy -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:800px;margin-bottom:24px;">
+        <h2 style="font-size:1.4rem;margin-bottom:16px;">Refund Policy</h2>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>Page Title</label>
+          <input id="legal-refund-title" type="text" placeholder="e.g. Refund Policy" />
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>Last Updated (e.g. August 8, 2026)</label>
+          <input id="legal-refund-date" type="text" placeholder="Month DD, YYYY" />
+        </div>
+        <div class="form-group" style="margin-bottom:24px;">
+          <label>HTML Content</label>
+          <textarea id="legal-refund-html" rows="10" placeholder="<div class='legal-section'>...</div>"></textarea>
+        </div>
+        <button class="btn btn-primary" id="save-legal-refund-btn" onclick="saveLegalPage('refund')">Save Refund Policy</button>
+      </div>
+
+      <!-- Shipping Policy -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:800px;margin-bottom:24px;">
+        <h2 style="font-size:1.4rem;margin-bottom:16px;">Shipping Policy</h2>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>Page Title</label>
+          <input id="legal-shipping-title" type="text" placeholder="e.g. Shipping Policy" />
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>Last Updated (e.g. August 8, 2026)</label>
+          <input id="legal-shipping-date" type="text" placeholder="Month DD, YYYY" />
+        </div>
+        <div class="form-group" style="margin-bottom:24px;">
+          <label>HTML Content</label>
+          <textarea id="legal-shipping-html" rows="10" placeholder="<div class='legal-section'>...</div>"></textarea>
+        </div>
+        <button class="btn btn-primary" id="save-legal-shipping-btn" onclick="saveLegalPage('shipping')">Save Shipping Policy</button>
+      </div>
+
+    </section>
+
     <section class="admin-section" id="section-about">
       <div class="page-header">
         <h1>About Page Content</h1>
@@ -2123,6 +2207,7 @@
       if (name === 'inventory') loadInventory();
       if (name === 'pages') loadPages();
       if (name === 'about') loadAboutPageEditor();
+      if (name === 'legal') loadAllLegalPages();
       if (name === 'contact-page') { loadContactPageEditor(); subscribeContactPage(); }
       if (name === 'settings') loadSettings();
       if (name === 'size-charts') loadSizeCharts();
@@ -3771,6 +3856,70 @@
     };
 
     // ── ABOUT PAGE ──
+    // ── LEGAL PAGES LOGIC ──
+    async function loadAllLegalPages() {
+      const slugs = ['privacy', 'terms', 'refund', 'shipping'];
+      
+      // Clear current values
+      slugs.forEach(slug => {
+        document.getElementById(`legal-${slug}-title`).value = '';
+        document.getElementById(`legal-${slug}-date`).value = '';
+        document.getElementById(`legal-${slug}-html`).value = '';
+      });
+
+      try {
+        const { data, error } = await supabase.from('pages').select('*').in('slug', slugs);
+        if (data) {
+          data.forEach(page => {
+            const c = page.content;
+            if (c) {
+              document.getElementById(`legal-${page.slug}-title`).value = c.title || '';
+              document.getElementById(`legal-${page.slug}-date`).value = c.lastUpdated || '';
+              document.getElementById(`legal-${page.slug}-html`).value = c.html || '';
+            }
+          });
+        }
+      } catch (err) {
+        console.error('Error loading legal pages:', err);
+      }
+    }
+
+    async function saveLegalPage(slug) {
+      const title = document.getElementById(`legal-${slug}-title`).value;
+      const lastUpdated = document.getElementById(`legal-${slug}-date`).value;
+      const html = document.getElementById(`legal-${slug}-html`).value;
+
+      if (!title || !html) {
+        alert('Title and HTML content are required.');
+        return;
+      }
+
+      const content = { title, lastUpdated, html };
+      const btn = document.getElementById(`save-legal-${slug}-btn`);
+      btn.textContent = 'Saving...';
+      btn.disabled = true;
+
+      try {
+        const { error } = await supabase
+          .from('pages')
+          .upsert({ slug, title, content });
+        
+        if (error) throw error;
+        
+        // Show temporary success feedback on the button
+        btn.textContent = 'Saved!';
+        setTimeout(() => {
+          btn.textContent = `Save ${title}`;
+          btn.disabled = false;
+        }, 2000);
+      } catch (err) {
+        console.error(err);
+        alert('Error saving legal page.');
+        btn.textContent = `Save ${title}`;
+        btn.disabled = false;
+      }
+    }
+
     async function loadAboutPageEditor() {
       try {
         const response = await fetch('/api/pages/about');

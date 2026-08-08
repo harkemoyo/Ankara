@@ -121,19 +121,31 @@
         "quick_links": [
           {
             "label": "Home",
-            "url": "index.html"
+            "url": "/"
           },
           {
             "label": "Our Story",
-            "url": "about.html"
+            "url": "/about"
           },
           {
             "label": "Contact Us",
-            "url": "contact.html"
+            "url": "/contact"
           },
           {
             "label": "Privacy Policy",
             "url": "/privacy"
+          },
+          {
+            "label": "Terms of Service",
+            "url": "/terms"
+          },
+          {
+            "label": "Refund & Return Policy",
+            "url": "/refund"
+          },
+          {
+            "label": "Shipping Policy",
+            "url": "/shipping"
           }
         ],
         "newsletter_heading": "Join Our World",

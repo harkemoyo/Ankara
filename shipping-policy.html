@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1GXEHGGPH8"></script>
@@ -10,39 +11,362 @@
 
         gtag('config', 'G-1GXEHGGPH8');
     </script>
+    <base href="/" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
     <title>Shipping Policy – Mary Humphrey Wear</title>
+    <meta content="Review the Shipping Policy for Mary Humphrey Wear. Learn about our local delivery in Kenya and worldwide shipping options." name="description" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="#3C3836" name="theme-color" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Shipping Policy – Mary Humphrey Wear">
+    <meta property="og:description" content="Review the Shipping Policy for Mary Humphrey Wear. Learn about our local delivery in Kenya and worldwide shipping options.">
+    <meta property="og:image" content="https://maryhumphreywear.org/og-image.jpg">
+    <meta property="og:url" content="https://maryhumphreywear.org/shipping">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Shipping Policy – Mary Humphrey Wear">
+    <meta name="twitter:description" content="Review the Shipping Policy for Mary Humphrey Wear. Learn about our local delivery in Kenya and worldwide shipping options.">
+    <meta name="twitter:image" content="https://maryhumphreywear.org/og-image.jpg">
+
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link href="assets/base.css" rel="stylesheet" />
-    <link href="assets/legal.css" rel="stylesheet" />
     <link href="assets/filter.css" rel="stylesheet" />
-    <link href="assets/account.css" rel="stylesheet" />
+    <link href="assets/legal.css" rel="stylesheet" />
+    <link href="assets/normalize.css" rel="stylesheet" />
     <script src="assets/config.js"></script>
     <script src="assets/supabase.umd.js"></script>
+    <script defer="" src="assets/cart.js"></script>
+    <script defer="" src="assets/global.js"></script>
+    <script defer src="assets/announcement.js"></script>
     <script defer src="assets/supabase-client.js" type="module"></script>
+    <script defer src="assets/sale-link.js"></script>
+    <script defer src="assets/js/components/core.js" type="module"></script>
 </head>
-<body class="legal-page__body">
-    <div class="legal-page__card">
-        <div class="legal-page__header">
-            <a href="/">
-                <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" class="legal-page__logo" />
-            </a>
-            <h1 class="legal-page__title">Shipping Policy</h1>
-            <p class="legal-page__date">Last updated: July 23, 2026</p>
-        </div>
 
-        <div class="legal-page__content">
-            <h2>1. Processing Times</h2>
-            <p>All orders are processed within 1-3 business days. Orders placed on weekends or holidays will begin processing on the following business day.</p>
-
-            <h2>2. Express & Worldwide Shipping</h2>
-            <p>We ship nationwide across Kenya via express courier (1-2 business days) and internationally via DHL Express (3-5 business days).</p>
-        </div>
-
-        <div class="legal-page__footer">
-            <a href="/" class="btn btn-primary">Return to Store</a>
+<body>
+    <div id="preloader">
+        <div class="ctn-preloader" id="ctn-preloader">
+            <div class="animation-preloader">
+                <div class="spinner"></div>
+                <div class="txt-loading">
+                    <span class="letters-loading" data-text-preloader="M">M</span>
+                    <span class="letters-loading" data-text-preloader="H">H</span>
+                    <span class="letters-loading" data-text-preloader="W">W</span>
+                </div>
+            </div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
         </div>
     </div>
-</body>
-</html>
+    <!-- views/partials/header.ejs -->
+    <div class="header__topbar bg__primary">
+        <div class="header__topbar--inner">
+            <div class="topbar-left-spacer"></div>
+            <p class="header__info--text" id="announcement-text">
 
+            </p>
+            <div class="header__topbar--currency">
+                <select class="currency-switcher"
+                    onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
+                    <option value="KES" class="currency-option">KES</option>
+                    <option value="USD" class="currency-option">USD</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <header class="header__section">
+        <!-- ── Main Header ────────────────────────────── -->
+        <div class="main__header position__relative header__sticky">
+            <div class="main__header--inner flex-between align-items-center">
+                <!-- Hamburger / Offcanvas Toggle -->
+                <div class="offcanvas__header--menu__open">
+                    <a class="offcanvas__header--menu__open--btn" data-offcanvas="" href="javascript:void(0)">
+                        <svg class="ionicon offcanvas__header--menu__open--svg" viewbox="0 0 512 512"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M80 160h352M80 256h352M80 352h352" fill="currentColor" stroke="currentColor"
+                                stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"></path>
+                        </svg>
+                        <span class="visually-hidden">Menu</span>
+                    </a>
+                </div>
+                <!-- Logo -->
+                <div class="main__logo">
+                    <h1 class="main__logo--title">
+                        <a class="main__logo--link" href="/">
+                            <img alt="Mary Humphrey African Wear" class="main__logo--img"
+                                src="assets/IMG-20260622-WA0082.webp" data-store-name-alt />
+                        </a>
+                    </h1>
+                </div>
+                <!-- Desktop Navigation -->
+                <div class="header__menu d-none d-lg-block">
+                    <nav class="header__menu--navigation">
+                        <ul class="header__menu--wrapper d-flex">
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/">Home</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/shop">Collections
+                                    <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6"
+                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                                <ul class="header__sub--menu mega-menu">
+    <li class="header__sub--menu__items mega-col">
+        <span class="mega-menu__heading">Shop by Style</span>
+        <ul class="mega-col__list">
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop">All Products</a></li>
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/dresses">Dresses</a></li>
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/pullovers">Pullovers & Hoodies</a></li>
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/joggers">Joggers</a></li>
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/kimonos">Kimonos & Capes</a></li>
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/blankets">Blankets & Throws</a></li>
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/palazzos">Palazzos & Dungarees</a></li>
+        </ul>
+    </li>
+    <li class="header__sub--menu__items mega-col">
+        <span class="mega-menu__heading">Fabrics & Custom</span>
+        <ul class="mega-col__list">
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/fabric">Ankara Fabrics</a></li>
+            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/fabric">Bespoke Orders</a></li>
+        </ul>
+    </li>
+</ul>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/fabric">Fabrics</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link header__menu--link--sale" href="/sale">Sale</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/about">Our Story</a>
+                            </li>
+                            <li class="header__menu--items">
+                                <a class="header__menu--link" href="/contact">Contact</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- Header Account / Icons -->
+                <div class="header__account">
+                    <ul class="header__account--wrapper d-flex align-items-center">
+                        <!-- Search -->
+                        <li class="header__account--items header__account--search__items">
+                            <a class="header__account--btn search__open--btn" data-offcanvas=""
+                                href="javascript:void(0)">
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </span>
+                                <span class="visually-hidden">Search</span>
+                            </a>
+                        </li>
+                        <!-- Account -->
+                        <li class="header__account--items">
+                            <a class="header__account--btn" href="/account">
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path
+                                            d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </span>
+                                <span class="visually-hidden">My Account</span>
+                            </a>
+                        </li>
+                        <!-- Cart -->
+                        <li class="header__account--items header__minicart--items">
+                            <a class="header__account--btn minicart__open--btn" data-offcanvas=""
+                                href="javascript:void(0)">
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </span>
+                                <span class="items__count js-cart-count">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Offcanvas Mobile Menu ──────────────────── -->
+        <div class="offcanvas__header">
+            <div class="offcanvas__inner">
+                <div class="offcanvas__logo">
+                    <a class="offcanvas__logo--link" href="/">
+                        <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp" class="offcanvas__logo--img" />
+                    </a>
+                    <button aria-label="close menu" class="offcanvas__close--btn" data-offcanvas="">✕</button>
+                </div>
+                <nav class="offcanvas__menu">
+                    <ul class="offcanvas__menu_ul">
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="/">Home</a>
+                        </li>
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="/shop">Collections</a>
+                        </li>
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="/fabric">Fabrics</a>
+                        </li>
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="/sale">Sale</a>
+                        </li>
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="/about">Our Story</a>
+                        </li>
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="/contact">Contact</a>
+                        </li>
+                    </ul>
+                    <div class="offcanvas__account--items text-center">
+                        <a class="offcanvas__account--items__btn" href="/account">
+                            <svg class="offcanvas__account--items__btn--icon" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 512 512">
+                                <path
+                                    d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.13-88-96c-4.38-59.2 38.66-112 88-112s92.38 52.8 88 112z"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="32" />
+                                <path
+                                    d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 70.4 464 81.61 464h348.78c11.21 0 19.22-10.48 17.25-21.4C431.3 352 343 304 256 304z"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="32" />
+                            </svg>
+                            <span>My Account</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Hero -->
+        <div class="legal-hero">
+            <h1 class="legal-hero__title" data-legal="title">Shipping Policy</h1>
+            <p class="legal-hero__date" data-legal="date">Last updated: August 8, 2026</p>
+        </div>
+
+        <!-- Breadcrumb -->
+        <div class="legal-breadcrumb">
+            <a href="/">Home</a>
+            <span class="legal-breadcrumb__sep">›</span>
+            <span>Shipping Policy</span>
+        </div>
+
+        <!-- Content -->
+        <div class="legal-content-wrap" data-legal="content">
+            <div class="legal-section">
+                <h2>1. Processing Times</h2>
+                <p>All ready-to-wear orders are processed and dispatched within 1-2 business days. For bespoke and custom-tailored pieces, processing time depends on the complexity of the design, usually ranging from 5 to 10 business days. Orders placed on weekends or public holidays will begin processing on the following business day.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>2. Delivery Area</h2>
+                <p>We are currently delivering within <strong>Nairobi County Only</strong> using our designated local riders. Delivery within Nairobi is usually same-day or next-day after dispatch.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>3. Outside Nairobi & International Orders</h2>
+                <p>For orders outside Nairobi County or international shipments, please contact us directly via WhatsApp before placing your order. We can arrange specialized courier delivery on a case-by-case basis.</p>
+            </div>
+
+
+
+            <div class="legal-section">
+                <h2>4. Order Tracking</h2>
+                <p>Once your order has been dispatched, you will be notified via email or WhatsApp.</p>
+            </div>
+
+            <div class="legal-section legal-contact-card">
+                <h2>5. Shipping Enquiries</h2>
+                <p>If you have any questions about the delivery of your order:</p>
+                <ul>
+                    <li><strong>Email:</strong> <a href="mailto:maryhumphreyafricanwear@gmail.com">maryhumphreyafricanwear@gmail.com</a></li>
+                    <li><strong>WhatsApp / Call:</strong> <a href="tel:+254715687280">+254 715 687 280</a></li>
+                    <li><strong>Locations:</strong> Noir Boutique, Muthangari Drive & Lavington, Kingara Road, Nairobi, Kenya</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer id="site-footer" class="footer__section footer__bg" data-section-id="footer"></footer>
+    <script defer src="assets/footer.js"></script>
+
+    <!-- Realtime legal page updates from admin -->
+    <script>
+        (function () {
+            const SLUG = 'shipping';
+
+            async function initLegalPage() {
+                const supabaseUrl = window.STORE_CONFIG?.SUPABASE_URL;
+                const supabaseKey = window.STORE_CONFIG?.SUPABASE_ANON_KEY;
+                if (!supabaseUrl || !supabaseKey || !window.supabase) return;
+
+                const sb = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+                function updateDOM(content) {
+                    if (!content) return;
+                    const titleEl = document.querySelector('[data-legal="title"]');
+                    const dateEl = document.querySelector('[data-legal="date"]');
+                    const contentEl = document.querySelector('[data-legal="content"]');
+                    if (titleEl && content.title) titleEl.textContent = content.title;
+                    if (dateEl && content.lastUpdated) dateEl.textContent = 'Last updated: ' + content.lastUpdated;
+                    if (contentEl && content.html) contentEl.innerHTML = content.html;
+                }
+
+                // Initial fetch
+                try {
+                    const { data } = await sb.from('pages').select('content').eq('slug', SLUG).single();
+                    if (data && data.content) updateDOM(data.content);
+                } catch (e) { }
+
+                // Realtime
+                try {
+                    sb.channel('legal-' + SLUG)
+                        .on('postgres_changes', {
+                            event: 'UPDATE', schema: 'public', table: 'pages', filter: 'slug=eq.' + SLUG
+                        }, (payload) => {
+                            if (payload.new && payload.new.content) updateDOM(payload.new.content);
+                        })
+                        .subscribe();
+                } catch (e) { }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initLegalPage);
+            } else {
+                initLegalPage();
+            }
+        })();
+    </script>
+</body>
+
+</html>

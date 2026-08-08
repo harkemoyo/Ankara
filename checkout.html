@@ -1188,7 +1188,7 @@
 
                         // Show/hide payment confirmation checkbox (hide for COD)
                         if (paymentConfirmBox) {
-                            paymentConfirmBox.style.display = this.value === 'pay_on_delivery' ? 'none' : 'block';
+                            paymentConfirmBox.style.display = 'block';
                         }
                         // Reset checkbox when switching methods
                         if (paymentCheckbox) paymentCheckbox.checked = false;
@@ -1310,15 +1310,12 @@
                     const paymentLabels = {
                         'paybill': 'M-Pesa Paybill',
                         'send_money': 'M-Pesa Send Money',
-                        'bank_transfer': 'Bank Transfer',
-                        'pay_on_delivery': 'Pay on Delivery (COD)'
+                        'bank_transfer': 'Bank Transfer'
                     };
 
                     // Set payment status based on method and checkbox
                     let paymentStatus;
-                    if (paymentMethod === 'pay_on_delivery') {
-                        paymentStatus = '🚚 PAY ON DELIVERY';
-                    } else if (paymentConfirmed) {
+                    if (paymentConfirmed) {
                         paymentStatus = '✅ PAID';
                     } else {
                         paymentStatus = '⏳ PENDING';
@@ -1362,9 +1359,7 @@
                     msg += `Method: ${paymentLabels[paymentMethod] || paymentMethod}\n`;
                     msg += `Status: ${paymentStatus}\n`;
 
-                    if (paymentMethod === 'pay_on_delivery') {
-                        msg += `\n_Payment will be collected on delivery._\n`;
-                    } else if (paymentConfirmed) {
+                    if (paymentConfirmed) {
                         msg += `\n_I have completed payment. Confirmation code to follow._\n`;
                     } else {
                         msg += `\n_I will pay and send confirmation code shortly._\n`;

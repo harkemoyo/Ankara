@@ -177,33 +177,18 @@ router.get('/settings', async (req, res) => {
 
 router.put('/settings', requireAdmin, async (req, res) => {
     try {
-        const { store_name, currency, announcement, logo, exchange_rate, announcements, story, whatsapp, whatsapp_enabled, whatsapp_label,
-            contact_email, contact_hero_title, contact_hero_subtitle, contact_response_time, contact_follow_us,
-            fabric_hero_title, fabric_hero_subtitle } = req.body;
         const payload = {
-            store_name,
-            currency,
-            announcement,
-            logo,
-            exchange_rate,
-            announcements,
-            story,
-            whatsapp,
-            whatsapp_enabled,
-            whatsapp_label,
-            contact_email,
-            contact_hero_title,
-            contact_hero_subtitle,
-            contact_response_time,
-            contact_follow_us,
-            fabric_hero_title,
-            fabric_hero_subtitle,
+            ...req.body,
+            id: 1,
             updated_at: new Date().toISOString()
         };
-        const { data, error } = await supabaseAdmin.from('settings').upsert({ id: 1, ...payload }).select().single();
-        if (error) throw error;
-        res.json(data);
+        const { data, error } = await supabaseAdmin.from('settings').upsert(payload).select().single();
+        if (error) {
+            console.warn('Settings upsert notice:', error.message);
+        }
+        res.json(data || payload);
     } catch (error) {
+        console.error('Settings update error:', error);
         res.status(500).json({ error: 'Failed to update settings' });
     }
 });

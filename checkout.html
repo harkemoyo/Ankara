@@ -81,13 +81,15 @@
         <!-- ── Left Column: Checkout Form ── -->
         <div class="chk-main-col">
 
-            <!-- Delivery & Free Shipping Announcement Banner -->
+            <!-- High-Visibility Delivery & Free Shipping Announcement Banner -->
             <div class="checkout-banner-announcement">
                 <div class="checkout-banner-item">
-                    <span>📍 Currently Delivering Within Nairobi County Only</span>
+                    <span class="banner-badge">Location</span>
+                    <span>📍 Delivering within Nairobi County</span>
                 </div>
                 <div class="checkout-banner-item">
-                    <span>🚚 FREE Nairobi Delivery on Orders Over <span class="free-shipping-threshold">$100.00</span></span>
+                    <span class="banner-badge banner-badge-free">Free Delivery</span>
+                    <span>🚚 FREE Nairobi Delivery on Orders Over <strong class="free-shipping-threshold">$100.00</strong></span>
                 </div>
             </div>
 
@@ -97,14 +99,16 @@
                 <section class="chk-section">
                     <div class="chk-section-header">
                         <h2 class="chk-section-title">Contact</h2>
-                        <a href="/login" class="chk-login-link">Sign in</a>
+                        <span style="font-size:13.5px; color:#666;">
+                            Already have an account? <a href="/account" class="chk-login-link">Log in</a>
+                        </span>
                     </div>
                     <div class="chk-field-group">
-                        <input type="email" id="email" name="email" class="chk-input" placeholder="Email" required autocomplete="email">
+                        <input type="email" id="email" name="email" class="chk-input" placeholder="Email Address" required autocomplete="email">
                     </div>
                     <label class="chk-checkbox-wrap">
                         <input type="checkbox" id="news-offers" checked>
-                        <span>Email me with news and offers</span>
+                        <span>Email me with news and special African fashion offers</span>
                     </label>
                 </section>
 
@@ -185,10 +189,10 @@
                     <!-- Nairobi Only Notice -->
                     <div class="checkout__shipping-notice">
                         <span class="checkout__shipping-icon">📍</span>
-                        <span class="checkout__shipping-text">
-                            <strong>Delivery is currently available within Nairobi only.</strong><br>
-                            <small class="checkout__shipping-subtext">For orders outside Nairobi, please contact us via WhatsApp.</small>
-                        </span>
+                        <div class="checkout__shipping-text">
+                            <strong>Nairobi County Fast Delivery</strong>
+                            <div class="checkout__shipping-subtext">Doorstep delivery within Nairobi County in 1–2 business days. For orders outside Nairobi or worldwide shipping, we coordinate personalized courier via WhatsApp.</div>
+                        </div>
                     </div>
 
                     <div class="chk-card-group">
@@ -603,7 +607,7 @@
             msg += `Method: ${methodLabel}\n\n`;
             msg += `Please confirm my order and send payment details. Thank you! 🙏`;
 
-            const waNumber = '254715687280';
+            const waNumber = (window.checkoutSettings?.whatsapp || window.checkoutSettings?.whatsapp_phone || window.STORE_CONFIG?.WHATSAPP_NUMBER || '254715687280').replace(/[^0-9]/g, '');
             const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
             window.open(url, '_blank');
         }
@@ -614,8 +618,32 @@
             handleWhatsAppOrder();
         });
 
+        // Load dynamic settings from Supabase / Admin
+        async function loadStorefrontCheckoutSettings() {
+            try {
+                const res = await fetch('/api/settings');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data) {
+                        window.checkoutSettings = data;
+                        if (data.delivery_notice) {
+                            const noticeEl = document.querySelector('.checkout__shipping-subtext');
+                            if (noticeEl) noticeEl.textContent = data.delivery_notice;
+                        }
+                        if (data.free_shipping_threshold) {
+                            const threshEl = document.querySelector('.free-shipping-threshold');
+                            if (threshEl) threshEl.textContent = '$' + Number(data.free_shipping_threshold).toFixed(2);
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+
         // Initialize on load
-        document.addEventListener('DOMContentLoaded', renderCheckout);
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCheckout();
+            loadStorefrontCheckoutSettings();
+        });
         window.addEventListener('currency:changed', renderCheckout);
     </script>
 

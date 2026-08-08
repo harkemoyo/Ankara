@@ -808,6 +808,9 @@
       <a data-section="settings" href="#" onclick="showSection('settings',this)">
         <span class="icon">⚙️</span> Settings
       </a>
+      <a data-section="checkout" href="#" onclick="showSection('checkout',this)">
+        <span class="icon">🛒</span> Checkout
+      </a>
       <a data-section="size-charts" href="#" onclick="showSection('size-charts',this)">
         <span class="icon">📏</span> Size Charts
       </a>
@@ -1495,6 +1498,179 @@
         <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
       </div>
     </section>
+
+    <!-- ── CHECKOUT & WHATSAPP SETTINGS ── -->
+    <section class="admin-section" id="section-checkout">
+      <div class="page-header">
+        <div>
+          <h1>Checkout & Delivery Settings</h1>
+          <p style="color:var(--text-muted);font-size:1.3rem;margin-top:4px;">Manage delivery rules, free shipping thresholds, WhatsApp concierge ordering, and payment instructions.</p>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <a href="/checkout" target="_blank" class="btn" style="background:#fff;border:1px solid var(--border);color:var(--text);">
+            👁️ Preview Checkout
+          </a>
+          <button class="btn btn-primary" onclick="saveCheckoutSettings()">
+            💾 Save Checkout Settings
+          </button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(420px, 1fr));gap:24px;margin-bottom:32px;">
+
+        <!-- 1. Shipping & Delivery Rules -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
+          <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+            🚚 Shipping & Delivery Rules
+          </h2>
+          <p style="color:var(--text-muted);font-size:1.25rem;margin-bottom:20px;">Control storefront delivery instructions, thresholds, and timelines.</p>
+
+          <div class="form-group" style="margin-bottom:18px;">
+            <label>Delivery Area Label</label>
+            <input id="chk-delivery-area" type="text" placeholder="e.g. Nairobi County Only" value="Nairobi County Only" />
+          </div>
+
+          <div class="form-group" style="margin-bottom:18px;">
+            <label>Top Announcement Banner Text</label>
+            <input id="chk-banner-text" type="text" placeholder="e.g. 📍 Delivering within Nairobi County | 🚚 FREE Nairobi Delivery on Orders Over $100.00" value="📍 Delivering within Nairobi County | 🚚 FREE Nairobi Delivery on Orders Over $100.00" />
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
+            <div class="form-group">
+              <label>Free Delivery Threshold (USD $)</label>
+              <input id="chk-free-threshold" type="number" step="0.01" placeholder="100.00" value="100.00" />
+            </div>
+            <div class="form-group">
+              <label>Standard Delivery Fee (USD $)</label>
+              <input id="chk-shipping-fee" type="number" step="0.01" placeholder="0.00" value="0.00" />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:18px;">
+            <label>Estimated Delivery Timeframe</label>
+            <input id="chk-delivery-time" type="text" placeholder="e.g. 1–2 business days (Handcrafted Made to Order: 2 Weeks)" value="1–2 business days (Delivery Made to Order: 2 Weeks)" />
+          </div>
+
+          <div class="form-group" style="margin-bottom:18px;">
+            <label>Delivery Notice & WhatsApp Instructions (Step 3 Box)</label>
+            <textarea id="chk-delivery-notice" rows="3" placeholder="Instructions shown on checkout...">Doorstep delivery within Nairobi County in 1–2 business days. For orders outside Nairobi or worldwide shipping, we coordinate personalized courier via WhatsApp.</textarea>
+          </div>
+        </div>
+
+        <!-- 2. WhatsApp Ordering & Concierge -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
+          <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+            💬 WhatsApp Concierge Ordering
+          </h2>
+          <p style="color:var(--text-muted);font-size:1.25rem;margin-bottom:20px;">All customer orders and payment confirmations are directly routed to your WhatsApp.</p>
+
+          <div class="form-group" style="margin-bottom:18px;">
+            <label>WhatsApp Number (International format, no + or spaces)</label>
+            <input id="chk-whatsapp-phone" type="text" placeholder="e.g. 254715687280" value="254715687280" />
+          </div>
+
+          <div class="form-group" style="margin-bottom:18px;">
+            <label>WhatsApp Greeting Intro Text</label>
+            <input id="chk-whatsapp-greeting" type="text" placeholder="e.g. Hello Mary Humphrey Wear! I would like to place an order:" value="Hello Mary Humphrey Wear! I would like to place an order:" />
+          </div>
+
+          <div class="form-group" style="margin-bottom:20px;">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:1.35rem;font-weight:500;">
+              <input id="chk-whatsapp-active" type="checkbox" style="width:18px;height:18px;" checked />
+              Enable "Place Order via WhatsApp" button on checkout
+            </label>
+          </div>
+
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;margin-bottom:20px;">
+            <div style="font-weight:600;color:#166534;font-size:1.3rem;margin-bottom:6px;">📱 Live WhatsApp Order Testing</div>
+            <p style="font-size:1.2rem;color:#15803d;margin-bottom:12px;">Test your WhatsApp link with a simulated order to ensure your concierge number receives incoming messages.</p>
+            <button type="button" class="btn" style="background:#25D366;color:#fff;font-weight:600;" onclick="testWhatsAppOrder()">
+              📲 Send Test WhatsApp Order
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. PayPal Configuration -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
+          <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+            💳 PayPal & International Cards
+          </h2>
+          <p style="color:var(--text-muted);font-size:1.25rem;margin-bottom:20px;">Configure your PayPal details. When customers choose PayPal, you can invoice or charge them directly.</p>
+
+          <div class="form-group" style="margin-bottom:18px;">
+            <label>PayPal Account Email / Merchant ID</label>
+            <input id="chk-paypal-email" type="email" placeholder="e.g. payments@maryhumphrey.com" />
+          </div>
+
+          <div class="form-group" style="margin-bottom:18px;">
+            <label>PayPal Client ID (Live / Sandbox)</label>
+            <input id="chk-paypal-client-id" type="text" placeholder="e.g. sb or client-id from developer.paypal.com" value="sb" />
+          </div>
+
+          <div class="form-group" style="margin-bottom:20px;">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:1.35rem;font-weight:500;">
+              <input id="chk-paypal-enabled" type="checkbox" style="width:18px;height:18px;" checked />
+              Offer PayPal / International Card option on checkout
+            </label>
+          </div>
+        </div>
+
+        <!-- 4. M-Pesa & Bank Transfer Details -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
+          <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+            🏦 M-Pesa & Bank Transfer Details
+          </h2>
+          <p style="color:var(--text-muted);font-size:1.25rem;margin-bottom:20px;">These details are shown in the checkout payment accordion and sent in the WhatsApp confirmation.</p>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
+            <div class="form-group">
+              <label>M-Pesa Paybill / Till Number</label>
+              <input id="chk-mpesa-paybill" type="text" placeholder="e.g. 247247" value="247247" />
+            </div>
+            <div class="form-group">
+              <label>M-Pesa Account / Reference</label>
+              <input id="chk-mpesa-account" type="text" placeholder="e.g. 687280" value="687280" />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:18px;">
+            <label>M-Pesa Direct Phone (Send Money)</label>
+            <input id="chk-mpesa-phone" type="text" placeholder="e.g. 0715 687 280" value="0715 687 280" />
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
+            <div class="form-group">
+              <label>Bank Name</label>
+              <input id="chk-bank-name" type="text" placeholder="e.g. Equity Bank Kenya" value="Equity Bank Kenya" />
+            </div>
+            <div class="form-group">
+              <label>Bank Account Number</label>
+              <input id="chk-bank-account" type="text" placeholder="e.g. 0150186781642" value="0150186781642" />
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
+            <div class="form-group">
+              <label>SWIFT / BIC Code</label>
+              <input id="chk-bank-swift" type="text" placeholder="e.g. EQBLKENA" value="EQBLKENA" />
+            </div>
+            <div class="form-group">
+              <label>Branch Code / Name</label>
+              <input id="chk-bank-branch" type="text" placeholder="e.g. 015 (Supreme Branch)" value="015" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Save Button Footer -->
+      <div style="display:flex;justify-content:flex-end;gap:12px;">
+        <button class="btn btn-primary" style="padding:14px 28px;font-size:1.4rem;" onclick="saveCheckoutSettings()">
+          💾 Save All Checkout Settings
+        </button>
+      </div>
+    </section>
+
     <!-- About Page -->
     <section class="admin-section" id="section-legal">
       <div class="page-header">
@@ -2232,6 +2408,7 @@
       if (name === 'legal') loadAllLegalPages();
       if (name === 'contact-page') { loadContactPageEditor(); subscribeContactPage(); }
       if (name === 'settings') loadSettings();
+      if (name === 'checkout') loadCheckoutSettings();
       if (name === 'size-charts') loadSizeCharts();
       if (name === 'customer-measurements') loadCustomerMeasurements();
       if (name === 'homepage') loadHomepageSections();
@@ -3936,6 +4113,108 @@
       } catch (error) {
         toast(error.message, 'error');
       }
+    };
+
+    // ── CHECKOUT & WHATSAPP SETTINGS ──
+    async function loadCheckoutSettings() {
+      try {
+        const response = await fetch('/api/settings');
+        const data = await response.json();
+        if (!data) return;
+
+        const set = (id, val, def = '') => {
+          const el = document.getElementById(id);
+          if (el) el.value = val !== undefined && val !== null ? val : def;
+        };
+        const setCheck = (id, val, def = true) => {
+          const el = document.getElementById(id);
+          if (el) el.checked = val !== undefined ? Boolean(val) : def;
+        };
+
+        set('chk-delivery-area', data.delivery_area, 'Nairobi County Only');
+        set('chk-banner-text', data.banner_text || data.announcement, '📍 Delivering within Nairobi County | 🚚 FREE Nairobi Delivery on Orders Over $100.00');
+        set('chk-free-threshold', data.free_shipping_threshold, '100.00');
+        set('chk-shipping-fee', data.shipping_rate, '0.00');
+        set('chk-delivery-time', data.delivery_time, '1–2 business days (Delivery Made to Order: 2 Weeks)');
+        set('chk-delivery-notice', data.delivery_notice, 'Doorstep delivery within Nairobi County in 1–2 business days. For orders outside Nairobi or worldwide shipping, we coordinate personalized courier via WhatsApp.');
+
+        set('chk-whatsapp-phone', data.whatsapp || data.whatsapp_phone, '254715687280');
+        set('chk-whatsapp-greeting', data.whatsapp_greeting, 'Hello Mary Humphrey Wear! I would like to place an order:');
+        setCheck('chk-whatsapp-active', data.whatsapp_enabled !== false);
+
+        set('chk-paypal-email', data.paypal_email, '');
+        set('chk-paypal-client-id', data.paypal_client_id, 'sb');
+        setCheck('chk-paypal-enabled', data.paypal_enabled !== false);
+
+        set('chk-mpesa-paybill', data.mpesa_paybill, '247247');
+        set('chk-mpesa-account', data.mpesa_account, '687280');
+        set('chk-mpesa-phone', data.mpesa_phone, '0715 687 280');
+
+        set('chk-bank-name', data.bank_name, 'Equity Bank Kenya');
+        set('chk-bank-account', data.bank_account, '0150186781642');
+        set('chk-bank-swift', data.bank_swift, 'EQBLKENA');
+        set('chk-bank-branch', data.bank_branch, '015');
+      } catch (err) {
+        console.error('Error loading checkout settings:', err);
+      }
+    }
+
+    window.saveCheckoutSettings = async function () {
+      try {
+        const get = id => document.getElementById(id)?.value || '';
+        const getCheck = id => document.getElementById(id)?.checked ?? true;
+
+        const payload = {
+          delivery_area: get('chk-delivery-area'),
+          banner_text: get('chk-banner-text'),
+          announcement: get('chk-banner-text'),
+          free_shipping_threshold: parseFloat(get('chk-free-threshold')) || 100.00,
+          shipping_rate: parseFloat(get('chk-shipping-fee')) || 0.00,
+          delivery_time: get('chk-delivery-time'),
+          delivery_notice: get('chk-delivery-notice'),
+
+          whatsapp: get('chk-whatsapp-phone'),
+          whatsapp_phone: get('chk-whatsapp-phone'),
+          whatsapp_greeting: get('chk-whatsapp-greeting'),
+          whatsapp_enabled: getCheck('chk-whatsapp-active'),
+
+          paypal_email: get('chk-paypal-email'),
+          paypal_client_id: get('chk-paypal-client-id'),
+          paypal_enabled: getCheck('chk-paypal-enabled'),
+
+          mpesa_paybill: get('chk-mpesa-paybill'),
+          mpesa_account: get('chk-mpesa-account'),
+          mpesa_phone: get('chk-mpesa-phone'),
+
+          bank_name: get('chk-bank-name'),
+          bank_account: get('chk-bank-account'),
+          bank_swift: get('chk-bank-swift'),
+          bank_branch: get('chk-bank-branch')
+        };
+
+        const session = (await supabase.auth.getSession()).data.session;
+        const response = await fetch('/api/settings', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {})
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error('Failed to save checkout settings');
+        toast('Checkout & WhatsApp settings saved successfully!');
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    };
+
+    window.testWhatsAppOrder = function () {
+      const phone = document.getElementById('chk-whatsapp-phone')?.value || '254715687280';
+      const greeting = document.getElementById('chk-whatsapp-greeting')?.value || 'Hello Mary Humphrey Wear! I would like to place an order:';
+      const msg = `🛍️ *MARY HUMPHREY WEAR — TEST ORDER*\n\n${greeting}\n\n• 1x Pull-up Leather Pauline Tote (Size: Standard) — $222.31\n\n💰 *Total*: $222.31\n📍 *Delivery*: Nairobi County\n💳 *Payment*: WhatsApp Concierge\n\n(Test message from Admin Dashboard)`;
+      const url = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
     };
 
     // ── ABOUT PAGE ──

@@ -304,18 +304,41 @@
                         <h2 class="chk-section-title">Billing address</h2>
                     </div>
                     <div class="chk-card-group">
-                        <label class="chk-card-row active" id="billing-same-row">
+                        <label class="chk-card-row active" id="billing-same-row" onclick="toggleBillingAddress('same')">
                             <div class="chk-card-row-left">
                                 <input type="radio" name="billing_address_type" id="billing-same" value="same" checked>
                                 <span class="chk-card-label">Same as shipping address</span>
                             </div>
                         </label>
-                        <label class="chk-card-row" id="billing-diff-row">
+                        <label class="chk-card-row" id="billing-diff-row" onclick="toggleBillingAddress('different')">
                             <div class="chk-card-row-left">
                                 <input type="radio" name="billing_address_type" id="billing-diff" value="different">
                                 <span class="chk-card-label">Use a different billing address</span>
                             </div>
                         </label>
+                    </div>
+
+                    <!-- Expandable Billing Address Fields -->
+                    <div id="billing-fields-box" style="display:none; flex-direction:column; gap:10px; background:#faf8f5; border:1px solid var(--chk-border); border-radius:var(--chk-radius); padding:16px;">
+                        <div class="chk-field-row">
+                            <div class="chk-field-group">
+                                <input type="text" id="billing-first-name" name="billing_first_name" class="chk-input" placeholder="Billing first name">
+                            </div>
+                            <div class="chk-field-group">
+                                <input type="text" id="billing-last-name" name="billing_last_name" class="chk-input" placeholder="Billing last name">
+                            </div>
+                        </div>
+                        <div class="chk-field-group">
+                            <input type="text" id="billing-address" name="billing_address" class="chk-input" placeholder="Billing address">
+                        </div>
+                        <div class="chk-field-row">
+                            <div class="chk-field-group">
+                                <input type="text" id="billing-city" name="billing_city" class="chk-input" placeholder="Billing city">
+                            </div>
+                            <div class="chk-field-group">
+                                <input type="text" id="billing-postcode" name="billing_postcode" class="chk-input" placeholder="Postal code">
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -495,6 +518,97 @@
             }
         }
 
+        // Dynamic Discount State
+        let activeDiscount = null;
+
+        // Toggle Billing Address (Same vs Different)
+        function toggleBillingAddress(type) {
+            const box = document.getElementById('billing-fields-box');
+            const sameRow = document.getElementById('billing-same-row');
+            const diffRow = document.getElementById('billing-diff-row');
+            const sameRadio = document.getElementById('billing-same');
+            const diffRadio = document.getElementById('billing-diff');
+
+            if (type === 'different') {
+                if (box) box.style.display = 'flex';
+                if (sameRow) sameRow.classList.remove('active');
+                if (diffRow) diffRow.classList.add('active');
+                if (diffRadio) diffRadio.checked = true;
+            } else {
+                if (box) box.style.display = 'none';
+                if (sameRow) sameRow.classList.add('active');
+                if (diffRow) diffRow.classList.remove('active');
+                if (sameRadio) sameRadio.checked = true;
+            }
+        }
+
+        // Save Customer Info in Storage (Autofill for next time)
+        function saveCustomerInfoToStorage() {
+            const saveCheck = document.getElementById('save-info');
+            if (!saveCheck || !saveCheck.checked) {
+                localStorage.removeItem('mhw_customer_checkout_info');
+                return;
+            }
+            const info = {
+                firstName: document.getElementById('first-name')?.value || '',
+                lastName: document.getElementById('last-name')?.value || '',
+                company: document.getElementById('company')?.value || '',
+                address1: document.getElementById('address1')?.value || '',
+                address2: document.getElementById('address2')?.value || '',
+                city: document.getElementById('city')?.value || '',
+                postcode: document.getElementById('postcode')?.value || '',
+                phone: document.getElementById('phone')?.value || '',
+                email: document.getElementById('email')?.value || '',
+                country: document.getElementById('country')?.value || 'KE',
+                newsOffers: document.getElementById('news-offers')?.checked ?? true,
+                textOffers: document.getElementById('text-offers')?.checked ?? false
+            };
+            localStorage.setItem('mhw_customer_checkout_info', JSON.stringify(info));
+        }
+
+        function loadCustomerInfoFromStorage() {
+            try {
+                const raw = localStorage.getItem('mhw_customer_checkout_info');
+                if (!raw) return;
+                const info = JSON.parse(raw);
+                if (info.firstName && document.getElementById('first-name')) document.getElementById('first-name').value = info.firstName;
+                if (info.lastName && document.getElementById('last-name')) document.getElementById('last-name').value = info.lastName;
+                if (info.company && document.getElementById('company')) document.getElementById('company').value = info.company;
+                if (info.address1 && document.getElementById('address1')) document.getElementById('address1').value = info.address1;
+                if (info.address2 && document.getElementById('address2')) document.getElementById('address2').value = info.address2;
+                if (info.city && document.getElementById('city')) document.getElementById('city').value = info.city;
+                if (info.postcode && document.getElementById('postcode')) document.getElementById('postcode').value = info.postcode;
+                if (info.phone && document.getElementById('phone')) document.getElementById('phone').value = info.phone;
+                if (info.email && document.getElementById('email')) document.getElementById('email').value = info.email;
+                if (info.country && document.getElementById('country')) document.getElementById('country').value = info.country;
+                if (info.newsOffers !== undefined && document.getElementById('news-offers')) document.getElementById('news-offers').checked = info.newsOffers;
+                if (info.textOffers !== undefined && document.getElementById('text-offers')) document.getElementById('text-offers').checked = info.textOffers;
+            } catch(e) {}
+        }
+
+        // Apply Discount Code
+        function applyDiscount() {
+            const input = document.getElementById('discount-code');
+            const code = (input?.value || '').trim().toUpperCase();
+            if (!code) {
+                alert('Please enter a discount code.');
+                return;
+            }
+            const validCodes = {
+                'WELCOME10': { type: 'percent', value: 10, label: '10% Off Welcome' },
+                'AFRICA20': { type: 'percent', value: 20, label: '20% Off Heritage' },
+                'FREESHIP': { type: 'free_shipping', value: 0, label: 'Free Doorstep Shipping' },
+                'VIP50': { type: 'fixed', value: 50, label: '$50 Off VIP' }
+            };
+            if (validCodes[code]) {
+                activeDiscount = { code, ...validCodes[code] };
+                alert(`🎉 Discount applied: ${code} (${activeDiscount.label})`);
+                renderCheckout();
+            } else {
+                alert('Invalid or expired discount code. (Try code WELCOME10 for 10% off!)');
+            }
+        }
+
         // Switch Payment Tabs
         function selectPaymentMethod(method) {
             const methods = ['paypal', 'card', 'mpesa'];
@@ -515,71 +629,12 @@
 
             const submitBtn = document.getElementById('chk-submit-btn');
             if (submitBtn) {
-                if (method === 'paypal') submitBtn.textContent = 'Pay with PayPal';
-                else if (method === 'card') submitBtn.textContent = 'Pay with Card';
-                else submitBtn.textContent = 'Complete Order';
-            }
-        }
-
-        // Apply Discount
-        function applyDiscount() {
-            const input = document.getElementById('discount-code');
-            const code = (input?.value || '').trim().toUpperCase();
-            if (!code) {
-                alert('Please enter a discount code.');
-                return;
-            }
-            if (code === 'WELCOME10') {
-                alert('10% discount applied!');
-            } else {
-                alert('Invalid or expired discount code.');
-            }
-        }
-
-        // PayPal Buttons Integration
-        function renderPayPalButtons(orderTotal) {
-            const container = document.getElementById('paypal-button-container');
-            if (!container || !window.paypal || container.children.length > 0) return;
-
-            try {
-                window.paypal.Buttons({
-                    style: {
-                        layout: 'vertical',
-                        color: 'gold',
-                        shape: 'rect',
-                        label: 'paypal'
-                    },
-                    createOrder: function(data, actions) {
-                        return actions.order.create({
-                            purchase_units: [{
-                                amount: {
-                                    value: Number(orderTotal).toFixed(2),
-                                    currency_code: 'USD'
-                                }
-                            }]
-                        });
-                    },
-                    onApprove: function(data, actions) {
-                        return actions.order.capture().then(function(details) {
-                            alert('Transaction completed by ' + details.payer.name.given_name + '!');
-                            localStorage.removeItem('mhw-cart');
-                            window.location.href = `/thank-you?order=${details.id}&method=paypal`;
-                        });
-                    }
-                }).render('#paypal-button-container');
-            } catch(e) {
-                console.log('PayPal SDK initialized in direct mode');
-            }
-        }
-
-        // PayPal Express Action
-        function handlePayPalExpress() {
-            selectPaymentMethod('paypal');
-            const container = document.getElementById('paypal-button-container');
-            if (container && container.querySelector('.paypal-button')) {
-                container.querySelector('.paypal-button').click();
-            } else {
-                document.getElementById('chk-form').dispatchEvent(new Event('submit'));
+                submitBtn.innerHTML = `
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                    Place Order via WhatsApp
+                `;
             }
         }
 
@@ -591,6 +646,9 @@
                 return;
             }
 
+            // Save info for next time if checkbox is checked
+            saveCustomerInfoToStorage();
+
             const firstName = (document.getElementById('first-name')?.value || '').trim();
             const lastName = (document.getElementById('last-name')?.value || '').trim();
             const email = (document.getElementById('email')?.value || '').trim();
@@ -599,8 +657,22 @@
             const city = (document.getElementById('city')?.value || '').trim();
             const country = (document.getElementById('country')?.value || 'KE');
 
-            const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
-            const total = subtotal;
+            const newsOffers = document.getElementById('news-offers')?.checked;
+            const textOffers = document.getElementById('text-offers')?.checked;
+
+            const isDiffBilling = document.getElementById('billing-diff')?.checked;
+            const bFirstName = (document.getElementById('billing-first-name')?.value || '').trim();
+            const bLastName = (document.getElementById('billing-last-name')?.value || '').trim();
+            const bAddress = (document.getElementById('billing-address')?.value || '').trim();
+            const bCity = (document.getElementById('billing-city')?.value || '').trim();
+
+            const rawSubtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
+            let discountAmt = 0;
+            if (activeDiscount) {
+                if (activeDiscount.type === 'percent') discountAmt = rawSubtotal * (activeDiscount.value / 100);
+                else if (activeDiscount.type === 'fixed') discountAmt = activeDiscount.value * (window.AnkaraCurrency?.rate || 130);
+            }
+            const total = Math.max(0, rawSubtotal - discountAmt);
 
             let msg = `━━━━━━━━━━━━━━━━━━━━\n`;
             msg += `    *MARY HUMPHREY*\n`;
@@ -613,19 +685,29 @@
                 if (item.size) msg += `   • Size: ${item.size}\n`;
                 if (item.color) msg += `   • Colour: ${item.color}\n`;
                 msg += `   • Qty: ${item.qty} × ${formatPrice(item.price)}\n`;
-                msg += `   • Subtotal: ${formatPrice(parseFloat(item.price) * item.qty)}\n\n`;
+                msg += `   • Line Total: ${formatPrice(parseFloat(item.price) * item.qty)}\n\n`;
             });
+
+            if (activeDiscount) {
+                msg += `🏷️ *PROMO CODE*: ${activeDiscount.code} (-${formatPrice(discountAmt)})\n`;
+            }
 
             msg += `━━━━━━━━━━━━━━━━━━━━\n`;
             msg += `*TOTAL: ${formatPrice(total)}*\n`;
             msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
 
             if (firstName || lastName) {
-                msg += `👤 *CUSTOMER DETAILS*\n`;
+                msg += `👤 *CUSTOMER & DELIVERY DETAILS*\n`;
                 msg += `Name: ${firstName} ${lastName}\n`;
                 if (phone) msg += `Phone: ${phone}\n`;
                 if (email) msg += `Email: ${email}\n`;
-                if (address) msg += `Address: ${address}, ${city} (${country})\n\n`;
+                if (address) msg += `Delivery Address: ${address}, ${city} (${country})\n\n`;
+            }
+
+            if (isDiffBilling && (bFirstName || bAddress)) {
+                msg += `🏠 *BILLING ADDRESS*\n`;
+                msg += `Billing Name: ${bFirstName} ${bLastName}\n`;
+                msg += `Billing Address: ${bAddress}, ${bCity}\n\n`;
             }
 
             const method = document.querySelector('input[name="payment_method"]:checked')?.value || 'paypal';
@@ -633,7 +715,13 @@
 
             msg += `💳 *PAYMENT PREFERENCE*\n`;
             msg += `Method: ${methodLabel}\n\n`;
-            msg += `Please confirm my order and send payment details. Thank you! 🙏`;
+
+            if (newsOffers || textOffers) {
+                msg += `📩 *MARKETING CONSENT*\n`;
+                msg += `Opt-In: ${newsOffers ? 'Email Offers (Yes)' : ''} ${textOffers ? 'WhatsApp/SMS (Yes)' : ''}\n\n`;
+            }
+
+            msg += `Please confirm my order and send payment instructions. Thank you! 🙏`;
 
             const waNumber = (window.checkoutSettings?.whatsapp || window.checkoutSettings?.whatsapp_phone || window.STORE_CONFIG?.WHATSAPP_NUMBER || '254715687280').replace(/[^0-9]/g, '');
             const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
@@ -644,6 +732,12 @@
         document.getElementById('chk-form').addEventListener('submit', function(e) {
             e.preventDefault();
             handleWhatsAppOrder();
+        });
+
+        // Listen for input changes to autofill save
+        document.querySelectorAll('.chk-input, #country, #save-info, #news-offers, #text-offers').forEach(el => {
+            el.addEventListener('input', saveCustomerInfoToStorage);
+            el.addEventListener('change', saveCustomerInfoToStorage);
         });
 
         // Load dynamic settings from Supabase / Admin
@@ -670,6 +764,7 @@
         // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
             renderCheckout();
+            loadCustomerInfoFromStorage();
             loadStorefrontCheckoutSettings();
         });
         window.addEventListener('currency:changed', renderCheckout);

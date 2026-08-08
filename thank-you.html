@@ -181,23 +181,37 @@
 
         <!-- Right: Payment Details & Actions -->
         <div class="thankyou-grid">
-            <div class="info-card thankyou-card--success">
+            <div class="info-card thankyou-card--success" id="payment-details-card">
                 <h2 class="thankyou-card-title--success">Payment Details</h2>
-                <p class="thankyou-card-text">
-                    Complete your payment of <strong id="disp-pay-total">—</strong> via:
-                </p>
-                <div class="d-flex flex-column gap-2 text-sm">
-                    <div class="payment-method-box payment-method-box--mpesa">
-                        <strong class="text-success">1. Lipa Na M-Pesa (Paybill)</strong><br>
-                        Paybill: <strong>247247</strong> · Account: <strong>687280</strong>
+                <div id="payment-unconfirmed-note">
+                    <p class="thankyou-card-text">
+                        Complete your payment of <strong id="disp-pay-total">—</strong> via:
+                    </p>
+                    <div class="d-flex flex-column gap-2 text-sm" id="payment-instructions-box">
+                        <div class="payment-method-box payment-method-box--mpesa">
+                            <strong class="text-success">1. Lipa Na M-Pesa (Paybill)</strong><br>
+                            Paybill: <strong>247247</strong> · Account: <strong>687280</strong>
+                        </div>
+                        <div class="payment-method-box payment-method-box--sendmoney">
+                            <strong class="text-primary">2. Send Money (M-Pesa)</strong><br>
+                            Phone: <strong>0715687280</strong>
+                        </div>
+                        <div class="payment-method-box payment-method-box--bank">
+                            <strong class="text-warning">3. Bank Transfer (Equity Bank)</strong><br>
+                            Equity Bank · A/C: <strong>0150186781642</strong> · SWIFT: <strong>EQBLKENA</strong> · Bank Code: <strong>68</strong> · Branch Code: <strong>015</strong>
+                        </div>
                     </div>
-                    <div class="payment-method-box payment-method-box--sendmoney">
-                        <strong class="text-primary">2. Send Money (M-Pesa)</strong><br>
-                        Phone: <strong>0715687280</strong>
+                </div>
+
+                <div id="payment-confirmed-box" style="display:none; flex-direction:column; gap:8px; background:#e8f5e9; border:1px solid #c8e6c9; border-radius:6px; padding:16px; color:#2e7d32; margin-top:10px;">
+                    <div style="font-weight:700; font-size:1.4rem; display:flex; align-items:center; gap:8px;">
+                        <span>✅</span> Payment Successfully Confirmed
                     </div>
-                    <div class="payment-method-box payment-method-box--bank">
-                        <strong class="text-warning">3. Bank Transfer (Equity Bank)</strong><br>
-                        Equity Bank · A/C: <strong>0150186781642</strong> · SWIFT: <strong>EQBLKENA</strong> · Bank Code: <strong>68</strong> · Branch Code: <strong>015</strong>
+                    <p style="margin:0; font-size:1.2rem; color:#388e3c; line-height:1.5;">
+                        Your PayPal transaction of <strong id="disp-confirmed-total">—</strong> was captured. We are processing your handcrafted order!
+                    </p>
+                    <div style="font-size:1.15rem; background:rgba(46, 125, 50, 0.08); padding:8px 12px; border-radius:4px; font-family:monospace; word-break:break-all;">
+                        Transaction ID: <span id="paypal-tx-id">—</span>
                     </div>
                 </div>
             </div>
@@ -281,15 +295,40 @@
           </div>
         `).join('');
 
+      // Check payment status or url parameter
+      const isPaid = (order.payment_status === 'paid' || params.get('method') === 'paypal' || order.payment_method === 'paypal');
+      const instructionsBox = document.getElementById('payment-unconfirmed-note');
+      const confirmedBox = document.getElementById('payment-confirmed-box');
+      const txIdEl = document.getElementById('paypal-tx-id');
+      const confTotalEl = document.getElementById('disp-confirmed-total');
+
+      if (isPaid) {
+          if (instructionsBox) instructionsBox.style.display = 'none';
+          if (confirmedBox) confirmedBox.style.display = 'flex';
+          const paypalId = order.payment_intent_id || params.get('paypal_id') || params.get('order') || 'Captured';
+          if (txIdEl) txIdEl.textContent = paypalId;
+          if (confTotalEl) confTotalEl.textContent = formatAmount(order.total, order.currency);
+      }
+
       // Generate WhatsApp confirmation message
+      let waStatus = '';
+      if (isPaid) {
+          const paypalId = order.payment_intent_id || params.get('paypal_id') || params.get('order') || 'Captured';
+          waStatus = `✅ *Payment Status:* Paid via PayPal\n` +
+                     `💳 *Transaction ID:* ${paypalId}\n\n`;
+      } else {
+          waStatus = `⏳ *Payment Status:* Pending (Selected: ${order.payment_method || 'M-Pesa/Transfer'})\n\n`;
+      }
+
       const whatsappMsg = encodeURIComponent(
         `🛍️ *Order Confirmation*\n\n` +
         `Hi Mary Humphrey Wear,\n` +
         `I've placed Order *${order.order_number}*.\n\n` +
+        waStatus +
         `*Items:*\n${items.map(i => `• ${i.product_title} (${i.variant_size || ''} ${i.variant_color ? '/ ' + i.variant_color : ''}) x${i.quantity}`).join('\n')}\n\n` +
         `*Total:* ${formatAmount(order.total, order.currency)}\n` +
         `*Name:* ${order.customer_name}\n\n` +
-        `Please confirm receipt. Thank you! 🙏`
+        `Please confirm shipping details. Thank you! 🙏`
       );
       const whatsappBtn = document.getElementById('whatsapp-confirm-btn');
       if (whatsappBtn) {

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -9,1403 +8,617 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-1GXEHGGPH8');
     </script>
     <meta charset="utf-8" />
-    <title>Checkout – Mary Humphrey Wear</title>
+    <title>Checkout – Mary Humphrey African Wear</title>
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-    <meta content="#3C3836" name="theme-color" />
+    <meta content="#800020" name="theme-color" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="Complete your Mary Humphrey African Wear order securely." name="description" />
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;family=Playfair+Display:wght@400;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link href="assets/swiper-bundle.min.css" rel="stylesheet" />
-    <link href="assets/glightbox.min.css" rel="stylesheet" />
-    <link href="assets/base.css" rel="stylesheet" />
-    <link href="assets/filter.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <!-- CSS -->
     <link href="assets/normalize.css" rel="stylesheet" />
     <link href="assets/checkout.css" rel="stylesheet" />
-    <script defer src="assets/announcement.js"></script>
-    <style>
-        :root {
-            --font-heading: 'Playfair Display', serif;
-            --font-body-family: 'Poppins', sans-serif;
-            --font-body: 'Poppins', sans-serif;
-            --primary-color: #800020;
-            --secondary-color: #bcadae;
-            --hover-color: #5c001a;
-            --yellow-color: #D4A843;
-            --foreground-color: #2a2624;
-            --foreground-sub-color: #7a726e;
-            --text-white-color: #fff;
-            --body-background-color: #f5f1ec;
-            --bg-offwhite-color: #faf8f5;
-            --bg-gray-color: #f5f1ec;
-            --bg-black-color: #800020;
-            --bg-light-dark-color: #800020;
-            --burgundy-color: #800020;
-            --border-color: #DAD2CE;
-        }
 
-        body, input, select, textarea, button {
-            font-family: var(--font-body-family, 'Poppins', sans-serif);
-            color: var(--foreground-color);
-            background-color: var(--body-background-color);
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: var(--font-heading, 'Playfair Display', serif);
-            color: var(--primary-color);
-        }
-
-        .header__menu--link {
-            font-family: var(--font-body-family, 'Poppins', sans-serif) !important;
-            font-weight: 600;
-        }
-    </style>
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <meta content="Securely complete your Ankara Store order." name="description" />
-    <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-
-        :root {
-            --accent: #1a1a1a;
-            --border: #e0e0e0;
-            --bg: #f9f9f9;
-            --radius: 4px;
-            --green: #27ae60;
-        }
-
-        body {
-            font-family: var(--font-body-family, 'Poppins', sans-serif);
-            background: var(--body-background-color, #f5f1ec);
-            margin: 0;
-            color: var(--foreground-color, #2a2624);
-        }
-
-        /* ── LAYOUT ── */
-        .checkout-wrap {
-            display: grid;
-            grid-template-columns: 1fr 420px;
-            gap: 0;
-            min-height: 100vh;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        @media(max-width: 800px) {
-            .checkout-wrap {
-                grid-template-columns: 1fr;
-            }
-
-            .order-summary {
-                order: -1;
-                border-bottom: 1px solid var(--border);
-            }
-        }
-
-        /* ── LEFT: FORM ── */
-        .checkout-form-col {
-            padding: 48px 40px 80px;
-            border-right: 1px solid var(--border);
-            background: #fff;
-        }
-
-        .checkout-header {
-            text-align: center;
-            padding: 24px 0 32px;
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .checkout-header img {
-            max-height: 60px;
-            margin-bottom: 12px;
-        }
-
-        .checkout-header h1 {
-            font-family: 'Karma', serif;
-            font-size: 2rem;
-            margin: 0 0 6px;
-            color: #1a1a1a;
-        }
-
-        .checkout-header p {
-            font-size: 1.3rem;
-            color: #666;
-            margin: 0;
-        }
-
-        .checkout-logo {
-            font-family: 'Karma', serif;
-            font-size: 2.2rem;
-            margin-bottom: 32px;
-            display: block;
-            color: #1a1a1a;
-            text-decoration: none;
-        }
-
-        .step-label {
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: #999;
-            margin-bottom: 6px;
-        }
-
-        .section-title {
-            font-family: 'Karma', serif;
-            font-size: 2rem;
-            margin: 0 0 24px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-bottom: 14px;
-        }
-
-        .form-group.full {
-            grid-column: 1 / -1;
-        }
-
-        .form-group label {
-            font-size: 1.2rem;
-            color: #666;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group select {
-            padding: 12px 14px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 1.4rem;
-            font-family: var(--font-body);
-            transition: border 0.2s;
-            background: #fff;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #1a1a1a;
-        }
-
-        .form-group input.error {
-            border-color: #e74c3c;
-        }
-
-        .section-divider {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 28px 0;
-        }
-
-        .shipping-option {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 16px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-
-        .shipping-option input[type=radio] {
-            accent-color: #1a1a1a;
-            width: 16px;
-            height: 16px;
-        }
-
-        .shipping-option .ship-label {
-            flex: 1;
-            font-size: 1.3rem;
-        }
-
-        .shipping-option .ship-price {
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .pay-btn {
-            width: 100%;
-            padding: 16px;
-            background: #1a1a1a;
-            color: #fff;
-            border: none;
-            font-size: 1.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: var(--radius);
-            margin-top: 24px;
-            transition: opacity 0.2s;
-            letter-spacing: 0.05em;
-        }
-
-        .pay-btn:hover {
-            opacity: 0.85;
-        }
-
-        .pay-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .pay-btn .spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #ffffff55;
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            vertical-align: middle;
-            margin-right: 8px;
-        }
-
-        .whatsapp-checkout-btn {
-            width: 100%;
-            padding: 16px;
-            background: #25d366;
-            color: #fff;
-            border: none;
-            font-size: 1.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: var(--radius);
-            margin-top: 12px;
-            transition: background 0.2s;
-            letter-spacing: 0.05em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .whatsapp-checkout-btn:hover {
-            background: #1da851;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .secure-note {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #999;
-            margin-top: 12px;
-        }
-
-        .secure-note svg {
-            vertical-align: middle;
-            margin-right: 4px;
-        }
-
-        /* ── RIGHT: ORDER SUMMARY ── */
-        .order-summary {
-            padding: 48px 32px;
-            background: #f5f5f5;
-            position: sticky;
-            top: 0;
-            align-self: start;
-            max-height: 100vh;
-            overflow-y: auto;
-        }
-
-        .order-summary h2 {
-            font-family: 'Karma', serif;
-            font-size: 1.8rem;
-            margin: 0 0 24px;
-        }
-
-        .summary-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 16px;
-        }
-
-        .summary-item img {
-            width: 64px;
-            height: 64px;
-            object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid var(--border);
-            background: #fff;
-        }
-
-        .summary-item .item-info {
-            flex: 1;
-        }
-
-        .summary-item .item-title {
-            font-size: 1.3rem;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-
-        .summary-item .item-variant {
-            font-size: 1.2rem;
-            color: #777;
-        }
-
-        .summary-item .item-price {
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .summary-qty {
-            background: #1a1a1a;
-            color: #fff;
-            font-size: 1.1rem;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            line-height: 20px;
-            text-align: center;
-            position: relative;
-            top: -8px;
-            right: -6px;
-            float: right;
-        }
-
-        .summary-divider {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 20px 0;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-            color: #555;
-        }
-
-        .summary-row.total {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-top: 12px;
-        }
-
-        /* ── EMPTY CART ALERT ── */
-        #empty-cart-msg {
-            display: none;
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        /* ── MOBILE RESPONSIVE ── */
-        @media (max-width: 767px) {
-            .checkout-wrap {
-                grid-template-columns: 1fr;
-            }
-
-            .checkout-form-col {
-                padding: 24px 16px 48px;
-                border-right: none;
-            }
-
-            .order-summary {
-                order: -1;
-                border-bottom: 1px solid var(--border);
-                padding: 24px 16px;
-                position: static;
-                max-height: none;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .form-group.full {
-                grid-column: auto;
-            }
-
-            .section-title {
-                font-size: 1.7rem;
-            }
-
-            .checkout-logo {
-                font-size: 1.8rem;
-                margin-bottom: 20px;
-            }
-        }
-    </style>
-    <style>
-        body {
-            display: block !important;
-        }
-    </style>
+    <!-- Scripts -->
     <script src="assets/config.js"></script>
     <script src="assets/supabase.umd.js"></script>
-    <script defer src="assets/global.js"></script>
-    <script defer src="assets/footer.js"></script>
-    <script defer src="assets/js/components/core.js" type="module"></script>
-    <script defer src="assets/supabase-client.js" type="module"></script>
+    <script src="assets/cart.js"></script>
+    <!-- PayPal SDK (sandbox/live ready) -->
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD&components=buttons&enable-funding=venmo,paylater" data-sdk-integration-source="integrationbuilder"></script>
 </head>
 
-<body>
-    <div class="header__topbar bg__primary">
-        <div class="header__topbar--inner">
-            <div class="topbar-left-spacer"></div>
-            <p class="header__info--text text-white m-0 text-center" id="announcement-text" data-section-id="announcement">
+<body class="checkout-page">
 
-            </p>
-            <div class="header__topbar--currency">
-                <select class="currency-switcher"
-                    onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
-                    <option value="KES" class="currency-option">KES</option>
-                    <option value="USD" class="currency-option">USD</option>
+    <!-- ── Header (Centered Minimalist Shopify Style) ── -->
+    <header class="chk-header">
+        <div class="chk-header-inner">
+            <div class="chk-header-logo-wrap">
+                <a href="/" title="Mary Humphrey African Wear">
+                    <img src="assets/IMG-20260622-WA0082.webp" alt="Mary Humphrey African Wear" class="chk-header-logo"
+                        onerror="this.src='assets/logo.webp';">
+                </a>
+            </div>
+            <div class="chk-header-actions">
+                <select class="chk-currency-select" id="chk-currency-select" onchange="switchCheckoutCurrency(this.value)" title="Currency">
+                    <option value="USD">USD ($)</option>
+                    <option value="KES">KES (KSh)</option>
                 </select>
-            </div>
-        </div>
-    </div>
-    <header class="header__section">
-        <!-- ── Topbar Announcement ─────────────────────── --><!-- ── Main Header ────────────────────────────── -->
-        <div class="main__header position__relative header__sticky">
-
-            <div class="main__header--inner flex-between align-items-center">
-                <!-- Hamburger / Offcanvas Toggle -->
-                <div class="offcanvas__header--menu__open">
-                    <a class="offcanvas__header--menu__open--btn" data-offcanvas="" href="javascript:void(0)">
-                        <svg class="ionicon offcanvas__header--menu__open--svg" viewbox="0 0 512 512"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M80 160h352M80 256h352M80 352h352" fill="currentColor" stroke="currentColor"
-                                stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"></path>
+                <a href="/cart" class="chk-header-cart-link" title="Return to Bag">
+                    <span class="chk-header-cart-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
                         </svg>
-                        <span class="visually-hidden">Menu</span>
-                    </a>
-                </div>
-                <!-- Logo -->
-                <div class="main__logo">
-                    <h1 class="main__logo--title">
-                        <a class="main__logo--link" href="/">
-                            <img alt="Mary Humphrey African Wear" class="main__logo--img"
-                                src="assets/IMG-20260622-WA0082.webp" />
-                        </a>
-                    </h1>
-                </div>
-                <!-- Desktop Navigation -->
-                <div class="header__menu d-none d-lg-block">
-                    <nav class="header__menu--navigation">
-                        <ul class="header__menu--wrapper d-flex">
-                            <li class="header__menu--items">
-                                <a class="header__menu--link" href="/">Home</a>
-                            </li>
-                            <li class="header__menu--items">
-                                <a class="header__menu--link" href="/shop">Collections
-                                    <svg class="menu__arrowdown--icon" width="10" height="6" viewBox="0 0 10 6"
-                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </a>
-                                <ul class="header__sub--menu mega-menu">
-                                    <li class="header__sub--menu__items mega-col">
-                                        <span class="mega-menu__heading">Shop by Style</span>
-                                        <ul class="mega-col__list">
-                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                                    href="/shop">All Products</a></li>
-                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                                    href="/shop/dresses">Dresses</a></li>
-                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                                    href="/shop/pullovers">Pullovers & Hoodies</a></li>
-                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                                    href="/shop/joggers">Joggers</a></li>
-                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                                    href="/shop/kimonos">Kimonos & Capes</a></li>
-                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                                    href="/shop/blankets">Blankets & Throws</a></li>
-                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                                    href="/shop/palazzos">Palazzos & Dungarees</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="header__sub--menu__items mega-col">
-                                        <span class="mega-menu__heading">Collections</span>
-                                        <ul class="mega-col__list">
-                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                                    href="/shop/new-arrivals">New Arrivals</a></li>
-                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                                    href="/shop/menswear">Menswear</a></li>
-                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                                    href="/shop/womenswear">Womenswear</a></li>
-                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                                    href="/shop/fabrics">Fabrics</a></li>
-                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
-                                                    href="/sale">Sale</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="header__menu--items">
-                                <a class="header__menu--link" href="/fabric">Fabrics</a>
-                            </li>
-                            <li class="header__menu--items">
-                                <a class="header__menu--link header__menu--link--sale" href="/sale">Sale</a>
-                            </li>
-                            <li class="header__menu--items">
-                                <a class="header__menu--link" href="/about">Our Story</a>
-                            </li>
-                            <li class="header__menu--items">
-                                <a class="header__menu--link" href="/contact">Contact</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-                <!-- Header Account / Icons -->
-                <div class="header__account">
-                    <ul class="header__account--wrapper d-flex align-items-center">
-                        <!-- Search -->
-                        <li class="header__account--items header__account--search__items d-none d-lg-block">
-                            <a class="header__account--btn search__open--btn" data-offcanvas=""
-                                href="javascript:void(0)">
-                                <span class="header__account--btn__icon">
-                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z"
-                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </svg>
-                                </span>
-                                <span class="visually-hidden">Search</span>
-                            </a>
-                        </li>
-                        <!-- Account -->
-                        <li class="header__account--items">
-                            <a class="header__account--btn" href="/account">
-                                <span class="header__account--btn__icon">
-                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16"
-                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        <path
-                                            d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z"
-                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </svg>
-                                </span>
-                                <span class="visually-hidden">My Account</span>
-                            </a>
-                        </li>
-                        <!-- Cart -->
-                        <li class="header__account--items header__minicart--items">
-                            <a class="header__account--btn minicart__open--btn" data-offcanvas=""
-                                href="javascript:void(0)">
-                                <span class="header__account--btn__icon">
-                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M12.25 7.66667V4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333V7.66667M1.9375 6H15.0625L16 16H1L1.9375 6Z"
-                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </svg>
-                                </span>
-                                <span class="items__count js-item-count">0</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- ── Offcanvas Mobile Menu ──────────────────── -->
-        <div class="offcanvas__header">
-            <div class="offcanvas__inner">
-                <!-- Offcanvas Logo -->
-                <div class="offcanvas__logo">
-                    <a class="offcanvas__logo--link" href="/">
-                        <img alt="Mary Humphrey African Wear" src="assets/IMG-20260622-WA0082.webp"
-                            class="offcanvas__logo--img" />
-                    </a>
-                    <button aria-label="close menu" class="offcanvas__close--btn" data-offcanvas="">✕</button>
-                </div>
-                <nav class="offcanvas__menu">
-                    <ul class="offcanvas__menu_ul">
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="/">Home</a>
-                        </li>
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="/shop">Collections</a>
-                            <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop">All
-                                        Products</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                        href="/shop?collection=new-arrivals">New Arrivals</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                        href="/shop?collection=dresses">Dresses</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                        href="/shop?collection=joggers">Joggers</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                        href="/shop?collection=pullovers">Pullovers & Hoodies</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                        href="/shop?collection=kimonos">Kimonos & Capes</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                        href="/shop?collection=blankets">Blankets & Throws</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
-                                        href="/shop?collection=palazzos">Palazzos & Dungarees</a></li>
-                            </ul>
-                        </li>
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="/fabric">Fabrics</a>
-                        </li>
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item header__menu--link--sale" href="/sale">Sale</a>
-                        </li>
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="/about">Our Story</a>
-                        </li>
-                        <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="/contact">Contact</a>
-                        </li>
-                    </ul>
-                    <div class="offcanvas__account--items">
-                        <a class="offcanvas__account--signup__btn" href="/account">
-                            <svg fill="none" height="16" viewbox="0 0 17 17" width="16"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16"
-                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                                <path
-                                    d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z"
-                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </svg>
-                            Sign In / Register
-                        </a>
-                    </div>
-                </nav>
-            </div>
-        </div><!-- ── Mini Cart Drawer ───────────────────────── -->
-        <div class="offCanvas__minicart js-cart-form minicart__drawer">
-            <div class="minicart__header">
-                <div class="minicart__header--top flex-between">
-                    <h3 class="minicart__title">Cart</h3>
-                    <button aria-label="close cart" class="minicart__close-btn" data-offcanvas="" type="button">×</button>
-                </div>
-            </div>
-            <div class="minicart__empty--text">
-                <p>Your bag is empty.</p>
-                <a class="primary__btn" href="/shop">Continue Shopping</a>
-            </div>
-            <div class="minicart__product minicart__items-list" id="minicart-items-list">
-            </div>
-            <div class="minicart__amount minicart__footer">
-                <div class="cart__note minicart__note-section">
-                    <h4 class="minicart__note-label">Order Note</h4>
-                    <textarea class="cart__note--input minicart__note-textarea" placeholder=""></textarea>
-                </div>
-                <div class="minicart__amount_list minicart__subtotal-row">
-                    <span class="minicart__subtotal-label">Subtotal</span>
-                    <span id="minicart-subtotal" class="minicart__subtotal-price">
-                        <b><span class="currency-symbol">KSh</span>0.00</b>
+                        <span class="chk-header-cart-badge" id="chk-cart-badge">0</span>
                     </span>
-                </div>
-                <p class="minicart__tax-note">Shipping, taxes, and discount codes calculated at checkout.</p>
+                </a>
             </div>
-            <div class="minicart__button">
-                <a class="minicart__button--link checkout__btn js-checkout-btn minicart__checkout-btn" href="javascript:void(0)"
-                    onclick="triggerCheckout()">Check Out</a>
-            </div>
-        </div><!-- ── Search Overlay ─────────────────────────── -->
-        <div class="predictive__search--box">
-            <div class="predictive__search--box__inner">
-                <h2 class="predictive__search--title">Search Products</h2>
-                <form action="/shop" class="predictive__search--form" method="get" role="search">
-                    <label for="Search">
-                        <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here"
-                            type="search" />
-                    </label>
-                    <button aria-label="search button" class="predictive__search--button text-white">
-                        <svg fill="none" height="20" viewbox="0 0 17 17" width="20" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z"
-                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </button>
-                </form>
-            </div>
-            <button aria-label="close search" class="predictive__search--close__btn" data-offcanvas="">
-                <svg height="28" viewbox="0 0 512 512" width="28" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M368 368L144 144M368 144L144 368" fill="currentColor" stroke="currentColor"
-                        stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
-                </svg>
-            </button>
         </div>
-        <main class="checkout__main">
+    </header>
 
-            <!-- Empty cart fallback -->
-            <div id="empty-cart-msg" class="checkout__empty-state">
-                <h2 class="checkout__empty-title">Your bag is empty</h2>
-                <p class="checkout__empty-text">Add some items before checking out.</p>
-                <a href="/shop" class="checkout__empty-btn">Shop Now</a>
-            </div>
-            <div class="checkout-wrap" id="checkout-wrap">
-                <!-- ── LEFT: FORM ── -->
-                <div class="checkout-form-col">
-                    <!-- Email-style header with logo -->
-                    <div class="checkout-header">
-                        <a href="/">
-                            <img src="assets/logo.webp" alt="Mary Humphrey African Wear"
-                                onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-                            <span class="d-none checkout__empty-title">Mary Humphrey</span>
-                        </a>
-                        <h1>Complete Your Order</h1>
-                        <p>Fill in your details below and we'll confirm via WhatsApp</p>
-                    </div>
+    <!-- ── Empty Bag Alert ── -->
+    <div id="empty-cart-msg" style="display:none; text-align:center; padding: 80px 20px;">
+        <h2 style="font-family:'Playfair Display',serif; font-size:2.4rem; margin-bottom:12px; color:#800020;">Your bag is empty</h2>
+        <p style="font-size:1.4rem; color:#666; margin-bottom:24px;">Discover our handcrafted African fashion collections.</p>
+        <a href="/shop" class="chk-pay-btn" style="display:inline-block; width:auto; text-decoration:none; padding:14px 36px;">Shop Now</a>
+    </div>
 
-                    <!-- Checkout Delivery & Free Shipping Announcement Banner -->
-                    <div class="checkout-banner-announcement">
-                        <div class="checkout-banner-item">
-                            <span>📍 Currently Delivering Within Nairobi County Only</span>
-                        </div>
-                        <div class="checkout-banner-item">
-                            <span>🚚 FREE Nairobi Delivery on Orders Over KSh 10,000</span>
-                        </div>
-                    </div>
-                    <div class="step-label">Step 1</div>
-                    <h2 class="section-title">Contact &amp; Delivery</h2>
-                    <form id="checkout-form" novalidate="">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="first-name">First Name *</label>
-                                <input autocomplete="given-name" id="first-name" name="first_name" required=""
-                                    type="text" />
-                            </div>
-                            <div class="form-group">
-                                <label for="last-name">Last Name *</label>
-                                <input autocomplete="family-name" id="last-name" name="last_name" required=""
-                                    type="text" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address *</label>
-                            <input autocomplete="email" id="email" name="email" placeholder="your@email.com" required=""
-                                type="email" />
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number *</label>
-                            <input autocomplete="tel" id="phone" name="phone" placeholder="0712 345 678" required
-                                type="tel" />
-                        </div>
-                        <hr class="section-divider" />
-                        <div class="step-label">Step 2</div>
-                        <h2 class="section-title checkout__section-title">Shipping Address</h2>
-                        <div class="form-group">
-                            <label for="address1">Address Line 1 *</label>
-                            <input autocomplete="address-line1" id="address1" name="address1" required="" type="text" />
-                        </div>
-                        <div class="form-group">
-                            <label for="address2">Address Line 2</label>
-                            <input autocomplete="address-line2" id="address2" name="address2" type="text" />
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="city">City *</label>
-                                <input autocomplete="address-level2" id="city" name="city" required="" type="text" />
-                            </div>
-                            <div class="form-group">
-                                <label for="postcode">Postcode *</label>
-                                <input autocomplete="postal-code" id="postcode" name="postcode" required=""
-                                    type="text" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="country">Country *</label>
-                            <select autocomplete="country" id="country" name="country" required="">
-                                <option selected="" value="KE">Kenya</option>
-                                <option value="GB">United Kingdom</option>
-                                <option value="US">United States</option>
-                                <option value="GH">Ghana</option>
-                                <option value="NG">Nigeria</option>
-                                <option value="TZ">Tanzania</option>
-                                <option value="UG">Uganda</option>
-                                <option value="ZA">South Africa</option>
-                            </select>
-                        </div>
-                        <hr class="section-divider" />
-                        <div class="step-label">Step 3</div>
-                        <h2 class="section-title checkout__section-title">Shipping Method</h2>
+    <!-- ── 2-Column Checkout Layout ── -->
+    <main class="chk-layout" id="checkout-wrap">
 
-                        <!-- Nairobi Only Notice -->
-                        <div class="checkout__shipping-notice">
-                            <span class="checkout__shipping-icon">📍</span>
-                            <span class="checkout__shipping-text">
-                                <strong>Delivery is currently available within Nairobi only.</strong><br>
-                                <small class="checkout__shipping-subtext">For orders outside Nairobi, please contact us via WhatsApp.</small>
-                            </span>
-                        </div>
+        <!-- ── Left Column: Checkout Form ── -->
+        <div class="chk-main-col">
 
-                        <label class="shipping-option" id="ship-standard">
-                            <input checked="" name="shipping" type="radio" value="standard" />
-                            <span class="ship-label">Standard Delivery (3-5 days)</span>
-                            <span class="ship-price" id="ship-standard-price"></span>
-                        </label>
-                        <label class="shipping-option">
-                            <input disabled="" id="ship-free-radio" name="shipping" type="radio" value="free" />
-                            <span class="ship-label">Free Delivery
-                                <small class="checkout__free-shipping-tag">(orders over KSh 10,000)</small>
-                            </span>
-                            <span class="ship-price">FREE</span>
-                        </label>
-                        <hr class="section-divider" />
-
-                        <!-- ── Step 4: Payment Method ── -->
-                        <div class="step-label">Step 4</div>
-                        <h2 class="section-title checkout__section-title">Select Payment Method</h2>
-
-                        <div class="checkout__payment-options">
-                            <label class="shipping-option shipping-option--selected">
-                                <input checked name="mpesa_method" type="radio" value="paybill"
-                                    class="shipping-option__radio" />
-                                <span class="ship-label">Lipa Na M-Pesa (Paybill)</span>
-                            </label>
-                            <label class="shipping-option shipping-option--selected">
-                                <input name="mpesa_method" type="radio" value="send_money" />
-                                <span class="ship-label">Send Money</span>
-                            </label>
-                            <label class="shipping-option shipping-option--selected">
-                                <input name="mpesa_method" type="radio" value="bank_transfer" />
-                                <span class="ship-label">Bank Transfer</span>
-                            </label>
-                        </div>
-
-                        <!-- Paybill Instructions -->
-                        <div id="mpesa-paybill-info" class="mpesa-instruction-card">
-                            <div class="mpesa-instruction-header">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32"
-                                    stroke-width="2">
-                                    <path
-                                        d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                                </svg>
-                                <h3 class="mpesa-instruction-title">Lipa Na M-Pesa - Paybill</h3>
-                            </div>
-                            <div class="mpesa-steps-list">
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">1. Go to M-Pesa</span>
-                                    <span class="mpesa-step-value">Lipa Na M-Pesa → Pay Bill</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">2. Business Number</span>
-                                    <span class="mpesa-code-highlight">247247</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">3. Account Number</span>
-                                    <span class="mpesa-code-highlight">687280</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">4. Amount</span>
-                                    <span class="mpesa-code-highlight" id="mpesa-amount-paybill">—</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">5. Enter PIN and Confirm</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Send Money Instructions -->
-                        <div id="mpesa-send-info" class="mpesa-instruction-card" style="display: none;">
-                            <div class="mpesa-instruction-header">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1565c0"
-                                    stroke-width="2">
-                                    <path
-                                        d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                                </svg>
-                                <h3 class="mpesa-instruction-title">M-Pesa – Send Money</h3>
-                            </div>
-                            <div class="mpesa-steps-list">
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">1. Go to M-Pesa</span>
-                                    <span class="mpesa-step-value">Send Money</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">2. Phone Number</span>
-                                    <span class="mpesa-code-highlight">0715 687 280</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">3. Amount</span>
-                                    <span class="mpesa-code-highlight" id="mpesa-amount-send">—</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">4. Enter PIN and Confirm</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Bank Transfer Instructions -->
-                        <div id="bank-transfer-info" class="mpesa-instruction-card" style="display: none;">
-                            <div class="mpesa-instruction-header">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#800020"
-                                    stroke-width="2">
-                                    <path d="M3 21h18M3 10h18M5 10v11M9 10v11M13 10v11M17 10v11M12 3L2 7h20l-10-4z" />
-                                </svg>
-                                <h3 class="mpesa-instruction-title">Bank Transfer Details – Equity Bank</h3>
-                            </div>
-                            <div class="mpesa-steps-list">
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">Bank Name</span>
-                                    <span class="mpesa-step-value">Equity Bank Kenya</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">Account Number (A/C)</span>
-                                    <span class="mpesa-code-highlight">0150186781642</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">SWIFT Code</span>
-                                    <span class="mpesa-code-highlight">EQBLKENA</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">Bank Code</span>
-                                    <span class="mpesa-code-highlight">68</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">Branch Code</span>
-                                    <span class="mpesa-code-highlight">015</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">Amount</span>
-                                    <span class="mpesa-code-highlight" id="bank-amount-send">—</span>
-                                </div>
-                                <div class="mpesa-step-item">
-                                    <span class="mpesa-step-label">Reference</span>
-                                    <span class="mpesa-step-value">Use your Full Name or Phone Number</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Payment Confirmation Checkbox (hidden for COD) -->
-                        <div id="payment-confirm-box" class="mpesa-instruction-card">
-                            <label class="d-flex gap-2 cursor-pointer align-items-start">
-                                <input type="checkbox" id="payment-confirmed" class="shipping-option__radio">
-                                <span class="checkout__shipping-subtext">
-                                    <strong>✓ I have completed payment</strong><br>
-                                    <small>Check this box after you've paid via M-Pesa or Bank Transfer. You'll share the confirmation code in WhatsApp.</small>
-                                </span>
-                            </label>
-                        </div>
-
-                        <!-- Primary Action: WhatsApp Order -->
-                        <button class="whatsapp-checkout-btn btn-lg btn-full mt-4" id="whatsapp-checkout-btn" type="button">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                            </svg>
-                            💬 Place Order via WhatsApp
-                        </button>
-                        <p class="text-center mt-2 checkout__shipping-subtext">We'll confirm your order and arrange payment via WhatsApp</p>
-
-                        <!-- Trust Signals -->
-                        <div class="mt-4 d-flex flex-column gap-3">
-                            <!-- Secure checkout badge -->
-                            <div class="d-flex align-items-center justify-content-center gap-2 pt-3 border-top">
-                                <svg fill="none" height="16" stroke="#2e7d32" stroke-width="2" viewBox="0 0 24 24"
-                                    width="16">
-                                    <rect height="11" rx="2" width="18" x="3" y="11"></rect>
-                                    <path d="M7 11V7a5 5 0 0110 0v4"></path>
-                                </svg>
-                                <span class="checkout__shipping-text">256-bit SSL Encrypted · Secure Checkout</span>
-                            </div>
-
-                            <!-- Policy guarantees -->
-                            <div class="d-flex flex-wrap justify-content-center gap-3 checkout__shipping-subtext">
-                                <span class="d-inline-flex align-items-center gap-1">
-                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    7-Day Returns
-                                </span>
-                                <span class="d-inline-flex align-items-center gap-1">
-                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    Fast Kenya-Wide Delivery
-                                </span>
-                                <span class="d-inline-flex align-items-center gap-1">
-                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    1,000+ Happy Customers
-                                </span>
-                            </div>
-
-                            <!-- Payment accepted badge -->
-                            <div class="text-center pt-2 border-top">
-                                <span class="checkout__shipping-subtext d-block mb-2">Accepted Payment</span>
-                                <div class="d-flex align-items-center justify-content-center gap-3 opacity-75">
-                                    <!-- M-Pesa icon -->
-                                    <div class="payment-method-box payment-method-box--mpesa">M-PESA</div>
-                                    <!-- Safaricom -->
-                                    <div class="payment-method-box payment-method-box--mpesa">Safaricom</div>
-                                    <!-- WhatsApp -->
-                                    <div class="payment-method-box payment-method-box--sendmoney">WhatsApp</div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+            <!-- Delivery & Free Shipping Announcement Banner -->
+            <div class="checkout-banner-announcement">
+                <div class="checkout-banner-item">
+                    <span>📍 Currently Delivering Within Nairobi County Only</span>
                 </div>
-                <!-- ── RIGHT: ORDER SUMMARY ── -->
-                <aside class="order-summary">
-                    <h2>Your Order</h2>
-                    <div id="summary-items"><!-- JS renders cart items here --></div>
-                    <hr class="summary-divider" />
-                    <div class="summary-row">
-                        <span>Subtotal</span>
-                        <span id="sum-subtotal">—</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Shipping</span>
-                        <span id="sum-shipping">—</span>
-                    </div>
-                    <hr class="summary-divider" />
-                    <div class="summary-row total">
-                        <span>Total</span>
-                        <span id="sum-total">—</span>
-                    </div>
-                </aside>
-            </div>
-            <script src="assets/cart.js"></script>
-            <script>
-                const cart = getCart();
-
-                // Redirect if empty
-                if (!cart || cart.length === 0) {
-                    document.getElementById('checkout-wrap').style.display = 'none';
-                    document.getElementById('empty-cart-msg').style.display = 'block';
-                }
-
-                // ── Multi-Currency Order Summary ──
-                function formatPrice(amount) {
-                    if (window.AnkaraCurrency) {
-                        return window.AnkaraCurrency.convertAndFormat(amount);
-                    }
-                    return 'KSh ' + Number(amount).toLocaleString('en-KE');
-                }
-
-                function renderCheckoutSummary() {
-                    const cart = typeof getCart === 'function' ? getCart() : [];
-                    if (!cart || cart.length === 0) {
-                        const wrap = document.getElementById('checkout-wrap');
-                        const emptyMsg = document.getElementById('empty-cart-msg');
-                        if (wrap) wrap.style.display = 'none';
-                        if (emptyMsg) emptyMsg.style.display = 'block';
-                        return;
-                    }
-
-                    const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
-                    const freeShipping = subtotal >= 10000;
-                    const shippingCost = freeShipping ? 0 : 500;
-                    const total = subtotal + shippingCost;
-
-                    const subtotalEl = document.getElementById('sum-subtotal');
-                    const shippingEl = document.getElementById('sum-shipping');
-                    const totalEl = document.getElementById('sum-total');
-                    const shipPriceEl = document.getElementById('ship-standard-price');
-
-                    if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
-                    if (shippingEl) shippingEl.textContent = freeShipping ? 'FREE' : formatPrice(shippingCost);
-                    if (totalEl) totalEl.textContent = formatPrice(total);
-                    if (shipPriceEl) shipPriceEl.textContent = freeShipping ? 'FREE' : formatPrice(shippingCost);
-
-                    // Update M-Pesa & Bank amount displays
-                    const mpesaPaybillAmt = document.getElementById('mpesa-amount-paybill');
-                    const mpesaSendAmt = document.getElementById('mpesa-amount-send');
-                    const bankAmt = document.getElementById('bank-amount-send');
-                    const kesTotalText = 'KSh ' + Number(total).toLocaleString('en-KE');
-                    if (mpesaPaybillAmt) mpesaPaybillAmt.textContent = kesTotalText;
-                    if (mpesaSendAmt) mpesaSendAmt.textContent = kesTotalText;
-                    if (bankAmt) bankAmt.textContent = kesTotalText;
-
-                    if (freeShipping) {
-                        const freeRadio = document.getElementById('ship-free-radio');
-                        if (freeRadio) {
-                            freeRadio.disabled = false;
-                            freeRadio.checked = true;
-                        }
-                    }
-
-                    const summaryItemsEl = document.getElementById('summary-items');
-                    if (summaryItemsEl) {
-                        summaryItemsEl.innerHTML = cart.map(item => `
-                        <div class="summary-item">
-                          <div style="position:relative;">
-                            <img src="${item.image}" alt="${item.title}">
-                            <span class="summary-qty">${item.qty}</span>
-                          </div>
-                          <div class="item-info">
-                            <div class="item-title">${item.title}</div>
-                            <div class="item-variant">${item.size || ''} ${item.color ? '· ' + item.color : ''}</div>
-                          </div>
-                          <div class="item-price">${formatPrice(parseFloat(item.price) * item.qty)}</div>
-                        </div>
-                    `).join('');
-                    }
-                }
-
-                renderCheckoutSummary();
-                window.addEventListener('currency:changed', renderCheckoutSummary);
-                window.addEventListener('settings:loaded', renderCheckoutSummary);
-                document.addEventListener('DOMContentLoaded', renderCheckoutSummary);
-
-                // ── Toggle payment method display ──
-                document.querySelectorAll('input[name="mpesa_method"]').forEach(radio => {
-                    radio.addEventListener('change', function () {
-                        const paybillBox = document.getElementById('mpesa-paybill-info');
-                        const sendBox = document.getElementById('mpesa-send-info');
-                        const bankBox = document.getElementById('bank-transfer-info');
-                        const paymentConfirmBox = document.getElementById('payment-confirm-box');
-                        const paymentCheckbox = document.getElementById('payment-confirmed');
-
-                        if (paybillBox) paybillBox.style.display = this.value === 'paybill' ? 'block' : 'none';
-                        if (sendBox) sendBox.style.display = this.value === 'send_money' ? 'block' : 'none';
-                        if (bankBox) bankBox.style.display = this.value === 'bank_transfer' ? 'block' : 'none';
-
-                        // Show/hide payment confirmation checkbox (hide for COD)
-                        if (paymentConfirmBox) {
-                            paymentConfirmBox.style.display = 'block';
-                        }
-                        // Reset checkbox when switching methods
-                        if (paymentCheckbox) paymentCheckbox.checked = false;
-                    });
-                });
-
-                // ── Form submit → M-Pesa order ──
-                document.getElementById('checkout-form').addEventListener('submit', async function (e) {
-                    e.preventDefault();
-
-                    const btn = document.getElementById('pay-btn');
-
-                    // Basic validation
-                    const requiredFields = ['first-name', 'last-name', 'email', 'phone', 'address1', 'city', 'postcode'];
-                    let valid = true;
-                    requiredFields.forEach(id => {
-                        const el = document.getElementById(id);
-                        if (!el.value.trim()) { el.classList.add('error'); valid = false; }
-                        else el.classList.remove('error');
-                    });
-                    if (!valid) { alert('Please fill in all required fields.'); return; }
-
-                    const phoneInput = document.getElementById('phone');
-                    const phoneVal = phoneInput.value.trim();
-                    const kePhoneRegex = /^(?:254|\+254|0)?(7\d{8}|1\d{8})$/;
-                    if (!kePhoneRegex.test(phoneVal.replace(/\s+/g, ''))) {
-                        phoneInput.classList.add('error');
-                        alert('Please enter a valid Kenyan phone number (e.g. 0712345678).');
-                        return;
-                    } else {
-                        phoneInput.classList.remove('error');
-                    }
-
-                    // Disable button + show spinner
-                    btn.disabled = true;
-                    btn.innerHTML = '<span class="spinner"></span> Placing Order...';
-
-                    const mpesaMethod = document.querySelector('input[name="mpesa_method"]:checked')?.value || 'paybill';
-                    const mpesaCode = document.getElementById('mpesa-code')?.value?.trim()?.toUpperCase() || '';
-
-                    const customer = {
-                        name: document.getElementById('first-name').value.trim() + ' ' + document.getElementById('last-name').value.trim(),
-                        email: document.getElementById('email').value.trim().toLowerCase(),
-                        phone: document.getElementById('phone').value.trim(),
-                        address1: document.getElementById('address1').value.trim(),
-                        address2: document.getElementById('address2').value.trim(),
-                        city: document.getElementById('city').value.trim(),
-                        postcode: document.getElementById('postcode').value.trim(),
-                        country: document.getElementById('country').value,
-                        mpesa_method: mpesaMethod,
-                        mpesa_code: mpesaCode,
-                    };
-
-                    try {
-                        const res = await fetch('/api/checkout/mpesa', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ cart, customer })
-                        });
-                        const data = await res.json();
-
-                        if (res.ok && data.success) {
-                            localStorage.removeItem('mhw-cart');
-                            window.location.href = `//thank-you?order=${data.reference}&method=mpesa&email=${encodeURIComponent(customer.email)}`;
-                        } else {
-                            alert('Failed to place order: ' + (data.error || 'Unknown error'));
-                            btn.disabled = false;
-                            btn.innerHTML = '✓ I Have Paid — Place My Order';
-                        }
-                    } catch (err) {
-                        alert('Network error placing order. Please try again.');
-                        btn.disabled = false;
-                        btn.innerHTML = '✓ I Have Paid — Place My Order';
-                    }
-                });
-
-                // ── WhatsApp checkout ──
-                document.getElementById('whatsapp-checkout-btn').addEventListener('click', function () {
-                    const cart = getCart();
-                    if (!cart || cart.length === 0) {
-                        alert('Your shopping bag is empty!');
-                        return;
-                    }
-
-                    // Gather customer fields
-                    const firstName = (document.getElementById('first-name')?.value || '').trim();
-                    const lastName = (document.getElementById('last-name')?.value || '').trim();
-                    const email = (document.getElementById('email')?.value || '').trim();
-                    const phone = (document.getElementById('phone')?.value || '').trim();
-                    const address1 = (document.getElementById('address1')?.value || '').trim();
-                    const city = (document.getElementById('city')?.value || '').trim();
-
-                    // ── VALIDATION: Require customer details before WhatsApp ──
-                    const missing = [];
-                    if (!firstName || !lastName) missing.push('Full Name');
-                    if (!phone) missing.push('Phone Number');
-                    if (!address1) missing.push('Address');
-                    if (!city) missing.push('City');
-
-                    if (missing.length > 0) {
-                        alert('Please fill in the following required fields:\n\n• ' + missing.join('\n• '));
-                        return;
-                    }
-
-                    const address2 = (document.getElementById('address2')?.value || '').trim();
-                    const postcode = (document.getElementById('postcode')?.value || '').trim();
-                    const country = (document.getElementById('country')?.value || '').trim();
-
-                    const fmtPrice = (amt) => window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(amt) : `KSh ${Number(amt).toLocaleString('en-KE')}`;
-
-                    const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
-                    const shipping = subtotal >= 10000 ? 0 : 500;
-                    const total = subtotal + shipping;
-
-                    // Get selected payment method and checkbox status
-                    const paymentMethod = document.querySelector('input[name="mpesa_method"]:checked')?.value || 'paybill';
-                    const paymentConfirmed = document.getElementById('payment-confirmed')?.checked || false;
-
-                    const paymentLabels = {
-                        'paybill': 'M-Pesa Paybill',
-                        'send_money': 'M-Pesa Send Money',
-                        'bank_transfer': 'Bank Transfer'
-                    };
-
-                    // Set payment status based on method and checkbox
-                    let paymentStatus;
-                    if (paymentConfirmed) {
-                        paymentStatus = '✅ PAID';
-                    } else {
-                        paymentStatus = '⏳ PENDING';
-                    }
-
-                    // ── BUILD CLEAN MESSAGE ──
-                    let msg = `━━━━━━━━━━━━━━━━━━━━\n`;
-                    msg += `    *MARY HUMPHREY*\n`;
-                    msg += `    *AFRICAN WEAR*\n`;
-                    msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-
-                    msg += `📦 *ORDER DETAILS*\n\n`;
-                    cart.forEach((item, i) => {
-                        msg += `${i + 1}. *${item.title}*\n`;
-                        msg += `   • Size: ${item.size || 'N/A'}\n`;
-                        if (item.color) msg += `   • Colour: ${item.color}\n`;
-                        msg += `   • Qty: ${item.qty} × ${fmtPrice(item.price)}\n`;
-                        msg += `   • Subtotal: ${fmtPrice(parseFloat(item.price) * item.qty)}\n\n`;
-                    });
-
-                    msg += `━━━━━━━━━━━━━━━━━━━━\n`;
-                    msg += `Subtotal: ${fmtPrice(subtotal)}\n`;
-                    msg += `Shipping: ${shipping === 0 ? 'FREE 🎉' : fmtPrice(shipping)}\n`;
-                    msg += `*TOTAL: ${fmtPrice(total)}*\n`;
-                    msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-
-                    msg += `👤 *CUSTOMER DETAILS*\n`;
-                    msg += `Name: ${firstName} ${lastName}\n`;
-                    msg += `Phone: ${phone}\n`;
-                    if (email) msg += `Email: ${email}\n`;
-                    msg += `\n`;
-
-                    msg += `📍 *DELIVERY ADDRESS*\n`;
-                    msg += `Address: ${address1}${address2 ? ', ' + address2 : ''}\n`;
-                    msg += `City: ${city}\n`;
-                    if (postcode) msg += `Postcode: ${postcode}\n`;
-                    if (country && country !== 'KE') msg += `Country: ${country}\n`;
-                    msg += `\n`;
-
-                    msg += `💳 *PAYMENT*\n`;
-                    msg += `Method: ${paymentLabels[paymentMethod] || paymentMethod}\n`;
-                    msg += `Status: ${paymentStatus}\n`;
-
-                    if (paymentConfirmed) {
-                        msg += `\n_I have completed payment. Confirmation code to follow._\n`;
-                    } else {
-                        msg += `\n_I will pay and send confirmation code shortly._\n`;
-                    }
-
-                    msg += `\n━━━━━━━━━━━━━━━━━━━━\n`;
-                    msg += `Thank you for your order! 🙏`;
-
-                    const waNumber = window.STORE_CONFIG?.WHATSAPP_NUMBER || window.WHATSAPP_NUMBER || '254715687280';
-                    const cleanNumber = waNumber.replace(/\D/g, '');
-                    const encodedMsg = encodeURIComponent(msg);
-
-                    // Open in new tab - this opens WhatsApp Web directly
-                    const url = `https://wa.me/${cleanNumber}?text=${encodedMsg}`;
-                    window.open(url, '_blank');
-                });
-            </script>
-            <!-- Search Overlay -->
-            <div class="predictive__search--box">
-                <div class="predictive__search--box__inner">
-                    <h2 class="predictive__search--title">Search Products</h2>
-                    <form action="/shop" class="predictive__search--form" method="get" role="search">
-                        <label for="Search">
-                            <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here"
-                                type="search" />
-                        </label>
-                        <button aria-label="search button" class="predictive__search--button text-white">
-                            <svg fill="none" height="20" viewbox="0 0 17 17" width="20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z"
-                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </svg>
-                        </button>
-                    </form>
+                <div class="checkout-banner-item">
+                    <span>🚚 FREE Nairobi Delivery on Orders Over <span class="free-shipping-threshold">$100.00</span></span>
                 </div>
-                <button aria-label="close search" class="predictive__search--close__btn" data-offcanvas="">
-                    <svg height="28" viewbox="0 0 512 512" width="28" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M368 368L144 144M368 144L144 368" fill="currentColor" stroke="currentColor"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+            </div>
+
+            <form id="chk-form" novalidate>
+
+                <!-- ── 1. Contact ── -->
+                <section class="chk-section">
+                    <div class="chk-section-header">
+                        <h2 class="chk-section-title">Contact</h2>
+                        <a href="/login" class="chk-login-link">Sign in</a>
+                    </div>
+                    <div class="chk-field-group">
+                        <input type="email" id="email" name="email" class="chk-input" placeholder="Email" required autocomplete="email">
+                    </div>
+                    <label class="chk-checkbox-wrap">
+                        <input type="checkbox" id="news-offers" checked>
+                        <span>Email me with news and offers</span>
+                    </label>
+                </section>
+
+                <!-- ── 2. Delivery ── -->
+                <section class="chk-section">
+                    <div class="chk-section-header">
+                        <h2 class="chk-section-title">Delivery</h2>
+                    </div>
+
+                    <div class="chk-field-group">
+                        <select id="country" name="country" class="chk-select" required autocomplete="country">
+                            <option value="KE" selected>Kenya</option>
+                            <option value="US">United States</option>
+                            <option value="GB">United Kingdom</option>
+                            <option value="CA">Canada</option>
+                            <option value="AU">Australia</option>
+                            <option value="GH">Ghana</option>
+                            <option value="NG">Nigeria</option>
+                            <option value="TZ">Tanzania</option>
+                            <option value="UG">Uganda</option>
+                            <option value="ZA">South Africa</option>
+                            <option value="DE">Germany</option>
+                            <option value="FR">France</option>
+                            <option value="AE">United Arab Emirates</option>
+                        </select>
+                    </div>
+
+                    <div class="chk-field-row">
+                        <div class="chk-field-group">
+                            <input type="text" id="first-name" name="first_name" class="chk-input" placeholder="First name" required autocomplete="given-name">
+                        </div>
+                        <div class="chk-field-group">
+                            <input type="text" id="last-name" name="last_name" class="chk-input" placeholder="Last name" required autocomplete="family-name">
+                        </div>
+                    </div>
+
+                    <div class="chk-field-group">
+                        <input type="text" id="company" name="company" class="chk-input" placeholder="Company (optional)" autocomplete="organization">
+                    </div>
+
+                    <div class="chk-field-group">
+                        <input type="text" id="address1" name="address1" class="chk-input" placeholder="Address" required autocomplete="address-line1">
+                    </div>
+
+                    <div class="chk-field-group">
+                        <input type="text" id="address2" name="address2" class="chk-input" placeholder="Apartment, suite, etc. (optional)" autocomplete="address-line2">
+                    </div>
+
+                    <div class="chk-field-row">
+                        <div class="chk-field-group">
+                            <input type="text" id="city" name="city" class="chk-input" placeholder="City" required autocomplete="address-level2">
+                        </div>
+                        <div class="chk-field-group">
+                            <input type="text" id="postcode" name="postcode" class="chk-input" placeholder="Postal code (optional)" autocomplete="postal-code">
+                        </div>
+                    </div>
+
+                    <div class="chk-field-group">
+                        <input type="tel" id="phone" name="phone" class="chk-input" placeholder="Phone" required autocomplete="tel">
+                    </div>
+
+                    <label class="chk-checkbox-wrap">
+                        <input type="checkbox" id="save-info" checked>
+                        <span>Save this information for next time</span>
+                    </label>
+                    <label class="chk-checkbox-wrap">
+                        <input type="checkbox" id="text-offers">
+                        <span>Text me with news and offers</span>
+                    </label>
+                </section>
+
+                <!-- ── 3. Shipping Method ── -->
+                <section class="chk-section">
+                    <div class="chk-section-header">
+                        <h2 class="chk-section-title">Shipping method</h2>
+                    </div>
+
+                    <!-- Nairobi Only Notice -->
+                    <div class="checkout__shipping-notice">
+                        <span class="checkout__shipping-icon">📍</span>
+                        <span class="checkout__shipping-text">
+                            <strong>Delivery is currently available within Nairobi only.</strong><br>
+                            <small class="checkout__shipping-subtext">For orders outside Nairobi, please contact us via WhatsApp.</small>
+                        </span>
+                    </div>
+
+                    <div class="chk-card-group">
+                        <label class="chk-card-row active" id="ship-standard-row">
+                            <div class="chk-card-row-left">
+                                <input type="radio" name="shipping_rate" id="ship-standard-radio" value="standard" checked>
+                                <div>
+                                    <div class="chk-card-label">Free shipping 1-2 days, Delivery Made to Order (2 Weeks)</div>
+                                    <div class="chk-card-sublabel">Reliable doorstep delivery</div>
+                                </div>
+                            </div>
+                            <div class="chk-card-price" id="ship-cost-display">FREE</div>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- ── 4. Payment Preference ── -->
+                <section class="chk-section">
+                    <div class="chk-section-header" style="flex-direction:column; align-items:flex-start;">
+                        <h2 class="chk-section-title">Payment Preference</h2>
+                        <div class="chk-section-subtext">Choose your preferred payment method. We'll confirm your order and send payment details in WhatsApp.</div>
+                    </div>
+
+                    <div class="chk-payment-card">
+
+                        <!-- PayPal (Option 1) -->
+                        <div class="chk-payment-header active" id="pay-header-paypal" onclick="selectPaymentMethod('paypal')">
+                            <div class="chk-payment-header-left">
+                                <input type="radio" name="payment_method" id="pay-method-paypal" value="paypal" checked>
+                                <span>PayPal / International Cards</span>
+                            </div>
+                            <div class="chk-payment-badges">
+                                <img src="https://assets.braintreegateway.com/payment_method_logo/paypal.png" alt="PayPal" class="chk-badge-img">
+                                <img src="https://assets.braintreegateway.com/payment_method_logo/visa.png" alt="Visa" class="chk-badge-img">
+                                <img src="https://assets.braintreegateway.com/payment_method_logo/mastercard.png" alt="Mastercard" class="chk-badge-img">
+                                <img src="https://assets.braintreegateway.com/payment_method_logo/american_express.png" alt="Amex" class="chk-badge-img">
+                            </div>
+                        </div>
+                        <div class="chk-payment-body" id="pay-body-paypal">
+                            <p style="margin:0 0 8px; font-weight:500; color:#1a1a1a;">Pay securely worldwide with PayPal or credit/debit card.</p>
+                            <p style="margin:0; font-size:12.5px; color:#666;">We will receive your order and immediately send you a secure PayPal payment link or invoice in WhatsApp.</p>
+                        </div>
+
+                        <!-- Credit / Debit Card (Option 2) -->
+                        <div class="chk-payment-header" id="pay-header-card" onclick="selectPaymentMethod('card')">
+                            <div class="chk-payment-header-left">
+                                <input type="radio" name="payment_method" id="pay-method-card" value="card">
+                                <span>Credit / Debit Card (Direct Link)</span>
+                            </div>
+                            <div class="chk-payment-badges">
+                                <img src="https://assets.braintreegateway.com/payment_method_logo/visa.png" alt="Visa" class="chk-badge-img">
+                                <img src="https://assets.braintreegateway.com/payment_method_logo/mastercard.png" alt="Mastercard" class="chk-badge-img">
+                            </div>
+                        </div>
+                        <div class="chk-payment-body" id="pay-body-card" style="display:none;">
+                            <p style="margin:0; font-size:12.5px; color:#666;">We will send you a secure online card payment link via WhatsApp to complete your checkout.</p>
+                        </div>
+
+                        <!-- M-Pesa / Bank Transfer (Option 3 - Kenya / East Africa) -->
+                        <div class="chk-payment-header" id="pay-header-mpesa" onclick="selectPaymentMethod('mpesa')">
+                            <div class="chk-payment-header-left">
+                                <input type="radio" name="payment_method" id="pay-method-mpesa" value="mpesa">
+                                <span>M-Pesa / Bank Transfer (Kenya)</span>
+                            </div>
+                            <div class="chk-payment-badges">
+                                <span style="background:#2e7d32; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:3px;">M-PESA</span>
+                                <span style="background:#800020; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:3px;">BANK</span>
+                            </div>
+                        </div>
+                        <div class="chk-payment-body" id="pay-body-mpesa" style="display:none; text-align:left;">
+                            <div class="chk-bank-grid">
+                                <div class="chk-bank-item">
+                                    <span class="chk-bank-label">M-Pesa Paybill</span>
+                                    <span class="chk-bank-val">247247</span>
+                                </div>
+                                <div class="chk-bank-item">
+                                    <span class="chk-bank-label">Account No</span>
+                                    <span class="chk-bank-val">687280</span>
+                                </div>
+                                <div class="chk-bank-item">
+                                    <span class="chk-bank-label">Bank Name</span>
+                                    <span class="chk-bank-val">Equity Bank Kenya</span>
+                                </div>
+                                <div class="chk-bank-item">
+                                    <span class="chk-bank-label">A/C Number</span>
+                                    <span class="chk-bank-val">0150186781642</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ── 5. Billing Address ── -->
+                <section class="chk-section">
+                    <div class="chk-section-header">
+                        <h2 class="chk-section-title">Billing address</h2>
+                    </div>
+                    <div class="chk-card-group">
+                        <label class="chk-card-row active" id="billing-same-row">
+                            <div class="chk-card-row-left">
+                                <input type="radio" name="billing_address_type" id="billing-same" value="same" checked>
+                                <span class="chk-card-label">Same as shipping address</span>
+                            </div>
+                        </label>
+                        <label class="chk-card-row" id="billing-diff-row">
+                            <div class="chk-card-row-left">
+                                <input type="radio" name="billing_address_type" id="billing-diff" value="different">
+                                <span class="chk-card-label">Use a different billing address</span>
+                            </div>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- ── 6. Primary Action: Place Order via WhatsApp ── -->
+                <button type="submit" class="chk-pay-btn" id="chk-submit-btn" style="background:#25D366; font-size:16.5px;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                     </svg>
+                    Place Order via WhatsApp
                 </button>
+                <div style="text-align:center; font-size:12.5px; color:#777; margin-top:8px;">
+                    🔒 We will instantly confirm your order & arrange payment via WhatsApp.
+                </div>
+
+                <!-- Footer Policy Links -->
+                <div class="chk-footer-links">
+                    <a href="/legal/refund-policy.html">Refund policy</a>
+                    <a href="/legal/shipping-policy.html">Shipping</a>
+                    <a href="/legal/privacy-policy.html">Privacy policy</a>
+                    <a href="/legal/terms-of-service.html">Terms of service</a>
+                    <a href="/contact">Contact</a>
+                </div>
+
+            </form>
+
+        </div>
+
+        <!-- ── Right Column: Sticky Order Summary ── -->
+        <aside class="chk-sidebar-col">
+
+            <!-- Product Items List -->
+            <div class="chk-summary-items" id="summary-items-list">
+                <!-- Dynamically rendered items -->
             </div>
 
-        </main>
-        <footer id="site-footer" class="footer__section footer__bg" data-section-id="footer"></footer>
+            <!-- Discount Code Input -->
+            <div class="chk-discount-row">
+                <input type="text" class="chk-discount-input" id="discount-code" placeholder="Discount code or gift card">
+                <button type="button" class="chk-discount-btn" id="discount-apply-btn" onclick="applyDiscount()">Apply</button>
+            </div>
+
+            <!-- Cost Table -->
+            <div class="chk-cost-table">
+                <div class="chk-cost-row">
+                    <span>Subtotal</span>
+                    <span id="chk-subtotal-val">$0.00</span>
+                </div>
+                <div class="chk-cost-row">
+                    <span>Shipping</span>
+                    <span id="chk-shipping-val">FREE</span>
+                </div>
+                <div class="chk-cost-total-row">
+                    <span class="chk-cost-total-label">Total</span>
+                    <div class="chk-cost-total-amt-wrap">
+                        <span class="chk-currency-code">USD</span>
+                        <span class="chk-cost-total-amt" id="chk-total-val">$0.00</span>
+                    </div>
+                </div>
+                <div class="chk-tax-note">Including taxes where applicable</div>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <!-- ── JavaScript Logic ── -->
+    <script>
+        // Exchange Rate & Multi-Currency Engine
+        const BASE_RATE = 130.00;
+
+        window.AnkaraCurrency = window.AnkaraCurrency || {
+            current: localStorage.getItem('mhw-currency') || 'USD',
+            rate: BASE_RATE,
+            currencySymbol: 'KSh',
+            convertAndFormat(kesPrice) {
+                const num = parseFloat(kesPrice) || 0;
+                if (this.current === 'KES') {
+                    return `KSh ${Math.round(num).toLocaleString('en-KE')}`;
+                }
+                // Accurate USD conversion: divide KES amount by 130
+                const usdAmount = num / (this.rate || BASE_RATE);
+                return `$${usdAmount.toFixed(2)}`;
+            },
+            setCurrency(curr) {
+                this.current = curr;
+                localStorage.setItem('mhw-currency', curr);
+                window.dispatchEvent(new CustomEvent('currency:changed', { detail: curr }));
+            }
+        };
+
+        function switchCheckoutCurrency(curr) {
+            if (window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(curr);
+            renderCheckout();
+        }
+
+        // Currency Formatter - converts KES base numbers to true USD amounts
+        function formatPrice(amt) {
+            const raw = parseFloat(amt) || 0;
+            if (window.AnkaraCurrency && typeof window.AnkaraCurrency.convertAndFormat === 'function') {
+                return window.AnkaraCurrency.convertAndFormat(raw);
+            }
+            return '$' + (raw / BASE_RATE).toFixed(2);
+        }
+
+        // Render Checkout Summary
+        function renderCheckout() {
+            const cart = typeof getCart === 'function' ? getCart() : [];
+            const badge = document.getElementById('chk-cart-badge');
+            if (badge) badge.textContent = cart.reduce((s, i) => s + (i.qty || 1), 0);
+
+            // Sync currency switcher dropdown if present
+            const currSelect = document.getElementById('chk-currency-select');
+            if (currSelect && window.AnkaraCurrency) {
+                currSelect.value = window.AnkaraCurrency.current || 'USD';
+            }
+
+            // Sync currency label in sidebar
+            const currLabel = document.querySelector('.chk-currency-code');
+            if (currLabel && window.AnkaraCurrency) {
+                currLabel.textContent = window.AnkaraCurrency.current || 'USD';
+            }
+
+            if (!cart || cart.length === 0) {
+                const wrap = document.getElementById('checkout-wrap');
+                const empty = document.getElementById('empty-cart-msg');
+                if (wrap) wrap.style.display = 'none';
+                if (empty) empty.style.display = 'block';
+                return;
+            }
+
+            const itemsContainer = document.getElementById('summary-items-list');
+            if (itemsContainer) {
+                itemsContainer.innerHTML = cart.map(item => `
+                    <div class="chk-item-row">
+                        <div class="chk-item-thumb-wrap">
+                            <img src="${item.image || 'assets/logo.webp'}" alt="${item.title}" class="chk-item-thumb">
+                            <span class="chk-item-qty-badge">${item.qty}</span>
+                        </div>
+                        <div class="chk-item-info">
+                            <div class="chk-item-title">${item.title}</div>
+                            <div class="chk-item-variant">${item.size ? item.size : ''} ${item.color ? (item.size ? ' / ' : '') + item.color : ''}</div>
+                        </div>
+                        <div class="chk-item-price">${formatPrice(parseFloat(item.price) * item.qty)}</div>
+                    </div>
+                `).join('');
+            }
+
+            const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
+            const shipping = 0; // Free shipping for made to order
+            const total = subtotal + shipping;
+
+            const subEl = document.getElementById('chk-subtotal-val');
+            const shipEl = document.getElementById('chk-shipping-val');
+            const totEl = document.getElementById('chk-total-val');
+
+            if (subEl) subEl.textContent = formatPrice(subtotal);
+            if (shipEl) shipEl.textContent = 'FREE';
+            if (totEl) totEl.textContent = formatPrice(total);
+
+            // Render PayPal Buttons if SDK is present
+            renderPayPalButtons(total);
+        }
+
+        // Switch Payment Tabs
+        function selectPaymentMethod(method) {
+            const methods = ['paypal', 'card', 'mpesa'];
+            methods.forEach(m => {
+                const head = document.getElementById(`pay-header-${m}`);
+                const body = document.getElementById(`pay-body-${m}`);
+                const radio = document.getElementById(`pay-method-${m}`);
+                if (m === method) {
+                    if (head) head.classList.add('active');
+                    if (body) body.style.display = 'block';
+                    if (radio) radio.checked = true;
+                } else {
+                    if (head) head.classList.remove('active');
+                    if (body) body.style.display = 'none';
+                    if (radio) radio.checked = false;
+                }
+            });
+
+            const submitBtn = document.getElementById('chk-submit-btn');
+            if (submitBtn) {
+                if (method === 'paypal') submitBtn.textContent = 'Pay with PayPal';
+                else if (method === 'card') submitBtn.textContent = 'Pay with Card';
+                else submitBtn.textContent = 'Complete Order';
+            }
+        }
+
+        // Apply Discount
+        function applyDiscount() {
+            const input = document.getElementById('discount-code');
+            const code = (input?.value || '').trim().toUpperCase();
+            if (!code) {
+                alert('Please enter a discount code.');
+                return;
+            }
+            if (code === 'WELCOME10') {
+                alert('10% discount applied!');
+            } else {
+                alert('Invalid or expired discount code.');
+            }
+        }
+
+        // PayPal Buttons Integration
+        function renderPayPalButtons(orderTotal) {
+            const container = document.getElementById('paypal-button-container');
+            if (!container || !window.paypal || container.children.length > 0) return;
+
+            try {
+                window.paypal.Buttons({
+                    style: {
+                        layout: 'vertical',
+                        color: 'gold',
+                        shape: 'rect',
+                        label: 'paypal'
+                    },
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: Number(orderTotal).toFixed(2),
+                                    currency_code: 'USD'
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                            localStorage.removeItem('mhw-cart');
+                            window.location.href = `/thank-you?order=${details.id}&method=paypal`;
+                        });
+                    }
+                }).render('#paypal-button-container');
+            } catch(e) {
+                console.log('PayPal SDK initialized in direct mode');
+            }
+        }
+
+        // PayPal Express Action
+        function handlePayPalExpress() {
+            selectPaymentMethod('paypal');
+            const container = document.getElementById('paypal-button-container');
+            if (container && container.querySelector('.paypal-button')) {
+                container.querySelector('.paypal-button').click();
+            } else {
+                document.getElementById('chk-form').dispatchEvent(new Event('submit'));
+            }
+        }
+
+        // WhatsApp Order Action
+        function handleWhatsAppOrder() {
+            const cart = typeof getCart === 'function' ? getCart() : [];
+            if (!cart || cart.length === 0) {
+                alert('Your shopping bag is empty!');
+                return;
+            }
+
+            const firstName = (document.getElementById('first-name')?.value || '').trim();
+            const lastName = (document.getElementById('last-name')?.value || '').trim();
+            const email = (document.getElementById('email')?.value || '').trim();
+            const phone = (document.getElementById('phone')?.value || '').trim();
+            const address = (document.getElementById('address1')?.value || '').trim();
+            const city = (document.getElementById('city')?.value || '').trim();
+            const country = (document.getElementById('country')?.value || 'KE');
+
+            const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
+            const total = subtotal;
+
+            let msg = `━━━━━━━━━━━━━━━━━━━━\n`;
+            msg += `    *MARY HUMPHREY*\n`;
+            msg += `    *AFRICAN WEAR*\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+            msg += `📦 *ORDER DETAILS*\n\n`;
+
+            cart.forEach((item, idx) => {
+                msg += `${idx + 1}. *${item.title}*\n`;
+                if (item.size) msg += `   • Size: ${item.size}\n`;
+                if (item.color) msg += `   • Colour: ${item.color}\n`;
+                msg += `   • Qty: ${item.qty} × ${formatPrice(item.price)}\n`;
+                msg += `   • Subtotal: ${formatPrice(parseFloat(item.price) * item.qty)}\n\n`;
+            });
+
+            msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+            msg += `*TOTAL: ${formatPrice(total)}*\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+            if (firstName || lastName) {
+                msg += `👤 *CUSTOMER DETAILS*\n`;
+                msg += `Name: ${firstName} ${lastName}\n`;
+                if (phone) msg += `Phone: ${phone}\n`;
+                if (email) msg += `Email: ${email}\n`;
+                if (address) msg += `Address: ${address}, ${city} (${country})\n\n`;
+            }
+
+            const method = document.querySelector('input[name="payment_method"]:checked')?.value || 'paypal';
+            const methodLabel = method === 'paypal' ? 'PayPal / International Card' : (method === 'card' ? 'Credit/Debit Card' : 'M-Pesa / Bank Transfer');
+
+            msg += `💳 *PAYMENT PREFERENCE*\n`;
+            msg += `Method: ${methodLabel}\n\n`;
+            msg += `Please confirm my order and send payment details. Thank you! 🙏`;
+
+            const waNumber = '254715687280';
+            const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+
+        // Form Submit Handler
+        document.getElementById('chk-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleWhatsAppOrder();
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', renderCheckout);
+        window.addEventListener('currency:changed', renderCheckout);
+    </script>
+
 </body>
 
 </html>

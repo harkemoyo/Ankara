@@ -11872,6 +11872,47 @@ li[data-address]>h2 {
   margin: 0 !important;
 }
 
+/* ── Refined Product Zoom Lightbox Sizing & Aesthetics ── */
+.glightbox-container .ginner-container {
+  max-width: 85vw !important;
+  max-height: 85vh !important;
+  height: 85vh !important;
+  margin: auto !important;
+}
+
+.glightbox-container .gslide-media {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  max-width: 85vw !important;
+  max-height: 85vh !important;
+  box-shadow: none !important;
+}
+
+.glightbox-container .gslide-image img {
+  max-height: 78vh !important;
+  max-width: 78vw !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  border-radius: 12px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45) !important;
+  margin: auto !important;
+}
+
+@media (max-width: 768px) {
+  .glightbox-container .ginner-container {
+    max-width: 92vw !important;
+    max-height: 85vh !important;
+    height: 85vh !important;
+  }
+  .glightbox-container .gslide-image img {
+    max-height: 78vh !important;
+    max-width: 90vw !important;
+    border-radius: 8px !important;
+  }
+}
+
 .product__media--view__icon--link.icon-play {
   width: 3.5rem;
   height: 3.5rem;

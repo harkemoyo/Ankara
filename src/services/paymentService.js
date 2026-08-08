@@ -10,7 +10,8 @@ class PaymentService {
     constructor() {
         this.secretKey = process.env.PAYSTACK_SECRET_KEY;
         this.publicKey = process.env.PAYSTACK_PUBLIC_KEY;
-        this.webhookSecret = process.env.PAYSTACK_WEBHOOK_SECRET || this.secretKey;
+        // In Paystack, webhooks are signed using the standard Secret Key
+        this.webhookSecret = process.env.PAYSTACK_SECRET_KEY;
         this.warningThreshold = 445000; // KSh 445,000
         this.criticalThreshold = 480000; // KSh 480,000
     }

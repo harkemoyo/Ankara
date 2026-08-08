@@ -44,30 +44,43 @@ class NotificationService extends EventEmitter {
 
         console.log(`[NotificationService] Processing PAYMENT_CONFIRMED for Order #${orderNumber}`);
 
-        // 1. Notify Mary via WhatsApp (Async / Non-blocking)
-        setImmediate(async () => {
-            try {
-                const maryResult = await whatsappService.sendPaymentAlertToMary({
-                    orderNumber,
-                    customerName: customer.name,
-                    amount,
-                    currency,
-                    reference: paymentReference
-                });
+        // Fetch current notification flags to guarantee notification idempotency
+        let currentFlags = {};
+        try {
+            const { data } = await supabaseAdmin
+                .from('orders')
+                .select('whatsapp_mary_notified, whatsapp_customer_notified, mailersend_receipt_sent')
+                .eq('order_number', orderNumber)
+                .maybeSingle();
+            if (data) currentFlags = data;
+        } catch (_) { /* continue with safe dispatch */ }
 
-                if (maryResult && maryResult.success) {
-                    await supabaseAdmin
-                        .from('orders')
-                        .update({ whatsapp_mary_notified: true })
-                        .eq('order_number', orderNumber);
+        // 1. Notify Mary via WhatsApp (Async / Non-blocking / Idempotent)
+        if (!currentFlags.whatsapp_mary_notified) {
+            setImmediate(async () => {
+                try {
+                    const maryResult = await whatsappService.sendPaymentAlertToMary({
+                        orderNumber,
+                        customerName: customer.name,
+                        amount,
+                        currency,
+                        reference: paymentReference
+                    });
+
+                    if (maryResult && maryResult.success) {
+                        await supabaseAdmin
+                            .from('orders')
+                            .update({ whatsapp_mary_notified: true })
+                            .eq('order_number', orderNumber);
+                    }
+                } catch (err) {
+                    console.error(`[NotificationService] Mary WhatsApp notification failed for #${orderNumber}:`, err.message);
                 }
-            } catch (err) {
-                console.error(`[NotificationService] Mary WhatsApp notification failed for #${orderNumber}:`, err.message);
-            }
-        });
+            });
+        }
 
-        // 2. Notify Customer via WhatsApp (Async / Non-blocking)
-        if (customer.phone) {
+        // 2. Notify Customer via WhatsApp (Async / Non-blocking / Idempotent)
+        if (customer.phone && !currentFlags.whatsapp_customer_notified) {
             setImmediate(async () => {
                 try {
                     const custResult = await whatsappService.sendPaymentConfirmationToCustomer({
@@ -91,8 +104,8 @@ class NotificationService extends EventEmitter {
             });
         }
 
-        // 3. Send MailerSend Email Receipt (Async / Non-blocking)
-        if (customer.email) {
+        // 3. Send MailerSend Email Receipt (Async / Non-blocking / Idempotent)
+        if (customer.email && !currentFlags.mailersend_receipt_sent) {
             setImmediate(async () => {
                 try {
                     const emailResult = await emailService.sendOrderReceipt({

@@ -268,7 +268,7 @@ class EmailService {
     }
 
     // ─────────────────────────────────────────────────────────────────
-    // Order Confirmation
+    // Order Confirmation / Payment Receipt
     // ─────────────────────────────────────────────────────────────────
     sendOrderConfirmation(order, customerEmail) {
         setImmediate(async () => {
@@ -280,6 +280,79 @@ class EmailService {
             });
 
             await this.sendEmail({ to: customerEmail, subject, html });
+        });
+    }
+
+    sendOrderReceipt(order, customerEmail) {
+        return new Promise(async (resolve) => {
+            try {
+                const orderNum = order.order_number || order.id;
+                const custName = order.customer_name || 'Valued Customer';
+                const currency = order.currency || 'KES';
+                const formattedTotal = currency === 'KES' 
+                    ? `KSh ${Number(order.total_amount || order.total || 0).toLocaleString('en-KE')}` 
+                    : `$${Number(order.total_amount || order.total || 0).toFixed(2)}`;
+
+                const items = Array.isArray(order.order_items) ? order.order_items : [];
+                const itemsHtml = items.map(item => `
+                    <tr>
+                        <td style="padding: 10px 0; border-bottom: 1px solid #f0f0f0;">
+                            <strong>${item.product_title || 'Item'}</strong>
+                            ${item.variant_size || item.variant_color ? `<br><span style="font-size:12px;color:#777;">${[item.variant_size, item.variant_color].filter(Boolean).join(' / ')}</span>` : ''}
+                        </td>
+                        <td style="padding: 10px 0; text-align: center; border-bottom: 1px solid #f0f0f0;">${item.quantity || 1}</td>
+                        <td style="padding: 10px 0; text-align: right; border-bottom: 1px solid #f0f0f0;">${currency === 'KES' ? 'KSh ' + Number(item.line_total || item.unit_price || 0).toLocaleString('en-KE') : '$' + Number(item.line_total || item.unit_price || 0).toFixed(2)}</td>
+                    </tr>
+                `).join('');
+
+                const trackingUrl = `https://maryhumphreywear.org/order-status?ref=${encodeURIComponent(orderNum)}&email=${encodeURIComponent(customerEmail)}`;
+
+                const subject = `Payment Received — Order #${orderNum}`;
+                const html = `
+                <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #dad2ce; border-radius: 8px; overflow: hidden; background-color: #faf8f5;">
+                    <div style="background-color: #422326; padding: 28px; text-align: center; color: #ffffff;">
+                        <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.05em;">Mary Humphrey African Wear</h1>
+                    </div>
+                    <div style="padding: 32px 28px; color: #2a2624; line-height: 1.6;">
+                        <h2 style="font-size: 19px; color: #422326; margin-top: 0;">Payment Confirmed, ${custName}!</h2>
+                        <p style="font-size: 14px; margin-bottom: 20px;">We've successfully received your payment for <strong>Order #${orderNum}</strong>. Your made-to-order handcrafted piece is now in production.</p>
+                        
+                        <div style="background-color: #ffffff; border: 1px solid #e5e0dc; border-radius: 6px; padding: 18px; margin-bottom: 24px;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 13.5px;">
+                                <thead>
+                                    <tr style="color: #777; font-size: 11.5px; text-transform: uppercase; border-bottom: 1px solid #eee;">
+                                        <th style="text-align: left; padding-bottom: 6px;">Product</th>
+                                        <th style="text-align: center; padding-bottom: 6px;">Qty</th>
+                                        <th style="text-align: right; padding-bottom: 6px;">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${itemsHtml || '<tr><td colspan="3" style="padding:8px 0;">Handcrafted African Fashion Order</td></tr>'}
+                                </tbody>
+                            </table>
+                            <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #eee; font-size: 14px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Payment Method:</span><strong>Paystack (${order.payment_ref || 'Online'})</strong></div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Status:</span><strong style="color:#2e7d32;">PAID ✅</strong></div>
+                                <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee;"><span>Total Paid:</span><span>${formattedTotal}</span></div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin: 28px 0;">
+                            <a href="${trackingUrl}" style="background-color: #422326; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-size: 14px; font-weight: 600; display: inline-block;">Track Order Status</a>
+                        </div>
+
+                        <p style="font-size: 12.5px; color: #777; text-align: center; margin-top: 24px; border-top: 1px solid #eee; padding-top: 16px;">
+                            Need assistance with custom measurements? Reply to this email or chat with our WhatsApp concierge at +254 715 687 280.
+                        </p>
+                    </div>
+                </div>`;
+
+                const result = await this.sendEmail({ to: customerEmail, subject, html });
+                resolve(result);
+            } catch (err) {
+                console.error('[EmailService] sendOrderReceipt error:', err.message);
+                resolve({ success: false, error: err.message });
+            }
         });
     }
 

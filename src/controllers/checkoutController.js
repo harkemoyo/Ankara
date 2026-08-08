@@ -1,5 +1,5 @@
-const { initializeCheckout, initializeMpesaCheckout, processWebhook } = require('../services/checkoutService');
-const crypto = require('crypto');
+const { initializeCheckout, initializeMpesaCheckout } = require('../services/checkoutService');
+const paymentService = require('../services/paymentService');
 
 async function initCheckout(req, res) {
     const { cart, customer } = req.body;
@@ -36,21 +36,20 @@ async function initMpesaCheckout(req, res) {
 }
 
 async function paystackWebhook(req, res) {
-    // Validate Paystack Signature
-    const secret = process.env.PAYSTACK_SECRET_KEY;
-    const hash = crypto.createHmac('sha512', secret).update(JSON.stringify(req.body)).digest('hex');
-
-    if (hash !== req.headers['x-paystack-signature']) {
-        return res.status(401).send('Unauthorized webhook signature');
-    }
+    const signature = req.headers['x-paystack-signature'];
 
     try {
-        await processWebhook(req.body);
+        const result = await paymentService.handleWebhook(req.body, signature, req.rawBody);
+        
+        // Fast HTTP 200 acknowledgment to payment gateway
+        return res.status(200).json(result || { status: 'acknowledged' });
     } catch (err) {
-        console.error('Webhook processing error:', err);
+        if (err.statusCode === 401 || err.message === 'Unauthorized Paystack webhook signature') {
+            return res.status(401).send('Unauthorized webhook signature');
+        }
+        console.error('Webhook processing error:', err.message);
+        return res.status(500).json({ error: err.message });
     }
-
-    res.sendStatus(200);
 }
 
 module.exports = {

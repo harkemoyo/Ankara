@@ -1121,7 +1121,7 @@ ul {
 @media only screen and (min-width: 768px) {
   .main__header {
     .main__header--inner {
-      padding-inline: 2.5rem;
+      padding-inline: 1rem;
     }
 
   }
@@ -18269,7 +18269,7 @@ body.body .header__section {
   transition: opacity 0.4s ease, transform 0.4s ease;
   pointer-events: none;
   font-size: 1.25rem;
-  font-weight: 500;
+  font-weight: 600;
   color: #ffffff;
   white-space: nowrap;
   overflow: hidden;

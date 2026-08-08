@@ -298,8 +298,47 @@ router.delete('/pages/:slug', requireAdmin, async (req, res) => {
 // Checkout & Order routes
 router.post('/checkout/init', initCheckout);
 router.post('/checkout/mpesa', initMpesaCheckout);
+router.post('/payments/paystack/webhook', paystackWebhook);
 router.post('/webhooks/paystack', paystackWebhook);
 router.get('/orders/:order_number', orderLookupLimiter, getOrder);
+
+// Paystack Volume & Notification Monitoring Routes
+const paymentService = require('../services/paymentService');
+const whatsappService = require('../services/whatsappService');
+
+router.get('/admin/payments/volume', requireAdmin, async (req, res) => {
+    try {
+        const metrics = await paymentService.checkVolumeThresholds();
+        res.json(metrics || { totalVolumeKes: 0, alertLevel: 'normal', count: 0 });
+    } catch (e) {
+        res.status(500).json({ error: 'Failed to fetch volume metrics' });
+    }
+});
+
+router.post('/admin/notifications/test-whatsapp', requireAdmin, async (req, res) => {
+    try {
+        const { type, phone, orderNumber, customerName, amount } = req.body;
+        let result;
+        if (type === 'mary') {
+            result = await whatsappService.sendPaymentAlertToMary({
+                orderNumber: orderNumber || 'TEST-1001',
+                customerName: customerName || 'Jane Doe',
+                amount: amount || 4500,
+                reference: 'TEST_REF_123'
+            });
+        } else {
+            result = await whatsappService.sendPaymentConfirmationToCustomer({
+                toPhone: phone,
+                customerName: customerName || 'Jane Doe',
+                amount: amount || 4500,
+                orderNumber: orderNumber || 'TEST-1001'
+            });
+        }
+        res.json(result);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
 
 // Contact Inquiry Route
 const emailService = require('../services/emailService');

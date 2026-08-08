@@ -1127,6 +1127,7 @@ ul {
   justify-content: space-between;
   gap: 3rem;
   padding-block: 1.5rem;
+  padding-inline: 1.5rem;
 }
 
 

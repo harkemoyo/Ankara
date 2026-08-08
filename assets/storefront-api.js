@@ -779,11 +779,9 @@ window.openProductZoom = function(e, indexOverride) {
     }
     if (startIdx < 0 || startIdx >= images.length) startIdx = 0;
 
-    const elements = images.map((img, i) => ({
+    const elements = images.map((img) => ({
         href: img,
-        type: 'image',
-        title: `${product ? product.title : 'Product Image'} (${i + 1}/${images.length})`,
-        description: product ? (product.vendor || 'MARY HUMPHREY AFRICAN WEAR') : ''
+        type: 'image'
     }));
 
     if (typeof GLightbox === 'function') {

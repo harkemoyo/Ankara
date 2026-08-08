@@ -11858,6 +11858,20 @@ li[data-address]>h2 {
   }
 }
 
+/* ── Hide GLightbox description/caption box on product zoom ── */
+.glightbox-container .gslide-description,
+.glightbox-container .gdesc-inner,
+.glightbox-container .gslide-title,
+.glightbox-container .gslide-desc {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 .product__media--view__icon--link.icon-play {
   width: 3.5rem;
   height: 3.5rem;

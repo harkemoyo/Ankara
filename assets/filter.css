@@ -1344,11 +1344,27 @@ select {
 .offcanvas__sticky--toolbar__btn {
   position: relative;
   text-align: center;
+  transition: transform 0.2s ease;
 }
 
-.offcanvas__sticky--toolbar__btn:hover .offcanvas__sticky--toolbar__icon {
-  background: var(--primary-color);
-  color: var(--text-white-color);
+.offcanvas__sticky--toolbar__btn:hover {
+  transform: translateY(-2px);
+}
+
+.offcanvas__sticky--toolbar__btn:hover .offcanvas__sticky--toolbar__icon,
+.offcanvas__sticky--toolbar__btn:active .offcanvas__sticky--toolbar__icon,
+.offcanvas__sticky--toolbar__btn.active .offcanvas__sticky--toolbar__icon {
+  background: #800020 !important;
+  color: #ffffff !important;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(128, 0, 32, 0.4);
+}
+
+.offcanvas__sticky--toolbar__btn:hover .offcanvas__sticky--toolbar__label,
+.offcanvas__sticky--toolbar__btn:active .offcanvas__sticky--toolbar__label,
+.offcanvas__sticky--toolbar__btn.active .offcanvas__sticky--toolbar__label {
+  color: #800020 !important;
+  font-weight: 700;
 }
 
 .offcanvas__sticky--toolbar__btn>* {
@@ -1363,12 +1379,12 @@ select {
 }
 
 .offcanvas__sticky--toolbar__icon {
-  width: 3.2rem;
-  height: 3.2rem;
+  width: 3.4rem;
+  height: 3.4rem;
   text-align: center;
-  background: var(--secondary-color);
+  background:  #800020 !important;
   border-radius: 50%;
-  color: var(--text-white-color);
+  color: #ffffff !important;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1378,18 +1394,24 @@ select {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+  box-shadow: 0 3px 8px rgba(128, 0, 32, 0.25);
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .offcanvas__sticky--toolbar__label {
   display: block;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 600;
   margin-top: 6px;
+  color: var(--text-color, #2a2624);
+  transition: color 0.2s ease;
 }
 
 .offcanvas__sticky--toolbar .items__count {
   left: 2.3rem;
   top: -9px;
+  background: #800020;
+  border: 2px solid #ffffff;
 }
 
 /*

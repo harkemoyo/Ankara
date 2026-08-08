@@ -728,12 +728,18 @@ window.selectSize = function (btn, size) {
 window.swapMainImage = function (thumbEl, src) {
     const mainImg = document.getElementById('dyn-product-image');
     if (mainImg) mainImg.src = src;
-    document.querySelectorAll('#dyn-product-gallery img').forEach(t => t.classList.remove('active'));
+    const thumbs = Array.from(document.querySelectorAll('#dyn-product-gallery img'));
+    thumbs.forEach((t, idx) => {
+        t.classList.remove('active');
+        if (thumbEl && t === thumbEl) {
+            window._activeImageIndex = idx;
+        } else if (!thumbEl && (t.src === src || t.getAttribute('src') === src)) {
+            window._activeImageIndex = idx;
+        }
+    });
     if (thumbEl) {
         thumbEl.classList.add('active');
     } else {
-        // Try to find matching thumbnail by src
-        const thumbs = document.querySelectorAll('#dyn-product-gallery img');
         thumbs.forEach(t => {
             if (t.src && (t.src === src || t.getAttribute('src') === src)) {
                 t.classList.add('active');
@@ -743,6 +749,60 @@ window.swapMainImage = function (thumbEl, src) {
 
     const stickyImg = document.getElementById('sticky-product-img');
     if (stickyImg) stickyImg.src = src;
+};
+
+// Shopify-style GLightbox Product Zoom Viewer (Exclusive to product detail page)
+window.openProductZoom = function(e, indexOverride) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const product = window._currentProduct;
+    let images = (product && product.images && product.images.length > 0) ? product.images : [];
+    if (images.length === 0) {
+        const mainImg = document.getElementById('dyn-product-image');
+        if (mainImg && mainImg.src) images = [mainImg.src];
+    }
+    if (images.length === 0) return;
+
+    let startIdx = 0;
+    if (typeof indexOverride === 'number') {
+        startIdx = indexOverride;
+    } else if (typeof window._activeImageIndex === 'number') {
+        startIdx = window._activeImageIndex;
+    } else {
+        const mainImg = document.getElementById('dyn-product-image');
+        if (mainImg && mainImg.src) {
+            const found = images.findIndex(img => img === mainImg.src || mainImg.src.includes(img));
+            if (found !== -1) startIdx = found;
+        }
+    }
+    if (startIdx < 0 || startIdx >= images.length) startIdx = 0;
+
+    const elements = images.map((img, i) => ({
+        href: img,
+        type: 'image',
+        title: `${product ? product.title : 'Product Image'} (${i + 1}/${images.length})`,
+        description: product ? (product.vendor || 'MARY HUMPHREY AFRICAN WEAR') : ''
+    }));
+
+    if (typeof GLightbox === 'function') {
+        if (window._productLightboxInstance && typeof window._productLightboxInstance.destroy === 'function') {
+            try { window._productLightboxInstance.destroy(); } catch(err){}
+        }
+        window._productLightboxInstance = GLightbox({
+            elements: elements,
+            startAt: startIdx,
+            touchNavigation: true,
+            loop: true,
+            zoomable: true,
+            draggable: true,
+            openEffect: 'zoom',
+            closeEffect: 'zoom',
+            slideEffect: 'slide'
+        });
+        window._productLightboxInstance.open();
+    }
 };
 
 // =============================================

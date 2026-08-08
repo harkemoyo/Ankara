@@ -48,13 +48,11 @@
     <link href="assets/filter.css" rel="stylesheet" />
     <link href="assets/home.css" rel="stylesheet" />
     <link href="assets/about.css" rel="stylesheet" />
-    <link href="assets/glightbox.min.css" rel="stylesheet" />
     <link href="assets/swiper-bundle.min.css" rel="stylesheet" />
     <link href="assets/normalize.css" rel="stylesheet" />
     <script src="assets/config.js"></script>
     <script src="assets/supabase.umd.js"></script>
     <script src="assets/swiper-bundle.min.js"></script>
-    <script defer="" src="assets/glightbox.min.js"></script>
     <script defer="" src="assets/cart.js"></script>
     <script defer="" src="assets/global.js"></script>
     <script defer src="assets/announcement.js"></script>
@@ -537,15 +535,15 @@
                         <h2 class="about__story--title" data-story="galleryTitle">The Artistry & Elegance</h2>
                     </div>
                     <div class="gallery__grid">
-                        <a href="assets/DSC01485.jpg" class="glightbox" data-gallery="about-gallery">
+                        <div class="gallery__item">
                             <img alt="Mary Humphrey Handcrafted Collection" src="assets/DSC01485.jpg" data-story="galleryImage1" />
-                        </a>
-                        <a href="assets/DSC01401.jpg" class="glightbox" data-gallery="about-gallery">
+                        </div>
+                        <div class="gallery__item">
                             <img alt="Mary Humphrey Kimonos & Capes" src="assets/DSC01401.jpg" data-story="galleryImage2" />
-                        </a>
-                        <a href="assets/DSC02616.jpg" class="glightbox" data-gallery="about-gallery">
+                        </div>
+                        <div class="gallery__item">
                             <img alt="Mary Humphrey African Wear Elegance" src="assets/DSC02616.jpg" data-story="galleryImage3" />
-                        </a>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -591,10 +589,6 @@
         }
 
         function initAboutPage() {
-            if (typeof GLightbox === 'function') {
-                GLightbox({ selector: '.glightbox' });
-            }
-
             let currentContent = {};
 
             // Load outlet section from homepage_sections

@@ -2199,6 +2199,7 @@ hr {
   font-size: 1.4rem;
   color: var(--primary-color);
   outline: none;
+  width: 80%;
   transition: border-color 0.2s;
 }
 

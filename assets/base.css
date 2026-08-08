@@ -18239,19 +18239,20 @@ body.body .header__section {
   height: 5.6rem;
   border-radius: 50%;
   border: none;
-  background: #800020;
+  background: #25D366;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.45);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .floating-contact-toggle:hover {
-  background: #800020;
-  transform: scale(1.05);
+  background: #20ba5a;
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.55);
 }
 
 .floating-contact-menu {

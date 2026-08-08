@@ -1210,9 +1210,9 @@ function renderContactCluster() {
 
   const toggle = document.createElement('button');
   toggle.className = 'floating-contact-toggle';
-  toggle.setAttribute('aria-label', 'Open contact options');
+  toggle.setAttribute('aria-label', 'Chat on WhatsApp or Call us');
   toggle.setAttribute('aria-expanded', 'false');
-  toggle.innerHTML = chatIcon;
+  toggle.innerHTML = whatsappIcon;
 
   container.appendChild(menu);
   container.appendChild(toggle);
@@ -1221,8 +1221,8 @@ function renderContactCluster() {
   function setExpanded(expanded) {
     container.classList.toggle('active', expanded);
     toggle.setAttribute('aria-expanded', String(expanded));
-    toggle.setAttribute('aria-label', expanded ? 'Close contact options' : 'Open contact options');
-    toggle.innerHTML = expanded ? closeIcon : chatIcon;
+    toggle.setAttribute('aria-label', expanded ? 'Close contact options' : 'Chat on WhatsApp or Call us');
+    toggle.innerHTML = expanded ? closeIcon : whatsappIcon;
   }
 
   let isOpen = false;

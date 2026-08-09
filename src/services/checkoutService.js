@@ -1,5 +1,6 @@
 const { supabaseAdmin } = require('../config/supabase');
 const emailService = require('./emailService');
+const whatsappService = require('./whatsappService');
 
 async function initializeCheckout(cart, customer) {
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
@@ -79,6 +80,9 @@ async function initializeCheckout(cart, customer) {
         console.error('Failed to insert order items:', itemsError);
         throw new Error('Order items could not be created');
     }
+
+    // 2b. Send made-to-measure alerts (email + WhatsApp)
+    await sendMadeToMeasureAlerts(order.order_number, customer, orderCurrency, total, orderItems);
 
     // 3. Initialize Paystack Transaction
     const paystackRes = await fetch('https://api.paystack.co/transaction/initialize', {
@@ -195,6 +199,9 @@ async function initializeMpesaCheckout(cart, customer) {
         throw new Error('Order items could not be created');
     }
 
+    // 2b. Send made-to-measure alerts (email + WhatsApp)
+    await sendMadeToMeasureAlerts(order.order_number, customer, orderCurrency, total, orderItems);
+
     // 3. Send order confirmation email with M-Pesa payment instructions
     try {
         emailService.sendOrderConfirmation({
@@ -269,6 +276,61 @@ async function processWebhook(eventData) {
             .from('orders')
             .update({ status: 'failed' })
             .eq('order_number', data.reference);
+    }
+}
+
+async function sendMadeToMeasureAlerts(orderNumber, customer, currency, totalAmount, items) {
+    if (!customer?.email && !customer?.phone) return;
+    const mtmItems = items.filter(i => i.made_to_measure);
+    if (mtmItems.length === 0) return;
+
+    const payload = {
+        orderNumber,
+        customer: {
+            name: customer.name || 'Customer',
+            phone: customer.phone || '',
+            email: customer.email || ''
+        },
+        items,
+        currency,
+        totalAmount
+    };
+
+    // Email customer
+    if (customer.email) {
+        emailService.sendMadeToMeasureAlert(payload, customer.email, false);
+    }
+
+    // Email owner
+    const ownerEmail = process.env.OWNER_EMAIL || process.env.MAILERSEND_SENDER_EMAIL || 'info@maryhumphreywear.org';
+    emailService.sendMadeToMeasureAlert(payload, ownerEmail, true);
+
+    const itemList = mtmItems.map(i => `${i.product_title || 'Item'} x${i.quantity || 1}`).join(', ');
+
+    // WhatsApp owner
+    try {
+        await whatsappService.sendMadeToMeasureAlertToMary({
+            orderNumber,
+            customerName: customer.name || 'Customer',
+            customerPhone: customer.phone || 'No phone',
+            itemList
+        });
+    } catch (err) {
+        console.error('[Checkout] WhatsApp alert to Mary failed:', err.message);
+    }
+
+    // WhatsApp customer
+    if (customer.phone) {
+        try {
+            await whatsappService.sendMadeToMeasureAlertToCustomer({
+                toPhone: customer.phone,
+                customerName: customer.name || 'Customer',
+                orderNumber,
+                itemList
+            });
+        } catch (err) {
+            console.error('[Checkout] WhatsApp alert to customer failed:', err.message);
+        }
     }
 }
 

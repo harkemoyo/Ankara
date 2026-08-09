@@ -9,11 +9,12 @@ class WhatsAppService {
         this.businessAccountId = process.env.WHATSAPP_BUSINESS_ACCOUNT_ID;
         this.apiVersion = process.env.WHATSAPP_API_VERSION || 'v21.0';
         this.maryPhone = (process.env.WHATSAPP_MARY_PHONE || '254715687280').replace(/[^0-9]/g, '');
-        
+
         // Meta Approved Template Identifiers from Environment Configuration
         this.templatePaymentConfirmation = process.env.WHATSAPP_TEMPLATE_PAYMENT_CONFIRMATION;
         this.templateMaryAlert = process.env.WHATSAPP_TEMPLATE_MARY_ALERT;
         this.templateStatusUpdate = process.env.WHATSAPP_TEMPLATE_STATUS_UPDATE;
+        this.templateMadeToMeasure = process.env.WHATSAPP_TEMPLATE_MADE_TO_MEASURE;
     }
 
     /**
@@ -100,8 +101,8 @@ class WhatsAppService {
      * Template Variables: {{1}} Order Number, {{2}} Customer Name, {{3}} Amount, {{4}} Reference
      */
     async sendPaymentAlertToMary({ orderNumber, customerName, amount, currency = 'KES', reference }) {
-        const formattedAmount = currency === 'KES' 
-            ? `KSh ${Number(amount).toLocaleString('en-KE')}` 
+        const formattedAmount = currency === 'KES'
+            ? `KSh ${Number(amount).toLocaleString('en-KE')}`
             : `$${Number(amount).toFixed(2)}`;
 
         const templateName = this.templateMaryAlert || 'mhw_payment_alert_mary';
@@ -130,8 +131,8 @@ class WhatsAppService {
             return { success: false, error: 'no_valid_phone' };
         }
 
-        const formattedAmount = currency === 'KES' 
-            ? `KSh ${Number(amount).toLocaleString('en-KE')}` 
+        const formattedAmount = currency === 'KES'
+            ? `KSh ${Number(amount).toLocaleString('en-KE')}`
             : `$${Number(amount).toFixed(2)}`;
 
         const trackingLink = trackingUrl || `https://maryhumphreywear.org/order-status?ref=${encodeURIComponent(orderNumber)}`;
@@ -180,6 +181,48 @@ class WhatsAppService {
                 orderNumber,
                 statusText,
                 trackingLink
+            ]
+        });
+    }
+
+    /**
+     * 4. Send Made-to-Measure Alert to Mary (Owner)
+     * Template Variables: {{1}} Order Number, {{2}} Customer Name, {{3}} Customer Phone, {{4}} Item List
+     */
+    async sendMadeToMeasureAlertToMary({ orderNumber, customerName, customerPhone, itemList }) {
+        const templateName = this.templateMadeToMeasure || 'mhw_made_to_measure_alert';
+        return await this.sendMetaTemplate({
+            to: this.maryPhone,
+            templateName,
+            languageCode: 'en',
+            parameters: [
+                orderNumber,
+                customerName || 'Customer',
+                customerPhone || 'No phone',
+                itemList || 'Made-to-measure item'
+            ]
+        });
+    }
+
+    /**
+     * 5. Send Made-to-Measure Alert to Customer
+     * Template Variables: {{1}} Customer Name, {{2}} Order Number, {{3}} Item List
+     */
+    async sendMadeToMeasureAlertToCustomer({ toPhone, customerName, orderNumber, itemList }) {
+        const cleanTo = this.cleanPhone(toPhone);
+        if (!cleanTo) {
+            console.warn(`[WhatsApp MTM Skipped] No valid phone for Order #${orderNumber}`);
+            return { success: false, error: 'no_valid_phone' };
+        }
+        const templateName = this.templateMadeToMeasure || 'mhw_made_to_measure_alert';
+        return await this.sendMetaTemplate({
+            to: cleanTo,
+            templateName,
+            languageCode: 'en',
+            parameters: [
+                customerName || 'Friend',
+                orderNumber,
+                itemList || 'Made-to-measure item'
             ]
         });
     }

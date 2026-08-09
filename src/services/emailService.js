@@ -7,10 +7,10 @@ const { supabaseAdmin } = require('../config/supabase');
 
 class EmailService {
     constructor() {
-        this.apiKey        = process.env.MAILERSEND_API_KEY || process.env.MAILERSEND_KEY;
-        this.senderEmail   = process.env.MAILERSEND_SENDER_EMAIL || 'info@send.maryhumphreywear.org';
-        this.senderName    = process.env.MAILERSEND_SENDER_NAME  || 'Mary Humphrey African Wear';
-        
+        this.apiKey = process.env.MAILERSEND_API_KEY || process.env.MAILERSEND_KEY;
+        this.senderEmail = process.env.MAILERSEND_SENDER_EMAIL || 'info@send.maryhumphreywear.org';
+        this.senderName = process.env.MAILERSEND_SENDER_NAME || 'Mary Humphrey African Wear';
+
         // SMTP fallback transport
         if (process.env.SMTP_USER && process.env.SMTP_PASS) {
             this.smtpTransporter = nodemailer.createTransport({
@@ -35,12 +35,12 @@ class EmailService {
                 const response = await fetch('https://api.mailersend.com/v1/email', {
                     method: 'POST',
                     headers: {
-                        'Content-Type':  'application/json',
+                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${this.apiKey}`
                     },
                     body: JSON.stringify({
                         from: { email: this.senderEmail, name: this.senderName },
-                        to:   [{ email: to }],
+                        to: [{ email: to }],
                         subject,
                         html,
                         text: text || subject
@@ -108,15 +108,15 @@ class EmailService {
 
         // Merge settings into variables
         const mergedVars = {
-            store_name:          settings.store_name          || 'Mary Humphrey African Wear',
-            email_header_color:  settings.email_header_color  || '#422326',
-            email_footer_text:   settings.email_footer_text   || '© 2026 Mary Humphrey African Wear.',
-            currency:            settings.currency             || 'KES',
+            store_name: settings.store_name || 'Mary Humphrey African Wear',
+            email_header_color: settings.email_header_color || '#422326',
+            email_footer_text: settings.email_footer_text || '© 2026 Mary Humphrey African Wear.',
+            currency: settings.currency || 'KES',
             ...variables
         };
 
         // Load template from DB
-        let subject  = '';
+        let subject = '';
         let htmlBody = '';
 
         try {
@@ -128,7 +128,7 @@ class EmailService {
                 .single();
 
             if (template) {
-                subject  = template.subject;
+                subject = template.subject;
                 htmlBody = template.html_body;
             }
         } catch (_) { /* fallback below */ }
@@ -262,8 +262,8 @@ class EmailService {
             str.replace(/\{\{(\w+)\}\}/g, (_, key) => mergedVars[key] || '');
 
         return {
-            subject:  interpolate(subject),
-            html:     interpolate(htmlBody)
+            subject: interpolate(subject),
+            html: interpolate(htmlBody)
         };
     }
 
@@ -273,9 +273,9 @@ class EmailService {
     sendOrderConfirmation(order, customerEmail) {
         setImmediate(async () => {
             const { subject, html } = await this.buildEmail('order_confirmation', {
-                order_number:     order.order_number || order.id,
-                customer_name:    order.customer_name  || 'Valued Customer',
-                total:            parseFloat(order.total_amount || 0).toFixed(2),
+                order_number: order.order_number || order.id,
+                customer_name: order.customer_name || 'Valued Customer',
+                total: parseFloat(order.total_amount || 0).toFixed(2),
                 shipping_address: order.shipping_address || 'As specified at checkout'
             });
 
@@ -289,21 +289,29 @@ class EmailService {
                 const orderNum = order.order_number || order.id;
                 const custName = order.customer_name || 'Valued Customer';
                 const currency = order.currency || 'KES';
-                const formattedTotal = currency === 'KES' 
-                    ? `KSh ${Number(order.total_amount || order.total || 0).toLocaleString('en-KE')}` 
+                const formattedTotal = currency === 'KES'
+                    ? `KSh ${Number(order.total_amount || order.total || 0).toLocaleString('en-KE')}`
                     : `$${Number(order.total_amount || order.total || 0).toFixed(2)}`;
 
                 const items = Array.isArray(order.order_items) ? order.order_items : [];
+                const hasMadeToMeasure = items.some(i => i.made_to_measure);
                 const itemsHtml = items.map(item => `
                     <tr>
                         <td style="padding: 10px 0; border-bottom: 1px solid #f0f0f0;">
                             <strong>${item.product_title || 'Item'}</strong>
                             ${item.variant_size || item.variant_color ? `<br><span style="font-size:12px;color:#777;">${[item.variant_size, item.variant_color].filter(Boolean).join(' / ')}</span>` : ''}
+                            ${item.made_to_measure ? `<br><span style="display:inline-block;background:#ff9800;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;margin-top:4px;text-transform:uppercase;">Made-to-Measure</span>` : ''}
                         </td>
                         <td style="padding: 10px 0; text-align: center; border-bottom: 1px solid #f0f0f0;">${item.quantity || 1}</td>
                         <td style="padding: 10px 0; text-align: right; border-bottom: 1px solid #f0f0f0;">${currency === 'KES' ? 'KSh ' + Number(item.line_total || item.unit_price || 0).toLocaleString('en-KE') : '$' + Number(item.line_total || item.unit_price || 0).toFixed(2)}</td>
                     </tr>
                 `).join('');
+                const madeToMeasureHtml = hasMadeToMeasure ? `
+                    <div style="background-color: #fff3e0; border: 2px solid #ff9800; border-radius: 6px; padding: 16px; margin: 24px 0; text-align: center;">
+                        <h3 style="margin: 0 0 8px; color: #e65100; font-size: 16px; text-transform: uppercase; letter-spacing: 0.05em;">⚠️ Made-to-Measure Order</h3>
+                        <p style="margin: 0; color: #5d4037; font-size: 14px;">We will call you within 24 hours to confirm your custom measurements.</p>
+                    </div>
+                ` : '';
 
                 const trackingUrl = `https://maryhumphreywear.org/order-status?ref=${encodeURIComponent(orderNum)}&email=${encodeURIComponent(customerEmail)}`;
 
@@ -330,6 +338,7 @@ class EmailService {
                                     ${itemsHtml || '<tr><td colspan="3" style="padding:8px 0;">Handcrafted African Fashion Order</td></tr>'}
                                 </tbody>
                             </table>
+                            ${madeToMeasureHtml}
                             <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #eee; font-size: 14px;">
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Payment Method:</span><strong>Paystack (${order.payment_ref || 'Online'})</strong></div>
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Status:</span><strong style="color:#2e7d32;">PAID ✅</strong></div>
@@ -357,13 +366,85 @@ class EmailService {
     }
 
     // ─────────────────────────────────────────────────────────────────
+    // Made-to-Measure Alert (Customer + Owner)
+    // ─────────────────────────────────────────────────────────────────
+    sendMadeToMeasureAlert({ orderNumber, customer, items, currency, totalAmount }, toEmail, isOwner = false) {
+        const mtmItems = (items || []).filter(i => i.made_to_measure);
+        if (mtmItems.length === 0) return;
+
+        const currencySymbol = currency === 'KES' ? 'KSh' : '$';
+        const formattedTotal = currency === 'KES'
+            ? `KSh ${Number(totalAmount || 0).toLocaleString('en-KE')}`
+            : `$${Number(totalAmount || 0).toFixed(2)}`;
+
+        const itemsListHtml = mtmItems.map(item => `
+            <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #f0f0f0;"><strong>${item.product_title || 'Item'}</strong> × ${item.quantity || 1}</td>
+                <td style="padding: 10px 0; text-align: right; border-bottom: 1px solid #f0f0f0;">${currencySymbol} ${Number(item.unit_price || 0).toLocaleString('en-KE')}</td>
+            </tr>
+        `).join('');
+
+        const customerInfo = isOwner ? `
+            <div style="background-color: #fff3e0; border: 1px solid #ffcc80; border-radius: 6px; padding: 16px; margin-bottom: 24px;">
+                <h4 style="margin: 0 0 8px; color: #e65100; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">Customer Contact</h4>
+                <p style="margin: 0; font-size: 14px; color: #5d4037;"><strong>Name:</strong> ${customer.name || 'N/A'}<br><strong>Phone:</strong> ${customer.phone || 'N/A'}<br><strong>Email:</strong> ${customer.email || 'N/A'}</p>
+            </div>
+        ` : '';
+
+        const heading = isOwner
+            ? 'A Made-to-Measure Order Needs Follow-up'
+            : 'We Will Call About Your Made-to-Measure Item';
+        const bodyText = isOwner
+            ? `Please call <strong>${customer.name || 'the customer'}</strong> within 24 hours to confirm the custom measurements for the items below.`
+            : `Thank you for your order. Because you selected made-to-measure, our team will call you within 24 hours to confirm exactly how you would like it tailored.`;
+
+        const subject = isOwner
+            ? `🔔 Made-to-Measure Follow-up — Order #${orderNumber}`
+            : `We Will Call You — Made-to-Measure Order #${orderNumber}`;
+
+        const html = `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #dad2ce; border-radius: 8px; overflow: hidden; background-color: #faf8f5;">
+            <div style="background-color: #e65100; padding: 28px; text-align: center; color: #ffffff;">
+                <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.05em;">Made-to-Measure Alert</h1>
+            </div>
+            <div style="padding: 32px 28px; color: #2a2624; line-height: 1.6;">
+                <h2 style="font-size: 19px; color: #e65100; margin-top: 0;">${heading}</h2>
+                <p style="font-size: 14px; margin-bottom: 20px;">${bodyText}</p>
+
+                ${customerInfo}
+
+                <div style="background-color: #ffffff; border: 1px solid #e5e0dc; border-radius: 6px; padding: 18px; margin-bottom: 24px;">
+                    <p style="margin: 0 0 12px; font-size: 14px; color: #777;"><strong>Order:</strong> #${orderNumber} &nbsp;|&nbsp; <strong>Total:</strong> ${formattedTotal}</p>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13.5px;">
+                        <thead>
+                            <tr style="color: #777; font-size: 11.5px; text-transform: uppercase; border-bottom: 1px solid #eee;">
+                                <th style="text-align: left; padding-bottom: 6px;">Made-to-Measure Item</th>
+                                <th style="text-align: right; padding-bottom: 6px;">Unit Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${itemsListHtml}
+                        </tbody>
+                    </table>
+                </div>
+
+                <p style="font-size: 13px; color: #7a726e; text-align: center; margin-top: 24px; border-top: 1px solid #eee; padding-top: 16px;">
+                    ${isOwner ? 'Reply to this email to log any updates.' : 'Reply to this email or WhatsApp +254 715 687 280 if you would like to share your measurements in advance.'}
+                </p>
+            </div>
+        </div>`;
+
+        this.queueEmail({ to: toEmail, subject, html });
+    }
+
+    // ─────────────────────────────────────────────────────────────────
     // Shipping Notification
     // ─────────────────────────────────────────────────────────────────
     sendShippingNotification(order, customerEmail) {
         setImmediate(async () => {
             const { subject, html } = await this.buildEmail('shipping_notification', {
-                order_number:    order.order_number,
-                customer_name:   order.customer_name || 'Valued Customer',
+                order_number: order.order_number,
+                customer_name: order.customer_name || 'Valued Customer',
                 tracking_number: order.tracking_number || 'Not yet available'
             });
 

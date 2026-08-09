@@ -38,7 +38,9 @@ function addToCart(product) {
       price: parseFloat(product.price),
       image: product.image,
       qty: parseInt(product.qty || 1),
-      size: product.size || 'M'
+      size: product.size || 'M',
+      color: product.color || '',
+      madeToMeasure: product.madeToMeasure || false
     });
   }
 

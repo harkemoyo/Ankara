@@ -20,34 +20,34 @@ async function initializeCheckout(cart, customer) {
         if (settings?.currency) orderCurrency = settings.currency;
     } catch (_) { /* use default */ }
 
-    const subtotal     = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.qty), 0);
+    const subtotal = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.qty), 0);
     const shippingCost = subtotal >= 80 ? 0 : 5.99;
-    const total        = subtotal + shippingCost;
-    const totalKobo    = Math.round(total * 100);
+    const total = subtotal + shippingCost;
+    const totalKobo = Math.round(total * 100);
 
     // 1. Create PENDING order in Supabase
     const { data: order, error: orderError } = await supabaseAdmin
         .from('orders')
         .insert({
-            order_number:     '', // Trigger populates this
-            status:           'pending',
-            customer_email:   customer.email.toLowerCase().trim(),
-            customer_name:    customer.name.trim(),
-            customer_phone:   customer.phone || null,
+            order_number: '', // Trigger populates this
+            status: 'pending',
+            customer_email: customer.email.toLowerCase().trim(),
+            customer_name: customer.name.trim(),
+            customer_phone: customer.phone || null,
             customer_user_id: customer.user_id || null,
             shipping_address: {
                 address1: customer.address1 || '',
                 address2: customer.address2 || '',
-                city:     customer.city     || '',
+                city: customer.city || '',
                 postcode: customer.postcode || '',
-                country:  customer.country  || 'KE',
+                country: customer.country || 'KE',
             },
             subtotal,
-            shipping_cost:    shippingCost,
+            shipping_cost: shippingCost,
             total,
-            currency:         orderCurrency,
+            currency: orderCurrency,
             payment_provider: 'paystack',
-            payment_ref:      null,
+            payment_ref: null,
         })
         .select('id, order_number')
         .single();
@@ -59,15 +59,16 @@ async function initializeCheckout(cart, customer) {
 
     // 2. Insert order items
     const orderItems = cart.map(item => ({
-        order_id:       order.id,
-        product_id:     item.product_id || null,
+        order_id: order.id,
+        product_id: item.product_id || null,
         product_handle: item.id || item.handle || '',
-        product_title:  item.title,
-        variant_size:   item.size   || null,
-        variant_color:  item.color  || null,
-        unit_price:     parseFloat(item.price),
-        quantity:       parseInt(item.qty)   || 1,
-        image:          item.image || null,
+        product_title: item.title,
+        variant_size: item.size || null,
+        variant_color: item.color || null,
+        unit_price: parseFloat(item.price),
+        quantity: parseInt(item.qty) || 1,
+        image: item.image || null,
+        made_to_measure: item.madeToMeasure || false,
     }));
 
     const { error: itemsError } = await supabaseAdmin
@@ -131,37 +132,37 @@ async function initializeMpesaCheckout(cart, customer) {
         if (settings?.currency) orderCurrency = settings.currency;
     } catch (_) { /* use default */ }
 
-    const subtotal     = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.qty), 0);
+    const subtotal = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.qty), 0);
     const shippingCost = subtotal >= 10000 ? 0 : 500;   // KES: free shipping over KSh 10,000
-    const total        = subtotal + shippingCost;
+    const total = subtotal + shippingCost;
 
     // Determine which M-Pesa method customer chose
-    const mpesaMethod  = customer.mpesa_method || 'paybill'; // 'paybill' or 'send_money'
+    const mpesaMethod = customer.mpesa_method || 'paybill'; // 'paybill' or 'send_money'
 
     // 1. Create PENDING order in Supabase
     const { data: order, error: orderError } = await supabaseAdmin
         .from('orders')
         .insert({
-            order_number:     '', // Trigger populates this
-            status:           'pending_payment',
-            customer_email:   customer.email.toLowerCase().trim(),
-            customer_name:    customer.name.trim(),
-            customer_phone:   customer.phone || null,
+            order_number: '', // Trigger populates this
+            status: 'pending_payment',
+            customer_email: customer.email.toLowerCase().trim(),
+            customer_name: customer.name.trim(),
+            customer_phone: customer.phone || null,
             customer_user_id: customer.user_id || null,
             shipping_address: {
                 address1: customer.address1 || '',
                 address2: customer.address2 || '',
-                city:     customer.city     || '',
+                city: customer.city || '',
                 postcode: customer.postcode || '',
-                country:  customer.country  || 'KE',
+                country: customer.country || 'KE',
             },
             subtotal,
-            shipping_cost:    shippingCost,
+            shipping_cost: shippingCost,
             total,
-            currency:         orderCurrency,
+            currency: orderCurrency,
             payment_provider: 'mpesa',
-            payment_ref:      null,
-            notes:            `M-Pesa ${mpesaMethod === 'send_money' ? 'Send Money to 0715687280' : 'Paybill 247247, Acc 687280'}`,
+            payment_ref: null,
+            notes: `M-Pesa ${mpesaMethod === 'send_money' ? 'Send Money to 0715687280' : 'Paybill 247247, Acc 687280'}`,
         })
         .select('id, order_number')
         .single();
@@ -173,15 +174,16 @@ async function initializeMpesaCheckout(cart, customer) {
 
     // 2. Insert order items
     const orderItems = cart.map(item => ({
-        order_id:       order.id,
-        product_id:     item.product_id || null,
+        order_id: order.id,
+        product_id: item.product_id || null,
         product_handle: item.id || item.handle || '',
-        product_title:  item.title,
-        variant_size:   item.size   || null,
-        variant_color:  item.color  || null,
-        unit_price:     parseFloat(item.price),
-        quantity:       parseInt(item.qty)   || 1,
-        image:          item.image || null,
+        product_title: item.title,
+        variant_size: item.size || null,
+        variant_color: item.color || null,
+        unit_price: parseFloat(item.price),
+        quantity: parseInt(item.qty) || 1,
+        image: item.image || null,
+        made_to_measure: item.madeToMeasure || false,
     }));
 
     const { error: itemsError } = await supabaseAdmin
@@ -252,7 +254,7 @@ async function processWebhook(eventData) {
                     .select('inventory_quantity')
                     .eq('handle', item.product_handle)
                     .maybeSingle();
-                
+
                 if (!getErr && product && product.inventory_quantity !== undefined && product.inventory_quantity !== null) {
                     const newQty = Math.max(0, product.inventory_quantity - item.quantity);
                     await supabaseAdmin

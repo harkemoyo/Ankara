@@ -20,7 +20,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet" />
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -35,7 +37,9 @@
     <script src="assets/supabase.umd.js"></script>
     <script src="assets/cart.js"></script>
     <!-- PayPal SDK (sandbox/live ready) -->
-    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD&components=buttons&enable-funding=venmo,paylater" data-sdk-integration-source="integrationbuilder"></script>
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD&components=buttons&enable-funding=venmo,paylater"
+        data-sdk-integration-source="integrationbuilder"></script>
 </head>
 
 <body class="checkout-page">
@@ -50,13 +54,15 @@
                 </a>
             </div>
             <div class="chk-header-actions">
-                <select class="chk-currency-select" id="chk-currency-select" onchange="switchCheckoutCurrency(this.value)" title="Currency">
+                <select class="chk-currency-select" id="chk-currency-select"
+                    onchange="switchCheckoutCurrency(this.value)" title="Currency">
                     <option value="USD">USD ($)</option>
                     <option value="KES">KES (KSh)</option>
                 </select>
                 <a href="/cart" class="chk-header-cart-link" title="Return to Bag">
                     <span class="chk-header-cart-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                             <line x1="3" y1="6" x2="21" y2="6"></line>
                             <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -70,9 +76,12 @@
 
     <!-- ── Empty Bag Alert ── -->
     <div id="empty-cart-msg" style="display:none; text-align:center; padding: 80px 20px;">
-        <h2 style="font-family:'Playfair Display',serif; font-size:2.4rem; margin-bottom:12px; color:#800020;">Your bag is empty</h2>
-        <p style="font-size:1.4rem; color:#666; margin-bottom:24px;">Discover our handcrafted African fashion collections.</p>
-        <a href="/shop" class="chk-pay-btn" style="display:inline-block; width:auto; text-decoration:none; padding:14px 36px;">Shop Now</a>
+        <h2 style="font-family:'Playfair Display',serif; font-size:2.4rem; margin-bottom:12px; color:#800020;">Your bag
+            is empty</h2>
+        <p style="font-size:1.4rem; color:#666; margin-bottom:24px;">Discover our handcrafted African fashion
+            collections.</p>
+        <a href="/shop" class="chk-pay-btn"
+            style="display:inline-block; width:auto; text-decoration:none; padding:14px 36px;">Shop Now</a>
     </div>
 
     <!-- ── Mobile Order Summary Dropdown Bar ── -->
@@ -80,7 +89,8 @@
         <div class="chk-mobile-summary-left">
             <span class="chk-mobile-summary-icon">🛍️</span>
             <span id="mobile-summary-toggle-text">Show order summary</span>
-            <svg class="chk-mobile-summary-chevron" id="mobile-summary-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <svg class="chk-mobile-summary-chevron" id="mobile-summary-chevron" width="14" height="14"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
         </div>
@@ -101,7 +111,8 @@
                 </div>
                 <div class="checkout-banner-item">
                     <span class="banner-badge banner-badge-free">Free Delivery</span>
-                    <span>🚚 FREE Nairobi Delivery on Orders Over <strong class="free-shipping-threshold">$100.00</strong></span>
+                    <span>🚚 FREE Nairobi Delivery on Orders Over <strong
+                            class="free-shipping-threshold">$100.00</strong></span>
                 </div>
             </div>
 
@@ -116,7 +127,8 @@
                         </span>
                     </div>
                     <div class="chk-field-group">
-                        <input type="email" id="email" name="email" class="chk-input" placeholder="Email Address" required autocomplete="email">
+                        <input type="email" id="email" name="email" class="chk-input" placeholder="Email Address"
+                            required autocomplete="email">
                     </div>
                     <label class="chk-checkbox-wrap">
                         <input type="checkbox" id="news-offers" checked>
@@ -150,36 +162,44 @@
 
                     <div class="chk-field-row">
                         <div class="chk-field-group">
-                            <input type="text" id="first-name" name="first_name" class="chk-input" placeholder="First name" required autocomplete="given-name">
+                            <input type="text" id="first-name" name="first_name" class="chk-input"
+                                placeholder="First name" required autocomplete="given-name">
                         </div>
                         <div class="chk-field-group">
-                            <input type="text" id="last-name" name="last_name" class="chk-input" placeholder="Last name" required autocomplete="family-name">
+                            <input type="text" id="last-name" name="last_name" class="chk-input" placeholder="Last name"
+                                required autocomplete="family-name">
                         </div>
                     </div>
 
                     <div class="chk-field-group">
-                        <input type="text" id="company" name="company" class="chk-input" placeholder="Company (optional)" autocomplete="organization">
+                        <input type="text" id="company" name="company" class="chk-input"
+                            placeholder="Company (optional)" autocomplete="organization">
                     </div>
 
                     <div class="chk-field-group">
-                        <input type="text" id="address1" name="address1" class="chk-input" placeholder="Address" required autocomplete="address-line1">
+                        <input type="text" id="address1" name="address1" class="chk-input" placeholder="Address"
+                            required autocomplete="address-line1">
                     </div>
 
                     <div class="chk-field-group">
-                        <input type="text" id="address2" name="address2" class="chk-input" placeholder="Apartment, suite, etc. (optional)" autocomplete="address-line2">
+                        <input type="text" id="address2" name="address2" class="chk-input"
+                            placeholder="Apartment, suite, etc. (optional)" autocomplete="address-line2">
                     </div>
 
                     <div class="chk-field-row">
                         <div class="chk-field-group">
-                            <input type="text" id="city" name="city" class="chk-input" placeholder="City" required autocomplete="address-level2">
+                            <input type="text" id="city" name="city" class="chk-input" placeholder="City" required
+                                autocomplete="address-level2">
                         </div>
                         <div class="chk-field-group">
-                            <input type="text" id="postcode" name="postcode" class="chk-input" placeholder="Postal code (optional)" autocomplete="postal-code">
+                            <input type="text" id="postcode" name="postcode" class="chk-input"
+                                placeholder="Postal code (optional)" autocomplete="postal-code">
                         </div>
                     </div>
 
                     <div class="chk-field-group">
-                        <input type="tel" id="phone" name="phone" class="chk-input" placeholder="Phone" required autocomplete="tel">
+                        <input type="tel" id="phone" name="phone" class="chk-input" placeholder="Phone" required
+                            autocomplete="tel">
                     </div>
 
                     <label class="chk-checkbox-wrap">
@@ -203,16 +223,20 @@
                         <span class="checkout__shipping-icon">📍</span>
                         <div class="checkout__shipping-text">
                             <strong>Nairobi County Fast Delivery</strong>
-                            <div class="checkout__shipping-subtext">Doorstep delivery within Nairobi County in 1–2 business days. For orders outside Nairobi or worldwide shipping, we coordinate personalized courier via WhatsApp.</div>
+                            <div class="checkout__shipping-subtext">Doorstep delivery within Nairobi County in 1–2
+                                business days. For orders outside Nairobi or worldwide shipping, we coordinate
+                                personalized courier via WhatsApp.</div>
                         </div>
                     </div>
 
                     <div class="chk-card-group">
                         <label class="chk-card-row active" id="ship-standard-row">
                             <div class="chk-card-row-left">
-                                <input type="radio" name="shipping_rate" id="ship-standard-radio" value="standard" checked>
+                                <input type="radio" name="shipping_rate" id="ship-standard-radio" value="standard"
+                                    checked>
                                 <div>
-                                    <div class="chk-card-label">Free shipping 1-2 days, Delivery Made to Order (2 Weeks)</div>
+                                    <div class="chk-card-label">Free shipping 1-2 days, Delivery Made to Order (2 Weeks)
+                                    </div>
                                     <div class="chk-card-sublabel">Reliable doorstep delivery</div>
                                 </div>
                             </div>
@@ -225,27 +249,35 @@
                 <section class="chk-section">
                     <div class="chk-section-header" style="flex-direction:column; align-items:flex-start;">
                         <h2 class="chk-section-title">Payment Preference</h2>
-                        <div class="chk-section-subtext">Choose your preferred payment method. We'll confirm your order and send payment details in WhatsApp.</div>
+                        <div class="chk-section-subtext">Choose your preferred payment method. We'll confirm your order
+                            and send payment details in WhatsApp.</div>
                     </div>
 
                     <div class="chk-payment-card">
 
                         <!-- PayPal (Option 1) -->
-                        <div class="chk-payment-header active" id="pay-header-paypal" onclick="selectPaymentMethod('paypal')">
+                        <div class="chk-payment-header active" id="pay-header-paypal"
+                            onclick="selectPaymentMethod('paypal')">
                             <div class="chk-payment-header-left">
                                 <input type="radio" name="payment_method" id="pay-method-paypal" value="paypal" checked>
                                 <span>PayPal / International Cards</span>
                             </div>
                             <div class="chk-payment-badges">
-                                <img src="https://assets.braintreegateway.com/payment_method_logo/paypal.png" alt="PayPal" class="chk-badge-img">
-                                <img src="https://assets.braintreegateway.com/payment_method_logo/visa.png" alt="Visa" class="chk-badge-img">
-                                <img src="https://assets.braintreegateway.com/payment_method_logo/mastercard.png" alt="Mastercard" class="chk-badge-img">
-                                <img src="https://assets.braintreegateway.com/payment_method_logo/american_express.png" alt="Amex" class="chk-badge-img">
+                                <img src="https://assets.braintreegateway.com/payment_method_logo/paypal.png"
+                                    alt="PayPal" class="chk-badge-img">
+                                <img src="https://assets.braintreegateway.com/payment_method_logo/visa.png" alt="Visa"
+                                    class="chk-badge-img">
+                                <img src="https://assets.braintreegateway.com/payment_method_logo/mastercard.png"
+                                    alt="Mastercard" class="chk-badge-img">
+                                <img src="https://assets.braintreegateway.com/payment_method_logo/american_express.png"
+                                    alt="Amex" class="chk-badge-img">
                             </div>
                         </div>
                         <div class="chk-payment-body" id="pay-body-paypal">
-                            <p style="margin:0 0 8px; font-weight:500; color:#1a1a1a;">Pay securely worldwide with PayPal or credit/debit card.</p>
-                            <p style="margin:0; font-size:12.5px; color:#666;">We will receive your order and immediately send you a secure PayPal payment link or invoice in WhatsApp.</p>
+                            <p style="margin:0 0 8px; font-weight:500; color:#1a1a1a;">Pay securely worldwide with
+                                PayPal or credit/debit card.</p>
+                            <p style="margin:0; font-size:12.5px; color:#666;">We will receive your order and
+                                immediately send you a secure PayPal payment link or invoice in WhatsApp.</p>
                         </div>
 
                         <!-- Credit / Debit Card (Option 2) -->
@@ -255,12 +287,15 @@
                                 <span>Credit / Debit Card (Direct Link)</span>
                             </div>
                             <div class="chk-payment-badges">
-                                <img src="https://assets.braintreegateway.com/payment_method_logo/visa.png" alt="Visa" class="chk-badge-img">
-                                <img src="https://assets.braintreegateway.com/payment_method_logo/mastercard.png" alt="Mastercard" class="chk-badge-img">
+                                <img src="https://assets.braintreegateway.com/payment_method_logo/visa.png" alt="Visa"
+                                    class="chk-badge-img">
+                                <img src="https://assets.braintreegateway.com/payment_method_logo/mastercard.png"
+                                    alt="Mastercard" class="chk-badge-img">
                             </div>
                         </div>
                         <div class="chk-payment-body" id="pay-body-card" style="display:none;">
-                            <p style="margin:0; font-size:12.5px; color:#666;">We will send you a secure online card payment link via WhatsApp to complete your checkout.</p>
+                            <p style="margin:0; font-size:12.5px; color:#666;">We will send you a secure online card
+                                payment link via WhatsApp to complete your checkout.</p>
                         </div>
 
                         <!-- M-Pesa / Bank Transfer (Option 3 - Kenya / East Africa) -->
@@ -270,8 +305,10 @@
                                 <span>M-Pesa / Bank Transfer (Kenya)</span>
                             </div>
                             <div class="chk-payment-badges">
-                                <span style="background:#2e7d32; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:3px;">M-PESA</span>
-                                <span style="background:#800020; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:3px;">BANK</span>
+                                <span
+                                    style="background:#2e7d32; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:3px;">M-PESA</span>
+                                <span
+                                    style="background:#800020; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:3px;">BANK</span>
                             </div>
                         </div>
                         <div class="chk-payment-body" id="pay-body-mpesa" style="display:none; text-align:left;">
@@ -319,24 +356,30 @@
                     </div>
 
                     <!-- Expandable Billing Address Fields -->
-                    <div id="billing-fields-box" style="display:none; flex-direction:column; gap:10px; background:#faf8f5; border:1px solid var(--chk-border); border-radius:var(--chk-radius); padding:16px;">
+                    <div id="billing-fields-box"
+                        style="display:none; flex-direction:column; gap:10px; background:#faf8f5; border:1px solid var(--chk-border); border-radius:var(--chk-radius); padding:16px;">
                         <div class="chk-field-row">
                             <div class="chk-field-group">
-                                <input type="text" id="billing-first-name" name="billing_first_name" class="chk-input" placeholder="Billing first name">
+                                <input type="text" id="billing-first-name" name="billing_first_name" class="chk-input"
+                                    placeholder="Billing first name">
                             </div>
                             <div class="chk-field-group">
-                                <input type="text" id="billing-last-name" name="billing_last_name" class="chk-input" placeholder="Billing last name">
+                                <input type="text" id="billing-last-name" name="billing_last_name" class="chk-input"
+                                    placeholder="Billing last name">
                             </div>
                         </div>
                         <div class="chk-field-group">
-                            <input type="text" id="billing-address" name="billing_address" class="chk-input" placeholder="Billing address">
+                            <input type="text" id="billing-address" name="billing_address" class="chk-input"
+                                placeholder="Billing address">
                         </div>
                         <div class="chk-field-row">
                             <div class="chk-field-group">
-                                <input type="text" id="billing-city" name="billing_city" class="chk-input" placeholder="Billing city">
+                                <input type="text" id="billing-city" name="billing_city" class="chk-input"
+                                    placeholder="Billing city">
                             </div>
                             <div class="chk-field-group">
-                                <input type="text" id="billing-postcode" name="billing_postcode" class="chk-input" placeholder="Postal code">
+                                <input type="text" id="billing-postcode" name="billing_postcode" class="chk-input"
+                                    placeholder="Postal code">
                             </div>
                         </div>
                     </div>
@@ -346,7 +389,8 @@
                 <div class="chk-action-group">
                     <button type="submit" class="chk-whatsapp-btn" id="chk-submit-btn">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                            <path
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                         </svg>
                         Place Order via WhatsApp
                     </button>
@@ -378,8 +422,10 @@
 
             <!-- Discount Code Input -->
             <div class="chk-discount-row">
-                <input type="text" class="chk-discount-input" id="discount-code" placeholder="Discount code or gift card">
-                <button type="button" class="chk-discount-btn" id="discount-apply-btn" onclick="applyDiscount()">Apply</button>
+                <input type="text" class="chk-discount-input" id="discount-code"
+                    placeholder="Discount code or gift card">
+                <button type="button" class="chk-discount-btn" id="discount-apply-btn"
+                    onclick="applyDiscount()">Apply</button>
             </div>
 
             <!-- Cost Table -->
@@ -583,7 +629,7 @@
                 if (info.country && document.getElementById('country')) document.getElementById('country').value = info.country;
                 if (info.newsOffers !== undefined && document.getElementById('news-offers')) document.getElementById('news-offers').checked = info.newsOffers;
                 if (info.textOffers !== undefined && document.getElementById('text-offers')) document.getElementById('text-offers').checked = info.textOffers;
-            } catch(e) {}
+            } catch (e) { }
         }
 
         // Apply Discount Code
@@ -684,6 +730,7 @@
                 msg += `${idx + 1}. *${item.title}*\n`;
                 if (item.size) msg += `   • Size: ${item.size}\n`;
                 if (item.color) msg += `   • Colour: ${item.color}\n`;
+                if (item.madeToMeasure) msg += `   • Made-to-measure: Yes\n`;
                 msg += `   • Qty: ${item.qty} × ${formatPrice(item.price)}\n`;
                 msg += `   • Line Total: ${formatPrice(parseFloat(item.price) * item.qty)}\n\n`;
             });
@@ -729,7 +776,7 @@
         }
 
         // Form Submit Handler
-        document.getElementById('chk-form').addEventListener('submit', function(e) {
+        document.getElementById('chk-form').addEventListener('submit', function (e) {
             e.preventDefault();
             handleWhatsAppOrder();
         });
@@ -758,7 +805,7 @@
                         }
                     }
                 }
-            } catch(e) {}
+            } catch (e) { }
         }
 
         // Initialize on load

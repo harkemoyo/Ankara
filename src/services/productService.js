@@ -37,7 +37,7 @@ class ProductService {
         let query = supabaseAnon.from('products').select('*');
 
         // We fetch all products and perform collection filtering in memory to support tag-based and sale collections robustly.
-        
+
         // Filter by product_type if specified
         if (filters.product_type) {
             query = query.eq('product_type', filters.product_type);
@@ -59,7 +59,7 @@ class ProductService {
                     try {
                         const parsed = JSON.parse(p.images);
                         if (Array.isArray(parsed) && parsed.length > 0) return parsed[0];
-                    } catch(e) {}
+                    } catch (e) { }
                 }
                 return p.images;
             }
@@ -75,7 +75,7 @@ class ProductService {
         const appliedAvailability = filters.availability ? (Array.isArray(filters.availability) ? filters.availability : [filters.availability]) : [];
         const minPrice = filters.priceGte ? parseFloat(filters.priceGte) : 0;
         const maxPrice = filters.priceLte ? parseFloat(filters.priceLte) : Infinity;
-        
+
         // Helper to check if a product passes a specific filter
         const passesColor = (p) => {
             if (appliedColors.length === 0) return true;
@@ -119,19 +119,19 @@ class ProductService {
             }
             if (colLower === 'nova' || colLower === 'nova-collection') {
                 return (p.collection && (p.collection.toLowerCase() === 'nova' || p.collection.toLowerCase() === 'nova-collection' || p.collection.toLowerCase() === 'joggers' || p.collection.toLowerCase() === 'pullovers' || p.collection.toLowerCase() === 'nova-hoodies')) ||
-                       pTags.includes('nova') || pTags.includes('nova-collection') || pTags.includes('joggers') || pTags.includes('pullovers') || pTags.includes('hoodies') || (p.title && p.title.toLowerCase().includes('nova'));
+                    pTags.includes('nova') || pTags.includes('nova-collection') || pTags.includes('joggers') || pTags.includes('pullovers') || pTags.includes('hoodies') || (p.title && p.title.toLowerCase().includes('nova'));
             }
-            return (p.collection && p.collection.toLowerCase() === colLower) || 
-                   pTags.includes(colLower);
+            return (p.collection && p.collection.toLowerCase() === colLower) ||
+                pTags.includes(colLower);
         };
 
         // Filter the final products list
-        const filteredProducts = allProducts.filter(p => 
+        const filteredProducts = allProducts.filter(p =>
             passesCollection(p) &&
-            passesColor(p) && 
-            passesSize(p) && 
-            passesVendor(p) && 
-            passesAvailability(p) && 
+            passesColor(p) &&
+            passesSize(p) &&
+            passesVendor(p) &&
+            passesAvailability(p) &&
             passesPrice(p) &&
             passesSearch(p)
         );
@@ -279,6 +279,23 @@ class ProductService {
                     }
                 }
 
+                // Always ensure footer social URLs are populated from fallback
+                const fileSocial = fileTheme?.sections?.footer?.settings?.social;
+                const dbSocial = dbTheme?.sections?.footer?.settings?.social;
+                if (fileSocial) {
+                    if (!dbSocial) {
+                        dbTheme.sections.footer.settings.social = { ...fileSocial };
+                        changed = true;
+                    } else {
+                        for (const [network, url] of Object.entries(fileSocial)) {
+                            if (!dbSocial[network] || dbSocial[network].trim() === '') {
+                                dbSocial[network] = url;
+                                changed = true;
+                            }
+                        }
+                    }
+                }
+
                 if (changed) {
                     console.log('Syncing new theme sections to database...');
                     await this.updateTheme(dbTheme);
@@ -313,15 +330,15 @@ class ProductService {
             .from('products')
             .select('id, compare_at_price, price, tags')
             .or('compare_at_price.gt.0,tags.cs.{sale}');
-        
+
         if (error) throw new Error(error.message);
-        
+
         // Check if any product has a valid sale condition
-        const hasSale = data && data.some(p => 
+        const hasSale = data && data.some(p =>
             (p.compare_at_price && parseFloat(p.compare_at_price) > parseFloat(p.price)) ||
             (p.tags && p.tags.map(t => t.toLowerCase()).includes('sale'))
         );
-        
+
         return hasSale;
     }
 }

@@ -26,8 +26,6 @@
 .col-12 {
   flex: 0 0 100%;
   max-width: 100%;
-  padding-right: 1.5rem;
-  padding-left: 1.5rem;
   box-sizing: border-box;
 }
 

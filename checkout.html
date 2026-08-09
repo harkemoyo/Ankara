@@ -36,10 +36,6 @@
     <script src="assets/config.js"></script>
     <script src="assets/supabase.umd.js"></script>
     <script src="assets/cart.js"></script>
-    <!-- PayPal SDK (sandbox/live ready) -->
-    <script
-        src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD&components=buttons&enable-funding=venmo,paylater"
-        data-sdk-integration-source="integrationbuilder"></script>
 </head>
 
 <body class="checkout-page">
@@ -245,97 +241,7 @@
                     </div>
                 </section>
 
-                <!-- ── 4. Payment Preference ── -->
-                <section class="chk-section">
-                    <div class="chk-section-header" style="flex-direction:column; align-items:flex-start;">
-                        <h2 class="chk-section-title">Payment Preference</h2>
-                        <div class="chk-section-subtext">Choose your preferred payment method. We'll confirm your order
-                            and send payment details in WhatsApp.</div>
-                    </div>
-
-                    <div class="chk-payment-card">
-
-                        <!-- PayPal (Option 1) -->
-                        <div class="chk-payment-header active" id="pay-header-paypal"
-                            onclick="selectPaymentMethod('paypal')">
-                            <div class="chk-payment-header-left">
-                                <input type="radio" name="payment_method" id="pay-method-paypal" value="paypal" checked>
-                                <span>PayPal / International Cards</span>
-                            </div>
-                            <div class="chk-payment-badges">
-                                <img src="https://assets.braintreegateway.com/payment_method_logo/paypal.png"
-                                    alt="PayPal" class="chk-badge-img">
-                                <img src="https://assets.braintreegateway.com/payment_method_logo/visa.png" alt="Visa"
-                                    class="chk-badge-img">
-                                <img src="https://assets.braintreegateway.com/payment_method_logo/mastercard.png"
-                                    alt="Mastercard" class="chk-badge-img">
-                                <img src="https://assets.braintreegateway.com/payment_method_logo/american_express.png"
-                                    alt="Amex" class="chk-badge-img">
-                            </div>
-                        </div>
-                        <div class="chk-payment-body" id="pay-body-paypal">
-                            <p style="margin:0 0 8px; font-weight:500; color:#1a1a1a;">Pay securely worldwide with
-                                PayPal or credit/debit card.</p>
-                            <p style="margin:0; font-size:12.5px; color:#666;">We will receive your order and
-                                immediately send you a secure PayPal payment link or invoice in WhatsApp.</p>
-                        </div>
-
-                        <!-- Credit / Debit Card (Option 2) -->
-                        <div class="chk-payment-header" id="pay-header-card" onclick="selectPaymentMethod('card')">
-                            <div class="chk-payment-header-left">
-                                <input type="radio" name="payment_method" id="pay-method-card" value="card">
-                                <span>Credit / Debit Card (Direct Link)</span>
-                            </div>
-                            <div class="chk-payment-badges">
-                                <img src="https://assets.braintreegateway.com/payment_method_logo/visa.png" alt="Visa"
-                                    class="chk-badge-img">
-                                <img src="https://assets.braintreegateway.com/payment_method_logo/mastercard.png"
-                                    alt="Mastercard" class="chk-badge-img">
-                            </div>
-                        </div>
-                        <div class="chk-payment-body" id="pay-body-card" style="display:none;">
-                            <p style="margin:0; font-size:12.5px; color:#666;">We will send you a secure online card
-                                payment link via WhatsApp to complete your checkout.</p>
-                        </div>
-
-                        <!-- M-Pesa / Bank Transfer (Option 3 - Kenya / East Africa) -->
-                        <div class="chk-payment-header" id="pay-header-mpesa" onclick="selectPaymentMethod('mpesa')">
-                            <div class="chk-payment-header-left">
-                                <input type="radio" name="payment_method" id="pay-method-mpesa" value="mpesa">
-                                <span>M-Pesa / Bank Transfer (Kenya)</span>
-                            </div>
-                            <div class="chk-payment-badges">
-                                <span
-                                    style="background:#2e7d32; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:3px;">M-PESA</span>
-                                <span
-                                    style="background:#800020; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:3px;">BANK</span>
-                            </div>
-                        </div>
-                        <div class="chk-payment-body" id="pay-body-mpesa" style="display:none; text-align:left;">
-                            <div class="chk-bank-grid">
-                                <div class="chk-bank-item">
-                                    <span class="chk-bank-label">M-Pesa Paybill</span>
-                                    <span class="chk-bank-val">247247</span>
-                                </div>
-                                <div class="chk-bank-item">
-                                    <span class="chk-bank-label">Account No</span>
-                                    <span class="chk-bank-val">687280</span>
-                                </div>
-                                <div class="chk-bank-item">
-                                    <span class="chk-bank-label">Bank Name</span>
-                                    <span class="chk-bank-val">Equity Bank Kenya</span>
-                                </div>
-                                <div class="chk-bank-item">
-                                    <span class="chk-bank-label">A/C Number</span>
-                                    <span class="chk-bank-val">0150186781642</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
-
-                <!-- ── 5. Billing Address ── -->
+                <!-- ── 4. Billing Address ── -->
                 <section class="chk-section">
                     <div class="chk-section-header">
                         <h2 class="chk-section-title">Billing address</h2>
@@ -385,17 +291,19 @@
                     </div>
                 </section>
 
-                <!-- ── 6. Primary Action: Place Order via WhatsApp ── -->
+                <!-- ── 5. Primary Action: Place Order ── -->
                 <div class="chk-action-group">
                     <button type="submit" class="chk-whatsapp-btn" id="chk-submit-btn" disabled>
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                             <path
                                 d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                         </svg>
-                        Place Order via WhatsApp
+                        <span id="chk-submit-label">Place Order</span>
                     </button>
+                    <div id="chk-submit-error" style="text-align:center; font-size:12px; color:#c0392b; display:none;">
+                    </div>
                     <div style="text-align:center; font-size:12px; color:#777;">
-                        🔒 We will instantly confirm your order & arrange payment via WhatsApp.
+                        🔒 Secure payment powered by Paystack.
                     </div>
                 </div>
 
@@ -547,9 +455,6 @@
             if (shipEl) shipEl.textContent = 'FREE';
             if (totEl) totEl.textContent = formatPrice(total);
             if (mobTotEl) mobTotEl.textContent = formatPrice(total);
-
-            // Render PayPal Buttons if SDK is present
-            renderPayPalButtons(total);
         }
 
         // Toggle Mobile Order Summary Accordion
@@ -655,165 +560,104 @@
             }
         }
 
-        // Switch Payment Tabs
-        function selectPaymentMethod(method) {
-            const methods = ['paypal', 'card', 'mpesa'];
-            methods.forEach(m => {
-                const head = document.getElementById(`pay-header-${m}`);
-                const body = document.getElementById(`pay-body-${m}`);
-                const radio = document.getElementById(`pay-method-${m}`);
-                if (m === method) {
-                    if (head) head.classList.add('active');
-                    if (body) body.style.display = 'block';
-                    if (radio) radio.checked = true;
-                } else {
-                    if (head) head.classList.remove('active');
-                    if (body) body.style.display = 'none';
-                    if (radio) radio.checked = false;
-                }
-            });
-
-            const submitBtn = document.getElementById('chk-submit-btn');
-            if (submitBtn) {
-                submitBtn.innerHTML = `
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
-                    Place Order via WhatsApp
-                `;
-            }
-            updateOrderButtonState();
-        }
-
-        // Validate required fields before enabling the order button
+        // Validate required customer / delivery fields before enabling the order button
         function validateCheckout() {
             const required = ['email', 'first-name', 'last-name', 'address1', 'city', 'phone'];
             const fieldsOk = required.every(id => {
                 const el = document.getElementById(id);
                 return el && el.value.trim() !== '';
             }) && document.getElementById('country')?.value !== '';
-            const method = document.querySelector('input[name="payment_method"]:checked')?.value;
-            return fieldsOk && !!method;
+            return fieldsOk;
         }
 
-        // Enable / disable the WhatsApp order button based on validation
+        // Enable / disable the Place Order button based on validation
         function updateOrderButtonState() {
             const btn = document.getElementById('chk-submit-btn');
             if (!btn) return;
             btn.disabled = !validateCheckout();
         }
 
-        // WhatsApp Order Action
-        function handleWhatsAppOrder() {
-            if (!validateCheckout()) {
-                return;
-            }
+        // Paystack Checkout Action
+        let checkoutInProgress = false;
+
+        async function handlePlaceOrder() {
+            if (checkoutInProgress) return;
+            if (!validateCheckout()) return;
 
             const cart = typeof getCart === 'function' ? getCart() : [];
             if (!cart || cart.length === 0) return;
 
-            // Save info for next time if checkbox is checked
             saveCustomerInfoToStorage();
 
             const firstName = (document.getElementById('first-name')?.value || '').trim();
             const lastName = (document.getElementById('last-name')?.value || '').trim();
             const email = (document.getElementById('email')?.value || '').trim();
             const phone = (document.getElementById('phone')?.value || '').trim();
-            const address = (document.getElementById('address1')?.value || '').trim();
+            const address1 = (document.getElementById('address1')?.value || '').trim();
             const city = (document.getElementById('city')?.value || '').trim();
             const country = (document.getElementById('country')?.value || 'KE');
+            const postcode = (document.getElementById('postcode')?.value || '').trim();
+            const address2 = (document.getElementById('address2')?.value || '').trim();
 
-            const newsOffers = document.getElementById('news-offers')?.checked;
-            const textOffers = document.getElementById('text-offers')?.checked;
+            const btn = document.getElementById('chk-submit-btn');
+            const label = document.getElementById('chk-submit-label');
+            const errorEl = document.getElementById('chk-submit-error');
 
-            const isDiffBilling = document.getElementById('billing-diff')?.checked;
-            const bFirstName = (document.getElementById('billing-first-name')?.value || '').trim();
-            const bLastName = (document.getElementById('billing-last-name')?.value || '').trim();
-            const bAddress = (document.getElementById('billing-address')?.value || '').trim();
-            const bCity = (document.getElementById('billing-city')?.value || '').trim();
+            checkoutInProgress = true;
+            btn.disabled = true;
+            if (label) label.textContent = 'Processing...';
+            if (errorEl) errorEl.style.display = 'none';
 
-            const rawSubtotal = cart.reduce((s, i) => s + parseFloat(i.price) * i.qty, 0);
-            let discountAmt = 0;
-            if (activeDiscount) {
-                if (activeDiscount.type === 'percent') discountAmt = rawSubtotal * (activeDiscount.value / 100);
-                else if (activeDiscount.type === 'fixed') discountAmt = activeDiscount.value * (window.AnkaraCurrency?.rate || 130);
-            }
-            const total = Math.max(0, rawSubtotal - discountAmt);
-
-            let msg = `━━━━━━━━━━━━━━━━━━━━\n`;
-            msg += `    *MARY HUMPHREY*\n`;
-            msg += `    *AFRICAN WEAR*\n`;
-            msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-            msg += `📦 *ORDER DETAILS*\n\n`;
-
-            const madeToMeasureItems = cart.filter(item => item.madeToMeasure);
-
-            cart.forEach((item, idx) => {
-                msg += `${idx + 1}. *${item.title}*\n`;
-                if (item.size) msg += `   • Size: ${item.size}\n`;
-                if (item.color) msg += `   • Colour: ${item.color}\n`;
-                if (item.madeToMeasure) msg += `   • ✂️ *MADE-TO-MEASURE: YES*\n`;
-                msg += `   • Qty: ${item.qty} × ${formatPrice(item.price)}\n`;
-                msg += `   • Line Total: ${formatPrice(parseFloat(item.price) * item.qty)}\n\n`;
-            });
-
-            if (madeToMeasureItems.length > 0) {
-                msg += `✂️ *MADE-TO-MEASURE REQUEST*\n`;
-                msg += `Please follow up with the customer to confirm custom measurements:\n`;
-                madeToMeasureItems.forEach(item => {
-                    msg += `• ${item.title}${item.size ? ` — Size ${item.size}` : ''} (Qty: ${item.qty})\n`;
+            try {
+                const res = await fetch('/api/checkout/init', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        cart,
+                        customer: {
+                            email,
+                            name: `${firstName} ${lastName}`,
+                            phone,
+                            address1,
+                            address2,
+                            city,
+                            postcode,
+                            country,
+                        },
+                    }),
                 });
-                msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+                const data = await res.json();
+
+                if (!res.ok || !data.success) {
+                    throw new Error(data.error || 'Failed to initialize payment');
+                }
+
+                if (data.authorization_url) {
+                    window.location.href = data.authorization_url;
+                } else {
+                    throw new Error('No payment URL returned');
+                }
+            } catch (err) {
+                console.error('Checkout init error:', err.message);
+                checkoutInProgress = false;
+                btn.disabled = false;
+                if (label) label.textContent = 'Place Order';
+                if (errorEl) {
+                    errorEl.textContent = 'Could not start payment: ' + err.message + '. Please try again.';
+                    errorEl.style.display = 'block';
+                }
             }
-
-            if (activeDiscount) {
-                msg += `🏷️ *PROMO CODE*: ${activeDiscount.code} (-${formatPrice(discountAmt)})\n`;
-            }
-
-            msg += `━━━━━━━━━━━━━━━━━━━━\n`;
-            msg += `*TOTAL: ${formatPrice(total)}*\n`;
-            msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-
-            if (firstName || lastName) {
-                msg += `👤 *CUSTOMER & DELIVERY DETAILS*\n`;
-                msg += `Name: ${firstName} ${lastName}\n`;
-                if (phone) msg += `Phone: ${phone}\n`;
-                if (email) msg += `Email: ${email}\n`;
-                if (address) msg += `Delivery Address: ${address}, ${city} (${country})\n\n`;
-            }
-
-            if (isDiffBilling && (bFirstName || bAddress)) {
-                msg += `🏠 *BILLING ADDRESS*\n`;
-                msg += `Billing Name: ${bFirstName} ${bLastName}\n`;
-                msg += `Billing Address: ${bAddress}, ${bCity}\n\n`;
-            }
-
-            const method = document.querySelector('input[name="payment_method"]:checked')?.value || 'paypal';
-            const methodLabel = method === 'paypal' ? 'PayPal / International Card' : (method === 'card' ? 'Credit/Debit Card' : 'M-Pesa / Bank Transfer');
-
-            msg += `💳 *PAYMENT PREFERENCE*\n`;
-            msg += `Method: ${methodLabel}\n\n`;
-
-            if (newsOffers || textOffers) {
-                msg += `📩 *MARKETING CONSENT*\n`;
-                msg += `Opt-In: ${newsOffers ? 'Email Offers (Yes)' : ''} ${textOffers ? 'WhatsApp/SMS (Yes)' : ''}\n\n`;
-            }
-
-            msg += `Please confirm my order and send payment instructions. Thank you! 🙏`;
-
-            const waNumber = (window.checkoutSettings?.whatsapp || window.checkoutSettings?.whatsapp_phone || window.STORE_CONFIG?.WHATSAPP_NUMBER || '254715687280').replace(/[^0-9]/g, '');
-            const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
-            window.open(url, '_blank');
         }
 
         // Form Submit Handler
         document.getElementById('chk-form').addEventListener('submit', function (e) {
             e.preventDefault();
-            handleWhatsAppOrder();
+            handlePlaceOrder();
         });
 
         // Listen for input changes to autofill save
-        document.querySelectorAll('.chk-input, #country, #save-info, #news-offers, #text-offers, input[name="payment_method"]').forEach(el => {
+        document.querySelectorAll('.chk-input, #country, #save-info, #news-offers, #text-offers').forEach(el => {
             el.addEventListener('input', (e) => {
                 saveCustomerInfoToStorage(e);
                 updateOrderButtonState();

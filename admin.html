@@ -1621,34 +1621,7 @@
           </div>
         </div>
 
-        <!-- 3. PayPal Configuration -->
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
-          <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
-            💳 PayPal & International Cards
-          </h2>
-          <p style="color:var(--text-muted);font-size:1.25rem;margin-bottom:20px;">Configure your PayPal details. When
-            customers choose PayPal, you can invoice or charge them directly.</p>
-
-          <div class="form-group" style="margin-bottom:18px;">
-            <label>PayPal Account Email / Merchant ID</label>
-            <input id="chk-paypal-email" type="email" placeholder="e.g. payments@maryhumphrey.com" />
-          </div>
-
-          <div class="form-group" style="margin-bottom:18px;">
-            <label>PayPal Client ID (Live / Sandbox)</label>
-            <input id="chk-paypal-client-id" type="text" placeholder="e.g. sb or client-id from developer.paypal.com"
-              value="sb" />
-          </div>
-
-          <div class="form-group" style="margin-bottom:20px;">
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:1.35rem;font-weight:500;">
-              <input id="chk-paypal-enabled" type="checkbox" style="width:18px;height:18px;" checked />
-              Offer PayPal / International Card option on checkout
-            </label>
-          </div>
-        </div>
-
-        <!-- 4. M-Pesa & Bank Transfer Details -->
+        <!-- 3. M-Pesa & Bank Transfer Details -->
         <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
           <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
             🏦 M-Pesa & Bank Transfer Details
@@ -4263,10 +4236,6 @@
         set('chk-whatsapp-greeting', data.whatsapp_greeting, 'Hello Mary Humphrey Wear! I would like to place an order:');
         setCheck('chk-whatsapp-active', data.whatsapp_enabled !== false);
 
-        set('chk-paypal-email', data.paypal_email, '');
-        set('chk-paypal-client-id', data.paypal_client_id, 'sb');
-        setCheck('chk-paypal-enabled', data.paypal_enabled !== false);
-
         set('chk-mpesa-paybill', data.mpesa_paybill, '247247');
         set('chk-mpesa-account', data.mpesa_account, '687280');
         set('chk-mpesa-phone', data.mpesa_phone, '0715 687 280');
@@ -4298,10 +4267,6 @@
           whatsapp_phone: get('chk-whatsapp-phone'),
           whatsapp_greeting: get('chk-whatsapp-greeting'),
           whatsapp_enabled: getCheck('chk-whatsapp-active'),
-
-          paypal_email: get('chk-paypal-email'),
-          paypal_client_id: get('chk-paypal-client-id'),
-          paypal_enabled: getCheck('chk-paypal-enabled'),
 
           mpesa_paybill: get('chk-mpesa-paybill'),
           mpesa_account: get('chk-mpesa-account'),

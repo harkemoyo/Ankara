@@ -2,7 +2,7 @@ const { supabaseAdmin } = require('../config/supabase');
 const emailService = require('./emailService');
 const whatsappService = require('./whatsappService');
 
-async function initializeCheckout(cart, customer) {
+async function initializeCheckout(cart, customer, req) {
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
         throw new Error('Missing cart');
     }
@@ -84,7 +84,25 @@ async function initializeCheckout(cart, customer) {
     // 2b. Send made-to-measure alerts (email + WhatsApp)
     await sendMadeToMeasureAlerts(order.order_number, customer, orderCurrency, total, orderItems);
 
-    // 3. Initialize Paystack Transaction
+    // 2c. Send new order notification to Mary (itemized, payment pending)
+    try {
+        await whatsappService.sendNewOrderAlertToMary({
+            orderNumber: order.order_number,
+            customerName: customer.name.trim(),
+            customerPhone: customer.phone || 'No phone',
+            items: orderItems,
+            totalAmount: total,
+            currency: orderCurrency,
+        });
+    } catch (err) {
+        console.error('[Checkout] New order WhatsApp alert to Mary failed:', err.message);
+    }
+
+    // 3. Build callback URL for Paystack redirect after payment
+    const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
+    const callback_url = `${baseUrl}/thank-you.html?order=${encodeURIComponent(order.order_number)}&email=${encodeURIComponent(customer.email)}`;
+
+    // 4. Initialize Paystack Transaction
     const paystackRes = await fetch('https://api.paystack.co/transaction/initialize', {
         method: 'POST',
         headers: {
@@ -95,6 +113,7 @@ async function initializeCheckout(cart, customer) {
             email: customer.email,
             amount: totalKobo,
             reference: order.order_number,
+            callback_url,
         })
     });
 
@@ -107,6 +126,7 @@ async function initializeCheckout(cart, customer) {
     return {
         success: true,
         access_code: paystackData.data.access_code,
+        authorization_url: paystackData.data.authorization_url,
         reference: order.order_number
     };
 }

@@ -15,6 +15,7 @@ class WhatsAppService {
         this.templateMaryAlert = process.env.WHATSAPP_TEMPLATE_MARY_ALERT;
         this.templateStatusUpdate = process.env.WHATSAPP_TEMPLATE_STATUS_UPDATE;
         this.templateMadeToMeasure = process.env.WHATSAPP_TEMPLATE_MADE_TO_MEASURE;
+        this.templateNewOrderMary = process.env.WHATSAPP_TEMPLATE_NEW_ORDER_MARY;
     }
 
     /**
@@ -186,7 +187,42 @@ class WhatsAppService {
     }
 
     /**
-     * 4. Send Made-to-Measure Alert to Mary (Owner)
+     * 4. Send New Order Alert to Mary (Owner) — fires at order creation, before payment
+     * Template Variables: {{1}} Order Number, {{2}} Customer Name, {{3}} Customer Phone,
+     *                     {{4}} Item List (multi-line), {{5}} Total Amount, {{6}} Payment Status
+     */
+    async sendNewOrderAlertToMary({ orderNumber, customerName, customerPhone, items, totalAmount, currency = 'KES' }) {
+        const itemList = items.map(i => {
+            let line = `• ${i.product_title || i.title || 'Item'}`;
+            if (i.variant_size) line += ` — Size ${i.variant_size}`;
+            if (i.variant_color) line += ` / ${i.variant_color}`;
+            line += ` x${i.quantity || 1}`;
+            return line;
+        }).join('\n');
+
+        const formattedAmount = currency === 'KES'
+            ? `KSh ${Number(totalAmount).toLocaleString('en-KE')}`
+            : `$${Number(totalAmount).toFixed(2)}`;
+
+        const templateName = this.templateNewOrderMary || 'mhw_new_order_mary';
+
+        return await this.sendMetaTemplate({
+            to: this.maryPhone,
+            templateName,
+            languageCode: 'en',
+            parameters: [
+                orderNumber,
+                customerName || 'Customer',
+                customerPhone || 'No phone',
+                itemList,
+                formattedAmount,
+                'Pending'
+            ]
+        });
+    }
+
+    /**
+     * 5. Send Made-to-Measure Alert to Mary (Owner)
      * Template Variables: {{1}} Order Number, {{2}} Customer Name, {{3}} Customer Phone, {{4}} Item List
      */
     async sendMadeToMeasureAlertToMary({ orderNumber, customerName, customerPhone, itemList }) {
@@ -205,7 +241,7 @@ class WhatsAppService {
     }
 
     /**
-     * 5. Send Made-to-Measure Alert to Customer
+     * 6. Send Made-to-Measure Alert to Customer
      * Template Variables: {{1}} Customer Name, {{2}} Order Number, {{3}} Item List
      */
     async sendMadeToMeasureAlertToCustomer({ toPhone, customerName, orderNumber, itemList }) {

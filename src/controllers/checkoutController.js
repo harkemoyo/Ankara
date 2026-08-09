@@ -5,15 +5,15 @@ async function initCheckout(req, res) {
     const { cart, customer } = req.body;
 
     try {
-        const result = await initializeCheckout(cart, customer);
+        const result = await initializeCheckout(cart, customer, req);
         return res.json(result);
     } catch (error) {
         console.error('Checkout error:', error.message);
-        
+
         if (error.message === 'Missing cart' || error.message === 'Customer email and name are required') {
             return res.status(400).json({ error: error.message });
         }
-        
+
         return res.status(500).json({ error: error.message });
     }
 }
@@ -26,11 +26,11 @@ async function initMpesaCheckout(req, res) {
         return res.json(result);
     } catch (error) {
         console.error('M-Pesa checkout error:', error.message);
-        
+
         if (error.message === 'Missing cart' || error.message === 'Customer email and name are required') {
             return res.status(400).json({ error: error.message });
         }
-        
+
         return res.status(500).json({ error: error.message });
     }
 }
@@ -40,7 +40,7 @@ async function paystackWebhook(req, res) {
 
     try {
         const result = await paymentService.handleWebhook(req.body, signature, req.rawBody);
-        
+
         // Fast HTTP 200 acknowledgment to payment gateway
         return res.status(200).json(result || { status: 'acknowledged' });
     } catch (err) {

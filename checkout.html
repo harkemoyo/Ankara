@@ -726,14 +726,25 @@
             msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
             msg += `📦 *ORDER DETAILS*\n\n`;
 
+            const madeToMeasureItems = cart.filter(item => item.madeToMeasure);
+
             cart.forEach((item, idx) => {
                 msg += `${idx + 1}. *${item.title}*\n`;
                 if (item.size) msg += `   • Size: ${item.size}\n`;
                 if (item.color) msg += `   • Colour: ${item.color}\n`;
-                if (item.madeToMeasure) msg += `   • Made-to-measure: Yes\n`;
+                if (item.madeToMeasure) msg += `   • ✂️ *MADE-TO-MEASURE: YES*\n`;
                 msg += `   • Qty: ${item.qty} × ${formatPrice(item.price)}\n`;
                 msg += `   • Line Total: ${formatPrice(parseFloat(item.price) * item.qty)}\n\n`;
             });
+
+            if (madeToMeasureItems.length > 0) {
+                msg += `✂️ *MADE-TO-MEASURE REQUEST*\n`;
+                msg += `Please follow up with the customer to confirm custom measurements:\n`;
+                madeToMeasureItems.forEach(item => {
+                    msg += `• ${item.title}${item.size ? ` — Size ${item.size}` : ''} (Qty: ${item.qty})\n`;
+                });
+                msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+            }
 
             if (activeDiscount) {
                 msg += `🏷️ *PROMO CODE*: ${activeDiscount.code} (-${formatPrice(discountAmt)})\n`;

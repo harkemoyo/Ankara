@@ -844,13 +844,15 @@ const offcanvasHeader = function () {
   /* Offcanvas SubMenu Toggle */
   if (offcanvasMenu) {
     offcanvasMenu
-
       .querySelectorAll(".offcanvas__sub_menu")
       .forEach(function (ul) {
-        if (ul.classList.contains("has-dropdown")) {
+        const parentLi = ul.parentNode;
+        if (parentLi && !parentLi.querySelector(".offcanvas__sub_menu_toggle")) {
           const subMenuToggle = document.createElement("button");
+          subMenuToggle.type = "button";
           subMenuToggle.classList.add("offcanvas__sub_menu_toggle");
-          ul.parentNode.appendChild(subMenuToggle);
+          subMenuToggle.setAttribute("aria-label", "Toggle Submenu");
+          parentLi.appendChild(subMenuToggle);
         }
       });
   }
@@ -878,32 +880,37 @@ const offcanvasHeader = function () {
   let mobileMenuWrapper = document.querySelector(".offcanvas__menu_ul");
   if (mobileMenuWrapper) {
     mobileMenuWrapper.addEventListener("click", function (e) {
-      let targetElement = e.target;
-      console.log(targetElement);
-      if (targetElement.classList.contains("offcanvas__sub_menu_toggle")) {
+      let targetElement = e.target.closest(".offcanvas__sub_menu_toggle");
+      let itemLink = e.target.closest(".offcanvas__menu_item");
+
+      // If clicked directly on a menu item that has a submenu, toggle it
+      if (!targetElement && itemLink) {
+        const siblingSub = itemLink.parentElement ? itemLink.parentElement.querySelector(".offcanvas__sub_menu") : null;
+        if (siblingSub) {
+          e.preventDefault();
+          targetElement = itemLink.parentElement.querySelector(".offcanvas__sub_menu_toggle");
+        }
+      }
+
+      if (targetElement) {
         const parent = targetElement.parentElement;
+        const subMenu = parent.querySelector(".offcanvas__sub_menu");
         if (parent.classList.contains("active")) {
           targetElement.classList.remove("active");
           parent.classList.remove("active");
-          parent
-            .querySelectorAll(".offcanvas__sub_menu")
-            .forEach(function (subMenu) {
-              subMenu.parentElement.classList.remove("active");
-              subMenu.nextElementSibling.classList.remove("active");
-              slideUp(subMenu);
-            });
+          if (subMenu) slideUp(subMenu);
         } else {
           targetElement.classList.add("active");
           parent.classList.add("active");
-          slideDown(targetElement.previousElementSibling);
+          if (subMenu) slideDown(subMenu);
           getSiblings(parent).forEach(function (item) {
             item.classList.remove("active");
+            const sibToggle = item.querySelector(".offcanvas__sub_menu_toggle");
+            if (sibToggle) sibToggle.classList.remove("active");
             item
               .querySelectorAll(".offcanvas__sub_menu")
-              .forEach(function (subMenu) {
-                subMenu.parentElement.classList.remove("active");
-                subMenu.nextElementSibling.classList.remove("active");
-                slideUp(subMenu);
+              .forEach(function (sub) {
+                slideUp(sub);
               });
           });
         }

@@ -1104,6 +1104,7 @@ ul {
 .main__header {
   display: flex;
   justify-content: center;
+  padding-block: 1.4rem;
   padding-inline: var(--space-4);
   width: 100%;
 }
@@ -1120,10 +1121,10 @@ ul {
 
 @media only screen and (min-width: 768px) {
   .main__header {
-    .main__header--inner {
-      padding-inline: 1rem;
-    }
-
+    padding-block: 1.6rem;
+  }
+  .main__header .main__header--inner {
+    padding-inline: 1rem;
   }
 }
 
@@ -4452,7 +4453,6 @@ input[type=number]::-webkit-outer-spin-button {
 @media only screen and (min-width: 768px) {
   .site__main {
     gap: 4rem;
-    padding-inline: 4.5rem;
   }
 }
 

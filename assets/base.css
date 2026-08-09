@@ -18204,11 +18204,12 @@ body.body .header__section {
 
 /* -- Header Topbar & Rotating Announcement Slider System -- */
 .header__topbar {
-  padding: 0 1rem;
+  padding: 6px 1rem;
   background: #800020;
   width: 100%;
   position: relative;
   z-index: 100;
+  margin-bottom: 6px;
 }
 
 .header__topbar--inner {

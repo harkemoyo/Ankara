@@ -140,7 +140,8 @@
     <div class="header__topbar bg__primary">
         <div class="header__topbar--inner">
             <div class="topbar-left-spacer"></div>
-            <p class="header__info--text text-white m-0 text-center" id="announcement-text" data-section-id="announcement">
+            <p class="header__info--text text-white m-0 text-center" id="announcement-text"
+                data-section-id="announcement">
                 <!-- Fallback text while loading -->
                 ✨ FREE SHIPPING ON ORDERS OVER KSh 10,000 | Celebrating African Heritage Through Fashion ✨
             </p>
@@ -195,26 +196,35 @@
                                     </svg>
                                 </a>
                                 <ul class="header__sub--menu mega-menu">
-    <li class="header__sub--menu__items mega-col">
-        <span class="mega-menu__heading">Shop by Style</span>
-        <ul class="mega-col__list">
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop">All Products</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/dresses">Dresses</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/pullovers">Pullovers & Hoodies</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/joggers">Joggers</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/kimonos">Kimonos & Capes</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/blankets">Blankets & Throws</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/shop/palazzos">Palazzos & Dungarees</a></li>
-        </ul>
-    </li>
-    <li class="header__sub--menu__items mega-col">
-        <span class="mega-menu__heading">Fabrics & Custom</span>
-        <ul class="mega-col__list">
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/fabric">Ankara Fabrics</a></li>
-            <li class="header__sub--menu__items"><a class="header__sub--menu__link" href="/fabric">Bespoke Orders</a></li>
-        </ul>
-    </li>
-</ul>
+                                    <li class="header__sub--menu__items mega-col">
+                                        <span class="mega-menu__heading">Shop by Style</span>
+                                        <ul class="mega-col__list">
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop">All Products</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/dresses">Dresses</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/pullovers">Pullovers & Hoodies</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/joggers">Joggers</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/kimonos">Kimonos & Capes</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/blankets">Blankets & Throws</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/shop/palazzos">Palazzos & Dungarees</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="header__sub--menu__items mega-col">
+                                        <span class="mega-menu__heading">Fabrics & Custom</span>
+                                        <ul class="mega-col__list">
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/fabric">Ankara Fabrics</a></li>
+                                            <li class="header__sub--menu__items"><a class="header__sub--menu__link"
+                                                    href="/fabric">Bespoke Orders</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="header__menu--items">
                                 <a class="header__menu--link" href="/fabric">Fabrics</a>
@@ -233,11 +243,52 @@
                 </div>
                 <!-- Header Account / Icons -->
                 <div class="header__account">
-                    <ul class="header__account--wrapper">
+                    <ul class="header__account--wrapper d-flex align-items-center">
+                        <!-- Search -->
+                        <li class="header__account--items header__account--search__items d-none d-lg-block">
+                            <a class="header__account--btn search__open--btn" data-offcanvas=""
+                                href="javascript:void(0)">
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </span>
+                                <span class="visually-hidden">Search</span>
+                            </a>
+                        </li>
                         <!-- Account -->
                         <li class="header__account--items">
                             <a class="header__account--btn" href="/account">
-                                <span class="header__account--btn__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg></span><span class="items__count js-item-count">0</span>
+                                <span class="header__account--btn__icon">
+                                    <svg fill="none" height="17" viewbox="0 0 17 17" width="17"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path
+                                            d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z"
+                                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </span>
+                                <span class="visually-hidden">My Account</span>
+                            </a>
+                        </li>
+                        <!-- Cart -->
+                        <li class="header__account--items header__minicart--items">
+                            <a class="header__account--btn minicart__open--btn" data-offcanvas=""
+                                href="javascript:void(0)">
+                                <span class="header__account--btn__icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                    </svg>
+                                </span>
+                                <span class="items__count js-item-count">0</span>
                             </a>
                         </li>
                     </ul>
@@ -264,14 +315,22 @@
                         <li class="offcanvas__menu_li">
                             <a class="offcanvas__menu_item" href="/shop">Collections</a>
                             <ul class="offcanvas__sub_menu">
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop">All Products</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop/womenswear">Womenswear</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop/menswear">Menswear</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop/dresses">Dresses</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop/pullovers">Tops & Hoodies</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop/joggers">Pants & Joggers</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop/blankets">Blankets & Throws</a></li>
-                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop/kimonos">Kimonos & Capes</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="/shop">All
+                                        Products</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop/womenswear">Womenswear</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop/menswear">Menswear</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop/dresses">Dresses</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop/pullovers">Tops & Hoodies</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop/joggers">Pants & Joggers</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop/blankets">Blankets & Throws</a></li>
+                                <li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item"
+                                        href="/shop/kimonos">Kimonos & Capes</a></li>
                             </ul>
                         </li>
                         <li class="offcanvas__menu_li">
@@ -312,7 +371,8 @@
             <div class="minicart__header">
                 <div class="minicart__header--top">
                     <h3 class="minicart__title">Cart</h3>
-                    <button aria-label="close cart" class="minicart__close--btn js-minicart-close" data-offcanvas="" type="button">×</button>
+                    <button aria-label="close cart" class="minicart__close--btn js-minicart-close" data-offcanvas=""
+                        type="button">×</button>
                 </div>
             </div>
             <div class="minicart__empty--text js-minicart-empty">
@@ -334,7 +394,8 @@
                 <p>Shipping, taxes, and discount codes calculated at checkout.</p>
             </div>
             <div class="minicart__button js-minicart-actions">
-                <a class="minicart__button--link checkout__btn js-checkout-btn" href="javascript:void(0)" onclick="triggerCheckout()">Check Out</a>
+                <a class="minicart__button--link checkout__btn js-checkout-btn" href="javascript:void(0)"
+                    onclick="triggerCheckout()">Check Out</a>
             </div>
         </div>
 
@@ -344,18 +405,22 @@
                 <h2 class="predictive__search--title">Search Products</h2>
                 <form action="/shop" class="predictive__search--form" method="get" role="search">
                     <label for="Search">
-                        <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here" type="search" />
+                        <input class="predictive__search--input" id="Search" name="q" placeholder="Search Here"
+                            type="search" />
                     </label>
                     <button aria-label="search button" class="predictive__search--button text-white">
                         <svg fill="none" height="20" viewbox="0 0 17 17" width="20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path
+                                d="M16 16L11 11M12.6667 6.83333C12.6667 10.3333 9.33333 12.6667 6.83333 12.6667C4.33333 12.6667 1 10.3333 1 6.83333C1 3.33333 3.33333 1 6.83333 1C10.3333 1 12.6667 3.33333 12.6667 6.83333Z"
+                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
                     </button>
                 </form>
             </div>
             <button aria-label="close search" class="predictive__search--close__btn" data-offcanvas="">
                 <svg height="28" viewbox="0 0 512 512" width="28" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M368 368L144 144M368 144L144 368" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+                    <path d="M368 368L144 144M368 144L144 368" fill="currentColor" stroke="currentColor"
+                        stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
                 </svg>
             </button>
         </div>
@@ -407,7 +472,8 @@
                     <a class="offcanvas__sticky--toolbar__btn minicart__open--btn" data-offcanvas=""
                         href="javascript:void(0)">
                         <span class="offcanvas__sticky--toolbar__icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                                 <line x1="3" y1="6" x2="21" y2="6"></line>
                                 <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -427,7 +493,8 @@
             <div class="error-404__code">404</div>
             <h1 class="error-404__title">Page Not Found</h1>
             <p class="error-404__text">
-                The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+                The page you are looking for might have been removed, had its name changed, or is temporarily
+                unavailable.
             </p>
             <div class="error-404__actions">
                 <a href="/" class="error-404__btn error-404__btn--primary">Return Home</a>

@@ -600,13 +600,11 @@ async function loadProductDetails() {
     const currentUrl = encodeURIComponent(window.location.href);
     const productTitle = encodeURIComponent(product.title);
     const shareLinks = document.querySelectorAll('.product-share-box a');
-    if (shareLinks.length >= 3) {
+    if (shareLinks.length >= 2) {
         shareLinks[0].href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
         shareLinks[0].target = '_blank';
-        shareLinks[1].href = `https://pinterest.com/pin/create/button/?url=${currentUrl}&media=${encodeURIComponent((product.images && product.images[0]) || '')}&description=${productTitle}`;
+        shareLinks[1].href = `https://twitter.com/intent/tweet?url=${currentUrl}&text=${productTitle}`;
         shareLinks[1].target = '_blank';
-        shareLinks[2].href = `https://twitter.com/intent/tweet?url=${currentUrl}&text=${productTitle}`;
-        shareLinks[2].target = '_blank';
     }
 
     // Scroll listener for sticky buy bar
@@ -752,7 +750,7 @@ window.swapMainImage = function (thumbEl, src) {
 };
 
 // Shopify-style GLightbox Product Zoom Viewer (Exclusive to product detail page)
-window.openProductZoom = function(e, indexOverride) {
+window.openProductZoom = function (e, indexOverride) {
     if (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -786,7 +784,7 @@ window.openProductZoom = function(e, indexOverride) {
 
     if (typeof GLightbox === 'function') {
         if (window._productLightboxInstance && typeof window._productLightboxInstance.destroy === 'function') {
-            try { window._productLightboxInstance.destroy(); } catch(err){}
+            try { window._productLightboxInstance.destroy(); } catch (err) { }
         }
         window._productLightboxInstance = GLightbox({
             elements: elements,

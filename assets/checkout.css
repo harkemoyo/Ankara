@@ -543,12 +543,7 @@ body.checkout-page {
   background: #1da851;
 }
 
-.chk-whatsapp-btn:disabled {
-  background: #a0d6b8;
-  color: #ffffff;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
+/* disabled state for .chk-whatsapp-btn is styled inline in checkout.html */
 
 .chk-pay-btn {
   width: 100%;

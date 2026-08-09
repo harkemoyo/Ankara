@@ -129,21 +129,32 @@
 }
 
 /* ── Form Card wrapper ───────────────────────────────────────── */
+.col-lg-7.col-12 {
+  display: flex;
+}
+
 .contact__form--wrapper {
   background-color: #ffffff;
-  padding: 4rem 4.5rem;
+  padding-inline: 1.5rem;
+  padding-block: 1.5rem;
   border-radius: 1.2rem;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
+  flex: 1;
 }
 
 #contact-form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
+  flex: 1;
+}
+
+.contact__submit--btn {
+  margin-top: auto;
 }
 
 .contact__form--title {

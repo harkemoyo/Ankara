@@ -684,8 +684,29 @@
             }
         }
 
+        // Validate required fields before enabling the order button
+        function validateCheckout() {
+            const required = ['email', 'first-name', 'last-name', 'address1', 'city', 'phone'];
+            return required.every(id => {
+                const el = document.getElementById(id);
+                return el && el.value.trim() !== '';
+            }) && document.getElementById('country')?.value !== '';
+        }
+
+        // Enable / disable the WhatsApp order button based on validation
+        function updateOrderButtonState() {
+            const btn = document.getElementById('chk-submit-btn');
+            if (!btn) return;
+            btn.disabled = !validateCheckout();
+        }
+
         // WhatsApp Order Action
         function handleWhatsAppOrder() {
+            if (!validateCheckout()) {
+                alert('Please fill in all required fields before placing the order.');
+                return;
+            }
+
             const cart = typeof getCart === 'function' ? getCart() : [];
             if (!cart || cart.length === 0) {
                 alert('Your shopping bag is empty!');
@@ -793,9 +814,15 @@
         });
 
         // Listen for input changes to autofill save
-        document.querySelectorAll('.chk-input, #country, #save-info, #news-offers, #text-offers').forEach(el => {
-            el.addEventListener('input', saveCustomerInfoToStorage);
-            el.addEventListener('change', saveCustomerInfoToStorage);
+        document.querySelectorAll('.chk-input, #country, #save-info, #news-offers, #text-offers, input[name="payment_method"]').forEach(el => {
+            el.addEventListener('input', (e) => {
+                saveCustomerInfoToStorage(e);
+                updateOrderButtonState();
+            });
+            el.addEventListener('change', (e) => {
+                saveCustomerInfoToStorage(e);
+                updateOrderButtonState();
+            });
         });
 
         // Load dynamic settings from Supabase / Admin
@@ -824,6 +851,7 @@
             renderCheckout();
             loadCustomerInfoFromStorage();
             loadStorefrontCheckoutSettings();
+            updateOrderButtonState();
         });
         window.addEventListener('currency:changed', renderCheckout);
     </script>

@@ -2,7 +2,9 @@
    assets/checkout.css - Flexbox & Gap-Driven Shopify & Sandstorm Kenya Style
    ========================================================================== */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -25,7 +27,8 @@
   --chk-font-heading: 'Playfair Display', Georgia, serif;
 }
 
-html, body.checkout-page {
+html,
+body.checkout-page {
   background: var(--chk-bg);
   color: var(--chk-text);
   font-family: var(--chk-font-body);
@@ -300,7 +303,7 @@ html, body.checkout-page {
   width: 100%;
 }
 
-.chk-field-row > .chk-field-group {
+.chk-field-row>.chk-field-group {
   flex: 1 1 180px;
 }
 
@@ -538,6 +541,13 @@ html, body.checkout-page {
 
 .chk-whatsapp-btn:hover {
   background: #1da851;
+}
+
+.chk-whatsapp-btn:disabled {
+  background: #a0d6b8;
+  color: #ffffff;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .chk-pay-btn {
@@ -842,14 +852,16 @@ html, body.checkout-page {
   }
 
   .chk-main-col {
-    order: 1; /* Form is always first on mobile */
+    order: 1;
+    /* Form is always first on mobile */
     padding: 16px 14px 60px 14px;
     gap: 20px;
   }
 
   .chk-sidebar-col {
     order: 0;
-    display: none; /* Collapsed by default */
+    display: none;
+    /* Collapsed by default */
     border-left: none;
     border-bottom: 1px solid var(--chk-border);
     padding: 18px 14px;

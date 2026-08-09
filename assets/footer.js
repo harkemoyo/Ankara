@@ -19,7 +19,7 @@
         return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    window.renderFooter = function(el, s) {
+    window.renderFooter = function (el, s) {
         if (!el || !s) return;
 
         const logoImg = s.logo || 'assets/IMG-20260622-WA0082.webp';
@@ -28,6 +28,7 @@
         const phone = s.phone || (window.STORE_CONFIG?.PHONE_NUMBER || window.STORE_CONFIG?.WHATSAPP_NUMBER) || '254715687280';
         const phoneDisplay = '+' + phone.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{3})/, '$1 $2 $3 $4');
         const social = s.social || { instagram: '#', facebook: '#', tiktok: '#' };
+        window.ANKARA_SOCIAL = social;
 
         // Build locations array — prefer the new array format, fall back to legacy single fields
         const locations = s.locations || [

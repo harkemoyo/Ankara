@@ -596,15 +596,20 @@ async function loadProductDetails() {
     // Load related products from same collection
     loadRelatedProducts(product);
 
-    // Setup Social Share Links
-    const currentUrl = encodeURIComponent(window.location.href);
-    const productTitle = encodeURIComponent(product.title);
+    // Setup Social Links (Instagram, Facebook, TikTok)
+    const socialUrls = window.ANKARA_SOCIAL || {
+        instagram: 'https://www.instagram.com/maryhumphreywear?igsh=OWQyNW84cmpzeXNn',
+        facebook: 'https://www.facebook.com/profile.php?id=100077341767677',
+        tiktok: 'https://www.tiktok.com/@maryhumphreyafricanwear'
+    };
     const shareLinks = document.querySelectorAll('.product-share-box a');
-    if (shareLinks.length >= 2) {
-        shareLinks[0].href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+    if (shareLinks.length >= 3) {
+        shareLinks[0].href = socialUrls.instagram;
         shareLinks[0].target = '_blank';
-        shareLinks[1].href = `https://twitter.com/intent/tweet?url=${currentUrl}&text=${productTitle}`;
+        shareLinks[1].href = socialUrls.facebook;
         shareLinks[1].target = '_blank';
+        shareLinks[2].href = socialUrls.tiktok;
+        shareLinks[2].target = '_blank';
     }
 
     // Scroll listener for sticky buy bar

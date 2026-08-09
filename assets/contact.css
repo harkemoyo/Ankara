@@ -15,6 +15,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding-inline-end: 1.5rem;
 }
 
 @media only screen and (min-width: 768px) {
@@ -125,36 +126,28 @@
 
 /* ── Contact Section Grid Layout ──────────────────────────────── */
 .contact__section {
+  direction: flex;
+  flex-direction: column;
   padding-bottom: 8rem;
 }
 
 /* ── Form Card wrapper ───────────────────────────────────────── */
-.col-lg-7.col-12 {
-  display: flex;
-}
-
 .contact__form--wrapper {
   background-color: #ffffff;
   padding-inline: 1.5rem;
-  padding-block: 1.5rem;
+  padding-block:1.5rem;
   border-radius: 1.2rem;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  flex: 1;
+  gap: 2rem;
 }
 
 #contact-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  flex: 1;
-}
-
-.contact__submit--btn {
-  margin-top: auto;
+  gap: 2rem;
 }
 
 .contact__form--title {

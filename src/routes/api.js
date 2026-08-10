@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { initCheckout, initMpesaCheckout, paystackWebhook } = require('../controllers/checkoutController');
 const { getOrder } = require('../controllers/orderController');
+const { updateOrderStatus } = require('../controllers/adminController');
 const { orderLookupLimiter } = require('../middleware/rateLimit');
 const { supabaseAdmin } = require('../config/supabase');
 
@@ -12,7 +13,7 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 
 const router = express.Router();
 const productController = require('../controllers/productController');
 
-// Admin-only auth middleware
+// Admin-only auth middleware (Supabase auth)
 async function requireAdmin(req, res, next) {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ error: 'Unauthorized: missing token' });
@@ -27,6 +28,19 @@ async function requireAdmin(req, res, next) {
     } catch (err) {
         return res.status(401).json({ error: 'Invalid or expired token' });
     }
+}
+
+// Admin secret middleware for server-to-server calls
+function requireAdminSecret(req, res, next) {
+    const secret = req.headers['x-admin-secret'];
+    const expected = process.env.ADMIN_SECRET;
+    if (!expected) {
+        return res.status(500).json({ error: 'Admin secret not configured' });
+    }
+    if (!secret || secret !== expected) {
+        return res.status(401).json({ error: 'Unauthorized: invalid admin secret' });
+    }
+    next();
 }
 
 // Product, Collection & Theme routes
@@ -302,6 +316,9 @@ router.post('/payments/paystack/webhook', paystackWebhook);
 router.post('/webhooks/paystack', paystackWebhook);
 router.get('/orders/:order_number', orderLookupLimiter, getOrder);
 
+// Admin order status update
+router.patch('/admin/orders/:order_number/status', requireAdminSecret, updateOrderStatus);
+
 // Paystack Volume & Notification Monitoring Routes
 const paymentService = require('../services/paymentService');
 const whatsappService = require('../services/whatsappService');
@@ -452,7 +469,7 @@ router.post('/newsletter/subscribe', async (req, res) => {
         } catch (dbErr) {
             console.log('Customers table insert failed:', dbErr.message);
         }
-        
+
         // Send email
         emailService.sendNewsletterWelcomeEmail(email);
 

@@ -104,7 +104,7 @@ class NotificationService extends EventEmitter {
             });
         }
 
-        // 3. Send MailerSend Email Receipt (Async / Non-blocking / Idempotent)
+        // 3. Send MailerSend Email Receipt to Customer (Async / Non-blocking / Idempotent)
         if (customer.email && !currentFlags.mailersend_receipt_sent) {
             setImmediate(async () => {
                 try {
@@ -132,6 +132,33 @@ class NotificationService extends EventEmitter {
                     }
                 } catch (err) {
                     console.error(`[NotificationService] MailerSend receipt failed for #${orderNumber}:`, err.message);
+                }
+            });
+        }
+
+        // 4. Send Payment Received email to Mary (owner) via MailerSend
+        const ownerEmail = process.env.OWNER_EMAIL || process.env.SUPPORT_EMAIL;
+        if (ownerEmail && ownerEmail.includes('@')) {
+            setImmediate(async () => {
+                try {
+                    await emailService.sendOrderReceipt({
+                        id: orderId,
+                        order_number: orderNumber,
+                        customer_name: customer.name,
+                        customer_email: customer.email,
+                        subtotal: payload.subtotal || amount,
+                        shipping_cost: payload.shippingCost || 0,
+                        total_amount: amount,
+                        currency,
+                        payment_provider: paymentMethod,
+                        payment_ref: paymentReference,
+                        shipping_address: shippingAddress,
+                        order_items: items,
+                        created_at: new Date().toISOString()
+                    }, ownerEmail);
+                    console.log(`[NotificationService] Payment receipt sent to owner (${ownerEmail}) for #${orderNumber}`);
+                } catch (err) {
+                    console.error(`[NotificationService] Owner receipt failed for #${orderNumber}:`, err.message);
                 }
             });
         }

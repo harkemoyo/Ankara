@@ -22,9 +22,11 @@ if (missingEnv.length > 0) {
 
 const app = express();
 
-// Middleware
+// Middleware — capture raw body for Paystack webhook signature verification
 app.use(cors());
-app.use(express.json());
+app.use(express.json({
+    verify: (req, res, buf) => { req.rawBody = buf.toString(); }
+}));
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static assets and HTML files from the root folder

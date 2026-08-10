@@ -38,9 +38,6 @@ async function updateOrderStatus(req, res) {
 
         const update = { status };
         if (notes) update.notes = notes;
-        if (status === 'delivered' && !order.delivered_at) {
-            update.delivered_at = new Date().toISOString();
-        }
 
         const { data, error } = await supabaseAdmin
             .from('orders')
@@ -58,7 +55,7 @@ async function updateOrderStatus(req, res) {
         });
     } catch (err) {
         console.error('[Admin] Update order status failed:', err.message);
-        res.status(500).json({ error: 'Failed to update order status' });
+        res.status(500).json({ error: 'Failed to update order status', details: err.message });
     }
 }
 

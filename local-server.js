@@ -4,6 +4,22 @@ const path = require('path');
 const cors = require('cors');
 const apiRoutes = require('./src/routes/api');
 
+// Fail fast on missing critical configuration rather than surfacing it
+// as an opaque 500 during checkout.
+const REQUIRED_ENV = [
+    'SUPABASE_URL',
+    'SUPABASE_SERVICE_ROLE_KEY',
+    'PAYSTACK_SECRET_KEY',
+];
+
+const missingEnv = REQUIRED_ENV.filter(key => !process.env[key]);
+if (missingEnv.length > 0) {
+    console.error('\n❌ Cannot start — missing required environment variables:');
+    missingEnv.forEach(key => console.error(`   • ${key}`));
+    console.error('\n   Add them to .env (see .env.example) and restart.\n');
+    process.exit(1);
+}
+
 const app = express();
 
 // Middleware
@@ -84,6 +100,12 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
+    const status = (ok) => (ok ? 'live' : 'MOCK');
     console.log(`\n🚀 Local server successfully running at:`);
-    console.log(`   👉 http://localhost:${PORT}\n`);
+    console.log(`   👉 http://localhost:${PORT}`);
+    console.log(`   started ${new Date().toLocaleTimeString()}  ·  env: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`   base url: ${process.env.BASE_URL || `http://localhost:${PORT}`}`);
+    console.log(`   paystack: ${status(process.env.PAYSTACK_SECRET_KEY)}  ·  ` +
+        `email: ${status(process.env.MAILERSEND_API_KEY || process.env.MAILERSEND_KEY)}  ·  ` +
+        `whatsapp: ${status(process.env.WHATSAPP_ACCESS_TOKEN && process.env.WHATSAPP_PHONE_NUMBER_ID)}\n`);
 });

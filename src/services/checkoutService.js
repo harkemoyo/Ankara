@@ -2,6 +2,34 @@ const { supabaseAdmin } = require('../config/supabase');
 const emailService = require('./emailService');
 const whatsappService = require('./whatsappService');
 
+const SYMBOL_TO_ISO = {
+    'KSH': 'KES',
+    'KES': 'KES',
+    'KE': 'KES',
+    '$': 'USD',
+    'USD': 'USD',
+    'US$': 'USD',
+};
+
+function normalizeCurrency(raw) {
+    if (!raw) return 'KES';
+    const key = String(raw).trim().toUpperCase();
+    return SYMBOL_TO_ISO[key] || 'KES';
+}
+
+async function getOrderCurrency() {
+    try {
+        const { data: settings } = await supabaseAdmin
+            .from('settings')
+            .select('currency')
+            .eq('id', 1)
+            .single();
+        return normalizeCurrency(settings?.currency);
+    } catch (_) {
+        return 'KES';
+    }
+}
+
 async function initializeCheckout(cart, customer, req) {
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
         throw new Error('Missing cart');
@@ -10,21 +38,14 @@ async function initializeCheckout(cart, customer, req) {
         throw new Error('Customer email and name are required');
     }
 
-    // Fetch live currency from settings (fallback to 'KES')
-    let orderCurrency = 'KES';
-    try {
-        const { data: settings } = await supabaseAdmin
-            .from('settings')
-            .select('currency')
-            .eq('id', 1)
-            .single();
-        if (settings?.currency) orderCurrency = settings.currency;
-    } catch (_) { /* use default */ }
+    // Normalized ISO currency code (settings.currency stores a display symbol, e.g. "KSh")
+    const orderCurrency = await getOrderCurrency();
 
     const subtotal = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.qty), 0);
-    const shippingCost = subtotal >= 80 ? 0 : 5.99;
+    // Shipping is free — must match what checkout.html displays to the customer
+    const shippingCost = 0;
     const total = subtotal + shippingCost;
-    const totalKobo = Math.round(total * 100);
+    const amountInMinorUnits = Math.round(total * 100);
 
     // 1. Create PENDING order in Supabase
     const { data: order, error: orderError } = await supabaseAdmin
@@ -77,14 +98,50 @@ async function initializeCheckout(cart, customer, req) {
         .insert(orderItems);
 
     if (itemsError) {
+        await rollbackPendingOrder(order.id, order.order_number);
         console.error('Failed to insert order items:', itemsError);
         throw new Error('Order items could not be created');
     }
 
-    // 2b. Send made-to-measure alerts (email + WhatsApp)
+    // 3. Build callback URL for Paystack redirect after payment
+    const baseUrl = process.env.BASE_URL || `${req?.protocol || 'http'}://${req?.get?.('host') || 'localhost:3000'}`;
+    const callback_url = `${baseUrl}/thank-you.html?order=${encodeURIComponent(order.order_number)}&email=${encodeURIComponent(customer.email)}`;
+
+    // 4. Initialize Paystack Transaction
+    let paystackData;
+    try {
+        const paystackRes = await fetch('https://api.paystack.co/transaction/initialize', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: customer.email,
+                amount: amountInMinorUnits,
+                currency: orderCurrency,
+                reference: order.order_number,
+                callback_url,
+            })
+        });
+        paystackData = await paystackRes.json();
+    } catch (err) {
+        await rollbackPendingOrder(order.id, order.order_number);
+        console.error('[Checkout] Paystack request failed:', err.message);
+        throw new Error('Payment initialization failed');
+    }
+
+    if (!paystackData.status) {
+        await rollbackPendingOrder(order.id, order.order_number);
+        console.error('[Checkout] Paystack initialization rejected:', paystackData);
+        throw new Error('Payment initialization failed');
+    }
+
+    // 5. Notify only once payment initialization has actually succeeded,
+    //    so abandoned/failed attempts never alert Mary.
     await sendMadeToMeasureAlerts(order.order_number, customer, orderCurrency, total, orderItems);
 
-    // 2c. Send new order notification to Mary (itemized, payment pending)
+    // WhatsApp alert (mocked until access token arrives)
     try {
         await whatsappService.sendNewOrderAlertToMary({
             orderNumber: order.order_number,
@@ -98,29 +155,17 @@ async function initializeCheckout(cart, customer, req) {
         console.error('[Checkout] New order WhatsApp alert to Mary failed:', err.message);
     }
 
-    // 3. Build callback URL for Paystack redirect after payment
-    const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get('host')}`;
-    const callback_url = `${baseUrl}/thank-you.html?order=${encodeURIComponent(order.order_number)}&email=${encodeURIComponent(customer.email)}`;
-
-    // 4. Initialize Paystack Transaction
-    const paystackRes = await fetch('https://api.paystack.co/transaction/initialize', {
-        method: 'POST',
-        headers: {
-            Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email: customer.email,
-            amount: totalKobo,
-            reference: order.order_number,
-            callback_url,
-        })
-    });
-
-    const paystackData = await paystackRes.json();
-    if (!paystackData.status) {
-        console.error('Paystack initialization failed:', paystackData);
-        throw new Error('Payment initialization failed');
+    // Email fallback to Mary while WhatsApp is off
+    try {
+        emailService.sendNewOrderAlertToMary({
+            orderNumber: order.order_number,
+            customer,
+            items: orderItems,
+            totalAmount: total,
+            currency: orderCurrency,
+        });
+    } catch (err) {
+        console.error('[Checkout] New order email alert to Mary failed:', err.message);
     }
 
     return {
@@ -129,6 +174,20 @@ async function initializeCheckout(cart, customer, req) {
         authorization_url: paystackData.data.authorization_url,
         reference: order.order_number
     };
+}
+
+/**
+ * Remove a pending order and its items after a failed payment initialization,
+ * so unusable orders don't accumulate in the database.
+ */
+async function rollbackPendingOrder(orderId, orderNumber) {
+    try {
+        await supabaseAdmin.from('order_items').delete().eq('order_id', orderId);
+        await supabaseAdmin.from('orders').delete().eq('id', orderId).eq('status', 'pending');
+        console.warn(`[Checkout] Rolled back pending order ${orderNumber} after failed payment init`);
+    } catch (err) {
+        console.error(`[Checkout] Failed to roll back pending order ${orderNumber}:`, err.message);
+    }
 }
 
 /**
@@ -145,16 +204,8 @@ async function initializeMpesaCheckout(cart, customer) {
         throw new Error('Customer email and name are required');
     }
 
-    // Fetch live currency from settings (fallback to 'KES')
-    let orderCurrency = 'KES';
-    try {
-        const { data: settings } = await supabaseAdmin
-            .from('settings')
-            .select('currency')
-            .eq('id', 1)
-            .single();
-        if (settings?.currency) orderCurrency = settings.currency;
-    } catch (_) { /* use default */ }
+    // Normalized ISO currency code (settings.currency stores a display symbol, e.g. "KSh")
+    const orderCurrency = await getOrderCurrency();
 
     const subtotal = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.qty), 0);
     const shippingCost = subtotal >= 10000 ? 0 : 500;   // KES: free shipping over KSh 10,000
@@ -322,8 +373,12 @@ async function sendMadeToMeasureAlerts(orderNumber, customer, currency, totalAmo
     }
 
     // Email owner
-    const ownerEmail = process.env.OWNER_EMAIL || process.env.MAILERSEND_SENDER_EMAIL || 'info@maryhumphreywear.org';
-    emailService.sendMadeToMeasureAlert(payload, ownerEmail, true);
+    const ownerEmail = process.env.OWNER_EMAIL || process.env.SUPPORT_EMAIL;
+    if (ownerEmail && ownerEmail.includes('@')) {
+        emailService.sendMadeToMeasureAlert(payload, ownerEmail, true);
+    } else {
+        console.warn('[Checkout] No OWNER_EMAIL or SUPPORT_EMAIL configured; skipping MTM owner alert');
+    }
 
     const itemList = mtmItems.map(i => `${i.product_title || 'Item'} x${i.quantity || 1}`).join(', ');
 

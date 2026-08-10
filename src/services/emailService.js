@@ -438,6 +438,78 @@ class EmailService {
     }
 
     // ─────────────────────────────────────────────────────────────────
+    // New Order Alert to Mary (fallback while WhatsApp is off)
+    // ─────────────────────────────────────────────────────────────────
+    sendNewOrderAlertToMary({ orderNumber, customer, items, totalAmount, currency = 'KES' }) {
+        const maryEmail = process.env.OWNER_EMAIL || process.env.SUPPORT_EMAIL;
+        if (!maryEmail || !maryEmail.includes('@')) {
+            console.warn('[EmailService] No OWNER_EMAIL or SUPPORT_EMAIL configured; skipping new-order alert to Mary');
+            return;
+        }
+
+        const currencySymbol = currency === 'KES' ? 'KSh' : '$';
+        const formattedTotal = currency === 'KES'
+            ? `KSh ${Number(totalAmount || 0).toLocaleString('en-KE')}`
+            : `$${Number(totalAmount || 0).toFixed(2)}`;
+
+        const itemsHtml = (items || []).map(item => {
+            const price = currency === 'KES'
+                ? `KSh ${Number(item.line_total || item.unit_price * item.quantity).toLocaleString('en-KE')}`
+                : `$${Number(item.line_total || item.unit_price * item.quantity).toFixed(2)}`;
+            const variant = [item.variant_size, item.variant_color].filter(Boolean).join(' / ');
+            const mtm = item.made_to_measure ? ' <span style="font-size:10px;background:#ff9800;color:#fff;padding:2px 6px;border-radius:3px;">MTM</span>' : '';
+            return `
+                <tr>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <strong>${item.product_title || 'Item'}</strong> × ${item.quantity || 1}${mtm}
+                        ${variant ? `<br><span style="font-size:12px;color:#777;">${variant}</span>` : ''}
+                    </td>
+                    <td style="padding: 10px 0; text-align: right; border-bottom: 1px solid #eee;">${price}</td>
+                </tr>
+            `;
+        }).join('');
+
+        const customerPhone = customer.phone || 'No phone';
+        const subject = `🛍️ New Order — #${orderNumber}`;
+
+        const html = `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #dad2ce; border-radius: 8px; overflow: hidden; background-color: #faf8f5;">
+            <div style="background-color: #422326; padding: 24px; text-align: center; color: #ffffff;">
+                <h1 style="margin: 0; font-size: 20px; font-weight: 700;">New Order Received</h1>
+            </div>
+            <div style="padding: 28px; color: #2a2624; line-height: 1.5;">
+                <p style="font-size: 14px; margin-bottom: 20px;">A customer has just placed an order and is now completing payment via Paystack.</p>
+
+                <div style="background-color: #fff3e0; border: 1px solid #ffcc80; border-radius: 6px; padding: 14px; margin-bottom: 20px; font-size: 14px;">
+                    <strong>Customer:</strong> ${customer.name || 'N/A'}<br>
+                    <strong>Email:</strong> ${customer.email || 'N/A'}<br>
+                    <strong>Phone:</strong> ${customerPhone}<br>
+                    <strong>Order:</strong> #${orderNumber}<br>
+                    <strong>Payment:</strong> Pending
+                </div>
+
+                <table style="width: 100%; border-collapse: collapse; font-size: 13.5px;">
+                    <thead>
+                        <tr style="color: #777; font-size: 11.5px; text-transform: uppercase; border-bottom: 1px solid #eee;">
+                            <th style="text-align: left; padding-bottom: 6px;">Item</th>
+                            <th style="text-align: right; padding-bottom: 6px;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${itemsHtml || '<tr><td colspan="2" style="padding:8px 0;">No items</td></tr>'}
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #eee; text-align: right; font-size: 16px; font-weight: bold;">
+                    Total: ${formattedTotal}
+                </div>
+            </div>
+        </div>`;
+
+        this.queueEmail({ to: maryEmail, subject, html });
+    }
+
+    // ─────────────────────────────────────────────────────────────────
     // Shipping Notification
     // ─────────────────────────────────────────────────────────────────
     sendShippingNotification(order, customerEmail) {

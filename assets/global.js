@@ -1095,7 +1095,7 @@ customElements.define("localization-form", LocalizationForm);
 // Populate the Collections dropdown from the live collections API so the
 // menu never links to collection handles that do not exist in the database.
 const populateCollectionsMenu = async function () {
-  const submenus = document.querySelectorAll(".header__sub--menu");
+  const submenus = document.querySelectorAll(".header__sub--menu, .offcanvas__sub_menu");
   if (submenus.length === 0) return;
 
   let collections;
@@ -1112,13 +1112,16 @@ const populateCollectionsMenu = async function () {
   if (!Array.isArray(collections) || collections.length === 0) return;
 
   submenus.forEach((submenu) => {
+    const isOffcanvas = submenu.classList.contains("offcanvas__sub_menu");
+    const liClass = isOffcanvas ? "offcanvas__sub_menu_li" : "header__sub--menu__items";
+    const aClass = isOffcanvas ? "offcanvas__sub_menu_item" : "header__sub--menu__link";
     submenu.innerHTML = collections
       .map((collection) => {
         const href =
           collection.handle === "all"
             ? "shop.html"
             : `/shop/${encodeURIComponent(collection.handle)}`;
-        return `<li class="header__sub--menu__items"><a class="header__sub--menu__link" href="${href}">${collection.title}</a></li>`;
+        return `<li class="${liClass}"><a class="${aClass}" href="${href}">${collection.title}</a></li>`;
       })
       .join("");
   });

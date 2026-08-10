@@ -58,11 +58,30 @@ class PaymentService {
         }
 
         // 2. Fetch Existing Order from Supabase
-        const { data: order, error: fetchErr } = await supabaseAdmin
-            .from('orders')
-            .select('*, order_items(*)')
-            .eq('order_number', reference)
-            .maybeSingle();
+        // References are unique per attempt (order_number + suffix), so resolve using
+        // metadata.order_number first, then the stored payment_ref, then the raw
+        // reference for older orders created before unique references were introduced.
+        const metaOrderNumber = data?.metadata?.order_number;
+        let order = null;
+        let fetchErr = null;
+
+        for (const [column, value] of [
+            ['order_number', metaOrderNumber],
+            ['payment_ref', reference],
+            ['order_number', reference],
+        ]) {
+            if (!value) continue;
+            const { data: found, error } = await supabaseAdmin
+                .from('orders')
+                .select('*, order_items(*)')
+                .eq(column, value)
+                .maybeSingle();
+            if (error) fetchErr = error;
+            if (found) {
+                order = found;
+                break;
+            }
+        }
 
         if (fetchErr || !order) {
             console.error(`[PaymentService] Order not found for reference: ${reference}`);

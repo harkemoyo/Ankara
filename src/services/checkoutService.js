@@ -108,6 +108,12 @@ async function initializeCheckout(cart, customer, req) {
     const callback_url = `${baseUrl}/thank-you.html?order=${encodeURIComponent(order.order_number)}&email=${encodeURIComponent(customer.email)}`;
 
     // 4. Initialize Paystack Transaction
+    // Paystack reserves a reference permanently, so reusing an order number that was
+    // already sent (or reissued after a rollback) fails with duplicate_reference.
+    // Use a unique reference per attempt and carry order_number in metadata so the
+    // webhook can always resolve the order.
+    const paystackReference = `${order.order_number}-${Date.now().toString(36).toUpperCase()}`;
+
     let paystackData;
     try {
         const paystackRes = await fetch('https://api.paystack.co/transaction/initialize', {
@@ -120,8 +126,12 @@ async function initializeCheckout(cart, customer, req) {
                 email: customer.email,
                 amount: amountInMinorUnits,
                 currency: orderCurrency,
-                reference: order.order_number,
+                reference: paystackReference,
                 callback_url,
+                metadata: {
+                    order_number: order.order_number,
+                    order_id: order.id,
+                },
             })
         });
         paystackData = await paystackRes.json();
@@ -133,9 +143,18 @@ async function initializeCheckout(cart, customer, req) {
 
     if (!paystackData.status) {
         await rollbackPendingOrder(order.id, order.order_number);
-        console.error('[Checkout] Paystack initialization rejected:', paystackData);
-        throw new Error('Payment initialization failed');
+        console.error(
+            `[Checkout] Paystack rejected order ${order.order_number}: ${paystackData.message || 'unknown error'}`,
+            paystackData
+        );
+        throw new Error(`Payment initialization failed: ${paystackData.message || 'unknown error'}`);
     }
+
+    // Persist the reference so the webhook can match it back to this order
+    await supabaseAdmin
+        .from('orders')
+        .update({ payment_ref: paystackReference })
+        .eq('id', order.id);
 
     // 5. Notify only once payment initialization has actually succeeded,
     //    so abandoned/failed attempts never alert Mary.

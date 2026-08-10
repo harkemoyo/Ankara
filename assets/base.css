@@ -9570,6 +9570,10 @@ input.quickview__value--number {
 /* 
     31. Breadcrumb css 
 */
+.breadcrumb{
+  padding-inline: 1.5rem;
+  padding-block: 1.5rem;
+}
 .breadcrumb__bg {
   background: var(--bg-offwhite-color);
   padding: 2rem 0;

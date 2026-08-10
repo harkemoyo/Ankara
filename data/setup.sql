@@ -439,7 +439,7 @@ VALUES
   ('trending', 'Trending Products', 'trending', 3, true, '{"title":"Trending Now","limit":4,"collection":"all"}'::jsonb),
   ('style_of_month', 'Style of the Month', 'style_of_month', 4, true, '{"subtitle":"Mary Humphrey Collection","title":"STYLE OF THE MONTH","product":"noir-cape","price":"KSh 8,000"}'::jsonb),
   ('fabrics', 'Fabric Showcase', 'fabrics', 5, true, '{"subtitle":"Premium Materials","title":"AUTHENTIC ANKARA FABRICS"}'::jsonb),
-  ('heritage', 'Heritage & Culture', 'heritage', 6, true, '{"subtitle":"THE LOVE STORY OF","title":"ANKARA FASHION","text":"We started out with a passion for vibrant African fashion and for the past 20 years we have been creating beautiful, authentic Ankara couture that celebrates our rich heritage."}'::jsonb),
+  ('heritage', 'Heritage & Culture', 'heritage', 6, true, '{"subtitle":"THE LOVE STORY OF","title":"ANKARA FASHION","text":"We started out with a passion for vibrant African fashion and for the past 4 years we have been creating beautiful, authentic Ankara couture that celebrates our rich heritage."}'::jsonb),
   ('sale_promo', 'Sale Promo Strip', 'sale_promo', 7, true, '{"title":"ON SALE NOW - UP TO 30% OFF","button":"Shop Sale","link":"sale.html"}'::jsonb),
   ('shop_by_style', 'Shop by Style', 'shop_by_style', 8, true, '{"title":"Shop by Style"}'::jsonb),
   ('statement', 'Statement Banner', 'statement', 9, true, '{}'::jsonb),

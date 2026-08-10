@@ -1012,9 +1012,14 @@
             const badgeEl = document.getElementById('result-status-badge');
             badgeEl.innerHTML = `<span class="current-status-badge status-${status}">${statusLabels[status] || status}</span>`;
 
-            // Progress tracker
+            // Progress tracker — normalize payment and fulfillment statuses
             const steps = ['pending_payment', 'confirmed', 'processing', 'shipped', 'delivered'];
-            const currentIdx = steps.indexOf(status);
+            const statusMap = {
+                paid: 'confirmed',
+                fulfilled: 'delivered'
+            };
+            const mappedStatus = statusMap[status] || status;
+            const currentIdx = steps.indexOf(mappedStatus);
             const stepEls = document.querySelectorAll('#status-tracker .status-step');
             stepEls.forEach((el, i) => {
                 el.classList.remove('completed', 'active');

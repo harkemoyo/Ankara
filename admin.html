@@ -4672,13 +4672,26 @@
 
     const SECTION_LABELS = {
       announcement: 'Announcement Bar', hero: 'Hero Slideshow', categories: 'Category Grid',
-      trending: 'Trending Products', style_of_month: 'Style of the Month', fabrics: 'Fabric Showcase',
+      trending: 'Trending Products',      style_of_month: 'Featured Product', fabrics: 'Fabric Showcase',
       heritage: 'Heritage & Culture', sale_promo: 'Sale Promo Strip', shop_by_style: 'Shop by Style',
       outlet: 'Our Outlet', statement: 'Statement Banner', testimonials: 'Testimonials', services: 'Services Strip', footer: 'Footer',
       buttons: 'Buttons & Links', custom_css: 'Custom CSS & Branding Styles'
     };
 
+    let adminProductList = [];
+    async function loadAdminProducts() {
+      try {
+        const res = await fetch('/api/products?limit=200');
+        if (!res.ok) throw new Error('Failed to load products');
+        const data = await res.json();
+        adminProductList = data.products || [];
+      } catch (err) {
+        console.error('Failed to load products for admin:', err);
+      }
+    }
+
     async function loadHomepageSections() {
+      await loadAdminProducts();
       const list = document.getElementById('homepage-sections-list');
       list.innerHTML = '<li style="padding:12px;color:var(--muted);">Loading...</li>';
       try {
@@ -4947,14 +4960,14 @@
         </div>`;
       },
       style_of_month(s) {
+        const options = adminProductList.map(p => `<option value="${escapeHtml(p.handle)}" ${s.product_handle === p.handle ? 'selected' : ''}>${escapeHtml(p.title)}</option>`).join('');
+        const selectHtml = adminProductList.length
+          ? `<select id="ts-product_handle" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;font-size:1.4rem;"><option value="">-- Choose a product --</option>${options}</select>`
+          : `<input id="ts-product_handle" type="text" value="${escapeHtml(s.product_handle || '')}" placeholder="e.g. classic-dungarees" />`;
         return `<div class="form-grid">
           ${textField('ts-subtitle', 'Subtitle', s.subtitle)}
           ${textField('ts-title', 'Section Title', s.title)}
-          ${imageUploadBlock('ts-image', s.image, 'Product Image')}
-          ${textField('ts-product_name', 'Product Name', s.product_name)}
-          ${textField('ts-price', 'Price Text', s.price)}
-          ${textField('ts-product_handle', 'Product Handle', s.product_handle)}
-          ${textField('ts-button_text', 'Button Text', s.button_text)}
+          <div class="form-group" style="grid-column:1/-1;"><label>Featured Product</label>${selectHtml}</div>
         </div>`;
       },
       fabrics(s) {
@@ -5213,11 +5226,7 @@
         return {
           subtitle: document.getElementById('ts-subtitle')?.value || '',
           title: document.getElementById('ts-title')?.value || '',
-          image: document.getElementById('ts-image')?.value || '',
-          product_name: document.getElementById('ts-product_name')?.value || '',
-          price: document.getElementById('ts-price')?.value || '',
-          product_handle: document.getElementById('ts-product_handle')?.value || '',
-          button_text: document.getElementById('ts-button_text')?.value || ''
+          product_handle: document.getElementById('ts-product_handle')?.value || ''
         };
       },
       fabrics() {

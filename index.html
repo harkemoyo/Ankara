@@ -2295,23 +2295,26 @@
                     </div>
                 </div>
             </section>
-            <!-- Style of the Month -->
+            <!-- Featured Product -->
             <section class="bag-of-the-month" id="botm-section" data-section-id="style_of_month">
                 <div class="section-header">
                     <span class="botm-header-subtitle"></span>
                     <h2 class="section__heading--maintitle"></h2>
                 </div>
-                <div class="botm-layout">
-                    <div class="botm-layout__image">
-                        <div class="botm-image-wrap">
-                            <img alt="" class="botm-image" loading="lazy" decoding="async" src="" />
+                <div class="botm-layout" style="display:flex;justify-content:center;">
+                    <article class="product__card" style="max-width:400px;width:100%;">
+                        <div class="product__card--thumbnail">
+                            <a class="product__card--thumbnail__link display-block" href="/shop">
+                                <img class="product__card--thumbnail__img product__primary--img" src="" alt="" loading="lazy" decoding="async">
+                            </a>
                         </div>
-                    </div>
-                    <div class="botm-layout__content botm-content">
-                        <h3 class="botm-title"></h3>
-                        <div class="botm-price"></div>
-                        <a class="primary__btn" href="/shop">Shop Now</a>
-                    </div>
+                        <div class="product__card--content">
+                            <h3 class="product__card--title"><a href="/shop"></a></h3>
+                            <div class="product__card--price" style="margin-top:5px;">
+                                <span class="current__price"></span>
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </section>
             <!-- Fabric Showcase Teaser -->

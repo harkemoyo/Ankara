@@ -377,12 +377,8 @@
       "type": "style_of_month",
       "enabled": true,
       "settings": {
-        "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/DSC01512-1785705894960.webp",
-        "price": "KSh 6500",
-        "title": "STYLE OF THE MONTH",
+        "title": "FEATURED PRODUCT",
         "subtitle": "Mary Humphrey Collection",
-        "button_text": "Shop Now",
-        "product_name": "Geco Dungaree",
         "product_handle": "classic-dungarees"
       }
     }

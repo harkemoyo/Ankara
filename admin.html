@@ -4679,12 +4679,29 @@
     };
 
     let adminProductList = [];
+    function renderFeaturedProductOptions(products, selectedHandle) {
+      return products.map(p => {
+        const priceText = window.AnkaraCurrency
+          ? window.AnkaraCurrency.convertAndFormat(p.price)
+          : `KSh ${parseFloat(p.price).toLocaleString()}`;
+        const label = `${escapeHtml(p.title)} — ${escapeHtml(p.handle)} — ${priceText}`;
+        return `<option value="${escapeHtml(p.handle)}" ${selectedHandle === p.handle ? 'selected' : ''} data-search="${escapeHtml((p.title + ' ' + p.handle).toLowerCase())}">${label}</option>`;
+      }).join('');
+    }
+    window.filterFeaturedProductSelect = function (value) {
+      const sel = document.getElementById('ts-product_handle');
+      if (!sel) return;
+      const current = sel.value;
+      const term = (value || '').toLowerCase();
+      const filtered = term ? adminProductList.filter(p => (p.title + ' ' + p.handle).toLowerCase().includes(term)) : adminProductList;
+      sel.innerHTML = '<option value="">-- Choose a product --</option>' + renderFeaturedProductOptions(filtered, current);
+    };
     async function loadAdminProducts() {
       try {
-        const res = await fetch('/api/products?limit=200');
+        const res = await fetch('/api/products?limit=1000');
         if (!res.ok) throw new Error('Failed to load products');
         const data = await res.json();
-        adminProductList = data.products || [];
+        adminProductList = (data.products || []).sort((a, b) => a.title.localeCompare(b.title));
       } catch (err) {
         console.error('Failed to load products for admin:', err);
       }
@@ -4960,9 +4977,12 @@
         </div>`;
       },
       style_of_month(s) {
-        const options = adminProductList.map(p => `<option value="${escapeHtml(p.handle)}" ${s.product_handle === p.handle ? 'selected' : ''}>${escapeHtml(p.title)}</option>`).join('');
+        const options = renderFeaturedProductOptions(adminProductList, s.product_handle);
         const selectHtml = adminProductList.length
-          ? `<select id="ts-product_handle" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;font-size:1.4rem;"><option value="">-- Choose a product --</option>${options}</select>`
+          ? `<div style="display:flex;flex-direction:column;gap:6px;">
+               <input type="text" placeholder="Type to filter products..." oninput="filterFeaturedProductSelect(this.value)" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;font-size:1.4rem;" />
+               <select id="ts-product_handle" size="8" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;font-size:1.4rem;"><option value="">-- Choose a product --</option>${options}</select>
+             </div>`
           : `<input id="ts-product_handle" type="text" value="${escapeHtml(s.product_handle || '')}" placeholder="e.g. classic-dungarees" />`;
         return `<div class="form-grid">
           ${textField('ts-subtitle', 'Subtitle', s.subtitle)}

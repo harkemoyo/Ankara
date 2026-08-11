@@ -35,11 +35,11 @@ async function getSitemap(req, res) {
         const [productsResult, collectionsResult] = await Promise.all([
             supabaseAnon
                 .from('products')
-                .select('handle, updated_at, status')
+                .select('handle, status')
                 .eq('status', 'active'),
             supabaseAnon
                 .from('collections')
-                .select('handle, updated_at')
+                .select('handle')
         ]);
 
         if (productsResult.error) throw productsResult.error;
@@ -64,7 +64,6 @@ async function getSitemap(req, res) {
             if (collection.handle) {
                 entries.push(urlEntry({
                     loc: `${BASE_URL}/shop/${collection.handle}`,
-                    lastmod: collection.updated_at ? collection.updated_at.split('T')[0] : undefined,
                     changefreq: 'weekly',
                     priority: '0.7'
                 }));
@@ -76,7 +75,6 @@ async function getSitemap(req, res) {
             if (product.handle) {
                 entries.push(urlEntry({
                     loc: `${BASE_URL}/products/${product.handle}`,
-                    lastmod: product.updated_at ? product.updated_at.split('T')[0] : undefined,
                     changefreq: 'weekly',
                     priority: '0.8'
                 }));

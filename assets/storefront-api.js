@@ -666,13 +666,16 @@ async function loadRelatedProducts(product) {
     }
 
     grid.innerHTML = items.map(p => {
-        const img = (p.images && p.images[0]) || 'assets/DSC02676.jpg';
+        const primaryImg = (p.images && p.images[0]) || 'assets/DSC02676.jpg';
+        const hoverImg = (p.images && p.images[1]) || null;
+        const hoverImgTag = hoverImg ? `<img class="product__card--thumbnail__img product__secondary--img" src="${hoverImg}" alt="${p.title}">` : '';
         const priceStr = window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(p.price) : `KSh ${parseFloat(p.price).toLocaleString()}`;
         return `
         <article class="product__card clean-card">
             <div class="product__card--thumbnail clean-card-thumbnail">
                 <a class="product__card--thumbnail__link display-block" href="/product/${p.handle}">
-                    <img class="product__card--thumbnail__img product__primary--img" src="${img}" alt="${p.title}">
+                    <img class="product__card--thumbnail__img product__primary--img" src="${primaryImg}" alt="${p.title}">
+                    ${hoverImgTag}
                 </a>
             </div>
             <div class="product__card--content clean-card-content">

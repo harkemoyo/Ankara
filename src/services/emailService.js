@@ -137,15 +137,9 @@ class EmailService {
             // Default Fallbacks
             if (slug === 'order_confirmation') {
                 subject = 'Order Confirmation - {{order_number}} - {{store_name}}';
-                htmlBody = `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #dad2ce; border-radius: 8px; overflow: hidden; background-color: #faf8f5;">
-                    <div style="background-color: {{email_header_color}}; padding: 32px; text-align: center; color: #fff;">
-                        <h1 style="margin: 0; font-size: 24px; font-weight: bold; letter-spacing: 0.05em;">{{store_name}}</h1>
-                    </div>
-                    <div style="padding: 40px 32px; color: #2a2624; line-height: 1.6;">
-                        <h2 style="font-size: 20px; font-weight: normal; color: {{email_header_color}}; margin-top: 0; margin-bottom: 16px;">Thank You for Your Order, {{customer_name}}!</h2>
-                        <p style="font-size: 15px; margin-bottom: 24px;">We are excited to prepare your premium custom Ankara design. Your order reference is <strong>#{{order_number}}</strong>.</p>
-                        
+                const isMpesa = (mergedVars.payment_provider === 'mpesa');
+                const paymentInfo = isMpesa
+                    ? `
                         <div style="background-color: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 6px; padding: 20px; margin-bottom: 28px;">
                             <h3 style="margin-top: 0; margin-bottom: 12px; font-size: 15px; color: #2e7d32; text-transform: uppercase; letter-spacing: 0.1em;">M-Pesa Payment Instructions</h3>
                             <p style="font-size: 14px; margin: 0 0 12px 0;">Please complete your order by paying <strong>KSh {{total}}</strong> to either of the following payment details:</p>
@@ -160,7 +154,22 @@ class EmailService {
                                 </tr>
                             </table>
                         </div>
-
+                    `
+                    : `
+                        <div style="background-color: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 6px; padding: 20px; margin-bottom: 28px;">
+                            <h3 style="margin-top: 0; margin-bottom: 12px; font-size: 15px; color: #2e7d32; text-transform: uppercase; letter-spacing: 0.1em;">Payment Processing</h3>
+                            <p style="font-size: 14px; margin: 0 0 12px 0;">Your secure payment is being processed via Paystack. You will receive a confirmation once it is complete.</p>
+                        </div>
+                    `;
+                htmlBody = `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #dad2ce; border-radius: 8px; overflow: hidden; background-color: #faf8f5;">
+                    <div style="background-color: {{email_header_color}}; padding: 32px; text-align: center; color: #fff;">
+                        <h1 style="margin: 0; font-size: 24px; font-weight: bold; letter-spacing: 0.05em;">{{store_name}}</h1>
+                    </div>
+                    <div style="padding: 40px 32px; color: #2a2624; line-height: 1.6;">
+                        <h2 style="font-size: 20px; font-weight: normal; color: {{email_header_color}}; margin-top: 0; margin-bottom: 16px;">Thank You for Your Order, {{customer_name}}!</h2>
+                        <p style="font-size: 15px; margin-bottom: 24px;">We are excited to prepare your premium custom Ankara design. Your order reference is <strong>#{{order_number}}</strong>.</p>
+                        ${paymentInfo}
                         <div style="border-top: 1px solid #dad2ce; padding-top: 24px; margin-bottom: 24px; font-size: 14px;">
                             <div style="margin-bottom: 8px;"><strong>Total Amount:</strong> KSh {{total}}</div>
                             <div><strong>Delivery Address:</strong><br><span style="color: #7a726e;">{{shipping_address}}</span></div>
@@ -276,7 +285,8 @@ class EmailService {
                 order_number: order.order_number || order.id,
                 customer_name: order.customer_name || 'Valued Customer',
                 total: parseFloat(order.total_amount || 0).toFixed(2),
-                shipping_address: order.shipping_address || 'As specified at checkout'
+                shipping_address: order.shipping_address || 'As specified at checkout',
+                payment_provider: order.payment_provider || ''
             });
 
             await this.sendEmail({ to: customerEmail, subject, html });

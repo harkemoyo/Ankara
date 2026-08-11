@@ -191,7 +191,7 @@
                 <div class="footer__bottom--inner">
                     <p class="copyright__content">${escapeHtml(copyright)}</p>
                     <div class="footer__payment">
-                        <span class="footer__payment--label">M-Pesa &nbsp;&middot;&nbsp; Paybill &nbsp;&middot;&nbsp; Send Money</span>
+                        <span class="footer__payment--label">Secure payments via Paystack — M-Pesa, Card</span>
                     </div>
                 </div>
             </div>

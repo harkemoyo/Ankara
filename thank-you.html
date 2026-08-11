@@ -362,24 +362,44 @@
         <div class="thankyou-grid">
           <div class="info-card thankyou-card--success" id="payment-details-card">
             <h2 class="thankyou-card-title--success">Payment Details</h2>
-            <div id="payment-unconfirmed-note">
-              <p class="thankyou-card-text">
-                Complete your payment of <strong id="disp-pay-total">—</strong> via:
-              </p>
-              <div class="d-flex flex-column gap-2 text-sm" id="payment-instructions-box">
-                <div class="payment-method-box payment-method-box--mpesa">
-                  <strong class="text-success">1. Lipa Na M-Pesa (Paybill)</strong><br>
-                  Paybill: <strong>247247</strong> · Account: <strong>687280</strong>
+            <div id="payment-unconfirmed-note" style="display:none;">
+              <!-- M-Pesa / manual payment instructions -->
+              <div id="payment-mpesa-instructions" style="display:none;">
+                <p class="thankyou-card-text">
+                  Complete your payment of <strong id="disp-pay-total">—</strong> via:
+                </p>
+                <div class="d-flex flex-column gap-2 text-sm" id="payment-instructions-box">
+                  <div class="payment-method-box payment-method-box--mpesa">
+                    <strong class="text-success">1. Lipa Na M-Pesa (Paybill)</strong><br>
+                    Paybill: <strong>247247</strong> · Account: <strong>687280</strong>
+                  </div>
+                  <div class="payment-method-box payment-method-box--sendmoney">
+                    <strong class="text-primary">2. Send Money (M-Pesa)</strong><br>
+                    Phone: <strong>0715687280</strong>
+                  </div>
+                  <div class="payment-method-box payment-method-box--bank">
+                    <strong class="text-warning">3. Bank Transfer (Equity Bank)</strong><br>
+                    Equity Bank · A/C: <strong>0150186781642</strong> · SWIFT: <strong>EQBLKENA</strong> · Bank Code:
+                    <strong>68</strong> · Branch Code: <strong>015</strong>
+                  </div>
                 </div>
-                <div class="payment-method-box payment-method-box--sendmoney">
-                  <strong class="text-primary">2. Send Money (M-Pesa)</strong><br>
-                  Phone: <strong>0715687280</strong>
+              </div>
+
+              <!-- Paystack payment confirmation in progress -->
+              <div id="payment-paystack-confirming" style="display:none; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <div class="spinner" style="width:20px;height:20px;border:3px solid #eee;border-top-color:#422326;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+                  <p class="thankyou-card-text" style="margin:0;">
+                    Confirming your payment of <strong id="disp-confirming-total">—</strong>...
+                  </p>
                 </div>
-                <div class="payment-method-box payment-method-box--bank">
-                  <strong class="text-warning">3. Bank Transfer (Equity Bank)</strong><br>
-                  Equity Bank · A/C: <strong>0150186781642</strong> · SWIFT: <strong>EQBLKENA</strong> · Bank Code:
-                  <strong>68</strong> · Branch Code: <strong>015</strong>
-                </div>
+              </div>
+
+              <!-- Paystack payment still being processed after polling window -->
+              <div id="payment-paystack-pending" style="display:none;">
+                <p class="thankyou-card-text">
+                  Your payment is being processed. You'll receive a confirmation via WhatsApp and email shortly. No further action is needed.
+                </p>
               </div>
             </div>
 
@@ -439,6 +459,10 @@
         return;
       }
 
+      let pollInterval = null;
+      let currentOrder = null;
+      let paymentConfirmationTimedOut = false;
+
       document.title = `Order ${orderNumber} — Mary Humphrey Wear`;
 
       function formatAmount(amt, currency) {
@@ -458,6 +482,9 @@
 
         const payTotalEl = document.getElementById('disp-pay-total');
         if (payTotalEl) payTotalEl.textContent = formatAmount(order.total, order.currency);
+
+        const confirmingTotalEl = document.getElementById('disp-confirming-total');
+        if (confirmingTotalEl) confirmingTotalEl.textContent = formatAmount(order.total, order.currency);
 
         const addr = order.shipping_address || {};
         document.getElementById('disp-address').innerHTML = `
@@ -484,19 +511,33 @@
           </div>
         `).join('');
 
+        currentOrder = order;
+
         // Check payment status
         const isPaid = (order.payment_status === 'paid' || order.status === 'paid');
         const paymentRef = order.payment_ref || order.payment_intent_id || params.get('order') || 'Confirmed';
-        const instructionsBox = document.getElementById('payment-unconfirmed-note');
+        const unconfirmedNote = document.getElementById('payment-unconfirmed-note');
+        const mpesaInstructions = document.getElementById('payment-mpesa-instructions');
+        const paystackConfirming = document.getElementById('payment-paystack-confirming');
+        const paystackPending = document.getElementById('payment-paystack-pending');
         const confirmedBox = document.getElementById('payment-confirmed-box');
         const txIdEl = document.getElementById('payment-tx-id');
         const confTotalEl = document.getElementById('disp-confirmed-total');
 
         if (isPaid) {
-          if (instructionsBox) instructionsBox.style.display = 'none';
+          if (unconfirmedNote) unconfirmedNote.style.display = 'none';
           if (confirmedBox) confirmedBox.style.display = 'flex';
           if (txIdEl) txIdEl.textContent = paymentRef;
           if (confTotalEl) confTotalEl.textContent = formatAmount(order.total, order.currency);
+        } else {
+          const provider = (order.payment_provider || '').toLowerCase();
+          const isMpesa = provider === 'mpesa';
+
+          if (confirmedBox) confirmedBox.style.display = 'none';
+          if (unconfirmedNote) unconfirmedNote.style.display = 'block';
+          if (mpesaInstructions) mpesaInstructions.style.display = isMpesa ? 'block' : 'none';
+          if (paystackConfirming) paystackConfirming.style.display = (!isMpesa && !paymentConfirmationTimedOut) ? 'flex' : 'none';
+          if (paystackPending) paystackPending.style.display = (!isMpesa && paymentConfirmationTimedOut) ? 'block' : 'none';
         }
 
         // Generate WhatsApp confirmation message
@@ -539,6 +580,29 @@
           if (!res.ok) throw new Error('Not found');
           const order = await res.json();
           renderOrder(order);
+
+          const isPaid = (order.payment_status === 'paid' || order.status === 'paid');
+          const isPaystack = (order.payment_provider || '').toLowerCase() !== 'mpesa';
+
+          // Start polling only for Paystack orders that aren't paid yet
+          if (!isPaid && isPaystack && !pollInterval && !paymentConfirmationTimedOut) {
+            pollInterval = setInterval(() => {
+              loadOrder();
+            }, 10000);
+
+            setTimeout(() => {
+              paymentConfirmationTimedOut = true;
+              clearInterval(pollInterval);
+              pollInterval = null;
+              if (currentOrder) renderOrder(currentOrder);
+            }, 60000);
+          }
+
+          // Stop polling once paid
+          if (isPaid && pollInterval) {
+            clearInterval(pollInterval);
+            pollInterval = null;
+          }
         } catch (err) {
           document.getElementById('state-loading').style.display = 'none';
           document.getElementById('state-error').style.display = 'block';

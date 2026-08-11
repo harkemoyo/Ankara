@@ -298,6 +298,7 @@ async function initializeMpesaCheckout(cart, customer) {
             id: order.id,
             order_number: order.order_number,
             total_amount: total,
+            payment_provider: 'mpesa',
             customer_name: customer.name.trim(),
         }, customer.email.toLowerCase().trim());
     } catch (_) { /* email is non-critical */ }

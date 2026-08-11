@@ -17,6 +17,7 @@ async function getOrderByNumber(order_number, customer_email) {
             shipping_cost,
             total,
             currency,
+            payment_provider,
             payment_ref,
             paid_at,
             created_at,

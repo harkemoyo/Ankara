@@ -379,7 +379,10 @@
       "settings": {
         "title": "FEATURED PRODUCT",
         "subtitle": "Mary Humphrey Collection",
-        "product_handle": "classic-dungarees"
+        "product_handle": "classic-dungarees",
+        "button_text": "Add to Bag",
+        "button_bg_color": "#8b7d76",
+        "button_text_color": "#ffffff"
       }
     }
   }

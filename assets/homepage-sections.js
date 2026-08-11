@@ -176,6 +176,13 @@ function escapeHtml(str) {
       layout.querySelectorAll('.botm-color-swatch').forEach(s => {
         s.style.backgroundColor = s.dataset.hex;
       });
+
+      const atcBtn = layout.querySelector('.botm-atc-btn');
+      if (atcBtn) {
+        atcBtn.textContent = settings.button_text || 'Add to Bag';
+        if (settings.button_bg_color) atcBtn.style.backgroundColor = settings.button_bg_color;
+        if (settings.button_text_color) atcBtn.style.color = settings.button_text_color;
+      }
     } catch (err) {
       console.error('Failed to load featured product details:', err);
     }

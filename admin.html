@@ -4988,6 +4988,11 @@
           ${textField('ts-subtitle', 'Subtitle', s.subtitle)}
           ${textField('ts-title', 'Section Title', s.title)}
           <div class="form-group" style="grid-column:1/-1;"><label>Featured Product</label>${selectHtml}</div>
+          ${textField('ts-button_text', 'Add to Bag Button Text', s.button_text)}
+          <div class="form-group" style="grid-column:1/-1;"><div style="display:flex;gap:12px;">
+            <div style="flex:1;">${textField('ts-button_bg_color', 'Button Background', s.button_bg_color || '#8b7d76', 'color')}</div>
+            <div style="flex:1;">${textField('ts-button_text_color', 'Button Text Color', s.button_text_color || '#ffffff', 'color')}</div>
+          </div></div>
         </div>`;
       },
       fabrics(s) {
@@ -5246,7 +5251,10 @@
         return {
           subtitle: document.getElementById('ts-subtitle')?.value || '',
           title: document.getElementById('ts-title')?.value || '',
-          product_handle: document.getElementById('ts-product_handle')?.value || ''
+          product_handle: document.getElementById('ts-product_handle')?.value || '',
+          button_text: document.getElementById('ts-button_text')?.value || '',
+          button_bg_color: document.getElementById('ts-button_bg_color')?.value || '',
+          button_text_color: document.getElementById('ts-button_text_color')?.value || ''
         };
       },
       fabrics() {

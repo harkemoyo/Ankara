@@ -5,6 +5,7 @@ const express = require('express');
 const cors = require('cors');
 
 const apiRoutes = require('../../src/routes/api');
+const { getSitemap } = require('../../src/controllers/sitemapController');
 
 const app = express();
 
@@ -14,6 +15,9 @@ app.use(express.json({
     verify: (req, res, buf) => { req.rawBody = buf.toString(); }
 }));
 app.use(express.urlencoded({ extended: true }));
+
+// Sitemap
+app.get('/sitemap.xml', getSitemap);
 
 // API Routes — all requests to /api/* are handled here
 app.use('/api', apiRoutes);

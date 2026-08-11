@@ -28,6 +28,10 @@
   ],
   "routes": [
     {
+      "src": "/sitemap.xml",
+      "dest": "/assets/api/handler.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/assets/api/handler.js"
     },

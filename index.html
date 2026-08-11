@@ -2301,20 +2301,38 @@
                     <span class="botm-header-subtitle"></span>
                     <h2 class="section__heading--maintitle"></h2>
                 </div>
-                <div class="botm-layout" style="display:flex;justify-content:center;">
-                    <article class="product__card" style="max-width:400px;width:100%;">
-                        <div class="product__card--thumbnail">
-                            <a class="product__card--thumbnail__link display-block" href="/shop">
-                                <img class="product__card--thumbnail__img product__primary--img" src="" alt="" loading="lazy" decoding="async">
-                            </a>
+                <div class="botm-layout">
+                    <div class="botm-layout__image">
+                        <div class="botm-image-wrap">
+                            <img alt="" class="botm-image" id="botm-main-image" loading="lazy" decoding="async" src="" />
                         </div>
-                        <div class="product__card--content">
-                            <h3 class="product__card--title"><a href="/shop"></a></h3>
-                            <div class="product__card--price" style="margin-top:5px;">
-                                <span class="current__price"></span>
+                    </div>
+                    <div class="botm-layout__content botm-content">
+                        <span class="botm-vendor"></span>
+                        <h3 class="botm-title"></h3>
+                        <div class="botm-price"></div>
+                        <span class="botm-tax">Tax included. Shipping calculated at checkout.</span>
+                        <div class="botm-option botm-color">
+                            <div class="botm-option-label">Colour: <span id="botm-selected-color-label" class="botm-option-value"></span></div>
+                            <div class="botm-color-options"></div>
+                        </div>
+                        <div class="botm-option botm-size">
+                            <div class="botm-option-label">Size: <span id="botm-selected-size-label" class="botm-option-value"></span></div>
+                            <div class="botm-size-options"></div>
+                        </div>
+                        <div class="botm-qty">
+                            <span class="botm-qty-label">Quantity</span>
+                            <div class="botm-qty-stepper">
+                                <button class="botm-qty-btn" type="button" onclick="changeBotmQty(-1)">-</button>
+                                <input id="botm-qty-input" type="number" value="1" min="1" readonly />
+                                <button class="botm-qty-btn" type="button" onclick="changeBotmQty(1)">+</button>
                             </div>
                         </div>
-                    </article>
+                        <div class="botm-actions">
+                            <button class="botm-atc-btn" type="button" onclick="addBotmToCart(false)">Add to Bag</button>
+                            <button class="botm-bin-btn" type="button" onclick="addBotmToCart(true)">Buy It Now</button>
+                        </div>
+                    </div>
                 </div>
             </section>
             <!-- Fabric Showcase Teaser -->

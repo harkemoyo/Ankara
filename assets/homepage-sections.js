@@ -77,13 +77,7 @@ function escapeHtml(str) {
     const h = el.querySelector('.section__heading--maintitle');
     if (h && settings.title) h.textContent = settings.title;
 
-    const layout = el.querySelector('.botm-layout');
-    if (!layout) return;
-
-    if (!settings.product_handle) {
-      layout.innerHTML = '<p style="text-align:center;padding:2rem;">No featured product selected.</p>';
-      return;
-    }
+    if (!settings.product_handle) return;
 
     try {
       const res = await fetch(`/api/products/${encodeURIComponent(settings.product_handle)}`);
@@ -91,33 +85,99 @@ function escapeHtml(str) {
       const product = await res.json();
       if (!product) throw new Error('Product not found');
 
+      window._botmProduct = product; // Store globally for actions
+      const layout = el.querySelector('.botm-layout');
+      if (!layout) return;
+
       const primaryImage = (product.images && product.images.length > 0) ? product.images[0] : (settings.image || 'assets/placeholder.webp');
+      const imagesList = product.images || [primaryImage];
+      const colors = product.colors || [];
+      const sizes = product.sizes || ['S', 'M', 'L'];
       const price = parseFloat(product.price);
-      const formattedPrice = window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : `KSh ${price.toLocaleString()}`;
-      const title = product.title || settings.product_name || '';
+      const vendor = product.vendor || 'MARY HUMPHREY AFRICAN WEAR';
+
+      // Selected variables state
+      layout.dataset.selectedSize = sizes[0] || 'M';
+      layout.dataset.selectedColor = colors[0] ? colors[0].label : '';
+      layout.dataset.quantity = '1';
 
       layout.innerHTML = `
-        <div class="botm-card-wrap" style="display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;">
-          <article class="product__card" style="max-width:400px;width:100%;">
-            <div class="product__card--thumbnail">
-              <a class="product__card--thumbnail__link display-block" href="/product/${product.handle}">
-                <img class="product__card--thumbnail__img product__primary--img" src="${primaryImage}" alt="${title}" loading="lazy" decoding="async">
-              </a>
+        <!-- Left Side: Images & Thumbnails -->
+        <div class="botm-layout__image">
+            <div class="botm-image-wrap">
+                <img id="botm-main-image" alt="${product.title}" class="botm-image" src="${primaryImage}" />
             </div>
-            <div class="product__card--content">
-              <h3 class="product__card--title">
-                <a href="/product/${product.handle}">${title}</a>
-              </h3>
-              <div class="product__card--price" style="margin-top:5px;">
-                <span class="current__price">${formattedPrice}</span>
-              </div>
+            <!-- Thumbnails list -->
+            ${imagesList.length > 1 ? `
+            <div class="botm-thumbnails">
+                ${imagesList.map((img, idx) => `
+                    <div class="botm-thumb-item ${idx === 0 ? 'active' : ''}"
+                         onclick="selectBotmThumbnail(this, '${img}')">
+                        <img src="${img}" />
+                    </div>
+                `).join('')}
+            </div>` : ''}
+        </div>
+
+        <!-- Right Side: Details & Actions -->
+        <div class="botm-layout__content botm-content">
+            <span class="botm-vendor">${vendor}</span>
+            <h3 class="botm-title">${product.title}</h3>
+            <div class="botm-price">
+                ${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : `KSh ${price.toLocaleString()}`}
             </div>
-          </article>
+            <span class="botm-tax">Tax included. Shipping calculated at checkout.</span>
+
+            <!-- Color Selection -->
+            ${colors.length > 0 ? `
+            <div class="botm-option botm-color">
+                <div class="botm-option-label">Colour: <span id="botm-selected-color-label" class="botm-option-value">${colors[0].label}</span></div>
+                <div class="botm-color-options">
+                    ${colors.map((c, i) => `
+                        <span class="botm-color-swatch ${i === 0 ? 'active' : ''}"
+                              data-hex="${c.hex}"
+                              title="${c.label}"
+                              onclick="selectBotmColor(this, '${c.label.replace(/'/g, "\\'")}', '${c.image || primaryImage}')"
+                        ></span>
+                    `).join('')}
+                </div>
+            </div>` : ''}
+
+            <!-- Size Selection -->
+            <div class="botm-option botm-size">
+                <div class="botm-option-label">Size: <span id="botm-selected-size-label" class="botm-option-value">${sizes[0]}</span></div>
+                <div class="botm-size-options">
+                    ${sizes.map((sz, i) => `
+                        <button class="botm-size-btn ${i === 0 ? 'active' : ''}"
+                                onclick="selectBotmSize(this, '${sz}')"
+                        >${sz}</button>
+                    `).join('')}
+                </div>
+            </div>
+
+            <!-- Quantity Stepper -->
+            <div class="botm-qty">
+                <span class="botm-qty-label">Quantity</span>
+                <div class="botm-qty-stepper">
+                    <button class="botm-qty-btn" onclick="changeBotmQty(-1)">-</button>
+                    <input id="botm-qty-input" type="number" value="1" min="1" readonly />
+                    <button class="botm-qty-btn" onclick="changeBotmQty(1)">+</button>
+                </div>
+            </div>
+
+            <!-- Call To Actions -->
+            <div class="botm-actions">
+                <button class="botm-atc-btn" onclick="addBotmToCart(false)">Add to Bag</button>
+                <button class="botm-bin-btn" onclick="addBotmToCart(true)">Buy It Now</button>
+            </div>
         </div>
       `;
+
+      layout.querySelectorAll('.botm-color-swatch').forEach(s => {
+        s.style.backgroundColor = s.dataset.hex;
+      });
     } catch (err) {
-      console.error('Failed to load featured product:', err);
-      layout.innerHTML = '<p style="text-align:center;padding:2rem;">Unable to load featured product. <a href="/shop">Shop now</a></p>';
+      console.error('Failed to load featured product details:', err);
     }
   },
 

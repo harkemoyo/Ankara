@@ -11,34 +11,46 @@ function escapeHtml(str) {
   hero(el, settings) {
     const slides = settings.slides || [];
     const wrapper = el.querySelector('.swiper-wrapper');
-    if (!wrapper) return;
-    
-    wrapper.innerHTML = slides.map(sl => `
-      <div class="swiper-slide" style="background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.45)), url('${escapeHtml(sl.image || '')}');">
-        <div class="hero-container">
-          <div class="hero-content">
-            <span class="hero-subtitle">${escapeHtml(sl.subtitle || '')}</span>
-            <h2 class="hero-title">${escapeHtml(sl.title || '')} <span class="hero-accent">${escapeHtml(sl.accent || '')}</span></h2>
-            <p class="hero-desc">${escapeHtml(sl.desc || '')}</p>
-            <a class="hero-btn" href="${escapeHtml(sl.link || '/shop')}">
-              ${escapeHtml(sl.button || 'Shop Now')}
-              <svg fill="none" height="11" viewBox="0 0 17 12" width="16"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"></path></svg>
-            </a>
+    if (!wrapper || !slides.length) return;
+
+    function preloadImages(urls) {
+      return Promise.all(urls.map(url => new Promise(resolve => {
+        if (!url) return resolve();
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = resolve;
+        img.src = url;
+      })));
+    }
+
+    preloadImages(slides.map(sl => sl.image)).then(() => {
+      wrapper.innerHTML = slides.map(sl => `
+        <div class="swiper-slide" style="background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.45)), url('${escapeHtml(sl.image || '')}');">
+          <div class="hero-container">
+            <div class="hero-content">
+              <span class="hero-subtitle">${escapeHtml(sl.subtitle || '')}</span>
+              <h2 class="hero-title">${escapeHtml(sl.title || '')} <span class="hero-accent">${escapeHtml(sl.accent || '')}</span></h2>
+              <p class="hero-desc">${escapeHtml(sl.desc || '')}</p>
+              <a class="hero-btn" href="${escapeHtml(sl.link || '/shop')}">
+                ${escapeHtml(sl.button || 'Shop Now')}
+                <svg fill="none" height="11" viewBox="0 0 17 12" width="16"><path d="M15.9732 5.19375L11.1893 0.460018C10.9 0.15 10.5 0.15 10.2 0.465L13.65 4.986L0.936 5.051C0.734 5.066 0.546 5.151 0.41 5.29C0.273 5.43 0.197 5.61 0.198 5.799C0.199 5.987 0.276 6.169 0.415 6.306C0.553 6.443 0.742 6.526 0.944 6.539L13.659 6.474L10.187 9.982C9.971 10.313 9.973 10.702 10.192 11.033C10.359 11.2 10.58 11.246 10.718 11.246C10.817 11.246 11.014 11.226 11.104 11.188C11.194 11.151 11.275 11.096 11.241 11.027L15.979 6.255C16.121 6.109 16.199 5.92 16.198 5.723C16.197 5.527 16.117 5.338 15.973 5.194Z" fill="currentColor"></path></svg>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-    `).join('');
+      `).join('');
 
-    if (window.heroSwiper && typeof window.heroSwiper.destroy === 'function') {
-      try { window.heroSwiper.destroy(true, true); } catch(e){}
-    }
-    if (typeof Swiper !== 'undefined') {
-      window.heroSwiper = new Swiper('.hero-swiper', {
-        loop: true,
-        autoplay: { delay: 5000, disableOnInteraction: false },
-        pagination: { el: '.hero-pagination', clickable: true }
-      });
-    }
+      if (window.heroSwiper && typeof window.heroSwiper.destroy === 'function') {
+        try { window.heroSwiper.destroy(true, true); } catch(e){}
+      }
+      if (typeof Swiper !== 'undefined') {
+        window.heroSwiper = new Swiper('.hero-swiper', {
+          loop: true,
+          autoplay: { delay: 5000, disableOnInteraction: false },
+          pagination: { el: '.hero-pagination', clickable: true }
+        });
+      }
+    });
   },
 
   categories(el, settings) {

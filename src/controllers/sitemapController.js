@@ -74,7 +74,7 @@ async function getSitemap(req, res) {
         for (const product of products) {
             if (product.handle) {
                 entries.push(urlEntry({
-                    loc: `${BASE_URL}/products/${product.handle}`,
+                    loc: `${BASE_URL}/product/${product.handle}`,
                     changefreq: 'weekly',
                     priority: '0.8'
                 }));

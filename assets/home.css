@@ -212,3 +212,62 @@
   background: #fff !important;
   color: #800020 !important;
 }
+
+/* Hero loading skeleton placeholders */
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  width: 100%;
+}
+
+.skeleton-line {
+  display: block;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #e6dfd6 0%, #f7f3ed 50%, #e6dfd6 100%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite ease-in-out;
+}
+
+.skeleton-subtitle {
+  width: 180px;
+  height: 1.1rem;
+}
+
+.skeleton-title {
+  width: 90%;
+  height: clamp(3.2rem, 5.5vw, 5rem);
+  border-radius: 6px;
+}
+
+.skeleton-title-short {
+  width: 55%;
+  height: clamp(3.2rem, 5.5vw, 5rem);
+  border-radius: 6px;
+}
+
+.skeleton-desc-long {
+  width: 75%;
+  height: 1.05rem;
+  margin-top: 0.4rem;
+}
+
+.skeleton-desc-short {
+  width: 55%;
+  height: 1.05rem;
+}
+
+.skeleton-button {
+  width: 170px;
+  height: 48px;
+  margin-top: 0.6rem;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #d8d0c6 0%, #f0ebe4 50%, #d8d0c6 100%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite ease-in-out;
+}

@@ -18,8 +18,17 @@ function injectJsonLd(data) {
 }
 
 function setCanonical() {
-    const path = window.location.pathname;
-    const cleanUrl = `${BASE_URL}${path}${window.location.search}`;
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    const isProductPage = pathParts[0] === 'product' || pathParts[0] === 'product.html' || new URLSearchParams(window.location.search).get('handle');
+
+    let cleanUrl;
+    if (isProductPage) {
+        const handle = (pathParts[0] === 'product' && pathParts[1]) ? pathParts[1] : new URLSearchParams(window.location.search).get('handle');
+        cleanUrl = handle ? `${BASE_URL}/product/${handle}` : `${BASE_URL}${window.location.pathname}`;
+    } else {
+        cleanUrl = `${BASE_URL}${window.location.pathname}`;
+    }
+
     const existing = document.querySelector('link[rel="canonical"]');
     if (existing) {
         existing.href = cleanUrl;

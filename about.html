@@ -444,7 +444,15 @@
                 <div class="outlet-slider-wrap">
                     <div class="swiper about-hero-swiper outlet-swiper">
                         <div class="swiper-wrapper" id="about-hero-swiper-wrapper">
-                            <!-- Slides loaded dynamically -->
+                            <div class="swiper-slide outlet-slide">
+                                <div class="skeleton-img"></div>
+                            </div>
+                            <div class="swiper-slide outlet-slide">
+                                <div class="skeleton-img"></div>
+                            </div>
+                            <div class="swiper-slide outlet-slide">
+                                <div class="skeleton-img"></div>
+                            </div>
                         </div>
                         <div class="swiper-pagination about-hero-pagination outlet-pagination"></div>
                         <div class="swiper-button-prev about-hero-prev outlet-prev"></div>
@@ -605,7 +613,7 @@
                 </div>
             </section>
             <!-- Visit Our Outlet -->
-            <section class="home-outlet section--padding" id="about-outlet-section" style="display:none;">
+            <section class="home-outlet section--padding" id="about-outlet-section">
                 <div class="outlet__wrapper">
                     <div class="outlet-header">
                         <span class="outlet-subtitle"></span>
@@ -615,7 +623,17 @@
                     </div>
                     <div class="outlet-slider-wrap">
                         <div class="swiper about-outlet-swiper outlet-swiper">
-                            <div class="swiper-wrapper about-outlet-slides"></div>
+                            <div class="swiper-wrapper about-outlet-slides">
+                                <div class="swiper-slide outlet-slide">
+                                    <div class="skeleton-img"></div>
+                                </div>
+                                <div class="swiper-slide outlet-slide">
+                                    <div class="skeleton-img"></div>
+                                </div>
+                                <div class="swiper-slide outlet-slide">
+                                    <div class="skeleton-img"></div>
+                                </div>
+                            </div>
                             <div class="swiper-pagination about-outlet-pagination outlet-pagination"></div>
                             <div class="swiper-button-prev about-outlet-prev outlet-prev"></div>
                             <div class="swiper-button-next about-outlet-next outlet-next"></div>
@@ -642,12 +660,14 @@
                     const res = await fetch('/api/homepage-sections');
                     if (!res.ok) return;
                     const sections = await res.json();
-                    const outletSection = sections.find(s => s.section_id === 'outlet');
-                    if (!outletSection || !outletSection.settings) return;
-                    const s = outletSection.settings;
-
                     const el = document.getElementById('about-outlet-section');
                     if (!el) return;
+                    const outletSection = sections.find(s => s.section_id === 'outlet');
+                    if (!outletSection || !outletSection.settings) {
+                        el.style.display = 'none';
+                        return;
+                    }
+                    const s = outletSection.settings;
 
                     const subtitle = el.querySelector('.outlet-subtitle');
                     if (subtitle && s.subtitle) subtitle.textContent = s.subtitle;
@@ -728,6 +748,8 @@
                     el.style.display = '';
                 } catch (err) {
                     console.warn('Failed to load outlet section', err);
+                    const el = document.getElementById('about-outlet-section');
+                    if (el) el.style.display = 'none';
                 }
             }
             loadOutletSection();

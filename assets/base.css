@@ -8690,6 +8690,28 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
+/* ══ Quickview Sidebar ══ */
+.offCanvas__quickview {
+  position: fixed;
+  top: 0;
+  right: -42rem;
+  width: 40rem;
+  max-width: 92vw;
+  height: 100%;
+  background: var(--bg-offwhite-color);
+  z-index: 9999;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.offCanvas__quickview.open {
+  right: 0;
+}
+
 .quickview__header {
   position: absolute;
   padding: 0;

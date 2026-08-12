@@ -654,15 +654,17 @@
         function initAboutPage() {
             let currentContent = {};
 
-            // Load outlet section from homepage_sections
+            // Load outlet section from theme
             async function loadOutletSection() {
                 try {
-                    const res = await fetch('/api/homepage-sections');
+                    const res = await fetch('/api/theme');
                     if (!res.ok) return;
-                    const sections = await res.json();
+                    const json = await res.json();
                     const el = document.getElementById('about-outlet-section');
                     if (!el) return;
-                    const outletSection = sections.find(s => s.section_id === 'outlet');
+                    const theme = json.theme || {};
+                    const sections = theme.sections || {};
+                    const outletSection = sections.outlet;
                     if (!outletSection || !outletSection.settings) {
                         el.style.display = 'none';
                         return;

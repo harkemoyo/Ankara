@@ -3,7 +3,7 @@
 function escapeHtml(str) {
   if (str == null) return '';
   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}const updaters = {
+} const updaters = {
   announcement(el, settings) {
     // Handled dynamically by assets/announcement.js
   },
@@ -41,7 +41,7 @@ function escapeHtml(str) {
       `).join('');
 
       if (window.heroSwiper && typeof window.heroSwiper.destroy === 'function') {
-        try { window.heroSwiper.destroy(true, true); } catch(e){}
+        try { window.heroSwiper.destroy(true, true); } catch (e) { }
       }
       if (typeof Swiper !== 'undefined') {
         window.heroSwiper = new Swiper('.hero-swiper', {
@@ -213,7 +213,7 @@ function escapeHtml(str) {
     if (container) {
       container.innerHTML = images.map((imgUrl, i) => `
         <div style="aspect-ratio: 1/1; overflow: hidden; border-radius: 4px;">
-          <img src="${escapeHtml(imgUrl)}" alt="Fabric ${i+1}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" loading="lazy">
+          <img src="${escapeHtml(imgUrl)}" alt="Fabric ${i + 1}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" loading="lazy">
         </div>
       `).join('');
     }
@@ -376,16 +376,40 @@ function escapeHtml(str) {
     if (wrapper && slides.length) {
       wrapper.innerHTML = slides.map(sl => {
         if (sl.type === 'video') {
-          return `<div class="swiper-slide outlet-slide">
-            <video class="outlet-video" src="${escapeHtml(sl.url)}" muted playsinline loop preload="metadata"></video>
+          return `<div class="swiper-slide outlet-slide outlet-slide-video">
+            <video class="outlet-video" src="${escapeHtml(sl.url)}" playsinline loop preload="metadata"></video>
+            <div class="outlet-video-play-btn"></div>
           </div>`;
         }
         return `<div class="swiper-slide outlet-slide">
           <img alt="" loading="lazy" decoding="async" src="${escapeHtml(sl.url)}" />
         </div>`;
       }).join('');
+
+      wrapper.querySelectorAll('.outlet-slide-video').forEach(slide => {
+        const video = slide.querySelector('video');
+        const btn = slide.querySelector('.outlet-video-play-btn');
+        if (!video || !btn) return;
+        const toggle = (e) => {
+          e.stopPropagation();
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        };
+        btn.addEventListener('click', toggle);
+        video.addEventListener('play', () => {
+          slide.classList.add('is-playing');
+          if (window._outletSwiper && window._outletSwiper.autoplay) window._outletSwiper.autoplay.stop();
+        });
+        video.addEventListener('pause', () => {
+          slide.classList.remove('is-playing');
+          if (window._outletSwiper && window._outletSwiper.autoplay) window._outletSwiper.autoplay.start();
+        });
+      });
       if (window._outletSwiper && typeof window._outletSwiper.destroy === 'function') {
-        try { window._outletSwiper.destroy(true, true); } catch(e){}
+        try { window._outletSwiper.destroy(true, true); } catch (e) { }
       }
       if (typeof Swiper !== 'undefined') {
         window._outletSwiper = new Swiper('.outlet-swiper', {
@@ -400,13 +424,6 @@ function escapeHtml(str) {
             992: { slidesPerView: 3, spaceBetween: 24 }
           },
           on: {
-            slideChangeTransitionStart: function () {
-              const activeSlide = this.slides[this.activeIndex];
-              if (activeSlide) {
-                const video = activeSlide.querySelector('video');
-                if (video) video.play();
-              }
-            },
             slideChangeTransitionEnd: function () {
               this.slides.forEach((slide, i) => {
                 if (i !== this.activeIndex) {
@@ -417,8 +434,6 @@ function escapeHtml(str) {
             }
           }
         });
-        const firstVideo = wrapper.querySelector('.swiper-slide-active video');
-        if (firstVideo) firstVideo.play();
       }
     }
   },
@@ -475,7 +490,7 @@ if (document.readyState === 'loading') {
 // =============================================
 // STYLE OF THE MONTH (Featured Product) Handlers
 // =============================================
-window.selectBotmThumbnail = function(thumbEl, imgUrl) {
+window.selectBotmThumbnail = function (thumbEl, imgUrl) {
   const mainImg = document.getElementById('botm-main-image');
   if (mainImg) mainImg.src = imgUrl;
 
@@ -488,7 +503,7 @@ window.selectBotmThumbnail = function(thumbEl, imgUrl) {
   thumbEl.classList.add('active');
 };
 
-window.selectBotmColor = function(swatchEl, colorLabel, imgUrl) {
+window.selectBotmColor = function (swatchEl, colorLabel, imgUrl) {
   const labelEl = document.getElementById('botm-selected-color-label');
   if (labelEl) labelEl.textContent = colorLabel;
 
@@ -507,7 +522,7 @@ window.selectBotmColor = function(swatchEl, colorLabel, imgUrl) {
   if (layout) layout.dataset.selectedColor = colorLabel;
 };
 
-window.selectBotmSize = function(btnEl, sizeVal) {
+window.selectBotmSize = function (btnEl, sizeVal) {
   const labelEl = document.getElementById('botm-selected-size-label');
   if (labelEl) labelEl.textContent = sizeVal;
 
@@ -523,7 +538,7 @@ window.selectBotmSize = function(btnEl, sizeVal) {
   if (layout) layout.dataset.selectedSize = sizeVal;
 };
 
-window.changeBotmQty = function(delta) {
+window.changeBotmQty = function (delta) {
   const input = document.getElementById('botm-qty-input');
   if (input) {
     let current = parseInt(input.value) || 1;
@@ -536,7 +551,7 @@ window.changeBotmQty = function(delta) {
   }
 };
 
-window.addBotmToCart = function(isBuyNow) {
+window.addBotmToCart = function (isBuyNow) {
   const product = window._botmProduct;
   if (!product) return;
 

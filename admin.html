@@ -4434,9 +4434,11 @@
     window.saveAboutPage = async function () {
       try {
         const get = id => document.getElementById(id)?.value || '';
-        const heroSlides = Array.from(document.querySelectorAll('#about-hero-slides-list .js-about-hero-slide-image')).map(input => ({
-          image: input.value.trim()
-        })).filter(sl => sl.image);
+        const heroSlides = Array.from(document.querySelectorAll('#about-hero-slides-list .js-about-hero-slide')).map(row => {
+          const type = row.querySelector('.js-about-hero-slide-type')?.value || 'image';
+          const url = row.querySelector('.js-about-hero-slide-image')?.value.trim() || '';
+          return { type, image: url };
+        }).filter(sl => sl.image);
 
         const content = {
           heroSubtitle: get('about-hero-subtitle'),
@@ -4672,7 +4674,7 @@
 
     const SECTION_LABELS = {
       announcement: 'Announcement Bar', hero: 'Hero Slideshow', categories: 'Category Grid',
-      trending: 'Trending Products',      style_of_month: 'Featured Product', fabrics: 'Fabric Showcase',
+      trending: 'Trending Products', style_of_month: 'Featured Product', fabrics: 'Fabric Showcase',
       heritage: 'Heritage & Culture', sale_promo: 'Sale Promo Strip', shop_by_style: 'Shop by Style',
       outlet: 'Our Outlet', statement: 'Statement Banner', testimonials: 'Testimonials', services: 'Services Strip', footer: 'Footer',
       buttons: 'Buttons & Links', custom_css: 'Custom CSS & Branding Styles'
@@ -4853,27 +4855,36 @@
 
     function aboutHeroSlideBlock(i, sl = {}) {
       const id = 'about-hero-slide-' + i;
-      const hasMedia = sl.image ? true : false;
+      const isVideo = sl.type === 'video';
+      const hasMedia = (sl.image || sl.url) ? true : false;
+      const mediaUrl = sl.image || sl.url || '';
       return `<div class="js-about-hero-slide" style="border:1px solid #eee;border-radius:8px;padding:12px;margin-bottom:10px;background:#fff;max-width:480px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
           <strong style="font-size:1.1rem;">Slide ${i + 1}</strong>
           <button type="button" onclick="this.closest('.js-about-hero-slide').remove()" style="padding:4px 10px;font-size:0.8rem;background:#fff;border:1px solid #c0392b;color:#c0392b;border-radius:4px;cursor:pointer;">Remove</button>
         </div>
-        <div ondrop="event.preventDefault();var f=event.dataTransfer.files[0];if(f)uploadSectionImage(f,'${id}-image','${id}-status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:10px;background:#fafafa;text-align:center;margin-bottom:8px;">
+        <div style="margin-bottom:8px;">
+          <label style="font-size:1.2rem;font-weight:600;display:block;margin-bottom:4px;">Type</label>
+          <select class="js-about-hero-slide-type" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+            <option value="image" ${!isVideo ? 'selected' : ''}>Image</option>
+            <option value="video" ${isVideo ? 'selected' : ''}>Video</option>
+          </select>
+        </div>
+        <div ondrop="event.preventDefault();var f=event.dataTransfer.files[0];if(f){if(f.type.startsWith('video/'))this.closest('.js-about-hero-slide').querySelector('.js-about-hero-slide-type').value='video';else this.closest('.js-about-hero-slide').querySelector('.js-about-hero-slide-type').value='image';uploadSectionImage(f,'${id}-image','${id}-status')}" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:10px;background:#fafafa;text-align:center;margin-bottom:8px;">
           <label class="btn btn-primary" style="cursor:pointer;margin:0;font-size:1.2rem;">
-            <input type="file" accept="image/*" onchange="if(this.files[0])uploadSectionImage(this.files[0],'${id}-image','${id}-status');this.value=''" style="display:none;" />
-            Upload Image
+            <input type="file" accept="image/*,video/*" onchange="if(this.files[0]){if(this.files[0].type.startsWith('video/'))this.closest('.js-about-hero-slide').querySelector('.js-about-hero-slide-type').value='video';else this.closest('.js-about-hero-slide').querySelector('.js-about-hero-slide-type').value='image';uploadSectionImage(this.files[0],'${id}-image','${id}-status')}this.value=''" style="display:none;" />
+            Upload
           </label>
           <span style="font-size:1.1rem;color:var(--muted);margin-left:8px;">or drag here</span>
           <span id="${id}-status" style="display:block;font-size:1.1rem;color:var(--muted);margin-top:4px;"></span>
         </div>
         <div style="display:flex;gap:10px;align-items:flex-start;">
           <div style="width:120px;aspect-ratio:9/6;border:1px solid #eee;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;">
-            <img id="${id}-image-preview" src="${escapeHtml(sl.image || '')}" style="width:100%;height:100%;object-fit:cover;display:${hasMedia ? 'block' : 'none'};" onload="this.style.display='block';this.nextElementSibling.style.display='none';" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <span id="${id}-image-placeholder" style="display:${hasMedia ? 'none' : 'flex'};color:#aaa;font-size:1rem;text-align:center;padding:4px;">No image</span>
+            <img id="${id}-image-preview" src="${escapeHtml(mediaUrl)}" style="width:100%;height:100%;object-fit:cover;display:${hasMedia && !isVideo ? 'block' : 'none'};" onload="this.style.display='block';this.nextElementSibling.style.display='none';" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+            <span id="${id}-image-placeholder" style="display:${hasMedia && !isVideo ? 'none' : 'flex'};color:#aaa;font-size:1rem;text-align:center;padding:4px;">${isVideo ? '▶ Video' : 'No file'}</span>
           </div>
           <div style="flex:1;min-width:0;">
-            <input id="${id}-image" class="js-about-hero-slide-image" type="text" placeholder="https://... or assets/file.webp" value="${escapeHtml(sl.image || '')}" oninput="var p=document.getElementById('${id}-image-preview'),ph=document.getElementById('${id}-image-placeholder');if(p){p.src=this.value;p.style.display='block';}if(ph)ph.style.display='none';" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;" />
+            <input id="${id}-image" class="js-about-hero-slide-image" type="text" placeholder="https://... or assets/file.webp" value="${escapeHtml(mediaUrl)}" oninput="var p=document.getElementById('${id}-image-preview'),ph=document.getElementById('${id}-image-placeholder');if(p){p.src=this.value;p.style.display='block';}if(ph)ph.style.display='none';" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;" />
           </div>
         </div>
       </div>`;

@@ -23,6 +23,11 @@ a:focus {
   --font-body-size: 1.6rem;
   --font-body-weight: 400;
   --headings-weight: 700;
+  --frank-ruhl-fonts: 'Frank Ruhl Libre', serif;
+  --karma-fonts: 'Karma', serif;
+  --body-font-size: 1.5rem;
+  --body-font-weight: 400;
+  --body-line-height: 2.6rem;
 
   /* Typography Scale Tokens */
   --text-xs: 1.2rem;
@@ -34,20 +39,20 @@ a:focus {
   --text-3xl: 3.6rem;
   --text-display: clamp(3rem, 4vw, 5rem);
 
-  /* ── Colors ── */
-  --primary-color: #800020;
-  --secondary-color: #bcadae;
-  --hover-color: #5c001a;
-  --yellow-color: #D4A843;
-  --foreground-color: #2a2624;
-  --foreground-sub-color: #7a726e;
-  --body-text-color: #2a2624;
+  /* ── Colors (final/live values — matches what the site currently shows) ── */
+  --primary-color: #3C3836;
+  --secondary-color: #C97F5F;
+  --hover-color: #ED1D24;
+  --yellow-color: #FF9800;
+  --foreground-color: #800020;
+  --foreground-sub-color: #98928E;
+  --body-text-color: #800020;
   --text-white-color: #fff;
-  --body-background-color: #f5f1ec;
-  --bg-offwhite-color: #faf8f5;
-  --bg-gray-color: #f5f1ec;
+  --body-background-color: #fff;
+  --bg-offwhite-color: #F5F7FF;
+  --bg-gray-color: #F5F8FF;
   --bg-black-color: #800020;
-  --bg-light-dark-color: #800020;
+  --bg-light-dark-color: #1a1818;
   --burgundy-color: #800020;
   --border-color: #DAD2CE;
   --link-color: #2a2624;
@@ -82,12 +87,13 @@ a:focus {
   --shadow-md: 0 5px 20px rgba(0, 0, 0, 0.10);
   --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
 
-  /* ── Transitions ── */
+  /* ── Transitions (final/live value) ── */
   --transition-fast: all 0.2s ease;
-  --transition: all 0.3s ease;
+  --transition: all 0.3s ease 0s;
   --transition-slow: all 0.5s ease;
 
   --page-width: 1200px;
+  --container-fluid-offset: 12rem;
 }
 
 /* ==========================================================================
@@ -493,29 +499,6 @@ a:focus {
 /*
     1. Base CSS
 */
-:root {
-  --primary-color: #3C3836;
-  --secondary-color: #C97F5F;
-  --hover-color: #ED1D24;
-  --yellow-color: #FF9800;
-  --foreground-color: #800020;
-  --foreground-sub-color: #98928E;
-  --body-text-color: #800020;
-  --text-white-color: #fff;
-  --body-background-color: #fff;
-  --bg-offwhite-color: #F5F7FF;
-  --bg-gray-color: #F5F8FF;
-  --bg-black-color: #800020;
-  --bg-light-dark-color: #1a1818;
-  --frank-ruhl-fonts: 'Frank Ruhl Libre', serif;
-  --karma-fonts: 'Karma', serif;
-  --body-font-size: 1.5rem;
-  --body-font-weight: 400;
-  --body-line-height: 2.6rem;
-  --headings-weight: 700;
-  --transition: all 0.3s ease 0s;
-  --container-fluid-offset: 12rem;
-}
 
 /* Common Style */
 *,
@@ -875,9 +858,6 @@ hr {
 }
 
 /* ── Universal Shopify 1200px Page & Header/Footer Alignment Rule ── */
-:root {
-  --page-width: 1200px;
-}
 
 @media only screen and (min-width: 1200px) {
 

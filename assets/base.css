@@ -41,14 +41,14 @@ a:focus {
 
   /* ── Colors (final/live values — matches what the site currently shows) ── */
   --primary-color: #3C3836;
-  --secondary-color: #C97F5F;
+  --secondary-color: #bcadae;
   --hover-color: #ED1D24;
   --yellow-color: #FF9800;
   --foreground-color: #800020;
   --foreground-sub-color: #98928E;
   --body-text-color: #800020;
   --text-white-color: #fff;
-  --body-background-color: #fff;
+  --body-background-color: #f5f1ec;
   --bg-offwhite-color: #F5F7FF;
   --bg-gray-color: #F5F8FF;
   --bg-black-color: #800020;

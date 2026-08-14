@@ -1112,6 +1112,7 @@ const populateCollectionsMenu = async function () {
   if (!Array.isArray(collections) || collections.length === 0) return;
 
   submenus.forEach((submenu) => {
+    if (submenu.classList.contains("mega-menu")) return;
     const isOffcanvas = submenu.classList.contains("offcanvas__sub_menu");
     const liClass = isOffcanvas ? "offcanvas__sub_menu_li" : "header__sub--menu__items";
     const aClass = isOffcanvas ? "offcanvas__sub_menu_item" : "header__sub--menu__link";

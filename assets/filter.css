@@ -6451,19 +6451,6 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.footer__widget--menu__text {
-  line-height: 2.6rem;
-  font-size: 1.5rem;
-  color: var(--primary-color);
-}
-
-@media only screen and (min-width: 768px) {
-  .footer__widget--menu__text {
-    line-height: 2.8rem;
-    font-size: 1.6rem;
-  }
-}
-
 .footer__widget--info {
   margin-top: 1.7rem;
 }

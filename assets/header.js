@@ -155,9 +155,8 @@
 
     window.renderHeader = function (containerEl, options) {
         if (!containerEl) return;
-
         const active = getActiveRoute();
-        const transparent = options?.transparent ?? (containerEl.dataset.transparent === 'true' || isHomePage());
+        const transparent = options?.transparent ?? (containerEl.dataset.transparent === 'true');
         const logoImg = options?.logo || 'assets/IMG-20260622-WA0082.webp';
         const currentCurrency = (window.AnkaraCurrency && window.AnkaraCurrency.current) ? window.AnkaraCurrency.current : 'KES';
         const collections = getActiveCollections();
@@ -483,15 +482,20 @@
         const mainHeader = container.querySelector('.header__sticky');
         if (!mainHeader) return;
 
-        window.addEventListener('scroll', function () {
+        function updateScroll() {
             if (window.scrollY > 80) {
                 mainHeader.classList.add('sticky');
                 document.body.classList.add('header--scrolled');
+                container.classList.add('header--scrolled');
             } else {
                 mainHeader.classList.remove('sticky');
                 document.body.classList.remove('header--scrolled');
+                container.classList.remove('header--scrolled');
             }
-        });
+        }
+
+        window.addEventListener('scroll', updateScroll, { passive: true });
+        updateScroll();
     }
 
     async function syncCollectionsWithBackend(container) {

@@ -3068,7 +3068,7 @@ body.overlay__active::before,
   display: block;
   padding: 15px 20px;
   text-transform: uppercase;
-  color: var(--foreground-color);
+  color: var(--primary-color);
 }
 
 .offcanvas__menu_item:hover {
@@ -3144,9 +3144,31 @@ body.overlay__active::before,
   padding: 0 1.5rem;
 }
 
+.offcanvas__account--signup__btn,
 .offcanvas__account--items__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  padding: 0.8rem 0;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.offcanvas__account--signup__btn svg,
+.offcanvas__account--items__btn svg {
+  width: 18px;
+  height: 18px;
+  max-width: 18px;
+  max-height: 18px;
+  flex-shrink: 0;
+}
+
+.offcanvas__account--signup__btn:hover,
+.offcanvas__account--items__btn:hover {
   color: var(--secondary-color);
-  gap: 0.5rem;
 }
 
 /*
@@ -3224,7 +3246,7 @@ body.overlay__active::before,
   width: 3.4rem;
   height: 3.4rem;
   text-align: center;
-  background: var(--primary-color, #800020) !important;
+  background: var(--bg-black-color);
   border-radius: 50%;
   color: #ffffff !important;
   display: -webkit-box;

@@ -204,9 +204,9 @@
                 </div>
 
                 <!-- Desktop Navigation -->
-                <div class="header__menu d-none d-lg-block">
+                <div class="header__menu">
                     <nav class="header__menu--navigation">
-                        <ul class="header__menu--wrapper d-flex">
+                        <ul class="header__menu--wrapper">
                             <li class="header__menu--items ${active === 'home' ? 'active-page' : ''}">
                                 <a class="header__menu--link ${active === 'home' ? 'active' : ''}" href="/">Home</a>
                             </li>
@@ -236,7 +236,7 @@
 
                 <!-- Header Account / Icons -->
                 <div class="header__account">
-                    <ul class="header__account--wrapper d-flex align-items-center">
+                    <ul class="header__account--wrapper">
                         <!-- Search -->
                         <li class="header__account--items header__account--search__items">
                             <a class="header__account--btn search__open--btn" data-offcanvas="" href="javascript:void(0)" aria-label="Open search">
@@ -286,6 +286,7 @@
                         </li>
                         <li class="offcanvas__menu_li ${active === 'collections' ? 'active' : ''}">
                             <a class="offcanvas__menu_item ${active === 'collections' ? 'active' : ''}" href="/shop">Collections</a>
+                            <button type="button" class="offcanvas__sub_menu_toggle" aria-label="Toggle Submenu"></button>
                             <ul class="offcanvas__sub_menu">
                                 ${mobileSubMenuHtml}
                             </ul>
@@ -303,10 +304,13 @@
                             <a class="offcanvas__menu_item ${active === 'contact' ? 'active' : ''}" href="/contact">Contact</a>
                         </li>
                     </ul>
-                    <div class="offcanvas__account--items text-center">
-                        <a class="offcanvas__account--items__btn" href="/account">
-                            ${ICONS.offcanvasAccount}
-                            <span>My Account</span>
+                    <div class="offcanvas__account--items">
+                        <a class="offcanvas__account--signup__btn" href="/account">
+                            <svg fill="none" height="16" viewBox="0 0 17 17" width="16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16 16V14.3333C16 12.4924 14.4 11 12.25 11H4.75C2.6 11 1 12.4924 1 14.3333V16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M8.5 7.66667C10.5711 7.66667 12.25 6.17428 12.25 4.33333C12.25 2.49238 10.5711 1 8.5 1C6.42893 1 4.75 2.49238 4.75 4.33333C4.75 6.17428 6.42893 7.66667 8.5 7.66667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                            Sign In / Register
                         </a>
                     </div>
                 </nav>
@@ -431,6 +435,7 @@
         const offcanvasHeader = container.querySelector('.offcanvas__header');
         const minicart = container.querySelector('.offCanvas__minicart');
         const searchBox = container.querySelector('.predictive__search--box');
+        const body = document.body;
 
         offcanvasBtns.forEach(btn => {
             btn.addEventListener('click', function (e) {
@@ -439,8 +444,9 @@
                 // Hamburger / offcanvas menu
                 if (btn.closest('.offcanvas__header--menu__open') || btn.closest('.offcanvas__menu')) {
                     if (offcanvasHeader) {
-                        offcanvasHeader.classList.toggle('open');
-                        offcanvasHeader.classList.toggle('active');
+                        const isOpen = offcanvasHeader.classList.toggle('open');
+                        offcanvasHeader.classList.toggle('active', isOpen);
+                        body.classList.toggle('mobile_menu_open', isOpen);
                     }
                 }
 
@@ -466,6 +472,7 @@
                     btn.classList.contains('predictive__search--close__btn')) {
                     if (offcanvasHeader) {
                         offcanvasHeader.classList.remove('open', 'active');
+                        body.classList.remove('mobile_menu_open');
                     }
                     if (minicart) {
                         minicart.classList.remove('open', 'active');
@@ -475,6 +482,68 @@
                     }
                 }
             });
+        });
+
+        // Submenu accordion toggle for mobile menu
+        const menuWrapper = container.querySelector('.offcanvas__menu_ul');
+        if (menuWrapper) {
+            menuWrapper.addEventListener('click', function (e) {
+                const toggleBtn = e.target.closest('.offcanvas__sub_menu_toggle');
+                const itemLink = e.target.closest('.offcanvas__menu_item');
+
+                let targetToggle = toggleBtn;
+                if (!targetToggle && itemLink) {
+                    const siblingSub = itemLink.parentElement ? itemLink.parentElement.querySelector('.offcanvas__sub_menu') : null;
+                    if (siblingSub) {
+                        e.preventDefault();
+                        targetToggle = itemLink.parentElement.querySelector('.offcanvas__sub_menu_toggle');
+                    }
+                }
+
+                if (targetToggle) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const parent = targetToggle.parentElement;
+                    const subMenu = parent.querySelector('.offcanvas__sub_menu');
+                    const isActive = parent.classList.contains('active');
+
+                    if (isActive) {
+                        parent.classList.remove('active');
+                        targetToggle.classList.remove('active');
+                        if (subMenu) {
+                            subMenu.style.display = 'none';
+                        }
+                    } else {
+                        // Close any open sibling submenus
+                        const siblings = Array.from(parent.parentElement.children).filter(el => el !== parent);
+                        siblings.forEach(sib => {
+                            sib.classList.remove('active');
+                            const sibToggle = sib.querySelector('.offcanvas__sub_menu_toggle');
+                            if (sibToggle) sibToggle.classList.remove('active');
+                            const sibSub = sib.querySelector('.offcanvas__sub_menu');
+                            if (sibSub) sibSub.style.display = 'none';
+                        });
+
+                        parent.classList.add('active');
+                        targetToggle.classList.add('active');
+                        if (subMenu) {
+                            subMenu.style.display = 'block';
+                        }
+                    }
+                }
+            });
+        }
+
+        // Close offcanvas when clicking outside
+        document.addEventListener('click', function (e) {
+            if (offcanvasHeader && offcanvasHeader.classList.contains('open')) {
+                if (!e.target.closest('.offcanvas__header') &&
+                    !e.target.closest('.offcanvas__header--menu__open') &&
+                    !e.target.closest('.offcanvas__header--menu__open--btn')) {
+                    offcanvasHeader.classList.remove('open', 'active');
+                    body.classList.remove('mobile_menu_open');
+                }
+            }
         });
     }
 

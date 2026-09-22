@@ -20,7 +20,7 @@ class ProductService {
                 .from('products')
                 .select('id,title,handle,price,compare_at_price,images,order_method', { count: 'exact' })
                 .eq('product_type', filters.product_type)
-                .order('id', { ascending: false })
+                .order('title', { ascending: true })
                 .range(start, end);
             if (error) throw new Error(error.message);
             return {
@@ -142,6 +142,9 @@ class ProductService {
             if (filters.sort === 'price_desc') filteredProducts.sort((a, b) => b.price - a.price);
             // newness could rely on id or created_at
             if (filters.sort === 'newest') filteredProducts.sort((a, b) => b.id - a.id);
+        } else {
+            // Default sort: alphabetical by title
+            filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
         }
 
         // Facet computation

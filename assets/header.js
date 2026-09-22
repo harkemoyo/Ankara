@@ -24,6 +24,7 @@
         const path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
         return path === '/' || path === '/index.html';
     }
+    
 
     const DEFAULT_COLLECTIONS = [
         { handle: 'all', title: 'All Products' },

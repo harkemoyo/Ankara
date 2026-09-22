@@ -136,12 +136,15 @@ async function loadCollectionsData() {
 
     if (collections.length === 0) return;
 
+    // Sort collections alphabetically
+    collections.sort((a, b) => a.title.localeCompare(b.title));
+
     // 1. Populate top horizontal tabs
     const tabsContainer = document.getElementById('collection-tabs');
     if (tabsContainer) {
         tabsContainer.innerHTML = collections.map((c, i) => `
-            <button 
-                class="collection-tab ${filterState.collection === c.handle ? 'active' : ''}" 
+            <button
+                class="collection-tab ${filterState.collection === c.handle ? 'active' : ''}"
                 data-collection="${c.handle}"
                 onclick="filterByCollection(this, '${c.handle}')"
                 style="border:1px solid #ddd;background:${filterState.collection === c.handle ? '#1a1a1a' : '#fff'};color:${filterState.collection === c.handle ? '#fff' : '#333'};cursor:pointer;border-radius:2px;font-size:1.3rem;margin-right:8px;margin-bottom:8px;transition:all 0.2s;"
@@ -154,7 +157,7 @@ async function loadCollectionsData() {
     if (sidebarContainer) {
         sidebarContainer.innerHTML = collections.map(c => `
             <li class="widget__categories--menu__list" style="margin-bottom:1rem;">
-                <a href="javascript:void(0)" 
+                <a href="javascript:void(0)"
                    onclick="filterByCollectionSidebar(this, '${c.handle}')"
                    style="font-size:1.4rem; color:${filterState.collection === c.handle ? '#1a1a1a' : '#555'}; font-weight:${filterState.collection === c.handle ? '600' : '400'}; text-decoration:none;"
                 >

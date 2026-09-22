@@ -53,7 +53,10 @@ export default class CollectionFilter {
             if (res.ok) {
                 const data = await res.json();
                 const collections = data.collections || [];
-                
+
+                // Sort collections alphabetically
+                collections.sort((a, b) => a.title.localeCompare(b.title));
+
                 const params = new URLSearchParams(window.location.search);
                 const activeCollection = params.get('collection') || 'all';
 
@@ -61,7 +64,7 @@ export default class CollectionFilter {
                     const isActive = activeCollection === c.handle;
                     return `
                         <li class="widget__categories--menu__list" style="margin-bottom:1rem; border:none;">
-                            <a href="javascript:void(0)" 
+                            <a href="javascript:void(0)"
                                data-collection-handle="${c.handle}"
                                style="font-size:1.4rem; color:${isActive ? '#422326' : '#7a726e'}; font-weight:${isActive ? '600' : '400'}; text-decoration:none; display:block; padding: 0.5rem 0;"
                             >

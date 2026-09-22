@@ -80,6 +80,12 @@
             stylesList.unshift({ title: 'All Products', href: '/shop' });
         }
 
+        // Sort stylesList alphabetically (keeping "All Products" at the top)
+        const allProductsItem = stylesList.find(item => item.title === 'All Products');
+        const otherStyles = stylesList.filter(item => item.title !== 'All Products');
+        otherStyles.sort((a, b) => a.title.localeCompare(b.title));
+        const sortedStylesList = allProductsItem ? [allProductsItem, ...otherStyles] : otherStyles;
+
         const seenHrefs = new Set();
         const rightColList = [];
         [...customCollections, ...standardMarketing].forEach(item => {
@@ -89,11 +95,14 @@
             }
         });
 
+        // Sort rightColList alphabetically
+        rightColList.sort((a, b) => a.title.localeCompare(b.title));
+
         return `
             <li class="header__sub--menu__items mega-col">
                 <span class="mega-menu__heading">Shop by Style</span>
                 <ul class="mega-col__list">
-                    ${stylesList.map(item => `<li class="header__sub--menu__items"><a class="header__sub--menu__link" href="${item.href}">${escapeHtml(item.title)}</a></li>`).join('')}
+                    ${sortedStylesList.map(item => `<li class="header__sub--menu__items"><a class="header__sub--menu__link" href="${item.href}">${escapeHtml(item.title)}</a></li>`).join('')}
                 </ul>
             </li>
             <li class="header__sub--menu__items mega-col">
@@ -115,7 +124,13 @@
         if (!list.some(i => i.href === '/shop/menswear')) list.push({ title: 'Menswear', href: '/shop/menswear' });
         if (!list.some(i => i.href === '/shop/womenswear')) list.push({ title: 'Womenswear', href: '/shop/womenswear' });
 
-        return list.map(item => `<li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="${item.href}">${escapeHtml(item.title)}</a></li>`).join('');
+        // Sort alphabetically (keeping "All Products" at the top)
+        const allProductsItem = list.find(item => item.title === 'All Products');
+        const otherItems = list.filter(item => item.title !== 'All Products');
+        otherItems.sort((a, b) => a.title.localeCompare(b.title));
+        const sortedList = allProductsItem ? [allProductsItem, ...otherItems] : otherItems;
+
+        return sortedList.map(item => `<li class="offcanvas__sub_menu_li"><a class="offcanvas__sub_menu_item" href="${item.href}">${escapeHtml(item.title)}</a></li>`).join('');
     }
 
     const ICONS = {

@@ -88,11 +88,14 @@ export default class ProductGrid {
 
             const response = await fetch(`/api/products?${params.toString()}`);
             if (!response.ok) throw new Error('Network response was not ok');
-            
+
             const data = await response.json();
             this.state.products = data.products;
             this.state.facets = data.facets;
             this.state.pagination = data.pagination;
+
+            // Sort products alphabetically by title
+            this.state.products.sort((a, b) => a.title.localeCompare(b.title));
             
             // Update product count dynamically
             const countEl = document.querySelector('.product__count span');

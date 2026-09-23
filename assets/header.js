@@ -170,7 +170,11 @@
     };
 
     window.renderHeader = function (containerEl, options) {
-        if (!containerEl) return;
+        if (!containerEl) {
+            console.error('renderHeader called with null containerEl');
+            return;
+        }
+        console.log('renderHeader called with container:', containerEl);
         const active = getActiveRoute();
         const transparent = options?.transparent ?? (containerEl.dataset.transparent === 'true');
         const logoImg = options?.logo || 'assets/IMG-20260622-WA0082.webp';
@@ -618,11 +622,15 @@
         const el = document.getElementById('site-header') ||
                    document.querySelector('[data-section-id="header"]') ||
                    document.querySelector('header.header__section');
-        if (!el) return;
+        if (!el) {
+            console.error('Header element not found');
+            return;
+        }
 
         if (el.dataset.headerInitialized === 'true') return;
         el.dataset.headerInitialized = 'true';
 
+        console.log('Initializing header for element:', el);
         window.renderHeader(el);
     }
 

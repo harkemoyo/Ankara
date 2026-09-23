@@ -136,12 +136,11 @@ function TopOffset(el) {
   return { top: rect.top + scrollTop };
 }
 
-// Header sticky activation - skip if using dynamic header.js
+// Header sticky activation
 const headerStickyWrapper = document.querySelector("header");
 const headerStickyTarget = document.querySelector(".header__sticky");
 
-// Only run this logic if NOT using the dynamic header component
-if (headerStickyTarget && !document.getElementById('site-header')) {
+if (headerStickyTarget) {
   let headerHeight = headerStickyWrapper.clientHeight;
   window.addEventListener("scroll", function () {
     let StickyTargetElement = TopOffset(headerStickyWrapper);

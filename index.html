@@ -591,9 +591,14 @@
         }
 
         .main__header {
-
             background-color: transparent !important;
             border-bottom: none !important;
+        }
+
+        /* Fix header positioning for homepage */
+        .header__section {
+            top: 0 !important;
+            position: relative !important;
         }
 
         /* Mobile menu fixes for transparent header */
@@ -1907,8 +1912,6 @@
             padding-block: 1.5rem;
         }
     </style>
-    <script defer src="assets/supabase-client.js" type="module"></script>
-    <script defer src="assets/sale-link.js"></script>
 </head>
 
 <body class="body">
@@ -1928,7 +1931,8 @@
         </div>
     </div>
     <!-- Shared Site Header Component -->
-    <header id="site-header" class="header__section hero__nav" data-section-id="header" data-transparent="true"></header>
+    <header id="site-header" class="header__section hero__nav" data-section-id="header" data-transparent="true">
+    </header>
     <script defer src="assets/header.js"></script>
     <!-- ── Mini Cart Drawer ───────────────────────── -->
     <div class="offCanvas__minicart js-cart-form">
@@ -2249,10 +2253,7 @@
         </div>
     </main>
     <footer id="site-footer" class="footer__section footer__bg" data-section-id="footer"></footer>
-    <script src="assets/swiper-bundle.min.js"></script>
-    <script src="assets/cart.js"></script>
     <script defer="" src="assets/footer.js"></script>
-    <script defer="" src="assets/global.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const quickViewBtns = document.querySelectorAll('.js-quickview-open');
@@ -2388,8 +2389,6 @@
 
         });
     </script>
-    <script defer src="assets/announcement.js"></script>
-    <script defer src="assets/supabase-client.js" type="module"></script>
     <script defer src="assets/homepage-sections.js?v=4"></script>
     <script defer src="assets/forms-handler.js" type="module"></script>
 </body>

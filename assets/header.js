@@ -174,7 +174,10 @@
             console.error('renderHeader called with null containerEl');
             return;
         }
-        console.log('renderHeader called with container:', containerEl);
+        // Ensure header is visible
+        containerEl.style.display = 'block';
+        containerEl.style.visibility = 'visible';
+
         const active = getActiveRoute();
         const transparent = options?.transparent ?? (containerEl.dataset.transparent === 'true');
         const logoImg = options?.logo || 'assets/IMG-20260622-WA0082.webp';

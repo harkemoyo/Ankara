@@ -174,9 +174,13 @@
             console.error('renderHeader called with null containerEl');
             return;
         }
-        // Ensure header is visible
+        console.log('renderHeader called with container:', containerEl);
+
+        // Force header to be visible before rendering
         containerEl.style.display = 'block';
         containerEl.style.visibility = 'visible';
+        containerEl.style.position = 'relative';
+        containerEl.style.top = '0';
 
         const active = getActiveRoute();
         const transparent = options?.transparent ?? (containerEl.dataset.transparent === 'true');

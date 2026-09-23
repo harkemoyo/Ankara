@@ -596,9 +596,15 @@
         }
 
         /* Fix header positioning for homepage */
-        .header__section {
+        #site-header.header__section {
             top: 0 !important;
             position: relative !important;
+        }
+
+        /* Override the body.body .header__section rule for dynamic header */
+        body.body #site-header.header__section {
+            position: relative !important;
+            top: 0 !important;
         }
 
         /* Mobile menu fixes for transparent header */
@@ -1931,7 +1937,8 @@
         </div>
     </div>
     <!-- Shared Site Header Component -->
-    <header id="site-header" class="header__section hero__nav" data-section-id="header" data-transparent="true">
+    <header id="site-header" class="header__section hero__nav" data-section-id="header" data-transparent="true"
+        style="display: block !important; visibility: visible !important;">
     </header>
     <script defer src="assets/header.js"></script>
     <!-- ── Mini Cart Drawer ───────────────────────── -->

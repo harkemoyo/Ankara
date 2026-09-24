@@ -2235,26 +2235,7 @@
                 startAutoPlay();
             }
 
-            // ── Scroll-aware Header ──
-            class HeaderScrollManager {
-                constructor() {
-                    this.header = document.querySelector('.header__section');
-                    this.topbar = document.querySelector('.header__topbar');
-                    this.threshold = 80;
-                    this.bound = this.onScroll.bind(this);
-                    window.addEventListener('scroll', this.bound, { passive: true });
-                    this.onScroll();
-                }
-                onScroll() {
-                    const scrolled = window.scrollY > this.threshold;
-                    if (scrolled) {
-                        this.header.classList.add('header--scrolled');
-                    } else {
-                        this.header.classList.remove('header--scrolled');
-                    }
-                }
-            }
-            new HeaderScrollManager();
+            // Scroll-aware sticky header handled by header.js initStickyScroll()
             // ── Hero Swiper ──
             window.heroSwiper = new Swiper(".hero-swiper", {
                 slidesPerView: 1,
@@ -2273,7 +2254,6 @@
         });
     </script>
     <script defer src="assets/announcement.js"></script>
-    <script defer src="assets/supabase-client.js" type="module"></script>
     <script defer src="assets/homepage-sections.js?v=4"></script>
     <script defer src="assets/forms-handler.js" type="module"></script>
 </body>

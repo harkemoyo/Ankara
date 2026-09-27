@@ -43,6 +43,12 @@
             { label: 'African Luxe Throw', url: '/shop/blankets' }
         ];
 
+        // Sort collection links alphabetically (keeping "All Products" at the top)
+        const allProductsItem = collectionLinks.find(l => l.label === 'All Products');
+        const otherLinks = collectionLinks.filter(l => l.label !== 'All Products');
+        otherLinks.sort((a, b) => a.label.localeCompare(b.label));
+        const sortedCollectionLinks = allProductsItem ? [allProductsItem, ...otherLinks] : otherLinks;
+
         const quickLinks = s.quick_links || [
             { label: 'Home', url: '/' },
             { label: 'Our Story', url: '/about' },
@@ -153,7 +159,7 @@
                             ${ICONS.arrowDown}
                         </h2>
                         <ul class="footer__widget--menu footer__widget--inner">
-                            ${collectionLinks.map(l => `<li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="${escapeHtml(l.url)}">${escapeHtml(l.label)}</a></li>`).join('')}
+                            ${sortedCollectionLinks.map(l => `<li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="${escapeHtml(l.url)}">${escapeHtml(l.label)}</a></li>`).join('')}
                         </ul>
                     </div>
                 </div>

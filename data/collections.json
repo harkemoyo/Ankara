@@ -46,5 +46,11 @@
     "title": "Palazzos & Dungarees",
     "description": "Wide-leg palazzos and classic dungarees",
     "sort_order": 7
+  },
+  {
+    "handle": "unisex",
+    "title": "Unisex",
+    "description": "Gender-neutral fashion for everyone",
+    "sort_order": 8
   }
 ]

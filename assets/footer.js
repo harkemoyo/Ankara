@@ -40,7 +40,8 @@
             { label: 'All Products', url: '/shop' },
             { label: "Men's Ankara Dungaree", url: '/shop/palazzos' },
             { label: 'Ankara Street Luxe Set', url: '/shop/sets' },
-            { label: 'African Luxe Throw', url: '/shop/blankets' }
+            { label: 'African Luxe Throw', url: '/shop/blankets' },
+            { label: 'Unisex', url: '/shop/unisex' }
         ];
 
         // Sort collection links alphabetically (keeping "All Products" at the top)

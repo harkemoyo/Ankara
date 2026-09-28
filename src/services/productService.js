@@ -114,9 +114,6 @@ class ProductService {
             }
             const colLower = filters.collection.toLowerCase();
             const pTags = (p.tags || []).map(t => t.toLowerCase());
-            if (colLower === 'unisex') {
-                return pTags.includes('menswear') && pTags.includes('womenswear');
-            }
             if (colLower === 'nova' || colLower === 'nova-collection') {
                 return (p.collection && (p.collection.toLowerCase() === 'nova' || p.collection.toLowerCase() === 'nova-collection' || p.collection.toLowerCase() === 'joggers' || p.collection.toLowerCase() === 'pullovers' || p.collection.toLowerCase() === 'nova-hoodies')) ||
                     pTags.includes('nova') || pTags.includes('nova-collection') || pTags.includes('joggers') || pTags.includes('pullovers') || pTags.includes('hoodies') || (p.title && p.title.toLowerCase().includes('nova'));

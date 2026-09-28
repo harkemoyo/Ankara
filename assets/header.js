@@ -52,14 +52,15 @@
     }
 
     function buildMegaMenuHtml(collections) {
-        const curatedHandles = new Set(['new-arrivals', 'nova', 'noir-cape', 'menswear', 'womenswear']);
-        
+        const curatedHandles = new Set(['new-arrivals', 'nova', 'noir-cape', 'menswear', 'womenswear', 'unisex']);
+
         const standardMarketing = [
             { title: 'New Arrivals', href: '/shop/new-arrivals' },
             { title: 'Nova Collection', href: '/shop/nova' },
             { title: 'Noir Cape', href: '/shop/noir-cape' },
             { title: 'Menswear', href: '/shop/menswear' },
             { title: 'Womenswear', href: '/shop/womenswear' },
+            { title: 'Unisex', href: '/shop/unisex' },
             { title: 'Authentic Fabrics', href: '/fabric' },
             { title: 'Sale', href: '/sale' }
         ];
@@ -124,6 +125,7 @@
         });
         if (!list.some(i => i.href === '/shop/menswear')) list.push({ title: 'Menswear', href: '/shop/menswear' });
         if (!list.some(i => i.href === '/shop/womenswear')) list.push({ title: 'Womenswear', href: '/shop/womenswear' });
+        if (!list.some(i => i.href === '/shop/unisex')) list.push({ title: 'Unisex', href: '/shop/unisex' });
 
         // Sort alphabetically (keeping "All Products" at the top)
         const allProductsItem = list.find(item => item.title === 'All Products');

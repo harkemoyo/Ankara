@@ -18214,9 +18214,15 @@ body.body .header__section {
 .transparent__header .header__account--btn,
 .transparent__header .header__account--btn__icon,
 .transparent__header .offcanvas__header--menu__open--svg,
-.transparent__header .header__account--btn svg {
+.transparent__header .header__account--btn svg,
+.transparent__header .header__account--wrapper {
   color: var(--text-white-color) !important;
   fill: var(--text-white-color) !important;
+}
+
+.transparent__header .header__account--wrapper .items__count {
+  color: var(--text-white-color) !important;
+  background-color: var(--burgundy-color) !important;
 }
 
 .transparent__header .header__topbar {

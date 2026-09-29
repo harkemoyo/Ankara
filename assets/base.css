@@ -18213,8 +18213,10 @@ body.body .header__section {
 .transparent__header .header__menu--link,
 .transparent__header .header__account--btn,
 .transparent__header .header__account--btn__icon,
-.transparent__header .offcanvas__header--menu__open--svg {
-  color: var(--text-white-color);
+.transparent__header .offcanvas__header--menu__open--svg,
+.transparent__header .header__account--btn svg {
+  color: var(--text-white-color) !important;
+  fill: var(--text-white-color) !important;
 }
 
 .transparent__header .header__topbar {

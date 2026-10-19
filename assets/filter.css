@@ -6617,36 +6617,46 @@ input[type=number]::-webkit-outer-spin-button {
 
 .quickview__header {
   position: relative;
-  padding: 0;
-  z-index: 9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid var(--border-color, #e5e5e5);
+  margin-bottom: 2.4rem;
+  top: auto;
+  right: auto;
+  z-index: 10;
 }
 
 .quickview__close--btn {
-  font-size: 1.8rem;
-  padding: 0;
-  width: 3.2rem;
-  height: 3.2rem;
-  line-height: 3.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
+  border: 1px solid var(--border-color, #e5e5e5);
+  background: var(--text-white-color, #ffffff);
+  color: #800020;
+  font-size: 2.2rem;
   font-weight: 700;
-  border: 1px solid var(--border-color);
-  background: var(--text-white-color);
+  cursor: pointer;
   padding: 0 !important;
   margin: 0 !important;
-  -webkit-box-shadow: inherit;
-  box-shadow: inherit;
-  color: #800020;
+  transition: all 0.2s ease;
+  box-shadow: none;
 }
 
 .quickview__close--btn:hover {
-  background: var(--secondary-color);
-  border-color: var(--secondary-color);
-  color: var(--text-white-color);
+  background: #800020;
+  border-color: #800020;
+  color: #ffffff;
 }
 
 .quickview__close--btn:focus {
-  -webkit-box-shadow: inherit !important;
-  box-shadow: inherit !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(128, 0, 32, 0.2);
 }
 
 .modal-body.quickview__inner {
@@ -9201,13 +9211,7 @@ li[data-address]>h2 {
   right: 0;
 }
 
-.quickview__close--btn {
-  background: none;
-  border: none;
-  font-size: 2.4rem;
-  cursor: pointer;
-  color: var(--primary-color);
-}
+
 
 .quickview__header {
   display: flex;

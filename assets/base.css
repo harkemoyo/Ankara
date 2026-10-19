@@ -8711,22 +8711,23 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
-/* ══ Quickview Sidebar ══ */
+/* ══ Universal Quickview Drawer ══ */
 .offCanvas__quickview {
   position: fixed;
   top: 0;
-  right: -42rem;
-  width: 40rem;
+  right: -44rem;
+  width: 42rem;
   max-width: 92vw;
-  height: 100%;
-  background: var(--bg-offwhite-color);
-  z-index: 9999;
-  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+  height: 100vh;
+  background: var(--bg-offwhite-color, #ffffff);
+  z-index: 99999;
+  box-shadow: -6px 0 30px rgba(0, 0, 0, 0.16);
   transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
-  padding: 3rem;
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .offCanvas__quickview.open {
@@ -8734,46 +8735,216 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .quickview__header {
-  position: absolute;
-  padding: 0;
-  top: 16px;
-  right: 16px;
-  z-index: 9;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid var(--border-color, #e5e5e5);
+  margin-bottom: 2.4rem;
+  top: auto;
+  right: auto;
+  z-index: 10;
 }
 
-@media only screen and (max-width: 767px) {
-  .quickview__header {
-    top: 10px;
-    right: 10px;
-  }
+.quickview__title {
+  font-family: var(--font-heading, var(--frank-ruhl-fonts, inherit));
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--primary-color, #1a1a1a);
+  margin: 0;
+  line-height: 1.2;
 }
 
-.quickview__close--btn {
-  font-size: 1.8rem;
-  padding: 0;
-  width: 3.2rem;
-  height: 3.2rem;
-  line-height: 3.8rem;
-  border-radius: 50%;
-  font-weight: 700;
-  border: 1px solid var(--border-color);
-  background: var(--text-white-color);
-  padding: 0 !important;
-  margin: 0 !important;
-  -webkit-box-shadow: inherit;
-  box-shadow: inherit;
-  color: #800020;
-}
 
 .quickview__close--btn:hover {
-  background: var(--secondary-color);
-  border-color: var(--secondary-color);
-  color: var(--text-white-color);
+  background: #800020;
+  border-color: #800020;
+  color: #ffffff;
 }
 
 .quickview__close--btn:focus {
-  -webkit-box-shadow: inherit !important;
-  box-shadow: inherit !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(128, 0, 32, 0.2);
+}
+
+.quickview__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.quickview__loading {
+  padding: 4rem 1rem;
+  text-align: center;
+  font-size: 1.4rem;
+  color: var(--foreground-sub-color, #777);
+}
+
+.quickview__product-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.6rem;
+  margin-bottom: 2.4rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color, #eeeeee);
+}
+
+.quickview__img-wrap {
+  flex: 0 0 88px;
+  width: 88px;
+  height: 88px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--border-color, #e5e5e5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quickview__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.quickview__details {
+  flex: 1;
+  min-width: 0;
+}
+
+.quickview__brand-label {
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--foreground-sub-color, #888);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  line-height: 1.2;
+}
+
+.quickview__product-title {
+  font-family: var(--font-heading, var(--frank-ruhl-fonts, inherit));
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--primary-color, #111);
+  margin: 0 0 0.6rem;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.quickview__price-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-size: 1.4rem;
+  margin-top: 0.4rem;
+}
+
+.quickview__price {
+  font-weight: 700;
+  color: var(--primary-color, #111);
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.quickview__details-link {
+  font-size: 1.25rem;
+  color: var(--foreground-sub-color, #777);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.quickview__details-link:hover {
+  color: #800020;
+}
+
+.quickview__color-label,
+.quickview__size-label,
+.quickview__qty-label {
+  font-size: 1.4rem;
+  color: var(--primary-color, #111);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.quickview__color-value,
+.quickview__size-value {
+  font-weight: 400;
+  color: var(--foreground-sub-color, #666);
+}
+
+.quickview__swatches {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.quickview__size-pills {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.quickview__qty-selector {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 4px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.qty-btn {
+  border: none;
+  background: #f8f8f8;
+  width: 3.6rem;
+  height: 3.6rem;
+  font-size: 1.6rem;
+  color: var(--primary-color, #111);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.qty-btn:hover {
+  background: #eeeeee;
+}
+
+.qty-input {
+  width: 4rem;
+  text-align: center;
+  border: none;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--primary-color, #111);
+  outline: none;
+  background: transparent;
+}
+
+.quickview__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+
+@media only screen and (max-width: 480px) {
+  .offCanvas__quickview {
+    width: 100vw;
+    max-width: 100vw;
+    padding: 2rem 1.6rem;
+  }
 }
 
 .modal-body.quickview__inner {
@@ -18216,12 +18387,12 @@ body.body .header__section {
 .transparent__header .offcanvas__header--menu__open--svg,
 .transparent__header .header__account--btn svg,
 .transparent__header .header__account--wrapper {
-  color: var(--text-white-color) !important;
-  fill: var(--text-white-color) !important;
+  color: #ffffff !important;
+  fill: #ffffff !important;
 }
 
 .transparent__header .header__account--wrapper .items__count {
-  color: var(--text-white-color) !important;
+  color: #ffffff !important;
   background-color: var(--burgundy-color) !important;
 }
 

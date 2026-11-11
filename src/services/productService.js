@@ -337,7 +337,6 @@ class ProductService {
         const { data, error } = await supabaseAnon
             .from('products')
             .select('id, compare_at_price, price, product_type')
-            .neq('product_type', 'fabric')
             .gt('compare_at_price', 0);
 
         if (error) throw new Error(error.message);
@@ -346,6 +345,7 @@ class ProductService {
         const discountPercents = [];
 
         for (const p of (data || [])) {
+            if ((p.product_type || '').toLowerCase() === 'fabric') continue;
             const price = parseFloat(p.price) || 0;
             const compareAt = parseFloat(p.compare_at_price) || 0;
             if (compareAt > price && price > 0) {
@@ -353,6 +353,9 @@ class ProductService {
                 if (pct > 0 && pct < 100) {
                     saleProducts.push(p);
                     discountPercents.push(pct);
+                } else {
+                    saleProducts.push(p);
+                    discountPercents.push(1);
                 }
             }
         }
@@ -364,7 +367,7 @@ class ProductService {
             : 0;
 
         return {
-            hasSale: saleProducts.length > 0 && maxDiscountPercent > 0,
+            hasSale: saleProducts.length > 0,
             saleCount: saleProducts.length,
             maxDiscountPercent,
             minDiscountPercent,

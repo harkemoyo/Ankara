@@ -235,7 +235,7 @@
                                 <a class="header__menu--link ${active === 'fabrics' ? 'active' : ''}" href="/fabric">Fabrics</a>
                             </li>
                             <li class="header__menu--items ${active === 'sale' ? 'active-page' : ''}" style="display: none;">
-                                <a class="header__menu--link header__menu--link--sale ${active === 'sale' ? 'active' : ''}" href="/sale">Sale</a>
+                                <a class="header__menu--link header__menu--link--sale ${active === 'sale' ? 'active' : ''}" href="/sale" style="color: #d9534f !important; font-weight: 600;">Sale</a>
                             </li>
                             <li class="header__menu--items ${active === 'about' ? 'active-page' : ''}">
                                 <a class="header__menu--link ${active === 'about' ? 'active' : ''}" href="/about">Our Story</a>
@@ -307,8 +307,8 @@
                         <li class="offcanvas__menu_li ${active === 'fabrics' ? 'active' : ''}">
                             <a class="offcanvas__menu_item ${active === 'fabrics' ? 'active' : ''}" href="/fabric">Fabrics</a>
                         </li>
-                        <li class="offcanvas__menu_li ${active === 'sale' ? 'active' : ''}" style="display: none;">
-                            <a class="offcanvas__menu_item header__menu--link--sale ${active === 'sale' ? 'active' : ''}" href="/sale">Sale</a>
+                        <li class="offcanvas__menu_li ${active === 'sale' ? 'active-page' : ''}" style="display: none;">
+                            <a class="offcanvas__menu_item header__menu--link--sale ${active === 'sale' ? 'active' : ''}" href="/sale" style="color: #d9534f !important; font-weight: 600;">Sale</a>
                         </li>
                         <li class="offcanvas__menu_li ${active === 'about' ? 'active' : ''}">
                             <a class="offcanvas__menu_item ${active === 'about' ? 'active' : ''}" href="/about">Our Story</a>

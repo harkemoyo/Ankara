@@ -311,9 +311,21 @@ a:focus {
   object-fit: contain;
 }
 
-.header__menu--link--sale {
+.header__menu--link--sale,
+.header__menu--link.header__menu--link--sale,
+.transparent__header .header__menu--link.header__menu--link--sale,
+.header--scrolled .header__menu--link.header__menu--link--sale,
+.offcanvas__menu_item.header__menu--link--sale {
   color: #d9534f !important;
   font-weight: 600 !important;
+}
+
+.header__menu--link--sale:hover,
+.header__menu--link.header__menu--link--sale:hover,
+.transparent__header .header__menu--link.header__menu--link--sale:hover,
+.header--scrolled .header__menu--link.header__menu--link--sale:hover,
+.offcanvas__menu_item.header__menu--link--sale:hover {
+  color: #c9302c !important;
 }
 
 .currency-option {

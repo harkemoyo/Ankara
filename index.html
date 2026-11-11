@@ -1901,6 +1901,94 @@
         .home-sale-promo {
             padding-block: 1.5rem;
         }
+
+        /* ══ Helsinki Blankets Showcase ══ */
+        .helsinki-blankets-section {
+            padding-block: 6rem;
+            background-color: var(--bg-offwhite-color);
+        }
+
+        .helsinki-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-inline: 2rem;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .helsinki-layout {
+                flex-direction: row;
+                gap: 6rem;
+            }
+        }
+
+        .helsinki-layout__image {
+            flex: 1;
+            min-width: 0;
+            max-width: 560px;
+        }
+
+        .helsinki-layout__image img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            object-fit: contain;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .helsinki-layout__content {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.8rem;
+        }
+
+        .helsinki-subtitle {
+            display: block;
+            font-size: 1.25rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--secondary-color);
+        }
+
+        .helsinki-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.8rem, 3.5vw, 4.2rem);
+            color: var(--primary-color);
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .helsinki-desc {
+            font-size: 1.55rem;
+            line-height: 2.8rem;
+            color: var(--foreground-sub-color);
+            max-width: 46rem;
+            margin: 0;
+        }
+
+        .helsinki-btn {
+            align-self: flex-start;
+        }
+
+        @media only screen and (max-width: 767px) {
+            .helsinki-layout {
+                text-align: center;
+            }
+
+            .helsinki-layout__content {
+                align-items: center;
+            }
+
+            .helsinki-btn {
+                align-self: center;
+            }
+        }
     </style>
     <script defer src="assets/supabase-client.js" type="module"></script>
     <script defer src="assets/sale-link.js"></script>
@@ -1956,6 +2044,20 @@
             <section class="home-categories section--padding" data-section-id="categories">
                 <div class="home-categories-wrapper">
                     <div class="home-category-grid"></div>
+                </div>
+            </section>
+            <!-- Helsinki Blankets Showcase -->
+            <section class="helsinki-blankets-section section--padding" data-section-id="helsinki_blankets">
+                <div class="helsinki-layout">
+                    <div class="helsinki-layout__image">
+                        <img alt="Helsinki Blankets" class="helsinki-image" loading="lazy" decoding="async" src="assets/helsinki-blankets.jpg" />
+                    </div>
+                    <div class="helsinki-layout__content">
+                        <span class="helsinki-subtitle">Home & Living Collection</span>
+                        <h2 class="helsinki-title">Helsinki Blankets</h2>
+                        <p class="helsinki-desc">Luxurious African-inspired blankets that bring warmth, culture and bold style to your living space. Handcrafted with premium plush fleece and authentic Ankara motifs.</p>
+                        <a class="helsinki-btn primary__btn" href="/shop/blankets">Shop Blankets</a>
+                    </div>
                 </div>
             </section>
             <!-- Minimalist Trending Grid -->

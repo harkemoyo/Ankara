@@ -233,11 +233,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Wire up all 'Add to cart' buttons on the site to use the JS cart
   document.body.addEventListener('click', function (e) {
-    // Handle close button and overlay clicks robustly to guarantee the drawer always closes
-    if (e.target.closest('.minicart__close--btn') || (e.target.classList.contains('offCanvas__minicart_active') && !e.target.closest('.offCanvas__minicart'))) {
-      const minicart = document.querySelector('.offCanvas__minicart');
-      if (minicart) {
-        minicart.classList.remove('active');
+    // Handle close button and click-outside to close the minicart drawer
+    const minicart = document.querySelector('.offCanvas__minicart');
+    if (minicart && (minicart.classList.contains('active') || minicart.classList.contains('open'))) {
+      if (e.target.closest('.minicart__close--btn') || (!e.target.closest('.offCanvas__minicart') && !e.target.closest('.minicart__open--btn'))) {
+        minicart.classList.remove('active', 'open');
         document.body.classList.remove('offCanvas__minicart_active');
       }
     }

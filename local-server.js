@@ -14,10 +14,17 @@ const REQUIRED_ENV = [
 
 const missingEnv = REQUIRED_ENV.filter(key => !process.env[key]);
 if (missingEnv.length > 0) {
-    console.error('\n❌ Cannot start — missing required environment variables:');
-    missingEnv.forEach(key => console.error(`   • ${key}`));
-    console.error('\n   Add them to .env (see .env.example) and restart.\n');
-    process.exit(1);
+    if (process.env.NODE_ENV === 'production') {
+        console.error('\n❌ Cannot start in production — missing required environment variables:');
+        missingEnv.forEach(key => console.error(`   • ${key}`));
+        console.error('\n   Add them to .env (see .env.example) and restart.\n');
+        process.exit(1);
+    } else {
+        console.warn('\n⚠️  Local Dev Mode: Missing some environment variables:');
+        missingEnv.forEach(key => console.warn(`   • ${key}`));
+        console.warn('   The local server will continue so you can preview the website and theme.');
+        console.warn('   To test checkout or real APIs, add them to your .env file.\n');
+    }
 }
 
 const app = express();

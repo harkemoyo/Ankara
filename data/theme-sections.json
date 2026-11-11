@@ -14,7 +14,8 @@
     "custom_css",
     "footer",
     "outlet",
-    "statement"
+    "statement",
+    "helsinki_blankets"
   ],
   "sections": {
     "hero": {
@@ -24,7 +25,7 @@
         "slides": [
           {
             "desc": "Bold African-inspired designs crafted for the modern individual. Celebrate your identity, stand out beautifully.",
-            "link": "shop.html",
+            "link": "/shop",
             "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Gemini_Generated_Image_yqs8moyqs8moyqs8-1785766572863.webp",
             "title": "Mary Humphrey",
             "accent": "Wear",
@@ -33,7 +34,7 @@
           },
           {
             "desc": "Experience the finest materials and craftsmanship. Designed for those who appreciate true artistry.",
-            "link": "shop.html",
+            "link": "/shop",
             "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Gemini_Generated_Image_xm8tr5xm8tr5xm8t-1785764067321.webp",
             "title": "Talisman ",
             "accent": "Kimono",
@@ -42,7 +43,7 @@
           },
           {
             "desc": "Carry a piece of home with you everywhere. Perfect for any occasion.",
-            "link": "shop.html",
+            "link": "/shop",
             "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/img11_upscaled_sharpened-1785763865650.webp",
             "title": "Geco",
             "accent": "Dungarees",
@@ -58,99 +59,103 @@
       "settings": {
         "logo": "assets/IMG-20260622-WA0082.webp",
         "about": "Contemporary fashion rooted in African heritage and crafted for the modern world. Every piece tells a story of culture, elegance, and bold identity.",
-        "location": "Lavignton, Kingara Road, Nairobi",
-        "location_url": "https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920799,36.7594538,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920799!4d36.7620287?hl=en&entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D",
-        "locations": [
-          {
-            "name": "Lavignton, Kingara Road, Nairobi",
-            "url": "https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920799,36.7594538,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920799!4d36.7620287?hl=en&entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D"
-          },
-          {
-            "name": "Noir Boutique, Muthangari Drive, Nairobi",
-            "url": "https://maps.app.goo.gl/mRkn8ojZeUDRUKC48"
-          }
-        ],
         "email": "maryhumphreyafricanwear@gmail.com",
         "social": {
-          "instagram": "https://www.instagram.com/maryhumphreywear?igsh=OWQyNW84cmpzeXNn",
+          "tiktok": "https://www.tiktok.com/@maryhumphreyafricanwear",
           "facebook": "https://www.facebook.com/profile.php?id=100077341767677",
-          "tiktok": "https://www.tiktok.com/@maryhumphreyafricanwear"
+          "instagram": "https://www.instagram.com/maryhumphreywear?igsh=OWQyNW84cmpzeXNn"
         },
-        "collection_links": [
+        "location": "Lavignton, Kingara Road, Nairobi",
+        "copyright": "© 2026 Mary Humphrey Wear. All Rights Reserved.",
+        "locations": [
           {
-            "label": "All Products",
-            "url": "shop.html"
+            "url": "https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920799,36.7594538,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920799!4d36.7620287?hl=en&entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D",
+            "name": "Lavignton, Kingara Road, Nairobi"
           },
           {
-            "label": "Geco Dungarees",
-            "url": "/shop/geco-dungaree"
-          },
-          {
-            "label": "Diani Dresses",
-            "url": "/shop/diani-dresses"
-          },
-          {
-            "label": "Helsinki Blankets",
-            "url": "/shop/blankets"
-          },
-          {
-            "label": "Talisman Kimonos",
-            "url": "/shop/kimonos"
-          },
-          {
-            "label": "Village Market Palazzos",
-            "url": "/shop/palazzos"
-          },
-          {
-            "label": "Noir Cape",
-            "url": "/shop/noir-cape"
-          },
-          {
-            "label": "Nova Joggers",
-            "url": "/shop/joggers"
-          },
-          {
-            "label": "Nova Pullovers",
-            "url": "/shop/pullovers"
-          },
-          {
-            "label": "Nova Hoodies",
-            "url": "/shop/nova-hoodies"
+            "url": "https://maps.app.goo.gl/mRkn8ojZeUDRUKC48",
+            "name": "Noir Boutique, Muthangari Drive, Nairobi"
           }
         ],
         "quick_links": [
           {
-            "label": "Home",
-            "url": "/"
+            "url": "/",
+            "label": "Home"
           },
           {
-            "label": "Our Story",
-            "url": "/about"
+            "url": "/about",
+            "label": "Our Story"
           },
           {
-            "label": "Contact Us",
-            "url": "/contact"
+            "url": "/contact",
+            "label": "Contact Us"
           },
           {
-            "label": "Privacy Policy",
-            "url": "/privacy"
+            "url": "/privacy",
+            "label": "Privacy Policy"
           },
           {
-            "label": "Terms of Service",
-            "url": "/terms"
+            "url": "/terms",
+            "label": "Terms of Service"
           },
           {
-            "label": "Refund & Return Policy",
-            "url": "/refund"
+            "url": "/refund",
+            "label": "Refund & Return Policy"
           },
           {
-            "label": "Shipping Policy",
-            "url": "/shipping"
+            "url": "/shipping",
+            "label": "Shipping Policy"
           }
         ],
-        "newsletter_heading": "Join Our World",
+        "location_url": "https://www.google.com/maps/place/1%C2%B017'31.5%22S+36%C2%B045'43.3%22E/@-1.2920799,36.7594538,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-1.2920799!4d36.7620287?hl=en&entry=ttu&g_ep=EgoyMDI2MDcyMi4wIKXMDSoASAFQAw%3D%3D",
         "newsletter_desc": "Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.",
-        "copyright": "© 2026 Mary Humphrey Wear. All Rights Reserved."
+        "collection_links": [
+          {
+            "url": "/shop",
+            "label": "All Products"
+          },
+          {
+            "url": "/shop/geco-dungaree",
+            "label": "Geco Dungarees"
+          },
+          {
+            "url": "/shop/diani-dresses",
+            "label": "Diani Dresses"
+          },
+          {
+            "url": "/shop/blankets",
+            "label": "Helsinki Blankets"
+          },
+          {
+            "url": "/shop/kimonos",
+            "label": "Talisman Kimonos"
+          },
+          {
+            "url": "/shop/palazzos",
+            "label": "Village Market Palazzos"
+          },
+          {
+            "url": "/shop/noir-cape",
+            "label": "Noir Cape"
+          },
+          {
+            "url": "/shop/joggers",
+            "label": "Nova Joggers"
+          },
+          {
+            "url": "/shop/pullovers",
+            "label": "Nova Pullovers"
+          },
+          {
+            "url": "/shop/nova-hoodies",
+            "label": "Nova Hoodies"
+          },
+          {
+            "url": "/shop/mary-humphrey-home",
+            "label": "Mary Humphrey Home"
+          }
+        ],
+        "newsletter_heading": "Join Our World"
       }
     },
     "outlet": {
@@ -168,12 +173,12 @@
             "type": "image"
           },
           {
-            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Nior-4-1785860850389.webp",
+            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/WhatsApp_Image_2026-09-29_at_11_16_16-1790712524291.webp",
             "type": "image"
           },
           {
-            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/Noir_video-1785906788513.mp4",
-            "type": "video"
+            "url": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/WhatsApp_Image_2026-09-29_at_11_15_23-1790712541535.webp",
+            "type": "image"
           }
         ],
         "subtitle": "Visit Us In Person",
@@ -194,7 +199,7 @@
         ],
         "bg_color": "#800020",
         "subtitle": "Premium Materials",
-        "button_link": "material.html",
+        "button_link": "/fabric",
         "button_text": "Explore Fabrics"
       }
     },
@@ -227,7 +232,7 @@
           {
             "icon": "truck",
             "title": "Free Delivery",
-            "description": "Complimentary shipping on orders over KSh 10,000 across Kenya."
+            "description": "Complimentary shipping on orders over KSh 10,000. Delivering within Nairobi County."
           },
           {
             "icon": "lock",
@@ -306,7 +311,7 @@
       "settings": {
         "title": "ON SALE NOW - UP TO 30% OFF",
         "bg_color": "#fce8e8",
-        "button_link": "sale.html",
+        "button_link": "/sale",
         "button_text": "Shop Sale",
         "description": "Refresh your wardrobe with our authentic designs at a discount."
       }
@@ -361,9 +366,9 @@
             "label": "Mary Humphrey Collection"
           },
           {
-            "link": "/shop/blankets",
-            "image": "assets/IMG-20260622-WA0005.webp",
-            "label": "Helsinki Blanket"
+            "link": "shop/mary-humphrey-home",
+            "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/WhatsApp_Image_2026-09-29_at_11_17_25-1790712354913.webp",
+            "label": "Mary Humphrey Home"
           },
           {
             "link": "/shop/nova",
@@ -377,12 +382,24 @@
       "type": "style_of_month",
       "enabled": true,
       "settings": {
-        "title": "FEATURED PRODUCT",
+        "title": "STYLE OF THE MONTH",
         "subtitle": "Mary Humphrey Collection",
-        "product_handle": "classic-dungarees",
-        "button_text": "Add to Bag",
-        "button_bg_color": "#8b7d76",
+        "button_text": "",
+        "product_handle": "Geco-dungarees",
+        "button_bg_color": "#800020",
         "button_text_color": "#ffffff"
+      }
+    },
+    "helsinki_blankets": {
+      "type": "helsinki_blankets",
+      "enabled": true,
+      "settings": {
+        "subtitle": "Home & Living Collection",
+        "title": "Helsinki Blankets",
+        "description": "Luxurious African-inspired blankets that bring warmth, culture and bold style to your living space. Handcrafted with premium plush fleece and authentic Ankara motifs.",
+        "image": "assets/helsinki-blankets.jpg",
+        "button_text": "Shop Blankets",
+        "button_link": "/shop/blankets"
       }
     }
   }

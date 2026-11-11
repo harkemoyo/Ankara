@@ -72,6 +72,20 @@ function escapeHtml(str) {
     `).join('');
   },
 
+  helsinki_blankets(el, settings) {
+    const sub = el.querySelector('.helsinki-subtitle');
+    if (sub && settings.subtitle) sub.textContent = settings.subtitle;
+    const h = el.querySelector('.helsinki-title');
+    if (h && settings.title) h.textContent = settings.title;
+    const desc = el.querySelector('.helsinki-desc');
+    if (desc && settings.description) desc.textContent = settings.description;
+    const img = el.querySelector('.helsinki-image');
+    if (img && settings.image) img.src = settings.image;
+    const btn = el.querySelector('.helsinki-btn');
+    if (btn && settings.button_text) btn.textContent = settings.button_text;
+    if (btn && settings.button_link) btn.href = settings.button_link;
+  },
+
   trending(el, settings) {
     const h = el.querySelector('.section__heading--maintitle');
     if (h && settings.heading) h.textContent = settings.heading;

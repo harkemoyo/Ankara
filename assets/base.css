@@ -2498,7 +2498,6 @@ body.overlay__active,
 body.overlay__active::before,
 .predictive__search--box_active::before,
 .mobile_menu_open::before,
-.offCanvas__minicart_active::before,
 .offcanvas__filter--sidebar_active::before {
   position: fixed;
   top: 0;
@@ -17845,20 +17844,11 @@ body.offCanvas__minicart_active {
   overflow: hidden !important;
 }
 
-body.offCanvas__minicart_active::before {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  height: 100dvh !important;
-  content: "" !important;
-  background: rgba(0, 0, 0, 0.6) !important;
-  z-index: 99990 !important;
-  opacity: 1 !important;
-  cursor: pointer !important;
+body.offCanvas__minicart_active::before,
+.offCanvas__minicart_active::before {
+  display: none !important;
+  content: none !important;
+  background: transparent !important;
 }
 
 .offCanvas__minicart {

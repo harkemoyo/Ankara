@@ -84,6 +84,17 @@ function escapeHtml(str) {
     const btn = el.querySelector('.helsinki-btn');
     if (btn && settings.button_text) btn.textContent = settings.button_text;
     if (btn && settings.button_link) btn.href = settings.button_link;
+
+    // Keep the welcome pop-up image, button and link in sync with this section
+    // (pop-up copy is intentionally short and kept separate from the section text)
+    const popup = document.getElementById('welcome-popup');
+    if (popup) {
+      const pImg = popup.querySelector('.welcome-popup__image img');
+      if (pImg && settings.image) pImg.src = settings.image;
+      const pBtn = popup.querySelector('.welcome-popup__btn');
+      if (pBtn && settings.button_text) pBtn.textContent = settings.button_text;
+      if (pBtn && settings.button_link) pBtn.href = settings.button_link;
+    }
   },
 
   trending(el, settings) {

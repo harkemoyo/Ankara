@@ -1258,8 +1258,116 @@ function renderContactCluster() {
   });
 }
 
+function renderFloatingCurrencyWidget() {
+  if (document.querySelector('.floating-currency-widget')) return;
+
+  const FLAGS = {
+    KES: `<svg class="fc-flag" viewBox="0 0 36 24" width="24" height="16" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="24" fill="#fff"/><rect width="36" height="7" y="0" fill="#000"/><rect width="36" height="7" y="17" fill="#006600"/><rect width="36" height="7.6" y="8.2" fill="#BB0000"/><line x1="15" y1="3" x2="21" y2="21" stroke="#fff" stroke-width="1.2"/><line x1="21" y1="3" x2="15" y2="21" stroke="#fff" stroke-width="1.2"/><ellipse cx="18" cy="12" rx="3.8" ry="6.5" fill="#BB0000" stroke="#fff" stroke-width="0.9"/><path d="M16.2 7.2 A2 5.5 0 0 0 16.2 16.8 Z" fill="#000"/><path d="M19.8 7.2 A2 5.5 0 0 1 19.8 16.8 Z" fill="#000"/><ellipse cx="18" cy="12" rx="0.9" ry="2.2" fill="#fff"/></svg>`,
+    USD: `<svg class="fc-flag" viewBox="0 0 36 24" width="24" height="16" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="24" fill="#B22234"/><rect width="36" height="1.85" y="1.85" fill="#fff"/><rect width="36" height="1.85" y="5.54" fill="#fff"/><rect width="36" height="1.85" y="9.23" fill="#fff"/><rect width="36" height="1.85" y="12.92" fill="#fff"/><rect width="36" height="1.85" y="16.62" fill="#fff"/><rect width="36" height="1.85" y="20.31" fill="#fff"/><rect width="15" height="12.92" fill="#3C3B6E"/><circle cx="3" cy="2.6" r="0.8" fill="#fff"/><circle cx="6" cy="2.6" r="0.8" fill="#fff"/><circle cx="9" cy="2.6" r="0.8" fill="#fff"/><circle cx="12" cy="2.6" r="0.8" fill="#fff"/><circle cx="4.5" cy="5.2" r="0.8" fill="#fff"/><circle cx="7.5" cy="5.2" r="0.8" fill="#fff"/><circle cx="10.5" cy="5.2" r="0.8" fill="#fff"/><circle cx="3" cy="7.8" r="0.8" fill="#fff"/><circle cx="6" cy="7.8" r="0.8" fill="#fff"/><circle cx="9" cy="7.8" r="0.8" fill="#fff"/><circle cx="12" cy="7.8" r="0.8" fill="#fff"/><circle cx="4.5" cy="10.4" r="0.8" fill="#fff"/><circle cx="7.5" cy="10.4" r="0.8" fill="#fff"/><circle cx="10.5" cy="10.4" r="0.8" fill="#fff"/></svg>`,
+    GBP: `<svg class="fc-flag" viewBox="0 0 36 24" width="24" height="16" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="24" fill="#012169"/><path d="M0 0 L36 24 M36 0 L0 24" stroke="#fff" stroke-width="4.5"/><path d="M0 0 L36 24 M36 0 L0 24" stroke="#C8102E" stroke-width="2.2"/><path d="M18 0 V24 M0 12 H36" stroke="#fff" stroke-width="7.5"/><path d="M18 0 V24 M0 12 H36" stroke="#C8102E" stroke-width="4.5"/></svg>`,
+    EUR: `<svg class="fc-flag" viewBox="0 0 36 24" width="24" height="16" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="24" fill="#003399"/><circle cx="18" cy="5" r="1" fill="#FFCC00"/><circle cx="18" cy="19" r="1" fill="#FFCC00"/><circle cx="11" cy="12" r="1" fill="#FFCC00"/><circle cx="25" cy="12" r="1" fill="#FFCC00"/><circle cx="13" cy="7" r="1" fill="#FFCC00"/><circle cx="23" cy="7" r="1" fill="#FFCC00"/><circle cx="13" cy="17" r="1" fill="#FFCC00"/><circle cx="23" cy="17" r="1" fill="#FFCC00"/></svg>`
+  };
+
+  const CURRENCIES = [
+    { code: 'KES', label: 'KES' },
+    { code: 'USD', label: 'USD' },
+    { code: 'GBP', label: 'GBP' },
+    { code: 'EUR', label: 'EUR' }
+  ];
+
+  const getActiveCode = () => (window.AnkaraCurrency && window.AnkaraCurrency.current) || localStorage.getItem('mhw-currency') || 'KES';
+
+  const widget = document.createElement('div');
+  widget.className = 'floating-currency-widget';
+
+  const renderInner = () => {
+    const active = getActiveCode();
+    const flagSvg = FLAGS[active] || FLAGS.KES;
+    widget.innerHTML = `
+      <ul class="floating-currency-menu" role="listbox" aria-label="Choose currency">
+        ${CURRENCIES.map(c => `
+          <li class="floating-currency-item ${c.code === active ? 'active' : ''}" data-currency="${c.code}" role="option" aria-selected="${c.code === active}">
+            ${FLAGS[c.code]}
+            <span class="fc-code">${c.label}</span>
+          </li>
+        `).join('')}
+      </ul>
+      <button type="button" class="floating-currency-btn" aria-haspopup="listbox" aria-expanded="false">
+        ${flagSvg}
+        <span class="fc-code">${active}</span>
+        <svg class="fc-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    `;
+
+    const btn = widget.querySelector('.floating-currency-btn');
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = widget.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    }
+
+    widget.querySelectorAll('.floating-currency-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const code = item.dataset.currency;
+        widget.classList.remove('is-open');
+        if (window.AnkaraCurrency && typeof window.AnkaraCurrency.setCurrency === 'function') {
+          window.AnkaraCurrency.setCurrency(code, true);
+        } else {
+          localStorage.setItem('mhw-currency', code);
+          localStorage.setItem('mhw-currency-manual', '1');
+          window.dispatchEvent(new CustomEvent('currency:changed', { detail: code }));
+        }
+        renderInner();
+      });
+    });
+  };
+
+  renderInner();
+  document.body.appendChild(widget);
+
+  document.addEventListener('click', (e) => {
+    if (!widget.contains(e.target)) {
+      widget.classList.remove('is-open');
+    }
+  });
+
+  window.addEventListener('currency:changed', () => {
+    renderInner();
+  });
+
+  // Auto-detect visitor country once per session if user hasn't manually chosen a currency
+  if (!localStorage.getItem('mhw-currency-manual') && !sessionStorage.getItem('mhw-geo-checked')) {
+    sessionStorage.setItem('mhw-geo-checked', '1');
+    fetch('https://ipapi.co/json/')
+      .then(r => r.ok ? r.json() : null)
+      .then(info => {
+        if (!info || localStorage.getItem('mhw-currency-manual')) return;
+        const country = (info.country_code || '').toUpperCase();
+        const cur = (info.currency || '').toUpperCase();
+        let target = 'KES';
+        if (country === 'KE' || cur === 'KES') target = 'KES';
+        else if (country === 'GB' || cur === 'GBP') target = 'GBP';
+        else if (cur === 'EUR') target = 'EUR';
+        else if (country && country !== 'KE') target = 'USD';
+        if (window.AnkaraCurrency && window.AnkaraCurrency.current !== target) {
+          window.AnkaraCurrency.setCurrency(target, false);
+        }
+      })
+      .catch(() => { });
+  }
+}
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", renderContactCluster);
+  document.addEventListener("DOMContentLoaded", () => {
+    renderContactCluster();
+    renderFloatingCurrencyWidget();
+  });
 } else {
   renderContactCluster();
+  renderFloatingCurrencyWidget();
 }

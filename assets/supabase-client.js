@@ -20,21 +20,65 @@ if (window.supabase && typeof window.supabase.createClient === 'function') {
 }
 export const supabase = supabaseClient;
 
-// ── Multi-Currency Helper ──────────────────────────────────────────────────
+// ── Multi-Currency Helper (with Auto-Geo Detection) ────────────────────────
+function detectInitialCurrency() {
+    const manual = localStorage.getItem('mhw-currency');
+    if (manual) return manual;
+    try {
+        const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '').toLowerCase();
+        const lang = (navigator.language || '').toUpperCase();
+        if (tz.includes('nairobi') || tz.includes('kampala') || tz.includes('dar_es_salaam') || lang.endsWith('-KE')) {
+            return 'KES';
+        }
+        if (tz.includes('london') || lang.endsWith('-GB')) {
+            return 'GBP';
+        }
+        if (tz.startsWith('europe/')) {
+            return 'EUR';
+        }
+        if (tz.startsWith('america/')) {
+            return 'USD';
+        }
+    } catch (e) { }
+    return window.DEFAULT_CURRENCY || 'KES';
+}
+
 window.AnkaraCurrency = {
-    current: localStorage.getItem('mhw-currency') || window.DEFAULT_CURRENCY || 'KES',
+    current: detectInitialCurrency(),
     rate: window.DEFAULT_EXCHANGE_RATE || 130.00,
     currencySymbol: window.DEFAULT_CURRENCY_SYMBOL || 'KSh',
+    rates: {
+        KES: { symbol: 'KSh ', factor: 1, decimals: 0 },
+        USD: { symbol: '$', factor: 130.00, decimals: 2 },
+        EUR: { symbol: '€', factor: 142.00, decimals: 2 },
+        GBP: { symbol: '£', factor: 165.00, decimals: 2 }
+    },
     convertAndFormat(kesPrice) {
         const priceNum = parseFloat(kesPrice) || 0;
-        if (this.current === 'KES') {
+        const curr = this.current || 'KES';
+        if (curr === 'KES') {
             return `${this.currencySymbol} ${Math.round(priceNum).toLocaleString()}`;
         }
-        return `$${(priceNum / this.rate).toFixed(2)}`;
+        const usdRate = parseFloat(this.rate) || 130.00;
+        if (curr === 'USD') {
+            return `$${(priceNum / usdRate).toFixed(2)}`;
+        }
+        if (curr === 'EUR') {
+            const eurRate = usdRate * 1.09;
+            return `€${(priceNum / eurRate).toFixed(2)}`;
+        }
+        if (curr === 'GBP') {
+            const gbpRate = usdRate * 1.27;
+            return `£${(priceNum / gbpRate).toFixed(2)}`;
+        }
+        return `$${(priceNum / usdRate).toFixed(2)}`;
     },
-    setCurrency(currency) {
+    setCurrency(currency, isManual = true) {
         this.current = currency;
-        localStorage.setItem('mhw-currency', currency);
+        if (isManual) {
+            localStorage.setItem('mhw-currency', currency);
+            localStorage.setItem('mhw-currency-manual', '1');
+        }
         window.dispatchEvent(new CustomEvent('currency:changed', { detail: currency }));
     }
 };

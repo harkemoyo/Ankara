@@ -54,6 +54,7 @@
     <link href="assets/normalize.css" rel="stylesheet" />
     <link href="assets/home.css" rel="stylesheet" />
     <link rel="preload" as="image" href="assets/DSC02616-hero.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="assets/helsinki-blankets.jpg" fetchpriority="high" />
     <script src="assets/config.js"></script>
     <script src="assets/supabase.umd.js"></script>
     <script defer="" src="assets/js/components/core.js" type="module"></script>
@@ -2019,6 +2020,174 @@
             align-self: flex-start;
         }
 
+        /* ══ Welcome Pop-up (Helsinki Blankets) ══ */
+        .welcome-popup {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.55);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+
+        .welcome-popup.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .welcome-popup__box {
+            position: relative;
+            display: flex;
+            align-items: stretch;
+            gap: 2rem;
+            width: 100%;
+            max-width: 740px;
+            max-height: 90vh;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 2px;
+            transform: translateY(16px);
+            transition: transform 0.35s ease;
+        }
+
+        .welcome-popup.is-open .welcome-popup__box {
+            transform: translateY(0);
+        }
+
+        .welcome-popup__content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            text-align: center;
+        }
+
+        .welcome-popup__title {
+            margin: 0 0 0.4rem;
+            font-family: var(--font-heading);
+            font-size: 2.6rem;
+            font-weight: 400;
+            line-height: 1.25;
+            color: #1a1108;
+        }
+
+        .welcome-popup__title strong {
+            display: block;
+            font-family: var(--font-body);
+            font-weight: 700;
+        }
+
+        .welcome-popup__desc {
+            margin: 0 0 1.4rem;
+            font-size: 1.4rem;
+            line-height: 2.2rem;
+            color: #333;
+        }
+
+        .welcome-popup__btn,
+        .welcome-popup__skip {
+            display: block;
+            width: 100%;
+            padding: 1.3rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 1.45rem;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .welcome-popup__btn {
+            background: #800020;
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(128, 0, 32, 0.3);
+        }
+
+        .welcome-popup__skip {
+            margin-top: 0.6rem;
+            background: #a8888d;
+            color: #fff;
+        }
+
+        .welcome-popup__btn:hover,
+        .welcome-popup__skip:hover {
+            opacity: 0.88;
+            color: #fff;
+        }
+
+        .welcome-popup__image {
+            flex: 1;
+            min-width: 0;
+            aspect-ratio: 4 / 4.5;
+            overflow: hidden;
+        }
+
+        .welcome-popup__image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .welcome-popup__close {
+            position: absolute;
+            top: -1.4rem;
+            right: -1.4rem;
+            z-index: 2;
+            width: 3.2rem;
+            height: 3.2rem;
+            border: none;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            font-size: 2rem;
+            line-height: 1;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .welcome-popup__close:hover {
+            color: #800020;
+        }
+
+        @media only screen and (max-width: 767px) {
+            .welcome-popup__box {
+                flex-direction: column-reverse;
+                gap: 1.2rem;
+                max-width: 400px;
+                padding: 1.4rem;
+                overflow-y: auto;
+            }
+
+            .welcome-popup__image {
+                flex: none;
+                aspect-ratio: 16 / 10;
+            }
+
+            .welcome-popup__content {
+                padding: 0.5rem 0.5rem 0.8rem;
+            }
+
+            .welcome-popup__title {
+                font-size: 2.2rem;
+            }
+
+            .welcome-popup__close {
+                top: -1rem;
+                right: -1rem;
+            }
+        }
+
         @media only screen and (max-width: 767px) {
             .helsinki-layout {
                 text-align: center;
@@ -2272,6 +2441,47 @@
             </section>
         </div>
     </main>
+
+    <!-- Welcome Pop-up (Helsinki Blankets) -->
+    <div class="welcome-popup" id="welcome-popup" role="dialog" aria-modal="true" aria-labelledby="welcome-popup-title">
+        <div class="welcome-popup__box">
+            <button class="welcome-popup__close" type="button" aria-label="Close pop-up" data-popup-close>&times;</button>
+            <div class="welcome-popup__content">
+                <h2 class="welcome-popup__title" id="welcome-popup-title">Some blankets keep you warm.<strong>Others tell a story.</strong></h2>
+                <p class="welcome-popup__desc">Meet the new <strong>Helsinki Blankets</strong>.</p>
+                <a class="welcome-popup__btn" href="/shop/blankets">Shop Blankets</a>
+                <button class="welcome-popup__skip" type="button" data-popup-close>Maybe later</button>
+            </div>
+            <div class="welcome-popup__image">
+                <img src="assets/helsinki-blankets.jpg" alt="Helsinki Blankets" fetchpriority="high" decoding="sync" />
+            </div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var popup = document.getElementById('welcome-popup');
+            if (!popup) return;
+            var KEY = 'helsinki_popup_seen';
+            function close() {
+                popup.classList.remove('is-open');
+                document.body.style.overflow = '';
+                try { sessionStorage.setItem(KEY, '1'); } catch (e) { }
+            }
+            function open() {
+                popup.classList.add('is-open');
+                document.body.style.overflow = 'hidden';
+            }
+            popup.addEventListener('click', function (e) {
+                if (e.target === popup || e.target.closest('[data-popup-close]')) close();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && popup.classList.contains('is-open')) close();
+            });
+            var seen = false;
+            try { seen = sessionStorage.getItem(KEY) === '1'; } catch (e) { }
+            if (!seen) setTimeout(open, 10000);
+        })();
+    </script>
     <footer id="site-footer" class="footer__section footer__bg" data-section-id="footer"></footer>
     <script src="assets/swiper-bundle.min.js"></script>
     <script src="assets/cart.js"></script>
@@ -2394,7 +2604,7 @@
         });
     </script>
     <script defer src="assets/announcement.js"></script>
-    <script defer src="assets/homepage-sections.js?v=5"></script>
+    <script defer src="assets/homepage-sections.js?v=7"></script>
     <script defer src="assets/forms-handler.js" type="module"></script>
 </body>
 

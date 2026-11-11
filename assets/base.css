@@ -18609,12 +18609,7 @@ body.body .header__section {
 }
 
 .header__topbar--currency {
-  width: auto;
-  flex-shrink: 0;
-  text-align: right;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  display: none !important;
 }
 
 .currency-switcher {
@@ -18682,6 +18677,113 @@ body.body .header__section {
   padding: 0.4rem 0;
   font-size: 1.4rem;
   line-height: 2rem;
+}
+
+/* ── Floating Currency Switcher (Sandstorm-style Bottom-Left Pill) ── */
+.floating-currency-widget {
+  position: fixed;
+  bottom: 2.2rem;
+  left: 2.2rem;
+  z-index: 9998;
+  font-family: var(--font-body);
+}
+
+.floating-currency-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.9rem 1.3rem;
+  background: #ffffff;
+  color: #1a1108;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  cursor: pointer;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.floating-currency-btn:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.floating-currency-widget .fc-flag {
+  width: 24px;
+  height: 16px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  display: block;
+}
+
+.floating-currency-widget .fc-code {
+  color: #1a1108;
+  font-weight: 600;
+}
+
+.floating-currency-widget .fc-chevron {
+  color: #555;
+  transition: transform 0.2s ease;
+}
+
+.floating-currency-widget.is-open .fc-chevron {
+  transform: rotate(180deg);
+}
+
+.floating-currency-menu {
+  position: absolute;
+  bottom: calc(100% + 0.8rem);
+  left: 0;
+  min-width: 115px;
+  margin: 0;
+  padding: 0.5rem 0;
+  list-style: none;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.floating-currency-widget.is-open .floating-currency-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.floating-currency-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1.3rem;
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: #1a1108;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.floating-currency-item:hover {
+  background: #f7f4f0;
+  color: var(--burgundy-color, #800020);
+}
+
+.floating-currency-item.active {
+  background: #f3ede6;
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .floating-currency-widget {
+    bottom: 7.5rem;
+    left: 1.4rem;
+  }
 }
 
 /* ── Floating Contact Cluster ── */

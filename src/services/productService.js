@@ -110,7 +110,9 @@ class ProductService {
         const passesCollection = (p) => {
             if (!filters.collection || filters.collection === 'all') return true;
             if (filters.collection === 'sale') {
-                return (p.compare_at_price && parseFloat(p.compare_at_price) > parseFloat(p.price)) || (p.tags && p.tags.map(t => t.toLowerCase()).includes('sale'));
+                const price = parseFloat(p.price) || 0;
+                const compareAt = parseFloat(p.compare_at_price) || 0;
+                return compareAt > price && price > 0;
             }
             const colLower = filters.collection.toLowerCase();
             const pTags = (p.tags || []).map(t => t.toLowerCase());
@@ -194,7 +196,17 @@ class ProductService {
         const totalPages = Math.ceil(total / limit) || 1;
         const startIndex = (page - 1) * limit;
         const endIndex = startIndex + limit;
-        const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+        const paginatedProducts = filteredProducts.slice(startIndex, endIndex).map(p => {
+            const price = parseFloat(p.price) || 0;
+            const compareAt = parseFloat(p.compare_at_price) || 0;
+            const discountPercent = (compareAt > price && price > 0)
+                ? Math.round(((compareAt - price) / compareAt) * 100)
+                : 0;
+            return {
+                ...p,
+                discount_percent: (discountPercent > 0 && discountPercent < 100) ? discountPercent : 0
+            };
+        });
 
         // Convert facets maps to arrays
         return {
@@ -321,21 +333,48 @@ class ProductService {
         return themeSections;
     }
 
-    async hasSaleProducts() {
+    async getSaleStats() {
         const { data, error } = await supabaseAnon
             .from('products')
-            .select('id, compare_at_price, price, tags')
-            .or('compare_at_price.gt.0,tags.cs.{sale}');
+            .select('id, compare_at_price, price, product_type')
+            .neq('product_type', 'fabric')
+            .gt('compare_at_price', 0);
 
         if (error) throw new Error(error.message);
 
-        // Check if any product has a valid sale condition
-        const hasSale = data && data.some(p =>
-            (p.compare_at_price && parseFloat(p.compare_at_price) > parseFloat(p.price)) ||
-            (p.tags && p.tags.map(t => t.toLowerCase()).includes('sale'))
-        );
+        const saleProducts = [];
+        const discountPercents = [];
 
-        return hasSale;
+        for (const p of (data || [])) {
+            const price = parseFloat(p.price) || 0;
+            const compareAt = parseFloat(p.compare_at_price) || 0;
+            if (compareAt > price && price > 0) {
+                const pct = Math.round(((compareAt - price) / compareAt) * 100);
+                if (pct > 0 && pct < 100) {
+                    saleProducts.push(p);
+                    discountPercents.push(pct);
+                }
+            }
+        }
+
+        const maxDiscountPercent = discountPercents.length > 0 ? Math.max(...discountPercents) : 0;
+        const minDiscountPercent = discountPercents.length > 0 ? Math.min(...discountPercents) : 0;
+        const avgDiscountPercent = discountPercents.length > 0
+            ? Math.round(discountPercents.reduce((sum, v) => sum + v, 0) / discountPercents.length)
+            : 0;
+
+        return {
+            hasSale: saleProducts.length > 0 && maxDiscountPercent > 0,
+            saleCount: saleProducts.length,
+            maxDiscountPercent,
+            minDiscountPercent,
+            avgDiscountPercent
+        };
+    }
+
+    async hasSaleProducts() {
+        const stats = await this.getSaleStats();
+        return stats.hasSale;
     }
 }
 

@@ -1364,7 +1364,7 @@ function renderFloatingCurrencyWidget() {
         color: #1f1b18;
         border: 1px solid rgba(0, 0, 0, 0.12);
         border-radius: 6px;
-        padding: 9px 13px;
+        padding: 0.9rem 1.3rem;
         font-size: 13px;
         font-weight: 500;
         letter-spacing: 0.3px;
@@ -1444,11 +1444,7 @@ function renderFloatingCurrencyWidget() {
           bottom: calc(75px + 12px + env(safe-area-inset-bottom, 0px)) !important;
           left: 12px !important;
         }
-        .floating-currency-btn {
-          padding: 8px 11px;
-          font-size: 12px;
-          gap: 6px;
-        }
+
         .floating-currency-widget .fc-flag {
           width: 19px;
           height: 13px;

@@ -234,7 +234,7 @@
                             <li class="header__menu--items ${active === 'fabrics' ? 'active-page' : ''}">
                                 <a class="header__menu--link ${active === 'fabrics' ? 'active' : ''}" href="/fabric">Fabrics</a>
                             </li>
-                            <li class="header__menu--items ${active === 'sale' ? 'active-page' : ''}">
+                            <li class="header__menu--items ${active === 'sale' ? 'active-page' : ''}" style="display: none;">
                                 <a class="header__menu--link header__menu--link--sale ${active === 'sale' ? 'active' : ''}" href="/sale">Sale</a>
                             </li>
                             <li class="header__menu--items ${active === 'about' ? 'active-page' : ''}">
@@ -307,7 +307,7 @@
                         <li class="offcanvas__menu_li ${active === 'fabrics' ? 'active' : ''}">
                             <a class="offcanvas__menu_item ${active === 'fabrics' ? 'active' : ''}" href="/fabric">Fabrics</a>
                         </li>
-                        <li class="offcanvas__menu_li ${active === 'sale' ? 'active' : ''}">
+                        <li class="offcanvas__menu_li ${active === 'sale' ? 'active' : ''}" style="display: none;">
                             <a class="offcanvas__menu_item header__menu--link--sale ${active === 'sale' ? 'active' : ''}" href="/sale">Sale</a>
                         </li>
                         <li class="offcanvas__menu_li ${active === 'about' ? 'active' : ''}">
@@ -441,6 +441,11 @@
 
         // 5. Asynchronously synchronize with backend for any collection changes
         syncCollectionsWithBackend(containerEl);
+
+        // 6. Verify active sale status from backend before showing Sale links
+        if (typeof window.checkAndShowSaleLink === 'function') {
+            window.checkAndShowSaleLink();
+        }
     };
 
     function bindOffcanvasHandlers(container) {

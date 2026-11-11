@@ -56,9 +56,18 @@ export default class ProductCard {
 
         // Badges
         const isSalePage = window.location.pathname.includes('/sale') || window.location.pathname === '/sale' || window.location.pathname.endsWith('/sale') || window.location.search.includes('collection=sale');
+        const priceNum = parseFloat(product.price) || 0;
+        const compareAtNum = parseFloat(product.compare_at_price) || 0;
+        const discountPct = Number(product.discount_percent) || ((compareAtNum > priceNum && priceNum > 0) ? Math.round(((compareAtNum - priceNum) / compareAtNum) * 100) : 0);
+        const hasDiscount = discountPct > 0 && discountPct < 100;
 
         if (!product.in_stock) {
             const badge = this.createEl('span', 'product__card--badge sold-out-badge', {}, 'Sold Out');
+            thumbnailWrap.appendChild(badge);
+        } else if (hasDiscount) {
+            const badge = this.createEl('span', 'product__card--badge sale-badge', {
+                style: 'background-color: #ED1D24; color: #fff;'
+            }, `-${discountPct}%`);
             thumbnailWrap.appendChild(badge);
         } else if (isSalePage) {
             const badge = this.createEl('span', 'product__card--badge sale-badge', {
@@ -166,7 +175,7 @@ export default class ProductCard {
         const currentPrice = this.createEl('span', 'current__price', {}, this.formatPrice(product.price));
         priceWrapper.appendChild(currentPrice);
 
-        if (isSalePage && product.compare_at_price > product.price) {
+        if (compareAtNum > priceNum) {
             const oldPrice = this.createEl('span', 'old__price', {}, this.formatPrice(product.compare_at_price));
             priceWrapper.appendChild(oldPrice);
         }

@@ -285,15 +285,59 @@ function escapeHtml(str) {
     }
   },
 
-  sale_promo(el, settings) {
-    const h = el.querySelector('.section__heading--maintitle');
-    if (h && settings.title) h.textContent = settings.title;
-    const p = el.querySelector('p');
-    if (p && settings.description) p.textContent = settings.description;
-    const btn = el.querySelector('.view-all-center a');
-    if (btn && settings.button_text) btn.textContent = settings.button_text + ' →';
-    if (btn && settings.button_link) btn.href = settings.button_link;
-    if (settings.bg_color) el.style.backgroundColor = settings.bg_color;
+  async sale_promo(el, settings) {
+    el.style.setProperty('display', 'none', 'important');
+    try {
+      const fetchSaleStats = typeof window.getSaleCheck === 'function'
+        ? window.getSaleCheck
+        : () => {
+          if (!window._saleCheckPromise) {
+            window._saleCheckPromise = fetch('/api/sale-check')
+              .then(r => r.ok ? r.json() : { hasSale: false, maxDiscountPercent: 0 })
+              .catch(() => ({ hasSale: false, maxDiscountPercent: 0 }));
+          }
+          return window._saleCheckPromise;
+        };
+
+      const saleData = await fetchSaleStats();
+      const maxPct = Number(saleData && saleData.maxDiscountPercent) || 0;
+      const minPct = Number(saleData && saleData.minDiscountPercent) || 0;
+
+      // Completely remove the section if there is no active sale with a real calculated discount percentage
+      if (!saleData || !saleData.hasSale || maxPct <= 0) {
+        el.style.setProperty('display', 'none', 'important');
+        el.remove();
+        return;
+      }
+
+      const h = el.querySelector('.section__heading--maintitle');
+      if (h) {
+        let dynamicTitle = (settings.title || 'ON SALE NOW').trim();
+        const pctLabel = (minPct > 0 && minPct === maxPct)
+          ? `${maxPct}% OFF`
+          : `UP TO ${maxPct}% OFF`;
+        if (/(?:UP\s+TO\s+)?\d+\s*%\s*OFF/i.test(dynamicTitle)) {
+          dynamicTitle = dynamicTitle.replace(/(?:UP\s+TO\s+)?\d+\s*%\s*OFF/i, pctLabel);
+        } else if (/\d+\s*%/.test(dynamicTitle)) {
+          dynamicTitle = dynamicTitle.replace(/\d+\s*%/, `${maxPct}%`);
+        } else {
+          dynamicTitle = `${dynamicTitle} - ${pctLabel}`;
+        }
+        h.textContent = dynamicTitle;
+      }
+
+      const p = el.querySelector('p');
+      if (p && settings.description) p.textContent = settings.description;
+      const btn = el.querySelector('.view-all-center a');
+      if (btn && settings.button_text) btn.textContent = settings.button_text + ' →';
+      if (btn && settings.button_link) btn.href = settings.button_link;
+      if (settings.bg_color) el.style.backgroundColor = settings.bg_color;
+
+      el.style.removeProperty('display');
+    } catch (err) {
+      el.style.setProperty('display', 'none', 'important');
+      el.remove();
+    }
   },
 
   shop_by_style(el, settings) {
@@ -496,8 +540,12 @@ async function applyThemeSections() {
       if (!sec || sec.enabled === false) return;
       const el = document.querySelector(`main [data-section-id="${key}"]`);
       if (!el) return;
-      el.style.display = '';
-      const fn = updaters[sec.type || key];
+      const sectionType = sec.type || key;
+      // sale_promo remains hidden until updaters.sale_promo confirms active backend sale
+      if (sectionType !== 'sale_promo') {
+        el.style.display = '';
+      }
+      const fn = updaters[sectionType];
       if (fn) fn(el, sec.settings || {});
     });
   } catch (e) {

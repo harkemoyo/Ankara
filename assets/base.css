@@ -11574,7 +11574,7 @@ li[data-address]>h2 {
   font-weight: 600;
   border-radius: 50%;
   border: 1px solid var(--border-color);
-  background: var(--foreground-color);
+  background: var(--burgundy-color);
   cursor: pointer;
   padding: 0;
   transition: all 0.3s ease;
@@ -11590,7 +11590,7 @@ li[data-address]>h2 {
 }
 
 .pagination__item--current {
-  background: var(--secondary-color) !important;
+  background: var(--burgundy-color) !important;
   border-color: var(--secondary-color) !important;
   color: var(--text-white-color) !important;
 }

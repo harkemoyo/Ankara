@@ -192,12 +192,7 @@
             <div class="header__topbar--inner">
                 <div class="topbar-left-spacer"></div>
                 <p class="header__info--text text-white m-0 text-center" id="announcement-text" data-section-id="announcement"></p>
-                <div class="header__topbar--currency">
-                    <select class="currency-switcher" aria-label="Select Currency" onchange="if(window.AnkaraCurrency) window.AnkaraCurrency.setCurrency(this.value)">
-                        <option value="KES" class="currency-option" ${currentCurrency === 'KES' ? 'selected' : ''}>KES</option>
-                        <option value="USD" class="currency-option" ${currentCurrency === 'USD' ? 'selected' : ''}>USD</option>
-                    </select>
-                </div>
+                <div class="topbar-right-spacer"></div>
             </div>
         </div>
 

@@ -91,8 +91,8 @@ async function loadShopProducts() {
                     `).join('')}
                 </div>` : ''}
                 <div class="product__card--price clean-price" style="margin-top: 5px;">
-                    <span class="current__price">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : price.toFixed(2)}</span>
-                    ${comparePrice && product.compare_at_price ? `<span class="old__price" style="text-decoration:line-through;color:#999;margin-left:8px;">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.compare_at_price) : comparePrice.toFixed(2)}</span>` : ''}
+                    <span class="current__price" data-raw-price="${product.price}">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : price.toFixed(2)}</span>
+                    ${comparePrice && product.compare_at_price ? `<span class="old__price" data-raw-price="${product.compare_at_price}" style="text-decoration:line-through;color:#999;margin-left:8px;">${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.compare_at_price) : comparePrice.toFixed(2)}</span>` : ''}
                 </div>
             </div>
         </article>`;
@@ -686,7 +686,7 @@ async function loadRelatedProducts(product) {
                     <a href="/product/${p.handle}">${p.title}</a>
                 </h3>
                 <div class="product__card--price clean-price">
-                    <span class="current__price">${priceStr}</span>
+                    <span class="current__price" data-raw-price="${p.price}">${priceStr}</span>
                 </div>
             </div>
         </article>`;

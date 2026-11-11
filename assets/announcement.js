@@ -29,13 +29,11 @@ class AnkaraAnnouncement {
     }
 
     getSlideData() {
-        const currentCurrency = window.AnkaraCurrency ? window.AnkaraCurrency.current : 'KES';
-        const rate = (window.AnkaraCurrency && window.AnkaraCurrency.rate) ? window.AnkaraCurrency.rate : 130.00;
-        const usdThreshold = Math.round(this.kesThreshold / rate) || 80;
+        const thresholdStr = (window.AnkaraCurrency && typeof window.AnkaraCurrency.convertAndFormat === 'function')
+            ? window.AnkaraCurrency.convertAndFormat(this.kesThreshold)
+            : `KSh ${this.kesThreshold.toLocaleString()}`;
 
-        const slide1Text = currentCurrency === 'USD'
-            ? `🚚 FREE Nairobi Delivery on Orders Over $${usdThreshold}`
-            : `🚚 FREE Nairobi Delivery on Orders Over KSh ${this.kesThreshold.toLocaleString()}`;
+        const slide1Text = `🚚 FREE Nairobi Delivery on Orders Over ${thresholdStr}`;
 
         return [
             slide1Text,

@@ -22,12 +22,15 @@ export const supabase = supabaseClient;
 
 // ── Multi-Currency Helper (with Auto-Geo Detection) ────────────────────────
 function detectInitialCurrency() {
-    const manual = localStorage.getItem('mhw-currency');
-    if (manual) return manual;
+    if (localStorage.getItem('mhw-currency-manual') === '1') {
+        const manual = localStorage.getItem('mhw-currency');
+        if (manual) return manual;
+    }
     try {
         const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '').toLowerCase();
         const lang = (navigator.language || '').toUpperCase();
-        if (tz.includes('nairobi') || tz.includes('kampala') || tz.includes('dar_es_salaam') || lang.endsWith('-KE')) {
+        if (tz.includes('nairobi') || tz.includes('kampala') || tz.includes('dar_es_salaam') || tz.includes('africa/') || lang.endsWith('-KE')) {
+            localStorage.setItem('mhw-currency', 'KES');
             return 'KES';
         }
         if (tz.includes('london') || lang.endsWith('-GB')) {
@@ -40,7 +43,8 @@ function detectInitialCurrency() {
             return 'USD';
         }
     } catch (e) { }
-    return window.DEFAULT_CURRENCY || 'KES';
+    localStorage.setItem('mhw-currency', 'KES');
+    return 'KES';
 }
 
 window.AnkaraCurrency = {
@@ -210,21 +214,29 @@ if (document.readyState === 'loading') {
     loadSharedTheme();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    highlightActiveNav();
+function syncCurrencySymbolsAndPrices() {
+    const curr = (window.AnkaraCurrency && window.AnkaraCurrency.current) || 'KES';
+    const symbolMap = { KES: 'KSh', USD: '$', GBP: '£', EUR: '€' };
+    const sym = symbolMap[curr] || 'KSh';
 
-
-    const switchers = document.querySelectorAll('.currency-switcher');
-    switchers.forEach(sw => { sw.value = window.AnkaraCurrency.current; });
-
-    window.addEventListener('currency:changed', (e) => {
-        // Update all currency dropdown switchers across pages
-        switchers.forEach(sw => { sw.value = e.detail; });
-
-
-        // Dynamically update raw price elements
-        document.querySelectorAll('[data-raw-price]').forEach(el => {
-            el.textContent = window.AnkaraCurrency.convertAndFormat(el.dataset.rawPrice);
-        });
+    document.querySelectorAll('.currency-switcher').forEach(sw => { sw.value = curr; });
+    document.querySelectorAll('.price__filter--currency').forEach(el => { el.textContent = sym; });
+    document.querySelectorAll('[data-raw-price]').forEach(el => {
+        el.textContent = window.AnkaraCurrency.convertAndFormat(el.dataset.rawPrice);
     });
+}
+
+function initCurrencyAndNav() {
+    highlightActiveNav();
+    syncCurrencySymbolsAndPrices();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCurrencyAndNav);
+} else {
+    initCurrencyAndNav();
+}
+
+window.addEventListener('currency:changed', () => {
+    syncCurrencySymbolsAndPrices();
 });

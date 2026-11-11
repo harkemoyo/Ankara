@@ -160,7 +160,7 @@ function escapeHtml(str) {
         <div class="botm-layout__content botm-content">
             <span class="botm-vendor">${vendor}</span>
             <h3 class="botm-title">${product.title}</h3>
-            <div class="botm-price">
+            <div class="botm-price" data-raw-price="${product.price}">
                 ${window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.price) : `KSh ${price.toLocaleString()}`}
             </div>
             <span class="botm-tax">Tax included. Shipping calculated at checkout.</span>

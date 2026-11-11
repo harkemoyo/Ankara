@@ -1261,6 +1261,114 @@ function renderContactCluster() {
 function renderFloatingCurrencyWidget() {
   if (document.querySelector('.floating-currency-widget')) return;
 
+  if (!document.getElementById('floating-currency-styles')) {
+    const style = document.createElement('style');
+    style.id = 'floating-currency-styles';
+    style.textContent = `
+      .floating-currency-widget {
+        position: fixed;
+        bottom: 24px;
+        left: 24px;
+        z-index: 99980;
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      .floating-currency-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        background: #ffffff;
+        color: #1f1b18;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 6px;
+        padding: 9px 14px;
+        font-size: 13.5px;
+        font-weight: 500;
+        letter-spacing: 0.4px;
+        line-height: 1;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+        transition: box-shadow 0.2s ease, transform 0.2s ease;
+      }
+      .floating-currency-btn:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(-1px);
+      }
+      .floating-currency-widget .fc-flag {
+        width: 22px;
+        height: 15px;
+        border-radius: 2px;
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.35);
+        flex-shrink: 0;
+        display: block;
+      }
+      .floating-currency-widget .fc-code {
+        font-weight: 500;
+        color: #1f1b18;
+      }
+      .floating-currency-widget .fc-chevron {
+        color: #555;
+        transition: transform 0.2s ease;
+      }
+      .floating-currency-widget.is-open .fc-chevron {
+        transform: rotate(180deg);
+      }
+      .floating-currency-menu {
+        position: absolute;
+        bottom: calc(100% + 8px);
+        left: 0;
+        min-width: 100%;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+        padding: 5px 0;
+        margin: 0;
+        list-style: none;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(6px);
+        transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+      }
+      .floating-currency-widget.is-open .floating-currency-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .floating-currency-item {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 8px 14px;
+        font-size: 13px;
+        color: #1f1b18;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+      .floating-currency-item:hover,
+      .floating-currency-item.active {
+        background: #f6f1ee;
+        color: #800020;
+      }
+      .floating-currency-item.active .fc-code,
+      .floating-currency-item:hover .fc-code {
+        color: #800020;
+        font-weight: 600;
+      }
+      @media only screen and (max-width: 767px) {
+        .floating-currency-widget {
+          bottom: 16px;
+          left: 16px;
+        }
+        .floating-currency-btn {
+          padding: 8px 12px;
+          font-size: 12.5px;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   const FLAGS = {
     KES: `<svg class="fc-flag" viewBox="0 0 36 24" width="24" height="16" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="24" fill="#fff"/><rect width="36" height="7" y="0" fill="#000"/><rect width="36" height="7" y="17" fill="#006600"/><rect width="36" height="7.6" y="8.2" fill="#BB0000"/><line x1="15" y1="3" x2="21" y2="21" stroke="#fff" stroke-width="1.2"/><line x1="21" y1="3" x2="15" y2="21" stroke="#fff" stroke-width="1.2"/><ellipse cx="18" cy="12" rx="3.8" ry="6.5" fill="#BB0000" stroke="#fff" stroke-width="0.9"/><path d="M16.2 7.2 A2 5.5 0 0 0 16.2 16.8 Z" fill="#000"/><path d="M19.8 7.2 A2 5.5 0 0 1 19.8 16.8 Z" fill="#000"/><ellipse cx="18" cy="12" rx="0.9" ry="2.2" fill="#fff"/></svg>`,
     USD: `<svg class="fc-flag" viewBox="0 0 36 24" width="24" height="16" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="24" fill="#B22234"/><rect width="36" height="1.85" y="1.85" fill="#fff"/><rect width="36" height="1.85" y="5.54" fill="#fff"/><rect width="36" height="1.85" y="9.23" fill="#fff"/><rect width="36" height="1.85" y="12.92" fill="#fff"/><rect width="36" height="1.85" y="16.62" fill="#fff"/><rect width="36" height="1.85" y="20.31" fill="#fff"/><rect width="15" height="12.92" fill="#3C3B6E"/><circle cx="3" cy="2.6" r="0.8" fill="#fff"/><circle cx="6" cy="2.6" r="0.8" fill="#fff"/><circle cx="9" cy="2.6" r="0.8" fill="#fff"/><circle cx="12" cy="2.6" r="0.8" fill="#fff"/><circle cx="4.5" cy="5.2" r="0.8" fill="#fff"/><circle cx="7.5" cy="5.2" r="0.8" fill="#fff"/><circle cx="10.5" cy="5.2" r="0.8" fill="#fff"/><circle cx="3" cy="7.8" r="0.8" fill="#fff"/><circle cx="6" cy="7.8" r="0.8" fill="#fff"/><circle cx="9" cy="7.8" r="0.8" fill="#fff"/><circle cx="12" cy="7.8" r="0.8" fill="#fff"/><circle cx="4.5" cy="10.4" r="0.8" fill="#fff"/><circle cx="7.5" cy="10.4" r="0.8" fill="#fff"/><circle cx="10.5" cy="10.4" r="0.8" fill="#fff"/></svg>`,
@@ -1275,7 +1383,13 @@ function renderFloatingCurrencyWidget() {
     { code: 'EUR', label: 'EUR' }
   ];
 
-  const getActiveCode = () => (window.AnkaraCurrency && window.AnkaraCurrency.current) || localStorage.getItem('mhw-currency') || 'KES';
+  const getActiveCode = () => {
+    if (window.AnkaraCurrency && window.AnkaraCurrency.current) return window.AnkaraCurrency.current;
+    if (localStorage.getItem('mhw-currency-manual') === '1' && localStorage.getItem('mhw-currency')) {
+      return localStorage.getItem('mhw-currency');
+    }
+    return 'KES';
+  };
 
   const widget = document.createElement('div');
   widget.className = 'floating-currency-widget';

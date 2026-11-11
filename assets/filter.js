@@ -63,7 +63,7 @@ async function loadSidebarFeaturedProducts() {
                         <a href="/product/${encodeURIComponent(p.handle || p.id)}">${title}</a>
                     </h3>
                     <div class="small__product--card__price mb_5">
-                        <span class="current__price">${priceFormatted}</span>
+                        <span class="current__price" data-raw-price="${price}">${priceFormatted}</span>
                     </div>
                 </div>
             </div>`;

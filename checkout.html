@@ -30,17 +30,19 @@
 
     <!-- CSS -->
     <link href="assets/normalize.css" rel="stylesheet" />
-    <link href="assets/checkout.css?v=2" rel="stylesheet" />
+    <link href="assets/checkout.css?v=3" rel="stylesheet" />
 
     <!-- Scripts -->
     <script src="assets/config.js"></script>
     <script src="assets/supabase.umd.js"></script>
     <script src="assets/cart.js"></script>
+    <script defer src="assets/global.js"></script>
+    <script defer src="assets/supabase-client.js" type="module"></script>
 </head>
 
 <body class="checkout-page">
 
-    <!-- ── Header (Centered Minimalist Shopify Style) ── -->
+    <!-- ── Header (Centered Minimalist Sandstorm/Shopify Style) ── -->
     <header class="chk-header">
         <div class="chk-header-inner">
             <div class="chk-header-logo-wrap">
@@ -50,20 +52,14 @@
                 </a>
             </div>
             <div class="chk-header-actions">
-                <select class="chk-currency-select" id="chk-currency-select"
-                    onchange="switchCheckoutCurrency(this.value)" title="Currency">
-                    <option value="USD">USD ($)</option>
-                    <option value="KES">KES (KSh)</option>
-                </select>
-                <a href="/cart" class="chk-header-cart-link" title="Return to Bag">
+                <a href="/shop" class="chk-header-cart-link" title="Return to Shop">
                     <span class="chk-header-cart-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                             <line x1="3" y1="6" x2="21" y2="6"></line>
                             <path d="M16 10a4 4 0 0 1-8 0"></path>
                         </svg>
-                        <span class="chk-header-cart-badge" id="chk-cart-badge">0</span>
                     </span>
                 </a>
             </div>
@@ -99,36 +95,21 @@
         <!-- ── Left Column: Checkout Form ── -->
         <div class="chk-main-col">
 
-            <!-- High-Visibility Delivery & Free Shipping Announcement Banner -->
-            <div class="checkout-banner-announcement">
-                <div class="checkout-banner-item">
-                    <span class="banner-badge">Location</span>
-                    <span>📍 Delivering within Nairobi County</span>
-                </div>
-                <div class="checkout-banner-item">
-                    <span class="banner-badge banner-badge-free">Free Delivery</span>
-                    <span>🚚 FREE Nairobi Delivery on Orders Over <strong
-                            class="free-shipping-threshold">$100.00</strong></span>
-                </div>
-            </div>
-
             <form id="chk-form" novalidate>
 
                 <!-- ── 1. Contact ── -->
                 <section class="chk-section">
                     <div class="chk-section-header">
                         <h2 class="chk-section-title">Contact</h2>
-                        <span style="font-size:13.5px; color:#666;">
-                            Already have an account? <a href="/account" class="chk-login-link">Log in</a>
-                        </span>
+                        <a href="/account" class="chk-login-link">Sign in</a>
                     </div>
                     <div class="chk-field-group">
-                        <input type="email" id="email" name="email" class="chk-input" placeholder="Email Address"
+                        <input type="email" id="email" name="email" class="chk-input" placeholder="Email"
                             required autocomplete="email">
                     </div>
                     <label class="chk-checkbox-wrap">
                         <input type="checkbox" id="news-offers" checked>
-                        <span>Email me with news and special African fashion offers</span>
+                        <span>Email me with news and offers</span>
                     </label>
                 </section>
 
@@ -138,7 +119,8 @@
                         <h2 class="chk-section-title">Delivery</h2>
                     </div>
 
-                    <div class="chk-field-group">
+                    <div class="chk-field-group chk-select-floating">
+                        <label for="country" class="chk-floating-label">Country/Region</label>
                         <select id="country" name="country" class="chk-select" required autocomplete="country">
                             <option value="KE" selected>Kenya</option>
                             <option value="US">United States</option>
@@ -214,25 +196,13 @@
                         <h2 class="chk-section-title">Shipping method</h2>
                     </div>
 
-                    <!-- Nairobi Only Notice -->
-                    <div class="checkout__shipping-notice">
-                        <span class="checkout__shipping-icon">📍</span>
-                        <div class="checkout__shipping-text">
-                            <strong>Nairobi County Fast Delivery</strong>
-                            <div class="checkout__shipping-subtext">Doorstep delivery within Nairobi County in 1–2
-                                business days. For orders outside Nairobi or worldwide shipping, we coordinate
-                                personalized courier via WhatsApp.</div>
-                        </div>
-                    </div>
-
                     <div class="chk-card-group">
                         <label class="chk-card-row active" id="ship-standard-row">
                             <div class="chk-card-row-left">
                                 <input type="radio" name="shipping_rate" id="ship-standard-radio" value="standard"
                                     checked>
                                 <div>
-                                    <div class="chk-card-label">Free shipping 1-2 days, Delivery Made to Order (2 Weeks)
-                                    </div>
+                                    <div class="chk-card-label">Standard Nairobi Delivery (1–2 Business Days)</div>
                                     <div class="chk-card-sublabel">Reliable doorstep delivery</div>
                                 </div>
                             </div>
@@ -293,17 +263,10 @@
 
                 <!-- ── 5. Primary Action: Place Order ── -->
                 <div class="chk-action-group">
-                    <button type="submit" class="chk-whatsapp-btn" id="chk-submit-btn" disabled>
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                        </svg>
-                        <span id="chk-submit-label">Place Order</span>
+                    <button type="submit" class="chk-pay-btn" id="chk-submit-btn" disabled>
+                        <span id="chk-submit-label">Complete order</span>
                     </button>
                     <div id="chk-submit-error" style="text-align:center; font-size:12px; color:#c0392b; display:none;">
-                    </div>
-                    <div style="text-align:center; font-size:12px; color:#777;">
-                        🔒 Secure payment powered by Paystack.
                     </div>
                 </div>
 
@@ -366,21 +329,30 @@
         const BASE_RATE = 130.00;
 
         window.AnkaraCurrency = window.AnkaraCurrency || {
-            current: localStorage.getItem('mhw-currency') || 'USD',
+            current: (localStorage.getItem('mhw-currency-manual') === '1' && localStorage.getItem('mhw-currency')) ? localStorage.getItem('mhw-currency') : 'KES',
             rate: BASE_RATE,
             currencySymbol: 'KSh',
             convertAndFormat(kesPrice) {
                 const num = parseFloat(kesPrice) || 0;
-                if (this.current === 'KES') {
+                const curr = this.current || 'KES';
+                if (curr === 'KES') {
                     return `KSh ${Math.round(num).toLocaleString('en-KE')}`;
                 }
-                // Accurate USD conversion: divide KES amount by 130
-                const usdAmount = num / (this.rate || BASE_RATE);
-                return `$${usdAmount.toFixed(2)}`;
+                const usdRate = parseFloat(this.rate) || BASE_RATE;
+                if (curr === 'GBP') {
+                    return `£${(num / (usdRate * 1.27)).toFixed(2)}`;
+                }
+                if (curr === 'EUR') {
+                    return `€${(num / (usdRate * 1.09)).toFixed(2)}`;
+                }
+                return `$${(num / usdRate).toFixed(2)}`;
             },
-            setCurrency(curr) {
+            setCurrency(curr, isManual = true) {
                 this.current = curr;
-                localStorage.setItem('mhw-currency', curr);
+                if (isManual) {
+                    localStorage.setItem('mhw-currency', curr);
+                    localStorage.setItem('mhw-currency-manual', '1');
+                }
                 window.dispatchEvent(new CustomEvent('currency:changed', { detail: curr }));
             }
         };

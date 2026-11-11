@@ -464,7 +464,6 @@ function escapeHtml(str) {
   },
 
   custom_css(el, settings) {
-    if (settings.primary_color) document.documentElement.style.setProperty('--primary-color', settings.primary_color);
     if (settings.secondary_color) document.documentElement.style.setProperty('--secondary-color', settings.secondary_color);
     if (settings.bg_color) document.documentElement.style.setProperty('--body-background-color', settings.bg_color);
     if (settings.custom_css) {

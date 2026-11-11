@@ -112,7 +112,7 @@
   font-size: 1.3rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--foreground-color);
+  color: #ffffff;
   font-weight: 600;
   display: block;
 }
@@ -225,7 +225,7 @@
 .about__story_content p.about__story--text {
   font-size: 1.6rem;
   line-height: 1.85;
-  color: var( #4a4543);
+  color: #1a1818;
 }
 
 .about__story_content p.about__story--text:last-child {
@@ -401,7 +401,7 @@
 .about__different--text {
   font-size: 1.6rem;
   line-height: 1.8;
-  color: var(#4a4543);
+  color: #1a1818;
   margin: 0;
 }
 

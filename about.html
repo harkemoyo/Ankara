@@ -515,8 +515,10 @@
                             try { const parsed = JSON.parse(product.images); firstImage = Array.isArray(parsed) ? parsed[0] : product.images; } catch (e) { firstImage = product.images; }
                         }
                         firstImage = firstImage || product.image || '';
-                        const price = product.price || (product.variants && product.variants[0] ? product.variants[0].price : '');
-                        const currency = (typeof window !== 'undefined' && window.currencySettings && window.currencySettings.symbol) || '$';
+                        const price = product.price || (product.variants && product.variants[0] ? product.variants[0].price : 0);
+                        const priceFormatted = (window.AnkaraCurrency && typeof window.AnkaraCurrency.convertAndFormat === 'function')
+                            ? window.AnkaraCurrency.convertAndFormat(price)
+                            : `KSh ${Number(price).toLocaleString()}`;
                         const subtitle = currentContent.differentSubtitle || 'What Makes Us Different';
                         const title = currentContent.differentTitle || 'Comfort Meets Culture';
                         section.innerHTML = `
@@ -530,7 +532,7 @@
                                     <span class="about__different--subtitle">${escapeHtml(subtitle)}</span>
                                     <h2 class="about__different--title">${escapeHtml(title)}</h2>
                                     <h3 style="margin:0 0 8px;font-size:1.5rem;">${escapeHtml(product.title)}</h3>
-                                    <p class="price" style="font-size:1.3rem;font-weight:600;color:var(--primary-color);margin-bottom:12px;">${currency}${price}</p>
+                                    <p class="price" data-raw-price="${price}" style="font-size:1.3rem;font-weight:600;color:var(--primary-color);margin-bottom:12px;">${priceFormatted}</p>
                                     <p class="about__different--text" style="margin-bottom:16px;">${escapeHtml(product.description || '')}</p>
                                     <a href="/product/${encodeURIComponent(handle)}" class="btn btn-primary">View Product</a>
                                 </div>

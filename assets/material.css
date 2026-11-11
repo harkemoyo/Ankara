@@ -13,7 +13,7 @@
   font-size: 1.3rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #D4A843;
+  color: #ffffff;
 }
 
 .material__header {
@@ -80,7 +80,7 @@
 }
 
 .material__hero--subtitle {
-  color: #D4A843;
+  color: #ffffff;
   font-size: 1.3rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;

@@ -13,7 +13,7 @@
   font-family: var(--font-heading, 'Playfair Display', serif);
   font-size: clamp(2.8rem, 5vw, 4.2rem);
   font-weight: 700;
-  color: var(--foreground-color, #1a1818);
+  color: #1a1818;
   margin: 0 0 0.8rem;
   letter-spacing: -0.02em;
 }
@@ -74,7 +74,7 @@
   font-family: var(--font-heading, 'Playfair Display', serif);
   font-size: clamp(1.8rem, 2.5vw, 2.2rem);
   font-weight: 600;
-  color: var(--foreground-color, #1a1818);
+  color: #1a1818;
   margin: 0 0 1.2rem;
   padding-bottom: 0.8rem;
   border-bottom: 2px solid rgba(0, 0, 0, 0.06);
@@ -135,7 +135,7 @@
 
 .legal-section strong {
   font-weight: 600;
-  color: var(--foreground-color, #1a1818);
+  color: #1a1818;
 }
 
 /* ── Contact Card (bottom of legal pages) ── */

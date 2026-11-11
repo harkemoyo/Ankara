@@ -40,13 +40,13 @@ a:focus {
   --text-display: clamp(3rem, 4vw, 5rem);
 
   /* ── Colors (final/live values — matches what the site currently shows) ── */
-  --primary-color: #3C3836;
+  --primary-color: #1a1818;
   --secondary-color: #bcadae;
   --hover-color: #ED1D24;
   --yellow-color: #FF9800;
-  --foreground-color: #800020;
-  --foreground-sub-color: #98928E;
-  --body-text-color: #800020;
+  --foreground-color: #1a1818;
+  --foreground-sub-color: #555555;
+  --body-text-color: #1a1818;
   --text-white-color: #fff;
   --body-background-color: #f5f1ec;
   --bg-offwhite-color: #F5F7FF;
@@ -17802,7 +17802,7 @@ body.body .footer__section {
 }
 
 .testimonial-card .stars {
-  color: #800020;
+  color: #1a1818;
   font-size: 1.4rem;
   margin-bottom: 2rem;
   letter-spacing: 3px;
@@ -18918,19 +18918,19 @@ body.body .header__section {
 
 .outlet-header .outlet-subtitle {
   display: inline-block;
-  color: #D4A843;
+  color: #1a1818;
   font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   padding-bottom: 0.4rem;
-  border-bottom: 2px solid #D4A843;
+  border-bottom: 2px solid #1a1818;
 }
 
 .outlet-header .outlet-title {
   font-size: clamp(2.8rem, 4vw, 4rem);
   line-height: 1.1;
-  color: #3C3836;
+  color: #1a1818;
 }
 
 .outlet-header .outlet-desc {
@@ -18939,7 +18939,7 @@ body.body .header__section {
   line-height: 1.7;
   margin: 0 auto;
   max-width: 44ch;
-  color: #800020;
+  color: #1a1818;
 }
 
 .outlet-cta {

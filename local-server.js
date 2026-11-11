@@ -71,16 +71,16 @@ app.get('/fabric', (req, res) => {
 });
 
 // Route clean aliases for legal policies & thank-you page
-app.get(['/privacy', '/privacy-policy'], (req, res) => {
+app.get(['/privacy', '/privacy-policy', '/legal/privacy-policy.html', '/legal/privacy-policy'], (req, res) => {
     res.sendFile(path.join(__dirname, 'privacy-policy.html'));
 });
-app.get(['/terms', '/terms-of-service', '/terms-and-conditions'], (req, res) => {
+app.get(['/terms', '/terms-of-service', '/terms-and-conditions', '/legal/terms-of-service.html', '/legal/terms-of-service'], (req, res) => {
     res.sendFile(path.join(__dirname, 'terms-of-service.html'));
 });
-app.get(['/shipping', '/shipping-policy'], (req, res) => {
+app.get(['/shipping', '/shipping-policy', '/legal/shipping-policy.html', '/legal/shipping-policy'], (req, res) => {
     res.sendFile(path.join(__dirname, 'shipping-policy.html'));
 });
-app.get(['/refund', '/refunds', '/refund-policy', '/returns'], (req, res) => {
+app.get(['/refund', '/refunds', '/refund-policy', '/returns', '/legal/refund-policy.html', '/legal/refund-policy'], (req, res) => {
     res.sendFile(path.join(__dirname, 'refund-policy.html'));
 });
 app.get('/thank-you', (req, res) => {

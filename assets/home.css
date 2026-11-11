@@ -168,7 +168,7 @@
 
 /* ── Section Specific Elements ── */
 .home-fabrics-teaser {
-  background-color: var(--primary-color, #800020);
+  background-color: var(--burgundy-color, #800020);
   padding-block: var(--space-6, 5rem);
 }
 
@@ -178,7 +178,7 @@
 }
 
 .home-fabrics-teaser .botm-header-subtitle {
-  color: var(--yellow-color, #D4A843);
+  color: #ffffff;
   font-size: var(--text-xs, 1.3rem);
   letter-spacing: 0.25em;
   text-transform: uppercase;

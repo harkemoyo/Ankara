@@ -100,19 +100,19 @@
       "dest": "/order-status.html"
     },
     {
-      "src": "/(privacy|privacy-policy)",
+      "src": "/(legal/)?(privacy|privacy-policy)(\\.html)?",
       "dest": "/privacy-policy.html"
     },
     {
-      "src": "/(terms|terms-of-service|terms-and-conditions)",
+      "src": "/(legal/)?(terms|terms-of-service|terms-and-conditions)(\\.html)?",
       "dest": "/terms-of-service.html"
     },
     {
-      "src": "/(shipping|shipping-policy)",
+      "src": "/(legal/)?(shipping|shipping-policy)(\\.html)?",
       "dest": "/shipping-policy.html"
     },
     {
-      "src": "/(refund|refunds|refund-policy|returns)",
+      "src": "/(legal/)?(refund|refunds|refund-policy|returns)(\\.html)?",
       "dest": "/refund-policy.html"
     },
     {

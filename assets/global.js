@@ -1143,12 +1143,10 @@ async function loadThemeColors() {
 
     const root = document.documentElement;
     const css = theme.sections.custom_css?.settings || {};
-    if (css.primary_color) root.style.setProperty('--primary-color', css.primary_color);
     if (css.secondary_color) root.style.setProperty('--secondary-color', css.secondary_color);
     if (css.bg_color) root.style.setProperty('--body-background-color', css.bg_color);
 
     const buttons = theme.sections.buttons?.settings || {};
-    if (buttons.primary_color) root.style.setProperty('--primary-color', buttons.primary_color);
     if (buttons.hover_color) root.style.setProperty('--hover-color', buttons.hover_color);
     if (buttons.text_color) root.style.setProperty('--text-white-color', buttons.text_color);
     if (buttons.link_color) root.style.setProperty('--link-color', buttons.link_color);

@@ -18918,13 +18918,13 @@ body.body .header__section {
 
 .outlet-header .outlet-subtitle {
   display: inline-block;
-  color: #1a1818;
+  color: #800020;
   font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   padding-bottom: 0.4rem;
-  border-bottom: 2px solid #1a1818;
+  border-bottom: 2px solid #800020;
 }
 
 .outlet-header .outlet-title {

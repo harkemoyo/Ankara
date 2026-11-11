@@ -1169,10 +1169,101 @@ if (document.readyState === "loading") {
   loadThemeColors();
 }
 
-// ── Floating WhatsApp Button ──
+// ── Floating WhatsApp Button (Guaranteed across all pages) ──
 function renderContactCluster() {
-  const waNumber = window.STORE_CONFIG?.WHATSAPP_NUMBER || window.WHATSAPP_NUMBER;
-  if (!waNumber) return;
+  if (document.querySelector('.floating-contact-cluster')) return;
+
+  if (!document.getElementById('floating-contact-styles')) {
+    const style = document.createElement('style');
+    style.id = 'floating-contact-styles';
+    style.textContent = `
+      .floating-contact-cluster {
+        position: fixed !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        z-index: 99980 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+      }
+      .floating-contact-toggle {
+        width: 54px !important;
+        height: 54px !important;
+        border-radius: 50% !important;
+        border: none !important;
+        background: #25D366 !important;
+        color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 14px rgba(37, 211, 102, 0.45) !important;
+        transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease !important;
+        padding: 0 !important;
+      }
+      .floating-contact-toggle:hover {
+        background: #20ba5a !important;
+        transform: scale(1.08) !important;
+        box-shadow: 0 6px 18px rgba(37, 211, 102, 0.55) !important;
+      }
+      .floating-contact-menu {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 10px !important;
+        margin-bottom: 10px !important;
+        opacity: 0 !important;
+        transform: scale(0.8) translateY(20px) !important;
+        pointer-events: none !important;
+        transition: opacity 0.2s ease, transform 0.2s ease !important;
+      }
+      .floating-contact-cluster.active .floating-contact-menu {
+        opacity: 1 !important;
+        transform: scale(1) translateY(0) !important;
+        pointer-events: auto !important;
+      }
+      .floating-contact-btn {
+        width: 46px !important;
+        height: 46px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.14) !important;
+        transition: transform 0.2s, box-shadow 0.2s !important;
+      }
+      .floating-contact-btn:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2) !important;
+      }
+      .floating-contact-call {
+        background: #1a9c53 !important;
+      }
+      .floating-contact-whatsapp {
+        background: #25d366 !important;
+      }
+      @media only screen and (max-width: 991px) {
+        .floating-contact-cluster {
+          bottom: calc(75px + 12px + env(safe-area-inset-bottom, 0px)) !important;
+          right: 12px !important;
+        }
+        .floating-contact-toggle {
+          width: 48px !important;
+          height: 48px !important;
+        }
+        .floating-contact-btn {
+          width: 42px !important;
+          height: 42px !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  const waNumber = window.STORE_CONFIG?.WHATSAPP_NUMBER || window.WHATSAPP_NUMBER || '254715687280';
   const callNumber = window.STORE_CONFIG?.PHONE_NUMBER || waNumber;
 
   const pageUrl = window.location.href;
@@ -1183,8 +1274,7 @@ function renderContactCluster() {
 
   const whatsappIcon = `<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
 
-  const chatIcon = `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`;
-  const closeIcon = `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+  const closeIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
 
   const container = document.createElement('div');
   container.className = 'floating-contact-cluster';
@@ -1235,13 +1325,8 @@ function renderContactCluster() {
   toggle.addEventListener('click', function (e) {
     e.stopPropagation();
     clearTimeout(hoverTimeout);
-    if (isOpen) {
-      isOpen = false;
-      setExpanded(false);
-    } else {
-      isOpen = true;
-      setExpanded(true);
-    }
+    isOpen = !isOpen;
+    setExpanded(isOpen);
   });
 
   container.addEventListener('mouseenter', openContactMenu);
@@ -1256,6 +1341,7 @@ function renderContactCluster() {
   });
 }
 
+// ── Floating Flag & Currency Switcher (Floats at exact same level as WhatsApp button across all pages) ──
 function renderFloatingCurrencyWidget() {
   if (document.querySelector('.floating-currency-widget')) return;
 
@@ -1264,31 +1350,31 @@ function renderFloatingCurrencyWidget() {
     style.id = 'floating-currency-styles';
     style.textContent = `
       .floating-currency-widget {
-        position: fixed;
-        bottom: 24px;
-        left: 24px;
-        z-index: 99980;
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 20px !important;
+        z-index: 99980 !important;
         font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
       }
       .floating-currency-btn {
         display: inline-flex;
         align-items: center;
-        gap: 9px;
+        gap: 8px;
         background: #ffffff;
         color: #1f1b18;
         border: 1px solid rgba(0, 0, 0, 0.12);
         border-radius: 6px;
-        padding: 9px 14px;
-        font-size: 13.5px;
+        padding: 9px 13px;
+        font-size: 13px;
         font-weight: 500;
-        letter-spacing: 0.4px;
+        letter-spacing: 0.3px;
         line-height: 1;
         cursor: pointer;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
         transition: box-shadow 0.2s ease, transform 0.2s ease;
       }
       .floating-currency-btn:hover {
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
         transform: translateY(-1px);
       }
       .floating-currency-widget .fc-flag {
@@ -1335,8 +1421,8 @@ function renderFloatingCurrencyWidget() {
       .floating-currency-item {
         display: flex;
         align-items: center;
-        gap: 9px;
-        padding: 8px 14px;
+        gap: 8px;
+        padding: 8px 13px;
         font-size: 13px;
         color: #1f1b18;
         cursor: pointer;
@@ -1353,14 +1439,19 @@ function renderFloatingCurrencyWidget() {
         color: #800020;
         font-weight: 600;
       }
-      @media only screen and (max-width: 767px) {
+      @media only screen and (max-width: 991px) {
         .floating-currency-widget {
-          bottom: 16px;
-          left: 16px;
+          bottom: calc(75px + 12px + env(safe-area-inset-bottom, 0px)) !important;
+          left: 12px !important;
         }
         .floating-currency-btn {
-          padding: 8px 12px;
-          font-size: 12.5px;
+          padding: 8px 11px;
+          font-size: 12px;
+          gap: 6px;
+        }
+        .floating-currency-widget .fc-flag {
+          width: 19px;
+          height: 13px;
         }
       }
     `;
@@ -1407,7 +1498,7 @@ function renderFloatingCurrencyWidget() {
       <button type="button" class="floating-currency-btn" aria-haspopup="listbox" aria-expanded="false">
         ${flagSvg}
         <span class="fc-code">${active}</span>
-        <svg class="fc-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="fc-chevron" width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>

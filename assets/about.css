@@ -209,7 +209,7 @@
   font-size: 1.3rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--foreground-color);
+  color: var(--burgundy-color);
   margin: 0;
   font-weight: 600;
 }
@@ -290,7 +290,7 @@
   width: 5.6rem;
   height: 5.6rem;
   font-size: 2.8rem;
-  color: var(--foreground-color);
+  color: var(--burgundy-color);
   background: rgba(201, 127, 95, 0.12);
   border-radius: 50%;
   display: flex;
@@ -383,7 +383,7 @@
 
 .about__different--subtitle {
   font-size: 1.3rem;
-  color: var(--foreground-color);
+  color: var(--burgundy-color);
   text-transform: uppercase;
   letter-spacing: 0.25em;
   font-weight: 600;
@@ -408,7 +408,7 @@
 /* --- Our Promise Section --- */
 .about__promise {
   padding: 8rem 2rem;
-  background-color: var(--foreground-color);
+  background-color: var(--burgundy-color);
   border-radius: 1.6rem;
   text-align: center;
   color: #ffffff;

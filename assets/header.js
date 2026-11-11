@@ -174,7 +174,7 @@
     window.renderHeader = function (containerEl, options) {
         if (!containerEl) return;
         const active = getActiveRoute();
-        const transparent = options?.transparent ?? (containerEl.dataset.transparent === 'true');
+        const transparent = options?.transparent ?? (containerEl.dataset.transparent === 'true' || isHomePage());
         const logoImg = options?.logo || 'assets/IMG-20260622-WA0082.webp';
         const currentCurrency = (window.AnkaraCurrency && window.AnkaraCurrency.current) ? window.AnkaraCurrency.current : 'KES';
         const collections = getActiveCollections();

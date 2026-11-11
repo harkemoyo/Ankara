@@ -1155,18 +1155,20 @@
 
         /* Navigation Links */
         .header__menu--link {
-            color: var(--text-white-color);
+            color: #ffffff !important;
             position: relative;
             font-weight: 600;
-            transition: color 0.3s;
+            transition: color 0.2s ease, opacity 0.2s ease;
         }
 
-        .header__menu--link:hover {
-            color: var(--yellow-color) !important;
+        /* Hover color set to brand burgundy */
+        .header__menu--link:hover,
+        .header__menu--items:hover .header__menu--link {
+            color: var(--burgundy-color, #800020) !important;
         }
 
         .header__menu--link.active {
-            color: var(--yellow-color) !important;
+            color: #ffffff !important;
             font-weight: 700;
         }
 
@@ -1177,7 +1179,48 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background-color: var(--yellow-color);
+            background-color: var(--burgundy-color, #800020);
+        }
+
+        /* Header Utility Icons: Search, Account, Cart */
+        .header__account--btn,
+        .header__account--btn__icon,
+        .header__account--btn svg {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
+            fill: none;
+            transition: color 0.2s ease, stroke 0.2s ease;
+        }
+
+        .header__account--btn:hover,
+        .header__account--btn:hover svg {
+            color: var(--burgundy-color, #800020) !important;
+            stroke: var(--burgundy-color, #800020) !important;
+        }
+
+        /* Scrolled state (solid background) */
+        .header--scrolled .header__menu--link,
+        .header--scrolled .header__account--btn,
+        .header--scrolled .header__account--btn__icon,
+        .header--scrolled .header__account--btn svg,
+        .header--scrolled .offcanvas__header--menu__open--svg {
+            color: var(--primary-color) !important;
+            stroke: var(--primary-color) !important;
+        }
+
+        .header--scrolled .header__menu--link:hover,
+        .header--scrolled .header__menu--items:hover .header__menu--link {
+            color: var(--burgundy-color, #800020) !important;
+        }
+
+        .header--scrolled .header__account--btn:hover,
+        .header--scrolled .header__account--btn:hover svg {
+            color: var(--burgundy-color, #800020) !important;
+            stroke: var(--burgundy-color, #800020) !important;
+        }
+
+        .header--scrolled .header__menu--link.active::after {
+            background-color: var(--burgundy-color, #800020);
         }
 
 
@@ -2012,7 +2055,7 @@
         </div>
     </div>
     <!-- Shared Site Header Component -->
-    <header id="site-header" class="header__section"></header>
+    <header id="site-header" class="header__section" data-transparent="true"></header>
     <main class="main">
         <!-- ── HERO SECTION ──────────────────────────────── -->
         <section class="hero-section" data-section-id="hero">

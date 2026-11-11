@@ -3819,10 +3819,13 @@ quantity icon button
 
 .header__account--btn {
   position: relative;
+  transition: color 0.2s ease, stroke 0.2s ease;
 }
 
-.header__account--btn:hover {
-  color: var(--secondary-color);
+.header__account--btn:hover,
+.header__account--btn:hover svg {
+  color: var(--burgundy-color, #800020) !important;
+  stroke: var(--burgundy-color, #800020) !important;
 }
 
 .header__account--btn>* {
@@ -3871,11 +3874,11 @@ quantity icon button
 
 .header__menu--items {
   position: relative;
-
 }
 
-.header__menu--items:hover .header__menu--link {
-  color: var(--secondary-color) !important;
+.header__menu--items:hover .header__menu--link,
+.header__menu--link:hover {
+  color: var(--burgundy-color, #800020) !important;
 }
 
 .header__menu--items:hover .header__sub--menu {
@@ -4437,7 +4440,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .header__sticky.sticky .header__menu--items:hover .header__menu--link {
-  color: var(--secondary-color) !important;
+  color: var(--burgundy-color, #800020) !important;
 }
 
 /*
@@ -18378,7 +18381,18 @@ body.body .header__section {
 .transparent__header .header__account--btn svg,
 .transparent__header .header__account--wrapper {
   color: #ffffff !important;
-  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+.transparent__header .header__menu--link:hover,
+.transparent__header .header__menu--items:hover .header__menu--link {
+  color: var(--burgundy-color, #800020) !important;
+}
+
+.transparent__header .header__account--btn:hover,
+.transparent__header .header__account--btn:hover svg {
+  color: var(--burgundy-color, #800020) !important;
+  stroke: var(--burgundy-color, #800020) !important;
 }
 
 .transparent__header .header__account--wrapper .items__count {
@@ -18411,8 +18425,50 @@ body.body .header__section {
 .header--scrolled .header__menu--link,
 .header--scrolled .header__account--btn,
 .header--scrolled .header__account--btn__icon,
+.header--scrolled .header__account--btn svg,
 .header--scrolled .offcanvas__header--menu__open--svg {
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
+  stroke: var(--primary-color) !important;
+}
+
+.header--scrolled .header__menu--link:hover,
+.header--scrolled .header__menu--items:hover .header__menu--link,
+.header--scrolled .header__account--btn:hover,
+.header--scrolled .header__account--btn:hover svg {
+  color: var(--burgundy-color, #800020) !important;
+  stroke: var(--burgundy-color, #800020) !important;
+}
+
+/* Submenu & Dropdown Links Site-wide */
+.header__sub--menu__link:hover {
+  color: var(--burgundy-color, #800020) !important;
+}
+
+.offcanvas__menu_item:hover,
+.offcanvas__sub_menu_item:hover,
+.offcanvas__close--btn:hover {
+  color: var(--burgundy-color, #800020) !important;
+}
+
+.offcanvas__menu_li.active > .offcanvas__menu_item,
+.offcanvas__sub_menu_li.active > .offcanvas__sub_menu_item {
+  color: var(--burgundy-color, #800020) !important;
+  font-weight: 700;
+}
+
+.header__menu--link {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.header__menu--link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--burgundy-color, #800020) !important;
 }
 
 /* -- Header Topbar & Rotating Announcement Slider System -- */

@@ -113,6 +113,25 @@
                     ${rightColList.map(item => `<li class="header__sub--menu__items"><a class="header__sub--menu__link" href="${item.href}">${escapeHtml(item.title)}</a></li>`).join('')}
                 </ul>
             </li>
+            <li class="header__sub--menu__items mega-col mega-col--promos">
+                <span class="mega-menu__heading">Featured</span>
+                <div class="mega-menu__promos">
+                    <a class="mega-menu__promo-card" href="/shop/geco-dungaree">
+                        <div class="mega-menu__promo-img-wrap">
+                            <img class="mega-menu__promo-img" src="assets/geco-dungarees.webp" alt="Geco Dungarees" loading="lazy" />
+                        </div>
+                        <span class="mega-menu__promo-title">Geco Dungarees</span>
+                        <span class="mega-menu__promo-cta">Shop Now &rarr;</span>
+                    </a>
+                    <a class="mega-menu__promo-card" href="/shop/blankets">
+                        <div class="mega-menu__promo-img-wrap">
+                            <img class="mega-menu__promo-img" src="assets/helsinki-blankets.jpg" alt="Helsinki Blankets" loading="lazy" />
+                        </div>
+                        <span class="mega-menu__promo-title">Helsinki Blankets</span>
+                        <span class="mega-menu__promo-cta">Shop Now &rarr;</span>
+                    </a>
+                </div>
+            </li>
         `;
     }
 

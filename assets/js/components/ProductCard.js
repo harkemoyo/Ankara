@@ -37,8 +37,9 @@ export default class ProductCard {
             href: `/product/${product.handle}`
         });
 
-        const primaryImage = (product.images && product.images.length > 0) ? product.images[0] : 'assets/placeholder.webp';
-        const hoverImage = (product.images && product.images.length > 1) ? product.images[1] : primaryImage;
+        const validImages = Array.isArray(product.images) ? product.images.filter(Boolean) : [];
+        const primaryImage = validImages.length > 0 ? validImages[0] : 'assets/placeholder.webp';
+        const hoverImage = validImages.length > 1 ? validImages[1] : primaryImage;
 
         const mainImg = this.createEl('img', 'product__card--thumbnail__img product__primary--img', {
             src: primaryImage,
@@ -50,6 +51,11 @@ export default class ProductCard {
             alt: product.title,
             loading: 'lazy'
         });
+        secondaryImg.onerror = () => {
+            if (secondaryImg.src !== mainImg.src) {
+                secondaryImg.src = primaryImage;
+            }
+        };
 
         thumbnailLink.append(mainImg, secondaryImg);
         thumbnailWrap.appendChild(thumbnailLink);

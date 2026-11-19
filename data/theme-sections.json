@@ -3,6 +3,7 @@
     "announcement",
     "hero",
     "categories",
+    "made_to_measure",
     "trending",
     "style_of_month",
     "fabrics",
@@ -400,6 +401,35 @@
         "image": "assets/helsinki-blankets.jpg",
         "button_text": "Shop Blankets",
         "button_link": "/shop/blankets"
+      }
+    },
+    "made_to_measure": {
+      "type": "made_to_measure",
+      "enabled": true,
+      "settings": {
+        "eyebrow": "✂ Bespoke Tailoring · Nairobi Atelier",
+        "title": "We Do Made-to-Measure",
+        "description": "Every Mary Humphrey Wear piece can be handcrafted to your exact measurements — designed for a flawless, confident fit with zero guesswork.",
+        "bg_color": "#231c1a",
+        "bg_image": "",
+        "popup_image": "assets/made-to-measure-atelier.jpg",
+        "steps": [
+          {
+            "title": "Choose Any Style or Fabric",
+            "text": "Select any Ankara dress, kimono, suit, dungaree, or authentic kitenge print from our store."
+          },
+          {
+            "title": "Share Your Measurements",
+            "text": "Pick Made-to-Measure on any product page, enter your measurements, or book a quick WhatsApp fitting."
+          },
+          {
+            "title": "Tailored to Perfection",
+            "text": "Our Nairobi tailors cut and finish your garment to your exact bust, waist, hip, and length preferences."
+          }
+        ],
+        "button_text": "📏 How to Measure & Size Guide",
+        "whatsapp_text": "💬 Book a Fitting on WhatsApp",
+        "whatsapp_link": "https://wa.me/254715687280?text=Hello%20Mary%20Humphrey%20African%20Wear!%20I%27d%20like%20to%20order%20a%20Made-to-Measure%20piece."
       }
     }
   }

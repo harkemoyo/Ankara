@@ -15,6 +15,7 @@
         if (path.startsWith('/fabric') || path.startsWith('/material')) return 'fabrics';
         if (path.startsWith('/sale')) return 'sale';
         if (path.startsWith('/about') || path.startsWith('/our-story')) return 'about';
+        if (path.startsWith('/journal')) return 'journal';
         if (path.startsWith('/contact')) return 'contact';
         if (path.startsWith('/account')) return 'account';
         return '';
@@ -634,6 +635,220 @@
             // Silently retain current collections if backend is temporarily unreachable
         }
     }
+
+    // =========================================================================
+    // SITE-WIDE MADE-TO-MEASURE & "HOW TO MEASURE" VISUAL GUIDE MODAL
+    // =========================================================================
+    function getTailorWhatsAppUrl() {
+        const settings = window.__ankaraSettings || {};
+        const phone = (settings.whatsapp || window.STORE_CONFIG?.WHATSAPP_NUMBER || window.WHATSAPP_NUMBER || '254715687280').replace(/\D/g, '');
+        const productTitle = window._currentProduct?.title;
+        const msg = productTitle
+            ? `Hello Mary Humphrey African Wear! 👋\n\nI'd like to inquire about Made-to-Measure tailoring for "${productTitle}". Could you guide me on measurements and timeline?`
+            : `Hello Mary Humphrey African Wear! 👋\n\nI'd like to place a Made-to-Measure custom tailored order. Could you guide me on measurements, fabrics, and timeline?`;
+        return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    }
+
+    function ensureMadeToMeasureModal() {
+        let modal = document.getElementById('mtm-guide-modal');
+        if (modal) return modal;
+
+        modal = document.createElement('div');
+        modal.id = 'mtm-guide-modal';
+        modal.className = 'mtm-modal-overlay';
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('aria-labelledby', 'mtm-modal-heading');
+
+        modal.innerHTML = `
+            <div class="mtm-modal">
+                <button type="button" class="mtm-modal__close" aria-label="Close Made-to-Measure Guide" data-mtm-close>&times;</button>
+
+                <div class="mtm-modal__body">
+                    <!-- Left Column: Made-to-Measure Value & Actions -->
+                    <div class="mtm-modal__left">
+                        <span class="mtm-modal__eyebrow">✂ Bespoke Tailoring · Nairobi</span>
+                        <h2 class="mtm-modal__title" id="mtm-modal-heading">We Do Made-to-Measure</h2>
+                        <p class="mtm-modal__subtitle">
+                            Every Mary Humphrey Wear piece can be handcrafted to your exact body measurements for an effortless, confident fit.
+                        </p>
+
+                        <ol class="mtm-modal__steps">
+                            <li>
+                                <span class="mtm-step-num">1</span>
+                                <div>
+                                    <strong>Pick any style or fabric</strong>
+                                    <span>Choose from our dresses, kimonos, jumpsuits, suits, or Ankara fabrics.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="mtm-step-num">2</span>
+                                <div>
+                                    <strong>Select "Made-to-Measure"</strong>
+                                    <span>Toggle Custom Fit on any product page or send your measurements on WhatsApp.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="mtm-step-num">3</span>
+                                <div>
+                                    <strong>Tailored to fit you perfectly</strong>
+                                    <span>Handcrafted by our Nairobi atelier with care to every seam and length.</span>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div class="mtm-modal__cta-group">
+                            <a id="mtm-modal-wa-link" class="mtm-modal__btn mtm-modal__btn--primary" href="#" target="_blank" rel="noopener noreferrer">
+                                💬 Chat with Our Tailor on WhatsApp
+                            </a>
+                            <button type="button" id="mtm-modal-secondary-btn" class="mtm-modal__btn mtm-modal__btn--secondary">
+                                Explore Collections &rarr;
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Branded "HOW TO MEASURE" Size Guide & Diagram -->
+                    <div class="mtm-modal__right">
+                        <h3 class="mtm-guide-heading">HOW TO MEASURE</h3>
+                        <div class="mtm-chart-wrap">
+                            <table class="mtm-chart-table">
+                                <thead>
+                                    <tr>
+                                        <th>MHW</th>
+                                        <th>UK</th>
+                                        <th>Bust</th>
+                                        <th>Waist</th>
+                                        <th>Hips</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><strong>S</strong></td><td>8–10</td><td>84–88</td><td>66–70</td><td>92–96</td></tr>
+                                    <tr><td><strong>M</strong></td><td>12</td><td>89–94</td><td>71–76</td><td>97–102</td></tr>
+                                    <tr><td><strong>L</strong></td><td>14–16</td><td>95–101</td><td>77–83</td><td>103–109</td></tr>
+                                    <tr><td><strong>XL</strong></td><td>18</td><td>102–108</td><td>84–90</td><td>110–116</td></tr>
+                                    <tr><td><strong>XXL</strong></td><td>20–22</td><td>109–116</td><td>91–98</td><td>117–124</td></tr>
+                                </tbody>
+                            </table>
+                            <span class="mtm-chart-unit">All body measurements in centimetres (cm)</span>
+                        </div>
+
+                        <div class="mtm-diagram-grid">
+                            <div class="mtm-atelier-photo-wrap">
+                                <img class="mtm-atelier-photo" src="assets/made-to-measure-atelier.jpg" alt="Mary Humphrey Wear Nairobi Atelier — Made-to-Measure Guide" loading="lazy" />
+                                <svg class="mtm-atelier-overlay" viewBox="0 0 680 1024" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- 1. Bust -->
+                                    <line x1="138" y1="355" x2="490" y2="355" stroke="rgba(20,14,14,0.75)" stroke-width="11" stroke-linecap="round"/>
+                                    <line x1="138" y1="355" x2="490" y2="355" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-dasharray="16 12"/>
+                                    <circle cx="490" cy="355" r="9" fill="#ffffff" stroke="#800020" stroke-width="4"/>
+                                    <circle cx="106" cy="355" r="32" fill="#800020" stroke="#ffffff" stroke-width="5"/>
+                                    <text x="106" y="368" text-anchor="middle" fill="#ffffff" font-size="34" font-weight="700" font-family="sans-serif">1</text>
+
+                                    <!-- 2. Waist -->
+                                    <line x1="138" y1="438" x2="496" y2="438" stroke="rgba(20,14,14,0.75)" stroke-width="11" stroke-linecap="round"/>
+                                    <line x1="138" y1="438" x2="496" y2="438" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-dasharray="16 12"/>
+                                    <circle cx="496" cy="438" r="9" fill="#ffffff" stroke="#800020" stroke-width="4"/>
+                                    <circle cx="106" cy="438" r="32" fill="#800020" stroke="#ffffff" stroke-width="5"/>
+                                    <text x="106" y="451" text-anchor="middle" fill="#ffffff" font-size="34" font-weight="700" font-family="sans-serif">2</text>
+
+                                    <!-- 3. Hips -->
+                                    <line x1="138" y1="522" x2="512" y2="522" stroke="rgba(20,14,14,0.75)" stroke-width="11" stroke-linecap="round"/>
+                                    <line x1="138" y1="522" x2="512" y2="522" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-dasharray="16 12"/>
+                                    <circle cx="512" cy="522" r="9" fill="#ffffff" stroke="#800020" stroke-width="4"/>
+                                    <circle cx="106" cy="522" r="32" fill="#800020" stroke="#ffffff" stroke-width="5"/>
+                                    <text x="106" y="535" text-anchor="middle" fill="#ffffff" font-size="34" font-weight="700" font-family="sans-serif">3</text>
+
+                                    <!-- 4. Full Length (shoulder seam to hem) -->
+                                    <line x1="566" y1="246" x2="566" y2="928" stroke="rgba(20,14,14,0.75)" stroke-width="11" stroke-linecap="round"/>
+                                    <line x1="566" y1="246" x2="566" y2="928" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-dasharray="16 12"/>
+                                    <line x1="538" y1="246" x2="594" y2="246" stroke="rgba(20,14,14,0.75)" stroke-width="11" stroke-linecap="round"/>
+                                    <line x1="538" y1="246" x2="594" y2="246" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+                                    <line x1="538" y1="928" x2="594" y2="928" stroke="rgba(20,14,14,0.75)" stroke-width="11" stroke-linecap="round"/>
+                                    <line x1="538" y1="928" x2="594" y2="928" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+                                    <circle cx="566" cy="645" r="32" fill="#800020" stroke="#ffffff" stroke-width="5"/>
+                                    <text x="566" y="658" text-anchor="middle" fill="#ffffff" font-size="34" font-weight="700" font-family="sans-serif">4</text>
+                                </svg>
+                                <span class="mtm-atelier-caption">Nairobi Atelier · Custom Fit</span>
+                            </div>
+                            <div class="mtm-measure-tips">
+                                <div class="mtm-tip">
+                                    <strong>1. BUST</strong>
+                                    <p>Measure around the fullest part of your bust, keeping the tape level across your back.</p>
+                                </div>
+                                <div class="mtm-tip">
+                                    <strong>2. WAIST</strong>
+                                    <p>Measure around the narrowest part of your natural waistline with one finger of ease.</p>
+                                </div>
+                                <div class="mtm-tip">
+                                    <strong>3. HIPS</strong>
+                                    <p>Measure around the fullest part of your hips and seat, standing with feet together.</p>
+                                </div>
+                                <div class="mtm-tip">
+                                    <strong>4. FULL LENGTH</strong>
+                                    <p>Measure straight down from the shoulder seam to your preferred hemline.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="mtm-between-note">
+                            <strong>Between sizes or want custom length?</strong> Select <em>Made-to-Measure</em> on any garment page and we will tailor it to fit you seamlessly.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal || e.target.closest('[data-mtm-close]')) {
+                window.closeMadeToMeasureModal();
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+                window.closeMadeToMeasureModal();
+            }
+        });
+
+        document.body.appendChild(modal);
+        return modal;
+    }
+
+    window.openMadeToMeasureModal = function () {
+        const modal = ensureMadeToMeasureModal();
+        const waLink = modal.querySelector('#mtm-modal-wa-link');
+        if (waLink) waLink.href = getTailorWhatsAppUrl();
+
+        const atelierImg = modal.querySelector('.mtm-atelier-photo');
+        if (atelierImg && window.__mtmPopupImage) {
+            atelierImg.src = window.__mtmPopupImage;
+        }
+
+        const secBtn = modal.querySelector('#mtm-modal-secondary-btn');
+        if (secBtn) {
+            if (typeof window.openSizeGuide === 'function' && window._currentProduct) {
+                secBtn.textContent = 'Enter My Measurements Now →';
+                secBtn.onclick = function () {
+                    window.closeMadeToMeasureModal();
+                    window.openSizeGuide();
+                };
+            } else {
+                secBtn.textContent = 'Explore Collections →';
+                secBtn.onclick = function () {
+                    window.closeMadeToMeasureModal();
+                    window.location.href = '/shop';
+                };
+            }
+        }
+
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+    };
+
+    window.closeMadeToMeasureModal = function () {
+        const modal = document.getElementById('mtm-guide-modal');
+        if (modal) modal.classList.remove('is-open');
+        document.body.style.overflow = '';
+    };
 
     function initHeader() {
         const el = document.getElementById('site-header') ||

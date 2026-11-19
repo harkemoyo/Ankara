@@ -97,6 +97,55 @@ function escapeHtml(str) {
     }
   },
 
+  made_to_measure(el, settings) {
+    if (settings.bg_image) {
+      el.style.backgroundImage = `linear-gradient(rgba(22, 17, 16, 0.78), rgba(22, 17, 16, 0.84)), url('${escapeHtml(settings.bg_image)}')`;
+      el.style.backgroundSize = 'cover';
+      el.style.backgroundPosition = 'center';
+      el.style.backgroundColor = settings.bg_color || '#231c1a';
+    } else if (settings.bg_color) {
+      el.style.backgroundImage = 'none';
+      el.style.backgroundColor = settings.bg_color;
+    }
+
+    const eyebrow = el.querySelector('.mtm-home-banner__eyebrow');
+    if (eyebrow && settings.eyebrow) eyebrow.textContent = settings.eyebrow;
+
+    const title = el.querySelector('.mtm-home-banner__title');
+    if (title && settings.title) title.textContent = settings.title;
+
+    const desc = el.querySelector('.mtm-home-banner__desc');
+    if (desc && settings.description) desc.textContent = settings.description;
+
+    if (Array.isArray(settings.steps) && settings.steps.length > 0) {
+      const stepsWrap = el.querySelector('.mtm-home-banner__steps');
+      if (stepsWrap) {
+        stepsWrap.innerHTML = settings.steps.slice(0, 3).map((step, i) => `
+          <div class="mtm-home-step">
+            <span class="mtm-home-step__num">0${i + 1}</span>
+            <h3 class="mtm-home-step__title">${escapeHtml(step.title || '')}</h3>
+            <p class="mtm-home-step__text">${escapeHtml(step.text || '')}</p>
+          </div>
+        `).join('');
+      }
+    }
+
+    const primaryBtn = el.querySelector('.mtm-home-btn--primary');
+    if (primaryBtn && settings.button_text) primaryBtn.textContent = settings.button_text;
+
+    const waBtn = el.querySelector('.mtm-home-btn--outline');
+    if (waBtn) {
+      if (settings.whatsapp_text) waBtn.textContent = settings.whatsapp_text;
+      if (settings.whatsapp_link) waBtn.href = settings.whatsapp_link;
+    }
+
+    if (settings.popup_image) {
+      window.__mtmPopupImage = settings.popup_image;
+      const modalImg = document.querySelector('#mtm-guide-modal .mtm-atelier-photo');
+      if (modalImg) modalImg.src = settings.popup_image;
+    }
+  },
+
   trending(el, settings) {
     const h = el.querySelector('.section__heading--maintitle');
     if (h && settings.heading) h.textContent = settings.heading;
@@ -532,6 +581,8 @@ async function applyThemeSections() {
     const allSections = document.querySelectorAll('main [data-section-id]');
     allSections.forEach(el => {
       if (el.id === 'site-footer' || el.id === 'site-header' || el.tagName === 'HEADER' || el.tagName === 'FOOTER' || el.closest('#site-header') || el.closest('#site-footer')) return;
+      const sid = el.getAttribute('data-section-id');
+      if (sid === 'made_to_measure' && !theme.sections[sid]) return;
       el.style.display = 'none';
     });
     const order = theme.order || Object.keys(theme.sections);

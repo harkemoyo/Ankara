@@ -53,6 +53,7 @@
         const quickLinks = s.quick_links || [
             { label: 'Home', url: '/' },
             { label: 'Our Story', url: '/about' },
+            { label: 'Our Journal', url: '/journal' },
             { label: 'Contact Us', url: '/contact' },
             { label: 'Privacy Policy', url: '/privacy' },
             { label: 'Terms of Service', url: '/terms' },

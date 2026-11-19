@@ -36,6 +36,7 @@ class AnkaraAnnouncement {
         const slide1Text = `🚚 FREE Nairobi Delivery on Orders Over ${thresholdStr}`;
 
         return [
+            `✂️ We Do Made-to-Measure <span class="announcement-mtm-sub">— Custom Tailored to Your Fit</span> <button type="button" class="announcement-mtm-btn" onclick="window.openMadeToMeasureModal && window.openMadeToMeasureModal()">How to Measure &rarr;</button>`,
             slide1Text,
             `📍 Currently Delivering Within Nairobi County Only`,
             `✨ Celebrating African Heritage Through Fashion`
@@ -143,6 +144,7 @@ class AnkaraAnnouncement {
 }
 
 window.AnkaraAnnouncementManager = new AnkaraAnnouncement();
+window.ankaraAnnouncement = window.AnkaraAnnouncementManager;
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => window.AnkaraAnnouncementManager.init());

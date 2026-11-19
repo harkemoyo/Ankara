@@ -80,6 +80,10 @@
       "dest": "/about.html"
     },
     {
+      "src": "/journal",
+      "dest": "/journal.html"
+    },
+    {
       "src": "/sale",
       "dest": "/sale.html"
     },

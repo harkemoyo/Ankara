@@ -4670,6 +4670,7 @@
 
     const SECTION_LABELS = {
       announcement: 'Announcement Bar', hero: 'Hero Slideshow', categories: 'Category Grid',
+      made_to_measure: 'Made-to-Measure Banner', helsinki_blankets: 'Helsinki Blankets Showcase',
       trending: 'Trending Products', style_of_month: 'Featured Product', fabrics: 'Fabric Showcase',
       heritage: 'Heritage & Culture', sale_promo: 'Sale Promo Strip', shop_by_style: 'Shop by Style',
       outlet: 'Our Outlet', statement: 'Statement Banner', testimonials: 'Testimonials', services: 'Services Strip', footer: 'Footer',
@@ -5081,6 +5082,53 @@
           ${textField('ts-button_link', 'Button Link', s.button_link)}
         </div>`;
       },
+      helsinki_blankets(s) {
+        return `<div class="form-grid">
+          ${imageUploadBlock('ts-image', s.image || 'assets/helsinki-blankets.jpg', 'Helsinki Blankets Image (also updates Welcome Pop-up)')}
+          ${textField('ts-subtitle', 'Subtitle', s.subtitle)}
+          ${textField('ts-title', 'Title', s.title)}
+          ${textField('ts-description', 'Description', s.description, 'textarea')}
+          ${textField('ts-button_text', 'Button Text', s.button_text)}
+          ${textField('ts-button_link', 'Button Link', s.button_link)}
+        </div>`;
+      },
+      made_to_measure(s) {
+        const defaultSteps = [
+          { title: 'Choose Any Style or Fabric', text: 'Select any Ankara dress, kimono, suit, dungaree, or authentic kitenge print from our store.' },
+          { title: 'Share Your Measurements', text: 'Pick Made-to-Measure on any product page, enter your measurements, or book a quick WhatsApp fitting.' },
+          { title: 'Tailored to Perfection', text: 'Our Nairobi tailors cut and finish your garment to your exact bust, waist, hip, and length preferences.' }
+        ];
+        const steps = (Array.isArray(s.steps) && s.steps.length) ? s.steps : defaultSteps;
+        const bgColor = s.bg_color || '#231c1a';
+        let html = `<div class="form-grid">
+          ${textField('ts-eyebrow', 'Eyebrow Badge', s.eyebrow || '✂ Bespoke Tailoring · Nairobi Atelier')}
+          ${textField('ts-title', 'Heading', s.title || 'We Do Made-to-Measure')}
+          ${textField('ts-description', 'Description', s.description || '', 'textarea')}
+          <div class="form-group">
+            <label>Background Color</label>
+            <div>
+              <input id="ts-bg_color_picker" type="color" value="${escapeHtml(/^#[0-9a-fA-F]{6}$/.test(bgColor) ? bgColor : '#231c1a')}" oninput="document.getElementById('ts-bg_color').value=this.value" style="width:46px;height:38px;padding:2px;cursor:pointer;" />
+              <input id="ts-bg_color" type="text" value="${escapeHtml(bgColor)}" placeholder="#231c1a" oninput="if(/^#[0-9a-fA-F]{6}$/.test(this.value))document.getElementById('ts-bg_color_picker').value=this.value" style="flex:1;" />
+            </div>
+          </div>
+          ${imageUploadBlock('ts-bg_image', s.bg_image || '', 'Optional Banner Background Image (leave blank to use Background Color)')}
+          ${imageUploadBlock('ts-popup_image', s.popup_image || 'assets/made-to-measure-atelier.jpg', 'How to Measure Popup Atelier Photo')}
+          ${textField('ts-button_text', 'Primary Button Text (Opens How to Measure)', s.button_text || '📏 How to Measure & Size Guide')}
+          ${textField('ts-whatsapp_text', 'Secondary Button Text (WhatsApp)', s.whatsapp_text || '💬 Book a Fitting on WhatsApp')}
+          ${textField('ts-whatsapp_link', 'Secondary Button Link', s.whatsapp_link || '')}
+        </div>`;
+        for (let i = 0; i < 3; i++) {
+          const st = steps[i] || defaultSteps[i] || {};
+          html += `<div style="border:1px solid #eee;border-radius:8px;padding:14px;margin-top:10px;background:#fff;">
+            <h4 style="margin:0 0 8px;font-size:1.25rem;">Step 0${i + 1}</h4>
+            <div class="form-grid">
+              ${textField('ts-mtm-step-' + i + '-title', 'Step Title', st.title)}
+              ${textField('ts-mtm-step-' + i + '-text', 'Step Description', st.text, 'textarea')}
+            </div>
+          </div>`;
+        }
+        return html;
+      },
       testimonials(s) {
         const items = s.items || [];
         let html = `<div class="form-grid">${textField('ts-heading', 'Section Heading', s.heading)}</div>
@@ -5334,6 +5382,37 @@
           description: document.getElementById('ts-description')?.value || '',
           button_text: document.getElementById('ts-button_text')?.value || '',
           button_link: document.getElementById('ts-button_link')?.value || ''
+        };
+      },
+      helsinki_blankets() {
+        return {
+          image: document.getElementById('ts-image')?.value || '',
+          subtitle: document.getElementById('ts-subtitle')?.value || '',
+          title: document.getElementById('ts-title')?.value || '',
+          description: document.getElementById('ts-description')?.value || '',
+          button_text: document.getElementById('ts-button_text')?.value || '',
+          button_link: document.getElementById('ts-button_link')?.value || ''
+        };
+      },
+      made_to_measure() {
+        const steps = [];
+        for (let i = 0; i < 3; i++) {
+          steps.push({
+            title: document.getElementById('ts-mtm-step-' + i + '-title')?.value || '',
+            text: document.getElementById('ts-mtm-step-' + i + '-text')?.value || ''
+          });
+        }
+        return {
+          eyebrow: document.getElementById('ts-eyebrow')?.value || '',
+          title: document.getElementById('ts-title')?.value || '',
+          description: document.getElementById('ts-description')?.value || '',
+          bg_color: document.getElementById('ts-bg_color')?.value || '#231c1a',
+          bg_image: document.getElementById('ts-bg_image')?.value || '',
+          popup_image: document.getElementById('ts-popup_image')?.value || 'assets/made-to-measure-atelier.jpg',
+          button_text: document.getElementById('ts-button_text')?.value || '',
+          whatsapp_text: document.getElementById('ts-whatsapp_text')?.value || '',
+          whatsapp_link: document.getElementById('ts-whatsapp_link')?.value || '',
+          steps
         };
       },
       testimonials() {

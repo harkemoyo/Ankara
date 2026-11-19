@@ -19140,3 +19140,865 @@ body.body .header__section {
   opacity: 1;
   background: #D4A843;
 }
+
+/* ==========================================================================
+   MADE-TO-MEASURE VISIBILITY SYSTEM (Announcement, Homepage Banner,
+   Product Page Callout & Branded "How to Measure" Split Modal)
+   ========================================================================== */
+
+/* 1. Announcement Bar Clickable Made-to-Measure CTA */
+.announcement-slide > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.announcement-mtm-sub {
+  display: inline !important;
+}
+
+.announcement-mtm-btn {
+  display: inline-block;
+  margin-left: 0.25rem;
+  padding: 0.15rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.announcement-mtm-btn:hover {
+  background: #ffffff;
+  color: #800020;
+}
+
+@media only screen and (max-width: 640px) {
+  .announcement-mtm-sub {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .announcement-slide {
+    font-size: 1.12rem;
+  }
+  .announcement-mtm-btn {
+    padding: 0.1rem 0.55rem;
+    font-size: 1rem;
+    margin-left: 0.15rem;
+  }
+}
+
+/* 2. Homepage 3-Step Made-to-Measure Editorial Banner */
+.mtm-home-banner {
+  background: radial-gradient(circle at top right, rgba(212, 168, 67, 0.14), transparent 45%),
+              linear-gradient(135deg, #231c1a 0%, #161110 100%);
+  color: #ffffff;
+  padding: 5.5rem 2.4rem;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(212, 168, 67, 0.28);
+  border-bottom: 1px solid rgba(212, 168, 67, 0.28);
+}
+
+.mtm-home-banner__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 3.2rem;
+}
+
+.mtm-home-banner__header {
+  max-width: 680px;
+}
+
+.mtm-home-banner__eyebrow {
+  display: inline-block;
+  padding: 0.45rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 168, 67, 0.5);
+  background: rgba(212, 168, 67, 0.12);
+  color: #e8c67a;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+}
+
+.mtm-home-banner__title {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: clamp(2.8rem, 4vw, 4.2rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0 0 1.2rem;
+}
+
+.mtm-home-banner__desc {
+  font-size: 1.55rem;
+  line-height: 1.65;
+  color: rgba(245, 241, 236, 0.88);
+  margin: 0;
+}
+
+.mtm-home-banner__steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  width: 100%;
+  text-align: left;
+}
+
+.mtm-home-step {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 168, 67, 0.22);
+  border-radius: 10px;
+  padding: 2.4rem 2.2rem;
+  backdrop-filter: blur(4px);
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+.mtm-home-step:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(212, 168, 67, 0.48);
+}
+
+.mtm-home-step__num {
+  display: inline-block;
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #d4a843;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.mtm-home-step__title {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 0.7rem;
+}
+
+.mtm-home-step__text {
+  font-size: 1.35rem;
+  line-height: 1.6;
+  color: rgba(245, 241, 236, 0.82);
+  margin: 0;
+}
+
+.mtm-home-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.4rem;
+}
+
+.mtm-home-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 1.35rem 2.6rem;
+  border-radius: 6px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.mtm-home-btn--primary {
+  background: #800020;
+  color: #ffffff;
+  border: 2px solid #800020;
+}
+
+.mtm-home-btn--primary:hover {
+  background: #9e0a2f;
+  border-color: #9e0a2f;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.mtm-home-btn--outline {
+  background: transparent;
+  color: #f5f1ec;
+  border: 2px solid rgba(212, 168, 67, 0.72);
+}
+
+.mtm-home-btn--outline:hover {
+  background: rgba(212, 168, 67, 0.16);
+  border-color: #e8c67a;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+@media only screen and (max-width: 900px) {
+  .mtm-home-banner__steps {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .mtm-home-banner {
+    padding: 3.6rem 1.6rem;
+  }
+  .mtm-home-banner__inner {
+    gap: 2.2rem;
+  }
+  .mtm-home-banner__eyebrow {
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+    padding: 0.35rem 1.1rem;
+  }
+  .mtm-home-banner__desc {
+    font-size: 1.4rem;
+  }
+  .mtm-home-step {
+    padding: 1.8rem 1.6rem;
+  }
+  .mtm-home-banner__actions {
+    width: 100%;
+    gap: 1rem;
+  }
+  .mtm-home-btn {
+    width: 100%;
+    min-height: 4.6rem;
+    padding: 1.2rem 1.6rem;
+    touch-action: manipulation;
+  }
+}
+
+/* 3. Product Page Size Header, Made-to-Measure Pill & Callout Card */
+.variant-size-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.how-to-measure-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  padding: 0.4rem 0;
+  min-height: 3.6rem;
+  color: var(--burgundy-color, #800020);
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: opacity 0.2s ease;
+}
+
+.how-to-measure-trigger:hover {
+  opacity: 0.78;
+}
+
+.size-btn.size-btn--mtm {
+  padding: 0 1.4rem;
+  gap: 0.5rem;
+  border: 1.5px dashed var(--burgundy-color, #800020);
+  color: var(--burgundy-color, #800020);
+  background: #fdf7f8;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  touch-action: manipulation;
+}
+
+.size-btn.size-btn--mtm:hover {
+  background: #f8ebee;
+  border-style: solid;
+  border-color: var(--burgundy-color, #800020);
+}
+
+.size-btn.size-btn--mtm.active {
+  background: var(--burgundy-color, #800020);
+  border-style: solid;
+  border-color: var(--burgundy-color, #800020);
+  color: #ffffff;
+}
+
+.mtm-product-card {
+  padding: 1.5rem 1.6rem;
+  background: #fdf9f5;
+  border: 1.5px solid rgba(128, 0, 32, 0.28);
+  border-left: 4px solid var(--burgundy-color, #800020);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mtm-product-card.is-active {
+  background: #fdf3f5;
+  border-color: var(--burgundy-color, #800020);
+  box-shadow: 0 4px 14px rgba(128, 0, 32, 0.1);
+}
+
+.mtm-product-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+  cursor: pointer;
+}
+
+.mtm-product-card .made-to-measure-checkbox {
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-top: 0.2rem;
+  accent-color: #800020;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.mtm-product-card__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.mtm-product-card__badge {
+  display: inline-block;
+  width: fit-content;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--burgundy-color, #800020);
+  padding: 0.2rem 0.75rem;
+  border-radius: 3px;
+  margin-bottom: 0.2rem;
+}
+
+.mtm-product-card__title {
+  font-size: 1.45rem;
+  color: var(--primary-color, #1a1818);
+  line-height: 1.3;
+}
+
+.mtm-product-card__desc {
+  font-size: 1.25rem;
+  color: var(--foreground-sub-color, #555);
+  line-height: 1.45;
+}
+
+.mtm-product-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(128, 0, 32, 0.14);
+}
+
+.mtm-card-action-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.05rem;
+  min-height: 3.8rem;
+  border-radius: 4px;
+  border: 1px solid rgba(128, 0, 32, 0.28);
+  background: #ffffff;
+  color: var(--burgundy-color, #800020);
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: all 0.2s ease;
+}
+
+.mtm-card-action-link:hover {
+  background: var(--burgundy-color, #800020);
+  color: #ffffff;
+  border-color: var(--burgundy-color, #800020);
+}
+
+.mtm-card-action-link--wa {
+  border-color: rgba(37, 211, 102, 0.45);
+  color: #168a42;
+}
+
+.mtm-card-action-link--wa:hover {
+  background: #25d366;
+  border-color: #25d366;
+  color: #ffffff;
+}
+
+@media only screen and (max-width: 575px) {
+  .mtm-product-card {
+    padding: 1.3rem 1.3rem;
+  }
+  .mtm-product-card__actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
+  }
+  .mtm-card-action-link {
+    width: 100%;
+    padding: 0.75rem 0.7rem;
+    min-height: 4.2rem;
+    font-size: 1.15rem;
+  }
+  .mtm-card-action-link--wa {
+    grid-column: 1 / -1;
+  }
+}
+
+/* 4. Site-Wide Branded "How to Measure" Split Modal */
+.mtm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(20, 14, 15, 0.65);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.mtm-modal-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mtm-modal {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  max-height: 92vh;
+  max-height: 92dvh;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  transform: translateY(14px) scale(0.98);
+  transition: transform 0.28s ease;
+}
+
+.mtm-modal__body {
+  display: grid;
+  grid-template-columns: 0.92fr 1.25fr;
+  max-height: 92vh;
+  max-height: 92dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.mtm-modal-overlay.is-open .mtm-modal {
+  transform: translateY(0) scale(1);
+}
+
+.mtm-modal__close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  z-index: 10;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+  color: #1a1818;
+  font-size: 2.2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.mtm-modal__close:hover {
+  background: #800020;
+  color: #ffffff;
+  border-color: #800020;
+}
+
+.mtm-modal__left {
+  background: #f5f1ec;
+  padding: 3.4rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.8rem;
+}
+
+.mtm-modal__eyebrow {
+  display: inline-block;
+  width: fit-content;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #800020;
+}
+
+.mtm-modal__title {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #1a1818;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.mtm-modal__subtitle {
+  font-size: 1.4rem;
+  line-height: 1.6;
+  color: #4a4442;
+  margin: 0;
+}
+
+.mtm-modal__steps {
+  list-style: none;
+  padding: 0;
+  margin: 0.4rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+
+.mtm-modal__steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+}
+
+.mtm-step-num {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  background: #800020;
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.mtm-modal__steps li div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.mtm-modal__steps li strong {
+  font-size: 1.35rem;
+  color: #1a1818;
+}
+
+.mtm-modal__steps li span {
+  font-size: 1.2rem;
+  color: #555;
+  line-height: 1.45;
+}
+
+.mtm-modal__cta-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+.mtm-modal__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 1.25rem 1.8rem;
+  border-radius: 6px;
+  font-size: 1.35rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mtm-modal__btn--primary {
+  background: #800020;
+  color: #ffffff !important;
+  border: 1.5px solid #800020;
+}
+
+.mtm-modal__btn--primary:hover {
+  background: #5c0017;
+  border-color: #5c0017;
+  color: #ffffff !important;
+}
+
+.mtm-modal__btn--secondary {
+  background: #ffffff;
+  color: #1a1818;
+  border: 1.5px solid #d5cbc4;
+}
+
+.mtm-modal__btn--secondary:hover {
+  border-color: #800020;
+  color: #800020;
+}
+
+.mtm-modal__right {
+  padding: 3rem 2.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  background: #ffffff;
+}
+
+.mtm-guide-heading {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: center;
+  color: #1a1818;
+  margin: 0;
+}
+
+.mtm-chart-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mtm-chart-unit {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  color: #6b635f;
+  text-align: right;
+}
+
+.mtm-chart-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.mtm-chart-table th {
+  background: #800020;
+  color: #ffffff;
+  padding: 0.75rem 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+.mtm-chart-table td {
+  padding: 0.65rem 0.6rem;
+  border-bottom: 1px solid #ece6e1;
+  color: #2a2624;
+  white-space: nowrap;
+}
+
+.mtm-chart-table tbody tr:nth-child(even) {
+  background: #faf7f4;
+}
+
+.mtm-diagram-grid {
+  display: grid;
+  grid-template-columns: 205px 1fr;
+  gap: 1.8rem;
+  align-items: center;
+}
+
+.mtm-atelier-photo-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 680 / 1024;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f5f1ec;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
+}
+
+.mtm-atelier-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.mtm-atelier-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.mtm-atelier-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  padding: 2rem 0.8rem 0.7rem;
+  background: linear-gradient(to top, rgba(26, 20, 20, 0.82), rgba(26, 20, 20, 0));
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.mtm-measure-tips {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.mtm-tip strong {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #800020;
+  margin-bottom: 0.15rem;
+}
+
+.mtm-tip p {
+  margin: 0;
+  font-size: 1.18rem;
+  line-height: 1.4;
+  color: #4a4442;
+}
+
+.mtm-between-note {
+  margin: 0;
+  padding: 1rem 1.2rem;
+  background: #fdf6f7;
+  border-left: 3px solid #800020;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  line-height: 1.45;
+  color: #2a2624;
+}
+
+@media only screen and (max-width: 780px) {
+  .mtm-modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .mtm-modal {
+    max-width: 100%;
+    max-height: 92vh;
+    max-height: 92dvh;
+    border-radius: 16px 16px 0 0;
+  }
+  .mtm-modal__body {
+    grid-template-columns: 1fr;
+    max-height: 92vh;
+    max-height: 92dvh;
+  }
+  /* Show HOW TO MEASURE + atelier photo with measurement lines first on mobile */
+  .mtm-modal__right {
+    order: -1;
+    padding: 2.2rem 1.6rem 1.8rem;
+    gap: 1.4rem;
+  }
+  .mtm-modal__left {
+    padding: 2rem 1.6rem calc(2.4rem + env(safe-area-inset-bottom, 0px));
+    gap: 1.4rem;
+  }
+  .mtm-modal__close {
+    top: 1rem;
+    right: 1rem;
+    width: 3.8rem;
+    height: 3.8rem;
+  }
+  .mtm-guide-heading {
+    font-size: 1.9rem;
+    padding-right: 3.2rem;
+    text-align: left;
+  }
+  .mtm-modal__title {
+    font-size: 2.3rem;
+  }
+  .mtm-modal__btn {
+    min-height: 4.6rem;
+    touch-action: manipulation;
+  }
+  .mtm-diagram-grid {
+    grid-template-columns: 175px 1fr;
+    gap: 1.4rem;
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .mtm-diagram-grid {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+  .mtm-atelier-photo-wrap {
+    max-width: 260px;
+    margin: 0 auto;
+  }
+  .mtm-measure-tips {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 1.2rem;
+  }
+  .mtm-chart-table th {
+    padding: 0.6rem 0.35rem;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+  }
+  .mtm-chart-table td {
+    padding: 0.55rem 0.35rem;
+    font-size: 1.12rem;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .mtm-measure-tips {
+    grid-template-columns: 1fr;
+  }
+  .mtm-atelier-photo-wrap {
+    max-width: 225px;
+  }
+}

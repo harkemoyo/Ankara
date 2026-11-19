@@ -1236,14 +1236,14 @@
             flex-direction: column;
             gap: 4rem;
             border-top: 1px solid var(--border-color);
-            margin-bottom: 3rem;
+            padding-block: 3rem;
         }
 
         .product__related h3 {
             font-family: var(--font-heading);
-            font-size: 2rem;
+            text-align: center;
+            font-size: 3rem;
             color: var(--primary-color);
-            padding-block-start: 1rem;
             margin: 0;
             font-weight: 600;
         }
@@ -1452,8 +1452,24 @@
 
                         <!-- Size Selection -->
                         <div class="variant-section">
-                            <h4 class="variant-title-label">Size:<span id="active-size-label"
-                                    class="variant-title-value">—</span></h4>
+                            <div class="variant-size-header">
+                                <h4 class="variant-title-label">Size:<span id="active-size-label"
+                                        class="variant-title-value">—</span></h4>
+                                <button type="button" class="how-to-measure-trigger"
+                                    onclick="window.openMadeToMeasureModal && window.openMadeToMeasureModal()">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z">
+                                        </path>
+                                        <path d="m14.5 12.5 2-2"></path>
+                                        <path d="m11.5 9.5 2-2"></path>
+                                        <path d="m8.5 6.5 2-2"></path>
+                                        <path d="m17.5 15.5 2-2"></path>
+                                    </svg>
+                                    How to Measure
+                                </button>
+                            </div>
                             <div id="size-options">
                                 <!-- Size swatches dynamically generated -->
                             </div>
@@ -1488,13 +1504,25 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                                     </svg>
-                                    Find My Exact Fit
+                                    Enter Custom Measurements
                                 </a>
                             </div>
                         </div>
 
                         <!-- Trust Badges -->
                         <div class="product-trust-badges">
+                            <div class="trust-badge-row">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#800020"
+                                    stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="6" cy="6" r="3"></circle>
+                                    <circle cx="6" cy="18" r="3"></circle>
+                                    <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+                                    <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+                                    <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+                                </svg>
+                                <span><strong>Made-to-Measure Available:</strong> Custom tailored to your exact fit in
+                                    Nairobi</span>
+                            </div>
                             <div class="trust-badge-row">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="1.5">
@@ -1562,7 +1590,8 @@
                         </div>
                         <div class="tab-content-panel" id="tab-shipping">
                             <div class="tab-shipping-content">
-                                <p><strong>Shipping:</strong> Delivery is only within Nairobi County (1–2 business days).
+                                <p><strong>Shipping:</strong> Delivery is only within Nairobi County (1–2 business
+                                    days).
                                     Outside Nairobi &amp; international shipping available upon request.</p>
                                 <p><strong>Returns:</strong> 7-day hassle-free return policy. Items must be unworn,
                                     unwashed, and in original condition with tags attached.</p>

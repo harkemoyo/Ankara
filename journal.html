@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1GXEHGGPH8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-1GXEHGGPH8');
+    </script>
+    <base href="/" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <title>Our Journal – Mary Humphrey Wear</title>
+    <meta
+        content="Stories of African heritage, bespoke Nairobi craftsmanship, and the people and places behind Mary Humphrey Wear — featuring the story behind the GECO Dungarees."
+        name="description" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="#800020" name="theme-color" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Our Journal – Mary Humphrey Wear">
+    <meta property="og:description"
+        content="The story behind the GECO Dungarees and stories from the Mary Humphrey Wear Nairobi atelier.">
+    <meta property="og:image" content="https://maryhumphreywear.org/assets/journal-geco-dungarees.jpg">
+    <meta property="og:url" content="https://maryhumphreywear.org/journal">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Our Journal – Mary Humphrey Wear">
+    <meta name="twitter:description"
+        content="The story behind the GECO Dungarees and stories from the Mary Humphrey Wear Nairobi atelier.">
+    <meta name="twitter:image" content="https://maryhumphreywear.org/assets/journal-geco-dungarees.jpg">
+
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="assets/base.css" rel="stylesheet" />
+    <link href="assets/normalize.css" rel="stylesheet" />
+
+    <script src="assets/config.js"></script>
+    <script src="assets/supabase.umd.js"></script>
+    <script defer src="assets/cart.js"></script>
+    <script defer src="assets/global.js"></script>
+    <script defer src="assets/announcement.js"></script>
+    <script defer src="assets/supabase-client.js" type="module"></script>
+    <script defer src="assets/sale-link.js"></script>
+    <script defer src="assets/js/components/core.js" type="module"></script>
+
+    <style>
+        .journal-page {
+            background: var(--body-background-color, #f5f1ec);
+            min-height: 70vh;
+            padding-bottom: 7rem;
+        }
+
+        /* Editorial Hero Header */
+        .journal-hero {
+            padding: 5.5rem 2rem 3.8rem;
+            text-align: center;
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .journal-hero__eyebrow {
+            display: inline-block;
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--burgundy-color, #800020);
+            margin-bottom: 1.2rem;
+        }
+
+        .journal-hero__title {
+            font-family: var(--font-heading, 'Playfair Display', serif);
+            font-size: clamp(3.2rem, 5vw, 5rem);
+            font-weight: 700;
+            color: var(--primary-color, #1a1818);
+            line-height: 1.12;
+            margin: 0 0 1.4rem;
+        }
+
+        .journal-hero__desc {
+            font-size: 1.55rem;
+            line-height: 1.7;
+            color: var(--foreground-sub-color, #555555);
+            margin: 0;
+        }
+
+        .journal-divider {
+            width: 64px;
+            height: 2px;
+            background: var(--burgundy-color, #800020);
+            margin: 2.2rem auto 0;
+            opacity: 0.75;
+        }
+
+        /* Featured Story Container */
+        .journal-container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 2.4rem;
+        }
+
+        .journal-featured {
+            background: #ffffff;
+            border: 1px solid rgba(26, 24, 24, 0.08);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 14px 40px rgba(26, 24, 24, 0.07);
+            display: grid;
+            grid-template-columns: 0.95fr 1.1fr;
+            align-items: stretch;
+        }
+
+        .journal-featured__media {
+            position: relative;
+            background: #231c1a;
+            min-height: 460px;
+            overflow: hidden;
+        }
+
+        .journal-featured__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .journal-featured:hover .journal-featured__img {
+            transform: scale(1.03);
+        }
+
+        .journal-featured__caption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 3rem 2rem 1.4rem;
+            background: linear-gradient(to top, rgba(20, 14, 14, 0.78), rgba(20, 14, 14, 0));
+            color: rgba(255, 255, 255, 0.94);
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+        }
+
+        .journal-featured__content {
+            padding: 4.4rem 4.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.8rem;
+        }
+
+        .journal-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--burgundy-color, #800020);
+        }
+
+        .journal-meta__dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #c4b5ac;
+        }
+
+        .journal-meta__date {
+            color: var(--foreground-sub-color, #6b635f);
+            letter-spacing: 0.08em;
+        }
+
+        .journal-featured__title {
+            font-family: var(--font-heading, 'Playfair Display', serif);
+            font-size: clamp(2.5rem, 3.2vw, 3.6rem);
+            font-weight: 700;
+            color: var(--primary-color, #1a1818);
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .journal-story-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1.35rem;
+            font-size: 1.55rem;
+            line-height: 1.8;
+            color: #2f2a28;
+        }
+
+        .journal-story-body p {
+            margin: 0;
+        }
+
+        .journal-story-lead {
+            font-family: var(--font-heading, 'Playfair Display', serif);
+            font-size: 1.85rem;
+            font-style: italic;
+            color: #1a1818;
+            line-height: 1.55;
+        }
+
+        .journal-story-signature {
+            margin-top: 0.4rem;
+            padding: 1.4rem 1.8rem;
+            background: #fdf6f7;
+            border-left: 4px solid var(--burgundy-color, #800020);
+            border-radius: 6px;
+            font-family: var(--font-heading, 'Playfair Display', serif);
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--burgundy-color, #800020);
+        }
+
+        .journal-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+            padding-top: 1.8rem;
+            border-top: 1px solid rgba(26, 24, 24, 0.08);
+        }
+
+        .journal-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 1.3rem 2.4rem;
+            border-radius: 6px;
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            cursor: pointer;
+            touch-action: manipulation;
+            transition: all 0.25s ease;
+        }
+
+        .journal-btn--primary {
+            background: var(--burgundy-color, #800020);
+            color: #ffffff !important;
+            border: 1.5px solid var(--burgundy-color, #800020);
+        }
+
+        .journal-btn--primary:hover {
+            background: #5c0017;
+            border-color: #5c0017;
+            transform: translateY(-1px);
+        }
+
+        .journal-btn--outline {
+            background: transparent;
+            color: var(--primary-color, #1a1818);
+            border: 1.5px solid #c9bfb9;
+        }
+
+        .journal-btn--outline:hover {
+            border-color: var(--burgundy-color, #800020);
+            color: var(--burgundy-color, #800020);
+            transform: translateY(-1px);
+        }
+
+        /* Additional Journal Entries Grid (populates as more stories are added in Admin) */
+        .journal-more-section {
+            margin-top: 5.5rem;
+            display: none;
+        }
+
+        .journal-more-section.has-posts {
+            display: block;
+        }
+
+        .journal-more-heading {
+            font-family: var(--font-heading, 'Playfair Display', serif);
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--primary-color, #1a1818);
+            margin: 0 0 2.4rem;
+            text-align: center;
+        }
+
+        .journal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.6rem;
+        }
+
+        .journal-card {
+            background: #ffffff;
+            border: 1px solid rgba(26, 24, 24, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 6px 20px rgba(26, 24, 24, 0.05);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .journal-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 32px rgba(26, 24, 24, 0.1);
+        }
+
+        .journal-card__img-wrap {
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+            background: #ece5dc;
+        }
+
+        .journal-card__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            transition: transform 0.45s ease;
+        }
+
+        .journal-card:hover .journal-card__img {
+            transform: scale(1.04);
+        }
+
+        .journal-card__body {
+            padding: 2.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .journal-card__title {
+            font-family: var(--font-heading, 'Playfair Display', serif);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color, #1a1818);
+            margin: 0;
+            line-height: 1.25;
+        }
+
+        .journal-card__excerpt {
+            font-size: 1.38rem;
+            line-height: 1.65;
+            color: #4a4442;
+            margin: 0;
+            white-space: pre-line;
+        }
+
+        .journal-card__link {
+            margin-top: auto;
+            padding-top: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--burgundy-color, #800020);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .journal-card__link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media only screen and (max-width: 960px) {
+            .journal-featured {
+                grid-template-columns: 1fr;
+            }
+            .journal-featured__media {
+                min-height: 0;
+                aspect-ratio: 3 / 4;
+                max-height: 560px;
+            }
+            .journal-featured__content {
+                padding: 3rem 2.4rem;
+            }
+            .journal-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            .journal-hero {
+                padding: 3.6rem 1.6rem 2.6rem;
+            }
+            .journal-container {
+                padding: 0 1.4rem;
+            }
+            .journal-featured__content {
+                padding: 2.4rem 1.8rem;
+                gap: 1.4rem;
+            }
+            .journal-story-body {
+                font-size: 1.45rem;
+                line-height: 1.75;
+            }
+            .journal-story-lead {
+                font-size: 1.68rem;
+            }
+            .journal-story-signature {
+                font-size: 1.75rem;
+                padding: 1.1rem 1.3rem;
+            }
+            .journal-actions {
+                flex-direction: column;
+            }
+            .journal-btn {
+                width: 100%;
+                min-height: 4.6rem;
+            }
+            .journal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body class="body">
+    <div id="preloader">
+        <div class="ctn-preloader" id="ctn-preloader">
+            <div class="animation-preloader">
+                <div class="spinner"></div>
+                <div class="txt-loading">
+                    <span class="letters-loading" data-text-preloader="M">M</span>
+                    <span class="letters-loading" data-text-preloader="H">H</span>
+                    <span class="letters-loading" data-text-preloader="W">W</span>
+                </div>
+            </div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
+    </div>
+
+    <!-- Shared Site Header Component -->
+    <header id="site-header" class="header__section" data-section-id="header"></header>
+    <script defer src="assets/header.js?v=14"></script>
+
+    <main class="main journal-page">
+        <section class="journal-hero">
+            <span class="journal-hero__eyebrow" id="journal-eyebrow">The Mary Humphrey Journal</span>
+            <h1 class="journal-hero__title" id="journal-heading">Our Journal</h1>
+            <p class="journal-hero__desc" id="journal-subtitle">
+                Stories of craftsmanship, African heritage, and the people and spaces that inspire every piece we create in Nairobi.
+            </p>
+            <div class="journal-divider"></div>
+        </section>
+
+        <div class="journal-container">
+            <!-- Featured Lead Story -->
+            <article class="journal-featured" id="journal-featured-article">
+                <div class="journal-featured__media">
+                    <img
+                        id="journal-featured-img"
+                        class="journal-featured__img"
+                        src="assets/journal-geco-dungarees.jpg"
+                        alt="Mary wearing the GECO Dungarees on the Land Rover at Geco Café, Nairobi"
+                    />
+                    <span class="journal-featured__caption" id="journal-featured-caption">
+                        Mary at Geco Café, Nairobi — wearing the GECO Dungarees
+                    </span>
+                </div>
+
+                <div class="journal-featured__content">
+                    <div class="journal-meta">
+                        <span id="journal-featured-category">Behind the Design</span>
+                        <span class="journal-meta__dot" aria-hidden="true"></span>
+                        <span class="journal-meta__date" id="journal-featured-location">Nairobi, Kenya</span>
+                    </div>
+
+                    <h2 class="journal-featured__title" id="journal-featured-title">
+                        ❤️ The Story Behind the GECO Dungarees
+                    </h2>
+
+                    <div class="journal-story-body" id="journal-featured-body">
+                        <p class="journal-story-lead">Did I ever tell you about the first time I walked into Geco? 🥹</p>
+                        <p>I came as a designer, hoping for a little space to showcase my work. But something unexpected happened.</p>
+                        <p>The founder of Geco believed in my work almost instantly. He encouraged me, opened doors for me, and has continued to be such a rock and a source of support on this journey. ❤️</p>
+                        <p>Somehow, I ended up falling in love with Geco—not just as a place, but as a space that became part of my story.</p>
+                        <p>I later brought along a friend who believed in me and my work, and somewhere along the way, we looked at this beautiful piece and decided...</p>
+                        <div class="journal-story-signature">GECO DUNGAREES. ✨</div>
+                    </div>
+
+                    <div class="journal-actions">
+                        <a id="journal-featured-cta" class="journal-btn journal-btn--primary" href="/shop/geco-dungaree">
+                            Shop GECO Dungarees &rarr;
+                        </a>
+                        <button type="button" class="journal-btn journal-btn--outline" onclick="window.openMadeToMeasureModal && window.openMadeToMeasureModal()">
+                            ✂ Order Made-to-Measure
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Additional Journal Stories Grid (automatically appears when more stories are added in Admin) -->
+            <section class="journal-more-section" id="journal-more-section">
+                <h2 class="journal-more-heading">More from Our Journal</h2>
+                <div class="journal-grid" id="journal-posts-grid"></div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="site-footer" class="footer__section footer__bg" data-section-id="footer"></footer>
+    <script defer src="assets/footer.js"></script>
+
+    <script>
+        (function () {
+            function esc(str) {
+                if (str == null) return '';
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;');
+            }
+
+            function renderStoryParagraphs(text) {
+                const lines = String(text || '')
+                    .split(/\n+/)
+                    .map(l => l.trim())
+                    .filter(Boolean);
+                if (!lines.length) return '';
+                return lines.map((line, idx) => {
+                    if (idx === 0) return `<p class="journal-story-lead">${esc(line)}</p>`;
+                    if (idx === lines.length - 1 && line.length <= 42 && line === line.toUpperCase()) {
+                        return `<div class="journal-story-signature">${esc(line)}</div>`;
+                    }
+                    return `<p>${esc(line)}</p>`;
+                }).join('');
+            }
+
+            async function syncJournalFromBackend() {
+                try {
+                    const res = await fetch('/api/theme');
+                    if (!res.ok) return;
+                    const json = await res.json();
+                    const sec = json?.theme?.sections?.journal;
+                    if (!sec || !sec.settings) return;
+                    const s = sec.settings;
+
+                    if (s.eyebrow) document.getElementById('journal-eyebrow').textContent = s.eyebrow;
+                    if (s.heading) document.getElementById('journal-heading').textContent = s.heading;
+                    if (s.subtitle) document.getElementById('journal-subtitle').textContent = s.subtitle;
+
+                    const posts = Array.isArray(s.posts) ? s.posts.filter(p => p && (p.title || p.body)) : [];
+                    if (!posts.length) return;
+
+                    // Update featured lead post
+                    const lead = posts[0];
+                    if (lead.image) document.getElementById('journal-featured-img').src = lead.image;
+                    if (lead.caption) document.getElementById('journal-featured-caption').textContent = lead.caption;
+                    if (lead.category) document.getElementById('journal-featured-category').textContent = lead.category;
+                    if (lead.date) document.getElementById('journal-featured-location').textContent = lead.date;
+                    if (lead.title) document.getElementById('journal-featured-title').textContent = lead.title;
+                    if (lead.body) document.getElementById('journal-featured-body').innerHTML = renderStoryParagraphs(lead.body);
+
+                    const ctaEl = document.getElementById('journal-featured-cta');
+                    if (ctaEl) {
+                        if (lead.cta_text) ctaEl.textContent = lead.cta_text;
+                        if (lead.cta_link) ctaEl.href = lead.cta_link;
+                    }
+
+                    // Render additional posts if any exist
+                    const morePosts = posts.slice(1);
+                    const moreSec = document.getElementById('journal-more-section');
+                    const grid = document.getElementById('journal-posts-grid');
+                    if (morePosts.length > 0 && moreSec && grid) {
+                        grid.innerHTML = morePosts.map(post => `
+                            <article class="journal-card">
+                                ${post.image ? `
+                                <div class="journal-card__img-wrap">
+                                    <img class="journal-card__img" src="${esc(post.image)}" alt="${esc(post.title || 'Journal story')}" loading="lazy" />
+                                </div>` : ''}
+                                <div class="journal-card__body">
+                                    <div class="journal-meta">
+                                        <span>${esc(post.category || 'Journal')}</span>
+                                        ${post.date ? `<span class="journal-meta__dot"></span><span class="journal-meta__date">${esc(post.date)}</span>` : ''}
+                                    </div>
+                                    <h3 class="journal-card__title">${esc(post.title || '')}</h3>
+                                    <p class="journal-card__excerpt">${esc(post.body || '')}</p>
+                                    ${post.cta_link ? `<a class="journal-card__link" href="${esc(post.cta_link)}">${esc(post.cta_text || 'Explore Collection')} &rarr;</a>` : ''}
+                                </div>
+                            </article>
+                        `).join('');
+                        moreSec.classList.add('has-posts');
+                    }
+                } catch (e) {
+                    // Fallback to static HTML lead story silently
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', syncJournalFromBackend);
+            } else {
+                syncJournalFromBackend();
+            }
+        })();
+    </script>
+</body>
+
+</html>

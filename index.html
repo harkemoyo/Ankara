@@ -2204,7 +2204,7 @@
     </style>
     <script defer src="assets/supabase-client.js" type="module"></script>
     <script defer src="assets/sale-link.js?v=8"></script>
-    <script defer src="assets/header.js?v=9"></script>
+    <script defer src="assets/header.js?v=13"></script>
 </head>
 
 <body class="body">
@@ -2256,6 +2256,43 @@
             <section class="home-categories section--padding" data-section-id="categories">
                 <div class="home-categories-wrapper">
                     <div class="home-category-grid"></div>
+                </div>
+            </section>
+            <!-- Made-to-Measure Bespoke Tailoring Banner -->
+            <section class="mtm-home-banner" data-section-id="made_to_measure" aria-labelledby="mtm-home-title">
+                <div class="mtm-home-banner__inner">
+                    <div class="mtm-home-banner__header">
+                        <span class="mtm-home-banner__eyebrow">✂ Bespoke Tailoring · Nairobi Atelier</span>
+                        <h2 class="mtm-home-banner__title" id="mtm-home-title">We Do Made-to-Measure</h2>
+                        <p class="mtm-home-banner__desc">
+                            Every Mary Humphrey Wear piece can be handcrafted to your exact measurements — designed for a flawless, confident fit with zero guesswork.
+                        </p>
+                    </div>
+                    <div class="mtm-home-banner__steps">
+                        <div class="mtm-home-step">
+                            <span class="mtm-home-step__num">01</span>
+                            <h3 class="mtm-home-step__title">Choose Any Style or Fabric</h3>
+                            <p class="mtm-home-step__text">Select any Ankara dress, kimono, suit, dungaree, or authentic kitenge print from our store.</p>
+                        </div>
+                        <div class="mtm-home-step">
+                            <span class="mtm-home-step__num">02</span>
+                            <h3 class="mtm-home-step__title">Share Your Measurements</h3>
+                            <p class="mtm-home-step__text">Pick <strong>Made-to-Measure</strong> on any product page, enter your measurements, or book a quick WhatsApp fitting.</p>
+                        </div>
+                        <div class="mtm-home-step">
+                            <span class="mtm-home-step__num">03</span>
+                            <h3 class="mtm-home-step__title">Tailored to Perfection</h3>
+                            <p class="mtm-home-step__text">Our Nairobi tailors cut and finish your garment to your exact bust, waist, hip, and length preferences.</p>
+                        </div>
+                    </div>
+                    <div class="mtm-home-banner__actions">
+                        <button type="button" class="mtm-home-btn mtm-home-btn--primary" onclick="window.openMadeToMeasureModal && window.openMadeToMeasureModal()">
+                            📏 How to Measure &amp; Size Guide
+                        </button>
+                        <a class="mtm-home-btn mtm-home-btn--outline" href="https://wa.me/254715687280?text=Hello%20Mary%20Humphrey%20African%20Wear!%20I%27d%20like%20to%20order%20a%20Made-to-Measure%20piece." target="_blank" rel="noopener noreferrer">
+                            💬 Book a Fitting on WhatsApp
+                        </a>
+                    </div>
                 </div>
             </section>
             <!-- Helsinki Blankets Showcase -->

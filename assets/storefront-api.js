@@ -5,12 +5,39 @@
 // Global Filter & Sort State for the Shop Page
 let filterState = {
     collection: 'all',
+    productType: '',
     sizes: [],
     minPrice: 0,
     maxPrice: 250,
     sortBy: 'latest',
     search: ''
 };
+
+// Keep global settings synced once
+window.addEventListener('settings:loaded', (e) => {
+    if (e.detail) window.__ankaraSettings = e.detail;
+});
+
+function escapeInlineJs(str) {
+    return String(str ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+
+function getWhatsAppNumber() {
+    const settings = window.__ankaraSettings || {};
+    return (settings.whatsapp || window.STORE_CONFIG?.WHATSAPP_NUMBER || window.WHATSAPP_NUMBER || '254715687280').replace(/\D/g, '');
+}
+
+function isWhatsAppEnabled() {
+    const settings = window.__ankaraSettings || {};
+    return settings.whatsapp_enabled !== false;
+}
+
+function buildTailorWhatsAppUrl(productName, selectedColor) {
+    const phone = getWhatsAppNumber();
+    let waMsg = `Hello Mary Humphrey African Wear! 👋\n\nI'd like to order the "${productName || 'this item'}" as Made-to-Measure (tailored to my exact measurements). Could you please guide me through the measurements and timeline?\n\nThank you!`;
+    if (selectedColor) waMsg += `\nSelected Color: ${selectedColor}`;
+    return `https://wa.me/${phone}?text=${encodeURIComponent(waMsg)}`;
+}
 
 // =============================================
 // SHOP PAGE — Load and render product grid (AJAX filtering)
@@ -49,7 +76,8 @@ async function loadShopProducts() {
     if (products.length === 0) {
         grid.innerHTML = '<div class="col-12 text-center" style="grid-column:1/-1;padding:3rem;"><p>No products found matching your filters.</p></div>';
         return;
-    } grid.innerHTML = products.map((product) => {
+    }
+    grid.innerHTML = products.map((product) => {
         const primaryImage = (product.images && Array.isArray(product.images) && product.images[0]) ? product.images[0] : 'assets/DSC02676.jpg';
         const hoverImage = (product.images && Array.isArray(product.images) && product.images[1]) ? product.images[1] : primaryImage;
         const price = parseFloat(product.price);
@@ -102,13 +130,13 @@ async function loadShopProducts() {
 // Swap image on product card when swatch is clicked
 window.swapCardImage = function (swatchEl, imageSrc, handle) {
     const label = swatchEl.getAttribute('title');
-    window.location.href = `/product/${handle}&color=${encodeURIComponent(label || '')}`;
+    window.location.href = `/product/${handle}?color=${encodeURIComponent(label || '')}`;
 };
 
 // Quick add to cart from shop grid
 window.quickAddToCart = function (handle, title, price, image) {
-    if (typeof addToCart === 'function') {
-        addToCart({
+    if (typeof window.addToCart === 'function') {
+        window.addToCart({
             id: handle,
             title: title,
             price: price,
@@ -298,7 +326,9 @@ function setupShopFilters() {
             optPriceDesc.value = '5';
             optPriceDesc.textContent = 'Price: High to Low';
             sortSelect.appendChild(optPriceDesc);
-            sortSelect.options[3].textContent = 'Price: Low to High';
+            if (sortSelect.options[3]) {
+                sortSelect.options[3].textContent = 'Price: Low to High';
+            }
         }
     }
 }
@@ -356,7 +386,8 @@ async function loadProductDetails() {
     }
 
     if (!product) {
-        document.getElementById('dyn-product-title').innerText = 'Product Not Found';
+        const titleEl = document.getElementById('dyn-product-title');
+        if (titleEl) titleEl.innerText = 'Product Not Found';
         const section = document.querySelector('.product__details--section');
         if (section) section.classList.remove('is-loading');
         return;
@@ -368,7 +399,8 @@ async function loadProductDetails() {
 
     // Basic info
     document.title = `${product.title} — Mary Humphrey African Wear`;
-    document.getElementById('dyn-product-title').innerText = product.title;
+    const titleEl = document.getElementById('dyn-product-title');
+    if (titleEl) titleEl.innerText = product.title;
     const bcTitle = document.getElementById('dyn-product-title-bc');
     if (bcTitle) bcTitle.innerText = product.title;
     const bcActive = document.getElementById('dyn-product-title-bc-active');
@@ -380,7 +412,8 @@ async function loadProductDetails() {
             const compareText = window.AnkaraCurrency ? window.AnkaraCurrency.convertAndFormat(product.compare_at_price) : `£${parseFloat(product.compare_at_price).toFixed(2)}`;
             html += `<span class="compare-price-val">${compareText}</span>`;
         }
-        document.getElementById('dyn-product-price').innerHTML = html;
+        const priceBox = document.getElementById('dyn-product-price');
+        if (priceBox) priceBox.innerHTML = html;
 
         // Also update sticky price
         const stickyPrice = document.getElementById('sticky-product-price');
@@ -416,7 +449,7 @@ async function loadProductDetails() {
                 src="${img}" 
                 alt="${product.title} image ${i + 1}"
                 class="${i === 0 ? 'active' : ''}"
-                onclick="swapMainImage(this,'${img}')"
+                onclick="swapMainImage(this,'${escapeInlineJs(img)}')"
             >
         `).join('');
     }
@@ -431,15 +464,16 @@ async function loadProductDetails() {
             if (foundIndex !== -1) initialColorIndex = foundIndex;
         }
 
+        const fallbackImg = (product.images && product.images[0]) || '';
         colourContainer.innerHTML = product.colors.map((c, i) => `
             <button 
                 class="swatch-btn ${i === initialColorIndex ? 'active' : ''}"
                 aria-label="${c.label}"
                 aria-pressed="${i === initialColorIndex ? 'true' : 'false'}"
-                onclick="selectColor(this,'${c.image}','${c.label}')"
+                onclick="selectColor(this,'${escapeInlineJs(c.image || fallbackImg)}','${escapeInlineJs(c.label)}')"
                 title="${c.label}"
             >
-                <img src="${c.image || product.images[0]}" alt="${c.label}" class="swatch-img">
+                <img src="${c.image || fallbackImg}" alt="${c.label}" class="swatch-img">
             </button>
         `).join('');
         window._selectedColor = product.colors[initialColorIndex].label;
@@ -453,101 +487,122 @@ async function loadProductDetails() {
 
         // Ensure main image matches the selected color initially
         if (product.colors[initialColorIndex].image) {
-            const mainImg = document.getElementById('dyn-product-image');
-            if (mainImg) mainImg.src = product.colors[initialColorIndex].image;
+            const mainImgEl = document.getElementById('dyn-product-image');
+            if (mainImgEl) mainImgEl.src = product.colors[initialColorIndex].image;
         }
     }
 
+    // Reset made-to-measure state on product load
+    const hasStandardSizes = Array.isArray(product.sizes) && product.sizes.length > 0;
+    window._madeToMeasure = false;
+    window._lastStandardSize = hasStandardSizes ? product.sizes[0] : 'One Size';
+    const isFabricProduct = (product.product_type || '').toLowerCase() === 'fabric';
+
     // Size buttons
     const sizeContainer = document.getElementById('size-options');
-    if (sizeContainer && product.sizes && product.sizes.length > 0) {
-        sizeContainer.innerHTML = product.sizes.map((size, i) => `
+    if (sizeContainer && (hasStandardSizes || !isFabricProduct)) {
+        const standardBtns = hasStandardSizes ? product.sizes.map((size, i) => `
             <button 
+                type="button"
                 class="size-btn ${i === 0 ? 'active' : ''}" 
                 data-size="${size}"
-                onclick="selectSize(this,'${size}')"
+                onclick="selectSize(this,'${escapeInlineJs(size)}')"
             >${size}</button>
-        `).join('');
-        window._selectedSize = product.sizes[0];
+        `).join('') : '';
+
+        const mtmBtn = !isFabricProduct ? `
+            <button
+                type="button"
+                class="size-btn size-btn--mtm ${!hasStandardSizes ? 'active' : ''}"
+                data-size="Made-to-Measure"
+                onclick="selectSize(this,'Made-to-Measure')"
+                title="Custom tailored to your exact measurements"
+            ><span class="mtm-pill-icon">✂</span> Made-to-Measure</button>
+        ` : '';
+
+        sizeContainer.innerHTML = standardBtns + mtmBtn;
+        window._selectedSize = hasStandardSizes ? product.sizes[0] : 'Made-to-Measure';
+        if (!hasStandardSizes && !isFabricProduct) {
+            window._madeToMeasure = true;
+        }
 
         // Update label text
         const activeSizeLabel = document.getElementById('active-size-label');
-        if (activeSizeLabel) activeSizeLabel.innerText = product.sizes[0];
+        if (activeSizeLabel) activeSizeLabel.innerText = window._selectedSize;
 
         const stickySize = document.getElementById('sticky-selection-size');
-        if (stickySize) stickySize.innerText = `Size: ${product.sizes[0]}`;
+        if (stickySize) stickySize.innerText = `Size: ${window._selectedSize}`;
     }
 
-    // Order method CTA (replaces old custom measurements CTA)
+    // Made-to-Measure Prominent Callout Card (visible on all garment products)
     const customCtaId = 'order-method-cta';
     document.getElementById(customCtaId)?.remove();
 
-    // Helper: get WhatsApp number from settings, fallback to config
-    function getWhatsAppNumber() {
-        const settings = window.__ankaraSettings || {};
-        return (settings.whatsapp || window.STORE_CONFIG?.WHATSAPP_NUMBER || window.WHATSAPP_NUMBER || '254700000000').replace(/\D/g, '');
-    }
-
-    // Helper: check if WhatsApp is enabled in settings
-    function isWhatsAppEnabled() {
-        const settings = window.__ankaraSettings || {};
-        return settings.whatsapp_enabled !== false;
-    }
-
-    // Store settings globally when settings:loaded fires
-    window.addEventListener('settings:loaded', (e) => {
-        if (e.detail) window.__ankaraSettings = e.detail;
-    });
-
-    const orderMethod = product.order_method || 'standard';
-
-    if (orderMethod !== 'standard' && isWhatsAppEnabled()) {
-        const phone = getWhatsAppNumber();
+    if (!isFabricProduct) {
         const productName = product.title || 'this item';
-        const selectedSize = window._selectedSize || '';
         const selectedColor = window._selectedColor || '';
+        const waUrl = buildTailorWhatsAppUrl(productName, selectedColor);
 
-        if (orderMethod === 'standard_plus_custom') {
-            // Small text link below size selector
-            let msg = `Hello Mary Humphrey African Wear! 👋\n\nI'm interested in the ${productName} and would like it made to my measurements. Could you please guide me through the measurement process, pricing, and estimated production time?\n\nThank you!`;
-            if (selectedSize) msg += `\n\nSelected Size: ${selectedSize}`;
-            if (selectedColor) msg += `\nSelected Color: ${selectedColor}`;
-            const encodedMsg = encodeURIComponent(msg);
-            const cta = document.createElement('div');
-            cta.id = customCtaId;
-            cta.innerHTML = `
-                <p style="margin:1.2rem 0 0.6rem;font-size:1.3rem;color:var(--foreground-sub-color);">Need a custom fit? This design can be tailored to your exact measurements.</p>
-                <a href="https://wa.me/${phone}?text=${encodedMsg}" target="_blank" style="display:inline-flex;align-items:center;gap:0.6rem;text-decoration:none;color:#25d366;font-size:1.3rem;font-weight:600;">💬 Contact us on WhatsApp</a>
-            `;
-            if (sizeContainer) sizeContainer.after(cta);
-            else if (colourContainer) colourContainer.after(cta);
-        } else if (orderMethod === 'whatsapp_only') {
-            // Show made-to-measure checkbox instead of WhatsApp button
-            // Buttons remain visible, checkbox marks order as custom fit
-            const cta = document.createElement('div');
-            cta.id = customCtaId;
-            cta.className = 'made-to-measure-option';
-            cta.innerHTML = `
-                <label class="made-to-measure-label">
-                    <input type="checkbox" id="made-to-measure-checkbox" class="made-to-measure-checkbox" />
-                    <span class="made-to-measure-text">
-                        <strong>Made-to-measure</strong>
-                        <small>Check this box if you'd like this item tailored to your exact measurements</small>
-                    </span>
-                </label>
-            `;
-            // Insert before buttons container
-            const buttonsContainer = document.querySelector('.buttons-container');
-            if (buttonsContainer) buttonsContainer.before(cta);
-            else if (sizeContainer) sizeContainer.after(cta);
+        const cta = document.createElement('div');
+        cta.id = customCtaId;
+        cta.className = `mtm-product-card${window._madeToMeasure ? ' is-active' : ''}`;
+        cta.innerHTML = `
+            <label class="mtm-product-card__header" for="made-to-measure-checkbox">
+                <input type="checkbox" id="made-to-measure-checkbox" class="made-to-measure-checkbox" ${window._madeToMeasure ? 'checked' : ''} />
+                <div class="mtm-product-card__copy">
+                    <span class="mtm-product-card__badge">✂ We Do Made-to-Measure</span>
+                    <strong class="mtm-product-card__title">Tailor this piece to my exact measurements</strong>
+                    <small class="mtm-product-card__desc">Check this box for a custom bespoke fit — our Nairobi atelier will craft it to your body measurements.</small>
+                </div>
+            </label>
+            <div class="mtm-product-card__actions">
+                <button type="button" class="mtm-card-action-link" onclick="window.openMadeToMeasureModal && window.openMadeToMeasureModal()">
+                    📏 How to Measure
+                </button>
+                <button type="button" class="mtm-card-action-link" onclick="window.openSizeGuide && window.openSizeGuide()">
+                    📝 Enter Measurements
+                </button>
+                ${isWhatsAppEnabled() ? `<a id="mtm-card-wa-link" href="${waUrl}" target="_blank" rel="noopener noreferrer" class="mtm-card-action-link mtm-card-action-link--wa">💬 Ask Tailor</a>` : ''}
+            </div>
+        `;
 
-            // Store checkbox state globally for cart
-            const checkbox = cta.querySelector('#made-to-measure-checkbox');
-            if (checkbox) {
-                checkbox.addEventListener('change', () => {
-                    window._madeToMeasure = checkbox.checked;
-                });
-            }
+        const buttonsContainer = document.querySelector('.buttons-container');
+        if (buttonsContainer) buttonsContainer.before(cta);
+        else if (sizeContainer) sizeContainer.after(cta);
+
+        const checkbox = cta.querySelector('#made-to-measure-checkbox');
+        if (checkbox) {
+            checkbox.addEventListener('change', () => {
+                const isChecked = checkbox.checked;
+                window._madeToMeasure = isChecked;
+                cta.classList.toggle('is-active', isChecked);
+
+                const mtmPill = document.querySelector('.size-btn--mtm');
+                if (isChecked) {
+                    if (mtmPill) {
+                        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                        mtmPill.classList.add('active');
+                    }
+                    window._selectedSize = 'Made-to-Measure';
+                    const activeSizeLabel = document.getElementById('active-size-label');
+                    if (activeSizeLabel) activeSizeLabel.innerText = 'Made-to-Measure';
+                    const stickySize = document.getElementById('sticky-selection-size');
+                    if (stickySize) stickySize.innerText = 'Size: Made-to-Measure';
+                } else {
+                    const restoreSize = window._lastStandardSize || (hasStandardSizes ? product.sizes[0] : 'One Size');
+                    const stdBtn = Array.from(document.querySelectorAll('.size-btn:not(.size-btn--mtm)')).find(b => b.dataset.size === restoreSize)
+                        || document.querySelector('.size-btn:not(.size-btn--mtm)');
+                    if (stdBtn) {
+                        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                        stdBtn.classList.add('active');
+                    }
+                    window._selectedSize = restoreSize;
+                    const activeSizeLabel = document.getElementById('active-size-label');
+                    if (activeSizeLabel) activeSizeLabel.innerText = restoreSize;
+                    const stickySize = document.getElementById('sticky-selection-size');
+                    if (stickySize) stickySize.innerText = `Size: ${restoreSize}`;
+                }
+            });
         }
     }
 
@@ -565,7 +620,7 @@ async function loadProductDetails() {
     const tabDescription = document.getElementById('tab-description');
     if (tabDescription) {
         tabDescription.innerHTML = `
-            <div">
+            <div>
                 ${product.description ? `<p>${product.description.replace(/\n/g, '</p><p>')}</p>` : '<p>No description available.</p>'}
             </div>
         `;
@@ -590,7 +645,7 @@ async function loadProductDetails() {
             details.push('<li><strong>Care:</strong> Hand wash cold, hang dry</li>');
         }
         tabDetails.innerHTML = `
-            <ul">
+            <ul>
                 ${details.join('')}
             </ul>
         `;
@@ -696,7 +751,9 @@ async function loadRelatedProducts(product) {
 // Select a color swatch on product page
 window.selectColor = function (btn, image, label) {
     window._selectedColor = label;
-    swapMainImage(null, image);
+    if (typeof window.swapMainImage === 'function') {
+        window.swapMainImage(null, image);
+    }
     document.querySelectorAll('#colour-options .swatch-btn').forEach(s => {
         s.classList.remove('active');
         s.setAttribute('aria-pressed', 'false');
@@ -712,17 +769,35 @@ window.selectColor = function (btn, image, label) {
 
     const stickyColor = document.getElementById('sticky-selection-color');
     if (stickyColor) stickyColor.innerText = `Colour: ${label}`;
+
+    // Keep Made-to-Measure WhatsApp tailor link updated with selected color
+    const waLink = document.getElementById('mtm-card-wa-link');
+    if (waLink && window._currentProduct) {
+        waLink.href = buildTailorWhatsAppUrl(window._currentProduct.title, label);
+    }
 };
 
 // Select a size on product page
 window.selectSize = function (btn, size) {
+    const isMtm = size === 'Made-to-Measure';
     window._selectedSize = size;
+    window._madeToMeasure = isMtm;
+    if (!isMtm) {
+        window._lastStandardSize = size;
+    }
+
     document.querySelectorAll('.size-btn').forEach(b => {
         b.classList.remove('active');
     });
     if (btn) {
         btn.classList.add('active');
     }
+
+    // Sync Made-to-Measure callout card & checkbox
+    const mtmCheckbox = document.getElementById('made-to-measure-checkbox');
+    const mtmCard = document.getElementById('order-method-cta');
+    if (mtmCheckbox) mtmCheckbox.checked = isMtm;
+    if (mtmCard) mtmCard.classList.toggle('is-active', isMtm);
 
     // Update labels
     const activeSizeLabel = document.getElementById('active-size-label');
@@ -793,11 +868,11 @@ window.openProductZoom = function (e, indexOverride) {
         type: 'image'
     }));
 
-    if (typeof GLightbox === 'function') {
+    if (typeof window.GLightbox === 'function') {
         if (window._productLightboxInstance && typeof window._productLightboxInstance.destroy === 'function') {
             try { window._productLightboxInstance.destroy(); } catch (err) { }
         }
-        window._productLightboxInstance = GLightbox({
+        window._productLightboxInstance = window.GLightbox({
             elements: elements,
             startAt: startIdx,
             touchNavigation: true,
@@ -837,11 +912,11 @@ window.addProductToCart = function (e) {
     const color = window._selectedColor || '';
     const madeToMeasure = window._madeToMeasure || false;
 
-    if (typeof addToCart === 'function') {
+    if (typeof window.addToCart === 'function') {
         const btn = document.querySelector('[onclick*="addProductToCart"]');
-        if (typeof simulateAdding === 'function') {
-            simulateAdding(btn, () => {
-                addToCart({
+        if (typeof window.simulateAdding === 'function') {
+            window.simulateAdding(btn, () => {
+                window.addToCart({
                     id: product.handle,
                     title: product.title,
                     price: product.price,
@@ -853,7 +928,7 @@ window.addProductToCart = function (e) {
                 });
             });
         } else {
-            addToCart({ id: product.handle, title: product.title, price: product.price, image: (product.images && product.images[0]) || '', qty, size, color, madeToMeasure });
+            window.addToCart({ id: product.handle, title: product.title, price: product.price, image: (product.images && product.images[0]) || '', qty, size, color, madeToMeasure });
         }
     }
 };
@@ -869,8 +944,8 @@ window.buyProductNow = function (e) {
     const color = window._selectedColor || '';
     const madeToMeasure = window._madeToMeasure || false;
 
-    if (typeof addToCart === 'function') {
-        addToCart({
+    if (typeof window.addToCart === 'function') {
+        window.addToCart({
             id: product.handle,
             title: product.title,
             price: product.price,

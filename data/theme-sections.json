@@ -410,7 +410,7 @@
         "eyebrow": "✂ Bespoke Tailoring · Nairobi Atelier",
         "title": "We Do Made-to-Measure",
         "description": "Every Mary Humphrey Wear piece can be handcrafted to your exact measurements — designed for a flawless, confident fit with zero guesswork.",
-        "bg_color": "#231c1a",
+        "bg_color": "",
         "bg_image": "",
         "popup_image": "assets/made-to-measure-atelier.jpg",
         "steps": [

@@ -98,15 +98,10 @@ function escapeHtml(str) {
   },
 
   made_to_measure(el, settings) {
-    if (settings.bg_image) {
-      el.style.backgroundImage = `linear-gradient(rgba(22, 17, 16, 0.78), rgba(22, 17, 16, 0.84)), url('${escapeHtml(settings.bg_image)}')`;
-      el.style.backgroundSize = 'cover';
-      el.style.backgroundPosition = 'center';
-      el.style.backgroundColor = settings.bg_color || '#231c1a';
-    } else if (settings.bg_color) {
-      el.style.backgroundImage = 'none';
-      el.style.backgroundColor = settings.bg_color;
-    }
+    // Keep section transparent so it blends directly with the site background
+    el.style.background = 'transparent';
+    el.style.backgroundImage = 'none';
+    el.style.backgroundColor = 'transparent';
 
     const eyebrow = el.querySelector('.mtm-home-banner__eyebrow');
     if (eyebrow && settings.eyebrow) eyebrow.textContent = settings.eyebrow;

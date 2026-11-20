@@ -5099,16 +5099,16 @@
           { title: 'Tailored to Perfection', text: 'Our Nairobi tailors cut and finish your garment to your exact bust, waist, hip, and length preferences.' }
         ];
         const steps = (Array.isArray(s.steps) && s.steps.length) ? s.steps : defaultSteps;
-        const bgColor = s.bg_color || '#231c1a';
+        const bgColor = (s.bg_color && s.bg_color !== '#231c1a') ? s.bg_color : '';
         let html = `<div class="form-grid">
           ${textField('ts-eyebrow', 'Eyebrow Badge', s.eyebrow || '✂ Bespoke Tailoring · Nairobi Atelier')}
           ${textField('ts-title', 'Heading', s.title || 'We Do Made-to-Measure')}
           ${textField('ts-description', 'Description', s.description || '', 'textarea')}
           <div class="form-group">
-            <label>Background Color</label>
+            <label>Background Color (leave blank to use site background)</label>
             <div>
-              <input id="ts-bg_color_picker" type="color" value="${escapeHtml(/^#[0-9a-fA-F]{6}$/.test(bgColor) ? bgColor : '#231c1a')}" oninput="document.getElementById('ts-bg_color').value=this.value" style="width:46px;height:38px;padding:2px;cursor:pointer;" />
-              <input id="ts-bg_color" type="text" value="${escapeHtml(bgColor)}" placeholder="#231c1a" oninput="if(/^#[0-9a-fA-F]{6}$/.test(this.value))document.getElementById('ts-bg_color_picker').value=this.value" style="flex:1;" />
+              <input id="ts-bg_color_picker" type="color" value="${escapeHtml(/^#[0-9a-fA-F]{6}$/.test(bgColor) ? bgColor : '#f5f1ec')}" oninput="document.getElementById('ts-bg_color').value=this.value" style="width:46px;height:38px;padding:2px;cursor:pointer;" />
+              <input id="ts-bg_color" type="text" value="${escapeHtml(bgColor)}" placeholder="transparent (site bg)" oninput="if(/^#[0-9a-fA-F]{6}$/.test(this.value))document.getElementById('ts-bg_color_picker').value=this.value" style="flex:1;" />
             </div>
           </div>
           ${imageUploadBlock('ts-bg_image', s.bg_image || '', 'Optional Banner Background Image (leave blank to use Background Color)')}
@@ -5406,7 +5406,7 @@
           eyebrow: document.getElementById('ts-eyebrow')?.value || '',
           title: document.getElementById('ts-title')?.value || '',
           description: document.getElementById('ts-description')?.value || '',
-          bg_color: document.getElementById('ts-bg_color')?.value || '#231c1a',
+          bg_color: document.getElementById('ts-bg_color')?.value || '',
           bg_image: document.getElementById('ts-bg_image')?.value || '',
           popup_image: document.getElementById('ts-popup_image')?.value || 'assets/made-to-measure-atelier.jpg',
           button_text: document.getElementById('ts-button_text')?.value || '',

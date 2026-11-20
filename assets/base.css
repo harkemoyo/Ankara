@@ -19199,19 +19199,23 @@ body.body .header__section {
 
 /* 2. Homepage 3-Step Made-to-Measure Editorial Banner */
 .mtm-home-banner {
-  background: radial-gradient(circle at top right, rgba(212, 168, 67, 0.14), transparent 45%),
-              linear-gradient(135deg, #231c1a 0%, #161110 100%);
-  color: #ffffff;
-  padding: 5.5rem 2.4rem;
+  background: transparent;
+  color: var(--primary-color, #1a1818);
+  padding: 4.5rem 2.4rem;
   position: relative;
-  overflow: hidden;
-  border-top: 1px solid rgba(212, 168, 67, 0.28);
-  border-bottom: 1px solid rgba(212, 168, 67, 0.28);
 }
 
 .mtm-home-banner__inner {
   max-width: 1180px;
   margin: 0 auto;
+  padding: 4.8rem 3.8rem;
+  border-radius: 16px;
+  background: var(--body-background-color, #f5f1ec);
+  border: 1px solid rgba(26, 24, 24, 0.07);
+  box-shadow:
+    0 14px 36px rgba(26, 24, 24, 0.08),
+    0 4px 12px rgba(26, 24, 24, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19224,24 +19228,28 @@ body.body .header__section {
 }
 
 .mtm-home-banner__eyebrow {
-  display: inline-block;
-  padding: 0.45rem 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.8rem;
   border-radius: 999px;
-  border: 1px solid rgba(212, 168, 67, 0.5);
-  background: rgba(212, 168, 67, 0.12);
-  color: #e8c67a;
+  border: 1px solid #800020;
+  background: #800020;
+  box-shadow: 0 6px 16px rgba(128, 0, 32, 0.24), 0 2px 4px rgba(128, 0, 32, 0.12);
+  color: #ffffff;
   font-size: 1.15rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  margin-bottom: 1.4rem;
+  line-height: 1.2;
+  margin-bottom: 1.6rem;
 }
 
 .mtm-home-banner__title {
   font-family: var(--font-heading, 'Playfair Display', serif);
   font-size: clamp(2.8rem, 4vw, 4.2rem);
   font-weight: 700;
-  color: #ffffff;
+  color: var(--primary-color, #1a1818);
   line-height: 1.15;
   margin: 0 0 1.2rem;
 }
@@ -19249,7 +19257,8 @@ body.body .header__section {
 .mtm-home-banner__desc {
   font-size: 1.55rem;
   line-height: 1.65;
-  color: rgba(245, 241, 236, 0.88);
+  color: var(--primary-color, #1a1818);
+  opacity: 0.85;
   margin: 0;
 }
 
@@ -19262,18 +19271,24 @@ body.body .header__section {
 }
 
 .mtm-home-step {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 168, 67, 0.22);
-  border-radius: 10px;
+  background: var(--body-background-color, #f5f1ec);
+  border: 1px solid rgba(26, 24, 24, 0.08);
+  border-radius: 12px;
   padding: 2.4rem 2.2rem;
-  backdrop-filter: blur(4px);
-  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+  box-shadow:
+    0 8px 22px rgba(26, 24, 24, 0.07),
+    0 2px 6px rgba(26, 24, 24, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .mtm-home-step:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(212, 168, 67, 0.48);
+  transform: translateY(-4px);
+  border-color: rgba(26, 24, 24, 0.14);
+  box-shadow:
+    0 16px 32px rgba(26, 24, 24, 0.11),
+    0 4px 10px rgba(26, 24, 24, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
 }
 
 .mtm-home-step__num {
@@ -19281,7 +19296,7 @@ body.body .header__section {
   font-family: var(--font-heading, 'Playfair Display', serif);
   font-size: 2.4rem;
   font-weight: 700;
-  color: #d4a843;
+  color: var(--primary-color, #1a1818);
   line-height: 1;
   margin-bottom: 1rem;
 }
@@ -19290,14 +19305,15 @@ body.body .header__section {
   font-family: var(--font-heading, 'Playfair Display', serif);
   font-size: 1.85rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--primary-color, #1a1818);
   margin: 0 0 0.7rem;
 }
 
 .mtm-home-step__text {
   font-size: 1.35rem;
   line-height: 1.6;
-  color: rgba(245, 241, 236, 0.82);
+  color: var(--primary-color, #1a1818);
+  opacity: 0.82;
   margin: 0;
 }
 
@@ -19338,13 +19354,13 @@ body.body .header__section {
 
 .mtm-home-btn--outline {
   background: transparent;
-  color: #f5f1ec;
-  border: 2px solid rgba(212, 168, 67, 0.72);
+  color: var(--primary-color, #1a1818);
+  border: 2px solid var(--primary-color, #1a1818);
 }
 
 .mtm-home-btn--outline:hover {
-  background: rgba(212, 168, 67, 0.16);
-  border-color: #e8c67a;
+  background: var(--primary-color, #1a1818);
+  border-color: var(--primary-color, #1a1818);
   color: #ffffff;
   transform: translateY(-1px);
 }
@@ -19358,15 +19374,17 @@ body.body .header__section {
 
 @media only screen and (max-width: 575px) {
   .mtm-home-banner {
-    padding: 3.6rem 1.6rem;
+    padding: 2.6rem 1.4rem;
   }
   .mtm-home-banner__inner {
+    padding: 2.8rem 1.8rem;
+    border-radius: 12px;
     gap: 2.2rem;
   }
   .mtm-home-banner__eyebrow {
     font-size: 1.05rem;
-    letter-spacing: 0.12em;
-    padding: 0.35rem 1.1rem;
+    letter-spacing: 0.14em;
+    padding: 0.5rem 1.4rem;
   }
   .mtm-home-banner__desc {
     font-size: 1.4rem;

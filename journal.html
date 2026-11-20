@@ -15,7 +15,7 @@
     <meta content="width=device-width,initial-scale=1" name="viewport" />
     <title>Our Journal – Mary Humphrey Wear</title>
     <meta
-        content="Stories of African heritage, bespoke Nairobi craftsmanship, and the people and places behind Mary Humphrey Wear — featuring the story behind the GECO Dungarees."
+        content="Stories of African heritage, Nairobi craftsmanship, and the people and places behind Mary Humphrey Wear."
         name="description" />
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
     <meta content="#800020" name="theme-color" />
@@ -43,7 +43,7 @@
 
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="assets/base.css" rel="stylesheet" />
+    <link href="assets/base.css?v=12" rel="stylesheet" />
     <link href="assets/normalize.css" rel="stylesheet" />
 
     <script src="assets/config.js"></script>
@@ -58,201 +58,490 @@
     <style>
         .journal-page {
             background: var(--body-background-color, #f5f1ec);
-            min-height: 70vh;
-            padding-bottom: 7rem;
+            min-height: 75vh;
+            padding: 3.5rem 0 8rem;
         }
 
-        /* Editorial Hero Header */
-        .journal-hero {
-            padding: 5.5rem 2rem 3.8rem;
-            text-align: center;
-            max-width: 780px;
+        .journal-container {
+            max-width: 1280px;
             margin: 0 auto;
+            padding: 0 3.2rem;
         }
 
-        .journal-hero__eyebrow {
-            display: inline-block;
+        /* Editorial Header */
+        .journal-header {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 3.2rem;
+        }
+
+        .journal-header__eyebrow {
+            display: block;
             font-size: 1.15rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
+            font-weight: 600;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: var(--burgundy-color, #800020);
-            margin-bottom: 1.2rem;
+            color: #6b645e;
+            margin-bottom: 1rem;
         }
 
-        .journal-hero__title {
+        .journal-header__title {
             font-family: var(--font-heading, 'Playfair Display', serif);
-            font-size: clamp(3.2rem, 5vw, 5rem);
-            font-weight: 700;
-            color: var(--primary-color, #1a1818);
-            line-height: 1.12;
-            margin: 0 0 1.4rem;
+            font-size: clamp(3rem, 4.5vw, 4.4rem);
+            font-weight: 600;
+            color: #1a1818;
+            line-height: 1.15;
+            margin: 0 0 1.2rem;
         }
 
-        .journal-hero__desc {
-            font-size: 1.55rem;
-            line-height: 1.7;
-            color: var(--foreground-sub-color, #555555);
+        .journal-header__desc {
+            font-size: 1.5rem;
+            line-height: 1.65;
+            color: #3d3835;
             margin: 0;
         }
 
-        .journal-divider {
-            width: 64px;
-            height: 2px;
-            background: var(--burgundy-color, #800020);
-            margin: 2.2rem auto 0;
-            opacity: 0.75;
-        }
-
-        /* Featured Story Container */
-        .journal-container {
-            max-width: 1180px;
-            margin: 0 auto;
-            padding: 0 2.4rem;
-        }
-
-        .journal-featured {
-            background: #ffffff;
-            border: 1px solid rgba(26, 24, 24, 0.08);
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 14px 40px rgba(26, 24, 24, 0.07);
-            display: grid;
-            grid-template-columns: 0.95fr 1.1fr;
-            align-items: stretch;
-        }
-
-        .journal-featured__media {
-            position: relative;
-            background: #231c1a;
-            min-height: 460px;
-            overflow: hidden;
-        }
-
-        .journal-featured__img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-            display: block;
-            transition: transform 0.6s ease;
-        }
-
-        .journal-featured:hover .journal-featured__img {
-            transform: scale(1.03);
-        }
-
-        .journal-featured__caption {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 3rem 2rem 1.4rem;
-            background: linear-gradient(to top, rgba(20, 14, 14, 0.78), rgba(20, 14, 14, 0));
-            color: rgba(255, 255, 255, 0.94);
-            font-size: 1.2rem;
-            font-weight: 500;
-            letter-spacing: 0.03em;
-        }
-
-        .journal-featured__content {
-            padding: 4.4rem 4.2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 1.8rem;
-        }
-
-        .journal-meta {
+        /* Sandstorm / Shopify Horizontal Tag Filter Bar */
+        .journal-filter-bar {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 1rem;
+            justify-content: center;
+            gap: 1.2rem 2.6rem;
+            padding: 1.6rem 0 2.2rem;
+            margin-bottom: 4.2rem;
+            border-bottom: 1px solid rgba(26, 24, 24, 0.1);
+        }
+
+        .journal-filter-bar__label {
             font-size: 1.15rem;
             font-weight: 600;
             letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: var(--burgundy-color, #800020);
+            color: #7c756f;
         }
 
-        .journal-meta__dot {
+        .journal-filter-link {
+            background: none;
+            border: none;
+            border-bottom: 1.5px solid transparent;
+            padding: 0.35rem 0;
+            font-family: inherit;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: #3d3835;
+            cursor: pointer;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .journal-filter-link:hover {
+            color: #1a1818;
+        }
+
+        .journal-filter-link.is-active {
+            color: #1a1818;
+            font-weight: 600;
+            border-bottom-color: #1a1818;
+        }
+
+        /* Sandstorm / Shopify 3-Column Editorial Grid */
+        .journal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            column-gap: 3.4rem;
+            row-gap: 5rem;
+            align-items: start;
+        }
+
+        .journal-card {
+            display: flex;
+            flex-direction: column;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .journal-card__media {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background: #e9e2d8;
+            margin-bottom: 1.8rem;
+        }
+
+        .journal-card__img {
+            width: 100%;
+            height: auto;
+            max-height: 540px;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            transition: transform 0.55s ease;
+        }
+
+        .journal-card:hover .journal-card__img {
+            transform: scale(1.025);
+        }
+
+        .journal-card__arrow {
+            position: absolute;
+            right: 14px;
+            bottom: 14px;
+            width: 38px;
+            height: 38px;
+            background: #ffffff;
+            color: #1a1818;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+        }
+
+        .journal-card:hover .journal-card__arrow {
+            transform: translateX(3px);
+            background: #1a1818;
+            color: #ffffff;
+        }
+
+        .journal-card__cat {
+            font-size: 1.15rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #6b645e;
+            margin: 0 0 0.85rem;
+        }
+
+        .journal-card__title {
+            font-family: var(--font-heading, 'Playfair Display', serif);
+            font-size: 2.35rem;
+            font-weight: 600;
+            line-height: 1.24;
+            color: #1a1818;
+            margin: 0 0 1rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .journal-card:hover .journal-card__title {
+            opacity: 0.72;
+        }
+
+        .journal-card__excerpt {
+            font-size: 1.45rem;
+            line-height: 1.68;
+            color: #2e2a28;
+            margin: 0;
+        }
+
+        /* Shopify Blog Pagination */
+        .journal-pagination {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 1.8rem;
+            margin-top: 5.5rem;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(26, 24, 24, 0.1);
+        }
+
+        .journal-pagination.is-visible {
+            display: flex;
+        }
+
+        .journal-page-btn {
+            background: transparent;
+            border: 1px solid rgba(26, 24, 24, 0.25);
+            color: #1a1818;
+            padding: 0.9rem 1.8rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .journal-page-btn:hover:not(:disabled) {
+            background: #1a1818;
+            border-color: #1a1818;
+            color: #ffffff;
+        }
+
+        .journal-page-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .journal-page-info {
+            font-size: 1.35rem;
+            color: #555;
+        }
+
+        /* ── Full Shopify Article Reader View ── */
+        .journal-reader {
+            display: none;
+        }
+
+        .journal-reader.is-open {
+            display: block;
+        }
+
+        .journal-reader__topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-bottom: 3rem;
+            padding-bottom: 1.6rem;
+            border-bottom: 1px solid rgba(26, 24, 24, 0.1);
+        }
+
+        .journal-reader__back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: inherit;
+            font-size: 1.35rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: #1a1818;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .journal-reader__back:hover {
+            opacity: 0.65;
+        }
+
+        .journal-reader__breadcrumb {
+            font-size: 1.25rem;
+            color: #6b645e;
+        }
+
+        .journal-reader__layout {
+            display: grid;
+            grid-template-columns: 0.95fr 1.05fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .journal-reader__media {
+            position: relative;
+            width: 100%;
+            background: #e9e2d8;
+        }
+
+        .journal-reader__img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .journal-reader__caption {
+            display: block;
+            margin-top: 1.1rem;
+            font-size: 1.25rem;
+            color: #6b645e;
+            line-height: 1.5;
+        }
+
+        .journal-reader__content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+            padding-top: 0.4rem;
+        }
+
+        .journal-reader__meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.9rem;
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #6b645e;
+        }
+
+        .journal-reader__dot {
             width: 4px;
             height: 4px;
             border-radius: 50%;
-            background: #c4b5ac;
+            background: #a59d96;
         }
 
-        .journal-meta__date {
-            color: var(--foreground-sub-color, #6b635f);
-            letter-spacing: 0.08em;
-        }
-
-        .journal-featured__title {
+        .journal-reader__title {
             font-family: var(--font-heading, 'Playfair Display', serif);
-            font-size: clamp(2.5rem, 3.2vw, 3.6rem);
-            font-weight: 700;
-            color: var(--primary-color, #1a1818);
-            line-height: 1.2;
+            font-size: clamp(2.8rem, 3.8vw, 4rem);
+            font-weight: 600;
+            line-height: 1.18;
+            color: #1a1818;
             margin: 0;
         }
 
-        .journal-story-body {
+        /* Rich Text Article Body (Shopify RTE support) */
+        .journal-reader__body {
             display: flex;
             flex-direction: column;
-            gap: 1.35rem;
-            font-size: 1.55rem;
-            line-height: 1.8;
-            color: #2f2a28;
+            gap: 1.45rem;
+            font-size: 1.58rem;
+            line-height: 1.85;
+            color: #1a1818;
         }
 
-        .journal-story-body p {
+        .journal-reader__body p {
             margin: 0;
         }
 
-        .journal-story-lead {
+        .journal-reader__body h2,
+        .journal-reader__body h3 {
             font-family: var(--font-heading, 'Playfair Display', serif);
-            font-size: 1.85rem;
-            font-style: italic;
             color: #1a1818;
-            line-height: 1.55;
+            margin: 1rem 0 0.2rem;
+            line-height: 1.3;
         }
 
-        .journal-story-signature {
-            margin-top: 0.4rem;
-            padding: 1.4rem 1.8rem;
-            background: #fdf6f7;
-            border-left: 4px solid var(--burgundy-color, #800020);
-            border-radius: 6px;
+        .journal-reader__body h2 {
+            font-size: 2.3rem;
+        }
+
+        .journal-reader__body h3 {
+            font-size: 1.9rem;
+        }
+
+        .journal-reader__body ul,
+        .journal-reader__body ol {
+            margin: 0;
+            padding-left: 2.2rem;
+        }
+
+        .journal-reader__body li {
+            margin-bottom: 0.5rem;
+        }
+
+        .journal-reader__body blockquote {
+            margin: 0.6rem 0;
+            padding: 0.4rem 0 0.4rem 2rem;
+            border-left: 2px solid #1a1818;
             font-family: var(--font-heading, 'Playfair Display', serif);
-            font-size: 2.1rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            color: var(--burgundy-color, #800020);
+            font-style: italic;
+            font-size: 1.85rem;
+            line-height: 1.6;
+            color: #1a1818;
         }
 
-        .journal-actions {
+        .journal-reader__body img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1rem 0;
+        }
+
+        .journal-reader__body a {
+            color: #1a1818;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .journal-reader__lead {
+            font-family: var(--font-heading, 'Playfair Display', serif);
+            font-size: 1.9rem;
+            font-style: italic;
+            line-height: 1.55;
+            color: #1a1818;
+        }
+
+        .journal-reader__closing {
+            font-family: var(--font-heading, 'Playfair Display', serif);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: #1a1818;
+            margin-top: 0.4rem;
+        }
+
+        /* Shopify Article Tags & Share Row */
+        .journal-reader__tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 0.6rem;
+        }
+
+        .journal-tag-chip {
+            background: transparent;
+            border: 1px solid rgba(26, 24, 24, 0.22);
+            color: #1a1818;
+            padding: 0.45rem 1.2rem;
+            font-size: 1.18rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .journal-tag-chip:hover {
+            background: #1a1818;
+            border-color: #1a1818;
+            color: #ffffff;
+        }
+
+        .journal-reader__actions {
             display: flex;
             flex-wrap: wrap;
             gap: 1.2rem;
-            margin-top: 0.8rem;
-            padding-top: 1.8rem;
-            border-top: 1px solid rgba(26, 24, 24, 0.08);
+            margin-top: 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(26, 24, 24, 0.12);
+        }
+
+        .journal-reader__share {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1.2rem;
+            margin-top: 0.4rem;
+            font-size: 1.25rem;
+            color: #6b645e;
+        }
+
+        .journal-share-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: inherit;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #1a1818;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            cursor: pointer;
+        }
+
+        .journal-share-btn:hover {
+            opacity: 0.65;
         }
 
         .journal-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.6rem;
-            padding: 1.3rem 2.4rem;
-            border-radius: 6px;
+            padding: 1.3rem 2.5rem;
+            border-radius: 4px;
             font-size: 1.35rem;
             font-weight: 600;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.05em;
             text-decoration: none;
             cursor: pointer;
-            touch-action: manipulation;
-            transition: all 0.25s ease;
+            transition: all 0.22s ease;
         }
 
         .journal-btn--primary {
@@ -264,177 +553,142 @@
         .journal-btn--primary:hover {
             background: #5c0017;
             border-color: #5c0017;
-            transform: translateY(-1px);
         }
 
         .journal-btn--outline {
             background: transparent;
-            color: var(--primary-color, #1a1818);
-            border: 1.5px solid #c9bfb9;
+            color: #1a1818;
+            border: 1.5px solid #1a1818;
         }
 
         .journal-btn--outline:hover {
-            border-color: var(--burgundy-color, #800020);
-            color: var(--burgundy-color, #800020);
-            transform: translateY(-1px);
+            background: #1a1818;
+            color: #ffffff;
         }
 
-        /* Additional Journal Entries Grid (populates as more stories are added in Admin) */
-        .journal-more-section {
-            margin-top: 5.5rem;
+        /* Shopify Next / Previous Article Navigation */
+        .journal-prevnext {
             display: none;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-top: 5rem;
+            padding-top: 2.4rem;
+            border-top: 1px solid rgba(26, 24, 24, 0.12);
         }
 
-        .journal-more-section.has-posts {
+        .journal-prevnext.is-visible {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .journal-prevnext__link {
+            background: none;
+            border: none;
+            padding: 0;
+            text-align: left;
+            cursor: pointer;
+            color: #1a1818;
+            max-width: 45%;
+        }
+
+        .journal-prevnext__link--next {
+            text-align: right;
+            margin-left: auto;
+        }
+
+        .journal-prevnext__label {
+            display: block;
+            font-size: 1.1rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #6b645e;
+            margin-bottom: 0.4rem;
+        }
+
+        .journal-prevnext__title {
+            font-family: var(--font-heading, 'Playfair Display', serif);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #1a1818;
+        }
+
+        .journal-prevnext__link:hover .journal-prevnext__title {
+            text-decoration: underline;
+        }
+
+        /* More Stories Section below Reader */
+        .journal-more-wrap {
+            display: none;
+            margin-top: 6rem;
+            padding-top: 4.5rem;
+            border-top: 1px solid rgba(26, 24, 24, 0.1);
+        }
+
+        .journal-more-wrap.is-visible {
             display: block;
         }
 
         .journal-more-heading {
             font-family: var(--font-heading, 'Playfair Display', serif);
             font-size: 2.6rem;
-            font-weight: 700;
-            color: var(--primary-color, #1a1818);
-            margin: 0 0 2.4rem;
-            text-align: center;
-        }
-
-        .journal-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2.6rem;
-        }
-
-        .journal-card {
-            background: #ffffff;
-            border: 1px solid rgba(26, 24, 24, 0.08);
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 6px 20px rgba(26, 24, 24, 0.05);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .journal-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 14px 32px rgba(26, 24, 24, 0.1);
-        }
-
-        .journal-card__img-wrap {
-            aspect-ratio: 3 / 4;
-            overflow: hidden;
-            background: #ece5dc;
-        }
-
-        .journal-card__img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-            display: block;
-            transition: transform 0.45s ease;
-        }
-
-        .journal-card:hover .journal-card__img {
-            transform: scale(1.04);
-        }
-
-        .journal-card__body {
-            padding: 2.2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            flex: 1;
-        }
-
-        .journal-card__title {
-            font-family: var(--font-heading, 'Playfair Display', serif);
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-color, #1a1818);
-            margin: 0;
-            line-height: 1.25;
-        }
-
-        .journal-card__excerpt {
-            font-size: 1.38rem;
-            line-height: 1.65;
-            color: #4a4442;
-            margin: 0;
-            white-space: pre-line;
-        }
-
-        .journal-card__link {
-            margin-top: auto;
-            padding-top: 1rem;
-            font-size: 1.3rem;
             font-weight: 600;
-            color: var(--burgundy-color, #800020);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .journal-card__link:hover {
-            text-decoration: underline;
+            color: #1a1818;
+            margin: 0 0 3.2rem;
         }
 
         /* Responsive */
         @media only screen and (max-width: 960px) {
-            .journal-featured {
-                grid-template-columns: 1fr;
-            }
-            .journal-featured__media {
-                min-height: 0;
-                aspect-ratio: 3 / 4;
-                max-height: 560px;
-            }
-            .journal-featured__content {
-                padding: 3rem 2.4rem;
+            .journal-container {
+                padding: 0 2.2rem;
             }
             .journal-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                column-gap: 2.4rem;
+                row-gap: 3.8rem;
+            }
+            .journal-reader__layout {
+                grid-template-columns: 1fr;
+                gap: 3rem;
             }
         }
 
         @media only screen and (max-width: 600px) {
-            .journal-hero {
-                padding: 3.6rem 1.6rem 2.6rem;
+            .journal-page {
+                padding: 2.4rem 0 6rem;
             }
             .journal-container {
-                padding: 0 1.4rem;
+                padding: 0 1.6rem;
             }
-            .journal-featured__content {
-                padding: 2.4rem 1.8rem;
-                gap: 1.4rem;
+            .journal-filter-bar {
+                justify-content: flex-start;
+                gap: 0.8rem 1.8rem;
+                margin-bottom: 3rem;
             }
-            .journal-story-body {
-                font-size: 1.45rem;
-                line-height: 1.75;
+            .journal-grid {
+                grid-template-columns: 1fr;
+                row-gap: 3.6rem;
             }
-            .journal-story-lead {
-                font-size: 1.68rem;
+            .journal-card__title {
+                font-size: 2.1rem;
             }
-            .journal-story-signature {
-                font-size: 1.75rem;
-                padding: 1.1rem 1.3rem;
+            .journal-reader__body {
+                font-size: 1.48rem;
             }
-            .journal-actions {
+            .journal-reader__actions {
                 flex-direction: column;
             }
             .journal-btn {
                 width: 100%;
                 min-height: 4.6rem;
             }
-            .journal-grid {
-                grid-template-columns: 1fr;
+            .journal-prevnext__link {
+                max-width: 100%;
             }
         }
     </style>
 </head>
 
-<body class="body">
+<body>
     <div id="preloader">
         <div class="ctn-preloader" id="ctn-preloader">
             <div class="animation-preloader">
@@ -452,77 +706,166 @@
 
     <!-- Shared Site Header Component -->
     <header id="site-header" class="header__section" data-section-id="header"></header>
-    <script defer src="assets/header.js?v=14"></script>
+    <script defer src="assets/header.js?v=15"></script>
 
     <main class="main journal-page">
-        <section class="journal-hero">
-            <span class="journal-hero__eyebrow" id="journal-eyebrow">The Mary Humphrey Journal</span>
-            <h1 class="journal-hero__title" id="journal-heading">Our Journal</h1>
-            <p class="journal-hero__desc" id="journal-subtitle">
-                Stories of craftsmanship, African heritage, and the people and spaces that inspire every piece we create in Nairobi.
-            </p>
-            <div class="journal-divider"></div>
-        </section>
-
         <div class="journal-container">
-            <!-- Featured Lead Story -->
-            <article class="journal-featured" id="journal-featured-article">
-                <div class="journal-featured__media">
-                    <img
-                        id="journal-featured-img"
-                        class="journal-featured__img"
-                        src="assets/journal-geco-dungarees.jpg"
-                        alt="Mary wearing the GECO Dungarees on the Land Rover at Geco Café, Nairobi"
-                    />
-                    <span class="journal-featured__caption" id="journal-featured-caption">
-                        Mary at Geco Café, Nairobi — wearing the GECO Dungarees
-                    </span>
+            <!-- Journal Page Heading (hidden when reading a single article) -->
+            <section class="journal-header" id="journal-header">
+                <span class="journal-header__eyebrow" id="journal-eyebrow">The Mary Humphrey Journal</span>
+                <h1 class="journal-header__title" id="journal-heading">Our Journal</h1>
+                <p class="journal-header__desc" id="journal-subtitle">
+                    Stories of craftsmanship, African heritage, and the people and spaces that inspire every piece we create in Nairobi.
+                </p>
+            </section>
+
+            <!-- Sandstorm / Shopify Horizontal Tag Filter Bar -->
+            <nav class="journal-filter-bar" id="journal-filter-bar" aria-label="Filter journal posts">
+                <span class="journal-filter-bar__label">View</span>
+                <button type="button" class="journal-filter-link is-active" data-tag="ALL">All posts</button>
+                <button type="button" class="journal-filter-link" data-tag="Behind the Design">Behind the Design</button>
+            </nav>
+
+            <!-- 3-Column Editorial Grid View (Default) -->
+            <section class="journal-grid" id="journal-list-grid" aria-label="Journal articles">
+                <article class="journal-card" data-slug="the-story-behind-the-geco-dungarees">
+                    <div class="journal-card__media">
+                        <img
+                            class="journal-card__img"
+                            src="assets/journal-geco-dungarees.jpg"
+                            alt="Mary wearing the GECO Dungarees on the Land Rover at Geco Cafe, Nairobi"
+                        />
+                        <span class="journal-card__arrow" aria-hidden="true">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </span>
+                    </div>
+                    <p class="journal-card__cat">Behind the Design</p>
+                    <h2 class="journal-card__title">The Story Behind the GECO Dungarees</h2>
+                    <p class="journal-card__excerpt">
+                        Did I ever tell you about the first time I walked into Geco? I came as a designer, hoping for a little space to showcase my work. But something unexpected happened.
+                    </p>
+                </article>
+            </section>
+
+            <!-- Pagination Controls -->
+            <nav class="journal-pagination" id="journal-pagination" aria-label="Journal pagination">
+                <button type="button" class="journal-page-btn" id="journal-prev-page">&larr; Previous</button>
+                <span class="journal-page-info" id="journal-page-info">Page 1 of 1</span>
+                <button type="button" class="journal-page-btn" id="journal-next-page">Next &rarr;</button>
+            </nav>
+
+            <!-- Full Shopify Article Reader View -->
+            <section class="journal-reader" id="journal-reader" aria-live="polite">
+                <div class="journal-reader__topbar">
+                    <button type="button" class="journal-reader__back" id="journal-back-btn">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        <span>Back to All Posts</span>
+                    </button>
+                    <div class="journal-reader__breadcrumb" id="reader-breadcrumb">Journal</div>
                 </div>
 
-                <div class="journal-featured__content">
-                    <div class="journal-meta">
-                        <span id="journal-featured-category">Behind the Design</span>
-                        <span class="journal-meta__dot" aria-hidden="true"></span>
-                        <span class="journal-meta__date" id="journal-featured-location">Nairobi, Kenya</span>
+                <article class="journal-reader__layout">
+                    <div class="journal-reader__media" id="reader-media">
+                        <img id="reader-img" class="journal-reader__img" src="" alt="" />
+                        <span id="reader-caption" class="journal-reader__caption"></span>
                     </div>
 
-                    <h2 class="journal-featured__title" id="journal-featured-title">
-                        ❤️ The Story Behind the GECO Dungarees
-                    </h2>
+                    <div class="journal-reader__content">
+                        <div class="journal-reader__meta">
+                            <span id="reader-category"></span>
+                            <span class="journal-reader__dot" id="reader-date-dot" aria-hidden="true"></span>
+                            <span id="reader-date"></span>
+                            <span class="journal-reader__dot" id="reader-author-dot" style="display:none;" aria-hidden="true"></span>
+                            <span id="reader-author" style="display:none;"></span>
+                            <span class="journal-reader__dot" id="reader-readtime-dot" aria-hidden="true"></span>
+                            <span id="reader-readtime">1 min read</span>
+                        </div>
 
-                    <div class="journal-story-body" id="journal-featured-body">
-                        <p class="journal-story-lead">Did I ever tell you about the first time I walked into Geco? 🥹</p>
-                        <p>I came as a designer, hoping for a little space to showcase my work. But something unexpected happened.</p>
-                        <p>The founder of Geco believed in my work almost instantly. He encouraged me, opened doors for me, and has continued to be such a rock and a source of support on this journey. ❤️</p>
-                        <p>Somehow, I ended up falling in love with Geco—not just as a place, but as a space that became part of my story.</p>
-                        <p>I later brought along a friend who believed in me and my work, and somewhere along the way, we looked at this beautiful piece and decided...</p>
-                        <div class="journal-story-signature">GECO DUNGAREES. ✨</div>
-                    </div>
+                        <h1 class="journal-reader__title" id="reader-title"></h1>
 
-                    <div class="journal-actions">
-                        <a id="journal-featured-cta" class="journal-btn journal-btn--primary" href="/shop/geco-dungaree">
-                            Shop GECO Dungarees &rarr;
-                        </a>
-                        <button type="button" class="journal-btn journal-btn--outline" onclick="window.openMadeToMeasureModal && window.openMadeToMeasureModal()">
-                            ✂ Order Made-to-Measure
-                        </button>
+                        <div class="journal-reader__body" id="reader-body"></div>
+
+                        <div class="journal-reader__tags" id="reader-tags"></div>
+
+                        <div class="journal-reader__actions">
+                            <a id="reader-cta" class="journal-btn journal-btn--primary" href="/shop">Explore Collection</a>
+                            <button type="button" class="journal-btn journal-btn--outline" onclick="window.openMadeToMeasureModal && window.openMadeToMeasureModal()">
+                                Order Made-to-Measure
+                            </button>
+                        </div>
+
+                        <div class="journal-reader__share">
+                            <span>Share:</span>
+                            <a class="journal-share-btn" id="reader-share-wa" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                            <button type="button" class="journal-share-btn" id="reader-share-copy">Copy Link</button>
+                        </div>
                     </div>
+                </article>
+
+                <!-- Previous / Next Article Links -->
+                <nav class="journal-prevnext" id="reader-prevnext" aria-label="Adjacent articles"></nav>
+
+                <!-- More Articles Grid -->
+                <div class="journal-more-wrap" id="reader-more-wrap">
+                    <h2 class="journal-more-heading">More from Our Journal</h2>
+                    <div class="journal-grid" id="reader-more-grid"></div>
                 </div>
-            </article>
-
-            <!-- Additional Journal Stories Grid (automatically appears when more stories are added in Admin) -->
-            <section class="journal-more-section" id="journal-more-section">
-                <h2 class="journal-more-heading">More from Our Journal</h2>
-                <div class="journal-grid" id="journal-posts-grid"></div>
             </section>
         </div>
     </main>
 
     <footer id="site-footer" class="footer__section footer__bg" data-section-id="footer"></footer>
-    <script defer src="assets/footer.js"></script>
+    <script defer src="assets/footer.js?v=15"></script>
 
     <script>
         (function () {
+            const DEFAULT_POSTS = [
+                {
+                    id: 'geco-dungarees-story',
+                    slug: 'the-story-behind-the-geco-dungarees',
+                    blog: 'Journal',
+                    title: 'The Story Behind the GECO Dungarees',
+                    category: 'Behind the Design',
+                    tags: ['Behind the Design', 'Nairobi', 'Our People'],
+                    author: 'Mary Humphrey',
+                    date: 'Nairobi, Kenya',
+                    published_at: '2026-11-19T09:00:00.000Z',
+                    image: 'assets/journal-geco-dungarees.jpg',
+                    caption: 'Mary at Geco Cafe, Nairobi, wearing the GECO Dungarees',
+                    excerpt: 'Did I ever tell you about the first time I walked into Geco? I came as a designer, hoping for a little space to showcase my work. But something unexpected happened.',
+                    body: [
+                        'Did I ever tell you about the first time I walked into Geco?',
+                        'I came as a designer, hoping for a little space to showcase my work. But something unexpected happened.',
+                        'The founder of Geco believed in my work almost instantly. He encouraged me, opened doors for me, and has continued to be such a rock and a source of support on this journey.',
+                        'Somehow, I ended up falling in love with Geco, not just as a place, but as a space that became part of my story.',
+                        'I later brought along a friend who believed in me and my work, and somewhere along the way, we looked at this piece and decided on its name.',
+                        'GECO DUNGAREES.'
+                    ].join('\n\n'),
+                    body_html: '',
+                    seo_title: 'The Story Behind the GECO Dungarees – Mary Humphrey Wear Journal',
+                    seo_description: 'The true story of how Mary Humphrey walked into Geco Cafe in Nairobi as a designer and created the signature GECO Dungarees.',
+                    cta_text: 'Shop GECO Dungarees',
+                    cta_link: '/shop/geco-dungaree',
+                    status: 'published',
+                    featured: true,
+                    reading_time: 1
+                }
+            ];
+
+            const POSTS_PER_PAGE = 9;
+            const ARROW_SVG = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>`;
+
+            let allPosts = [...DEFAULT_POSTS];
+            let activeTag = 'ALL';
+            let activeSlug = null;
+            let currentPage = 1;
+
             function esc(str) {
                 if (str == null) return '';
                 return String(str)
@@ -532,86 +875,410 @@
                     .replace(/"/g, '&quot;');
             }
 
-            function renderStoryParagraphs(text) {
-                const lines = String(text || '')
+            function sanitizeHtmlClient(html) {
+                if (!html) return '';
+                return String(html)
+                    .replace(/<script[\s\S]*?<\/script>/gi, '')
+                    .replace(/<iframe[\s\S]*?<\/iframe>/gi, '')
+                    .replace(/\son\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+                    .replace(/javascript:/gi, '');
+            }
+
+            function getPostTags(post) {
+                if (Array.isArray(post.tags) && post.tags.length) {
+                    return post.tags.map(t => String(t).trim()).filter(Boolean);
+                }
+                return post.category ? [String(post.category).trim()] : ['Journal'];
+            }
+
+            function getExcerpt(post) {
+                if (post.excerpt && post.excerpt.trim()) return post.excerpt.trim();
+                const plain = String(post.body || (post.body_html || '').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
+                return plain.length > 165 ? plain.slice(0, 165).trim() + '...' : plain;
+            }
+
+            function renderStoryBody(post) {
+                if (post.body_html && post.body_html.trim()) {
+                    return sanitizeHtmlClient(post.body_html);
+                }
+                const lines = String(post.body || '')
                     .split(/\n+/)
                     .map(l => l.trim())
                     .filter(Boolean);
                 if (!lines.length) return '';
                 return lines.map((line, idx) => {
-                    if (idx === 0) return `<p class="journal-story-lead">${esc(line)}</p>`;
-                    if (idx === lines.length - 1 && line.length <= 42 && line === line.toUpperCase()) {
-                        return `<div class="journal-story-signature">${esc(line)}</div>`;
+                    if (idx === 0) return `<p class="journal-reader__lead">${esc(line)}</p>`;
+                    if (idx === lines.length - 1 && line.length <= 48 && line === line.toUpperCase()) {
+                        return `<p class="journal-reader__closing">${esc(line)}</p>`;
                     }
                     return `<p>${esc(line)}</p>`;
                 }).join('');
             }
 
-            async function syncJournalFromBackend() {
-                try {
-                    const res = await fetch('/api/theme');
-                    if (!res.ok) return;
-                    const json = await res.json();
-                    const sec = json?.theme?.sections?.journal;
-                    if (!sec || !sec.settings) return;
-                    const s = sec.settings;
+            function readRouteState() {
+                const params = new URLSearchParams(window.location.search);
+                const tagParam = params.get('tag');
+                const querySlug = params.get('post') || params.get('article');
+                if (querySlug) return { slug: querySlug, tag: tagParam || 'ALL' };
 
-                    if (s.eyebrow) document.getElementById('journal-eyebrow').textContent = s.eyebrow;
-                    if (s.heading) document.getElementById('journal-heading').textContent = s.heading;
-                    if (s.subtitle) document.getElementById('journal-subtitle').textContent = s.subtitle;
+                const journalMatch = window.location.pathname.match(/^\/journal\/([^/]+)\/?$/i);
+                if (journalMatch) return { slug: decodeURIComponent(journalMatch[1]), tag: 'ALL' };
 
-                    const posts = Array.isArray(s.posts) ? s.posts.filter(p => p && (p.title || p.body)) : [];
-                    if (!posts.length) return;
+                const shopifyBlogMatch = window.location.pathname.match(/^\/blogs\/[^/]+\/([^/]+)\/?$/i);
+                if (shopifyBlogMatch) return { slug: decodeURIComponent(shopifyBlogMatch[1]), tag: 'ALL' };
 
-                    // Update featured lead post
-                    const lead = posts[0];
-                    if (lead.image) document.getElementById('journal-featured-img').src = lead.image;
-                    if (lead.caption) document.getElementById('journal-featured-caption').textContent = lead.caption;
-                    if (lead.category) document.getElementById('journal-featured-category').textContent = lead.category;
-                    if (lead.date) document.getElementById('journal-featured-location').textContent = lead.date;
-                    if (lead.title) document.getElementById('journal-featured-title').textContent = lead.title;
-                    if (lead.body) document.getElementById('journal-featured-body').innerHTML = renderStoryParagraphs(lead.body);
+                return { slug: null, tag: tagParam || 'ALL' };
+            }
 
-                    const ctaEl = document.getElementById('journal-featured-cta');
+            function updateSeoMetadata(post) {
+                const setMeta = (selector, attr, val) => {
+                    const el = document.querySelector(selector);
+                    if (el && val) el.setAttribute(attr, val);
+                };
+
+                const existingLd = document.getElementById('journal-blogposting-ld');
+                if (existingLd) existingLd.remove();
+
+                if (!post) {
+                    document.title = 'Our Journal – Mary Humphrey Wear';
+                    setMeta('meta[name="description"]', 'content', 'Stories of African heritage, Nairobi craftsmanship, and the people and places behind Mary Humphrey Wear.');
+                    return;
+                }
+
+                const title = post.seo_title || `${post.title} – Our Journal – Mary Humphrey Wear`;
+                const desc = post.seo_description || getExcerpt(post);
+                const imgAbs = post.image
+                    ? (post.image.startsWith('http') ? post.image : `${window.location.origin}/${post.image.replace(/^\//, '')}`)
+                    : `${window.location.origin}/assets/journal-geco-dungarees.jpg`;
+                const urlAbs = `${window.location.origin}/journal/${encodeURIComponent(post.slug || post.id)}`;
+
+                document.title = title;
+                setMeta('meta[name="description"]', 'content', desc);
+                setMeta('meta[property="og:title"]', 'content', title);
+                setMeta('meta[property="og:description"]', 'content', desc);
+                setMeta('meta[property="og:image"]', 'content', imgAbs);
+                setMeta('meta[property="og:url"]', 'content', urlAbs);
+                setMeta('meta[property="og:type"]', 'content', 'article');
+
+                const ld = document.createElement('script');
+                ld.id = 'journal-blogposting-ld';
+                ld.type = 'application/ld+json';
+                ld.textContent = JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'BlogPosting',
+                    headline: post.title,
+                    description: desc,
+                    image: imgAbs,
+                    author: { '@type': 'Person', name: post.author || 'Mary Humphrey' },
+                    publisher: { '@type': 'Organization', name: 'Mary Humphrey African Wear' },
+                    datePublished: post.published_at || post.created_at || undefined,
+                    dateModified: post.updated_at || post.published_at || undefined,
+                    mainEntityOfPage: urlAbs
+                });
+                document.head.appendChild(ld);
+            }
+
+            function buildCardHtml(post) {
+                const slug = post.slug || post.id;
+                return `
+                    <article class="journal-card" data-slug="${esc(slug)}" tabindex="0" role="link" aria-label="${esc(post.title || 'Read article')}">
+                        ${post.image ? `
+                        <div class="journal-card__media">
+                            <img class="journal-card__img" src="${esc(post.image)}" alt="${esc(post.caption || post.title || 'Journal photo')}" loading="lazy" />
+                            <span class="journal-card__arrow" aria-hidden="true">${ARROW_SVG}</span>
+                        </div>` : ''}
+                        <p class="journal-card__cat">${esc(post.category || getPostTags(post)[0] || 'Journal')}</p>
+                        <h2 class="journal-card__title">${esc(post.title || '')}</h2>
+                        <p class="journal-card__excerpt">${esc(getExcerpt(post))}</p>
+                    </article>
+                `;
+            }
+
+            function bindCardClicks(container) {
+                if (!container) return;
+                container.querySelectorAll('.journal-card').forEach(card => {
+                    const handleOpen = (e) => {
+                        e.preventDefault();
+                        openArticle(card.dataset.slug, true);
+                    };
+                    card.addEventListener('click', handleOpen);
+                    card.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') handleOpen(e);
+                    });
+                });
+            }
+
+            function filterByTag(tag, pushHistory = true) {
+                activeSlug = null;
+                activeTag = tag || 'ALL';
+                currentPage = 1;
+                if (pushHistory) {
+                    const url = activeTag === 'ALL' ? '/journal' : `/journal?tag=${encodeURIComponent(activeTag)}`;
+                    try { history.pushState({ slug: null, tag: activeTag }, '', url); } catch (e) { }
+                }
+                renderView();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function openArticle(slug, pushHistory = true) {
+                activeSlug = slug;
+                if (pushHistory) {
+                    const url = slug ? `/journal/${encodeURIComponent(slug)}` : '/journal';
+                    try { history.pushState({ slug, tag: activeTag }, '', url); } catch (e) { }
+                }
+                renderView();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function renderFilterBar() {
+                const bar = document.getElementById('journal-filter-bar');
+                if (!bar) return;
+                const uniqueTags = Array.from(new Set(allPosts.flatMap(getPostTags)));
+                bar.innerHTML = `<span class="journal-filter-bar__label">View</span>` +
+                    ['ALL', ...uniqueTags].map(tag => `
+                        <button type="button" class="journal-filter-link ${activeTag.toLowerCase() === tag.toLowerCase() ? 'is-active' : ''}" data-tag="${esc(tag)}">
+                            ${tag === 'ALL' ? 'All posts' : esc(tag)}
+                        </button>
+                    `).join('');
+
+                bar.querySelectorAll('.journal-filter-link').forEach(btn => {
+                    btn.addEventListener('click', () => filterByTag(btn.dataset.tag, true));
+                });
+            }
+
+            function renderView() {
+                const headerEl = document.getElementById('journal-header');
+                const filterBar = document.getElementById('journal-filter-bar');
+                const listGrid = document.getElementById('journal-list-grid');
+                const paginationEl = document.getElementById('journal-pagination');
+                const readerEl = document.getElementById('journal-reader');
+
+                const orderedPosts = [...allPosts].sort((a, b) => {
+                    const featDiff = (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
+                    if (featDiff !== 0) return featDiff;
+                    return (Date.parse(b.published_at || b.created_at || 0) || 0) - (Date.parse(a.published_at || a.created_at || 0) || 0);
+                });
+
+                if (activeSlug) {
+                    const postIdx = orderedPosts.findIndex(p => p.slug === activeSlug || p.id === activeSlug);
+                    const post = postIdx >= 0 ? orderedPosts[postIdx] : orderedPosts[0];
+                    if (!post) return;
+
+                    if (headerEl) headerEl.style.display = 'none';
+                    if (filterBar) filterBar.style.display = 'none';
+                    if (listGrid) listGrid.style.display = 'none';
+                    if (paginationEl) paginationEl.classList.remove('is-visible');
+                    if (readerEl) readerEl.classList.add('is-open');
+
+                    const bc = document.getElementById('reader-breadcrumb');
+                    if (bc) bc.textContent = `${post.blog || 'Journal'} / ${post.category || getPostTags(post)[0] || 'Article'}`;
+
+                    const mediaEl = document.getElementById('reader-media');
+                    const imgEl = document.getElementById('reader-img');
+                    const capEl = document.getElementById('reader-caption');
+                    if (post.image) {
+                        mediaEl.style.display = '';
+                        imgEl.src = post.image;
+                        imgEl.alt = post.caption || post.title || 'Journal photo';
+                    } else {
+                        mediaEl.style.display = 'none';
+                    }
+                    capEl.textContent = post.caption || '';
+                    capEl.style.display = post.caption ? '' : 'none';
+
+                    document.getElementById('reader-category').textContent = post.category || getPostTags(post)[0] || 'Journal';
+                    const dateEl = document.getElementById('reader-date');
+                    const dateDot = document.getElementById('reader-date-dot');
+                    dateEl.textContent = post.date || '';
+                    dateEl.style.display = post.date ? '' : 'none';
+                    dateDot.style.display = post.date ? '' : 'none';
+
+                    const authorEl = document.getElementById('reader-author');
+                    const authorDot = document.getElementById('reader-author-dot');
+                    if (post.author) {
+                        authorEl.textContent = 'By ' + post.author;
+                        authorEl.style.display = '';
+                        authorDot.style.display = '';
+                    } else {
+                        authorEl.style.display = 'none';
+                        authorDot.style.display = 'none';
+                    }
+
+                    const rtEl = document.getElementById('reader-readtime');
+                    if (rtEl) rtEl.textContent = `${post.reading_time || 1} min read`;
+
+                    document.getElementById('reader-title').textContent = post.title || '';
+                    document.getElementById('reader-body').innerHTML = renderStoryBody(post);
+
+                    // Clickable Shopify Tag Chips
+                    const tagsEl = document.getElementById('reader-tags');
+                    if (tagsEl) {
+                        const tags = getPostTags(post);
+                        tagsEl.innerHTML = tags.map(t => `<button type="button" class="journal-tag-chip" data-tag="${esc(t)}">${esc(t)}</button>`).join('');
+                        tagsEl.querySelectorAll('.journal-tag-chip').forEach(btn => {
+                            btn.addEventListener('click', () => filterByTag(btn.dataset.tag, true));
+                        });
+                    }
+
+                    // CTA Button
+                    const ctaEl = document.getElementById('reader-cta');
                     if (ctaEl) {
-                        if (lead.cta_text) ctaEl.textContent = lead.cta_text;
-                        if (lead.cta_link) ctaEl.href = lead.cta_link;
+                        if (post.cta_link) {
+                            ctaEl.href = post.cta_link;
+                            ctaEl.textContent = post.cta_text || 'Explore Collection';
+                            ctaEl.style.display = '';
+                        } else {
+                            ctaEl.style.display = 'none';
+                        }
                     }
 
-                    // Render additional posts if any exist
-                    const morePosts = posts.slice(1);
-                    const moreSec = document.getElementById('journal-more-section');
-                    const grid = document.getElementById('journal-posts-grid');
-                    if (morePosts.length > 0 && moreSec && grid) {
-                        grid.innerHTML = morePosts.map(post => `
-                            <article class="journal-card">
-                                ${post.image ? `
-                                <div class="journal-card__img-wrap">
-                                    <img class="journal-card__img" src="${esc(post.image)}" alt="${esc(post.title || 'Journal story')}" loading="lazy" />
-                                </div>` : ''}
-                                <div class="journal-card__body">
-                                    <div class="journal-meta">
-                                        <span>${esc(post.category || 'Journal')}</span>
-                                        ${post.date ? `<span class="journal-meta__dot"></span><span class="journal-meta__date">${esc(post.date)}</span>` : ''}
-                                    </div>
-                                    <h3 class="journal-card__title">${esc(post.title || '')}</h3>
-                                    <p class="journal-card__excerpt">${esc(post.body || '')}</p>
-                                    ${post.cta_link ? `<a class="journal-card__link" href="${esc(post.cta_link)}">${esc(post.cta_text || 'Explore Collection')} &rarr;</a>` : ''}
-                                </div>
-                            </article>
-                        `).join('');
-                        moreSec.classList.add('has-posts');
+                    // Share Links
+                    const shareUrl = `${window.location.origin}/journal/${encodeURIComponent(post.slug || post.id)}`;
+                    const waShare = document.getElementById('reader-share-wa');
+                    if (waShare) {
+                        waShare.href = `https://wa.me/?text=${encodeURIComponent(`${post.title} - ${shareUrl}`)}`;
                     }
-                } catch (e) {
-                    // Fallback to static HTML lead story silently
+                    const copyBtn = document.getElementById('reader-share-copy');
+                    if (copyBtn) {
+                        copyBtn.onclick = () => {
+                            if (navigator.clipboard) {
+                                navigator.clipboard.writeText(shareUrl).then(() => {
+                                    copyBtn.textContent = 'Link Copied';
+                                    setTimeout(() => { copyBtn.textContent = 'Copy Link'; }, 2000);
+                                });
+                            }
+                        };
+                    }
+
+                    // Previous / Next Article Links
+                    const prevNextEl = document.getElementById('reader-prevnext');
+                    const prevPost = postIdx > 0 ? orderedPosts[postIdx - 1] : null;
+                    const nextPost = (postIdx >= 0 && postIdx < orderedPosts.length - 1) ? orderedPosts[postIdx + 1] : null;
+                    if (prevNextEl) {
+                        if (prevPost || nextPost) {
+                            prevNextEl.innerHTML = `
+                                ${prevPost ? `<button type="button" class="journal-prevnext__link" data-slug="${esc(prevPost.slug || prevPost.id)}">
+                                    <span class="journal-prevnext__label">&larr; Previous Article</span>
+                                    <span class="journal-prevnext__title">${esc(prevPost.title)}</span>
+                                </button>` : '<span></span>'}
+                                ${nextPost ? `<button type="button" class="journal-prevnext__link journal-prevnext__link--next" data-slug="${esc(nextPost.slug || nextPost.id)}">
+                                    <span class="journal-prevnext__label">Next Article &rarr;</span>
+                                    <span class="journal-prevnext__title">${esc(nextPost.title)}</span>
+                                </button>` : ''}
+                            `;
+                            prevNextEl.classList.add('is-visible');
+                            prevNextEl.querySelectorAll('.journal-prevnext__link').forEach(btn => {
+                                btn.addEventListener('click', () => openArticle(btn.dataset.slug, true));
+                            });
+                        } else {
+                            prevNextEl.classList.remove('is-visible');
+                        }
+                    }
+
+                    updateSeoMetadata(post);
+
+                    // Related / More Articles Grid
+                    const morePosts = orderedPosts.filter(p => p !== post).slice(0, 3);
+                    const moreWrap = document.getElementById('reader-more-wrap');
+                    const moreGrid = document.getElementById('reader-more-grid');
+                    if (morePosts.length > 0 && moreWrap && moreGrid) {
+                        moreGrid.innerHTML = morePosts.map(buildCardHtml).join('');
+                        bindCardClicks(moreGrid);
+                        moreWrap.classList.add('is-visible');
+                    } else if (moreWrap) {
+                        moreWrap.classList.remove('is-visible');
+                    }
+                } else {
+                    if (headerEl) headerEl.style.display = '';
+                    if (filterBar) filterBar.style.display = '';
+                    if (listGrid) listGrid.style.display = '';
+                    if (readerEl) readerEl.classList.remove('is-open');
+
+                    renderFilterBar();
+
+                    const filtered = activeTag === 'ALL'
+                        ? orderedPosts
+                        : orderedPosts.filter(p => getPostTags(p).some(t => t.toLowerCase() === activeTag.toLowerCase()));
+
+                    const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
+                    if (currentPage > totalPages) currentPage = totalPages;
+                    const start = (currentPage - 1) * POSTS_PER_PAGE;
+                    const pagePosts = filtered.slice(start, start + POSTS_PER_PAGE);
+
+                    listGrid.innerHTML = pagePosts.map(buildCardHtml).join('');
+                    bindCardClicks(listGrid);
+
+                    if (paginationEl) {
+                        if (totalPages > 1) {
+                            paginationEl.classList.add('is-visible');
+                            document.getElementById('journal-page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+                            document.getElementById('journal-prev-page').disabled = currentPage <= 1;
+                            document.getElementById('journal-next-page').disabled = currentPage >= totalPages;
+                        } else {
+                            paginationEl.classList.remove('is-visible');
+                        }
+                    }
+
+                    updateSeoMetadata(null);
                 }
             }
 
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', syncJournalFromBackend);
-            } else {
-                syncJournalFromBackend();
+            async function syncJournalFromBackend() {
+                try {
+                    let data = null;
+                    const res = await fetch('/api/journal');
+                    if (res.ok) {
+                        data = await res.json();
+                    } else {
+                        const fallbackRes = await fetch('/api/theme');
+                        if (fallbackRes.ok) {
+                            const json = await fallbackRes.json();
+                            data = json?.theme?.sections?.journal?.settings || null;
+                        }
+                    }
+                    if (!data) return;
+
+                    if (data.eyebrow) document.getElementById('journal-eyebrow').textContent = data.eyebrow;
+                    if (data.heading) document.getElementById('journal-heading').textContent = data.heading;
+                    if (data.subtitle) document.getElementById('journal-subtitle').textContent = data.subtitle;
+
+                    const posts = Array.isArray(data.posts)
+                        ? data.posts.filter(p => p && p.status !== 'draft' && (p.title || p.body || p.body_html))
+                        : [];
+                    if (posts.length > 0) {
+                        allPosts = posts;
+                    }
+                    renderView();
+                } catch (e) {
+                    renderView();
+                }
             }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const state = readRouteState();
+                activeSlug = state.slug;
+                activeTag = state.tag;
+                renderView();
+
+                const backBtn = document.getElementById('journal-back-btn');
+                if (backBtn) {
+                    backBtn.addEventListener('click', () => filterByTag('ALL', true));
+                }
+
+                const prevBtn = document.getElementById('journal-prev-page');
+                const nextBtn = document.getElementById('journal-next-page');
+                if (prevBtn) prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderView(); window.scrollTo({ top: 0, behavior: 'smooth' }); } });
+                if (nextBtn) nextBtn.addEventListener('click', () => { currentPage++; renderView(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+                window.addEventListener('popstate', () => {
+                    const st = readRouteState();
+                    activeSlug = st.slug;
+                    activeTag = st.tag;
+                    renderView();
+                });
+
+                syncJournalFromBackend();
+            });
         })();
     </script>
 </body>

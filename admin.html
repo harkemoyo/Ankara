@@ -538,7 +538,8 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
-      #section-product-editor>div:last-child {
+      #section-product-editor>div:last-child,
+      #section-journal-editor>div:last-child {
         grid-template-columns: 1fr !important;
       }
     }
@@ -810,6 +811,9 @@
       </a>
       <a data-section="about" href="#" onclick="showSection('about',this)">
         <span class="icon">📖</span> About Page
+      </a>
+      <a data-section="journal" href="#" onclick="showSection('journal',this)">
+        <span class="icon">✍️</span> Journal / Blog
       </a>
       <a data-section="contact-page" href="#" onclick="showSection('contact-page',this)">
         <span class="icon">✉️</span> Contact Page
@@ -2062,6 +2066,299 @@
           onclick="saveAboutPage()">Save About Page</button>
       </div>
     </section>
+
+    <!-- ── JOURNAL / BLOG POSTS (Shopify-Style CMS) ── -->
+    <section class="admin-section" id="section-journal">
+      <div class="page-header">
+        <div>
+          <h1>Blog Posts &amp; Journal</h1>
+          <p style="color:var(--muted);font-size:1.3rem;margin-top:4px;">Manage your storefront blog articles, rich formatting, tags, SEO, and publishing schedule.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a class="btn btn-ghost" href="/journal" target="_blank" rel="noopener noreferrer">View Live Journal ↗</a>
+          <button class="btn btn-primary" type="button" onclick="openJournalEditor()">+ Add Blog Post</button>
+        </div>
+      </div>
+
+      <!-- Journal Header Settings -->
+      <details style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;margin-bottom:20px;">
+        <summary style="cursor:pointer;font-size:1.45rem;font-weight:700;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;">
+          <span>Blog Header Settings</span>
+          <span style="font-size:1.2rem;color:var(--muted);font-weight:500;">Click to expand</span>
+        </summary>
+        <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="form-group">
+            <label>Eyebrow Label</label>
+            <input id="journal-set-eyebrow" type="text" placeholder="The Mary Humphrey Journal" />
+          </div>
+          <div class="form-group">
+            <label>Page Heading</label>
+            <input id="journal-set-heading" type="text" placeholder="Our Journal" />
+          </div>
+          <div class="form-group" style="grid-column:1/-1;">
+            <label>Subtitle / Description</label>
+            <textarea id="journal-set-subtitle" rows="2" placeholder="Stories of craftsmanship, African heritage..."></textarea>
+          </div>
+        </div>
+        <div style="margin-top:14px;display:flex;justify-content:flex-end;">
+          <button class="btn btn-primary" type="button" onclick="saveJournalSettings()">Save Header Settings</button>
+        </div>
+      </details>
+
+      <!-- Search, Filter & Shopify-Style Bulk Action Bar -->
+      <div class="table-wrap">
+        <div style="display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+          <input id="journal-search" placeholder="Search blog posts by title, tag, author, or content..."
+            style="padding:9px 12px;border:1px solid var(--border);border-radius:6px;flex:1;min-width:220px;font-size:1.3rem;"
+            oninput="renderJournalTable()" />
+          <select id="journal-tag-filter" onchange="renderJournalTable()"
+            style="padding:9px 12px;border:1px solid var(--border);border-radius:6px;font-size:1.3rem;">
+            <option value="">All Tags</option>
+          </select>
+          <select id="journal-status-filter" onchange="renderJournalTable()"
+            style="padding:9px 12px;border:1px solid var(--border);border-radius:6px;font-size:1.3rem;">
+            <option value="">All Statuses</option>
+            <option value="published">Visible (Published)</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="draft">Hidden (Draft)</option>
+          </select>
+        </div>
+
+        <div id="journal-bulk-bar" style="display:none;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;margin-bottom:14px;background:#faf7f5;border:1px solid var(--border);border-radius:6px;">
+          <strong id="journal-selected-count" style="font-size:1.3rem;">0 selected</strong>
+          <button class="btn btn-sm btn-ghost" type="button" onclick="runJournalBulkAction('publish')">Publish</button>
+          <button class="btn btn-sm btn-ghost" type="button" onclick="runJournalBulkAction('draft')">Set as Draft</button>
+          <button class="btn btn-sm btn-danger" type="button" onclick="runJournalBulkAction('delete')">Delete Selected</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width:36px;"><input id="journal-select-all" type="checkbox" onclick="toggleSelectAllJournal(this.checked)" /></th>
+              <th style="width:64px;">Image</th>
+              <th>Title</th>
+              <th>Tags</th>
+              <th>Visibility</th>
+              <th>Author &amp; Date</th>
+              <th style="width:240px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="journal-tbody">
+            <tr>
+              <td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">Loading articles...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── JOURNAL / BLOG POST EDITOR (Shopify-Style Two-Column + Rich Text + SEO) ── -->
+    <section class="admin-section" id="section-journal-editor">
+      <div class="page-header">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="btn btn-ghost btn-sm" type="button" onclick="backToJournalList()" style="font-size:1.6rem;padding:4px 10px;">←</button>
+          <h1 id="journal-editor-heading">Add Blog Post</h1>
+          <span class="badge badge-gray" id="journal-editor-status-badge" style="font-size:1.2rem;">Draft</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-ghost" type="button" onclick="backToJournalList()">Discard</button>
+          <button class="btn btn-danger" id="journal-editor-delete-btn" type="button" onclick="deleteCurrentJournalPost()" style="display:none;">Delete</button>
+          <button class="btn btn-primary" id="journal-editor-save-btn" type="button" onclick="saveJournalPost()">Save Article</button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start;">
+        <!-- LEFT COLUMN: Title, Rich Text Editor, Excerpt, CTA, SEO Listing -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+            <input id="jp-id" type="hidden" />
+            <div class="form-group" style="margin-bottom:18px;">
+              <label>Title *</label>
+              <input id="jp-title" type="text" placeholder="e.g. The Story Behind the GECO Dungarees" style="font-size:1.55rem;padding:12px;"
+                oninput="onJournalTitleInput(this.value)" />
+            </div>
+
+            <!-- Shopify-Style Rich Text Editor -->
+            <div class="form-group" style="margin-bottom:18px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <label style="margin:0;">Content *</label>
+                <span id="jp-reading-time" style="font-size:1.15rem;color:var(--muted);">1 min read</span>
+              </div>
+              <div id="jp-toolbar" style="display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;background:#f7f6f4;border:1px solid var(--border);border-bottom:none;border-radius:6px 6px 0 0;align-items:center;">
+                <button type="button" class="btn btn-sm btn-ghost" style="padding:4px 9px;font-weight:700;" title="Bold" onclick="formatJournalDoc('bold')">B</button>
+                <button type="button" class="btn btn-sm btn-ghost" style="padding:4px 9px;font-style:italic;" title="Italic" onclick="formatJournalDoc('italic')">I</button>
+                <button type="button" class="btn btn-sm btn-ghost" style="padding:4px 9px;text-decoration:underline;" title="Underline" onclick="formatJournalDoc('underline')">U</button>
+                <button type="button" class="btn btn-sm btn-ghost" style="padding:4px 9px;" title="Heading 2" onclick="formatJournalDoc('formatBlock','H2')">H2</button>
+                <button type="button" class="btn btn-sm btn-ghost" style="padding:4px 9px;" title="Heading 3" onclick="formatJournalDoc('formatBlock','H3')">H3</button>
+                <button type="button" class="btn btn-sm btn-ghost" style="padding:4px 9px;" title="Paragraph" onclick="formatJournalDoc('formatBlock','P')">P</button>
+                <button type="button" class="btn btn-sm btn-ghost" style="padding:4px 9px;" title="Bullet List" onclick="formatJournalDoc('insertUnorderedList')">• List</button>
+                <button type="button" class="btn btn-sm btn-ghost" style="padding:4px 9px;" title="Numbered List" onclick="formatJournalDoc('insertOrderedList')">1. List</button>
+                <button type="button" class="btn btn-sm btn-ghost" style="padding:4px 9px;" title="Blockquote" onclick="formatJournalDoc('formatBlock','BLOCKQUOTE')">“Quote”</button>
+                <button type="button" class="btn btn-sm btn-ghost" style="padding:4px 9px;" title="Insert Link" onclick="insertJournalLink()">Link</button>
+                <label class="btn btn-sm btn-ghost" style="padding:4px 9px;margin:0;cursor:pointer;" title="Insert photo inside article">
+                  <input type="file" accept="image/*" style="display:none;" onchange="if(this.files[0])insertJournalInlineImage(this.files[0]);this.value=''" />
+                  + Photo
+                </label>
+                <button type="button" class="btn btn-sm btn-ghost" id="jp-html-toggle-btn" style="padding:4px 9px;margin-left:auto;" onclick="toggleJournalHtmlMode()">&lt;/&gt; HTML</button>
+              </div>
+              <div id="jp-editor" contenteditable="true" oninput="syncJournalEditorMetrics()"
+                style="min-height:280px;max-height:560px;overflow-y:auto;padding:16px;border:1px solid var(--border);border-radius:0 0 6px 6px;background:#fff;font-size:1.45rem;line-height:1.7;color:var(--text);outline:none;"></div>
+              <textarea id="jp-body-html" rows="12" oninput="syncJournalEditorMetrics()"
+                style="display:none;width:100%;padding:14px;border:1px solid var(--border);border-radius:0 0 6px 6px;font-family:monospace;font-size:1.25rem;line-height:1.6;"></textarea>
+              <span id="jp-inline-img-status" style="display:block;font-size:1.15rem;color:var(--accent);margin-top:6px;"></span>
+            </div>
+
+            <div class="form-group">
+              <label>Excerpt</label>
+              <span class="helper-text" style="display:block;margin-bottom:6px;">Summary shown beneath the photo on the Journal grid. Leave blank to auto-generate from your story.</span>
+              <textarea id="jp-excerpt" rows="3" placeholder="Add a short summary for this article..." style="font-size:1.35rem;" oninput="updateJournalSeoPreview()"></textarea>
+            </div>
+          </div>
+
+          <!-- Optional Shop / Product Call-to-Action -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+            <label style="display:block;font-size:1.45rem;font-weight:700;margin-bottom:4px;color:var(--text);">Shop Call-to-Action (Optional)</label>
+            <span class="helper-text" style="display:block;margin-bottom:14px;">Link this story directly to a collection or product page (e.g. Shop GECO Dungarees).</span>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div class="form-group">
+                <label>Button Text</label>
+                <input id="jp-cta-text" type="text" placeholder="e.g. Shop GECO Dungarees" />
+              </div>
+              <div class="form-group">
+                <label>Button Link (URL or path)</label>
+                <input id="jp-cta-link" type="text" placeholder="e.g. /shop/geco-dungaree" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Shopify-Style Search Engine Listing Preview (SEO) -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+            <label style="display:block;font-size:1.45rem;font-weight:700;margin-bottom:4px;color:var(--text);">Search engine listing</label>
+            <span class="helper-text" style="display:block;margin-bottom:14px;">Preview how this article appears in Google search results.</span>
+            <div style="padding:14px 16px;background:#fafaf9;border:1px solid #e6e3df;border-radius:8px;margin-bottom:18px;">
+              <div id="jp-seo-preview-title" style="color:#1a0dab;font-size:1.65rem;font-weight:500;line-height:1.3;margin-bottom:4px;">Article Title</div>
+              <div id="jp-seo-preview-url" style="color:#006621;font-size:1.25rem;margin-bottom:6px;">https://maryhumphreywear.org/journal/article-handle</div>
+              <div id="jp-seo-preview-desc" style="color:#545454;font-size:1.3rem;line-height:1.45;">Meta description preview will appear here...</div>
+            </div>
+            <div class="form-group" style="margin-bottom:14px;">
+              <label>Page title <span id="jp-seo-title-count" style="font-weight:400;color:var(--muted);">(0 of 70 characters)</span></label>
+              <input id="jp-seo-title" type="text" maxlength="120" placeholder="Leave blank to use article title" oninput="updateJournalSeoPreview()" />
+            </div>
+            <div class="form-group" style="margin-bottom:14px;">
+              <label>Meta description <span id="jp-seo-desc-count" style="font-weight:400;color:var(--muted);">(0 of 160 characters)</span></label>
+              <textarea id="jp-seo-desc" rows="2" maxlength="320" placeholder="Leave blank to use excerpt" oninput="updateJournalSeoPreview()"></textarea>
+            </div>
+            <div class="form-group">
+              <label>URL handle</label>
+              <div style="display:flex;align-items:center;border:1px solid var(--border);border-radius:6px;overflow:hidden;background:#fff;">
+                <span style="padding:9px 10px;background:#f5f4f2;color:var(--muted);font-size:1.25rem;border-right:1px solid var(--border);">/journal/</span>
+                <input id="jp-slug" type="text" placeholder="the-story-behind-the-geco-dungarees" style="border:none;flex:1;padding:9px 10px;" oninput="updateJournalSeoPreview()" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Visibility, Featured Image, Organization & Multi-Tags -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <!-- Visibility & Schedule -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
+            <label style="display:block;font-size:1.45rem;font-weight:700;margin-bottom:12px;color:var(--text);">Visibility</label>
+            <div class="form-group" style="margin-bottom:14px;">
+              <label>Status</label>
+              <select id="jp-status" style="font-size:1.4rem;padding:10px;" onchange="updateJournalStatusBadge()">
+                <option value="published">Visible (Published)</option>
+                <option value="draft">Hidden (Draft)</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:14px;">
+              <label>Publish date (set future date to schedule)</label>
+              <input id="jp-published-at" type="date" onchange="updateJournalStatusBadge()" />
+            </div>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:1.35rem;font-weight:600;color:var(--text);">
+              <input id="jp-featured" type="checkbox" style="width:18px;height:18px;cursor:pointer;" />
+              <span>Pin first in Journal grid</span>
+            </label>
+          </div>
+
+          <!-- Featured Image -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
+            <label style="display:block;font-size:1.45rem;font-weight:700;margin-bottom:12px;color:var(--text);">Featured Image</label>
+            <div
+              ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadSectionImage(event.dataTransfer.files[0],'jp-image','jp-image-status')"
+              ondragover="event.preventDefault()"
+              style="border:2px dashed var(--border);border-radius:8px;padding:18px 12px;background:#fafafa;text-align:center;margin-bottom:12px;">
+              <label class="btn btn-primary" style="cursor:pointer;margin:0;font-size:1.25rem;">
+                <input type="file" accept="image/*"
+                  onchange="if(this.files[0])uploadSectionImage(this.files[0],'jp-image','jp-image-status');this.value=''"
+                  style="display:none;" />
+                Upload Photo
+              </label>
+              <div style="font-size:1.15rem;color:var(--muted);margin-top:6px;">or drag &amp; drop an image here</div>
+              <span id="jp-image-status" style="display:block;font-size:1.15rem;color:var(--accent);margin-top:4px;"></span>
+            </div>
+            <div style="width:100%;aspect-ratio:4/3;border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f7f5f2;margin-bottom:12px;">
+              <img id="jp-image-preview" src="" alt="Article preview" style="width:100%;height:100%;object-fit:cover;display:none;"
+                onload="this.style.display='block';document.getElementById('jp-image-placeholder').style.display='none';"
+                onerror="this.style.display='none';document.getElementById('jp-image-placeholder').style.display='flex';" />
+              <span id="jp-image-placeholder" style="display:flex;color:#999;font-size:1.2rem;">No image selected</span>
+            </div>
+            <div class="form-group" style="margin-bottom:12px;">
+              <label>Image URL</label>
+              <input id="jp-image" type="text" placeholder="assets/... or https://..."
+                oninput="var p=document.getElementById('jp-image-preview'),ph=document.getElementById('jp-image-placeholder');if(this.value){p.src=this.value;p.style.display='block';ph.style.display='none';}else{p.style.display='none';ph.style.display='flex';}" />
+            </div>
+            <div class="form-group">
+              <label>Image Alt Text / Caption</label>
+              <input id="jp-caption" type="text" placeholder="e.g. Mary at Geco Cafe, Nairobi" />
+            </div>
+          </div>
+
+          <!-- Organization (Blog, Author, Category, Multiple Tags) -->
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;">
+            <label style="display:block;font-size:1.45rem;font-weight:700;margin-bottom:12px;color:var(--text);">Organization</label>
+            <div class="form-group" style="margin-bottom:12px;">
+              <label>Author</label>
+              <input id="jp-author" type="text" placeholder="Mary Humphrey" />
+            </div>
+            <div class="form-group" style="margin-bottom:12px;">
+              <label>Blog</label>
+              <input id="jp-blog" type="text" placeholder="Journal" value="Journal" list="journal-blog-suggestions" />
+              <datalist id="journal-blog-suggestions">
+                <option value="Journal"></option>
+                <option value="News"></option>
+                <option value="Lookbook"></option>
+              </datalist>
+            </div>
+            <div class="form-group" style="margin-bottom:12px;">
+              <label>Primary Category Label</label>
+              <input id="jp-category" type="text" placeholder="Behind the Design" list="journal-category-suggestions" />
+              <datalist id="journal-category-suggestions">
+                <option value="Behind the Design"></option>
+                <option value="Our People"></option>
+                <option value="Atelier Notes"></option>
+                <option value="African Heritage"></option>
+                <option value="Style Guide"></option>
+                <option value="New in 2026"></option>
+              </datalist>
+            </div>
+            <div class="form-group" style="margin-bottom:12px;">
+              <label>Display Date or Location</label>
+              <input id="jp-date" type="text" placeholder="Nairobi, Kenya or Nov 20, 2026" />
+            </div>
+            <div class="form-group">
+              <label>Tags (filterable on Journal page)</label>
+              <div style="display:flex;gap:6px;margin-bottom:8px;">
+                <input id="jp-tag-input" type="text" placeholder="Add a tag and press Enter" style="flex:1;"
+                  onkeydown="if(event.key==='Enter'||event.key===','){event.preventDefault();addJournalTagChip(this.value);this.value='';}" />
+                <button class="btn btn-sm btn-ghost" type="button" onclick="var el=document.getElementById('jp-tag-input');addJournalTagChip(el.value);el.value='';">Add</button>
+              </div>
+              <div id="jp-tags-chips" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Size Charts -->
     <section class="admin-section" id="section-size-charts">
       <div class="page-header">
@@ -2498,6 +2795,7 @@
       if (name === 'inventory') loadInventory();
       if (name === 'pages') loadPages();
       if (name === 'about') loadAboutPageEditor();
+      if (name === 'journal') loadJournalAdmin();
       if (name === 'legal') loadAllLegalPages();
       if (name === 'contact-page') { loadContactPageEditor(); subscribeContactPage(); }
       if (name === 'settings') loadSettings();
@@ -6087,6 +6385,566 @@
       if (error) { toast(error.message, 'error'); return; }
       toast('Measurement deleted');
       loadCustomerMeasurements();
+    };
+
+    // ── JOURNAL / BLOG POSTS CMS (Shopify-Style Rich Editor, Tags, SEO, Schedule & Bulk Actions) ──
+    let adminJournalPosts = [];
+    let selectedJournalIds = new Set();
+    let editorJournalTags = [];
+    let journalHtmlMode = false;
+
+    window.slugifyJournalTitle = function (text) {
+      return String(text || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 80);
+    };
+
+    function plainTextToHtmlParagraphs(text) {
+      return String(text || '')
+        .split(/\n{2,}|\n/)
+        .map(l => l.trim())
+        .filter(Boolean)
+        .map(l => `<p>${escapeHtml(l)}</p>`)
+        .join('');
+    }
+
+    function htmlToPlainText(html) {
+      const div = document.createElement('div');
+      div.innerHTML = String(html || '')
+        .replace(/<\/(p|div|h1|h2|h3|h4|li|blockquote)>/gi, '\n\n')
+        .replace(/<br\s*\/?>/gi, '\n');
+      return (div.textContent || div.innerText || '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+    }
+
+    async function getAdminAuthHeaders() {
+      const { data: { session } } = await supabase.auth.getSession();
+      const headers = { 'Content-Type': 'application/json' };
+      if (session?.access_token) headers['Authorization'] = `Bearer ${session.access_token}`;
+      return headers;
+    }
+
+    function getPostLifecycleStatus(post) {
+      if (post.status === 'draft') return 'draft';
+      if (post.published_at && Date.parse(post.published_at) > Date.now()) return 'scheduled';
+      return 'published';
+    }
+
+    async function loadJournalAdmin() {
+      const tbody = document.getElementById('journal-tbody');
+      selectedJournalIds.clear();
+      updateJournalBulkBar();
+      if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">Loading articles...</td></tr>';
+      try {
+        const headers = await getAdminAuthHeaders();
+        const res = await fetch('/api/admin/journal', { headers });
+        if (!res.ok) throw new Error('Failed to load journal articles');
+        const data = await res.json();
+
+        const eyebrowEl = document.getElementById('journal-set-eyebrow');
+        const headingEl = document.getElementById('journal-set-heading');
+        const subtitleEl = document.getElementById('journal-set-subtitle');
+        if (eyebrowEl) eyebrowEl.value = data.eyebrow || '';
+        if (headingEl) headingEl.value = data.heading || '';
+        if (subtitleEl) subtitleEl.value = data.subtitle || '';
+
+        adminJournalPosts = Array.isArray(data.posts) ? data.posts : [];
+
+        // Populate tag filter dropdown
+        const tagSel = document.getElementById('journal-tag-filter');
+        if (tagSel) {
+          const allTags = Array.from(new Set(adminJournalPosts.flatMap(p => Array.isArray(p.tags) && p.tags.length ? p.tags : (p.category ? [p.category] : []))));
+          const curVal = tagSel.value;
+          tagSel.innerHTML = '<option value="">All Tags</option>' + allTags.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join('');
+          tagSel.value = curVal;
+        }
+
+        renderJournalTable();
+      } catch (err) {
+        console.error(err);
+        if (tbody) tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:32px;color:#c0392b;">${escapeHtml(err.message)}</td></tr>`;
+      }
+    }
+
+    function updateJournalBulkBar() {
+      const bar = document.getElementById('journal-bulk-bar');
+      const countEl = document.getElementById('journal-selected-count');
+      if (!bar || !countEl) return;
+      if (selectedJournalIds.size > 0) {
+        bar.style.display = 'flex';
+        countEl.textContent = `${selectedJournalIds.size} selected`;
+      } else {
+        bar.style.display = 'none';
+      }
+    }
+
+    window.toggleJournalRowSelect = function (id, checked) {
+      if (checked) selectedJournalIds.add(id);
+      else selectedJournalIds.delete(id);
+      updateJournalBulkBar();
+    };
+
+    window.toggleSelectAllJournal = function (checked) {
+      document.querySelectorAll('.js-journal-row-cb').forEach(cb => {
+        cb.checked = checked;
+        if (checked) selectedJournalIds.add(cb.value);
+        else selectedJournalIds.delete(cb.value);
+      });
+      updateJournalBulkBar();
+    };
+
+    window.runJournalBulkAction = async function (action) {
+      const ids = Array.from(selectedJournalIds);
+      if (!ids.length) return;
+      if (action === 'delete' && !confirm(`Delete ${ids.length} selected article(s) permanently?`)) return;
+      try {
+        const headers = await getAdminAuthHeaders();
+        const res = await fetch('/api/admin/journal/bulk', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ action, ids })
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Bulk action failed');
+        toast(`Bulk ${action} complete!`);
+        loadJournalAdmin();
+      } catch (err) {
+        toast(err.message || 'Bulk action failed', 'error');
+      }
+    };
+
+    window.renderJournalTable = function () {
+      const tbody = document.getElementById('journal-tbody');
+      if (!tbody) return;
+      const q = (document.getElementById('journal-search')?.value || '').trim().toLowerCase();
+      const statusFilter = document.getElementById('journal-status-filter')?.value || '';
+      const tagFilter = document.getElementById('journal-tag-filter')?.value || '';
+
+      const filtered = adminJournalPosts.filter(p => {
+        const lifecycle = getPostLifecycleStatus(p);
+        if (statusFilter && lifecycle !== statusFilter) return false;
+        const postTags = Array.isArray(p.tags) && p.tags.length ? p.tags : (p.category ? [p.category] : []);
+        if (tagFilter && !postTags.includes(tagFilter)) return false;
+        if (q) {
+          const hay = `${p.title || ''} ${p.category || ''} ${postTags.join(' ')} ${p.author || ''} ${p.body || ''}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:36px;color:var(--muted);">No blog posts match. Click <strong>+ Add Blog Post</strong> to publish a new story.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(post => {
+        const lifecycle = getPostLifecycleStatus(post);
+        const statusBadge = lifecycle === 'draft'
+          ? '<span class="badge badge-gray">Draft</span>'
+          : lifecycle === 'scheduled'
+            ? '<span class="badge" style="background:#fff3cd;color:#856404;">Scheduled</span>'
+            : '<span class="badge badge-green">Published</span>';
+        const featuredBadge = post.featured
+          ? '<span class="badge" style="background:#800020;color:#fff;margin-left:6px;font-size:1.05rem;">Pinned</span>'
+          : '';
+        const postTags = Array.isArray(post.tags) && post.tags.length ? post.tags : (post.category ? [post.category] : ['Journal']);
+        const tagsHtml = postTags.slice(0, 3).map(t => `<span style="display:inline-block;padding:2px 8px;border-radius:999px;background:#f2efeb;font-size:1.1rem;margin:2px 4px 2px 0;">${escapeHtml(t)}</span>`).join('');
+        const thumb = post.image
+          ? `<img src="${escapeHtml(post.image)}" alt="" style="width:52px;height:52px;object-fit:cover;border-radius:6px;border:1px solid var(--border);" />`
+          : '<div style="width:52px;height:52px;border-radius:6px;background:#f0ece7;display:flex;align-items:center;justify-content:center;color:#999;font-size:1.1rem;">No img</div>';
+
+        return `<tr>
+          <td><input class="js-journal-row-cb" type="checkbox" value="${escapeHtml(post.id)}" ${selectedJournalIds.has(post.id) ? 'checked' : ''} onchange="toggleJournalRowSelect('${escapeHtml(post.id)}', this.checked)" /></td>
+          <td>${thumb}</td>
+          <td>
+            <div style="font-weight:700;font-size:1.35rem;color:var(--text);cursor:pointer;" onclick="openJournalEditor('${escapeHtml(post.id)}')">${escapeHtml(post.title || 'Untitled')}${featuredBadge}</div>
+            <div style="font-size:1.15rem;color:var(--muted);margin-top:2px;">/journal/${escapeHtml(post.slug || post.id)} · ${post.reading_time || 1} min read</div>
+          </td>
+          <td>${tagsHtml}</td>
+          <td>${statusBadge}</td>
+          <td>
+            <div style="font-size:1.25rem;">${escapeHtml(post.author || 'Mary Humphrey')}</div>
+            <div style="font-size:1.15rem;color:var(--muted);">${escapeHtml(post.date || '')}</div>
+          </td>
+          <td>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn btn-sm btn-ghost" type="button" onclick="openJournalEditor('${escapeHtml(post.id)}')">Edit</button>
+              <button class="btn btn-sm btn-ghost" type="button" onclick="duplicateJournalPost('${escapeHtml(post.id)}')" title="Duplicate as Draft">Duplicate</button>
+              <a class="btn btn-sm btn-ghost" href="/journal/${encodeURIComponent(post.slug || post.id)}" target="_blank" rel="noopener noreferrer" title="View live">↗</a>
+              <button class="btn btn-sm btn-danger" type="button" onclick="deleteJournalPostById('${escapeHtml(post.id)}')">Delete</button>
+            </div>
+          </td>
+        </tr>`;
+      }).join('');
+    };
+
+    window.renderJournalTagChips = function () {
+      const wrap = document.getElementById('jp-tags-chips');
+      if (!wrap) return;
+      wrap.innerHTML = editorJournalTags.map((tag, idx) => `
+        <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#f2efeb;border:1px solid #dfd9d2;font-size:1.2rem;color:#1a1818;">
+          ${escapeHtml(tag)}
+          <button type="button" onclick="removeJournalTagChip(${idx})" style="border:none;background:none;cursor:pointer;font-weight:700;color:#666;padding:0;line-height:1;">×</button>
+        </span>
+      `).join('');
+    };
+
+    window.addJournalTagChip = function (raw) {
+      String(raw || '').split(',').forEach(part => {
+        const clean = part.trim();
+        if (clean && !editorJournalTags.some(t => t.toLowerCase() === clean.toLowerCase())) {
+          editorJournalTags.push(clean);
+        }
+      });
+      renderJournalTagChips();
+    };
+
+    window.removeJournalTagChip = function (idx) {
+      editorJournalTags.splice(idx, 1);
+      renderJournalTagChips();
+    };
+
+    window.formatJournalDoc = function (cmd, val) {
+      if (journalHtmlMode) return;
+      const editor = document.getElementById('jp-editor');
+      if (!editor) return;
+      editor.focus();
+      document.execCommand(cmd, false, val || null);
+      syncJournalEditorMetrics();
+    };
+
+    window.insertJournalLink = function () {
+      if (journalHtmlMode) return;
+      const url = prompt('Enter link URL (e.g. /shop/geco-dungaree or https://...):');
+      if (!url) return;
+      const editor = document.getElementById('jp-editor');
+      if (editor) editor.focus();
+      document.execCommand('createLink', false, url);
+      syncJournalEditorMetrics();
+    };
+
+    window.insertJournalInlineImage = async function (file) {
+      const statusEl = document.getElementById('jp-inline-img-status');
+      if (statusEl) statusEl.textContent = 'Compressing & uploading photo into article...';
+      try {
+        const { blob } = await compressImageToWebp(file, 160);
+        const formData = new FormData();
+        formData.append('file', blob, (file.name || 'story-photo').replace(/\.[^/.]+$/, '') + '.webp');
+        const session = (await supabase.auth.getSession()).data.session;
+        const res = await fetch('/api/upload/homepage', {
+          method: 'POST',
+          headers: { ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {}) },
+          body: formData
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Upload failed');
+
+        const figureHtml = `<figure style="margin:24px 0;"><img src="${escapeHtml(json.url)}" alt="${escapeHtml(file.name || 'Article photo')}" style="width:100%;height:auto;border-radius:4px;display:block;" /></figure><p></p>`;
+        if (journalHtmlMode) {
+          const ta = document.getElementById('jp-body-html');
+          if (ta) ta.value += '\n' + figureHtml;
+        } else {
+          const editor = document.getElementById('jp-editor');
+          if (editor) {
+            editor.focus();
+            document.execCommand('insertHTML', false, figureHtml);
+          }
+        }
+        if (statusEl) statusEl.textContent = 'Photo inserted into article!';
+        syncJournalEditorMetrics();
+      } catch (err) {
+        if (statusEl) statusEl.textContent = 'Photo upload failed: ' + err.message;
+      }
+    };
+
+    window.toggleJournalHtmlMode = function () {
+      const editor = document.getElementById('jp-editor');
+      const ta = document.getElementById('jp-body-html');
+      const btn = document.getElementById('jp-html-toggle-btn');
+      if (!editor || !ta) return;
+      journalHtmlMode = !journalHtmlMode;
+      if (journalHtmlMode) {
+        ta.value = editor.innerHTML;
+        editor.style.display = 'none';
+        ta.style.display = 'block';
+        if (btn) btn.textContent = 'Visual Editor';
+      } else {
+        editor.innerHTML = ta.value;
+        ta.style.display = 'none';
+        editor.style.display = 'block';
+        if (btn) btn.textContent = '</> HTML';
+      }
+      syncJournalEditorMetrics();
+    };
+
+    window.syncJournalEditorMetrics = function () {
+      const html = journalHtmlMode
+        ? (document.getElementById('jp-body-html')?.value || '')
+        : (document.getElementById('jp-editor')?.innerHTML || '');
+      const plain = htmlToPlainText(html);
+      const words = plain.split(/\s+/).filter(Boolean).length;
+      const mins = Math.max(1, Math.ceil(words / 200));
+      const rt = document.getElementById('jp-reading-time');
+      if (rt) rt.textContent = `${words} words · ${mins} min read`;
+      updateJournalSeoPreview();
+    };
+
+    window.onJournalTitleInput = function (val) {
+      if (!document.getElementById('jp-id').value) {
+        document.getElementById('jp-slug').value = slugifyJournalTitle(val);
+      }
+      updateJournalSeoPreview();
+    };
+
+    window.updateJournalSeoPreview = function () {
+      const title = document.getElementById('jp-title')?.value.trim() || 'Article Title';
+      const slug = document.getElementById('jp-slug')?.value.trim() || slugifyJournalTitle(title) || 'article-handle';
+      const seoTitle = document.getElementById('jp-seo-title')?.value.trim() || '';
+      const seoDesc = document.getElementById('jp-seo-desc')?.value.trim() || '';
+      const excerpt = document.getElementById('jp-excerpt')?.value.trim() || '';
+      const bodyHtml = journalHtmlMode
+        ? (document.getElementById('jp-body-html')?.value || '')
+        : (document.getElementById('jp-editor')?.innerHTML || '');
+      const autoDesc = excerpt || htmlToPlainText(bodyHtml).slice(0, 155);
+
+      const finalTitle = seoTitle || `${title} – Mary Humphrey Wear Journal`;
+      const finalDesc = seoDesc || autoDesc || 'Meta description preview will appear here...';
+
+      const prevT = document.getElementById('jp-seo-preview-title');
+      const prevU = document.getElementById('jp-seo-preview-url');
+      const prevD = document.getElementById('jp-seo-preview-desc');
+      const cntT = document.getElementById('jp-seo-title-count');
+      const cntD = document.getElementById('jp-seo-desc-count');
+      if (prevT) prevT.textContent = finalTitle;
+      if (prevU) prevU.textContent = `https://maryhumphreywear.org/journal/${slug}`;
+      if (prevD) prevD.textContent = finalDesc;
+      if (cntT) cntT.textContent = `(${seoTitle.length} of 70 characters)`;
+      if (cntD) cntD.textContent = `(${seoDesc.length} of 160 characters)`;
+    };
+
+    window.updateJournalStatusBadge = function () {
+      const sel = document.getElementById('jp-status');
+      const dateVal = document.getElementById('jp-published-at')?.value;
+      const badge = document.getElementById('journal-editor-status-badge');
+      if (!sel || !badge) return;
+      if (sel.value === 'draft') {
+        badge.textContent = 'Draft';
+        badge.className = 'badge badge-gray';
+        badge.style.background = '';
+        badge.style.color = '';
+      } else if (dateVal && Date.parse(dateVal + 'T00:00:00') > Date.now() + 86400000) {
+        badge.textContent = 'Scheduled';
+        badge.className = 'badge';
+        badge.style.background = '#fff3cd';
+        badge.style.color = '#856404';
+      } else {
+        badge.textContent = 'Published';
+        badge.className = 'badge badge-green';
+        badge.style.background = '';
+        badge.style.color = '';
+      }
+    };
+
+    window.openJournalEditor = function (postId) {
+      const post = postId ? adminJournalPosts.find(p => p.id === postId) : null;
+
+      // Reset to Visual Editor mode
+      journalHtmlMode = false;
+      const editor = document.getElementById('jp-editor');
+      const ta = document.getElementById('jp-body-html');
+      const toggleBtn = document.getElementById('jp-html-toggle-btn');
+      if (editor) editor.style.display = 'block';
+      if (ta) ta.style.display = 'none';
+      if (toggleBtn) toggleBtn.textContent = '</> HTML';
+
+      document.getElementById('jp-id').value = post ? post.id : '';
+      document.getElementById('jp-title').value = post ? (post.title || '') : '';
+      const initialHtml = post ? (post.body_html || plainTextToHtmlParagraphs(post.body || '')) : '';
+      if (editor) editor.innerHTML = initialHtml;
+      if (ta) ta.value = initialHtml;
+      document.getElementById('jp-excerpt').value = post ? (post.excerpt || '') : '';
+      document.getElementById('jp-cta-text').value = post ? (post.cta_text || '') : '';
+      document.getElementById('jp-cta-link').value = post ? (post.cta_link || '') : '';
+      document.getElementById('jp-status').value = post ? (post.status || 'published') : 'published';
+      document.getElementById('jp-featured').checked = post ? Boolean(post.featured) : (adminJournalPosts.length === 0);
+      document.getElementById('jp-image').value = post ? (post.image || '') : '';
+      document.getElementById('jp-caption').value = post ? (post.caption || '') : '';
+      document.getElementById('jp-blog').value = post ? (post.blog || 'Journal') : 'Journal';
+      document.getElementById('jp-category').value = post ? (post.category || 'Behind the Design') : 'Behind the Design';
+      document.getElementById('jp-author').value = post ? (post.author || 'Mary Humphrey') : 'Mary Humphrey';
+      document.getElementById('jp-date').value = post ? (post.date || '') : new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      document.getElementById('jp-published-at').value = post && post.published_at ? post.published_at.slice(0, 10) : new Date().toISOString().slice(0, 10);
+      document.getElementById('jp-seo-title').value = post ? (post.seo_title || '') : '';
+      document.getElementById('jp-seo-desc').value = post ? (post.seo_description || '') : '';
+      document.getElementById('jp-slug').value = post ? (post.slug || '') : '';
+
+      editorJournalTags = post && Array.isArray(post.tags) && post.tags.length
+        ? [...post.tags]
+        : (post && post.category ? [post.category] : []);
+      renderJournalTagChips();
+
+      const preview = document.getElementById('jp-image-preview');
+      const placeholder = document.getElementById('jp-image-placeholder');
+      const statusText = document.getElementById('jp-image-status');
+      const inlineStatus = document.getElementById('jp-inline-img-status');
+      if (statusText) statusText.textContent = '';
+      if (inlineStatus) inlineStatus.textContent = '';
+      if (post && post.image) {
+        preview.src = post.image;
+        preview.style.display = 'block';
+        placeholder.style.display = 'none';
+      } else {
+        preview.src = '';
+        preview.style.display = 'none';
+        placeholder.style.display = 'flex';
+      }
+
+      document.getElementById('journal-editor-heading').textContent = post ? 'Edit Blog Post' : 'Add Blog Post';
+      document.getElementById('journal-editor-delete-btn').style.display = post ? 'inline-flex' : 'none';
+      updateJournalStatusBadge();
+      syncJournalEditorMetrics();
+
+      document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('section-journal-editor').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.backToJournalList = function () {
+      document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('section-journal').classList.add('active');
+      loadJournalAdmin();
+    };
+
+    window.saveJournalPost = async function () {
+      const id = document.getElementById('jp-id').value.trim();
+      const title = document.getElementById('jp-title').value.trim();
+      if (!title) {
+        toast('Please enter an article title', 'error');
+        return;
+      }
+
+      // Add any unsubmitted text sitting in tag input
+      const pendingTag = document.getElementById('jp-tag-input')?.value.trim();
+      if (pendingTag) {
+        addJournalTagChip(pendingTag);
+        document.getElementById('jp-tag-input').value = '';
+      }
+
+      const bodyHtml = journalHtmlMode
+        ? (document.getElementById('jp-body-html')?.value || '').trim()
+        : (document.getElementById('jp-editor')?.innerHTML || '').trim();
+      const bodyPlain = htmlToPlainText(bodyHtml);
+      const pubDateStr = document.getElementById('jp-published-at')?.value;
+
+      const payload = {
+        title,
+        slug: document.getElementById('jp-slug').value.trim() || slugifyJournalTitle(title),
+        blog: document.getElementById('jp-blog').value.trim() || 'Journal',
+        body: bodyPlain,
+        body_html: bodyHtml,
+        excerpt: document.getElementById('jp-excerpt').value.trim(),
+        seo_title: document.getElementById('jp-seo-title').value.trim(),
+        seo_description: document.getElementById('jp-seo-desc').value.trim(),
+        cta_text: document.getElementById('jp-cta-text').value.trim(),
+        cta_link: document.getElementById('jp-cta-link').value.trim(),
+        status: document.getElementById('jp-status').value,
+        published_at: pubDateStr ? new Date(pubDateStr + 'T00:00:00.000Z').toISOString() : new Date().toISOString(),
+        featured: document.getElementById('jp-featured').checked,
+        image: document.getElementById('jp-image').value.trim(),
+        caption: document.getElementById('jp-caption').value.trim(),
+        category: document.getElementById('jp-category').value.trim() || 'Journal',
+        tags: editorJournalTags.length ? editorJournalTags : [document.getElementById('jp-category').value.trim() || 'Journal'],
+        author: document.getElementById('jp-author').value.trim() || 'Mary Humphrey',
+        date: document.getElementById('jp-date').value.trim()
+      };
+
+      const btn = document.getElementById('journal-editor-save-btn');
+      const origText = btn ? btn.textContent : 'Save Article';
+      if (btn) { btn.disabled = true; btn.textContent = 'Saving...'; }
+
+      try {
+        const headers = await getAdminAuthHeaders();
+        const url = id ? `/api/admin/journal/posts/${encodeURIComponent(id)}` : '/api/admin/journal/posts';
+        const method = id ? 'PUT' : 'POST';
+        const res = await fetch(url, { method, headers, body: JSON.stringify(payload) });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Failed to save article');
+        toast(id ? 'Article updated and live!' : 'New blog post saved!');
+        backToJournalList();
+      } catch (err) {
+        console.error(err);
+        toast(err.message || 'Failed to save article', 'error');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = origText; }
+      }
+    };
+
+    window.duplicateJournalPost = async function (id) {
+      try {
+        const headers = await getAdminAuthHeaders();
+        const res = await fetch(`/api/admin/journal/posts/${encodeURIComponent(id)}/duplicate`, { method: 'POST', headers });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Failed to duplicate');
+        toast('Article duplicated as Draft!');
+        loadJournalAdmin();
+      } catch (err) {
+        toast(err.message || 'Failed to duplicate', 'error');
+      }
+    };
+
+    window.deleteJournalPostById = async function (id) {
+      if (!confirm('Delete this journal article permanently?')) return;
+      try {
+        const headers = await getAdminAuthHeaders();
+        const res = await fetch(`/api/admin/journal/posts/${encodeURIComponent(id)}`, { method: 'DELETE', headers });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Failed to delete article');
+        toast('Article deleted');
+        adminJournalPosts = json.posts || adminJournalPosts.filter(p => p.id !== id);
+        renderJournalTable();
+      } catch (err) {
+        toast(err.message || 'Failed to delete', 'error');
+      }
+    };
+
+    window.deleteCurrentJournalPost = async function () {
+      const id = document.getElementById('jp-id').value.trim();
+      if (!id) return;
+      if (!confirm('Delete this journal article permanently?')) return;
+      try {
+        const headers = await getAdminAuthHeaders();
+        const res = await fetch(`/api/admin/journal/posts/${encodeURIComponent(id)}`, { method: 'DELETE', headers });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Failed to delete article');
+        toast('Article deleted');
+        backToJournalList();
+      } catch (err) {
+        toast(err.message || 'Failed to delete', 'error');
+      }
+    };
+
+    window.saveJournalSettings = async function () {
+      try {
+        const headers = await getAdminAuthHeaders();
+        const payload = {
+          eyebrow: document.getElementById('journal-set-eyebrow')?.value || '',
+          heading: document.getElementById('journal-set-heading')?.value || '',
+          subtitle: document.getElementById('journal-set-subtitle')?.value || ''
+        };
+        const res = await fetch('/api/admin/journal/settings', {
+          method: 'PUT',
+          headers,
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Failed to save header settings');
+        toast('Journal header settings saved!');
+      } catch (err) {
+        toast(err.message || 'Failed to save settings', 'error');
+      }
     };
   </script>
 </body>

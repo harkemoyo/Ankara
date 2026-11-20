@@ -63,6 +63,7 @@
             { title: 'Womenswear', href: '/shop/womenswear' },
             { title: 'Unisex', href: '/shop/unisex' },
             { title: 'Authentic Fabrics', href: '/fabric' },
+            { title: 'Our Journal', href: '/journal' },
             { title: 'Sale', href: '/sale' }
         ];
 
@@ -260,6 +261,9 @@
                             <li class="header__menu--items ${active === 'about' ? 'active-page' : ''}">
                                 <a class="header__menu--link ${active === 'about' ? 'active' : ''}" href="/about">Our Story</a>
                             </li>
+                            <li class="header__menu--items ${active === 'journal' ? 'active-page' : ''}">
+                                <a class="header__menu--link ${active === 'journal' ? 'active' : ''}" href="/journal">Journal</a>
+                            </li>
                             <li class="header__menu--items ${active === 'contact' ? 'active-page' : ''}">
                                 <a class="header__menu--link ${active === 'contact' ? 'active' : ''}" href="/contact">Contact</a>
                             </li>
@@ -332,6 +336,9 @@
                         </li>
                         <li class="offcanvas__menu_li ${active === 'about' ? 'active' : ''}">
                             <a class="offcanvas__menu_item ${active === 'about' ? 'active' : ''}" href="/about">Our Story</a>
+                        </li>
+                        <li class="offcanvas__menu_li ${active === 'journal' ? 'active' : ''}">
+                            <a class="offcanvas__menu_item ${active === 'journal' ? 'active' : ''}" href="/journal">Journal</a>
                         </li>
                         <li class="offcanvas__menu_li ${active === 'contact' ? 'active' : ''}">
                             <a class="offcanvas__menu_item ${active === 'contact' ? 'active' : ''}" href="/contact">Contact</a>

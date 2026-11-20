@@ -65,9 +65,12 @@ app.get(['/menswear', '/womenswear', '/unisex', '/new-arrivals', '/nova', '/nova
     res.sendFile(path.join(__dirname, 'shop.html'));
 });
 
-// Clean route for fabrics page
+// Clean route for fabrics & journal pages
 app.get('/fabric', (req, res) => {
     res.sendFile(path.join(__dirname, 'material.html'));
+});
+app.get(['/journal', '/journal/:slug', '/blogs/:blog', '/blogs/:blog/:slug'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'journal.html'));
 });
 
 // Route clean aliases for legal policies & thank-you page

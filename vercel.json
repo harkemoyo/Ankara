@@ -84,6 +84,18 @@
       "dest": "/journal.html"
     },
     {
+      "src": "/journal/([^/]+)",
+      "dest": "/journal.html"
+    },
+    {
+      "src": "/blogs/([^/]+)",
+      "dest": "/journal.html"
+    },
+    {
+      "src": "/blogs/([^/]+)/([^/]+)",
+      "dest": "/journal.html"
+    },
+    {
       "src": "/sale",
       "dest": "/sale.html"
     },

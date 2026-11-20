@@ -50,16 +50,23 @@
         otherLinks.sort((a, b) => a.label.localeCompare(b.label));
         const sortedCollectionLinks = allProductsItem ? [allProductsItem, ...otherLinks] : otherLinks;
 
-        const quickLinks = s.quick_links || [
-            { label: 'Home', url: '/' },
-            { label: 'Our Story', url: '/about' },
-            { label: 'Our Journal', url: '/journal' },
-            { label: 'Contact Us', url: '/contact' },
-            { label: 'Privacy Policy', url: '/privacy' },
-            { label: 'Terms of Service', url: '/terms' },
-            { label: 'Refund & Return Policy', url: '/refund' },
-            { label: 'Shipping Policy', url: '/shipping' }
-        ];
+        const quickLinks = Array.isArray(s.quick_links)
+            ? [...s.quick_links]
+            : [
+                { label: 'Home', url: '/' },
+                { label: 'Our Story', url: '/about' },
+                { label: 'Our Journal', url: '/journal' },
+                { label: 'Contact Us', url: '/contact' },
+                { label: 'Privacy Policy', url: '/privacy' },
+                { label: 'Terms of Service', url: '/terms' },
+                { label: 'Refund & Return Policy', url: '/refund' },
+                { label: 'Shipping Policy', url: '/shipping' }
+            ];
+        if (!quickLinks.some(l => l && (l.url === '/journal' || l.url === '/journal.html'))) {
+            const aboutIdx = quickLinks.findIndex(l => l && (l.url === '/about' || l.url === '/about.html'));
+            const insertAt = aboutIdx >= 0 ? aboutIdx + 1 : 1;
+            quickLinks.splice(insertAt, 0, { label: 'Our Journal', url: '/journal' });
+        }
 
         const newsHeading = s.newsletter_heading || 'Join Our World';
         const newsDesc = s.newsletter_desc || 'Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.';

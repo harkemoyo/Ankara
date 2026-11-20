@@ -88,6 +88,10 @@
             "label": "Our Story"
           },
           {
+            "url": "/journal",
+            "label": "Our Journal"
+          },
+          {
             "url": "/contact",
             "label": "Contact Us"
           },
@@ -430,6 +434,46 @@
         "button_text": "📏 How to Measure & Size Guide",
         "whatsapp_text": "💬 Book a Fitting on WhatsApp",
         "whatsapp_link": "https://wa.me/254715687280?text=Hello%20Mary%20Humphrey%20African%20Wear!%20I%27d%20like%20to%20order%20a%20Made-to-Measure%20piece."
+      }
+    },
+    "journal": {
+      "type": "journal",
+      "enabled": true,
+      "settings": {
+        "eyebrow": "The Mary Humphrey Journal",
+        "heading": "Our Journal",
+        "subtitle": "Stories of craftsmanship, African heritage, and the people and spaces that inspire every piece we create in Nairobi.",
+        "posts": [
+          {
+            "id": "geco-dungarees-story",
+            "slug": "the-story-behind-the-geco-dungarees",
+            "blog": "Journal",
+            "title": "The Story Behind the GECO Dungarees",
+            "category": "Behind the Design",
+            "tags": [
+              "Behind the Design",
+              "Nairobi",
+              "Our People"
+            ],
+            "author": "Mary Humphrey",
+            "date": "Nairobi, Kenya",
+            "published_at": "2026-11-19T09:00:00.000Z",
+            "image": "assets/journal-geco-dungarees.jpg",
+            "caption": "Mary at Geco Cafe, Nairobi, wearing the GECO Dungarees",
+            "excerpt": "Did I ever tell you about the first time I walked into Geco? I came as a designer, hoping for a little space to showcase my work. But something unexpected happened.",
+            "body": "Did I ever tell you about the first time I walked into Geco?\n\nI came as a designer, hoping for a little space to showcase my work. But something unexpected happened.\n\nThe founder of Geco believed in my work almost instantly. He encouraged me, opened doors for me, and has continued to be such a rock and a source of support on this journey.\n\nSomehow, I ended up falling in love with Geco, not just as a place, but as a space that became part of my story.\n\nI later brought along a friend who believed in me and my work, and somewhere along the way, we looked at this piece and decided on its name.\n\nGECO DUNGAREES.",
+            "body_html": "",
+            "seo_title": "The Story Behind the GECO Dungarees – Mary Humphrey Wear Journal",
+            "seo_description": "The true story of how Mary Humphrey walked into Geco Cafe in Nairobi as a designer and created the signature GECO Dungarees.",
+            "cta_text": "Shop GECO Dungarees",
+            "cta_link": "/shop/geco-dungaree",
+            "status": "published",
+            "featured": true,
+            "reading_time": 1,
+            "created_at": "2026-11-19T09:00:00.000Z",
+            "updated_at": "2026-11-19T09:00:00.000Z"
+          }
+        ]
       }
     }
   }

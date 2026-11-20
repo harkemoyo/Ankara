@@ -252,6 +252,391 @@ router.post('/customer-measurements', async (req, res) => {
     }
 });
 
+// ── Journal / Blog Posts CMS Routes (Shopify-style Blog backed by Supabase theme_sections) ──
+const productService = require('../services/productService');
+
+const DEFAULT_JOURNAL_SECTION = {
+    type: 'journal',
+    enabled: true,
+    settings: {
+        eyebrow: 'The Mary Humphrey Journal',
+        heading: 'Our Journal',
+        subtitle: 'Stories of craftsmanship, African heritage, and the people and spaces that inspire every piece we create in Nairobi.',
+        posts: [
+            {
+                id: 'geco-dungarees-story',
+                slug: 'the-story-behind-the-geco-dungarees',
+                blog: 'Journal',
+                title: 'The Story Behind the GECO Dungarees',
+                category: 'Behind the Design',
+                tags: ['Behind the Design', 'Nairobi', 'Our People'],
+                author: 'Mary Humphrey',
+                date: 'Nairobi, Kenya',
+                published_at: '2026-11-19T09:00:00.000Z',
+                image: 'assets/journal-geco-dungarees.jpg',
+                caption: 'Mary at Geco Cafe, Nairobi, wearing the GECO Dungarees',
+                excerpt: 'Did I ever tell you about the first time I walked into Geco? I came as a designer, hoping for a little space to showcase my work. But something unexpected happened.',
+                body: [
+                    'Did I ever tell you about the first time I walked into Geco?',
+                    'I came as a designer, hoping for a little space to showcase my work. But something unexpected happened.',
+                    'The founder of Geco believed in my work almost instantly. He encouraged me, opened doors for me, and has continued to be such a rock and a source of support on this journey.',
+                    'Somehow, I ended up falling in love with Geco, not just as a place, but as a space that became part of my story.',
+                    'I later brought along a friend who believed in me and my work, and somewhere along the way, we looked at this piece and decided on its name.',
+                    'GECO DUNGAREES.'
+                ].join('\n\n'),
+                body_html: '',
+                seo_title: 'The Story Behind the GECO Dungarees – Mary Humphrey Wear Journal',
+                seo_description: 'The true story of how Mary Humphrey walked into Geco Cafe in Nairobi as a designer and created the signature GECO Dungarees.',
+                cta_text: 'Shop GECO Dungarees',
+                cta_link: '/shop/geco-dungaree',
+                status: 'published',
+                featured: true,
+                reading_time: 1,
+                created_at: '2026-11-19T09:00:00.000Z',
+                updated_at: '2026-11-19T09:00:00.000Z'
+            }
+        ]
+    }
+};
+
+function slugifyJournal(text) {
+    const base = String(text || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 80);
+    return base || ('story-' + Date.now());
+}
+
+function parseJournalTags(input, fallbackCategory) {
+    let arr = [];
+    if (Array.isArray(input)) {
+        arr = input;
+    } else if (typeof input === 'string') {
+        arr = input.split(',');
+    }
+    const cleaned = arr.map(t => String(t || '').trim()).filter(Boolean);
+    if (!cleaned.length && fallbackCategory) cleaned.push(String(fallbackCategory).trim());
+    return Array.from(new Set(cleaned));
+}
+
+function sanitizeArticleHtml(html) {
+    if (!html) return '';
+    return String(html)
+        .replace(/<script[\s\S]*?<\/script>/gi, '')
+        .replace(/<iframe[\s\S]*?<\/iframe>/gi, '')
+        .replace(/\son\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+        .replace(/javascript:/gi, '')
+        .trim();
+}
+
+function computeReadingTime(body, bodyHtml) {
+    const source = (bodyHtml ? String(bodyHtml).replace(/<[^>]+>/g, ' ') : '') + ' ' + String(body || '');
+    const words = source.trim().split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.ceil(words / 200));
+}
+
+function isPostPubliclyVisible(post) {
+    if (!post || post.status === 'draft') return false;
+    if (post.published_at) {
+        const pubTime = Date.parse(post.published_at);
+        if (!Number.isNaN(pubTime) && pubTime > Date.now()) return false;
+    }
+    return true;
+}
+
+async function getJournalState() {
+    const theme = await productService.getTheme();
+    if (!theme.sections) theme.sections = {};
+    const existing = theme.sections.journal?.settings;
+    if (!existing || !Array.isArray(existing.posts) || existing.posts.length === 0) {
+        const mergedSettings = {
+            eyebrow: existing?.eyebrow || DEFAULT_JOURNAL_SECTION.settings.eyebrow,
+            heading: existing?.heading || DEFAULT_JOURNAL_SECTION.settings.heading,
+            subtitle: existing?.subtitle || DEFAULT_JOURNAL_SECTION.settings.subtitle,
+            posts: Array.isArray(existing?.posts) ? existing.posts : DEFAULT_JOURNAL_SECTION.settings.posts
+        };
+        if (!existing) {
+            mergedSettings.posts = DEFAULT_JOURNAL_SECTION.settings.posts;
+        }
+        return { theme, settings: mergedSettings };
+    }
+    return { theme, settings: existing };
+}
+
+async function saveJournalState(theme, settings) {
+    if (!theme.sections) theme.sections = {};
+    theme.sections.journal = {
+        type: 'journal',
+        enabled: true,
+        settings
+    };
+    await productService.updateTheme(theme);
+    return settings;
+}
+
+// Public: Fetch published journal articles & page settings (supports ?tag= and ?blog=)
+router.get('/journal', async (req, res) => {
+    try {
+        const { settings } = await getJournalState();
+        let publishedPosts = (settings.posts || []).filter(isPostPubliclyVisible);
+        if (req.query.tag) {
+            const tagLower = String(req.query.tag).trim().toLowerCase();
+            publishedPosts = publishedPosts.filter(p => {
+                const tags = parseJournalTags(p.tags, p.category).map(t => t.toLowerCase());
+                return tags.includes(tagLower) || (p.category || '').toLowerCase() === tagLower;
+            });
+        }
+        if (req.query.blog) {
+            const blogLower = String(req.query.blog).trim().toLowerCase();
+            publishedPosts = publishedPosts.filter(p => (p.blog || 'Journal').toLowerCase() === blogLower);
+        }
+        const allTags = Array.from(new Set(
+            (settings.posts || [])
+                .filter(isPostPubliclyVisible)
+                .flatMap(p => parseJournalTags(p.tags, p.category))
+        ));
+        res.json({
+            eyebrow: settings.eyebrow || DEFAULT_JOURNAL_SECTION.settings.eyebrow,
+            heading: settings.heading || DEFAULT_JOURNAL_SECTION.settings.heading,
+            subtitle: settings.subtitle || DEFAULT_JOURNAL_SECTION.settings.subtitle,
+            tags: allTags,
+            posts: publishedPosts
+        });
+    } catch (error) {
+        console.error('Failed to fetch journal:', error);
+        res.status(500).json({ error: 'Failed to fetch journal posts' });
+    }
+});
+
+// Public: Fetch single published article by slug or id
+router.get('/journal/:slug', async (req, res) => {
+    try {
+        const { settings } = await getJournalState();
+        const post = (settings.posts || []).find(
+            p => isPostPubliclyVisible(p) && (p.slug === req.params.slug || p.id === req.params.slug)
+        );
+        if (!post) return res.status(404).json({ error: 'Article not found' });
+        res.json({ post });
+    } catch (error) {
+        console.error('Failed to fetch journal article:', error);
+        res.status(500).json({ error: 'Failed to fetch article' });
+    }
+});
+
+// Admin: Fetch ALL journal posts (published + scheduled + drafts) & settings
+router.get('/admin/journal', requireAdmin, async (req, res) => {
+    try {
+        const { settings } = await getJournalState();
+        res.json({
+            eyebrow: settings.eyebrow || DEFAULT_JOURNAL_SECTION.settings.eyebrow,
+            heading: settings.heading || DEFAULT_JOURNAL_SECTION.settings.heading,
+            subtitle: settings.subtitle || DEFAULT_JOURNAL_SECTION.settings.subtitle,
+            posts: settings.posts || []
+        });
+    } catch (error) {
+        console.error('Admin journal fetch error:', error);
+        res.status(500).json({ error: 'Failed to load journal posts' });
+    }
+});
+
+// Admin: Update journal header settings
+router.put('/admin/journal/settings', requireAdmin, async (req, res) => {
+    try {
+        const { theme, settings } = await getJournalState();
+        const { eyebrow, heading, subtitle } = req.body || {};
+        if (eyebrow !== undefined) settings.eyebrow = String(eyebrow).trim();
+        if (heading !== undefined) settings.heading = String(heading).trim();
+        if (subtitle !== undefined) settings.subtitle = String(subtitle).trim();
+        await saveJournalState(theme, settings);
+        res.json({ success: true, settings });
+    } catch (error) {
+        console.error('Admin journal settings update error:', error);
+        res.status(500).json({ error: 'Failed to update journal settings' });
+    }
+});
+
+// Admin: Create a new blog post / journal article
+router.post('/admin/journal/posts', requireAdmin, async (req, res) => {
+    try {
+        const { theme, settings } = await getJournalState();
+        const body = req.body || {};
+        if (!body.title || !String(body.title).trim()) {
+            return res.status(400).json({ error: 'Article title is required' });
+        }
+        const now = new Date().toISOString();
+        const posts = Array.isArray(settings.posts) ? [...settings.posts] : [];
+        let slug = slugifyJournal(body.slug || body.title);
+        if (posts.some(p => p.slug === slug)) {
+            slug = `${slug}-${Date.now().toString(36)}`;
+        }
+        const isFeatured = Boolean(body.featured);
+        if (isFeatured) {
+            posts.forEach(p => { p.featured = false; });
+        }
+        const category = String(body.category || 'Journal').trim();
+        const tags = parseJournalTags(body.tags, category);
+        const bodyHtml = sanitizeArticleHtml(body.body_html || '');
+        const bodyText = String(body.body || '').trim();
+        const newPost = {
+            id: 'post-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6),
+            slug,
+            blog: String(body.blog || 'Journal').trim(),
+            title: String(body.title).trim(),
+            category,
+            tags,
+            author: String(body.author || 'Mary Humphrey').trim(),
+            date: String(body.date || new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })).trim(),
+            published_at: body.published_at ? new Date(body.published_at).toISOString() : now,
+            image: String(body.image || '').trim(),
+            caption: String(body.caption || '').trim(),
+            excerpt: String(body.excerpt || '').trim(),
+            body: bodyText,
+            body_html: bodyHtml,
+            seo_title: String(body.seo_title || '').trim(),
+            seo_description: String(body.seo_description || '').trim(),
+            cta_text: String(body.cta_text || '').trim(),
+            cta_link: String(body.cta_link || '').trim(),
+            status: body.status === 'draft' ? 'draft' : 'published',
+            featured: isFeatured,
+            reading_time: computeReadingTime(bodyText, bodyHtml),
+            created_at: now,
+            updated_at: now
+        };
+        posts.unshift(newPost);
+        settings.posts = posts;
+        await saveJournalState(theme, settings);
+        res.status(201).json({ success: true, post: newPost, posts });
+    } catch (error) {
+        console.error('Admin journal create error:', error);
+        res.status(500).json({ error: 'Failed to create article' });
+    }
+});
+
+// Admin: Update an existing blog post / journal article
+router.put('/admin/journal/posts/:id', requireAdmin, async (req, res) => {
+    try {
+        const { theme, settings } = await getJournalState();
+        const posts = Array.isArray(settings.posts) ? [...settings.posts] : [];
+        const idx = posts.findIndex(p => p.id === req.params.id || p.slug === req.params.id);
+        if (idx === -1) {
+            return res.status(404).json({ error: 'Article not found' });
+        }
+        const body = req.body || {};
+        const isFeatured = body.featured !== undefined ? Boolean(body.featured) : Boolean(posts[idx].featured);
+        if (isFeatured) {
+            posts.forEach((p, i) => { if (i !== idx) p.featured = false; });
+        }
+        const nextCategory = body.category !== undefined ? String(body.category).trim() : (posts[idx].category || 'Journal');
+        const nextBodyText = body.body !== undefined ? String(body.body).trim() : (posts[idx].body || '');
+        const nextBodyHtml = body.body_html !== undefined ? sanitizeArticleHtml(body.body_html) : (posts[idx].body_html || '');
+        const updated = {
+            ...posts[idx],
+            blog: body.blog !== undefined ? String(body.blog).trim() : (posts[idx].blog || 'Journal'),
+            title: body.title !== undefined ? String(body.title).trim() : posts[idx].title,
+            slug: body.slug !== undefined && String(body.slug).trim() ? slugifyJournal(body.slug) : posts[idx].slug,
+            category: nextCategory,
+            tags: body.tags !== undefined ? parseJournalTags(body.tags, nextCategory) : parseJournalTags(posts[idx].tags, nextCategory),
+            author: body.author !== undefined ? String(body.author).trim() : posts[idx].author,
+            date: body.date !== undefined ? String(body.date).trim() : posts[idx].date,
+            published_at: body.published_at !== undefined && body.published_at ? new Date(body.published_at).toISOString() : (posts[idx].published_at || posts[idx].created_at || new Date().toISOString()),
+            image: body.image !== undefined ? String(body.image).trim() : posts[idx].image,
+            caption: body.caption !== undefined ? String(body.caption).trim() : posts[idx].caption,
+            excerpt: body.excerpt !== undefined ? String(body.excerpt).trim() : posts[idx].excerpt,
+            body: nextBodyText,
+            body_html: nextBodyHtml,
+            seo_title: body.seo_title !== undefined ? String(body.seo_title).trim() : (posts[idx].seo_title || ''),
+            seo_description: body.seo_description !== undefined ? String(body.seo_description).trim() : (posts[idx].seo_description || ''),
+            cta_text: body.cta_text !== undefined ? String(body.cta_text).trim() : posts[idx].cta_text,
+            cta_link: body.cta_link !== undefined ? String(body.cta_link).trim() : posts[idx].cta_link,
+            status: body.status !== undefined ? (body.status === 'draft' ? 'draft' : 'published') : posts[idx].status,
+            featured: isFeatured,
+            reading_time: computeReadingTime(nextBodyText, nextBodyHtml),
+            updated_at: new Date().toISOString()
+        };
+        posts[idx] = updated;
+        settings.posts = posts;
+        await saveJournalState(theme, settings);
+        res.json({ success: true, post: updated, posts });
+    } catch (error) {
+        console.error('Admin journal update error:', error);
+        res.status(500).json({ error: 'Failed to update article' });
+    }
+});
+
+// Admin: Duplicate an existing blog post as Draft (Shopify Duplicate action)
+router.post('/admin/journal/posts/:id/duplicate', requireAdmin, async (req, res) => {
+    try {
+        const { theme, settings } = await getJournalState();
+        const posts = Array.isArray(settings.posts) ? [...settings.posts] : [];
+        const src = posts.find(p => p.id === req.params.id || p.slug === req.params.id);
+        if (!src) return res.status(404).json({ error: 'Article not found' });
+        const now = new Date().toISOString();
+        const copy = {
+            ...src,
+            id: 'post-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6),
+            title: `${src.title} (Copy)`,
+            slug: `${src.slug || 'story'}-copy-${Date.now().toString(36)}`,
+            status: 'draft',
+            featured: false,
+            created_at: now,
+            updated_at: now
+        };
+        posts.unshift(copy);
+        settings.posts = posts;
+        await saveJournalState(theme, settings);
+        res.status(201).json({ success: true, post: copy, posts });
+    } catch (error) {
+        console.error('Admin journal duplicate error:', error);
+        res.status(500).json({ error: 'Failed to duplicate article' });
+    }
+});
+
+// Admin: Bulk actions (publish / draft / delete) just like Shopify Blog Posts table
+router.post('/admin/journal/bulk', requireAdmin, async (req, res) => {
+    try {
+        const { action, ids } = req.body || {};
+        if (!Array.isArray(ids) || !ids.length) {
+            return res.status(400).json({ error: 'No articles selected' });
+        }
+        const { theme, settings } = await getJournalState();
+        const idSet = new Set(ids);
+        let posts = Array.isArray(settings.posts) ? [...settings.posts] : [];
+        const now = new Date().toISOString();
+
+        if (action === 'delete') {
+            posts = posts.filter(p => !idSet.has(p.id));
+        } else if (action === 'publish') {
+            posts = posts.map(p => idSet.has(p.id) ? { ...p, status: 'published', updated_at: now } : p);
+        } else if (action === 'draft') {
+            posts = posts.map(p => idSet.has(p.id) ? { ...p, status: 'draft', updated_at: now } : p);
+        } else {
+            return res.status(400).json({ error: 'Invalid bulk action' });
+        }
+
+        settings.posts = posts;
+        await saveJournalState(theme, settings);
+        res.json({ success: true, posts });
+    } catch (error) {
+        console.error('Admin journal bulk error:', error);
+        res.status(500).json({ error: 'Bulk action failed' });
+    }
+});
+
+// Admin: Delete a blog post / journal article
+router.delete('/admin/journal/posts/:id', requireAdmin, async (req, res) => {
+    try {
+        const { theme, settings } = await getJournalState();
+        const posts = (settings.posts || []).filter(p => p.id !== req.params.id && p.slug !== req.params.id);
+        settings.posts = posts;
+        await saveJournalState(theme, settings);
+        res.json({ success: true, posts });
+    } catch (error) {
+        console.error('Admin journal delete error:', error);
+        res.status(500).json({ error: 'Failed to delete article' });
+    }
+});
+
 // Pages CMS routes
 router.get('/pages', async (req, res) => {
     try {

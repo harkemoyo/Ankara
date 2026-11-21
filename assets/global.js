@@ -1673,8 +1673,8 @@ function initMadeToMeasureVideoBubble() {
         pointer-events: none;
       }
       .mtm-video-bubble__playdot {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
         border-radius: 50%;
         background: #800020;
         color: #ffffff;
@@ -1816,8 +1816,8 @@ function initMadeToMeasureVideoBubble() {
           gap: 3px;
         }
         .mtm-video-bubble__playdot {
-          width: 13px;
-          height: 13px;
+          width: 15px;
+          height: 15px;
         }
         .mtm-video-bubble__close {
           width: 20px;
@@ -1873,7 +1873,7 @@ function initMadeToMeasureVideoBubble() {
 
     const badgeIconSvg = useVideo
       ? `<svg width="8" height="8" viewBox="0 0 12 12" fill="currentColor"><polygon points="3,1.5 10.5,6 3,10.5"/></svg>`
-      : `<svg width="9" height="9" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0.8L7.4 4.6L11.2 6L7.4 7.4L6 11.2L4.6 7.4L0.8 6L4.6 4.6Z"/></svg>`;
+      : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.5" cy="11.5" r="6.5"/><circle cx="9.5" cy="11.5" r="1.6" fill="currentColor" stroke="none"/><path d="M9.5 18H21.5V14"/><path d="M15 18v-2.2M18.3 18v-2.2"/></svg>`;
 
     const bubble = document.createElement('div');
     bubble.className = 'mtm-video-bubble' + (useVideo ? ' mtm-video-bubble--video' : ' mtm-video-bubble--image');

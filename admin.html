@@ -5009,7 +5009,7 @@
       const list = document.getElementById('homepage-sections-list');
       list.innerHTML = '<li style="padding:12px;color:var(--muted);">Loading...</li>';
       try {
-        const res = await fetch('/api/theme');
+        const res = await fetch('/api/theme?_t=' + Date.now(), { cache: 'no-store' });
         if (!res.ok) throw new Error('Failed to load theme');
         const json = await res.json();
         themeData = json.theme || { sections: {}, order: [] };
@@ -5102,7 +5102,7 @@
         </div>
         <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
           <div style="width:120px;min-height:80px;border:1px solid #eee;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;">
-            <img id="${id}-preview" src="${escapeHtml(currentUrl || '')}" style="max-width:100%;max-height:100px;object-fit:cover;display:${hasImg ? 'block' : 'none'};" onload="this.style.display='block';this.nextElementSibling.style.display='none';" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+            <img id="${id}-preview" ${hasImg ? `src="${escapeHtml(currentUrl)}"` : ''} style="max-width:100%;max-height:100px;object-fit:cover;display:${hasImg ? 'block' : 'none'};" onload="this.style.display='block';this.nextElementSibling.style.display='none';" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
             <span id="${id}-placeholder" style="display:${hasImg ? 'none' : 'flex'};color:#aaa;font-size:1.1rem;text-align:center;padding:6px;">No image</span>
           </div>
           <div style="flex:1;min-width:180px;">
@@ -5929,32 +5929,65 @@
       `;
     };
 
-    window.saveThemeSection = async function () {
-      if (!currentSectionKey) return;
+    window.saveThemeSection = async function (opts = {}) {
+      if (!currentSectionKey) return false;
       const sec = themeData.sections[currentSectionKey];
-      if (!sec) return;
+      if (!sec) return false;
       const type = sec.type || currentSectionKey;
       const collector = sectionFormCollectors[type];
+      const prevSettings = sec.settings;
+      const prevEnabled = sec.enabled;
       if (collector) sec.settings = collector();
       sec.enabled = document.getElementById('ts-enabled')?.checked !== false;
+
+      const sendSave = async (token) => fetch('/api/theme', {
+        method: 'PUT',
+        cache: 'no-store',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify(themeData)
+      });
+
       try {
-        const session = (await supabase.auth.getSession()).data.session;
-        const res = await fetch('/api/theme', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {})
-          },
-          body: JSON.stringify(themeData)
-        });
-        if (!res.ok) throw new Error('Save failed');
-        const json = await res.json();
+        let session = (await supabase.auth.getSession()).data.session;
+        let res = await sendSave(session?.access_token);
+        if (res.status === 401) {
+          const refreshed = await supabase.auth.refreshSession();
+          session = refreshed?.data?.session || null;
+          if (session?.access_token) {
+            res = await sendSave(session.access_token);
+          }
+        }
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(json.message || json.error || `HTTP ${res.status}`);
+        }
         themeData = json.theme || themeData;
         renderThemeSectionsList();
         selectThemeSection(currentSectionKey);
-        alert('Saved!');
+        if (opts.statusId && opts.statusText) {
+          const st = document.getElementById(opts.statusId);
+          if (st) st.textContent = opts.statusText;
+        }
+        if (opts.toastText) {
+          toast(opts.toastText);
+        } else if (!opts.silent) {
+          toast('Section saved!');
+          alert('Saved!');
+        }
+        return true;
       } catch (err) {
-        alert('Save failed: ' + err.message);
+        sec.settings = prevSettings;
+        sec.enabled = prevEnabled;
+        if (opts.statusId) {
+          const st = document.getElementById(opts.statusId);
+          if (st) st.textContent = 'Save failed: ' + err.message;
+        }
+        toast('Save failed: ' + err.message, 'error');
+        if (!opts.silent) alert('Save failed: ' + err.message);
+        return false;
       }
     };
 
@@ -7006,17 +7039,23 @@
       }
     };
 
-    window.removeMtmPopupVideo = function () {
+    window.removeMtmPopupVideo = async function () {
       const inp = document.getElementById('ts-video_popup_url');
       if (inp) inp.value = '';
       window.syncMtmVideoPreview('');
       const modeSel = document.getElementById('ts-video_popup_media_type');
       if (modeSel && modeSel.value === 'video') modeSel.value = 'auto';
       const st = document.getElementById('ts-video_popup_status');
-      if (st) st.textContent = 'Video removed — floating card will show your image below. Click Save Section to publish.';
+      if (st) st.textContent = 'Removing video & saving...';
+      await window.saveThemeSection({
+        silent: true,
+        statusId: 'ts-video_popup_status',
+        statusText: 'Video removed & saved — floating card now uses the image below.',
+        toastText: 'Video removed & saved!'
+      });
     };
 
-    window.removeMtmPopupImage = function () {
+    window.removeMtmPopupImage = async function () {
       const inp = document.getElementById('ts-video_popup_poster');
       if (inp) inp.value = '';
       const img = document.getElementById('ts-video_popup_poster-preview');
@@ -7027,7 +7066,13 @@
       }
       if (ph) ph.style.display = 'flex';
       const st = document.getElementById('ts-video_popup_poster-status');
-      if (st) st.textContent = 'Image removed — click Save Section to publish.';
+      if (st) st.textContent = 'Removing image & saving...';
+      await window.saveThemeSection({
+        silent: true,
+        statusId: 'ts-video_popup_poster-status',
+        statusText: 'Image removed & saved.',
+        toastText: 'Floating image removed & saved!'
+      });
     };
 
     window.uploadDirectVideo = async function (file, inputId, statusId) {

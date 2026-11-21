@@ -66,20 +66,24 @@ class ProductController {
     async getTheme(req, res) {
         try {
             const theme = await productService.getTheme();
+            res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+            res.set('Pragma', 'no-cache');
+            res.set('Expires', '0');
             res.json({ theme });
         } catch (error) {
             console.error('Error in getTheme:', error);
-            res.status(500).json({ error: 'Failed to fetch theme layout' });
+            res.status(500).json({ error: 'Failed to fetch theme layout', message: error.message });
         }
     }
 
     async updateTheme(req, res) {
         try {
             const theme = await productService.updateTheme(req.body);
+            res.set('Cache-Control', 'no-store');
             res.json({ theme });
         } catch (error) {
             console.error('Error in updateTheme:', error);
-            res.status(500).json({ error: 'Failed to update theme layout' });
+            res.status(500).json({ error: 'Failed to update theme layout', message: error.message });
         }
     }
 

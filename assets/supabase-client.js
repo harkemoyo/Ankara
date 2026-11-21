@@ -195,7 +195,7 @@ fetch('/api/settings')
 
 async function loadSharedTheme() {
     try {
-        const res = await fetch('/api/theme');
+        const res = await fetch('/api/theme?_t=' + Date.now(), { cache: 'no-store' });
         if (!res.ok) return;
         const { theme } = await res.json();
         if (!theme || !theme.sections) return;

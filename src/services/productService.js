@@ -318,19 +318,26 @@ class ProductService {
 
     async updateTheme(themeSections) {
         // Write to Supabase (works on Vercel's read-only filesystem)
-        const { error } = await supabaseAdmin
+        const { data, error } = await supabaseAdmin
             .from('settings')
             .update({ theme_sections: themeSections, updated_at: new Date().toISOString() })
-            .eq('id', 1);
+            .eq('id', 1)
+            .select('theme_sections')
+            .single();
         if (error) throw new Error('Failed to save theme to database: ' + error.message);
+        if (!data || !data.theme_sections) {
+            throw new Error('Theme settings row (id=1) was not updated in database');
+        }
+
+        const savedTheme = data.theme_sections;
 
         // Also sync to local file for local dev convenience (ignore errors on Vercel)
         try {
-            fs.writeFileSync(THEME_FILE, JSON.stringify(themeSections, null, 2), 'utf-8');
+            fs.writeFileSync(THEME_FILE, JSON.stringify(savedTheme, null, 2), 'utf-8');
         } catch (e) {
             // Expected to fail on Vercel (read-only filesystem) — that's fine
         }
-        return themeSections;
+        return savedTheme;
     }
 
     async getSaleStats() {

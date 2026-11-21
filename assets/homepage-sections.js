@@ -568,7 +568,7 @@ function escapeHtml(str) {
 
 async function applyThemeSections() {
   try {
-    const res = await fetch('/api/theme');
+    const res = await fetch('/api/theme?_t=' + Date.now(), { cache: 'no-store' });
     if (!res.ok) return;
     const json = await res.json();
     const theme = json.theme;

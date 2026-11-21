@@ -1579,7 +1579,7 @@ function initMadeToMeasureVideoBubble() {
       if (window.AnkaraTheme?.sections?.made_to_measure?.settings) {
         return window.AnkaraTheme.sections.made_to_measure.settings;
       }
-      const res = await fetch('/api/theme');
+      const res = await fetch('/api/theme?_t=' + Date.now(), { cache: 'no-store' });
       if (!res.ok) return null;
       const json = await res.json();
       return json?.theme?.sections?.made_to_measure?.settings || null;

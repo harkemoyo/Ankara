@@ -1623,10 +1623,12 @@ function initMadeToMeasureVideoBubble() {
         transform: translate(-3px, -50%) scale(1.03);
         box-shadow: 0 14px 34px rgba(0, 0, 0, 0.32);
       }
-      .mtm-video-bubble__video {
+      .mtm-video-bubble__video,
+      .mtm-video-bubble__image {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center top;
         display: block;
         pointer-events: none;
       }
@@ -1741,6 +1743,14 @@ function initMadeToMeasureVideoBubble() {
         display: block;
         object-fit: contain;
       }
+      .mtm-video-lightbox__image {
+        width: 100%;
+        max-height: 62vh;
+        background: #0f0d0d;
+        display: block;
+        object-fit: cover;
+        object-position: center top;
+      }
       .mtm-video-lightbox__footer {
         padding: 16px 18px 18px;
         background: #faf7f3;
@@ -1829,32 +1839,81 @@ function initMadeToMeasureVideoBubble() {
 
     injectStyles();
 
-    const videoUrl = settings.video_popup_url || 'assets/Noir_video.mp4';
-    const posterUrl = settings.video_popup_poster || settings.popup_image || 'assets/made-to-measure-atelier.jpg';
+    const esc = (str) => String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+
+    const hasVideoKey = Object.prototype.hasOwnProperty.call(settings, 'video_popup_url');
+    const videoUrl = hasVideoKey
+      ? String(settings.video_popup_url || '').trim()
+      : 'assets/Noir_video.mp4';
+
+    const hasPosterKey = Object.prototype.hasOwnProperty.call(settings, 'video_popup_poster');
+    const posterUrl = hasPosterKey
+      ? String(settings.video_popup_poster || '').trim()
+      : String(settings.popup_image || 'assets/made-to-measure-atelier.jpg').trim();
+
+    const mediaMode = String(settings.video_popup_media_type || 'auto').toLowerCase();
+    // Respect explicit video removal (video_popup_url === '') AND explicit Image mode
+    const useVideo = mediaMode === 'image' ? false : Boolean(videoUrl);
+    const activeImage = posterUrl;
+
+    // Nothing to display if video is absent/disabled and no image is configured
+    if (!useVideo && !activeImage) return;
+
     const labelText = settings.video_popup_label || 'Made-to-Measure';
+    const titleText = settings.title || 'We Do Made-to-Measure';
     const waHref = settings.whatsapp_link || 'https://wa.me/254715687280?text=Hello%20Mary%20Humphrey%20African%20Wear!%20I%27d%20like%20to%20order%20a%20Made-to-Measure%20piece.';
 
+    const bubbleMediaHtml = useVideo
+      ? `<video class="mtm-video-bubble__video" src="${esc(videoUrl)}"${activeImage ? ` poster="${esc(activeImage)}"` : ''} autoplay muted loop playsinline preload="metadata"></video>`
+      : `<img class="mtm-video-bubble__image" src="${esc(activeImage)}" alt="${esc(labelText)}" loading="lazy" />`;
+
+    const badgeIconSvg = useVideo
+      ? `<svg width="8" height="8" viewBox="0 0 12 12" fill="currentColor"><polygon points="3,1.5 10.5,6 3,10.5"/></svg>`
+      : `<svg width="9" height="9" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0.8L7.4 4.6L11.2 6L7.4 7.4L6 11.2L4.6 7.4L0.8 6L4.6 4.6Z"/></svg>`;
+
     const bubble = document.createElement('div');
-    bubble.className = 'mtm-video-bubble';
+    bubble.className = 'mtm-video-bubble' + (useVideo ? ' mtm-video-bubble--video' : ' mtm-video-bubble--image');
     bubble.setAttribute('role', 'button');
     bubble.setAttribute('tabindex', '0');
-    bubble.setAttribute('aria-label', `Watch ${labelText} video`);
+    bubble.setAttribute('aria-label', useVideo ? `Watch ${labelText} video` : `View ${labelText}`);
     bubble.innerHTML = `
-      <video class="mtm-video-bubble__video" src="${videoUrl}" poster="${posterUrl}" autoplay muted loop playsinline preload="metadata"></video>
-      <button type="button" class="mtm-video-bubble__close" aria-label="Close video preview">&times;</button>
+      ${bubbleMediaHtml}
+      <button type="button" class="mtm-video-bubble__close" aria-label="Close preview">&times;</button>
       <div class="mtm-video-bubble__caption">
         <span class="mtm-video-bubble__playdot" aria-hidden="true">
-          <svg width="8" height="8" viewBox="0 0 12 12" fill="currentColor"><polygon points="3,1.5 10.5,6 3,10.5"/></svg>
+          ${badgeIconSvg}
         </span>
-        <span>${labelText.replace(/</g, '&lt;')}</span>
+        <span>${esc(labelText)}</span>
       </div>
     `;
     document.body.appendChild(bubble);
+
+    // If a video fails to load and a fallback image exists, swap gracefully to the image
+    if (useVideo && activeImage) {
+      const bubbleVid = bubble.querySelector('video');
+      if (bubbleVid) {
+        bubbleVid.addEventListener('error', () => {
+          const fallbackImg = document.createElement('img');
+          fallbackImg.className = 'mtm-video-bubble__image';
+          fallbackImg.src = activeImage;
+          fallbackImg.alt = labelText;
+          bubbleVid.replaceWith(fallbackImg);
+        }, { once: true });
+      }
+    }
 
     // Lightbox created on demand
     let lightbox = null;
     function openLightbox() {
       if (!lightbox) {
+        const lightboxMediaHtml = useVideo
+          ? `<video class="mtm-video-lightbox__player" src="${esc(videoUrl)}"${activeImage ? ` poster="${esc(activeImage)}"` : ''} controls playsinline></video>`
+          : `<img class="mtm-video-lightbox__image" src="${esc(activeImage)}" alt="${esc(labelText)}" />`;
+
         lightbox = document.createElement('div');
         lightbox.className = 'mtm-video-lightbox';
         lightbox.setAttribute('role', 'dialog');
@@ -1862,13 +1921,13 @@ function initMadeToMeasureVideoBubble() {
         lightbox.setAttribute('aria-label', labelText);
         lightbox.innerHTML = `
           <div class="mtm-video-lightbox__card">
-            <button type="button" class="mtm-video-lightbox__close" aria-label="Close video">&times;</button>
-            <video class="mtm-video-lightbox__player" src="${videoUrl}" poster="${posterUrl}" controls playsinline></video>
+            <button type="button" class="mtm-video-lightbox__close" aria-label="Close preview">&times;</button>
+            ${lightboxMediaHtml}
             <div class="mtm-video-lightbox__footer">
-              <h3 class="mtm-video-lightbox__title">${(settings.title || 'We Do Made-to-Measure').replace(/</g, '&lt;')}</h3>
+              <h3 class="mtm-video-lightbox__title">${esc(titleText)}</h3>
               <div class="mtm-video-lightbox__actions">
                 <button type="button" class="mtm-video-lightbox__btn mtm-video-lightbox__btn--primary js-mtm-open-guide">How to Measure &amp; Size Guide</button>
-                <a class="mtm-video-lightbox__btn mtm-video-lightbox__btn--wa" href="${waHref}" target="_blank" rel="noopener noreferrer">Book a Fitting on WhatsApp</a>
+                <a class="mtm-video-lightbox__btn mtm-video-lightbox__btn--wa" href="${esc(waHref)}" target="_blank" rel="noopener noreferrer">Book a Fitting on WhatsApp</a>
               </div>
             </div>
           </div>

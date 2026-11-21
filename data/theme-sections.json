@@ -436,6 +436,7 @@
         "whatsapp_link": "https://wa.me/254715687280?text=Hello%20Mary%20Humphrey%20African%20Wear!%20I%27d%20like%20to%20order%20a%20Made-to-Measure%20piece.",
         "video_popup_enabled": true,
         "video_popup_all_pages": false,
+        "video_popup_media_type": "auto",
         "video_popup_label": "Made-to-Measure",
         "video_popup_url": "assets/Noir_video.mp4",
         "video_popup_poster": "assets/made-to-measure-atelier.jpg"

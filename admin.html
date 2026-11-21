@@ -5398,6 +5398,11 @@
         ];
         const steps = (Array.isArray(s.steps) && s.steps.length) ? s.steps : defaultSteps;
         const bgColor = (s.bg_color && s.bg_color !== '#231c1a') ? s.bg_color : '';
+        const hasSavedVideoKey = Object.prototype.hasOwnProperty.call(s, 'video_popup_url');
+        const savedVideoUrl = hasSavedVideoKey ? String(s.video_popup_url || '').trim() : 'assets/Noir_video.mp4';
+        const hasSavedPosterKey = Object.prototype.hasOwnProperty.call(s, 'video_popup_poster');
+        const savedPosterUrl = hasSavedPosterKey ? String(s.video_popup_poster || '').trim() : 'assets/made-to-measure-atelier.jpg';
+        const savedMediaType = s.video_popup_media_type || 'auto';
         let html = `<div class="form-grid">
           ${textField('ts-eyebrow', 'Eyebrow Badge', s.eyebrow || '✂ Bespoke Tailoring · Nairobi Atelier')}
           ${textField('ts-title', 'Heading', s.title || 'We Do Made-to-Measure')}
@@ -5416,12 +5421,12 @@
           ${textField('ts-whatsapp_link', 'Secondary Button Link', s.whatsapp_link || '')}
         </div>
         <div style="border:1px solid #e6dfd8;border-radius:10px;padding:18px;margin:16px 0;background:#faf8f5;">
-          <h4 style="margin:0 0 6px;font-size:1.4rem;color:var(--text);">Floating Corner Mini-Video Popup</h4>
-          <p style="margin:0 0 14px;font-size:1.2rem;color:var(--muted);">A tiny muted looping video card on the center-right edge that slides in cleanly after the visitor closes the Welcome Popup. Clicking it expands with sound + booking links.</p>
+          <h4 style="margin:0 0 6px;font-size:1.4rem;color:var(--text);">Floating Corner Made-to-Measure Card (Video or Image)</h4>
+          <p style="margin:0 0 14px;font-size:1.2rem;color:var(--muted);">A compact floating preview card on the center-right edge that slides in cleanly after the visitor closes the Welcome Popup. Supports both a looping video and a photo card — clicking it expands with Made-to-Measure &amp; booking links.</p>
           <div style="display:flex;flex-wrap:wrap;gap:18px;margin-bottom:14px;">
             <label style="display:inline-flex;align-items:center;gap:8px;font-size:1.3rem;font-weight:600;cursor:pointer;">
               <input id="ts-video_popup_enabled" type="checkbox" ${s.video_popup_enabled !== false ? 'checked' : ''} style="width:17px;height:17px;" />
-              <span>Enable Mini-Video Popup</span>
+              <span>Enable Floating Made-to-Measure Popup</span>
             </label>
             <label style="display:inline-flex;align-items:center;gap:8px;font-size:1.3rem;font-weight:500;cursor:pointer;">
               <input id="ts-video_popup_all_pages" type="checkbox" ${s.video_popup_all_pages === true ? 'checked' : ''} style="width:17px;height:17px;" />
@@ -5429,9 +5434,17 @@
             </label>
           </div>
           <div class="form-grid">
-            ${textField('ts-video_popup_label', 'Mini-Video Caption Label', s.video_popup_label || 'Made-to-Measure')}
+            ${textField('ts-video_popup_label', 'Floating Card Caption Label', s.video_popup_label || 'Made-to-Measure')}
+            <div class="form-group">
+              <label for="ts-video_popup_media_type">Display Mode</label>
+              <select id="ts-video_popup_media_type">
+                <option value="auto" ${savedMediaType === 'auto' ? 'selected' : ''}>Auto (Video if uploaded, otherwise Image)</option>
+                <option value="image" ${savedMediaType === 'image' ? 'selected' : ''}>Image Only (Show Photo Card)</option>
+                <option value="video" ${savedMediaType === 'video' ? 'selected' : ''}>Video (Looping Mini-Video)</option>
+              </select>
+            </div>
             <div class="form-group" style="grid-column:1/-1;">
-              <label>Upload Video (Short 10–20s vertical MP4 / WebM recommended)</label>
+              <label>Upload Video (Optional — remove video or choose Image Only to display the photo below)</label>
               <div ondrop="event.preventDefault();if(event.dataTransfer.files[0])uploadDirectVideo(event.dataTransfer.files[0],'ts-video_popup_url','ts-video_popup_status')" ondragover="event.preventDefault()" style="border:2px dashed var(--border);border-radius:8px;padding:14px;background:#fff;text-align:center;margin-bottom:10px;">
                 <label class="btn btn-primary" style="cursor:pointer;margin:0;font-size:1.2rem;">
                   <input type="file" accept="video/mp4,video/webm,video/quicktime,video/*" onchange="if(this.files[0])uploadDirectVideo(this.files[0],'ts-video_popup_url','ts-video_popup_status');this.value=''" style="display:none;" />
@@ -5442,16 +5455,19 @@
               </div>
               <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
                 <div style="width:96px;height:132px;border:1px solid #ddd;border-radius:8px;overflow:hidden;background:#1a1818;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                  <video id="ts-video_popup_url-preview" src="${escapeHtml(s.video_popup_url || 'assets/Noir_video.mp4')}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>
-                  <span id="ts-video_popup_url-placeholder" style="display:none;color:#aaa;font-size:1.05rem;text-align:center;padding:6px;">No video</span>
+                  <video id="ts-video_popup_url-preview" ${savedVideoUrl ? `src="${escapeHtml(savedVideoUrl)}"` : ''} muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;display:${savedVideoUrl ? 'block' : 'none'};"></video>
+                  <span id="ts-video_popup_url-placeholder" style="display:${savedVideoUrl ? 'none' : 'flex'};color:#aaa;font-size:1.05rem;text-align:center;padding:6px;line-height:1.3;">No video<br>(uses image)</span>
                 </div>
                 <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:8px;">
-                  <input id="ts-video_popup_url" type="text" placeholder="assets/Noir_video.mp4 or https://..." value="${escapeHtml(s.video_popup_url || 'assets/Noir_video.mp4')}" oninput="var v=document.getElementById('ts-video_popup_url-preview'),ph=document.getElementById('ts-video_popup_url-placeholder');if(this.value){v.src=this.value;v.style.display='block';ph.style.display='none';}else{v.src='';v.style.display='none';ph.style.display='flex';}" />
-                  <button type="button" class="btn btn-sm btn-ghost" style="align-self:flex-start;" onclick="document.getElementById('ts-video_popup_url').value='';document.getElementById('ts-video_popup_url').dispatchEvent(new Event('input'));">Remove Video</button>
+                  <input id="ts-video_popup_url" type="text" placeholder="Leave blank for Image mode, or paste video URL..." value="${escapeHtml(savedVideoUrl)}" oninput="syncMtmVideoPreview(this.value)" />
+                  <button type="button" class="btn btn-sm btn-ghost" style="align-self:flex-start;" onclick="removeMtmPopupVideo()">Remove Video</button>
                 </div>
               </div>
             </div>
-            ${imageUploadBlock('ts-video_popup_poster', s.video_popup_poster || 'assets/made-to-measure-atelier.jpg', 'Video Poster Thumbnail (shown before video loads)')}
+            ${imageUploadBlock('ts-video_popup_poster', savedPosterUrl, 'Floating Image / Video Poster Thumbnail (shown in Image mode, when no video is uploaded, or before video loads)')}
+            <div class="form-group" style="grid-column:1/-1;margin-top:-8px;">
+              <button type="button" class="btn btn-sm btn-ghost" style="align-self:flex-start;" onclick="removeMtmPopupImage()">Remove Image</button>
+            </div>
           </div>
         </div>`;
         for (let i = 0; i < 3; i++) {
@@ -5751,9 +5767,10 @@
           whatsapp_link: document.getElementById('ts-whatsapp_link')?.value || '',
           video_popup_enabled: document.getElementById('ts-video_popup_enabled')?.checked !== false,
           video_popup_all_pages: document.getElementById('ts-video_popup_all_pages')?.checked === true,
+          video_popup_media_type: document.getElementById('ts-video_popup_media_type')?.value || 'auto',
           video_popup_label: document.getElementById('ts-video_popup_label')?.value || 'Made-to-Measure',
           video_popup_url: document.getElementById('ts-video_popup_url')?.value?.trim() || '',
-          video_popup_poster: document.getElementById('ts-video_popup_poster')?.value?.trim() || 'assets/made-to-measure-atelier.jpg',
+          video_popup_poster: document.getElementById('ts-video_popup_poster')?.value?.trim() || '',
           steps
         };
       },
@@ -6968,6 +6985,49 @@
       } catch (err) {
         toast(err.message || 'Failed to delete', 'error');
       }
+    };
+
+    window.syncMtmVideoPreview = function (val) {
+      const url = String(val || '').trim();
+      const v = document.getElementById('ts-video_popup_url-preview');
+      const ph = document.getElementById('ts-video_popup_url-placeholder');
+      if (!v || !ph) return;
+      if (url) {
+        v.src = url;
+        v.style.display = 'block';
+        ph.style.display = 'none';
+        if (typeof v.play === 'function') v.play().catch(() => {});
+      } else {
+        try { v.pause(); } catch (e) {}
+        v.removeAttribute('src');
+        try { v.load(); } catch (e) {}
+        v.style.display = 'none';
+        ph.style.display = 'flex';
+      }
+    };
+
+    window.removeMtmPopupVideo = function () {
+      const inp = document.getElementById('ts-video_popup_url');
+      if (inp) inp.value = '';
+      window.syncMtmVideoPreview('');
+      const modeSel = document.getElementById('ts-video_popup_media_type');
+      if (modeSel && modeSel.value === 'video') modeSel.value = 'auto';
+      const st = document.getElementById('ts-video_popup_status');
+      if (st) st.textContent = 'Video removed — floating card will show your image below. Click Save Section to publish.';
+    };
+
+    window.removeMtmPopupImage = function () {
+      const inp = document.getElementById('ts-video_popup_poster');
+      if (inp) inp.value = '';
+      const img = document.getElementById('ts-video_popup_poster-preview');
+      const ph = document.getElementById('ts-video_popup_poster-placeholder');
+      if (img) {
+        img.removeAttribute('src');
+        img.style.display = 'none';
+      }
+      if (ph) ph.style.display = 'flex';
+      const st = document.getElementById('ts-video_popup_poster-status');
+      if (st) st.textContent = 'Image removed — click Save Section to publish.';
     };
 
     window.uploadDirectVideo = async function (file, inputId, statusId) {

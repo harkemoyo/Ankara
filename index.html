@@ -2502,6 +2502,7 @@
                 popup.classList.remove('is-open');
                 document.body.style.overflow = '';
                 try { sessionStorage.setItem(KEY, '1'); } catch (e) { }
+                window.dispatchEvent(new CustomEvent('welcome-popup:closed'));
             }
             function open() {
                 popup.classList.add('is-open');
@@ -2522,7 +2523,7 @@
     <script src="assets/swiper-bundle.min.js"></script>
     <script src="assets/cart.js"></script>
     <script defer="" src="assets/footer.js?v=15"></script>
-    <script defer="" src="assets/global.js"></script>
+    <script defer="" src="assets/global.js?v=18"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const quickViewBtns = document.querySelectorAll('.js-quickview-open');
@@ -2639,7 +2640,7 @@
 
         });
     </script>
-    <script defer src="assets/announcement.js"></script>
+    <script defer src="assets/announcement.js?v=2"></script>
     <script defer src="assets/homepage-sections.js?v=9"></script>
     <script defer src="assets/forms-handler.js" type="module"></script>
 </body>

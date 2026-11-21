@@ -1561,12 +1561,412 @@ function renderFloatingCurrencyWidget() {
   }
 }
 
+// ── Floating Made-to-Measure Mini-Video Bubble (Appears gently AFTER Welcome Popup closes) ──
+function initMadeToMeasureVideoBubble() {
+  const path = (window.location.pathname || '/').toLowerCase();
+  if (path.includes('checkout') || path.includes('thank-you') || path.includes('admin') || path.includes('order-status')) {
+    return;
+  }
+  const DISMISS_KEY = 'mtm_video_bubble_dismissed';
+  try {
+    if (sessionStorage.getItem(DISMISS_KEY) === '1') return;
+  } catch (e) { }
+
+  if (document.querySelector('.mtm-video-bubble')) return;
+
+  async function getMtmSettings() {
+    try {
+      if (window.AnkaraTheme?.sections?.made_to_measure?.settings) {
+        return window.AnkaraTheme.sections.made_to_measure.settings;
+      }
+      const res = await fetch('/api/theme');
+      if (!res.ok) return null;
+      const json = await res.json();
+      return json?.theme?.sections?.made_to_measure?.settings || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function injectStyles() {
+    if (document.getElementById('mtm-video-bubble-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'mtm-video-bubble-styles';
+    style.textContent = `
+      .mtm-video-bubble {
+        position: fixed !important;
+        top: 50% !important;
+        right: 18px !important;
+        bottom: auto !important;
+        left: auto !important;
+        z-index: 99960 !important;
+        width: 108px;
+        height: 152px;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #1a1818;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.26), 0 2px 6px rgba(0, 0, 0, 0.14);
+        border: 2px solid #ffffff;
+        cursor: pointer;
+        opacity: 0;
+        transform: translate(24px, -50%) scale(0.94);
+        pointer-events: none;
+        transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.2s ease;
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      .mtm-video-bubble.is-visible {
+        opacity: 1;
+        transform: translate(0, -50%) scale(1);
+        pointer-events: auto;
+      }
+      .mtm-video-bubble:hover {
+        transform: translate(-3px, -50%) scale(1.03);
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.32);
+      }
+      .mtm-video-bubble__video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        pointer-events: none;
+      }
+      .mtm-video-bubble__close {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(20, 18, 18, 0.72);
+        color: #ffffff;
+        font-size: 13px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 3;
+        padding: 0;
+        transition: background 0.18s ease;
+      }
+      .mtm-video-bubble__close:hover {
+        background: #800020;
+      }
+      .mtm-video-bubble__caption {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 20px 8px 7px;
+        background: linear-gradient(to top, rgba(16, 14, 14, 0.86), rgba(16, 14, 14, 0));
+        color: #ffffff;
+        font-size: 10.5px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        line-height: 1.25;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        pointer-events: none;
+      }
+      .mtm-video-bubble__playdot {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #800020;
+        color: #ffffff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      /* Expanded Lightbox Modal */
+      .mtm-video-lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 100020;
+        background: rgba(16, 14, 14, 0.74);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      .mtm-video-lightbox.is-open {
+        opacity: 1;
+        visibility: visible;
+      }
+      .mtm-video-lightbox__card {
+        position: relative;
+        width: 100%;
+        max-width: 380px;
+        max-height: 90vh;
+        background: #ffffff;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+        display: flex;
+        flex-direction: column;
+      }
+      .mtm-video-lightbox__close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 4;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(20, 18, 18, 0.76);
+        color: #ffffff;
+        font-size: 20px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .mtm-video-lightbox__close:hover {
+        background: #800020;
+      }
+      .mtm-video-lightbox__player {
+        width: 100%;
+        max-height: 62vh;
+        background: #0f0d0d;
+        display: block;
+        object-fit: contain;
+      }
+      .mtm-video-lightbox__footer {
+        padding: 16px 18px 18px;
+        background: #faf7f3;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+      .mtm-video-lightbox__title {
+        margin: 0 0 2px;
+        font-size: 16px;
+        font-weight: 700;
+        color: #1a1818;
+      }
+      .mtm-video-lightbox__actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .mtm-video-lightbox__btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 11px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        border: 1.5px solid transparent;
+        transition: opacity 0.2s ease, background 0.2s ease;
+      }
+      .mtm-video-lightbox__btn--primary {
+        background: #800020;
+        color: #ffffff !important;
+        border-color: #800020;
+      }
+      .mtm-video-lightbox__btn--primary:hover {
+        opacity: 0.9;
+      }
+      .mtm-video-lightbox__btn--wa {
+        background: transparent;
+        color: #1a1818 !important;
+        border-color: #1a1818;
+      }
+      .mtm-video-lightbox__btn--wa:hover {
+        background: #1a1818;
+        color: #ffffff !important;
+      }
+      @media only screen and (max-width: 991px) {
+        .mtm-video-bubble {
+          top: 50% !important;
+          right: 10px !important;
+          bottom: auto !important;
+          left: auto !important;
+          width: 82px;
+          height: 114px;
+          border-radius: 10px;
+        }
+        .mtm-video-bubble__caption {
+          font-size: 9px;
+          padding: 16px 5px 5px;
+          gap: 3px;
+        }
+        .mtm-video-bubble__playdot {
+          width: 13px;
+          height: 13px;
+        }
+        .mtm-video-bubble__close {
+          width: 20px;
+          height: 20px;
+          font-size: 12px;
+          top: 4px;
+          right: 4px;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function mountBubble(settings) {
+    if (document.querySelector('.mtm-video-bubble')) return;
+    try {
+      if (sessionStorage.getItem(DISMISS_KEY) === '1') return;
+    } catch (e) { }
+
+    injectStyles();
+
+    const videoUrl = settings.video_popup_url || 'assets/Noir_video.mp4';
+    const posterUrl = settings.video_popup_poster || settings.popup_image || 'assets/made-to-measure-atelier.jpg';
+    const labelText = settings.video_popup_label || 'Made-to-Measure';
+    const waHref = settings.whatsapp_link || 'https://wa.me/254715687280?text=Hello%20Mary%20Humphrey%20African%20Wear!%20I%27d%20like%20to%20order%20a%20Made-to-Measure%20piece.';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'mtm-video-bubble';
+    bubble.setAttribute('role', 'button');
+    bubble.setAttribute('tabindex', '0');
+    bubble.setAttribute('aria-label', `Watch ${labelText} video`);
+    bubble.innerHTML = `
+      <video class="mtm-video-bubble__video" src="${videoUrl}" poster="${posterUrl}" autoplay muted loop playsinline preload="metadata"></video>
+      <button type="button" class="mtm-video-bubble__close" aria-label="Close video preview">&times;</button>
+      <div class="mtm-video-bubble__caption">
+        <span class="mtm-video-bubble__playdot" aria-hidden="true">
+          <svg width="8" height="8" viewBox="0 0 12 12" fill="currentColor"><polygon points="3,1.5 10.5,6 3,10.5"/></svg>
+        </span>
+        <span>${labelText.replace(/</g, '&lt;')}</span>
+      </div>
+    `;
+    document.body.appendChild(bubble);
+
+    // Lightbox created on demand
+    let lightbox = null;
+    function openLightbox() {
+      if (!lightbox) {
+        lightbox = document.createElement('div');
+        lightbox.className = 'mtm-video-lightbox';
+        lightbox.setAttribute('role', 'dialog');
+        lightbox.setAttribute('aria-modal', 'true');
+        lightbox.setAttribute('aria-label', labelText);
+        lightbox.innerHTML = `
+          <div class="mtm-video-lightbox__card">
+            <button type="button" class="mtm-video-lightbox__close" aria-label="Close video">&times;</button>
+            <video class="mtm-video-lightbox__player" src="${videoUrl}" poster="${posterUrl}" controls playsinline></video>
+            <div class="mtm-video-lightbox__footer">
+              <h3 class="mtm-video-lightbox__title">${(settings.title || 'We Do Made-to-Measure').replace(/</g, '&lt;')}</h3>
+              <div class="mtm-video-lightbox__actions">
+                <button type="button" class="mtm-video-lightbox__btn mtm-video-lightbox__btn--primary js-mtm-open-guide">How to Measure &amp; Size Guide</button>
+                <a class="mtm-video-lightbox__btn mtm-video-lightbox__btn--wa" href="${waHref}" target="_blank" rel="noopener noreferrer">Book a Fitting on WhatsApp</a>
+              </div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(lightbox);
+
+        const closeLb = () => {
+          const v = lightbox.querySelector('video');
+          if (v) v.pause();
+          lightbox.classList.remove('is-open');
+        };
+
+        lightbox.addEventListener('click', (e) => {
+          if (e.target === lightbox || e.target.closest('.mtm-video-lightbox__close')) closeLb();
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && lightbox.classList.contains('is-open')) closeLb();
+        });
+        const guideBtn = lightbox.querySelector('.js-mtm-open-guide');
+        if (guideBtn) {
+          guideBtn.addEventListener('click', () => {
+            closeLb();
+            if (typeof window.openMadeToMeasureModal === 'function') {
+              window.openMadeToMeasureModal();
+            }
+          });
+        }
+      }
+
+      lightbox.classList.add('is-open');
+      const v = lightbox.querySelector('video');
+      if (v) {
+        v.muted = false;
+        v.currentTime = 0;
+        v.play().catch(() => { v.muted = true; v.play().catch(() => {}); });
+      }
+    }
+
+    const closeBtn = bubble.querySelector('.mtm-video-bubble__close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        try { sessionStorage.setItem(DISMISS_KEY, '1'); } catch (err) { }
+        const v = bubble.querySelector('video');
+        if (v) v.pause();
+        bubble.classList.remove('is-visible');
+        setTimeout(() => bubble.remove(), 350);
+      });
+    }
+
+    bubble.addEventListener('click', openLightbox);
+    bubble.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openLightbox();
+      }
+    });
+
+    // Slide in smoothly
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        bubble.classList.add('is-visible');
+        const v = bubble.querySelector('video');
+        if (v) v.play().catch(() => {});
+      });
+    });
+  }
+
+  getMtmSettings().then((settings) => {
+    const cfg = settings || {};
+    if (cfg.video_popup_enabled === false) return;
+
+    const isHome = path === '/' || path === '/index.html';
+    if (!isHome && cfg.video_popup_all_pages !== true) return;
+
+    const welcomeEl = document.getElementById('welcome-popup');
+    let welcomeSeen = false;
+    try { welcomeSeen = sessionStorage.getItem('helsinki_popup_seen') === '1'; } catch (e) { }
+
+    if (welcomeEl && !welcomeSeen) {
+      // Wait strictly until visitor closes the current welcome popup, then slide in gently
+      window.addEventListener('welcome-popup:closed', () => {
+        setTimeout(() => mountBubble(cfg), 1200);
+      }, { once: true });
+    } else {
+      setTimeout(() => mountBubble(cfg), 1200);
+    }
+  });
+}
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     renderContactCluster();
     renderFloatingCurrencyWidget();
+    initMadeToMeasureVideoBubble();
   });
 } else {
   renderContactCluster();
   renderFloatingCurrencyWidget();
+  initMadeToMeasureVideoBubble();
 }

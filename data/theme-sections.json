@@ -259,7 +259,7 @@
         "limit": 4,
         "heading": "Trending Now",
         "collection": "all",
-        "button_link": "shop.html",
+        "button_link": "/shop",
         "button_text": "View All Products"
       }
     },
@@ -269,7 +269,7 @@
       "settings": {
         "title": "Redefining African Elegance",
         "bg_image": "assets/IMG-20260622-WA0081.webp",
-        "button_link": "shop.html",
+        "button_link": "/shop",
         "button_text": "Explore the Collection",
         "description": "Discover our latest collection where traditional prints meet contemporary street style. Crafted for the modern individual."
       }
@@ -366,12 +366,12 @@
             "label": "Ankara"
           },
           {
-            "link": "/shop.html",
+            "link": "/shop",
             "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/WhatsApp_Image_2026-08-01_at_19_39_21-1785602537174.webp",
             "label": "Mary Humphrey Collection"
           },
           {
-            "link": "shop/mary-humphrey-home",
+            "link": "/shop/mary-humphrey-home",
             "image": "https://oscqakcygvvtjngbuhbw.supabase.co/storage/v1/object/public/products/homepage/WhatsApp_Image_2026-09-29_at_11_17_25-1790712354913.webp",
             "label": "Mary Humphrey Home"
           },

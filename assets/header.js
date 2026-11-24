@@ -705,7 +705,7 @@
                         </ol>
 
                         <div class="mtm-modal__cta-group">
-                            <a id="mtm-modal-wa-link" class="mtm-modal__btn mtm-modal__btn--primary" href="#" target="_blank" rel="noopener noreferrer">
+                            <a id="mtm-modal-wa-link" class="mtm-modal__btn mtm-modal__btn--primary" href="https://wa.me/254715687280?text=Hello%20Mary%20Humphrey%20African%20Wear!%20I%27d%20like%20to%20order%20a%20Made-to-Measure%20piece." target="_blank" rel="noopener noreferrer">
                                 💬 Chat with Our Tailor on WhatsApp
                             </a>
                             <button type="button" id="mtm-modal-secondary-btn" class="mtm-modal__btn mtm-modal__btn--secondary">

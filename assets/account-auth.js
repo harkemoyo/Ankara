@@ -459,9 +459,11 @@ async function initAccountAuth() {
   }
 
   // ── 7. Sign Out ───────────────────────────────────────────────────────────
-  const handleLogout = async () => {
+  const handleLogout = async (globalScope = false) => {
     if (supabase && supabase.auth) {
-      try { await supabase.auth.signOut(); } catch (e) {}
+      try {
+        await supabase.auth.signOut(globalScope ? { scope: 'global' } : undefined);
+      } catch (e) {}
     }
     localStorage.removeItem('mhw_user_session');
     currentEmail = '';
@@ -469,9 +471,11 @@ async function initAccountAuth() {
     renderState(null);
   };
 
-  if (btnLogout) btnLogout.addEventListener('click', handleLogout);
+  if (btnLogout) btnLogout.addEventListener('click', () => handleLogout(false));
   const btnProfileSignout = document.getElementById('btn-profile-signout');
-  if (btnProfileSignout) btnProfileSignout.addEventListener('click', handleLogout);
+  if (btnProfileSignout) btnProfileSignout.addEventListener('click', () => handleLogout(false));
+  const btnSignoutAll = document.getElementById('btn-signout-all');
+  if (btnSignoutAll) btnSignoutAll.addEventListener('click', () => handleLogout(true));
 }
 
 // Execute immediately if DOM is ready, otherwise listen for DOMContentLoaded

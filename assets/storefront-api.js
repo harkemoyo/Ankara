@@ -654,21 +654,29 @@ async function loadProductDetails() {
     // Load related products from same collection
     loadRelatedProducts(product);
 
-    // Setup Social Links (Instagram, Facebook, TikTok)
-    const socialUrls = window.ANKARA_SOCIAL || {
+    // Setup Share & Social Links (WhatsApp share + Instagram, Facebook, TikTok)
+    const waShareEl = document.getElementById('product-share-whatsapp');
+    if (waShareEl) {
+        const shareText = `Check out ${product.title} from Mary Humphrey Wear: ${window.location.href}`;
+        waShareEl.href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    }
+    const defaultSocials = {
         instagram: 'https://www.instagram.com/maryhumphreywear?igsh=OWQyNW84cmpzeXNn',
         facebook: 'https://www.facebook.com/profile.php?id=100077341767677',
         tiktok: 'https://www.tiktok.com/@maryhumphreyafricanwear'
     };
-    const shareLinks = document.querySelectorAll('.product-share-box a');
-    if (shareLinks.length >= 3) {
-        shareLinks[0].href = socialUrls.instagram;
-        shareLinks[0].target = '_blank';
-        shareLinks[1].href = socialUrls.facebook;
-        shareLinks[1].target = '_blank';
-        shareLinks[2].href = socialUrls.tiktok;
-        shareLinks[2].target = '_blank';
-    }
+    const liveSocials = window.ANKARA_SOCIAL || {};
+    document.querySelectorAll('.product-share-box a[data-social]').forEach(link => {
+        const key = link.dataset.social;
+        const candidate = (liveSocials[key] && liveSocials[key] !== '#') ? liveSocials[key] : defaultSocials[key];
+        if (candidate && candidate !== '#') {
+            link.href = candidate;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+        } else {
+            link.style.display = 'none';
+        }
+    });
 
     // Scroll listener for sticky buy bar
     window.addEventListener('scroll', () => {

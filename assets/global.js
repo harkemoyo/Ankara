@@ -1120,7 +1120,7 @@ const populateCollectionsMenu = async function () {
       .map((collection) => {
         const href =
           collection.handle === "all"
-            ? "shop.html"
+            ? "/shop"
             : `/shop/${encodeURIComponent(collection.handle)}`;
         return `<li class="${liClass}"><a class="${aClass}" href="${href}">${collection.title}</a></li>`;
       })

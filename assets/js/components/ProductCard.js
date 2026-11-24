@@ -167,8 +167,8 @@ export default class ProductCard {
                     swatch.classList.add('is-active');
                     
                     mainImg.src = swatchImgUrl;
-                    thumbnailLink.href = `/product/${product.handle}&color=${encodeURIComponent(color.label)}`;
-                    titleLink.href = `/product/${product.handle}&color=${encodeURIComponent(color.label)}`;
+                    thumbnailLink.href = `/product/${product.handle}?color=${encodeURIComponent(color.label)}`;
+                    titleLink.href = `/product/${product.handle}?color=${encodeURIComponent(color.label)}`;
                 });
 
                 if (index === 0) swatch.classList.add('is-active');

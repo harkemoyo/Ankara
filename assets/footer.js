@@ -2,7 +2,7 @@
 
 (function () {
     const FOOTER_JSON_URL = '/api/theme';
-    const FALLBACK_JSON_URL = 'data/theme-sections.json';
+    const FALLBACK_JSON_URL = '/data/theme-sections.json';
 
     const ICONS = {
         location: `<svg fill="none" height="16" stroke="currentColor" viewBox="0 0 24 24" width="16"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>`,
@@ -72,12 +72,18 @@
         const newsDesc = s.newsletter_desc || 'Subscribe to receive exclusive updates, new arrivals, and stories from the heart of African fashion.';
         const copyright = s.copyright || '© 2026 Mary Humphrey Wear. All Rights Reserved.';
 
-        // Render location list items
-        const locationItems = locations.map(loc => `
+        // Render location list items (if no Maps URL is set, render plain text instead of an empty link)
+        const locationItems = locations.filter(loc => loc && loc.name).map(loc => {
+            const locUrl = (loc.url || '').trim();
+            const hasUrl = locUrl && locUrl !== '#';
+            return `
                             <li class="footer__widget--contact__list--items">
                                 ${ICONS.location}
-                                <a href="${escapeHtml(loc.url)}" target="_blank" rel="noopener">${escapeHtml(loc.name)}</a>
-                            </li>`).join('');
+                                ${hasUrl
+                                    ? `<a href="${escapeHtml(locUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(loc.name)}</a>`
+                                    : `<span>${escapeHtml(loc.name)}</span>`}
+                            </li>`;
+        }).join('');
 
         // Render one map per location
         const mapItems = locations.map(loc => {
@@ -168,7 +174,7 @@
                             ${ICONS.arrowDown}
                         </h2>
                         <ul class="footer__widget--menu footer__widget--inner">
-                            ${sortedCollectionLinks.map(l => `<li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="${escapeHtml(l.url)}">${escapeHtml(l.label)}</a></li>`).join('')}
+                            ${sortedCollectionLinks.filter(l => l && l.label && l.url && l.url.trim() !== '' && l.url.trim() !== '#').map(l => `<li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="${escapeHtml(l.url.trim())}">${escapeHtml(l.label)}</a></li>`).join('')}
                         </ul>
                     </div>
                 </div>
@@ -181,7 +187,7 @@
                             ${ICONS.arrowDown}
                         </h2>
                         <ul class="footer__widget--menu footer__widget--inner">
-                            ${quickLinks.map(l => `<li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="${escapeHtml(l.url)}">${escapeHtml(l.label)}</a></li>`).join('')}
+                            ${quickLinks.filter(l => l && l.label && l.url && l.url.trim() !== '' && l.url.trim() !== '#').map(l => `<li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="${escapeHtml(l.url.trim())}">${escapeHtml(l.label)}</a></li>`).join('')}
                         </ul>
                     </div>
                 </div>

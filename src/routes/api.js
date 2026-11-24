@@ -1,14 +1,42 @@
 const express = require('express');
+const crypto = require('crypto');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const { initCheckout, initMpesaCheckout, paystackWebhook } = require('../controllers/checkoutController');
 const { getOrder } = require('../controllers/orderController');
 const { updateOrderStatus } = require('../controllers/adminController');
-const { orderLookupLimiter } = require('../middleware/rateLimit');
+const {
+    orderLookupLimiter,
+    checkoutLimiter,
+    contactLimiter,
+    newsletterLimiter,
+    measurementLimiter,
+} = require('../middleware/rateLimit');
 const { supabaseAdmin } = require('../config/supabase');
 
-const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
+const ALLOWED_IMAGE_MIMES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif']);
+const ALLOWED_VIDEO_MIMES = {
+    'video/mp4': 'mp4',
+    'video/webm': 'webm',
+    'video/quicktime': 'mov',
+};
+
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter: (_req, file, cb) => {
+        const mime = String(file.mimetype || '').toLowerCase();
+        if (ALLOWED_IMAGE_MIMES.has(mime) || Object.prototype.hasOwnProperty.call(ALLOWED_VIDEO_MIMES, mime)) {
+            return cb(null, true);
+        }
+        const err = new Error('Unsupported file type. Only JPG, PNG, WebP, GIF, AVIF, MP4, WebM, and MOV files are allowed.');
+        err.statusCode = 400;
+        return cb(err);
+    }
+});
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const router = express.Router();
 const productController = require('../controllers/productController');
@@ -30,14 +58,19 @@ async function requireAdmin(req, res, next) {
     }
 }
 
-// Admin secret middleware for server-to-server calls
+// Admin secret middleware for server-to-server calls (constant-time compare)
 function requireAdminSecret(req, res, next) {
     const secret = req.headers['x-admin-secret'];
     const expected = process.env.ADMIN_SECRET;
     if (!expected) {
         return res.status(500).json({ error: 'Admin secret not configured' });
     }
-    if (!secret || secret !== expected) {
+    if (!secret || typeof secret !== 'string') {
+        return res.status(401).json({ error: 'Unauthorized: invalid admin secret' });
+    }
+    const secretBuf = Buffer.from(secret, 'utf8');
+    const expectedBuf = Buffer.from(expected, 'utf8');
+    if (secretBuf.length !== expectedBuf.length || !crypto.timingSafeEqual(secretBuf, expectedBuf)) {
         return res.status(401).json({ error: 'Unauthorized: invalid admin secret' });
     }
     next();
@@ -84,27 +117,36 @@ async function processImageToWebpUnder100KB(buffer) {
     }
 }
 
-// Trigger redeployment with updated Vercel environment variables
-// Homepage image upload — stores in Supabase Storage products/homepage/
-router.post('/upload/homepage', requireAdmin, upload.single('file'), async (req, res) => {
+// Homepage image/video upload — stores in Supabase Storage products/homepage/
+router.post('/upload/homepage', requireAdmin, (req, res, next) => {
+    upload.single('file')(req, res, (err) => {
+        if (err) {
+            const status = err.statusCode || (err.code === 'LIMIT_FILE_SIZE' ? 413 : 400);
+            return res.status(status).json({ error: err.message || 'Invalid file upload' });
+        }
+        next();
+    });
+}, async (req, res) => {
     try {
         if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-        const baseName = req.file.originalname.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
-        const isVideo = req.file.mimetype && req.file.mimetype.startsWith('video/');
+        const mime = String(req.file.mimetype || '').toLowerCase();
+        const baseName = req.file.originalname.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 80) || 'media';
+        const videoExt = ALLOWED_VIDEO_MIMES[mime];
 
         let uploadBuffer, fileName, contentType;
 
-        if (isVideo) {
-            // Upload video as-is (no conversion)
-            const ext = req.file.originalname.match(/\.([^.]+)$/)?.[1] || 'mp4';
-            fileName = `homepage/${baseName}-${Date.now()}.${ext}`;
+        if (videoExt) {
+            // Upload whitelisted video with safe MIME-derived extension
+            fileName = `homepage/${baseName}-${Date.now()}.${videoExt}`;
             uploadBuffer = req.file.buffer;
-            contentType = req.file.mimetype || 'video/mp4';
-        } else {
+            contentType = mime;
+        } else if (ALLOWED_IMAGE_MIMES.has(mime)) {
             // Automatically convert to WebP and ensure file size is under 100KB
             fileName = `homepage/${baseName}-${Date.now()}.webp`;
             uploadBuffer = await processImageToWebpUnder100KB(req.file.buffer);
             contentType = 'image/webp';
+        } else {
+            return res.status(400).json({ error: 'Unsupported file type' });
         }
 
         const { error: uploadError } = await supabaseAdmin.storage
@@ -118,48 +160,49 @@ router.post('/upload/homepage', requireAdmin, upload.single('file'), async (req,
         res.json({ url: urlData.publicUrl, fileName, sizeBytes: uploadBuffer.length });
     } catch (error) {
         console.error('Homepage upload error:', error);
-        res.status(500).json({ error: 'Failed to upload file', message: error.message || String(error) });
+        res.status(500).json({ error: 'Failed to upload file' });
     }
 });
 
-// Permanently purge a section from HTML, JS, and theme JSON
+// Permanently purge a section from HTML, JS (local dev only), and theme JSON
 router.delete('/section-purge/:key', requireAdmin, async (req, res) => {
     const key = req.params.key;
     if (!key || /[^a-z0-9_-]/.test(key)) return res.status(400).json({ error: 'Invalid section key' });
     const rootDir = path.join(__dirname, '..', '..');
     const results = { html: false, js: false, theme: false };
+    const allowDiskMutation = !process.env.VERCEL && process.env.NODE_ENV !== 'production';
 
-    // 1. Remove from index.html
-    try {
-        const indexPath = path.join(rootDir, 'index.html');
-        let html = fs.readFileSync(indexPath, 'utf-8');
-        const sectionRegex = new RegExp(
-            `([ \\t]*<!--[^>]*?-->\\s*)?<section[^>]*data-section-id="${key}"[^>]*>[\\s\\S]*?<\\/section>\\s*`,
-            'i'
-        );
-        const newHtml = html.replace(sectionRegex, '');
-        if (newHtml !== html) {
-            fs.writeFileSync(indexPath, newHtml, 'utf-8');
-            results.html = true;
-        }
-    } catch (e) { console.error('Purge HTML error:', e.message); }
+    if (allowDiskMutation) {
+        // 1. Remove from index.html (local dev only)
+        try {
+            const indexPath = path.join(rootDir, 'index.html');
+            let html = fs.readFileSync(indexPath, 'utf-8');
+            const sectionRegex = new RegExp(
+                `([ \\t]*<!--[^>]*?-->\\s*)?<section[^>]*data-section-id="${key}"[^>]*>[\\s\\S]*?<\\/section>\\s*`,
+                'i'
+            );
+            const newHtml = html.replace(sectionRegex, '');
+            if (newHtml !== html) {
+                fs.writeFileSync(indexPath, newHtml, 'utf-8');
+                results.html = true;
+            }
+        } catch (e) { console.error('Purge HTML error:', e.message); }
 
-    // 2. Remove updater from homepage-sections.js
-    try {
-        const jsPath = path.join(rootDir, 'assets', 'homepage-sections.js');
-        let js = fs.readFileSync(jsPath, 'utf-8');
-        // Match the updater: "  key(el, settings) { ... }," or "  key(el, settings) { ... }\n"
-        // We look for the function in the updaters object
-        const fnRegex = new RegExp(
-            `\\n  ${key}\\(el,\\s*settings\\)\\s*\\{[\\s\\S]*?\\n  \\},?\\n`,
-            ''
-        );
-        const newJs = js.replace(fnRegex, '\n');
-        if (newJs !== js) {
-            fs.writeFileSync(jsPath, newJs, 'utf-8');
-            results.js = true;
-        }
-    } catch (e) { console.error('Purge JS error:', e.message); }
+        // 2. Remove updater from homepage-sections.js (local dev only)
+        try {
+            const jsPath = path.join(rootDir, 'assets', 'homepage-sections.js');
+            let js = fs.readFileSync(jsPath, 'utf-8');
+            const fnRegex = new RegExp(
+                `\\n  ${key}\\(el,\\s*settings\\)\\s*\\{[\\s\\S]*?\\n  \\},?\\n`,
+                ''
+            );
+            const newJs = js.replace(fnRegex, '\n');
+            if (newJs !== js) {
+                fs.writeFileSync(jsPath, newJs, 'utf-8');
+                results.js = true;
+            }
+        } catch (e) { console.error('Purge JS error:', e.message); }
+    }
 
     // 3. Remove from theme JSON (Supabase + file)
     try {
@@ -226,24 +269,24 @@ router.get('/size-charts/:id', async (req, res) => {
     }
 });
 
-router.post('/customer-measurements', async (req, res) => {
+router.post('/customer-measurements', measurementLimiter, async (req, res) => {
     try {
-        const { guest_cart_id, product_id, measurements, note } = req.body;
-        if (!guest_cart_id || !product_id || !measurements) {
+        const { guest_cart_id, product_id, measurements, note } = req.body || {};
+        if (!guest_cart_id || !product_id || !measurements || typeof measurements !== 'object') {
             return res.status(400).json({ error: 'Missing required fields' });
         }
         const { data, error } = await supabaseAdmin
             .from('customer_measurements')
             .insert({
-                guest_cart_id,
+                guest_cart_id: String(guest_cart_id).trim().slice(0, 120),
                 product_id,
                 measurements,
-                note: note || null
+                note: note ? String(note).trim().slice(0, 1000) : null
             })
             .select();
         if (error) {
             console.error('Error inserting customer measurements:', error.message);
-            return res.status(400).json({ error: error.message });
+            return res.status(400).json({ error: 'Could not save measurements' });
         }
         res.status(201).json({ success: true, data });
     } catch (error) {
@@ -695,8 +738,8 @@ router.delete('/pages/:slug', requireAdmin, async (req, res) => {
 });
 
 // Checkout & Order routes
-router.post('/checkout/init', initCheckout);
-router.post('/checkout/mpesa', initMpesaCheckout);
+router.post('/checkout/init', checkoutLimiter, initCheckout);
+router.post('/checkout/mpesa', checkoutLimiter, initMpesaCheckout);
 router.post('/payments/paystack/webhook', paystackWebhook);
 router.post('/webhooks/paystack', paystackWebhook);
 router.get('/orders/:order_number', orderLookupLimiter, getOrder);
@@ -744,18 +787,29 @@ router.post('/admin/notifications/test-whatsapp', requireAdmin, async (req, res)
 
 // Contact Inquiry Route
 const emailService = require('../services/emailService');
-router.post('/contact', async (req, res) => {
-    const { name, email, subject, message } = req.body;
-    if (!name || !email || !message) {
+router.post('/contact', contactLimiter, async (req, res) => {
+    const rawName = String(req.body?.name || '').trim();
+    const rawEmail = String(req.body?.email || '').trim().toLowerCase();
+    const rawSubject = String(req.body?.subject || '').trim().slice(0, 200);
+    const rawMessage = String(req.body?.message || '').trim();
+
+    if (!rawName || !rawEmail || !rawMessage) {
         return res.status(400).json({ error: 'Name, email, and message are required' });
     }
+    if (rawEmail.length > 254 || !EMAIL_REGEX.test(rawEmail)) {
+        return res.status(400).json({ error: 'Please provide a valid email address' });
+    }
+    if (rawName.length > 120 || rawMessage.length > 5000) {
+        return res.status(400).json({ error: 'Message or name exceeds maximum allowed length' });
+    }
+
     try {
         // Store in Supabase contact_messages
         const { error: dbErr } = await supabaseAdmin.from('contact_messages').insert({
-            name: name.trim(),
-            email: email.trim().toLowerCase(),
-            subject: (subject || '').trim(),
-            message: message.trim(),
+            name: rawName,
+            email: rawEmail,
+            subject: rawSubject,
+            message: rawMessage,
             status: 'new',
             is_read: false,
             created_at: new Date().toISOString()
@@ -765,7 +819,7 @@ router.post('/contact', async (req, res) => {
         // Also upsert into customers table
         try {
             await supabaseAdmin.from('customers').upsert([
-                { email: email.trim().toLowerCase(), full_name: name.trim() }
+                { email: rawEmail, full_name: rawName }
             ], { onConflict: 'email' });
         } catch (custErr) {
             console.log('Customer upsert note:', custErr.message);
@@ -774,8 +828,8 @@ router.post('/contact', async (req, res) => {
         console.error('Failed to store contact message:', e.message);
     }
     // Send email notification and auto-reply (non-blocking)
-    emailService.sendContactFormNotification(name, email, subject, message);
-    emailService.sendContactAutoReply(name, email, subject, message);
+    emailService.sendContactFormNotification(rawName, rawEmail, rawSubject, rawMessage);
+    emailService.sendContactAutoReply(rawName, rawEmail, rawSubject, rawMessage);
     res.json({ success: true, message: 'Message sent successfully' });
 });
 
@@ -831,16 +885,16 @@ router.delete('/admin/messages/:id', requireAdmin, async (req, res) => {
 });
 
 // Newsletter Subscription Route
-router.post('/newsletter/subscribe', async (req, res) => {
-    const { email } = req.body;
-    if (!email) {
-        return res.status(400).json({ error: 'Email is required' });
+router.post('/newsletter/subscribe', newsletterLimiter, async (req, res) => {
+    const cleanEmail = String(req.body?.email || '').trim().toLowerCase();
+    if (!cleanEmail || cleanEmail.length > 254 || !EMAIL_REGEX.test(cleanEmail)) {
+        return res.status(400).json({ error: 'A valid email address is required' });
     }
     try {
         try {
             // Store in Supabase subscribers table (if exists)
             await supabaseAdmin.from('subscribers').upsert([
-                { email, accepts_marketing: true, subscribed_at: new Date().toISOString() }
+                { email: cleanEmail, accepts_marketing: true, subscribed_at: new Date().toISOString() }
             ], { onConflict: 'email' });
         } catch (dbErr) {
             console.log('Subscribers table might not exist, skipping...');
@@ -849,14 +903,14 @@ router.post('/newsletter/subscribe', async (req, res) => {
         try {
             // Also save to customers table (as a lead/prospect)
             await supabaseAdmin.from('customers').upsert([
-                { email, accepts_marketing: true }
+                { email: cleanEmail, accepts_marketing: true }
             ], { onConflict: 'email' });
         } catch (dbErr) {
             console.log('Customers table insert failed:', dbErr.message);
         }
 
         // Send email
-        emailService.sendNewsletterWelcomeEmail(email);
+        emailService.sendNewsletterWelcomeEmail(cleanEmail);
 
         res.json({ success: true, message: 'Subscribed successfully' });
     } catch (e) {

@@ -28,16 +28,45 @@ if (missingEnv.length > 0) {
 }
 
 const app = express();
+app.set('trust proxy', 1);
+app.disable('x-powered-by');
+
+// Basic security headers matching production
+app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    next();
+});
 
 // Middleware — capture raw body for Paystack webhook signature verification
 app.use(cors());
 app.use(express.json({
+    limit: '2mb',
     verify: (req, res, buf) => { req.rawBody = buf.toString(); }
 }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, limit: '2mb' }));
+
+// Block accidental exposure of private server files, dotfiles, and SQL scripts in local dev
+app.use((req, res, next) => {
+    const p = req.path.toLowerCase();
+    if (
+        p.startsWith('/src/') ||
+        p.startsWith('/migrations/') ||
+        p.startsWith('/node_modules/') ||
+        p.startsWith('/supabase/') ||
+        p.includes('/.env') ||
+        p.includes('/.git') ||
+        p.endsWith('.sql')
+    ) {
+        return res.status(404).sendFile(path.join(__dirname, '404.html'));
+    }
+    next();
+});
 
 // Serve static assets and HTML files from the root folder
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname), { dotfiles: 'deny' }));
 
 // API Routes — all requests to /api/* are handled here
 app.use('/api', apiRoutes);

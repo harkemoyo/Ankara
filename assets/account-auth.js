@@ -2,6 +2,15 @@
 
 import { supabase } from './supabase-client.js';
 
+function escapeHtml(str) {
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 async function initAccountAuth() {
   // Views
   const stepEmailView = document.getElementById('auth-step-email');
@@ -138,22 +147,22 @@ async function initAccountAuth() {
               <div class="account-order-card" style="background:#fff; border:1px solid #E8E0D8; border-radius:12px; padding:2rem; margin-bottom:1.5rem; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
                 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f0e6dd; padding-bottom:1.2rem; margin-bottom:1.2rem;">
                   <div>
-                    <span style="font-weight:700; font-size:1.6rem; color:#3C3836;">${order.order_number || 'ORD-' + order.id.slice(0, 6)}</span>
-                    <span style="margin-left:1rem; color:#888; font-size:1.3rem;">${dateStr}</span>
+                    <span style="font-weight:700; font-size:1.6rem; color:#3C3836;">${escapeHtml(order.order_number || 'ORD-' + String(order.id || '').slice(0, 6))}</span>
+                    <span style="margin-left:1rem; color:#888; font-size:1.3rem;">${escapeHtml(dateStr)}</span>
                   </div>
                   <span style="padding:0.4rem 1.2rem; border-radius:20px; font-size:1.2rem; font-weight:600; text-transform:uppercase; background:${statusClass === 'paid' || statusClass === 'fulfilled' ? '#e6f4ea' : '#fff3e0'}; color:${statusClass === 'paid' || statusClass === 'fulfilled' ? '#1e7e34' : '#e65100'};">
-                    ${(order.status || 'pending').replace('_', ' ')}
+                    ${escapeHtml((order.status || 'pending').replace(/_/g, ' '))}
                   </span>
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                   <div style="display:flex; gap:1rem; align-items:center;">
                     ${items.slice(0, 3).map(item => `
-                      <img src="${item.image || 'assets/IMG-20260622-WA0082.webp'}" alt="${item.product_title || 'Item'}" style="width:50px; height:50px; object-fit:cover; border-radius:6px; border:1px solid #eee;">
+                      <img src="${escapeHtml(item.image || 'assets/IMG-20260622-WA0082.webp')}" alt="${escapeHtml(item.product_title || 'Item')}" style="width:50px; height:50px; object-fit:cover; border-radius:6px; border:1px solid #eee;">
                     `).join('')}
                     ${items.length > 3 ? `<span style="color:#666; font-size:1.2rem;">+${items.length - 3} more</span>` : ''}
                   </div>
                   <div style="text-align:right;">
-                    <div style="font-size:1.7rem; font-weight:700; color:#800020;">${formattedTotal}</div>
+                    <div style="font-size:1.7rem; font-weight:700; color:#800020;">${escapeHtml(formattedTotal)}</div>
                     <div style="font-size:1.2rem; color:#666;">${itemsCount} ${itemsCount === 1 ? 'item' : 'items'}</div>
                   </div>
                 </div>
@@ -286,7 +295,7 @@ async function initAccountAuth() {
         otpStatusMsg.style.borderRadius = '8px';
         otpStatusMsg.style.marginTop = '1rem';
         otpStatusMsg.style.fontSize = '1.35rem';
-        otpStatusMsg.innerHTML = `✉️ <b>Sign-in email sent!</b><br/>Click the <b>Sign in</b> link sent to <b>${currentEmail}</b>, or click <b>Sign In Instantly</b> below to enter your portal.`;
+        otpStatusMsg.innerHTML = `✉️ <b>Sign-in email sent!</b><br/>Click the <b>Sign in</b> link sent to <b>${escapeHtml(currentEmail)}</b>, or click <b>Sign In Instantly</b> below to enter your portal.`;
       }
 
       if (submitBtn) {
@@ -415,8 +424,8 @@ async function initAccountAuth() {
     addressesContainer.innerHTML = addresses.map((addr, index) => `
       <div class="profile__info--box" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; padding:1.2rem 1.6rem; border:1px solid #E8E0D8; border-radius:8px;">
         <div>
-          <div style="font-weight:600; font-size:1.4rem; color:#3C3836;">${addr.address1}${addr.address2 ? ', ' + addr.address2 : ''}</div>
-          <div style="font-size:1.3rem; color:#666;">${addr.city}, ${addr.postcode || ''} ${addr.country || 'KE'}</div>
+          <div style="font-weight:600; font-size:1.4rem; color:#3C3836;">${escapeHtml(addr.address1)}${addr.address2 ? ', ' + escapeHtml(addr.address2) : ''}</div>
+          <div style="font-size:1.3rem; color:#666;">${escapeHtml(addr.city)}, ${escapeHtml(addr.postcode || '')} ${escapeHtml(addr.country || 'KE')}</div>
         </div>
         <button type="button" onclick="deleteUserAddress(${index})" style="background:none; border:none; color:#c0392b; cursor:pointer; font-size:1.3rem; font-weight:600;">Delete</button>
       </div>

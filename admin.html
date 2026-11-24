@@ -2737,14 +2737,23 @@
       setTimeout(() => el.className = 'toast', 3000);
     }
 
-    // ── AUTH ──
+    // ── AUTH (strictly enforce app_metadata.role === 'admin') ──
+    function isAdminUser(user) {
+      return Boolean(user && user.app_metadata && user.app_metadata.role === 'admin');
+    }
+
     async function doLogin() {
-      const email = document.getElementById('login-email').value;
+      const email = document.getElementById('login-email').value.trim();
       const password = document.getElementById('login-password').value;
       const errEl = document.getElementById('login-error');
       errEl.textContent = '';
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) { errEl.textContent = error.message; return; }
+      if (!isAdminUser(data.user)) {
+        await supabase.auth.signOut();
+        errEl.textContent = 'Access denied: this account does not have admin privileges. Ask the store owner to grant the admin role in Supabase.';
+        return;
+      }
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('admin-user-email').textContent = data.user.email;
       loadDashboard();
@@ -2756,9 +2765,15 @@
       document.getElementById('login-screen').style.display = 'flex';
     };
 
-    // Check if already logged in
-    supabase.auth.getUser().then(({ data }) => {
-      if (data.user) {
+    // Check if already logged in (and verify admin role)
+    supabase.auth.getUser().then(async ({ data }) => {
+      if (data?.user) {
+        if (!isAdminUser(data.user)) {
+          await supabase.auth.signOut();
+          const errEl = document.getElementById('login-error');
+          if (errEl) errEl.textContent = 'Access denied: admin privileges are required.';
+          return;
+        }
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('admin-user-email').textContent = data.user.email;
         loadDashboard();

@@ -17,16 +17,21 @@ class PaymentService {
     }
 
     /**
-     * Verify Paystack Webhook HMAC SHA512 Signature
+     * Verify Paystack Webhook HMAC SHA512 Signature (constant-time)
      */
     verifySignature(rawBody, headerSignature) {
-        if (!this.webhookSecret || !headerSignature) return false;
+        const secret = process.env.PAYSTACK_SECRET_KEY || this.webhookSecret;
+        if (!secret || !headerSignature || typeof headerSignature !== 'string') return false;
         try {
-            const hash = crypto
-                .createHmac('sha512', this.webhookSecret)
-                .update(typeof rawBody === 'string' ? rawBody : JSON.stringify(rawBody))
+            const payload = typeof rawBody === 'string' ? rawBody : JSON.stringify(rawBody);
+            const expectedHash = crypto
+                .createHmac('sha512', secret)
+                .update(payload)
                 .digest('hex');
-            return hash === headerSignature;
+            const expectedBuf = Buffer.from(expectedHash, 'utf8');
+            const receivedBuf = Buffer.from(headerSignature.trim().toLowerCase(), 'utf8');
+            if (expectedBuf.length !== receivedBuf.length) return false;
+            return crypto.timingSafeEqual(expectedBuf, receivedBuf);
         } catch (err) {
             console.error('[PaymentService] Signature verification error:', err.message);
             return false;
@@ -37,8 +42,8 @@ class PaymentService {
      * Process Paystack Webhook Event with Full Idempotency & Amount Verification
      */
     async handleWebhook(eventData, signature, rawBody) {
-        // 1. Signature Verification
-        if (signature && !this.verifySignature(rawBody || eventData, signature)) {
+        // 1. Mandatory Signature Verification — reject missing or invalid signatures
+        if (!signature || !this.verifySignature(rawBody || eventData, signature)) {
             const err = new Error('Unauthorized Paystack webhook signature');
             err.statusCode = 401;
             throw err;
@@ -100,7 +105,7 @@ class PaymentService {
         const expectedTotal = parseFloat(order.total);
         const tolerance = 0.50; // Currency conversion margin
 
-        if (Math.abs(paystackPaidAmount - expectedTotal) > tolerance) {
+        if (!Number.isFinite(paystackPaidAmount) || paystackPaidAmount <= 0 || !Number.isFinite(expectedTotal) || Math.abs(paystackPaidAmount - expectedTotal) > tolerance) {
             console.error(`[PaymentService] Amount mismatch for Order #${reference}: Paystack=${paystackPaidAmount}, Expected=${expectedTotal}`);
             await supabaseAdmin
                 .from('orders')

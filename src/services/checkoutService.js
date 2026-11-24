@@ -30,18 +30,182 @@ async function getOrderCurrency() {
     }
 }
 
-async function initializeCheckout(cart, customer, req) {
+function createHttpError(message, statusCode = 400) {
+    const err = new Error(message);
+    err.statusCode = statusCode;
+    return err;
+}
+
+function validateCustomer(customer) {
+    const email = String(customer?.email || '').trim().toLowerCase();
+    const name = String(customer?.name || '').trim();
+    if (!email || !name) {
+        throw createHttpError('Customer email and name are required', 400);
+    }
+    if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        throw createHttpError('Please enter a valid email address', 400);
+    }
+    if (name.length > 120) {
+        throw createHttpError('Customer name is too long', 400);
+    }
+    return {
+        ...customer,
+        email,
+        name,
+        phone: customer?.phone ? String(customer.phone).trim().slice(0, 40) : null
+    };
+}
+
+/**
+ * Resolve every cart item against authoritative product prices in Supabase.
+ * Prevents client-side price tampering and negative/invalid quantities.
+ */
+async function resolveVerifiedCartItems(cart) {
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
-        throw new Error('Missing cart');
+        throw createHttpError('Missing cart', 400);
     }
-    if (!customer?.email || !customer?.name) {
-        throw new Error('Customer email and name are required');
+    if (cart.length > 50) {
+        throw createHttpError('Cart exceeds maximum allowed items', 400);
     }
+
+    const handles = Array.from(new Set(
+        cart
+            .map(item => String(item?.id || item?.handle || '').trim())
+            .filter(Boolean)
+    ));
+    const numericIds = Array.from(new Set(
+        cart
+            .map(item => Number(item?.product_id))
+            .filter(id => Number.isInteger(id) && id > 0)
+    ));
+
+    if (handles.length === 0 && numericIds.length === 0) {
+        throw createHttpError('Cart contains invalid items', 400);
+    }
+
+    const byHandle = new Map();
+    const byId = new Map();
+
+    if (handles.length > 0) {
+        const { data: handleProducts, error } = await supabaseAdmin
+            .from('products')
+            .select('id, handle, title, price, images, in_stock, status')
+            .in('handle', handles);
+        if (error) {
+            console.error('[Checkout] Product lookup by handle failed:', error.message);
+            throw createHttpError('Unable to verify product prices right now', 500);
+        }
+        for (const p of (handleProducts || [])) {
+            byHandle.set(String(p.handle).toLowerCase(), p);
+            byId.set(p.id, p);
+        }
+    }
+
+    const missingNumericIds = numericIds.filter(id => !byId.has(id));
+    if (missingNumericIds.length > 0) {
+        const { data: idProducts, error } = await supabaseAdmin
+            .from('products')
+            .select('id, handle, title, price, images, in_stock, status')
+            .in('id', missingNumericIds);
+        if (!error && idProducts) {
+            for (const p of idProducts) {
+                byHandle.set(String(p.handle).toLowerCase(), p);
+                byId.set(p.id, p);
+            }
+        }
+    }
+
+    // Optional variant-level pricing lookup (when product_variants defines an override price)
+    const variantsByProductId = new Map();
+    const matchedProductIds = Array.from(byId.keys());
+    if (matchedProductIds.length > 0) {
+        try {
+            const { data: variants } = await supabaseAdmin
+                .from('product_variants')
+                .select('product_id, title, option1, option2, price')
+                .in('product_id', matchedProductIds);
+            for (const v of (variants || [])) {
+                if (!variantsByProductId.has(v.product_id)) {
+                    variantsByProductId.set(v.product_id, []);
+                }
+                variantsByProductId.get(v.product_id).push(v);
+            }
+        } catch (_) {
+            // product_variants table may be empty or optional — base product price is used
+        }
+    }
+
+    const verifiedItems = [];
+    for (const item of cart) {
+        const rawHandle = String(item?.id || item?.handle || '').trim();
+        const rawQty = Number(item?.qty ?? 1);
+        if (!Number.isInteger(rawQty) || rawQty < 1 || rawQty > 99) {
+            throw createHttpError('Invalid item quantity. Quantity must be between 1 and 99.', 400);
+        }
+
+        const dbProduct =
+            (rawHandle && byHandle.get(rawHandle.toLowerCase())) ||
+            (Number.isInteger(Number(item?.product_id)) && byId.get(Number(item.product_id))) ||
+            null;
+
+        if (!dbProduct || dbProduct.status === 'archived') {
+            throw createHttpError(
+                `Product "${item?.title || rawHandle || 'item'}" is no longer available. Please refresh your cart.`,
+                400
+            );
+        }
+
+        const sizeStr = item?.size ? String(item.size).trim().slice(0, 40) : null;
+        const colorStr = item?.color ? String(item.color).trim().slice(0, 60) : null;
+
+        let unitPrice = parseFloat(dbProduct.price);
+        const productVariants = variantsByProductId.get(dbProduct.id) || [];
+        if (productVariants.length > 0 && (sizeStr || colorStr)) {
+            const matchedVariant = productVariants.find(v => {
+                const vPrice = parseFloat(v.price);
+                if (!Number.isFinite(vPrice) || vPrice <= 0) return false;
+                const opts = [v.title, v.option1, v.option2].filter(Boolean).map(s => String(s).toLowerCase());
+                const sizeMatch = !sizeStr || opts.some(o => o === sizeStr.toLowerCase() || o.includes(sizeStr.toLowerCase()));
+                const colorMatch = !colorStr || opts.some(o => o === colorStr.toLowerCase() || o.includes(colorStr.toLowerCase()));
+                return sizeMatch && colorMatch;
+            });
+            if (matchedVariant && parseFloat(matchedVariant.price) > 0) {
+                unitPrice = parseFloat(matchedVariant.price);
+            }
+        }
+
+        if (!Number.isFinite(unitPrice) || unitPrice <= 0) {
+            throw createHttpError(`Invalid price configuration for "${dbProduct.title}".`, 400);
+        }
+
+        const dbImage = Array.isArray(dbProduct.images) && dbProduct.images.length > 0
+            ? dbProduct.images[0]
+            : null;
+
+        verifiedItems.push({
+            product_id: dbProduct.id,
+            product_handle: dbProduct.handle,
+            product_title: dbProduct.title,
+            variant_size: sizeStr,
+            variant_color: colorStr,
+            unit_price: unitPrice,
+            quantity: rawQty,
+            image: (item?.image && String(item.image).slice(0, 500)) || dbImage || null,
+            made_to_measure: Boolean(item?.madeToMeasure)
+        });
+    }
+
+    const subtotal = verifiedItems.reduce((sum, i) => sum + (i.unit_price * i.quantity), 0);
+    return { verifiedItems, subtotal };
+}
+
+async function initializeCheckout(cart, customer, req) {
+    const cleanCustomer = validateCustomer(customer);
+    const { verifiedItems, subtotal } = await resolveVerifiedCartItems(cart);
 
     // Normalized ISO currency code (settings.currency stores a display symbol, e.g. "KSh")
     const orderCurrency = await getOrderCurrency();
 
-    const subtotal = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.qty), 0);
     // Shipping is free — must match what checkout.html displays to the customer
     const shippingCost = 0;
     const total = subtotal + shippingCost;
@@ -53,16 +217,16 @@ async function initializeCheckout(cart, customer, req) {
         .insert({
             order_number: '', // Trigger populates this
             status: 'pending',
-            customer_email: customer.email.toLowerCase().trim(),
-            customer_name: customer.name.trim(),
-            customer_phone: customer.phone || null,
-            customer_user_id: customer.user_id || null,
+            customer_email: cleanCustomer.email,
+            customer_name: cleanCustomer.name,
+            customer_phone: cleanCustomer.phone,
+            customer_user_id: cleanCustomer.user_id || null,
             shipping_address: {
-                address1: customer.address1 || '',
-                address2: customer.address2 || '',
-                city: customer.city || '',
-                postcode: customer.postcode || '',
-                country: customer.country || 'KE',
+                address1: String(cleanCustomer.address1 || '').slice(0, 200),
+                address2: String(cleanCustomer.address2 || '').slice(0, 200),
+                city: String(cleanCustomer.city || '').slice(0, 100),
+                postcode: String(cleanCustomer.postcode || '').slice(0, 40),
+                country: String(cleanCustomer.country || 'KE').slice(0, 10),
             },
             subtotal,
             shipping_cost: shippingCost,
@@ -79,18 +243,10 @@ async function initializeCheckout(cart, customer, req) {
         throw new Error('Order could not be created');
     }
 
-    // 2. Insert order items
-    const orderItems = cart.map(item => ({
+    // 2. Insert verified order items
+    const orderItems = verifiedItems.map(item => ({
         order_id: order.id,
-        product_id: item.product_id || null,
-        product_handle: item.id || item.handle || '',
-        product_title: item.title,
-        variant_size: item.size || null,
-        variant_color: item.color || null,
-        unit_price: parseFloat(item.price),
-        quantity: parseInt(item.qty) || 1,
-        image: item.image || null,
-        made_to_measure: item.madeToMeasure || false,
+        ...item
     }));
 
     const { error: itemsError } = await supabaseAdmin
@@ -104,8 +260,8 @@ async function initializeCheckout(cart, customer, req) {
     }
 
     // 3. Build callback URL for Paystack redirect after payment
-    const baseUrl = process.env.BASE_URL || `${req?.protocol || 'http'}://${req?.get?.('host') || 'localhost:3000'}`;
-    const callback_url = `${baseUrl}/thank-you.html?order=${encodeURIComponent(order.order_number)}&email=${encodeURIComponent(customer.email)}`;
+    const baseUrl = process.env.BASE_URL || `${req?.protocol || 'https'}://${req?.get?.('host') || 'maryhumphreywear.org'}`;
+    const callback_url = `${baseUrl}/thank-you.html?order=${encodeURIComponent(order.order_number)}&email=${encodeURIComponent(cleanCustomer.email)}`;
 
     // 4. Initialize Paystack Transaction
     // Paystack reserves a reference permanently, so reusing an order number that was
@@ -123,7 +279,7 @@ async function initializeCheckout(cart, customer, req) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email: customer.email,
+                email: cleanCustomer.email,
                 amount: amountInMinorUnits,
                 currency: orderCurrency,
                 reference: paystackReference,
@@ -158,14 +314,14 @@ async function initializeCheckout(cart, customer, req) {
 
     // 5. Notify only once payment initialization has actually succeeded,
     //    so abandoned/failed attempts never alert Mary.
-    await sendMadeToMeasureAlerts(order.order_number, customer, orderCurrency, total, orderItems);
+    await sendMadeToMeasureAlerts(order.order_number, cleanCustomer, orderCurrency, total, orderItems);
 
     // WhatsApp alert (mocked until access token arrives)
     try {
         await whatsappService.sendNewOrderAlertToMary({
             orderNumber: order.order_number,
-            customerName: customer.name.trim(),
-            customerPhone: customer.phone || 'No phone',
+            customerName: cleanCustomer.name,
+            customerPhone: cleanCustomer.phone || 'No phone',
             items: orderItems,
             totalAmount: total,
             currency: orderCurrency,
@@ -178,7 +334,7 @@ async function initializeCheckout(cart, customer, req) {
     try {
         emailService.sendNewOrderAlertToMary({
             orderNumber: order.order_number,
-            customer,
+            customer: cleanCustomer,
             items: orderItems,
             totalAmount: total,
             currency: orderCurrency,
@@ -216,22 +372,17 @@ async function rollbackPendingOrder(orderId, orderNumber) {
  * admin manually marks it as paid from the admin panel.
  */
 async function initializeMpesaCheckout(cart, customer) {
-    if (!cart || !Array.isArray(cart) || cart.length === 0) {
-        throw new Error('Missing cart');
-    }
-    if (!customer?.email || !customer?.name) {
-        throw new Error('Customer email and name are required');
-    }
+    const cleanCustomer = validateCustomer(customer);
+    const { verifiedItems, subtotal } = await resolveVerifiedCartItems(cart);
 
     // Normalized ISO currency code (settings.currency stores a display symbol, e.g. "KSh")
     const orderCurrency = await getOrderCurrency();
 
-    const subtotal = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.qty), 0);
     const shippingCost = subtotal >= 10000 ? 0 : 500;   // KES: free shipping over KSh 10,000
     const total = subtotal + shippingCost;
 
     // Determine which M-Pesa method customer chose
-    const mpesaMethod = customer.mpesa_method || 'paybill'; // 'paybill' or 'send_money'
+    const mpesaMethod = cleanCustomer.mpesa_method === 'send_money' ? 'send_money' : 'paybill';
 
     // 1. Create PENDING order in Supabase
     const { data: order, error: orderError } = await supabaseAdmin
@@ -239,16 +390,16 @@ async function initializeMpesaCheckout(cart, customer) {
         .insert({
             order_number: '', // Trigger populates this
             status: 'pending_payment',
-            customer_email: customer.email.toLowerCase().trim(),
-            customer_name: customer.name.trim(),
-            customer_phone: customer.phone || null,
-            customer_user_id: customer.user_id || null,
+            customer_email: cleanCustomer.email,
+            customer_name: cleanCustomer.name,
+            customer_phone: cleanCustomer.phone,
+            customer_user_id: cleanCustomer.user_id || null,
             shipping_address: {
-                address1: customer.address1 || '',
-                address2: customer.address2 || '',
-                city: customer.city || '',
-                postcode: customer.postcode || '',
-                country: customer.country || 'KE',
+                address1: String(cleanCustomer.address1 || '').slice(0, 200),
+                address2: String(cleanCustomer.address2 || '').slice(0, 200),
+                city: String(cleanCustomer.city || '').slice(0, 100),
+                postcode: String(cleanCustomer.postcode || '').slice(0, 40),
+                country: String(cleanCustomer.country || 'KE').slice(0, 10),
             },
             subtotal,
             shipping_cost: shippingCost,
@@ -266,18 +417,10 @@ async function initializeMpesaCheckout(cart, customer) {
         throw new Error('Order could not be created');
     }
 
-    // 2. Insert order items
-    const orderItems = cart.map(item => ({
+    // 2. Insert verified order items
+    const orderItems = verifiedItems.map(item => ({
         order_id: order.id,
-        product_id: item.product_id || null,
-        product_handle: item.id || item.handle || '',
-        product_title: item.title,
-        variant_size: item.size || null,
-        variant_color: item.color || null,
-        unit_price: parseFloat(item.price),
-        quantity: parseInt(item.qty) || 1,
-        image: item.image || null,
-        made_to_measure: item.madeToMeasure || false,
+        ...item
     }));
 
     const { error: itemsError } = await supabaseAdmin
@@ -285,12 +428,13 @@ async function initializeMpesaCheckout(cart, customer) {
         .insert(orderItems);
 
     if (itemsError) {
+        await rollbackPendingOrder(order.id, order.order_number);
         console.error('Failed to insert order items:', itemsError);
         throw new Error('Order items could not be created');
     }
 
     // 2b. Send made-to-measure alerts (email + WhatsApp)
-    await sendMadeToMeasureAlerts(order.order_number, customer, orderCurrency, total, orderItems);
+    await sendMadeToMeasureAlerts(order.order_number, cleanCustomer, orderCurrency, total, orderItems);
 
     // 3. Send order confirmation email with M-Pesa payment instructions
     try {
@@ -299,8 +443,8 @@ async function initializeMpesaCheckout(cart, customer) {
             order_number: order.order_number,
             total_amount: total,
             payment_provider: 'mpesa',
-            customer_name: customer.name.trim(),
-        }, customer.email.toLowerCase().trim());
+            customer_name: cleanCustomer.name,
+        }, cleanCustomer.email);
     } catch (_) { /* email is non-critical */ }
 
     return {
